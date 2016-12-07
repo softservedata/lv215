@@ -19,6 +19,8 @@ hs_err_pid*
 
 #/.externalToolBuilders/
 /.settings/
+/.metadata/
+/.recommenders/
 /target/
 /doc/
 /test-output/
