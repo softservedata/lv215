@@ -54,12 +54,10 @@ public class MyMathTest {
     @Test
     public void getAlternatingSumOfDigitsInNaturalNumberTest() {
 	assertEquals(7, MyMath.getAlternatingSumOfDigitsInNaturalNumber(689));
-	assertEquals(-1,
-		MyMath.getAlternatingSumOfDigitsInNaturalNumber(891568974));
+	assertEquals(-1, MyMath.getAlternatingSumOfDigitsInNaturalNumber(891568974));
 	assertEquals(0, MyMath.getAlternatingSumOfDigitsInNaturalNumber(0));
 	assertEquals(9, MyMath.getAlternatingSumOfDigitsInNaturalNumber(9));
-	assertNotEquals(3,
-		MyMath.getAlternatingSumOfDigitsInNaturalNumber(158));
+	assertNotEquals(3, MyMath.getAlternatingSumOfDigitsInNaturalNumber(158));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -84,22 +82,21 @@ public class MyMathTest {
 
     @Test
     public void checkPerfectNumberTest() {
-	assertTrue(MyMath.checkPerfectNumber(6));
-	assertTrue(MyMath.checkPerfectNumber(33550336));
-	assertFalse(MyMath.checkPerfectNumber(125));
+	assertTrue(MyMath.isPerfectNumber(6));
+	assertTrue(MyMath.isPerfectNumber(33550336));
+	assertFalse(MyMath.isPerfectNumber(125));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void checkPerfectNumberExceptionTest() {
-	MyMath.checkPerfectNumber(-9);
+	MyMath.isPerfectNumber(-9);
     }
 
     @Test
     public void getCountAndSumDiv5NotDiv7Test() {
 	int[] testSequence = { 25, 20, 35, 140, 26, 39 };
-	int[] result = MyMath.getCountAndSumDiv5NotDiv7(testSequence);
-	assertEquals(2, result[0]);
-	assertEquals(45, result[1]);
+	assertEquals(2, MyMath.getCountDivIntoFiveNotDivIntoSeven(testSequence));
+	assertEquals(45, MyMath.getSumDivIntoFiveNotDivIntoSeven(testSequence));
     }
 
 }
