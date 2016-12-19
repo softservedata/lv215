@@ -2,7 +2,7 @@ package com.softserve.edu.zelyonka.task01;
 
 import java.util.List;
 
-import org.testng.AssertJUnit;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -51,7 +51,7 @@ public class MyMathNGTest {
     @Test(dataProvider = "countOfDigitsDataProvider")
     public void getCountOfDigitsInNaturalNumber(final int numberToTest,
             final int expectedResult) {
-        AssertJUnit.assertEquals(expectedResult,
+        Assert.assertEquals(expectedResult,
                 MyMath.getCountOfDigitsInNaturalNumber(numberToTest));
     }
 
@@ -92,7 +92,7 @@ public class MyMathNGTest {
     @Test(dataProvider = "sumOfDigitsDataProvider")
     public void getSumOfDigitsInNaturalNumber(final int numberToTest,
             final int expectedResult) {
-        AssertJUnit.assertEquals(expectedResult,
+        Assert.assertEquals(expectedResult,
                 MyMath.getSumOfDigitsInNaturalNumber(numberToTest));
     }
 
@@ -133,7 +133,7 @@ public class MyMathNGTest {
     @Test(dataProvider = "firstDigitDataProvider")
     public void getFirstDigitInNaturalNumber(final int numberToTest,
             final int expectedResult) {
-        AssertJUnit.assertEquals(expectedResult,
+        Assert.assertEquals(expectedResult,
                 MyMath.getFirstDigitInNaturalNumber(numberToTest));
     }
 
@@ -174,7 +174,7 @@ public class MyMathNGTest {
     @Test(dataProvider = "alternatingSumOfDigitsDataProvider")
     public void getAlternatingSumOfDigitsInNaturalNumber(final int numberToTest,
             final int expectedResult) {
-        AssertJUnit.assertEquals(expectedResult,
+        Assert.assertEquals(expectedResult,
                 MyMath.getAlternatingSumOfDigitsInNaturalNumber(numberToTest));
     }
 
@@ -199,24 +199,24 @@ public class MyMathNGTest {
     public void getPerfectNumbers() {
         List<Integer> perfectNumbers = MyMath
                 .getPerfectNumbers(Integer.MAX_VALUE);
-        AssertJUnit.assertEquals(5, perfectNumbers.size());
-        AssertJUnit.assertEquals(6, perfectNumbers.get(0).intValue());
-        AssertJUnit.assertEquals(28, perfectNumbers.get(1).intValue());
-        AssertJUnit.assertEquals(496, perfectNumbers.get(2).intValue());
-        AssertJUnit.assertEquals(8128, perfectNumbers.get(3).intValue());
-        AssertJUnit.assertEquals(33550336, perfectNumbers.get(4).intValue());
+        Assert.assertEquals(5, perfectNumbers.size());
+        Assert.assertEquals(6, perfectNumbers.get(0).intValue());
+        Assert.assertEquals(28, perfectNumbers.get(1).intValue());
+        Assert.assertEquals(496, perfectNumbers.get(2).intValue());
+        Assert.assertEquals(8128, perfectNumbers.get(3).intValue());
+        Assert.assertEquals(33550336, perfectNumbers.get(4).intValue());
         perfectNumbers = MyMath.getPerfectNumbers(10000);
-        AssertJUnit.assertEquals(4, perfectNumbers.size());
-        AssertJUnit.assertEquals(6, perfectNumbers.get(0).intValue());
-        AssertJUnit.assertEquals(28, perfectNumbers.get(1).intValue());
-        AssertJUnit.assertEquals(496, perfectNumbers.get(2).intValue());
-        AssertJUnit.assertEquals(8128, perfectNumbers.get(3).intValue());
+        Assert.assertEquals(4, perfectNumbers.size());
+        Assert.assertEquals(6, perfectNumbers.get(0).intValue());
+        Assert.assertEquals(28, perfectNumbers.get(1).intValue());
+        Assert.assertEquals(496, perfectNumbers.get(2).intValue());
+        Assert.assertEquals(8128, perfectNumbers.get(3).intValue());
         perfectNumbers = MyMath.getPerfectNumbers(100);
-        AssertJUnit.assertEquals(2, perfectNumbers.size());
-        AssertJUnit.assertEquals(6, perfectNumbers.get(0).intValue());
-        AssertJUnit.assertEquals(28, perfectNumbers.get(1).intValue());
+        Assert.assertEquals(2, perfectNumbers.size());
+        Assert.assertEquals(6, perfectNumbers.get(0).intValue());
+        Assert.assertEquals(28, perfectNumbers.get(1).intValue());
         perfectNumbers = MyMath.getPerfectNumbers(0);
-        AssertJUnit.assertEquals(0, perfectNumbers.size());
+        Assert.assertEquals(0, perfectNumbers.size());
     }
 
     /**
@@ -249,7 +249,7 @@ public class MyMathNGTest {
      */
     @Test(dataProvider = "perfectNumbersDataProvider")
     public void isPerfectNumber(final int perfectNumber) {
-        AssertJUnit.assertTrue(MyMath.isPerfectNumber(perfectNumber));
+        Assert.assertTrue(MyMath.isPerfectNumber(perfectNumber));
     }
 
     /**
@@ -270,7 +270,7 @@ public class MyMathNGTest {
      */
     @Test(dataProvider = "nonPerfectNumbersDataProvider")
     public void isNotPerfectNumber(final int nonPerfectNumber) {
-        AssertJUnit.assertFalse(MyMath.isPerfectNumber(nonPerfectNumber));
+        Assert.assertFalse(MyMath.isPerfectNumber(nonPerfectNumber));
     }
 
     /**
@@ -314,7 +314,7 @@ public class MyMathNGTest {
     @Test(dataProvider = "testSequenceDataProvider")
     public void getCountDivIntoFiveNotDivIntoSeven(final int[] testSequence,
             final int count, final int sum) {
-        AssertJUnit.assertEquals(count,
+        Assert.assertEquals(count,
                 MyMath.getCountDivIntoFiveNotDivIntoSeven(testSequence));
     }
 
@@ -334,7 +334,7 @@ public class MyMathNGTest {
     @Test(dataProvider = "testSequenceDataProvider")
     public void getSumDivIntoFiveNotDivIntoSeven(final int[] testSequence,
             final int count, final int sum) {
-        AssertJUnit.assertEquals(sum,
+        Assert.assertEquals(sum,
                 MyMath.getSumDivIntoFiveNotDivIntoSeven(testSequence));
     }
 }
