@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Suite">
+	<test name="Test1">
+		<classes>
+			<class name="com.softserve.edu.oms.tests.createuser.CreateInvalidNewUserTest">
+				<methods>
+					<include name="createInvalidNewUserTest" />
+				</methods>
+			</class>
+		</classes>
+	</test>
+	<test name="Test2">
+	<classes>
+		<class name="com.softserve.edu.oms.tests.administration.PaginationTest">
+			<methods>
+				<include name="paginationTest" />
+			</methods>
+		</class>
+	</classes>
+	</test>
+	<test name="Test3">
+	<classes>
+		<class name="com.softserve.edu.oms.tests.login.LoginWithEmptyCredentialsTest">
+			<methods>
+				<include name="loginWithEmptyCredentialsTest" />
+			</methods>
+		</class>
+	</classes>
+	</test>
+
+</suite>

@@ -1,5 +1,5 @@
-# Patterns from github
 *.class
+
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -16,40 +16,22 @@ hs_err_pid*
 *.[oa]
 /bin/
 
+# Ignore .log files
+*.log
 
-#/.externalToolBuilders/
+/.externalToolBuilders/
 /.settings/
-/.metadata/
-/.recommenders/
 /target/
 /doc/
 /test-output/
 /.classpath
 /.project
 /.checkstyle
-/reports/
+.DS_Store
+/.DS_Store
+
 .idea/
 *.iml
-
-/.externalToolBuilders/
-/**/.settings/
-/**/target/
-/**/doc/
-/**/test-output/
-/**/report/
-/**/.classpath
-/**/.project
-/**/.checkstyle
-/**/reports
-/**/af.reporting
-/**/.idea/
-*.iml
-
-# ignore log
-*.log
-
-# ignore log
-*.bmp
 
 # ignore doc/notes.txt, but not doc/info/arch.txt
 # doc/*.txt
@@ -62,8 +44,7 @@ hs_err_pid*
 *.docx
 *.pdf
 
-# nodejs
-/node_modules/
 
-# bower
-bower_components
+/src/test/resources/drivers/chromedriver.exe
+/src/test/java/temp
+/src/test/java/TestRunner.java
