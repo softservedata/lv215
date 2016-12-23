@@ -25,7 +25,7 @@
 		<org.testng.version>6.9.9</org.testng.version>
 		<testng.reports.directory>./target/surefire-reports/test-output</testng.reports.directory>
 		<maven.surefire.plugin.version>2.19.1</maven.surefire.plugin.version>
-		<org.seleniumhq.version>2.52.0</org.seleniumhq.version>
+<!-- 		<org.seleniumhq.version>3.0.1</org.seleniumhq.version> -->
 		<!-- - - - - - Logging - - - - - -->
 		<org.slf4j.version>1.7.13</org.slf4j.version>
 		<!-- - - - - - Utils - - - - - -->
@@ -35,6 +35,26 @@
         <aspectj.version>1.8.5</aspectj.version>
         <xmlrun>testngCI.xml</xmlrun>
 	</properties>
+
+	<profiles>
+		<profile>
+			<id>default</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+				<properties>
+						<org.seleniumhq.version>3.0.1</org.seleniumhq.version>
+				</properties>
+		</profile>
+		<profile>
+			<id>ci</id>
+				<properties>
+						<org.seleniumhq.version>2.52.0</org.seleniumhq.version>
+						<org.seleniumhq.ci>HtmlUnitDriver</org.seleniumhq.ci>
+				</properties>
+		</profile>
+	</profiles>
+
 
 	<dependencies>
 		<!-- - - - Assert helper - - - -->
@@ -80,7 +100,7 @@
 	        <groupId>xml-apis</groupId> 
 	        <artifactId>xml-apis</artifactId> 
 	        <version>1.4.01</version>
-<!-- 	        <version>2.0.2</version>  -->
+<!--  	        <version>2.0.2</version>  -->
 	    </dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
@@ -189,6 +209,9 @@
 						<surefire.reports.directory>
 							${testng.reports.directory}
 						</surefire.reports.directory>
+						<surefire.webdriver.ci>
+							${org.seleniumhq.ci}
+						</surefire.webdriver.ci>
 					</systemPropertyVariables>
 					<suiteXmlFiles>
 						<!-- <suiteXmlFile>testng.xml</suiteXmlFile> -->
@@ -232,5 +255,4 @@
         </plugins>
     </reporting>
 
-
-		</project>
+</project>

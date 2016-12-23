@@ -1,12 +1,8 @@
 package com.softserve.edu.oms.tests.login;
 
-import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.testng.Assert;
@@ -16,9 +12,14 @@ public class AdminLogin {
 
 	@Test
 	public void testAdminLogin() throws Exception {
+		System.out.println("surefire.reports.directory: "
+				+ System.getProperty("surefire.reports.directory"));
+		System.out.println("surefire.webdriver.ci: "
+				+ System.getProperty("surefire.webdriver.ci"));
+		//
 //		System.setProperty("webdriver.chrome.driver",
 //				this.getClass().getResource("/drivers/chromedriver.exe").getPath().substring(1));
-		//WebDriver driver = new ChromeDriver();
+//		WebDriver driver = new ChromeDriver();
 		//
 		WebDriver driver = new HtmlUnitDriver(true);
 		((HtmlUnitDriver) driver).setJavascriptEnabled(true);
