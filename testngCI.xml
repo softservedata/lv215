@@ -7,6 +7,11 @@
     <test name="TestCI">
         <classes>
             <class name="com.softserve.edu.oms.tests.login.AdminLogin" />
+            <class name="com.softserve.edu.oms.tests.login.ResetButtonTest">
+                <methods>
+                    <include name="verifyResetButtonFunctionality"/>
+                </methods>
+            </class>
         </classes>
     </test>
 
