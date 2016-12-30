@@ -1,11 +1,19 @@
 package com.softserve.edu.oms.pages;
 
+import static com.softserve.edu.oms.locators.UserHomePageLocators.ENG_LANG_LINK_XPATH;
+import static com.softserve.edu.oms.locators.UserHomePageLocators.FIRST_NAME_LABEL_CSS;
+import static com.softserve.edu.oms.locators.UserHomePageLocators.LAST_NAME_LABEL_CSS;
+import static com.softserve.edu.oms.locators.UserHomePageLocators.ROLE_LABEL_CSS;
+import static com.softserve.edu.oms.locators.UserHomePageLocators.UKR_LANG_LINK_XPATH;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
-import static com.softserve.edu.oms.locators.UserHomePageLocators.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HomePage extends ABasePage {
+	
+	public static final Logger logger = LoggerFactory.getLogger(HomePage.class);
 
 	public HomePage(WebDriver driver) {
 		super(driver);
@@ -16,10 +24,12 @@ public class HomePage extends ABasePage {
 	// get Data
 
 	public WebElement getFirstname() {
+		logger.debug("Start");
 		return driver.findElement(FIRST_NAME_LABEL_CSS.by);
 	}
 	
 	public WebElement getLastname() {
+		logger.debug("Start");
 		return driver.findElement(LAST_NAME_LABEL_CSS.by);
 	}
 	
@@ -68,7 +78,9 @@ public class HomePage extends ABasePage {
 	}
 
 	public void clickUkrLangLink() {
+		logger.debug("Start");
 		getUkrLangLink().click();
+		logger.debug("Done");
 	}
 
 
@@ -83,8 +95,10 @@ public class HomePage extends ABasePage {
 
 	@Override
 	public HomePage gotoUserInfoTab(){
+		logger.debug("Start");
 		String role = getRoleText();
 		clickUserInfoTab();
+		logger.trace("before switch");
 		switch(role){
 			case "Administrator":
 				return new AdminHomePage(driver);

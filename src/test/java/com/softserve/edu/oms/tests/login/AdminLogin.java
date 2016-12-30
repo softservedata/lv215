@@ -5,13 +5,17 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class AdminLogin {
-
+	public static final Logger logger = LoggerFactory.getLogger(AdminLogin.class);
+	
 	@Test
 	public void testAdminLogin() throws Exception {
+		logger.info("@Test testAdminLogin(...) Start");
 		System.out.println("surefire.reports.directory: "
 				+ System.getProperty("surefire.reports.directory"));
 		System.out.println("surefire.webdriver.ci: "
@@ -57,6 +61,7 @@ public class AdminLogin {
 		System.out.println("all Asserts done");
 		Thread.sleep(2000);
 		driver.quit();
+		logger.info("@Test testAdminLogin(...) Done");
 	}
 
 }
