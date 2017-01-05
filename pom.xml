@@ -366,9 +366,9 @@
 					<!-- <runOrder>reversealphabetical</runOrder> -->
 					<!-- <argLine>${surefireArgLine}</argLine> -->
 					<systemPropertyVariables>
-						<surefire.reports.directory>
-							${testng.reports.directory}
-						</surefire.reports.directory>
+						<!-- <surefire.reports.directory> -->
+							<!-- ${testng.reports.directory} -->
+						<!-- </surefire.reports.directory> -->
 					</systemPropertyVariables>
 					<suiteXmlFiles>
 						<suiteXmlFile>testng.xml</suiteXmlFile>
