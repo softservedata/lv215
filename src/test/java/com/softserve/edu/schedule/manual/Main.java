@@ -107,14 +107,13 @@ public class Main {
         }
 
         System.out.println("Updating info about Room4");
-        Room updated = new Room();
-        updated.setLocation(location4);
-        updated.setName("Room4upd");
-        updated.setCapacity(9);
+        room4.setLocation(location4);
+        room4.setName("Room4upd");
+        room4.setCapacity(9);
         equipments = new ArrayList<>();
         equipments.add(roomEquipment1);
-        updated.setEquipments(equipments);
-        roomService.update(room4, updated);
+        room4.setEquipments(equipments);
+        roomService.update(room4);
 
         System.out.println(
                 "Detailed information about rooms after room 4 info update");

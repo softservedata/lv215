@@ -29,12 +29,10 @@ public interface RoomService {
     /**
      * Update existed room entity in the database.
      *
-     * @param origin
-     *            a room to update in database.
-     * @param updated
-     *            a room with updated data to update origin info.
+     * @param room
+     *            a room to update in database.     
      */
-    void update(Room origin, Room updated);
+    void update(Room room);
 
     /**
      * Find room entity in the database by id.

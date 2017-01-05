@@ -53,12 +53,7 @@ public class RoomServiceImpl implements RoomService {
      *            a room with updated data to update origin info.
      */
     @Override
-    public void update(Room origin, Room updated) {
-        Room room = roomDAO.findById(origin.getId());
-        room.setCapacity(updated.getCapacity());
-        room.setName(updated.getName());
-        room.setLocation(updated.getLocation());
-        room.setEquipments(updated.getEquipments());
+    public void update(Room room) {
         roomDAO.update(room);
     }
 
