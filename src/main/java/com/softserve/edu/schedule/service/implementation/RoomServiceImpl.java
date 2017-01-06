@@ -1,8 +1,8 @@
 /* RoomServiceImpl 1.0 01/02/2017 */
 package com.softserve.edu.schedule.service.implementation;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class RoomServiceImpl implements RoomService {
      *            a new room to storage in database.
      */
     @Override
-    public void add(Room room) {
+    public void add(final Room room) {
         roomDAO.add(room);
     }
 
@@ -53,7 +53,7 @@ public class RoomServiceImpl implements RoomService {
      *            a room with updated data to update origin info.
      */
     @Override
-    public void update(Room room) {
+    public void update(final Room room) {
         roomDAO.update(room);
     }
 
@@ -67,7 +67,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Room findById(Long id) {
+    public Room findById(final Long id) {
         return roomDAO.findById(id);
     }
 
@@ -81,13 +81,10 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Room findByName(String roomName) {
-        for (Room room : roomDAO.findAllWithDetails()) {
-            if (room.getName().equals(roomName)) {
-                return room;
-            }
-        }
-        return null;
+    public Room findByName(final String roomName) {
+        return roomDAO.findAllWithDetails().stream()
+                .filter(e -> e.getName().equals(roomName)).findFirst()
+                .orElse(null);
     }
 
     /**
@@ -97,7 +94,7 @@ public class RoomServiceImpl implements RoomService {
      *            a room object to delete from database.
      */
     @Override
-    public void delete(Room room) {
+    public void delete(final Room room) {
         roomDAO.delete(room);
     }
 
@@ -108,7 +105,7 @@ public class RoomServiceImpl implements RoomService {
      *            a room id to delete from database.
      */
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         roomDAO.deleteById(id);
     }
 
@@ -148,24 +145,12 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Room> findRoomsByCapacity(int minCapacity, int maxCapacity) {
-        if (minCapacity < 0) {
-            minCapacity = 0;
-        }
-        if (maxCapacity < 0) {
-            maxCapacity = Integer.MAX_VALUE;
-        }
-        if (minCapacity > maxCapacity) {
-            maxCapacity = minCapacity;
-        }
-        List<Room> result = new ArrayList<>();
-        for (Room room : roomDAO.findAllWithDetails()) {
-            if (room.getCapacity() >= minCapacity
-                    && room.getCapacity() <= maxCapacity) {
-                result.add(room);
-            }
-        }
-        return result;
+    public List<Room> findRoomsByCapacity(final int minCapacity,
+            final int maxCapacity) {
+        return roomDAO.findAllWithDetails().stream()
+                .filter(e -> e.getCapacity() >= minCapacity
+                        && e.getCapacity() <= maxCapacity)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -179,14 +164,10 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Room> findRoomsByLocation(Location location) {
-        List<Room> result = new ArrayList<>();
-        for (Room room : roomDAO.findAllWithDetails()) {
-            if (room.getLocation().getId().equals(location.getId())) {
-                result.add(room);
-            }
-        }
-        return result;
+    public List<Room> findRoomsByLocation(final Location location) {
+        return roomDAO.findAllWithDetails().stream()
+                .filter(e -> e.getLocation().getId().equals(location.getId()))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -200,15 +181,11 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Room> findRoomsWithEquipments(List<RoomEquipment> equipments) {
-        List<Room> result = new ArrayList<>();
-        for (Room room : roomDAO.findAllWithDetails()) {
-
-            if (room.getEquipments().containsAll(equipments)) {
-                result.add(room);
-            }
-        }
-        return result;
+    public List<Room> findRoomsWithEquipments(
+            final List<RoomEquipment> equipments) {
+        return roomDAO.findAllWithDetails().stream()
+                .filter(e -> e.getEquipments().containsAll(equipments))
+                .collect(Collectors.toList());
     }
 
 }

@@ -47,7 +47,7 @@ public class RoomDAOImpl implements RoomDAO {
      *            a new room to storage in database.
      */
     @Override
-    public void add(Room room) {
+    public void add(final Room room) {
         entityManager.persist(room);
     }
 
@@ -58,7 +58,7 @@ public class RoomDAOImpl implements RoomDAO {
      *            a room to update in database.
      */
     @Override
-    public void update(Room room) {
+    public void update(final Room room) {
         entityManager.merge(room);
     }
 
@@ -71,7 +71,7 @@ public class RoomDAOImpl implements RoomDAO {
      *         Null if room not found
      */
     @Override
-    public Room findById(Long id) {
+    public Room findById(final Long id) {
         return entityManager.find(Room.class, id);
     }
 
@@ -83,7 +83,6 @@ public class RoomDAOImpl implements RoomDAO {
      */
     @Override
     public void delete(Room room) {
-        room.getEquipments().clear();
         room = entityManager.merge(room);
         entityManager.remove(room);
     }
@@ -95,7 +94,7 @@ public class RoomDAOImpl implements RoomDAO {
      *            a room id to delete from database.
      */
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         Room room = findById(id);
         delete(room);
     }

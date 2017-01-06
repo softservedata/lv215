@@ -22,7 +22,7 @@ public interface RoomDAO {
      * @param room
      *            a new room to storage in database.
      */
-    void add(Room room);
+    void add(final Room room);
 
     /**
      * Update existed room entity in the database.
@@ -30,7 +30,7 @@ public interface RoomDAO {
      * @param room
      *            a room to update in database.
      */
-    void update(Room room);
+    void update(final Room room);
 
     /**
      * Find room entity in the database by Id.
@@ -40,7 +40,7 @@ public interface RoomDAO {
      * @return an room object if room with this id exists in the database or
      *         Null if room not found
      */
-    Room findById(Long id);
+    Room findById(final Long id);
 
     /**
      * Delete existed room entity from the database.
@@ -56,7 +56,7 @@ public interface RoomDAO {
      * @param id
      *            a room id to delete from database.
      */
-    void deleteById(Long id);
+    void deleteById(final Long id);
 
     /**
      * Find all rooms entities in the database.

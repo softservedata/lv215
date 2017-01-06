@@ -24,15 +24,15 @@ public interface RoomService {
      * @param room
      *            a new room to storage in database.
      */
-    void add(Room room);
+    void add(final Room room);
 
     /**
      * Update existed room entity in the database.
      *
      * @param room
-     *            a room to update in database.     
+     *            a room to update in database.
      */
-    void update(Room room);
+    void update(final Room room);
 
     /**
      * Find room entity in the database by id.
@@ -42,7 +42,7 @@ public interface RoomService {
      * @return an room object if room with this id exists in the database or
      *         Null if room not found
      */
-    Room findById(Long id);
+    Room findById(final Long id);
 
     /**
      * Find room entity in the database by name.
@@ -52,7 +52,7 @@ public interface RoomService {
      * @return an room object if room with this name exists in the database or
      *         Null if room not found
      */
-    Room findByName(String roomName);
+    Room findByName(final String roomName);
 
     /**
      * Delete existed room entity from the database.
@@ -60,7 +60,7 @@ public interface RoomService {
      * @param room
      *            a room object to delete from database.
      */
-    void delete(Room room);
+    void delete(final Room room);
 
     /**
      * Delete existed room entity from the database by id.
@@ -68,7 +68,7 @@ public interface RoomService {
      * @param id
      *            a room id to delete from database.
      */
-    void deleteById(Long id);
+    void deleteById(final Long id);
 
     /**
      * Find all rooms entities in the database.
@@ -96,7 +96,8 @@ public interface RoomService {
      * 
      * @return List of the room objects.
      */
-    List<Room> findRoomsByCapacity(int minCapacity, int maxCapacity);
+    List<Room> findRoomsByCapacity(final int minCapacity,
+            final int maxCapacity);
 
     /**
      * Find all rooms entities in the database with location and equipment
@@ -107,7 +108,7 @@ public interface RoomService {
      * 
      * @return List of the room objects.
      */
-    List<Room> findRoomsByLocation(Location location);
+    List<Room> findRoomsByLocation(final Location location);
 
     /**
      * Find all rooms entities in the database with location and equipment
@@ -118,5 +119,5 @@ public interface RoomService {
      * 
      * @return List of the room objects.
      */
-    List<Room> findRoomsWithEquipments(List<RoomEquipment> equipments);
+    List<Room> findRoomsWithEquipments(final List<RoomEquipment> equipments);
 }

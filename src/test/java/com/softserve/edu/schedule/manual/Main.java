@@ -186,11 +186,18 @@ public class Main {
         System.out.println("Delete room Room1");
         roomService.delete(room1);
         System.out.println("Rooms after deleting Room1");
-        for (Room room : roomService.findAll()) {
-            System.out.println("Room name: " + room.getName()
-                    + ", Room Capacity: " + room.getCapacity());
+        for (Room room : roomService.findAllWithDetails()) {
+            System.out.println(
+                    "Room name: " + room.getName() + ", Room Capacity: "
+                            + room.getCapacity() + ", Room ID: " + room.getId()
+                            + ", Room Location: " + room.getLocation().getName()
+                            + " " + room.getLocation().getAddress());
+            System.out.print("Room equipment: ");
+            for (RoomEquipment roomEquipment : room.getEquipments()) {
+                System.out.print(roomEquipment.getName() + " ");
+            }
+            System.out.println();
         }
-
         System.out.println("Clear testdata from database");
         for (Room room : roomService.findAllWithDetails()) {
             roomService.delete(room);
