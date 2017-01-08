@@ -13,7 +13,7 @@ import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.service.RoomService;
 
-public class Main {
+public class RoomMT {
 
     public static void main(String[] args) {
 
@@ -36,7 +36,7 @@ public class Main {
         Location location4 = em.find(Location.class, 4L);
 
         System.out.println("Rooms before test");
-        for (Room room : roomService.findAll()) {
+        for (Room room : roomService.getAll()) {
             System.out.println("Room name: " + room.getName()
                     + ", Room Capacity: " + room.getCapacity());
         }
@@ -50,10 +50,10 @@ public class Main {
         equipments.add(roomEquipment1);
         equipments.add(roomEquipment2);
         room1.setEquipments(equipments);
-        roomService.add(room1);
+        roomService.create(room1);
 
         System.out.println("Rooms after creating Room1");
-        for (Room room : roomService.findAll()) {
+        for (Room room : roomService.getAll()) {
             System.out.println("Room name: " + room.getName()
                     + ", Room Capacity: " + room.getCapacity());
         }
@@ -67,10 +67,10 @@ public class Main {
         equipments.add(roomEquipment3);
         equipments.add(roomEquipment4);
         room2.setEquipments(equipments);
-        roomService.add(room2);
+        roomService.create(room2);
 
         System.out.println("Rooms after creating Room2");
-        for (Room room : roomService.findAll()) {
+        for (Room room : roomService.getAll()) {
             System.out.println("Room name: " + room.getName()
                     + ", Room Capacity: " + room.getCapacity());
         }
@@ -85,10 +85,10 @@ public class Main {
         equipments.add(roomEquipment3);
         equipments.add(roomEquipment4);
         room3.setEquipments(equipments);
-        roomService.add(room3);
+        roomService.create(room3);
 
         System.out.println("Rooms after creating Room3");
-        for (Room room : roomService.findAll()) {
+        for (Room room : roomService.getAll()) {
             System.out.println("Room name: " + room.getName()
                     + ", Room Capacity: " + room.getCapacity());
         }
@@ -98,10 +98,10 @@ public class Main {
         room4.setLocation(location3);
         room4.setName("Room4");
         room4.setCapacity(8);
-        roomService.add(room4);
+        roomService.create(room4);
 
         System.out.println("Rooms after creating Room4");
-        for (Room room : roomService.findAll()) {
+        for (Room room : roomService.getAll()) {
             System.out.println("Room name: " + room.getName()
                     + ", Room Capacity: " + room.getCapacity());
         }
@@ -117,7 +117,7 @@ public class Main {
 
         System.out.println(
                 "Detailed information about rooms after room 4 info update");
-        for (Room room : roomService.findAllWithDetails()) {
+        for (Room room : roomService.getAllWithDetails()) {
             System.out.println(
                     "Room name: " + room.getName() + ", Room Capacity: "
                             + room.getCapacity() + ", Room ID: " + room.getId()
@@ -134,7 +134,7 @@ public class Main {
         equipments = new ArrayList<>();
         equipments.add(roomEquipment3);
         equipments.add(roomEquipment4);
-        for (Room room : roomService.findRoomsWithEquipments(equipments)) {
+        for (Room room : roomService.getRoomsWithEquipments(equipments)) {
             System.out.println(
                     "Room name: " + room.getName() + ", Room Capacity: "
                             + room.getCapacity() + ", Room ID: " + room.getId()
@@ -148,7 +148,7 @@ public class Main {
         }
 
         System.out.println("Find rooms by capacity 10-50");
-        for (Room room : roomService.findRoomsByCapacity(10, 50)) {
+        for (Room room : roomService.getRoomsByCapacity(10, 50)) {
             System.out.println(
                     "Room name: " + room.getName() + ", Room Capacity: "
                             + room.getCapacity() + ", Room ID: " + room.getId()
@@ -162,7 +162,7 @@ public class Main {
         }
 
         System.out.println("Find rooms by Location3");
-        for (Room room : roomService.findRoomsByLocation(location3)) {
+        for (Room room : roomService.getRoomsByLocation(location3)) {
             System.out.println(
                     "Room name: " + room.getName() + ", Room Capacity: "
                             + room.getCapacity() + ", Room ID: " + room.getId()
@@ -176,7 +176,7 @@ public class Main {
         }
 
         System.out.println("Find rooms by Name - Room2");
-        Room finded = roomService.findByName("Room2");
+        Room finded = roomService.getByName("Room2");
         System.out
                 .println("Room name: " + finded.getName() + ", Room Capacity: "
                         + finded.getCapacity() + ", Room ID: " + finded.getId()
@@ -186,7 +186,7 @@ public class Main {
         System.out.println("Delete room Room1");
         roomService.delete(room1);
         System.out.println("Rooms after deleting Room1");
-        for (Room room : roomService.findAllWithDetails()) {
+        for (Room room : roomService.getAllWithDetails()) {
             System.out.println(
                     "Room name: " + room.getName() + ", Room Capacity: "
                             + room.getCapacity() + ", Room ID: " + room.getId()
@@ -199,11 +199,11 @@ public class Main {
             System.out.println();
         }
         System.out.println("Clear testdata from database");
-        for (Room room : roomService.findAllWithDetails()) {
+        for (Room room : roomService.getAllWithDetails()) {
             roomService.delete(room);
         }
         System.out.println("Rooms after test");
-        for (Room room : roomService.findAll()) {
+        for (Room room : roomService.getAll()) {
             System.out.println("Room name: " + room.getName()
                     + ", Room Capacity: " + room.getCapacity());
         }

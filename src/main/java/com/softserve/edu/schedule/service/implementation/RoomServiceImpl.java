@@ -40,8 +40,8 @@ public class RoomServiceImpl implements RoomService {
      *            a new room to storage in database.
      */
     @Override
-    public void add(final Room room) {
-        roomDAO.add(room);
+    public void create(final Room room) {
+        roomDAO.create(room);
     }
 
     /**
@@ -67,8 +67,8 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Room findById(final Long id) {
-        return roomDAO.findById(id);
+    public Room getById(final Long id) {
+        return roomDAO.getById(id);
     }
 
     /**
@@ -81,8 +81,8 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Room findByName(final String roomName) {
-        return roomDAO.findAllWithDetails().stream()
+    public Room getByName(final String roomName) {
+        return roomDAO.getAllWithDetails().stream()
                 .filter(e -> e.getName().equals(roomName)).findFirst()
                 .orElse(null);
     }
@@ -116,8 +116,8 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Room> findAll() {
-        return roomDAO.findAll();
+    public List<Room> getAll() {
+        return roomDAO.getAll();
     }
 
     /**
@@ -128,8 +128,8 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Room> findAllWithDetails() {
-        return roomDAO.findAllWithDetails();
+    public List<Room> getAllWithDetails() {
+        return roomDAO.getAllWithDetails();
     }
 
     /**
@@ -145,9 +145,9 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Room> findRoomsByCapacity(final int minCapacity,
+    public List<Room> getRoomsByCapacity(final int minCapacity,
             final int maxCapacity) {
-        return roomDAO.findAllWithDetails().stream()
+        return roomDAO.getAllWithDetails().stream()
                 .filter(e -> e.getCapacity() >= minCapacity
                         && e.getCapacity() <= maxCapacity)
                 .collect(Collectors.toList());
@@ -164,8 +164,8 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Room> findRoomsByLocation(final Location location) {
-        return roomDAO.findAllWithDetails().stream()
+    public List<Room> getRoomsByLocation(final Location location) {
+        return roomDAO.getAllWithDetails().stream()
                 .filter(e -> e.getLocation().getId().equals(location.getId()))
                 .collect(Collectors.toList());
     }
@@ -181,9 +181,9 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Room> findRoomsWithEquipments(
+    public List<Room> getRoomsWithEquipments(
             final List<RoomEquipment> equipments) {
-        return roomDAO.findAllWithDetails().stream()
+        return roomDAO.getAllWithDetails().stream()
                 .filter(e -> e.getEquipments().containsAll(equipments))
                 .collect(Collectors.toList());
     }

@@ -24,7 +24,7 @@ public interface RoomService {
      * @param room
      *            a new room to storage in database.
      */
-    void add(final Room room);
+    void create(final Room room);
 
     /**
      * Update existed room entity in the database.
@@ -42,7 +42,7 @@ public interface RoomService {
      * @return an room object if room with this id exists in the database or
      *         Null if room not found
      */
-    Room findById(final Long id);
+    Room getById(final Long id);
 
     /**
      * Find room entity in the database by name.
@@ -52,7 +52,7 @@ public interface RoomService {
      * @return an room object if room with this name exists in the database or
      *         Null if room not found
      */
-    Room findByName(final String roomName);
+    Room getByName(final String roomName);
 
     /**
      * Delete existed room entity from the database.
@@ -75,7 +75,7 @@ public interface RoomService {
      * 
      * @return List of the room objects.
      */
-    List<Room> findAll();
+    List<Room> getAll();
 
     /**
      * Find all rooms entities in the database with location and equipment
@@ -83,7 +83,7 @@ public interface RoomService {
      * 
      * @return List of the room objects.
      */
-    List<Room> findAllWithDetails();
+    List<Room> getAllWithDetails();
 
     /**
      * Find all rooms entities in the database with location and equipment
@@ -96,8 +96,7 @@ public interface RoomService {
      * 
      * @return List of the room objects.
      */
-    List<Room> findRoomsByCapacity(final int minCapacity,
-            final int maxCapacity);
+    List<Room> getRoomsByCapacity(final int minCapacity, final int maxCapacity);
 
     /**
      * Find all rooms entities in the database with location and equipment
@@ -108,7 +107,7 @@ public interface RoomService {
      * 
      * @return List of the room objects.
      */
-    List<Room> findRoomsByLocation(final Location location);
+    List<Room> getRoomsByLocation(final Location location);
 
     /**
      * Find all rooms entities in the database with location and equipment
@@ -119,5 +118,5 @@ public interface RoomService {
      * 
      * @return List of the room objects.
      */
-    List<Room> findRoomsWithEquipments(final List<RoomEquipment> equipments);
+    List<Room> getRoomsWithEquipments(final List<RoomEquipment> equipments);
 }

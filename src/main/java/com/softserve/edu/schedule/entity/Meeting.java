@@ -76,7 +76,7 @@ public class Meeting {
     /**
      * Level of the meeting. The higher the value - the more important meeting.
      */
-    private int level;
+    private Integer level;
 
     /**
      * @return the id
@@ -137,7 +137,7 @@ public class Meeting {
     /**
      * @return the level
      */
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
@@ -209,7 +209,7 @@ public class Meeting {
      * @param level
      *            the level to set
      */
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 }

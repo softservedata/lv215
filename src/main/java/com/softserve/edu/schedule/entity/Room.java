@@ -40,7 +40,7 @@ public class Room {
     /**
      * Room capacity. How many people can accommodate the room.
      */
-    private int capacity;
+    private Integer capacity;
 
     /**
      * Field for storage location of the room.
@@ -77,7 +77,7 @@ public class Room {
     /**
      * @return the capacity
      */
-    public int getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
@@ -122,7 +122,7 @@ public class Room {
      * @param capacity
      *            the capacity to set
      */
-    public void setCapacity(int capacity) {
+    public void setCapacity(Integer capacity) {
         this.capacity = capacity;
     }
 

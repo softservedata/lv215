@@ -3,13 +3,15 @@ package com.softserve.edu.schedule.dao.implementation;
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.entity.Room;
+import com.softserve.edu.schedule.entity.Room_;
 
 /**
  * A class to provide DAO operations with Room entity.
@@ -21,70 +23,14 @@ import com.softserve.edu.schedule.entity.Room;
  * @since 1.8
  */
 @Repository("roomDAO")
-public class RoomDAOImpl implements RoomDAO {
+public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
     /**
-     * Query string to find all rooms in database without details.
+     * Overridden default constructor to provide entity class for DAO.
+     * 
      */
-    private static final String FIND_ALL_QUERY = "select distinct r from Room r";
-
-    /**
-     * Query string to find all rooms in database with location and equipment
-     * details.
-     */
-    private static final String FIND_ALL_WITH_DETAILS_QUERY = "select distinct r from Room r left join fetch r.location l left join fetch r.equipments e";
-
-    /**
-     * Entity Manager example to provide database operations.
-     */
-    @PersistenceContext
-    private EntityManager entityManager;
-
-    /**
-     * Save new room entity into the database.
-     *
-     * @param room
-     *            a new room to storage in database.
-     */
-    @Override
-    public void add(final Room room) {
-        entityManager.persist(room);
-    }
-
-    /**
-     * Update existed room entity in the database.
-     *
-     * @param room
-     *            a room to update in database.
-     */
-    @Override
-    public void update(final Room room) {
-        entityManager.merge(room);
-    }
-
-    /**
-     * Find room entity in the database by Id.
-     *
-     * @param id
-     *            a room id to find in the database.
-     * @return an room object if room with this id exists in the database or
-     *         Null if room not found
-     */
-    @Override
-    public Room findById(final Long id) {
-        return entityManager.find(Room.class, id);
-    }
-
-    /**
-     * Delete existed room entity from the database.
-     *
-     * @param room
-     *            a room object to delete from database.
-     */
-    @Override
-    public void delete(Room room) {
-        room = entityManager.merge(room);
-        entityManager.remove(room);
+    public RoomDAOImpl() {
+        super(Room.class);
     }
 
     /**
@@ -95,19 +41,8 @@ public class RoomDAOImpl implements RoomDAO {
      */
     @Override
     public void deleteById(final Long id) {
-        Room room = findById(id);
+        Room room = getById(id);
         delete(room);
-    }
-
-    /**
-     * Find all rooms entities in the database.
-     * 
-     * @return List of the room objects.
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    public List<Room> findAll() {
-        return entityManager.createQuery(FIND_ALL_QUERY).getResultList();
     }
 
     /**
@@ -116,11 +51,15 @@ public class RoomDAOImpl implements RoomDAO {
      * 
      * @return List of the room objects.
      */
-    @SuppressWarnings("unchecked")
     @Override
-    public List<Room> findAllWithDetails() {
-        return entityManager.createQuery(FIND_ALL_WITH_DETAILS_QUERY)
-                .getResultList();
+    public List<Room> getAllWithDetails() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Room> cq = builder.createQuery(Room.class);
+        Root<Room> root = cq.from(Room.class);
+        root.fetch(Room_.location, JoinType.LEFT);
+        root.fetch(Room_.equipments, JoinType.LEFT);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
     }
 
 }

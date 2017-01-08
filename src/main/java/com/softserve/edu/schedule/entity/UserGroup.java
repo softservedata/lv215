@@ -46,7 +46,7 @@ public class UserGroup {
     /**
      * Level of the group. The higher the value - the more important group.
      */
-    private int level;
+    private Integer level;
 
     /**
      * User group manager.
@@ -90,7 +90,7 @@ public class UserGroup {
     /**
      * @return the level
      */
-    public int getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
@@ -143,7 +143,7 @@ public class UserGroup {
      * @param level
      *            the level to set
      */
-    public void setLevel(int level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 

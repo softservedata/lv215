@@ -14,41 +14,7 @@ import com.softserve.edu.schedule.entity.Room;
  *
  * @since 1.8
  */
-public interface RoomDAO {
-
-    /**
-     * Save new room entity into the database.
-     *
-     * @param room
-     *            a new room to storage in database.
-     */
-    void add(final Room room);
-
-    /**
-     * Update existed room entity in the database.
-     *
-     * @param room
-     *            a room to update in database.
-     */
-    void update(final Room room);
-
-    /**
-     * Find room entity in the database by Id.
-     *
-     * @param id
-     *            a room id to find in the database.
-     * @return an room object if room with this id exists in the database or
-     *         Null if room not found
-     */
-    Room findById(final Long id);
-
-    /**
-     * Delete existed room entity from the database.
-     *
-     * @param room
-     *            a room object to delete from database.
-     */
-    void delete(Room room);
+public interface RoomDAO extends CrudDAO<Room> {
 
     /**
      * Delete existed room entity from the database by id.
@@ -59,18 +25,11 @@ public interface RoomDAO {
     void deleteById(final Long id);
 
     /**
-     * Find all rooms entities in the database.
-     * 
-     * @return List of the room objects.
-     */
-    List<Room> findAll();
-
-    /**
      * Find all rooms entities in the database with location and equipment
      * details.
      * 
      * @return List of the room objects.
      */
-    List<Room> findAllWithDetails();
+    List<Room> getAllWithDetails();
 
 }
