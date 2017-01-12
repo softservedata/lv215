@@ -11,7 +11,6 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
 		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.1.xsd">
 
-	<!-- Replace * to your package -->
 	<context:component-scan base-package="com.softserve.edu.schedule.*">
 		<context:exclude-filter type="annotation"
 			expression="org.springframework.stereotype.Controller" />
@@ -38,16 +37,15 @@
 		class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
 
 	<!-- inject @Repository -->
-	<!-- <jpa:repositories base-package="ua.repository" factory-class="ua.repository.LocalizedSimpleJpaRepositoryFactoryBean"/> -->
 	<jpa:repositories base-package="com.softserve.edu.schedule.dao" />
 
 	<bean
 		class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
-	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
-		destroy-method="close" p:driverClass="${db.driverClassName}"
-		p:jdbcUrl="${db.databaseurl}" p:user="${db.username}" p:password="${db.password}"
-		p:minPoolSize="5" p:maxPoolSize="10" p:maxIdleTime="200">
+	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
+		destroy-method="close" p:driverClassName="${db.driverClassName}"
+		p:url="${db.databaseurl}" p:username="${db.username}" p:password="${db.password}"
+		p:initialSize="5" p:maxActive="10" p:maxIdle="200">
 	</bean>
 
 	<bean id="entityManagerFactory"
@@ -76,7 +74,7 @@
 		<property name="dataSource" ref="dataSource"></property>
 		<property name="entityManagerFactory" ref="entityManagerFactory"></property>
 	</bean>
-	<!--  <import resource="security.xml" />  -->
+	<!-- <import resource="security.xml" /> -->
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
