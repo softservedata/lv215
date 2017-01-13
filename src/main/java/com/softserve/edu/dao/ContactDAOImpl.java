@@ -18,10 +18,12 @@ public class ContactDAOImpl implements ContactDAO {
 		sessionFactory.getCurrentSession().save(contact);
 	}
 
-	//@SuppressWarnings({"unchecked", "deprecation"})
+	@SuppressWarnings({"unchecked"})
 	public List<Contact> listContact() {
+//		return sessionFactory.getCurrentSession()
+//		        .createQuery("from Contact", Contact.class).getResultList();
 		return sessionFactory.getCurrentSession()
-		        .createQuery("from Contact", Contact.class).getResultList();
+				.createCriteria(Contact.class).list();
 	}
 
 	public void removeContact(Integer id) {

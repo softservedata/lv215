@@ -46,13 +46,19 @@ http://www.springframework.org/schema/util/spring-util.xsd">
  -->
 
  
-<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-    <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver"/>
-    <property name="url" value="jdbc:jtds:sqlserver://CLASS02/Lv196work;instance=SQLEXPRESS;"/>
-    <property name="username" value="db196"/>
-    <property name="password" value="db196"/>
-</bean>
+<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"> -->
+<!--     <property name="driverClassName" value="net.sourceforge.jtds.jdbc.Driver"/> -->
+<!--     <property name="url" value="jdbc:jtds:sqlserver://CLASS02/Lv215test;instance=SQLEXPRESS;"/> -->
+<!--     <property name="username" value="db196"/> -->
+<!--     <property name="password" value="db196"/> -->
+<!-- </bean> -->
 
+<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+    <property name="url" value="jdbc:mysql://localhost:3306/lv215Test"/>
+    <property name="username" value="root"/>
+    <property name="password" value="root"/>
+</bean>
 
 	<!-- <bean id="sessionFactory"
 		 class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">  -->
@@ -79,7 +85,8 @@ http://www.springframework.org/schema/util/spring-util.xsd">
 				<prop key="hibernate.format_sql">true</prop>
 				<prop key="hibernate.dialect">${jdbc.dialect}</prop> -->
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
-				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop>
+<!-- 				<prop key="hibernate.dialect">org.hibernate.dialect.SQLServerDialect</prop> -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
 				<prop key="hibernate.connection.charSet">UTF-8</prop>
 			</props>
 		</property>
