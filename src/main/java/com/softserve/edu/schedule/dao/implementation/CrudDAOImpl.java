@@ -27,11 +27,6 @@ import com.softserve.edu.schedule.dao.Order;
 public abstract class CrudDAOImpl<E> implements CrudDAO<E> {
 
     /**
-     * Constant for search method.
-     */
-    private final String MASK = "%";
-
-    /**
      * Generic entity class.
      */
     private Class<E> entityClass;
@@ -86,7 +81,8 @@ public abstract class CrudDAOImpl<E> implements CrudDAO<E> {
         CriteriaBuilder builder = em.getCriteriaBuilder();
         CriteriaQuery<E> cq = builder.createQuery(entityClass);
         Root<E> root = cq.from(entityClass);
-        cq.where(builder.like(root.get(field), MASK + pattern + MASK));
+        cq.where(builder.like(root.get(field),
+                SEARCH_MASK + pattern + SEARCH_MASK));
         return em.createQuery(cq).getResultList();
     }
 
@@ -148,15 +144,6 @@ public abstract class CrudDAOImpl<E> implements CrudDAO<E> {
      */
     public EntityManager getEm() {
         return em;
-    }
-
-    /**
-     * Return search mask.
-     *
-     * @return search mask
-     */
-    public String getMASK() {
-        return MASK;
     }
 
 }

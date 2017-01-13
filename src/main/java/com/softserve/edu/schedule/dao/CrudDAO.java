@@ -17,6 +17,11 @@ package com.softserve.edu.schedule.dao;
 public interface CrudDAO<E> extends ReadDAO<E> {
 
     /**
+     * Constant for search method.
+     */
+    String SEARCH_MASK = "%";
+
+    /**
      * Saving Transfer object in database.
      *
      * @param element
