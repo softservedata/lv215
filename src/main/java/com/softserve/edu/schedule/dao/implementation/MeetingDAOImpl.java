@@ -1,5 +1,11 @@
 /*
  * Implementation of the Interface for Meetings Data Access Object.
+ * 
+ * REMARK:
+ * This interface is the same as CrudDAO but with additional
+ * methods. This methods provide an opportunity to sort dataObjects
+ * direct in the DB, not in the application. 
+ * 
  *
  * Version 03.01.17
  *
@@ -24,6 +30,8 @@ import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.Meeting_;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.Room_;
+import com.softserve.edu.schedule.entity.Subject;
+import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
@@ -46,11 +54,25 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         super(Meeting.class);
     }
 
-    /**
-     * Delete existed room entity from the database by id.
-     *
-     * @param id
-     *            a room id to delete from database.
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#changeStatus(com.softserve.edu.
+     * schedule.entity.Meeting, com.softserve.edu.schedule.entity.MeetingStatus)
+     */
+    public void changeStatus(Meeting meeting,
+            final MeetingStatus meetingStatus) {
+        this.delete(meeting);
+        meeting.setStatus(meetingStatus);
+        this.update(meeting);
+
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.dao.MeetingDAO#deleteById(java.lang.Long)
      */
     @Override
     public void deleteById(final Long id) {
@@ -58,10 +80,30 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         delete(meeting);
     }
 
-    /**
-     * Return the List of searched Meetings filtered by Owner.
-     *
-     * @return List of searched Transfer objects
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.dao.MeetingDAO#searchBySubject(java.lang.
+     * String)
+     */
+    @Override
+    public List<Meeting> searchBySubject(final String pattern) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+
+        Join<Meeting, Subject> joinSubject = root.join(Meeting_.subject);
+        Predicate predicate = builder.like(joinSubject.get(Subject_.name),
+                SEARCH_MASK + pattern + SEARCH_MASK);
+        cq.where(predicate);
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#searchByOwner(java.lang.String)
      */
     @Override
     public List<Meeting> searchByOwner(final String pattern) {
@@ -76,10 +118,11 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
-    /**
-     * Return the List of searched Meetings filtered by Room.
-     *
-     * @return List of searched Transfer objects
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#searchByRoom(java.lang.String)
      */
     public List<Meeting> searchByRoom(final String pattern) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -93,10 +136,12 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
-    /**
-     * Return the List of searched Meetings filtered by UserGroup.
-     *
-     * @return List of searched Transfer objects
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#searchByUserGroup(java.lang.
+     * String)
      */
     public List<Meeting> searchByUserGroup(final String pattern) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -110,10 +155,11 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
-    /**
-     * Return the List of searched Meetings filtered by Status.
-     *
-     * @return List of searched Transfer objects
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.dao.MeetingDAO#searchByStatus(java.lang.
+     * String)
      */
     public List<Meeting> searchByStatus(final String pattern) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -128,17 +174,18 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
-    /**
-     * Return the List of searched Meetings filtered by level.
-     *
-     * @return List of searched Transfer objects
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#searchByLevel(java.lang.String)
      */
     public List<Meeting> searchByLevel(final String pattern) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
 
-        Join<Meeting, MeetingStatus> joinLevel = root.join(Meeting_.status);
+        Join<Meeting, Integer> joinLevel = root.join(Meeting_.level);
         Predicate predicate = builder.like(
                 joinLevel.get(Meeting_.level.toString()),
                 SEARCH_MASK + pattern + SEARCH_MASK);
@@ -146,14 +193,39 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
-    /**
-     * Return the List of searched Meetings filtered by Date.
-     *
-     * @return List of searched Transfer objects
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#searchByDate(java.lang.String)
      */
     public List<Meeting> searchByDate(final String pattern) {
-        // TODO How to filter by Date in DB ?
-        return null;
+        // TODO How to filter by Date in DB?
+        return this.getAll();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#searchByDescription(java.lang.
+     * String)
+     */
+    @Override
+    public List<Meeting> searchByDescription(String pattern) {
+
+        return this.searchBySubject(pattern);
+        // TODO
+        // CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        // CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        // Root<Meeting> root = cq.from(Meeting.class);
+        //
+        // Join<Meeting, String> joinLevel = root.join(Meeting_.description);
+        // Predicate predicate =
+        // builder.like(joinLevel.get(Meeting_.description),
+        // SEARCH_MASK + pattern + SEARCH_MASK);
+        // cq.where(predicate);
+        // return getEm().createQuery(cq).getResultList();
     }
 
 }
