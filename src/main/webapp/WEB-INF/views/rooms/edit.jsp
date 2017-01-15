@@ -8,6 +8,7 @@
 		<h3>Edit room</h3>
 		<form:form role="form" method="post" modelAttribute="room">
 			<form:errors path="*" />
+			<form:input path="id" type="hidden"/>
 			<div class="form-group">
 				<label for="location">Location:</label>
 				<form:select class="form-control" path="location" id="location">

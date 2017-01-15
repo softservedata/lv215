@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -39,6 +40,11 @@ public class RoomController {
                 new RoomEquipmentDTOEditor(roomEquipmentService));
     }
 
+    @ModelAttribute("room")
+    public RoomDTO getRoomDTO() {
+        return new RoomDTO();
+    }
+
     @RequestMapping(method = RequestMethod.GET)
     public String listRooms(Model model) {
         model.addAttribute("rooms", roomService.getAllWithDetails());
@@ -54,7 +60,7 @@ public class RoomController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String update(RoomDTO roomDTO) {
+    public String update(@ModelAttribute("room") RoomDTO roomDTO) {
         roomService.update(roomDTO);
         return "redirect:/rooms";
     }
@@ -68,7 +74,7 @@ public class RoomController {
     }
 
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(RoomDTO roomDTO, Model model) {
+    public String create(@ModelAttribute("room") RoomDTO roomDTO, Model model) {
         roomService.create(roomDTO);
         return "redirect:/rooms";
     }
