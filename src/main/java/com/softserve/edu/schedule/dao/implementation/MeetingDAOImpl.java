@@ -24,6 +24,8 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.stereotype.Repository;
+
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting;
@@ -44,6 +46,7 @@ import com.softserve.edu.schedule.entity.User_;
  * @author IT Academy
  */
 
+@Repository("meetingDAO")
 public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
     /**
