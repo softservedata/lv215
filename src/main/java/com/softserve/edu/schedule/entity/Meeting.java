@@ -79,6 +79,11 @@ public class Meeting {
     private Integer level;
 
     /**
+     * Description of the meeting.
+     */
+    private String description;
+
+    /**
      * @return the id
      */
     public Long getId() {
@@ -139,6 +144,13 @@ public class Meeting {
      */
     public Integer getLevel() {
         return level;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
     }
 
     /**
@@ -211,5 +223,13 @@ public class Meeting {
      */
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    /**
+     * @param description
+     *            the description to set
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

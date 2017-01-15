@@ -52,7 +52,7 @@ public class Room {
      * Field for storage list of equipments of the room.
      */
     @ManyToMany(fetch = FetchType.LAZY)
-    private List<RoomEquipment> equipments;
+    private List<RoomEquipment> equipments = new ArrayList<>();
 
     /**
      * Field for storage list of meetings in the room.

@@ -3,9 +3,10 @@ package com.softserve.edu.schedule.service;
 
 import java.util.List;
 
-import com.softserve.edu.schedule.entity.Location;
+import com.softserve.edu.schedule.dto.LocationDTO;
+import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.entity.Room;
-import com.softserve.edu.schedule.entity.RoomEquipment;
 
 /**
  * An interface to provide service operations with Room entity.
@@ -22,17 +23,17 @@ public interface RoomService {
      * Save new room entity into the database.
      *
      * @param room
-     *            a new room to storage in database.
+     *            a new room DTO to storage in database.
      */
-    void create(final Room room);
+    void create(final RoomDTO roomDTO);
 
     /**
      * Update existed room entity in the database.
      *
      * @param room
-     *            a room to update in database.
+     *            a room DTO to update in database.
      */
-    void update(final Room room);
+    void update(final RoomDTO roomDTO);
 
     /**
      * Find room entity in the database by id.
@@ -42,25 +43,24 @@ public interface RoomService {
      * @return an room object if room with this id exists in the database or
      *         Null if room not found
      */
-    Room getById(final Long id);
+    RoomDTO getById(final Long id);
 
     /**
-     * Find room entity in the database by name.
+     * Find a room DTO in the database by name.
      *
      * @param roomName
      *            a room name to find in the database.
-     * @return an room object if room with this name exists in the database or
-     *         Null if room not found
+     * @return a room DTO with given name.
      */
-    Room getByName(final String roomName);
+    RoomDTO getByName(final String roomName);
 
     /**
      * Delete existed room entity from the database.
      *
      * @param room
-     *            a room object to delete from database.
+     *            a room DTO object to delete from database.
      */
-    void delete(final Room room);
+    void delete(final RoomDTO roomDTO);
 
     /**
      * Delete existed room entity from the database by id.
@@ -73,20 +73,20 @@ public interface RoomService {
     /**
      * Find all rooms entities in the database.
      * 
-     * @return List of the room objects.
+     * @return List of the room DTO objects.
      */
-    List<Room> getAll();
+    List<RoomDTO> getAll();
 
     /**
      * Find all rooms entities in the database with location and equipment
      * details.
      * 
-     * @return List of the room objects.
+     * @return List of the room DTO objects.
      */
-    List<Room> getAllWithDetails();
+    List<RoomDTO> getAllWithDetails();
 
     /**
-     * Find all rooms entities in the database with location and equipment
+     * Find all rooms in the database with location and equipment
      * details which has capacity in given interval.
      * 
      * @param minCapacity
@@ -94,20 +94,21 @@ public interface RoomService {
      * @param maxCapacity
      *            a minimum capacity.
      * 
-     * @return List of the room objects.
+     * @return List of the room DTO objects.
      */
-    List<Room> getRoomsByCapacity(final int minCapacity, final int maxCapacity);
+    List<RoomDTO> getRoomsByCapacity(final int minCapacity,
+            final int maxCapacity);
 
     /**
-     * Find all rooms entities in the database with location and equipment
+     * Find all rooms in the database with location and equipment
      * details by given location.
      * 
      * @param location
      *            a location to find rooms.
      * 
-     * @return List of the room objects.
+     * @return List of the room DTO objects.
      */
-    List<Room> getRoomsByLocation(final Location location);
+    List<RoomDTO> getRoomsByLocation(final LocationDTO location);
 
     /**
      * Find all rooms entities in the database with location and equipment
@@ -116,7 +117,53 @@ public interface RoomService {
      * @param equipments
      *            a list of equipments to find rooms.
      * 
-     * @return List of the room objects.
+     * @return List of the room DTO objects.
      */
-    List<Room> getRoomsWithEquipments(final List<RoomEquipment> equipments);
+    List<RoomDTO> getRoomsWithEquipments(
+            final List<RoomEquipmentDTO> equipments);
+
+    /**
+     * Add equipment to the room.
+     * 
+     * @param id
+     *            room id to add equipment
+     * 
+     * @param equipmentID
+     *            equipment id to add to room
+     * 
+     */
+    void addEquipment(final Long id, final Long equipmentID);
+
+    /**
+     * Delete equipment from the room.
+     * 
+     * @param id
+     *            room id to delete equipment
+     * 
+     * @param equipmentID
+     *            equipment id to delete from room
+     * 
+     */
+    void deleteEquipment(final Long id, final Long equipmentID);
+
+    /**
+     * Convert given RoomDTO object to Room object
+     * 
+     * @param roomDTO
+     *            a RoomDTO object to convert.
+     * 
+     * @return a Room object or null if given @param roomDTO is null.
+     */
+    Room getEntity(final RoomDTO roomDTO);
+
+    /**
+     * Convert given Room object to RoomDTO object
+     * 
+     * @param room
+     *            a Room object to convert.
+     * 
+     * @return a RoomDTO object or null if given @param room is null.
+     */
+    RoomDTO getDTO(final Room room);
+
 }

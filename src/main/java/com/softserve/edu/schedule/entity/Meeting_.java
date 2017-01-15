@@ -17,4 +17,5 @@ public class Meeting_ {
     public static volatile SingularAttribute<Meeting, User> owner;
     public static volatile SingularAttribute<Meeting, MeetingStatus> status;
     public static volatile SingularAttribute<Meeting, Integer> level;
+    public static volatile SingularAttribute<Meeting, String> description;
 }
