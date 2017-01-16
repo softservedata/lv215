@@ -3,6 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
+<script type="text/javascript">
+$(function(){
+	$("select[name=locationId]").chosen({width: "100%"});
+	$("select[name=equipmentIds]").chosen({width: "75%"});	
+})
+</script>
 
 <h3>Present rooms:</h3>
 <div class="table-responsive">
@@ -14,8 +20,43 @@
 			<th>Room capacity</th>
 			<th>Room equipment</th>
 			<th></th>
-			<th></th>
+			<th><a class="btn btn-success" href="rooms/create">Add room</a></th>
 		</tr>
+		<c:if test="${filter ne null}">
+		<tr>
+			<form:form role="form" action="rooms" method="get" modelAttribute="filter">
+				<td colspan="2">
+					<form:select path="locationId" id="locationId">
+						<option value="0"> </option>
+						<c:forEach items="${locations}" var="location">
+							<option value="${location.id}">${location.name}</option>	
+						</c:forEach>			
+					</form:select>
+				</td>				
+				<td>
+					<form:input class="form-control" type="text" path="name" placeholder="name"/>
+				</td>
+				<td>										
+					<form:input type="number" class="form-control" path="minCapacity" placeholder="minimal" step="1"/>
+					<br>						
+					<form:input type="number" class="form-control" path="maxCapacity" placeholder="maximal" step="1"/>
+				</td>
+				<td>
+					<form:select path="equipmentIds" id="equipmentIds" multiple="multiple">						
+						<c:forEach items="${equipments}" var="equipment">
+							<option value="${equipment.id}">${equipment.name}</option>	
+						</c:forEach>			
+					</form:select>
+				</td>
+				<td>
+					<input type="submit" class="btn btn-primary" value="Apply filter">
+				</td>
+			</form:form>
+				<td>
+					<a class="btn btn-primary" href="rooms">Reset filter</a>
+				</td>
+		</tr>
+		</c:if>		
 		<c:forEach items="${rooms}" var="room">
 			<tr>
 				<td>${room.location.name}</td>
@@ -36,4 +77,3 @@
 	</table>
 </div>
 <br>
-<p><a class="btn btn-success" href="rooms/create">Add room</a></p>
