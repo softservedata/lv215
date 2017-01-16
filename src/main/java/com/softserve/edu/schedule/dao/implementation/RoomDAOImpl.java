@@ -198,7 +198,9 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
         Root<Room> root = cq.from(Room.class);
         Predicate predicate = new RoomFilterSpecification(roomFilter)
                 .toPredicate(root, cq, builder);
-        cq.where(predicate);
+        if (predicate != null) {
+            cq.where(predicate);
+        }
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }

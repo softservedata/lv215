@@ -62,8 +62,7 @@ public class RoomFilterSpecification implements Specification<Room> {
         if (filter.getEquipmentIds() != null
                 && !filter.getEquipmentIds().isEmpty()) {
             List<RoomEquipment> equipments = filter.getEquipmentIds().stream()
-                    .map(e -> roomEquipmentDAO
-                            .getById(Long.parseLong(String.valueOf(e))))
+                    .map(e -> roomEquipmentDAO.getById(e))
                     .collect(Collectors.toList());
             equipments.forEach(e -> list.add((root, cq, cb) -> cb.isMember(e,
                     root.get(Room_.equipments))));
