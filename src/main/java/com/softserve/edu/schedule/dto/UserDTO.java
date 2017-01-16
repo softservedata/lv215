@@ -3,12 +3,6 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToMany;
-
-import com.softserve.edu.schedule.entity.Subject;
-import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 
@@ -78,7 +72,8 @@ public class UserDTO {
     }
 
     /**
-     * @param id the id to set
+     * @param id
+     *            the id to set
      */
     public void setId(Long id) {
         this.id = id;
@@ -92,7 +87,8 @@ public class UserDTO {
     }
 
     /**
-     * @param firstName the firstName to set
+     * @param firstName
+     *            the firstName to set
      */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
@@ -106,7 +102,8 @@ public class UserDTO {
     }
 
     /**
-     * @param lastName the lastName to set
+     * @param lastName
+     *            the lastName to set
      */
     public void setLastName(String lastName) {
         this.lastName = lastName;
@@ -120,7 +117,8 @@ public class UserDTO {
     }
 
     /**
-     * @param mail the mail to set
+     * @param mail
+     *            the mail to set
      */
     public void setMail(String mail) {
         this.mail = mail;
@@ -134,7 +132,8 @@ public class UserDTO {
     }
 
     /**
-     * @param password the password to set
+     * @param password
+     *            the password to set
      */
     public void setPassword(String password) {
         this.password = password;
@@ -148,7 +147,8 @@ public class UserDTO {
     }
 
     /**
-     * @param phone the phone to set
+     * @param phone
+     *            the phone to set
      */
     public void setPhone(String phone) {
         this.phone = phone;
@@ -162,7 +162,8 @@ public class UserDTO {
     }
 
     /**
-     * @param position the position to set
+     * @param position
+     *            the position to set
      */
     public void setPosition(String position) {
         this.position = position;
@@ -176,7 +177,8 @@ public class UserDTO {
     }
 
     /**
-     * @param status the status to set
+     * @param status
+     *            the status to set
      */
     public void setStatus(UserStatus status) {
         this.status = status;
@@ -190,7 +192,8 @@ public class UserDTO {
     }
 
     /**
-     * @param role the role to set
+     * @param role
+     *            the role to set
      */
     public void setRole(UserRole role) {
         this.role = role;
@@ -204,7 +207,8 @@ public class UserDTO {
     }
 
     /**
-     * @param subjects the subjects to set
+     * @param subjects
+     *            the subjects to set
      */
     public void setSubjects(List<SubjectDTO> subjects) {
         this.subjects = subjects;
@@ -218,11 +222,11 @@ public class UserDTO {
     }
 
     /**
-     * @param groups the groups to set
+     * @param groups
+     *            the groups to set
      */
     public void setGroups(List<UserGroupDTO> groups) {
         this.groups = groups;
     }
-
 
 }

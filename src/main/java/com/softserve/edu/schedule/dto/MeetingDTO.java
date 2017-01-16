@@ -5,10 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.softserve.edu.schedule.entity.MeetingStatus;
-import com.softserve.edu.schedule.entity.Room;
-import com.softserve.edu.schedule.entity.Subject;
-import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.UserGroup;
 
 public class MeetingDTO {
 
@@ -70,7 +66,8 @@ public class MeetingDTO {
     }
 
     /**
-     * @param id the id to set
+     * @param id
+     *            the id to set
      */
     public void setId(Long id) {
         this.id = id;
@@ -84,7 +81,8 @@ public class MeetingDTO {
     }
 
     /**
-     * @param subject the subject to set
+     * @param subject
+     *            the subject to set
      */
     public void setSubject(SubjectDTO subject) {
         this.subject = subject;
@@ -98,7 +96,8 @@ public class MeetingDTO {
     }
 
     /**
-     * @param room the room to set
+     * @param room
+     *            the room to set
      */
     public void setRoom(RoomDTO room) {
         this.room = room;
@@ -112,7 +111,8 @@ public class MeetingDTO {
     }
 
     /**
-     * @param startTime the startTime to set
+     * @param startTime
+     *            the startTime to set
      */
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
@@ -126,7 +126,8 @@ public class MeetingDTO {
     }
 
     /**
-     * @param endTime the endTime to set
+     * @param endTime
+     *            the endTime to set
      */
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
@@ -140,7 +141,8 @@ public class MeetingDTO {
     }
 
     /**
-     * @param groups the groups to set
+     * @param groups
+     *            the groups to set
      */
     public void setGroups(List<UserGroupDTO> groups) {
         this.groups = groups;
@@ -154,7 +156,8 @@ public class MeetingDTO {
     }
 
     /**
-     * @param owner the owner to set
+     * @param owner
+     *            the owner to set
      */
     public void setOwner(UserDTO owner) {
         this.owner = owner;
@@ -168,7 +171,8 @@ public class MeetingDTO {
     }
 
     /**
-     * @param status the status to set
+     * @param status
+     *            the status to set
      */
     public void setStatus(MeetingStatus status) {
         this.status = status;
@@ -182,7 +186,8 @@ public class MeetingDTO {
     }
 
     /**
-     * @param level the level to set
+     * @param level
+     *            the level to set
      */
     public void setLevel(Integer level) {
         this.level = level;
@@ -196,10 +201,11 @@ public class MeetingDTO {
     }
 
     /**
-     * @param description the description to set
+     * @param description
+     *            the description to set
      */
     public void setDescription(String description) {
         this.description = description;
     }
-    
+
 }

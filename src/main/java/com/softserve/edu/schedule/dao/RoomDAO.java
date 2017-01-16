@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.dao;
 
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.RoomEquipment;
 
@@ -58,7 +59,26 @@ public interface RoomDAO extends CrudDAO<Room> {
      */
     public List<Room> getRoomsByLocationId(final long locationId);
 
+    /**
+     * Find all rooms entities in the database with location and equipment
+     * details by given equipments list.
+     * 
+     * @param equipments
+     *            an equipments list to find rooms.
+     * 
+     * @return List of the room objects.
+     */
     List<Room> getRoomsWithEquipments(final List<RoomEquipment> equipments);
+    
+    /**
+     * Find all rooms entities in the database with applied filter
+     * 
+     * @param roomFilter
+     *            a filter to apply.
+     * 
+     * @return List of the room objects.
+     */
+    List<Room> getRoomsWithFilter(final RoomFilter roomFilter);
 
     /**
      * Find all rooms entities in the database with location and equipment

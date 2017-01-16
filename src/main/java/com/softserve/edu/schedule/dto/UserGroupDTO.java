@@ -3,14 +3,6 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.FetchType;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-
-import com.softserve.edu.schedule.entity.Meeting;
-import com.softserve.edu.schedule.entity.User;
-
 public class UserGroupDTO {
 
     private Long id;
@@ -23,7 +15,7 @@ public class UserGroupDTO {
     /**
      * User group description.
      */
-    
+
     private String description;
 
     /**
@@ -56,7 +48,8 @@ public class UserGroupDTO {
     }
 
     /**
-     * @param id the id to set
+     * @param id
+     *            the id to set
      */
     public void setId(Long id) {
         this.id = id;
@@ -70,7 +63,8 @@ public class UserGroupDTO {
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName(String name) {
         this.name = name;
@@ -84,7 +78,8 @@ public class UserGroupDTO {
     }
 
     /**
-     * @param description the description to set
+     * @param description
+     *            the description to set
      */
     public void setDescription(String description) {
         this.description = description;
@@ -98,7 +93,8 @@ public class UserGroupDTO {
     }
 
     /**
-     * @param level the level to set
+     * @param level
+     *            the level to set
      */
     public void setLevel(Integer level) {
         this.level = level;
@@ -112,7 +108,8 @@ public class UserGroupDTO {
     }
 
     /**
-     * @param curator the curator to set
+     * @param curator
+     *            the curator to set
      */
     public void setCurator(UserDTO curator) {
         this.curator = curator;
@@ -126,7 +123,8 @@ public class UserGroupDTO {
     }
 
     /**
-     * @param users the users to set
+     * @param users
+     *            the users to set
      */
     public void setUsers(List<UserDTO> users) {
         this.users = users;
@@ -140,7 +138,8 @@ public class UserGroupDTO {
     }
 
     /**
-     * @param meetings the meetings to set
+     * @param meetings
+     *            the meetings to set
      */
     public void setMeetings(List<MeetingDTO> meetings) {
         this.meetings = meetings;

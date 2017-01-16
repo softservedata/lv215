@@ -12,9 +12,11 @@ import javax.persistence.criteria.Root;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.RoomDAO;
+import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.entity.Room_;
+import com.softserve.edu.schedule.service.implementation.specification.RoomFilterSpecification;
 
 /**
  * A class to provide DAO operations with Room entity.
@@ -154,6 +156,15 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
+    /**
+     * Find all rooms entities in the database with location and equipment
+     * details by given equipments list.
+     * 
+     * @param equipments
+     *            an equipments list to find rooms.
+     * 
+     * @return List of the room objects.
+     */
     @Override
     public List<Room> getRoomsWithEquipments(List<RoomEquipment> equipments) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -167,6 +178,26 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
                     root.get(Room_.equipments));
             predicate = builder.and(predicate, newPredicate);
         }
+        cq.where(predicate);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    /**
+     * Find all rooms entities in the database with applied filter
+     * 
+     * @param roomFilter
+     *            a filter to apply.
+     * 
+     * @return List of the room objects.
+     */
+    @Override
+    public List<Room> getRoomsWithFilter(final RoomFilter roomFilter) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Room> cq = builder.createQuery(Room.class);
+        Root<Room> root = cq.from(Room.class);
+        Predicate predicate = new RoomFilterSpecification(roomFilter)
+                .toPredicate(root, cq, builder);
         cq.where(predicate);
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();

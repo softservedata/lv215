@@ -6,6 +6,7 @@ import java.util.List;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
+import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Room;
 
 /**
@@ -86,8 +87,8 @@ public interface RoomService {
     List<RoomDTO> getAllWithDetails();
 
     /**
-     * Find all rooms in the database with location and equipment
-     * details which has capacity in given interval.
+     * Find all rooms in the database with location and equipment details which
+     * has capacity in given interval.
      * 
      * @param minCapacity
      *            a minimum capacity.
@@ -100,8 +101,8 @@ public interface RoomService {
             final int maxCapacity);
 
     /**
-     * Find all rooms in the database with location and equipment
-     * details by given location.
+     * Find all rooms in the database with location and equipment details by
+     * given location.
      * 
      * @param location
      *            a location to find rooms.
@@ -121,6 +122,16 @@ public interface RoomService {
      */
     List<RoomDTO> getRoomsWithEquipments(
             final List<RoomEquipmentDTO> equipments);
+
+    /**
+     * Find all rooms entities in the database with applied filter
+     * 
+     * @param roomFilter
+     *            a filter to apply.
+     * 
+     * @return List of the room DTO objects.
+     */
+    List<RoomDTO> getRoomsWithFilter(final RoomFilter roomFilter);
 
     /**
      * Add equipment to the room.
