@@ -24,7 +24,6 @@ public class SubjectController {
 
     @RequestMapping("/subject")
     public String showSubjectPage(Model model) {
-        model.addAttribute("subjectForm", new Subject());
         model.addAttribute("subjects", subjectService.getAllWithDetails());
         model.addAttribute("users", userService.getAll());
         return "subject";
