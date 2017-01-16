@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="common" template="/WEB-INF/layout/classic.jsp">
+		<put-attribute name="footer" value="/WEB-INF/layout/footer.jsp" />
+		<put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
+	</definition>
+
+	<definition name="index" extends="common">
+		<put-attribute name="title" value="Schedule" />
+		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
+	</definition>	
+
+	<definition extends="common" name="rooms/list">
+		<put-attribute name="title" value="Rooms" />
+		<put-attribute name="body" value="/WEB-INF/views/rooms/list.jsp" />
+	</definition>
+	<definition extends="common" name="rooms/show">
+		<put-attribute name="title" value="Room details" />
+		<put-attribute name="body" value="/WEB-INF/views/rooms/show.jsp" />
+	</definition>
+	<definition extends="common" name="rooms/edit">
+		<put-attribute name="title" value="Edit room" />
+		<put-attribute name="body" value="/WEB-INF/views/rooms/edit.jsp" />
+	</definition>
+	<definition extends="common" name="rooms/create">
+		<put-attribute name="title" value="Create room" />
+		<put-attribute name="body" value="/WEB-INF/views/rooms/create.jsp" />
+	</definition>
+
+</tiles-definitions>

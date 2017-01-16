@@ -67,3 +67,5 @@ hs_err_pid*
 
 # bower
 bower_components
+# db.properties
+*.properties
