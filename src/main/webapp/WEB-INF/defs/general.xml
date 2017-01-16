@@ -12,7 +12,7 @@
 	<definition name="index" extends="common">
 		<put-attribute name="title" value="Schedule" />
 		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
-	</definition>	
+	</definition>
 
 	<definition extends="common" name="rooms/list">
 		<put-attribute name="title" value="Rooms" />
@@ -29,6 +29,14 @@
 	<definition extends="common" name="rooms/create">
 		<put-attribute name="title" value="Create room" />
 		<put-attribute name="body" value="/WEB-INF/views/rooms/create.jsp" />
+	</definition>
+	<definition extends="common" name="subject">
+		<put-attribute name="title" value="Subject" />
+		<put-attribute name="body" value="/WEB-INF/views/subject/subject.jsp" />
+	</definition>
+	<definition extends="common" name="subject/update">
+		<put-attribute name="title" value="Subject" />
+		<put-attribute name="body" value="/WEB-INF/views/subject/update.jsp" />
 	</definition>
 
 </tiles-definitions>
