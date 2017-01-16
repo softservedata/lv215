@@ -7,7 +7,7 @@
 		<parameter name="numberTest" value="Test" />
 		<classes>
 			<!-- <class name="com.softserve.edu.AppTest" /> -->
-			<class name="com.softserve.edu.AppTest">
+			<class name="com.softserve.edu.tilesspring.AppTest">
 				<methods>
 					<include name="testApp" />
 				</methods>
