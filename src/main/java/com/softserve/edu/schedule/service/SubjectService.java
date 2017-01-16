@@ -52,6 +52,13 @@ public interface SubjectService {
      * @return List of Subject objects
      */
     List<Subject> getAll();
+    
+    /**
+     * Return a List of searched Subjects fetching Users.
+     *
+     * @return List of searched Subject transfer objects
+     */
+    List<Subject> getAllWithDetails();
 
     /**
      * Deleting subject in database.
@@ -60,6 +67,14 @@ public interface SubjectService {
      *            - Subject object
      */
     void delete(final Subject subject);
+    
+    /**
+     * Delete existed transfer object from the database by id.
+     *
+     * @param id
+     *            a subject id to delete from database.
+     */
+    void deleteById(final Long id);
 
     /**
      * Return a List of sorted Subject transfer objects.
@@ -72,6 +87,28 @@ public interface SubjectService {
      */
     List<Subject> sort(final String field, final Order order);
 
+    /**
+     * Return a List of sorted Subject transfer objects.
+     *
+     * @param field
+     *            for sort
+     * @param order
+     *            - ASC or DESC
+     * @return List of sorted Subject transfer objects
+     */
+    List<Subject> sortByName(final Order order);
+    
+    /**
+     * Return a List of sorted Subject transfer objects.
+     *
+     * @param field
+     *            for sort
+     * @param order
+     *            - ASC or DESC
+     * @return List of sorted Subject transfer objects
+     */
+    List<Subject> sortByDescription(final Order order);
+    
     /**
      * Return a List of searched Subject transfer objects.
      *
@@ -93,5 +130,6 @@ public interface SubjectService {
      *         tutor
      */
     List<Subject> searchTutors(final String pattern);
+
 
 }
