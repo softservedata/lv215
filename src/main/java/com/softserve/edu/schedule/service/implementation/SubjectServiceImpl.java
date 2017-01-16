@@ -65,7 +65,7 @@ public class SubjectServiceImpl implements SubjectService {
      * @return Subject transfer object
      */
     @Override
-    @Transactional(readOnly = true)
+/*    @Transactional(readOnly = true)*/
     public Subject getById(final Long id) {
         return subjectDao.getById(id);
     }
@@ -82,6 +82,17 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
+     * Return a List of searched Subjects fetching Users.
+     *
+     * @return List of searched Subject transfer objects
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<Subject> getAllWithDetails() {
+        return subjectDao.getAllWithDetails();
+    }
+
+    /**
      * Deleting subject in database.
      *
      * @param subject
@@ -90,6 +101,17 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     public void delete(final Subject subject) {
         subjectDao.delete(subject);
+    }
+
+    /**
+     * Delete existed transfer object from the database by id.
+     *
+     * @param id
+     *            a Subject id to delete from database.
+     */
+    @Override
+    public void deleteById(Long id) {
+        subjectDao.deleteById(id);
     }
 
     /**
@@ -107,6 +129,36 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectDao.sort(field, order);
     }
 
+    /**
+     * Return a List of sorted Subject transfer objects.
+     *
+     * @param field
+     *            for sort
+     * @param order
+     *            - ASC or DESC
+     * @return List of sorted Subject transfer objects
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<Subject> sortByName(Order order) {
+        return subjectDao.sortByName(order);
+    }
+    
+    /**
+     * Return a List of sorted Subject transfer objects.
+     *
+     * @param field
+     *            for sort
+     * @param order
+     *            - ASC or DESC
+     * @return List of sorted Subject transfer objects
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<Subject> sortByDescription(final Order order){
+        return subjectDao.sortByDescription(order);
+    }
+    
     /**
      * Return a List of searched Subject transfer objects.
      *

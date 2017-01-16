@@ -45,7 +45,7 @@
 	<bean id="dataSource" class="org.apache.tomcat.jdbc.pool.DataSource"
 		destroy-method="close" p:driverClassName="${db.driverClassName}"
 		p:url="${db.databaseurl}" p:username="${db.username}" p:password="${db.password}"
-		p:initialSize="5" p:maxActive="10" p:maxIdle="200">
+		p:initialSize="10" p:maxActive="100" p:maxIdle="10">
 	</bean>
 
 	<bean id="entityManagerFactory"
