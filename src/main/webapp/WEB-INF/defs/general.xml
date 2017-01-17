@@ -30,6 +30,19 @@
 		<put-attribute name="title" value="Create room" />
 		<put-attribute name="body" value="/WEB-INF/views/rooms/create.jsp" />
 	</definition>
+
+<definition extends="common" name="locations/home">
+		<put-attribute name="title" value="Locations" />
+		<put-attribute name="body" value="/WEB-INF/views/locations/home.jsp" />
+	</definition>
+	<definition extends="common" name="locations/create">
+		<put-attribute name="title" value="Create location" />
+		<put-attribute name="body" value="/WEB-INF/views/locations/create.jsp" />
+	</definition>
+	<definition extends="common" name="locations/edit">
+		<put-attribute name="title" value="Edit location" />
+		<put-attribute name="body" value="/WEB-INF/views/locations/edit.jsp" />
+
 	<definition extends="common" name="subjects/list">
 		<put-attribute name="title" value="Subjects" />
 		<put-attribute name="body" value="/WEB-INF/views/subjects/list.jsp" />
@@ -45,5 +58,6 @@
 		<definition extends="common" name="subjects/edit">
 		<put-attribute name="title" value="Edit Subject" />
 		<put-attribute name="body" value="/WEB-INF/views/subjects/edit.jsp" />
+
 	</definition>
 </tiles-definitions>
