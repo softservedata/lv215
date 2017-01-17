@@ -10,30 +10,26 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
-import org.springframework.stereotype.Service;
-
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.entity.Room_;
 
-@Service("roomFilterSpecification")
 public class RoomFilterSpecification implements Specification<Room> {
 
     private RoomFilter filter;
 
-    @Autowired
     private RoomEquipmentDAO roomEquipmentDAO;
 
     private List<Specification<Room>> list = new ArrayList<>();
 
-//    public RoomFilterSpecification(RoomFilter filter) {
-//        this.filter = filter;
-//    }
+    public RoomFilterSpecification(RoomFilter filter, RoomEquipmentDAO roomEquipmentDAO) {
+        this.filter = filter;
+        this.roomEquipmentDAO = roomEquipmentDAO;
+    }
 
     private void findByLocationId() {
         if (filter.getLocationId() > 0) {
@@ -96,11 +92,4 @@ public class RoomFilterSpecification implements Specification<Room> {
         }
         return spec.toPredicate(root, query, cb);
     }
-
-    /**
-     * @param filter the filter to set
-     */
-    public void setFilter(RoomFilter filter) {
-        this.filter = filter;
-    } 
 }
