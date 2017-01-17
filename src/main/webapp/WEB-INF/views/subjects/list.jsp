@@ -29,7 +29,7 @@
 				<td>${subject.name}</td>
 				<td>${subject.description}</td>
 				<td><c:forEach items="${subject.users}" var="user">
-						<p>${user.firstName}${user.lastName}</p>
+						<p>${user.firstName} ${user.lastName}</p>
 					</c:forEach></td>
 				<td><a href="${pageContext.request.contextPath}/subjects/delete/${subject.id}"><i
 						class="fa fa-trash-o"></i></a></td>
