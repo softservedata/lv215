@@ -15,9 +15,8 @@
 </head>
 <body>
 	<div>
-		ADD SUBJECT
-		<form:form action="/schedule/subject" method="post"
-			commandName="subjectForm">
+		Edit Subject
+		<form:form method="post" modelAttribute="subjectForm">
 			<form:hidden path="id" />
 			<form:input path="name" placeholder="Subject name" />
 			<form:input path="description" placeholder="Address" />

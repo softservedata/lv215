@@ -13,6 +13,7 @@ import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserService;
 
+@RequestMapping("/subjects")
 @Controller
 public class SubjectController {
 
@@ -22,71 +23,72 @@ public class SubjectController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("/subject")
+    @RequestMapping(method = RequestMethod.GET)
     public String showSubjectPage(Model model) {
         model.addAttribute("subjects", subjectService.getAllWithDetails());
         model.addAttribute("users", userService.getAll());
-        return "subject";
+        return "subjects/list";
     }
 
-    @RequestMapping(value = "/subject", method = RequestMethod.POST)
-    public String postSubject(@ModelAttribute("subjectForm") Subject subject) {
-        if(subject.getId()!=null){
-            subjectService.update(subject); 
-        } else{
-            subjectService.create(subject);
-        }    
-        return "redirect:/subject";
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    public String create(@ModelAttribute("subjectForm") Subject subject) {
+        subjectService.create(subject);
+        return "redirect:/subjects";
     }
 
-    @RequestMapping("/delete/{id}")
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String createForm(Model model) {
+        model.addAttribute("subjectForm", new Subject());
+        model.addAttribute("users", userService.getAll());
+        return "subjects/create";
+    }
+
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
         subjectService.deleteById(id);
-        return "redirect:/subject";
+        return "redirect:/subjects";
     }
     
-    @RequestMapping(value = "/create")
-    public String create(Model model) {
-        model.addAttribute("subjectForm", new Subject());
-        model.addAttribute("users", userService.getAll());
-        return "update";
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    public String edit(@ModelAttribute("subjectForm") Subject subject) {
+        subjectService.update(subject);
+        return "redirect:/subjects";
     }
-
-    @RequestMapping(value = "/update/{id}")
-    public String Edit(@PathVariable Long id, Model model) {
+    
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute("subjectForm", subjectService.getById(id));
-        return "update";
+        model.addAttribute("users", userService.getAll());
+        return "subjects/edit";
     }
     
-    @RequestMapping("/sortbynameasc")
+    @RequestMapping(value = "/sortbynameasc", method = RequestMethod.GET)
     public String sortByNameAsc(Model model) {
-        model.addAttribute("subjectForm", new Subject());
         model.addAttribute("subjects", subjectService.sortByName(Order.ASC));
         model.addAttribute("users", userService.getAll());
-        return "subject";
+        return "subjects/list";
     }
 
-    @RequestMapping("/sortbynamedesc")
+    @RequestMapping(value = "/sortbynamedesc", method = RequestMethod.GET)
     public String sortByNameDesc(Model model) {
-        model.addAttribute("subjectForm", new Subject());
         model.addAttribute("subjects", subjectService.sortByName(Order.DESC));
         model.addAttribute("users", userService.getAll());
-        return "subject";
-    }
-    
-    @RequestMapping("/sortbydescriptionasc")
-    public String sortByDescrAsc(Model model) {
-        model.addAttribute("subjectForm", new Subject());
-        model.addAttribute("subjects", subjectService.sortByDescription(Order.ASC));
-        model.addAttribute("users", userService.getAll());
-        return "subject";
+        return "subjects/list";
     }
 
-    @RequestMapping("/sortbydescriptiondesc")
-    public String sortByDescrDesc(Model model) {
-        model.addAttribute("subjectForm", new Subject());
-        model.addAttribute("subjects", subjectService.sortByDescription(Order.DESC));
+    @RequestMapping(value = "/sortbydescriptionasc", method = RequestMethod.GET)
+    public String sortByDescrAsc(Model model) {
+        model.addAttribute("subjects",
+                subjectService.sortByDescription(Order.ASC));
         model.addAttribute("users", userService.getAll());
-        return "subject";
+        return "subjects/list";
+    }
+
+    @RequestMapping(value = "/sortbydescriptiondesc", method = RequestMethod.GET)
+    public String sortByDescrDesc(Model model) {
+        model.addAttribute("subjects",
+                subjectService.sortByDescription(Order.DESC));
+        model.addAttribute("users", userService.getAll());
+        return "subjects/list";
     }
 }
