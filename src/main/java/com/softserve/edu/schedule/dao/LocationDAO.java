@@ -6,6 +6,8 @@
  */
 package com.softserve.edu.schedule.dao;
 
+import java.util.List;
+
 import com.softserve.edu.schedule.entity.Location;
 
 /**
@@ -17,4 +19,22 @@ import com.softserve.edu.schedule.entity.Location;
  *
  */
 public interface LocationDAO extends CrudDAO<Location> {
+
+	/**
+	 * Method returns all locations from database with room details.
+	 * 
+	 * @return all locations from database with room details
+	 */
+	List<Location> getAllWithDetails();
+	
+	/**
+     * Method returns list of sorted locations.
+     * 
+     * @param field
+     *            field for sort
+     * @param order
+     *            ASC or DESC
+     * @return list of sorted locations
+     */
+	List<Location> sortByFields(final String field, final Order order);
 }
