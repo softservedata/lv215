@@ -1,6 +1,9 @@
 package com.softserve.edu.schedule.dto.filter;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 
 public class RoomFilter {
 
@@ -12,7 +15,11 @@ public class RoomFilter {
 
     private int maxCapacity;
 
-    private List<Long> equipmentIds;
+    private int sortByField;
+
+    private int sortOrder;
+
+    private List<RoomEquipmentDTO> equipments = new ArrayList<>();
 
     /**
      * @return the locationId
@@ -43,10 +50,24 @@ public class RoomFilter {
     }
 
     /**
-     * @return the equipmentIds
+     * @return the sortByField
      */
-    public List<Long> getEquipmentIds() {
-        return equipmentIds;
+    public int getSortByField() {
+        return sortByField;
+    }
+
+    /**
+     * @return the sortOrder
+     */
+    public int getSortOrder() {
+        return sortOrder;
+    }
+
+    /**
+     * @return the equipments
+     */
+    public List<RoomEquipmentDTO> getEquipments() {
+        return equipments;
     }
 
     /**
@@ -82,11 +103,27 @@ public class RoomFilter {
     }
 
     /**
-     * @param equipmentIds
-     *            the equipmentIds to set
+     * @param sortByField
+     *            the sortByField to set
      */
-    public void setEquipmentIds(List<Long> equipmentIds) {
-        this.equipmentIds = equipmentIds;
+    public void setSortByField(int sortByField) {
+        this.sortByField = sortByField;
+    }
+
+    /**
+     * @param sortOrder
+     *            the sortOrder to set
+     */
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+    /**
+     * @param equipments
+     *            the equipments to set
+     */
+    public void setEquipments(List<RoomEquipmentDTO> equipments) {
+        this.equipments = equipments;
     }
 
 }

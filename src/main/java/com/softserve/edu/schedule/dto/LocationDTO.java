@@ -69,5 +69,4 @@ public class LocationDTO {
     public void setCoordinates(String coordinates) {
         this.coordinates = coordinates;
     }
-
 }

@@ -43,6 +43,12 @@ public class RoomController {
                 new RoomEquipmentDTOEditor(roomEquipmentService));
     }
 
+    @InitBinder("filter")
+    protected void initBinderFilter(WebDataBinder binder) {
+        binder.registerCustomEditor(RoomEquipmentDTO.class,
+                new RoomEquipmentDTOEditor(roomEquipmentService));
+    }
+
     @ModelAttribute("room")
     public RoomDTO getRoomDTO() {
         return new RoomDTO();
