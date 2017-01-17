@@ -78,10 +78,6 @@
 		<put-attribute name="title" value="Subjects" />
 		<put-attribute name="body" value="/WEB-INF/views/subjects/list.jsp" />
 	</definition>
-		<definition extends="common" name="subjects/update">
-		<put-attribute name="title" value="Subjects" />
-		<put-attribute name="body" value="/WEB-INF/views/subjects/create.jsp" />
-	</definition>
 	<definition extends="common" name="subjects/create">
 		<put-attribute name="title" value="Create Subject" />
 		<put-attribute name="body" value="/WEB-INF/views/subjects/create.jsp" />
