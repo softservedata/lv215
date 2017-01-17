@@ -65,7 +65,7 @@ public class SubjectServiceImpl implements SubjectService {
      * @return Subject transfer object
      */
     @Override
-/*    @Transactional(readOnly = true)*/
+    @Transactional(readOnly = true)
     public Subject getById(final Long id) {
         return subjectDao.getById(id);
     }
