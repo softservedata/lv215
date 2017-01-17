@@ -26,7 +26,8 @@ public class RoomFilterSpecification implements Specification<Room> {
 
     private List<Specification<Room>> list = new ArrayList<>();
 
-    public RoomFilterSpecification(RoomFilter filter, RoomEquipmentDAO roomEquipmentDAO) {
+    public RoomFilterSpecification(RoomFilter filter,
+            RoomEquipmentDAO roomEquipmentDAO) {
         this.filter = filter;
         this.roomEquipmentDAO = roomEquipmentDAO;
     }
@@ -69,6 +70,33 @@ public class RoomFilterSpecification implements Specification<Room> {
         }
     }
 
+    private void setSortingParameters(Root<Room> root, CriteriaQuery<?> query,
+            CriteriaBuilder cb) {
+        if (filter.getSortOrder() == 1) {
+            if (filter.getSortByField() == 1) {
+                query.orderBy(cb.asc(root.get(Room_.location)));
+            }
+            if (filter.getSortByField() == 2) {
+                query.orderBy(cb.asc(root.get(Room_.name)));
+            }
+            if (filter.getSortByField() == 3) {
+                query.orderBy(cb.asc(root.get(Room_.capacity)));
+            }
+        } else if (filter.getSortOrder() == 2) {
+            if (filter.getSortByField() == 1) {
+                query.orderBy(cb.desc(root.get(Room_.location)));
+            }
+            if (filter.getSortByField() == 2) {
+                query.orderBy(cb.desc(root.get(Room_.name)));
+            }
+            if (filter.getSortByField() == 3) {
+                query.orderBy(cb.desc(root.get(Room_.capacity)));
+            }
+        } else {
+            query.orderBy(cb.asc(root.get(Room_.id)));
+        }
+    }
+
     @Override
     public Predicate toPredicate(Root<Room> root, CriteriaQuery<?> query,
             CriteriaBuilder cb) {
@@ -76,7 +104,7 @@ public class RoomFilterSpecification implements Specification<Room> {
                 && query.getResultType() != long.class) {
             root.fetch(Room_.location, JoinType.LEFT);
             root.fetch(Room_.equipments, JoinType.LEFT);
-            query.orderBy(cb.asc(root.get(Room_.id)));
+            setSortingParameters(root, query, cb);
         }
         if (filter != null) {
             findByLocationId();

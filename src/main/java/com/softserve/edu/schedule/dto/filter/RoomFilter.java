@@ -15,6 +15,10 @@ public class RoomFilter {
 
     private int maxCapacity;
 
+    private int sortByField;
+
+    private int sortOrder;
+
     private List<RoomEquipmentDTO> equipments = new ArrayList<>();
 
     /**
@@ -43,6 +47,20 @@ public class RoomFilter {
      */
     public int getMaxCapacity() {
         return maxCapacity;
+    }
+
+    /**
+     * @return the sortByField
+     */
+    public int getSortByField() {
+        return sortByField;
+    }
+
+    /**
+     * @return the sortOrder
+     */
+    public int getSortOrder() {
+        return sortOrder;
     }
 
     /**
@@ -82,6 +100,22 @@ public class RoomFilter {
      */
     public void setMaxCapacity(int maxCapacity) {
         this.maxCapacity = maxCapacity;
+    }
+
+    /**
+     * @param sortByField
+     *            the sortByField to set
+     */
+    public void setSortByField(int sortByField) {
+        this.sortByField = sortByField;
+    }
+
+    /**
+     * @param sortOrder
+     *            the sortOrder to set
+     */
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     /**
