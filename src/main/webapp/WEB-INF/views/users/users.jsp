@@ -1,28 +1,31 @@
-
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="sf"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<c:forEach items="${users}" var="user">
-	<tr>
-		<td>${user.firstName}</td>
-		<td>${user.lastName}</td>
-		<td>${user.mail}</td>
-		<td>${user.position}</td>
-		<td>${subject.role}</td>
-		<td><c:forEach items="${subject.groups}" var="group">
-				<td>${group.name}</td>
-			</c:forEach></td>
-		<td><a href="/users/delete/${user.id}"> delete </a></td>
-		<td><a href="/users/edit/${user.id}"> edit </a></td>
-		<td><a href="/users/banUser/${user.id}"> ban </a></td>
-		<td><a href="/users/unBanUser/${user.id}"> unban </a></td>
-	</tr>
-	<br />
-</c:forEach>
-
+<h3>Users:</h3>
+<div class="table-responsive">
+<table class="table table-hover">
+	<c:forEach items="${users}" var="user">
+		<tr>
+			<td>${user.firstName}</td>
+			<td>${user.lastName}</td>
+			<td>${user.mail}</td>
+			<td>${user.position}</td>
+			<td>${user.role}</td>
+<%-- 			<td><c:forEach items="${user.groups}" var="group">
+					<td>${group.name}</td>
+				</c:forEach></td> --%>
+			<td><a href="users/delete/${user.id}"> delete </a></td>
+			<td><a href="users/edit/${user.id}"> edit </a></td>
+			<td><a href="users/banUser/${user.id}"> ban </a></td>
+			<td><a href="users/unBanUser/${user.id}"> unban </a></td>
+		</tr>
+		<br />
+	</c:forEach>
+</table>
+</div>
 
 <%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>

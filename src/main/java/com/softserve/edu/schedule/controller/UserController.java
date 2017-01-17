@@ -20,57 +20,63 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/users/registration")
+    @RequestMapping(value = "/registration")
     public String newUserPage(Model model) {
         model.addAttribute("userFormCreate", new User());
         return "users/registration";
     }
 
-    @RequestMapping(value = "/users/registration"
+    @RequestMapping(value = "/registration"
             , method = RequestMethod.POST)
     public String newUser(@ModelAttribute("userFormCreate") User user) {
         userService.create(user);
         return "redirect:/";
     }
 
-    @RequestMapping(value = "/users/users")
+    @RequestMapping(value = "/users")
     public String allUserPage(Model model) {
         model.addAttribute("users", userService.getAll());
         return "users/users";
     }
 
-//    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-//    public String allUserPage(@PathVariable("id") Long id, Model model) {
-//        model.addAttribute("user", userService.getById(id));
-//        return "users/users";
-//    }
-
-    @RequestMapping(value = {"/users/users/delete/{id}", "/users/users/edit/delete/{id}" })
+    @RequestMapping("/users/delete/{id}")
     public String delete(@PathVariable Long id) {
         userService.deleteById(id);
         return "redirect:/users";
     }
 
-    @RequestMapping("/users/users/edit/updateUser/{id}")
+    @RequestMapping("/delete/{id}")
+    public String deleteInEdit(@PathVariable Long id) {
+        userService.deleteById(id);
+        return "redirect:/edit";
+    }
+
+    @RequestMapping(value = "/users/edit/{id}")
+    public String edit(@PathVariable Long id, Model model) {
+        model.addAttribute("user", userService.getById(id));
+        return "users/users/edit";
+    }
+
+    @RequestMapping("/users/edit/updateUser/{id}")
     public String getEdit(@PathVariable Long id, Model model) {
         model.addAttribute("userFormUpdate", userService.getById(id));
         return "updateUser";
     }
 
-    @RequestMapping(value = "/users/users/edit/updateUser/saveUpdatedUser/{id}"
+    @RequestMapping(value = "/users/edit/updateUser/saveUpdatedUser/{id}"
             , method = RequestMethod.POST)
     public String updateUser(@ModelAttribute("userFormUpdate") User user) {
         userService.update(user);
         return "redirect:/users/users";
     }
 
-    @RequestMapping("/users/users/edit/updateUserPosition/{id}")
+    @RequestMapping("/users/edit/updateUserPosition/{id}")
     public String getEditPosition(@PathVariable Long id, Model model) {
         model.addAttribute("userFormUpdatePosition", userService.getById(id));
         return "updateUserPosition";
     }
 
-    @RequestMapping(value = "/users/users/edit/updateUserPosition/saveUpdatedUserPosition/{id}"
+    @RequestMapping(value = "/users/edit/updateUserPosition/saveUpdatedUserPosition/{id}"
             , method = RequestMethod.POST)
     public String updateUserPosition(@PathVariable Long id,
             @RequestParam String position) {
@@ -78,28 +84,28 @@ public class UserController {
         return "redirect:/users/users";
     }
 
-    @RequestMapping("/users/users/edit/banUser/{id}")
+    @RequestMapping({"/users/banUser/{id}", "/users/edit/banUser/{id}"})
     public String bunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.BLOCKED;
         userService.changeStatus(id, userStatus);
-        return "redirect:/users/users";
+        return "redirect:/users";
     }
 
-    @RequestMapping({"/users/users/edit/unBanUser/{id}", "/users/users/unBanUser/{id}"})
+    @RequestMapping({"/users/unBanUser/{id}", "/users/edit/unBanUser/{id}"})
     public String unBunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.ACTIVE;
         userService.changeStatus(id, userStatus);
-        return "redirect:/users/users";
+        return "redirect:/users";
     }
 
-    @RequestMapping({"/users/users/edit/changeRole/{id}", "/users/users/edit/changeRole/{id}"})
+    @RequestMapping({"/users/edit/changeRole/{id}", "/users/edit/changeRole/{id}"})
     public String changeRole(@PathVariable Long id, Model model) {
         model.addAttribute("roles", UserRole.values());
         model.addAttribute("user", userService.getById(id));
         return "changeRole";
     }
 
-    @RequestMapping(value = "/users/users/edit/changeRole/saveChangedRole/{id}"
+    @RequestMapping(value = "/users/edit/changeRole/saveChangedRole/{id}"
             , method = RequestMethod.POST)
     public String changeRole(@ModelAttribute User user, @PathVariable Long id
             , @RequestParam UserRole chooseRole) {
