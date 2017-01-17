@@ -2,7 +2,6 @@
 <!DOCTYPE tiles-definitions PUBLIC
        "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
-
 <tiles-definitions>
 
 	<definition name="common" template="/WEB-INF/layout/classic.jsp">
@@ -19,25 +18,19 @@
 		<put-attribute name="title" value="Rooms" />
 		<put-attribute name="body" value="/WEB-INF/views/rooms/list.jsp" />
 	</definition>
-
 	<definition extends="common" name="rooms/show">
 		<put-attribute name="title" value="Room details" />
 		<put-attribute name="body" value="/WEB-INF/views/rooms/show.jsp" />
 	</definition>
-
 	<definition extends="common" name="rooms/edit">
 		<put-attribute name="title" value="Edit room" />
 		<put-attribute name="body" value="/WEB-INF/views/rooms/edit.jsp" />
 	</definition>
-
 	<definition extends="common" name="rooms/create">
 		<put-attribute name="title" value="Create room" />
 		<put-attribute name="body" value="/WEB-INF/views/rooms/create.jsp" />
 	</definition>
 
-<<<<<<< HEAD
-	<definition extends="common" name="locations/home">
-=======
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 	<definition extends="common" name="users/users">
@@ -70,46 +63,33 @@
 	</definition>
 
 <definition extends="common" name="locations/home">
->>>>>>> branch 'dev' of https://github.com/softservedata/lv215.git
 		<put-attribute name="title" value="Locations" />
 		<put-attribute name="body" value="/WEB-INF/views/locations/home.jsp" />
 	</definition>
-
 	<definition extends="common" name="locations/create">
 		<put-attribute name="title" value="Create location" />
-		<put-attribute name="body"
-			value="/WEB-INF/views/locations/create.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/locations/create.jsp" />
 	</definition>
-
 	<definition extends="common" name="locations/edit">
 		<put-attribute name="title" value="Edit location" />
 		<put-attribute name="body" value="/WEB-INF/views/locations/edit.jsp" />
 	</definition>
-	
-		<definition extends="common" name="subjects/list">
-			<put-attribute name="title" value="Subjects" />
-			<put-attribute name="body" value="/WEB-INF/views/subjects/list.jsp" />
-		</definition>
-
-		<definition extends="common" name="subjects/update">
-			<put-attribute name="title" value="Subjects" />
-			<put-attribute name="body"
-				value="/WEB-INF/views/subjects/create.jsp" />
-		</definition>
-
-<<<<<<< HEAD
-		<definition extends="common" name="subjects/create">
-			<put-attribute name="title" value="Create Subject" />
-			<put-attribute name="body"
-				value="/WEB-INF/views/subjects/create.jsp" />
-		</definition>
-
-		<definition extends="common" name="subjects/edit">
-			<put-attribute name="title" value="Edit Subject" />
-			<put-attribute name="body" value="/WEB-INF/views/subjects/edit.jsp" />
-		</definition>
-=======
+	<definition extends="common" name="subjects/list">
+		<put-attribute name="title" value="Subjects" />
+		<put-attribute name="body" value="/WEB-INF/views/subjects/list.jsp" />
 	</definition>
->>>>>>> branch 'dev' of https://github.com/softservedata/lv215.git
+		<definition extends="common" name="subjects/update">
+		<put-attribute name="title" value="Subjects" />
+		<put-attribute name="body" value="/WEB-INF/views/subjects/create.jsp" />
+	</definition>
+	<definition extends="common" name="subjects/create">
+		<put-attribute name="title" value="Create Subject" />
+		<put-attribute name="body" value="/WEB-INF/views/subjects/create.jsp" />
+	</definition>
+		<definition extends="common" name="subjects/edit">
+		<put-attribute name="title" value="Edit Subject" />
+		<put-attribute name="body" value="/WEB-INF/views/subjects/edit.jsp" />
+
+	</definition>
 
 </tiles-definitions>
