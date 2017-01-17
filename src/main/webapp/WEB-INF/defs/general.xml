@@ -31,6 +31,37 @@
 		<put-attribute name="body" value="/WEB-INF/views/rooms/create.jsp" />
 	</definition>
 
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<definition extends="common" name="users/users">
+		<put-attribute name="title" value="Users" />
+		<put-attribute name="body" value="/WEB-INF/views/users/users.jsp" />
+	</definition>
+	<definition extends="common" name="users/registration">
+		<put-attribute name="title" value="Registration" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/registration.jsp" />
+	</definition>
+	<definition extends="common" name="users/users/edit">
+		<put-attribute name="title" value="Edit" />
+		<put-attribute name="body" value="/WEB-INF/views/users/edit.jsp" />
+	</definition>
+	<definition extends="common" name="users/users/edit/updateUser">
+		<put-attribute name="title" value="Update" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/updateUser.jsp" />
+	</definition>
+	<definition extends="common" name="users/users/edit/updateUserPosition">
+		<put-attribute name="title" value="Change position" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/updateUserPosition.jsp" />
+	</definition>
+	<definition extends="common" name="users/users/edit/changeRole">
+		<put-attribute name="title" value="Change role" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/changeRole.jsp" />
+	</definition>
+
 <definition extends="common" name="locations/home">
 		<put-attribute name="title" value="Locations" />
 		<put-attribute name="body" value="/WEB-INF/views/locations/home.jsp" />
@@ -60,4 +91,5 @@
 		<put-attribute name="body" value="/WEB-INF/views/subjects/edit.jsp" />
 
 	</definition>
+
 </tiles-definitions>
