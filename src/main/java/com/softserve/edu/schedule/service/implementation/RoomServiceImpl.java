@@ -14,6 +14,7 @@ import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
+import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Location;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.RoomEquipment;
@@ -202,9 +203,6 @@ public class RoomServiceImpl implements RoomService {
                 .collect(Collectors.toList());
         return roomDAO.getRoomsWithEquipments(re).stream().map(e -> getDTO(e))
                 .collect(Collectors.toList());
-        // return roomDAO.getAllWithDetails().stream().map(e -> getDTO(e))
-        // .filter(e -> e.getEquipments().containsAll(equipments))
-        // .collect(Collectors.toList());
     }
 
     /**
@@ -317,6 +315,13 @@ public class RoomServiceImpl implements RoomService {
             return roomDTO;
         }
         return null;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<RoomDTO> getRoomsWithFilter(RoomFilter roomFilter) {
+        return roomDAO.getRoomsWithFilter(roomFilter).stream()
+                .map(e -> getDTO(e)).collect(Collectors.toList());
     }
 
 }

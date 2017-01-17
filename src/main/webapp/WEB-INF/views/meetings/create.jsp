@@ -3,13 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
-<script type="text/javascript">
-$(function(){
-	$("select[name=location]").chosen({width: "50%"});
-	$("select[name=equipments]").chosen({width: "50%"});	
-})
-</script>
-
 <div class="row">
 	<div class="col-md-6">
 		<h3>Add room</h3>
