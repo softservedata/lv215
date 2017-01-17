@@ -67,3 +67,5 @@ hs_err_pid*
 
 # bower
 bower_components
+# db.properties
+/src/main/webapp/WEB-INF/db.properties

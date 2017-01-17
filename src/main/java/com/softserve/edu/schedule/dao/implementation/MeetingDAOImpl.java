@@ -217,18 +217,16 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     @Override
     public List<Meeting> searchByDescription(String pattern) {
 
-        return this.searchBySubject(pattern);
-        // TODO
-        // CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        // CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        // Root<Meeting> root = cq.from(Meeting.class);
-        //
-        // Join<Meeting, String> joinLevel = root.join(Meeting_.description);
-        // Predicate predicate =
-        // builder.like(joinLevel.get(Meeting_.description),
-        // SEARCH_MASK + pattern + SEARCH_MASK);
-        // cq.where(predicate);
-        // return getEm().createQuery(cq).getResultList();
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+
+        Join<Meeting, String> joinDescription = root.join(Meeting_.description);
+        Predicate predicate = builder.like(
+                joinDescription.get(Meeting_.description.toString()),
+                SEARCH_MASK + pattern + SEARCH_MASK);
+        cq.where(predicate);
+        return getEm().createQuery(cq).getResultList();
     }
 
 }

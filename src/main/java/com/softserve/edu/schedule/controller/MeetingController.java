@@ -1,7 +1,5 @@
 package com.softserve.edu.schedule.controller;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,23 +13,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
-import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.service.LocationService;
+import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.RoomService;
+import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.editor.LocationDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomEquipmentDTOEditor;
 
-@RequestMapping("/rooms")
+@RequestMapping("/meetings")
 @Controller
-public class RoomController {
+public class MeetingController {
 
     @Autowired
-    private RoomService roomService;
+    private MeetingService meetingService;
 
     @Autowired
     private LocationService locationService;
-
+    
+    @Autowired
+    private RoomService roomService;
+    
+    @Autowired
+    private SubjectService subjectService;
+    
+    
     @Autowired
     private RoomEquipmentService roomEquipmentService;
 
@@ -49,12 +55,10 @@ public class RoomController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String listRooms(Model model,
-            @ModelAttribute("filter") @Valid RoomFilter filter) {
-        model.addAttribute("rooms", roomService.getRoomsWithFilter(filter));
+    public String listRooms(Model model) {
+        model.addAttribute("rooms", roomService.getAllWithDetails());
         model.addAttribute("locations", locationService.getAll());
         model.addAttribute("equipments", roomEquipmentService.getAll());
-        model.addAttribute("filter", filter);
         return "rooms/list";
     }
 

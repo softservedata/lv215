@@ -7,7 +7,15 @@
 <div class="row">
 	<p>Hello. This is start page :)</p>
 	<p><a href="rooms">Rooms</a>
+
 	<p><a href="locations">Locations</a>
+
+
+	<p><a href="subjects">Subjects</a>
+
+	<p><a href="meetings">Meetings</a>
+
+
 </div>
 
 <%-- <c:if test="${param.fail eq true}">
