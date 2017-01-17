@@ -33,8 +33,10 @@
 				class="fa fa-arrow-circle-o-down"></i></a></th>
 		<th>Role</th>
 		<th>Group</th>
-
-		<th><a href="${pageContext.request.contextPath}/locations/create"><i
+		<th></th>
+		<th></th>
+		<th><a
+			href="${pageContext.request.contextPath}/users/registration"><i
 				class="fa fa-plus"></i></a></th>
 	</tr>
 	<c:forEach items="${users}" var="user">
@@ -51,14 +53,21 @@
 				<td><a href="users/edit/${user.id}"> edit </a></td>
 				<td><a href="users/banUser/${user.id}"> ban </a></td>
 				<td><a href="users/unBanUser/${user.id}"> unban </a></td> --%>
-			<td><a href="${pageContext.request.contextPath}/users/delete/${user.id}"><i
-						class="fa fa-trash-o"></i></a></td>
-			<td><a href="${pageContext.request.contextPath}/users/edit/${user.id}">
-					<i class="fa fa-pencil-square-o"></i></a></td>
-			<td><a href="${pageContext.request.contextPath}/users/banUser/${user.id}">
-					<i class="fa fa-ban"></i></a></td>
-			<td><a href="${pageContext.request.contextPath}/users/unBanUser/${user.id}">
-					<i class="fa fa-check-circle-o"></i></a></td>
+			<td><a
+				href="${pageContext.request.contextPath}/users/delete/${user.id}"><i
+					class="fa fa-trash-o"></i></a></td>
+			<td><a
+				href="${pageContext.request.contextPath}/users/edit/${user.id}">
+					<i class="fa fa-pencil-square-o"></i>
+			</a></td>
+			<td><a
+				href="${pageContext.request.contextPath}/users/banUser/${user.id}">
+					<i class="fa fa-ban"></i>
+			</a></td>
+			<td><a
+				href="${pageContext.request.contextPath}/users/unBanUser/${user.id}">
+					<i class="fa fa-check-circle-o"></i>
+			</a></td>
 		</tr>
 		<br />
 	</c:forEach>

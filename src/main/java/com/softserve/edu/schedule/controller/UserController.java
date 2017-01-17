@@ -21,7 +21,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/registration")
+    @RequestMapping(value = {"/registration", "users/registration"})
     public String newUserPage(Model model) {
         model.addAttribute("userFormCreate", new User());
         return "users/registration";
