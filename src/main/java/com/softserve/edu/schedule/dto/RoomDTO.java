@@ -89,5 +89,4 @@ public class RoomDTO {
     public void setEquipments(List<RoomEquipmentDTO> equipments) {
         this.equipments = equipments;
     }
-
 }

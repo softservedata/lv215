@@ -1,6 +1,9 @@
 package com.softserve.edu.schedule.dto.filter;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 
 public class RoomFilter {
 
@@ -12,7 +15,7 @@ public class RoomFilter {
 
     private int maxCapacity;
 
-    private List<Long> equipmentIds;
+    private List<RoomEquipmentDTO> equipments = new ArrayList<>();
 
     /**
      * @return the locationId
@@ -43,10 +46,10 @@ public class RoomFilter {
     }
 
     /**
-     * @return the equipmentIds
+     * @return the equipments
      */
-    public List<Long> getEquipmentIds() {
-        return equipmentIds;
+    public List<RoomEquipmentDTO> getEquipments() {
+        return equipments;
     }
 
     /**
@@ -82,11 +85,11 @@ public class RoomFilter {
     }
 
     /**
-     * @param equipmentIds
-     *            the equipmentIds to set
+     * @param equipments
+     *            the equipments to set
      */
-    public void setEquipmentIds(List<Long> equipmentIds) {
-        this.equipmentIds = equipmentIds;
+    public void setEquipments(List<RoomEquipmentDTO> equipments) {
+        this.equipments = equipments;
     }
 
 }

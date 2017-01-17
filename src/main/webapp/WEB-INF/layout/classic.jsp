@@ -8,10 +8,11 @@
 <meta charset="utf-8">
 
 <spring:url value="/resources/css/main.css" var="mainCss" />
+<spring:url value="/resources/img/favicon.ico" var="favico" />
 <spring:url value="/resources/chosen_v1.6.2/chosen.min.css" var="chosenCSS" />
 <spring:url value="/resources/chosen_v1.6.2/chosen.jquery.min.js" var="chosenJs" />
 
-<link href="/resources/img/favicon.ico" rel="shortcut icon">
+<link href="${favico}" rel="shortcut icon">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
 	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
