@@ -61,7 +61,6 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/changeRole.jsp" />
 	</definition>
-
 	<definition extends="common" name="locations/list">
 		<put-attribute name="title" value="Locations" />
 		<put-attribute name="body" value="/WEB-INF/views/locations/list.jsp" />
@@ -87,11 +86,12 @@
 		<put-attribute name="title" value="Create Subject" />
 		<put-attribute name="body" value="/WEB-INF/views/subjects/create.jsp" />
 	</definition>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2647a50e836fe12d3f69429365885a3fe3374746
 	<definition extends="common" name="subjects/edit">
 		<put-attribute name="title" value="Edit Subject" />
 		<put-attribute name="body" value="/WEB-INF/views/subjects/edit.jsp" />
-
 	</definition>
-
 </tiles-definitions>

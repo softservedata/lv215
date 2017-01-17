@@ -8,17 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.schedule.dao.LocationDAO;
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
-import com.softserve.edu.schedule.entity.Location;
-import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.service.RoomService;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomDTOConverter;
 
 /**
  * A class to provide service operations with Room entity.
@@ -30,6 +28,7 @@ import com.softserve.edu.schedule.service.RoomService;
  * @since 1.8
  */
 @Service("roomService")
+@Transactional
 public class RoomServiceImpl implements RoomService {
 
     /**
@@ -39,16 +38,16 @@ public class RoomServiceImpl implements RoomService {
     private RoomDAO roomDAO;
 
     /**
-     * LocationDAO example to provide database operations.
-     */
-    @Autowired
-    private LocationDAO locationDAO;
-
-    /**
      * RoomEquipmentDAO example to provide database operations.
      */
     @Autowired
     private RoomEquipmentDAO roomEquipmentDAO;
+
+    /**
+     * RoomDTOConverter example to provide to DTO and from DTO conversion.
+     */
+    @Autowired
+    private RoomDTOConverter roomDTOConverter;
 
     /**
      * Save new room entity into the database.
@@ -57,9 +56,8 @@ public class RoomServiceImpl implements RoomService {
      *            a new room DTO to storage in database.
      */
     @Override
-    @Transactional
     public void create(final RoomDTO roomDTO) {
-        roomDAO.create(getEntity(roomDTO));
+        roomDAO.create(roomDTOConverter.getEntity(roomDTO));
     }
 
     /**
@@ -69,9 +67,8 @@ public class RoomServiceImpl implements RoomService {
      *            a room DTO to update in database.
      */
     @Override
-    @Transactional
     public void update(final RoomDTO roomDTO) {
-        roomDAO.update(getEntity(roomDTO));
+        roomDAO.update(roomDTOConverter.getEntity(roomDTO));
     }
 
     /**
@@ -85,7 +82,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public RoomDTO getById(final Long id) {
-        return getDTO(roomDAO.getById(id));
+        return roomDTOConverter.getDTO(roomDAO.getById(id));
     }
 
     /**
@@ -98,7 +95,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public RoomDTO getByName(final String roomName) {
-        return getDTO(roomDAO.getByName(roomName));
+        return roomDTOConverter.getDTO(roomDAO.getByName(roomName));
     }
 
     /**
@@ -108,9 +105,8 @@ public class RoomServiceImpl implements RoomService {
      *            a room DTO object to delete from database.
      */
     @Override
-    @Transactional
     public void delete(final RoomDTO roomDTO) {
-        roomDAO.delete(getEntity(roomDTO));
+        roomDAO.delete(roomDTOConverter.getEntity(roomDTO));
     }
 
     /**
@@ -120,7 +116,6 @@ public class RoomServiceImpl implements RoomService {
      *            a room id to delete from database.
      */
     @Override
-    @Transactional
     public void deleteById(final Long id) {
         roomDAO.deleteById(id);
     }
@@ -133,7 +128,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public List<RoomDTO> getAll() {
-        return roomDAO.getAll().stream().map(e -> getDTO(e))
+        return roomDAO.getAll().stream().map(e -> roomDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
 
@@ -146,7 +141,8 @@ public class RoomServiceImpl implements RoomService {
     @Override
     @Transactional(readOnly = true)
     public List<RoomDTO> getAllWithDetails() {
-        return roomDAO.getAllWithDetails().stream().map(e -> getDTO(e))
+        return roomDAO.getAllWithDetails().stream()
+                .map(e -> roomDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
 
@@ -166,7 +162,8 @@ public class RoomServiceImpl implements RoomService {
     public List<RoomDTO> getRoomsByCapacity(final int minCapacity,
             final int maxCapacity) {
         return roomDAO.getRoomsByCapacity(minCapacity, maxCapacity).stream()
-                .map(e -> getDTO(e)).collect(Collectors.toList());
+                .map(e -> roomDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -182,7 +179,8 @@ public class RoomServiceImpl implements RoomService {
     @Transactional(readOnly = true)
     public List<RoomDTO> getRoomsByLocation(final LocationDTO location) {
         return roomDAO.getRoomsByLocationId(location.getId()).stream()
-                .map(e -> getDTO(e)).collect(Collectors.toList());
+                .map(e -> roomDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -201,127 +199,25 @@ public class RoomServiceImpl implements RoomService {
         List<RoomEquipment> re = equipments.stream()
                 .map(e -> roomEquipmentDAO.getById(e.getId()))
                 .collect(Collectors.toList());
-        return roomDAO.getRoomsWithEquipments(re).stream().map(e -> getDTO(e))
+        return roomDAO.getRoomsWithEquipments(re).stream()
+                .map(e -> roomDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
 
     /**
-     * Add equipment to the room.
+     * Find all rooms entities in the database with applied filter
      * 
-     * @param id
-     *            room id to add equipment
+     * @param roomFilter
+     *            a filter to apply.
      * 
-     * @param equipmentID
-     *            equipment id to add to room
-     * 
+     * @return List of the room DTO objects.
      */
-    @Override
-    @Transactional
-    public void addEquipment(Long id, Long equipmentID) {
-        Room room = roomDAO.getById(id);
-        RoomEquipment equipment = roomEquipmentDAO.getById(equipmentID);
-        room.getEquipments().add(equipment);
-    }
-
-    /**
-     * Delete equipment from the room.
-     * 
-     * @param id
-     *            room id to delete equipment
-     * 
-     * @param equipmentID
-     *            equipment id to delete from room
-     * 
-     */
-    @Override
-    @Transactional
-    public void deleteEquipment(Long id, Long equipmentID) {
-        Room room = roomDAO.getById(id);
-        room.getEquipments().removeIf((e) -> e.getId() == equipmentID);
-    }
-
-    /**
-     * Convert given RoomDTO object to Room object
-     * 
-     * @param roomDTO
-     *            a RoomDTO object to convert.
-     * 
-     * @return a Room object or null if given @param roomDTO is null.
-     */
-    @Override
-    public Room getEntity(RoomDTO roomDTO) {
-        if (roomDTO != null) {
-            Room room = new Room();
-            if (roomDTO.getId() != null) {
-                room.setId(roomDTO.getId());
-            }
-            if (roomDTO.getLocation() != null) {
-                room.setLocation(
-                        locationDAO.getById(roomDTO.getLocation().getId()));
-            }
-            if (roomDTO.getName() != null) {
-                room.setName(roomDTO.getName());
-            }
-            if (roomDTO.getCapacity() != null) {
-                room.setCapacity(Integer.parseInt(roomDTO.getCapacity()));
-            }
-            if (roomDTO.getEquipments() != null) {
-                roomDTO.getEquipments().forEach(e -> room.getEquipments()
-                        .add(roomEquipmentDAO.getById(e.getId())));
-            }
-            return room;
-        }
-        return null;
-    }
-
-    /**
-     * Convert given Room object to RoomDTO object.
-     * 
-     * @param room
-     *            a Room object to convert.
-     * 
-     * @return a RoomDTO object or null if given @param room is null.
-     */
-    @Override
-    public RoomDTO getDTO(Room room) {
-        if (room != null) {
-            RoomDTO roomDTO = new RoomDTO();
-            if (room.getId() != null) {
-                roomDTO.setId(room.getId());
-            }
-            if (room.getName() != null) {
-                roomDTO.setName(room.getName());
-            }
-            if (room.getCapacity() != null) {
-                roomDTO.setCapacity(String.valueOf(room.getCapacity()));
-            }
-            if (room.getLocation() != null) {
-                Location location = room.getLocation();
-                LocationDTO locationDTO = new LocationDTO();
-                locationDTO.setId(location.getId());
-                locationDTO.setName(location.getName());
-                locationDTO.setAddress(location.getAddress());
-                locationDTO.setCoordinates(location.getCoordinates());
-                roomDTO.setLocation(locationDTO);
-            }
-            if (room.getEquipments() != null) {
-                room.getEquipments().forEach(e -> {
-                    RoomEquipmentDTO reDTO = new RoomEquipmentDTO();
-                    reDTO.setId(e.getId());
-                    reDTO.setName(e.getName());
-                    roomDTO.getEquipments().add(reDTO);
-                });
-            }
-            return roomDTO;
-        }
-        return null;
-    }
-
     @Override
     @Transactional(readOnly = true)
     public List<RoomDTO> getRoomsWithFilter(RoomFilter roomFilter) {
         return roomDAO.getRoomsWithFilter(roomFilter).stream()
-                .map(e -> getDTO(e)).collect(Collectors.toList());
+                .map(e -> roomDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
     }
 
 }

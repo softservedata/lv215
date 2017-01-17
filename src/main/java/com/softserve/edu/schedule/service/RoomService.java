@@ -7,7 +7,6 @@ import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
-import com.softserve.edu.schedule.entity.Room;
 
 /**
  * An interface to provide service operations with Room entity.
@@ -132,49 +131,5 @@ public interface RoomService {
      * @return List of the room DTO objects.
      */
     List<RoomDTO> getRoomsWithFilter(final RoomFilter roomFilter);
-
-    /**
-     * Add equipment to the room.
-     * 
-     * @param id
-     *            room id to add equipment
-     * 
-     * @param equipmentID
-     *            equipment id to add to room
-     * 
-     */
-    void addEquipment(final Long id, final Long equipmentID);
-
-    /**
-     * Delete equipment from the room.
-     * 
-     * @param id
-     *            room id to delete equipment
-     * 
-     * @param equipmentID
-     *            equipment id to delete from room
-     * 
-     */
-    void deleteEquipment(final Long id, final Long equipmentID);
-
-    /**
-     * Convert given RoomDTO object to Room object
-     * 
-     * @param roomDTO
-     *            a RoomDTO object to convert.
-     * 
-     * @return a Room object or null if given @param roomDTO is null.
-     */
-    Room getEntity(final RoomDTO roomDTO);
-
-    /**
-     * Convert given Room object to RoomDTO object
-     * 
-     * @param room
-     *            a Room object to convert.
-     * 
-     * @return a RoomDTO object or null if given @param room is null.
-     */
-    RoomDTO getDTO(final Room room);
 
 }

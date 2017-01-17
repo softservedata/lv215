@@ -19,7 +19,24 @@
 		<form:form method="post" modelAttribute="subjectForm">
 			<form:hidden path="id" />
 			<form:input path="name" placeholder="Subject name" />
-			<form:input path="description" placeholder="Address" />
+			<form:input type="textarea" path="description"
+				placeholder="Subject description" />
+			<form:select path="users" id="users" multiple="multiple">
+				<c:forEach items="${users}" var="user">
+					<c:forEach items="${subjectForm.users}" var="userInSubject">
+						<c:choose>
+							<c:when test="${userInSubject.id eq user.id}">
+								<option value="${user.id}" selected="selected">${user.firstName}
+									${user.lastName}</option>
+							</c:when>
+						</c:choose>
+					</c:forEach>
+				</c:forEach>
+				<c:forEach items="${users}" var="user">
+					<option value="${user.id}">${user.firstName}
+						${user.lastName}</option>
+				</c:forEach>
+			</form:select>
 			<input type="submit" value="Register" />
 		</form:form>
 	</div>

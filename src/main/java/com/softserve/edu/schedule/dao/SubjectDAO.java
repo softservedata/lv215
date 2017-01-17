@@ -33,6 +33,15 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      * @return List of searched Subject transfer objects
      */
     List<Subject> getAllWithDetails();
+    
+    /**
+     * Return a Subject object if found.
+     *
+     * @param id
+     *            of Subject object
+     * @return room with given id
+     */
+    Subject getByIdWhithDetails(final Long id);
 
     /**
      * Return a List of searched Subjects fetching Users sorted by name.

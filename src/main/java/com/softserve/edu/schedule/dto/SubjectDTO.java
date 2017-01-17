@@ -23,11 +23,6 @@ public class SubjectDTO {
     private List<UserDTO> users = new ArrayList<>();
 
     /**
-     * List of meetings with this subject.
-     */
-    private List<MeetingDTO> meetings = new ArrayList<>();
-
-    /**
      * @return the id
      */
     public Long getId() {
@@ -86,20 +81,4 @@ public class SubjectDTO {
     public void setUsers(List<UserDTO> users) {
         this.users = users;
     }
-
-    /**
-     * @return the meetings
-     */
-    public List<MeetingDTO> getMeetings() {
-        return meetings;
-    }
-
-    /**
-     * @param meetings
-     *            the meetings to set
-     */
-    public void setMeetings(List<MeetingDTO> meetings) {
-        this.meetings = meetings;
-    }
-
 }

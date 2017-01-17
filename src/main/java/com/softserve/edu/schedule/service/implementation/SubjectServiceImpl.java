@@ -71,6 +71,18 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
+     * Return a Subject object if found.
+     *
+     * @param id
+     *            of Subject object
+     * @return room with given id
+     */
+    @Override
+    public Subject getByIdWhithDetails(Long id) {
+        return subjectDao.getByIdWhithDetails(id);
+    }
+    
+    /**
      * Return a List of Subject objects.
      *
      * @return List of Subject objects
@@ -188,4 +200,6 @@ public class SubjectServiceImpl implements SubjectService {
     public List<Subject> searchTutors(final String pattern) {
         return subjectDao.searchTutors(pattern);
     }
+
+
 }

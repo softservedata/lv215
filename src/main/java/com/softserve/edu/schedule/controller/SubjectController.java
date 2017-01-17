@@ -3,6 +3,8 @@ package com.softserve.edu.schedule.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.entity.Subject;
+import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserService;
+import com.softserve.edu.schedule.service.implementation.editor.UserEditor;
 
 @RequestMapping("/subjects")
 @Controller
@@ -22,7 +26,13 @@ public class SubjectController {
 
     @Autowired
     private UserService userService;
-
+    
+    @InitBinder("subjectForm")
+    protected void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(User.class,
+                new UserEditor(userService));
+    }
+    
     @RequestMapping(method = RequestMethod.GET)
     public String showSubjectPage(Model model) {
         model.addAttribute("subjects", subjectService.getAllWithDetails());
@@ -57,7 +67,7 @@ public class SubjectController {
     
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("subjectForm", subjectService.getById(id));
+        model.addAttribute("subjectForm", subjectService.getByIdWhithDetails(id));
         model.addAttribute("users", userService.getAll());
         return "subjects/edit";
     }
