@@ -39,16 +39,10 @@ public class UserController {
         return "users/users";
     }
 
-    @RequestMapping("/users/delete/{id}")
+    @RequestMapping({"/users/delete/{id}", "/users/edit/delete/{id}"})
     public String delete(@PathVariable Long id) {
         userService.deleteById(id);
         return "redirect:/users";
-    }
-
-    @RequestMapping("/delete/{id}")
-    public String deleteInEdit(@PathVariable Long id) {
-        userService.deleteById(id);
-        return "redirect:/edit";
     }
 
     @RequestMapping(value = "/users/edit/{id}")
