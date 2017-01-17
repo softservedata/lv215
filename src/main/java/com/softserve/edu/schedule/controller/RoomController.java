@@ -1,5 +1,7 @@
 package com.softserve.edu.schedule.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
+import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.RoomService;
@@ -46,10 +49,12 @@ public class RoomController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public String listRooms(Model model) {
-        model.addAttribute("rooms", roomService.getAllWithDetails());
+    public String listRooms(Model model,
+            @ModelAttribute("filter") @Valid RoomFilter filter) {
+        model.addAttribute("rooms", roomService.getRoomsWithFilter(filter));
         model.addAttribute("locations", locationService.getAll());
         model.addAttribute("equipments", roomEquipmentService.getAll());
+        model.addAttribute("filter", filter);
         return "rooms/list";
     }
 
