@@ -36,7 +36,7 @@ public class UserController {
 
     @RequestMapping(value = "/users")
     public String allUserPage(Model model) {
-        model.addAttribute("users", userService.getAll());
+        model.addAttribute("users", userService.getAllWithDetails());
         return "users/users";
     }
 
