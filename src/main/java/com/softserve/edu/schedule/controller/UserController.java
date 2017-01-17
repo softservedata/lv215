@@ -93,11 +93,11 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @RequestMapping({"/users/edit/changeRole/{id}", "/users/edit/changeRole/{id}"})
+    @RequestMapping({"/users/edit/changeRole/{id}"})
     public String changeRole(@PathVariable Long id, Model model) {
         model.addAttribute("roles", UserRole.values());
         model.addAttribute("user", userService.getById(id));
-        return "changeRole";
+        return "users/users/edit/changeRole";
     }
 
     @RequestMapping(value = "/users/edit/changeRole/saveChangedRole/{id}"
@@ -108,15 +108,39 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @RequestMapping("/sortbyfirstnameasc")
-    public String sortByNameAsc(Model model) {
+    @RequestMapping("/users/sortbyfirstnameasc")
+    public String sortByFirstNameAsc(Model model) {
         model.addAttribute("users", userService.sort("firstName", Order.ASC));
         return "users/users";
     }
 
-    @RequestMapping("/sortbyfirstnamedesc")
-    public String sortByNameDesc(Model model) {
+    @RequestMapping("/users/sortbyfirstnamedesc")
+    public String sortByFirstNameDesc(Model model) {
         model.addAttribute("users", userService.sort("firstName", Order.DESC));
+        return "users/users";
+    }
+
+    @RequestMapping("/users/sortbylastnameasc")
+    public String sortByLastNameAsc(Model model) {
+        model.addAttribute("users", userService.sort("lastName", Order.ASC));
+        return "users/users";
+    }
+
+    @RequestMapping("/users/sortbylastnamedesc")
+    public String sortByLastNameDesc(Model model) {
+        model.addAttribute("users", userService.sort("lastName", Order.DESC));
+        return "users/users";
+    }
+
+    @RequestMapping("/users/sortbypositionasc")
+    public String sortByPositionAsc(Model model) {
+        model.addAttribute("users", userService.sort("position", Order.ASC));
+        return "users/users";
+    }
+
+    @RequestMapping("/users/sortbypositiondesc")
+    public String sortByPositionDesc(Model model) {
+        model.addAttribute("users", userService.sort("position", Order.DESC));
         return "users/users";
     }
 }
