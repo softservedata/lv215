@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
@@ -54,20 +55,20 @@ public class UserController {
     @RequestMapping("/users/edit/updateUser/{id}")
     public String getEdit(@PathVariable Long id, Model model) {
         model.addAttribute("userFormUpdate", userService.getById(id));
-        return "updateUser";
+        return "users/users/edit/updateUser";
     }
 
     @RequestMapping(value = "/users/edit/updateUser/saveUpdatedUser/{id}"
             , method = RequestMethod.POST)
     public String updateUser(@ModelAttribute("userFormUpdate") User user) {
         userService.update(user);
-        return "redirect:/users/users";
+        return "redirect:/users";
     }
 
     @RequestMapping("/users/edit/updateUserPosition/{id}")
     public String getEditPosition(@PathVariable Long id, Model model) {
         model.addAttribute("userFormUpdatePosition", userService.getById(id));
-        return "updateUserPosition";
+        return "users/users/edit/updateUserPosition";
     }
 
     @RequestMapping(value = "/users/edit/updateUserPosition/saveUpdatedUserPosition/{id}"
@@ -75,7 +76,7 @@ public class UserController {
     public String updateUserPosition(@PathVariable Long id,
             @RequestParam String position) {
         userService.changePosition(id, position);
-        return "redirect:/users/users";
+        return "redirect:/users";
     }
 
     @RequestMapping({"/users/banUser/{id}", "/users/edit/banUser/{id}"})
@@ -104,7 +105,18 @@ public class UserController {
     public String changeRole(@ModelAttribute User user, @PathVariable Long id
             , @RequestParam UserRole chooseRole) {
         userService.changeRole(id, chooseRole);
-        return "redirect:/users/users";
+        return "redirect:/users";
     }
 
+    @RequestMapping("/sortbyfirstnameasc")
+    public String sortByNameAsc(Model model) {
+        model.addAttribute("users", userService.sort("firstName", Order.ASC));
+        return "users/users";
+    }
+
+    @RequestMapping("/sortbyfirstnamedesc")
+    public String sortByNameDesc(Model model) {
+        model.addAttribute("users", userService.sort("firstName", Order.DESC));
+        return "users/users";
+    }
 }

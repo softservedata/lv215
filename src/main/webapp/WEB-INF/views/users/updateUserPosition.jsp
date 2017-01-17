@@ -7,12 +7,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Update</title>
+<title>Update Position: ${userFormUpdatePosition.lastName}, ${userFormUpdatePosition.firstName}</title>
 </head>
 <body>
-
-	${userFormUpdatePosition.firstName}
-	${userFormUpdatePosition.lastName}
 
 	<form:form
 		action="/shedule/users/updateUserPosition/saveUpdatedUserPosition/${userFormUpdatePosition.id}"
