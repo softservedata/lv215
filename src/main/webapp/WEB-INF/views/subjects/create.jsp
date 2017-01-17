@@ -19,8 +19,8 @@
 		ADD SUBJECT
 		<form:form method="post" modelAttribute="subjectForm">
 			<form:input path="name" placeholder="Subject name" />
-			<form:input type="textarea" path="description" placeholder="Address" />
-			<form:select path="users"
+			<form:input type="textarea" path="description" placeholder="Subject description" />
+			<form:select path="users" id="users"
 				multiple="multiple">
 				<c:forEach items="${users}" var="user">
 					<option value="${user.id}">${user.firstName} ${user.lastName}</option>
