@@ -6,11 +6,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/main.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
-<meta charset="UTF-8">
 <title>Subject</title>
 </head>
 <body>
