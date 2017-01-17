@@ -126,4 +126,14 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
+    @Override
+    public Subject getByIdWhithDetails(final Long id) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
+        Root<Subject> root = cq.from(Subject.class);
+        root.fetch(Subject_.users, JoinType.LEFT);
+        cq.where(root.get(Subject_.id).in(id));
+        return getEm().createQuery(cq).getSingleResult();
+    }
+
 }

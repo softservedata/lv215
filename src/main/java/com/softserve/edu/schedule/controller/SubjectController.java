@@ -67,7 +67,7 @@ public class SubjectController {
     
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("subjectForm", subjectService.getById(id));
+        model.addAttribute("subjectForm", subjectService.getByIdWhithDetails(id));
         model.addAttribute("users", userService.getAll());
         return "subjects/edit";
     }
