@@ -42,7 +42,7 @@
 	<definition extends="common" name="locations/edit">
 		<put-attribute name="title" value="Edit location" />
 		<put-attribute name="body" value="/WEB-INF/views/locations/edit.jsp" />
-
+</definition>
 	<definition extends="common" name="subjects/list">
 		<put-attribute name="title" value="Subjects" />
 		<put-attribute name="body" value="/WEB-INF/views/subjects/list.jsp" />
@@ -55,6 +55,7 @@
 		<put-attribute name="title" value="Create Subject" />
 		<put-attribute name="body" value="/WEB-INF/views/subjects/create.jsp" />
 	</definition>
+	
 		<definition extends="common" name="subjects/edit">
 		<put-attribute name="title" value="Edit Subject" />
 		<put-attribute name="body" value="/WEB-INF/views/subjects/edit.jsp" />
