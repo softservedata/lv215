@@ -20,50 +20,50 @@ public class LocationController {
 	private LocationService locationService;
 
 	@RequestMapping()
-	public String showHome(Model model) {
+	public String showList(Model model) {
 		model.addAttribute("locations", locationService.getAllWithDetails());
-		return "locations/home";
+		return "locations/list";
 	}
 
 	@RequestMapping("/sortbynameasc")
 	public String sortByNameAsc(Model model) {
 		model.addAttribute("locations", locationService.sortByFields("name", Order.ASC));
-		return "locations/home";
+		return "locations/list";
 
 	}
 
 	@RequestMapping("/sortbynamedesc")
 	public String sortByNameDesc(Model model) {
 		model.addAttribute("locations", locationService.sortByFields("name", Order.DESC));
-		return "locations/home";
+		return "locations/list";
 
 	}
 
 	@RequestMapping("/sortbyaddressasc")
 	public String sortByAddressAsc(Model model) {
 		model.addAttribute("locations", locationService.sortByFields("address", Order.ASC));
-		return "locations/home";
+		return "locations/list";
 
 	}
 
 	@RequestMapping("/sortbyaddressdesc")
 	public String sortByAddressDesc(Model model) {
 		model.addAttribute("locations", locationService.sortByFields("address", Order.DESC));
-		return "locations/home";
+		return "locations/list";
 
 	}
 
 	@RequestMapping("/sortbycountroomsasc")
 	public String sortByCountRoomsAsc(Model model) {
 		model.addAttribute("locations", locationService.sortByCountRooms(Order.ASC));
-		return "locations/home";
+		return "locations/list";
 
 	}
 
 	@RequestMapping("/sortbycountroomsdesc")
 	public String sortByCountRoomsDesc(Model model) {
 		model.addAttribute("locations", locationService.sortByCountRooms(Order.DESC));
-		return "locations/home";
+		return "locations/list";
 
 	}
 

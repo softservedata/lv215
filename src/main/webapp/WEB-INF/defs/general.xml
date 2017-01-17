@@ -62,9 +62,9 @@
 			value="/WEB-INF/views/users/changeRole.jsp" />
 	</definition>
 
-	<definition extends="common" name="locations/home">
+	<definition extends="common" name="locations/list">
 		<put-attribute name="title" value="Locations" />
-		<put-attribute name="body" value="/WEB-INF/views/locations/home.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/locations/list.jsp" />
 	</definition>
 	<definition extends="common" name="locations/create">
 		<put-attribute name="title" value="Create location" />

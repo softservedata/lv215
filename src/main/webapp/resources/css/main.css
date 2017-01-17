@@ -1,18 +1,16 @@
-body, html {
-    padding: 0px;
-    margin: 0px;
-    background:
-        url('../img/background.jpg')
-        center;
-    background-size: cover;
-    background-attachment: fixed;
-    text-align: center;
-    color: #FFF;
-    line-height: 1.4em;
-    font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
+/* body, html {
+	padding: 0px;
+	margin: 0px;
+	background: url('../img/background.jpg') center;
+	background-size: cover;
+	background-attachment: fixed;
+	text-align: center;
+	color: #FFF;
+	line-height: 1.4em;
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+} 
 
-table {
+ table {
     border-collapse: collapse;
     width: 75%;
     margin: 0 auto;
@@ -99,4 +97,4 @@ div {
     margin: 0 auto;
     margin-top: 100px;
     color: #2b5797;
-}
+} */
