@@ -6,7 +6,7 @@
 <script type="text/javascript">
 $(function(){
 	$("select[name=locationId]").chosen({width: "100%"});
-	$("select[name=equipmentIds]").chosen({width: "75%"});	
+	$("select[name=equipments]").chosen({width: "75%"});	
 })
 </script>
 
@@ -42,7 +42,7 @@ $(function(){
 					<form:input type="number" class="form-control" path="maxCapacity" placeholder="maximal" step="1"/>
 				</td>
 				<td>
-					<form:select path="equipmentIds" id="equipmentIds" multiple="multiple">						
+					<form:select path="equipments" id="equipments" multiple="multiple">						
 						<c:forEach items="${equipments}" var="equipment">
 							<option value="${equipment.id}">${equipment.name}</option>	
 						</c:forEach>			
