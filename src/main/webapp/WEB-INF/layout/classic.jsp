@@ -9,6 +9,7 @@
 
 <spring:url value="/resources/css/main.css" var="mainCss" />
 <spring:url value="/resources/img/favicon.ico" var="favico" />
+<spring:url value="/resources/css/font-awesome.min.css" var="fontCss" />
 <spring:url value="/resources/chosen_v1.6.2/chosen.min.css" var="chosenCSS" />
 <spring:url value="/resources/chosen_v1.6.2/chosen.jquery.min.js" var="chosenJs" />
 
@@ -19,6 +20,7 @@
 	crossorigin="anonymous">
 <link rel="stylesheet" href="${chosenCSS}" />
 <link rel="stylesheet" href="${mainCss}">
+<link rel="stylesheet" href="${fontCss}">
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script
