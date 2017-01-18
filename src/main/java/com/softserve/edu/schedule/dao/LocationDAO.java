@@ -20,14 +20,14 @@ import com.softserve.edu.schedule.entity.Location;
  */
 public interface LocationDAO extends CrudDAO<Location> {
 
-	/**
-	 * Method returns all locations from database with room details.
-	 * 
-	 * @return all locations from database with room details
-	 */
-	List<Location> getAllWithDetails();
-	
-	/**
+    /**
+     * Method returns all locations from database with room details.
+     * 
+     * @return all locations from database with room details
+     */
+    List<Location> getAllWithDetails();
+
+    /**
      * Method returns list of sorted locations.
      * 
      * @param field
@@ -36,5 +36,5 @@ public interface LocationDAO extends CrudDAO<Location> {
      *            ASC or DESC
      * @return list of sorted locations
      */
-	List<Location> sortByFields(final String field, final Order order);
+    List<Location> sortByFields(final String field, final Order order);
 }
