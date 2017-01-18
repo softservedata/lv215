@@ -50,11 +50,8 @@ public class UserServiceImpl implements UserService {
      *            a user id to delete from database.
      */
     @Override
-    public void delete(final Long id) {
-        User user = userDAO.getById(id);
-        if (user != null) {
+    public void delete(final User user) {
             userDAO.delete(user);
-        }
     }
 
     /**

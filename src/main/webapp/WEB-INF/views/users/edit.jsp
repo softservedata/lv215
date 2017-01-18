@@ -8,16 +8,11 @@
 <div class="table-responsive">
 	<table class="table table-hover">
 
-			<tr><td><a href="delete/${user.id}"> delete </a></td></tr>
 			<tr><td><a href="updateUser/${user.id}"> update </a></td></tr>
 			<tr><td><a href="updateUserPosition/${user.id}">
 					change position </a></td></tr>
-			<tr><td><a href="changeRole/${user.id}"> change role
-			</a></td></tr>
-			<tr><td><a href="addToGroup/${user.id}"> add to group
-			</a></td></tr>
-			<tr><td><a href="banUser/${user.id}"> ban </a></td></tr>
-			<tr><td><a href="unBanUser/${user.id}"> unban </a></td></tr>
+			<tr><td><a href="changeRole/${user.id}"> change role</a></td></tr>
+			<tr><td><a href="addToGroup/${user.id}"> add to group</a></td></tr>
 
 	</table>
 </div>

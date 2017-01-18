@@ -32,7 +32,7 @@ public interface UserService {
      * @param id
      *            a user id to delete from database.
      */
-    void delete(final Long id);
+    void delete(final User user);
 
     /**
      * Change field status at user entity in the database.
@@ -81,7 +81,7 @@ public interface UserService {
      * @param id
      *            a group id in database.
      */
-     List<User> searchByGroup(final String group);
+    List<User> searchByGroup(final String group);
 
     /**
      * Get all users by role what was selected.
