@@ -1,3 +1,4 @@
+/* RoomFilter 1.0 01/17/2017 */
 package com.softserve.edu.schedule.dto.filter;
 
 import java.util.ArrayList;
@@ -5,20 +6,50 @@ import java.util.List;
 
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 
+/**
+ * A DTO class to transport filter data.
+ *
+ * @version 1.0 17 January 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
 public class RoomFilter {
 
+    /**
+     * Location id for filter rooms.
+     */
     private int LocationId;
 
+    /**
+     * Room name for filter rooms.
+     */
     private String name;
 
+    /**
+     * Room minimal capacity for filter rooms.
+     */
     private int minCapacity;
 
+    /**
+     * Room maximal capacity for filter rooms.
+     */
     private int maxCapacity;
 
+    /**
+     * Field id for sorting filter result.
+     */
     private int sortByField;
 
+    /**
+     * Order id for sorting filter result.
+     */
     private int sortOrder;
 
+    /**
+     * List of RoomEquipmentDTO for filter rooms.
+     */
     private List<RoomEquipmentDTO> equipments = new ArrayList<>();
 
     /**
@@ -74,7 +105,7 @@ public class RoomFilter {
      * @param locationId
      *            the locationId to set
      */
-    public void setLocationId(int locationId) {
+    public void setLocationId(final int locationId) {
         LocationId = locationId;
     }
 
@@ -82,7 +113,7 @@ public class RoomFilter {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -90,7 +121,7 @@ public class RoomFilter {
      * @param minCapacity
      *            the minCapacity to set
      */
-    public void setMinCapacity(int minCapacity) {
+    public void setMinCapacity(final int minCapacity) {
         this.minCapacity = minCapacity;
     }
 
@@ -98,7 +129,7 @@ public class RoomFilter {
      * @param maxCapacity
      *            the maxCapacity to set
      */
-    public void setMaxCapacity(int maxCapacity) {
+    public void setMaxCapacity(final int maxCapacity) {
         this.maxCapacity = maxCapacity;
     }
 
@@ -106,7 +137,7 @@ public class RoomFilter {
      * @param sortByField
      *            the sortByField to set
      */
-    public void setSortByField(int sortByField) {
+    public void setSortByField(final int sortByField) {
         this.sortByField = sortByField;
     }
 
@@ -114,7 +145,7 @@ public class RoomFilter {
      * @param sortOrder
      *            the sortOrder to set
      */
-    public void setSortOrder(int sortOrder) {
+    public void setSortOrder(final int sortOrder) {
         this.sortOrder = sortOrder;
     }
 
@@ -122,7 +153,7 @@ public class RoomFilter {
      * @param equipments
      *            the equipments to set
      */
-    public void setEquipments(List<RoomEquipmentDTO> equipments) {
+    public void setEquipments(final List<RoomEquipmentDTO> equipments) {
         this.equipments = equipments;
     }
 

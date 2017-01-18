@@ -54,7 +54,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     }
 
     /**
-     * Overridden default constructor to provide entity class for DAO.
+     * Default constructor to provide entity class for DAO.
      * 
      */
     public RoomDAOImpl() {
@@ -98,7 +98,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
      * @return a room with given name.
      */
     @Override
-    public Room getByName(String roomName) {
+    public Room getByName(final String roomName) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Room> cq = builder.createQuery(Room.class);
         Root<Room> root = cq.from(Room.class);
@@ -121,7 +121,8 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
      * @return List of the room objects.
      */
     @Override
-    public List<Room> getRoomsByCapacity(int minCapacity, int maxCapacity) {
+    public List<Room> getRoomsByCapacity(final int minCapacity,
+            final int maxCapacity) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Room> cq = builder.createQuery(Room.class);
         Root<Room> root = cq.from(Room.class);
@@ -171,7 +172,8 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
      * @return List of the room objects.
      */
     @Override
-    public List<Room> getRoomsWithEquipments(List<RoomEquipment> equipments) {
+    public List<Room> getRoomsWithEquipments(
+            final List<RoomEquipment> equipments) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Room> cq = builder.createQuery(Room.class);
         Root<Room> root = cq.from(Room.class);
