@@ -21,14 +21,15 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
-import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting;
+import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.Room_;
@@ -48,6 +49,19 @@ import com.softserve.edu.schedule.entity.User_;
 
 @Repository("meetingDAO")
 public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
+
+    @Override
+    public List<Meeting> getAll() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.fetch(Meeting_.subject, JoinType.LEFT);
+        root.fetch(Meeting_.owner, JoinType.LEFT);
+        root.fetch(Meeting_.room, JoinType.LEFT);
+        root.fetch(Meeting_.groups, JoinType.LEFT);
+
+        return getEm().createQuery(cq).getResultList();
+    }
 
     /**
      * Overridden default constructor to provide entity class for DAO.

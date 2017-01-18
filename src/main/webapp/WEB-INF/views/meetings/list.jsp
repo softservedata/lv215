@@ -1,39 +1,60 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
-
-<h3>Present rooms:</h3>
-<div class="table-responsive">
-	<table class="table table-hover">
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Subject</title>
+</head>
+<body>
+	<h2>Subject</h2>
+	<table>
 		<tr>
-			<th>Location</th>
-			<th>Address</th>
-			<th>Room name</th>
-			<th>Room capacity</th>
-			<th>Room equipment</th>
-			<th></th>
-			<th></th>
+			<th>ID</th>
+			<th>Meeting Description <%--<a href="${pageContext.request.contextPath}/meetings/sortbynameasc"><i
+					class="fa fa-arrow-circle-o-up"></i></a> <a href="${pageContext.request.contextPath}/subjects/sortbynamedesc"><i
+					class="fa fa-arrow-circle-o-down"></i> 
+					</a>
+					--%>
+			</th>
+			<th>Meeting Subject <%--<a href="${pageContext.request.contextPath}/subjects/sortbydescriptionasc">
+			 <i
+					class="fa fa-arrow-circle-o-up"></i></a> <a href="${pageContext.request.contextPath}/subjects/sortbydescriptiondesc"><i
+					class="fa fa-arrow-circle-o-down"></i> 
+					</a>--%>
+			</th>
+			<th>Owner</th>
+<%-- 			<th>
+			<a href="${pageContext.request.contextPath}/subjects/create"><i
+					class="fa fa-plus"></i></a>
+					</th> --%>
+				<th>Room</th>	
+				<th>Groups</th>
+				<th>Level</th>
+				<th>Status</th>
 		</tr>
-		<c:forEach items="${rooms}" var="room">
+		<c:forEach var="meeting" items="${meetings}">
 			<tr>
-				<td>${room.location.name}</td>
-				<td>${room.location.address}</td>
-				<td><a href="rooms/${room.id}">${room.name}</a></td>
-				<td>${room.capacity}</td>
-				<td>
-					<ul>
-						<c:forEach items="${room.equipments}" var="equipment">
-							<li>${equipment.name}</li>
-						</c:forEach>
-					</ul>
-				</td>
-				<td><a class="btn btn-danger" href="rooms/delete/${room.id}">Delete</a></td>
-				<td><a class="btn btn-success" href="rooms/edit/${room.id}">Edit</a></td>
+				<td>${meeting.id}</td>
+				<td>${meeting.description}</td>
+				<td>${meeting.subject.name}</td>
+				<td>${meeting.owner.lastName}${meting.owner.firstName}</td>
+				<td>${meeting.room.name}</td>
+				<td><c:forEach items="${meeting.groups}" var="group">
+						<p>${group.name}</p>
+					</c:forEach></td>
+				<td>${meeting.level}</td>
+				<td>${meeting.status}</td>	
+				<%-- <td><a
+					href="${pageContext.request.contextPath}/subjects/delete/${subject.id}"><i
+						class="fa fa-trash-o"></i></a></td>
+				<td><a
+					href="${pageContext.request.contextPath}/subjects/edit/${subject.id}"><i
+						class="fa fa-pencil-square-o"></i></a></td> --%>
 			</tr>
 		</c:forEach>
 	</table>
-</div>
-<br>
-<p><a class="btn btn-success" href="rooms/create">Add room</a></p>
+</body>
+</html>
