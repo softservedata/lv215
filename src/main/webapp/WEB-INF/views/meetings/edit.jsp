@@ -11,27 +11,29 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 <meta charset="UTF-8">
-<title>Subject post form</title>
+<title>Meeting post form</title>
 </head>
 <body>
 	<div>
-		Edit Subject
-		<form:form method="post" modelAttribute="subjectForm">
+		Edit Meeting
+		<form:form method="post" modelAttribute="meetingForm">
 			<form:hidden path="id" />
-			<form:input path="name" placeholder="Subject name" />
-			<form:input path="description" placeholder="Address" />
-			<form:select path="users" id="users" multiple="multiple">
-				<c:forEach items="${users}" var="user">
-					<c:forEach items="${subject.users}" var="userInSubject">
+			<form:input path="description" placeholder="Meeting description" />
+			<form:input path="subject" placeholder="Subject" />
+			<form:input path="owner" placeholder="Meeting subject" />
+			<form:input path="room" placeholder="Meeting room" />
+			<form:select path="groups" id="groups" multiple="multiple">
+				<c:forEach items="${groups}" var="group">
+					<c:forEach items="${meeting.group}" var="groupInMeeting">
 						<c:choose>
-							<c:when test="${userInSubject.id eq user.id}">
-								<option value="${user.id}" selected="selected">${user.firstName}</option>
+							<c:when test="${groupInMeeting.id eq group.id}">
+								<option value="${group.id}" selected="selected">${group.name}</option>
 							</c:when>
 						</c:choose>
 					</c:forEach>
 				</c:forEach>
-				<c:forEach items="${users}" var="user">
-					<option value="${user.id}">${user.firstName}</option>
+				<c:forEach items="${groups}" var="group">
+					<option value="${group.id}">${group.name}</option>
 				</c:forEach>
 			</form:select>
 			<input type="submit" value="Register" />

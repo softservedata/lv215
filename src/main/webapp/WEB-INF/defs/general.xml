@@ -97,5 +97,9 @@
 		<put-attribute name="title" value="Create Meeting" />
 		<put-attribute name="body" value="/WEB-INF/views/meetings/list.jsp" />
 	</definition>
+	<definition extends="common" name="meetings/edit">
+		<put-attribute name="title" value="Edit Meeting" />
+		<put-attribute name="body" value="/WEB-INF/views/meetings/edit.jsp" />
+	</definition>
 
 </tiles-definitions>

@@ -59,6 +59,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         root.fetch(Meeting_.owner, JoinType.LEFT);
         root.fetch(Meeting_.room, JoinType.LEFT);
         root.fetch(Meeting_.groups, JoinType.LEFT);
+        cq.distinct(true);
 
         return getEm().createQuery(cq).getResultList();
     }
