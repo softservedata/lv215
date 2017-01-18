@@ -11,8 +11,15 @@ package com.softserve.edu.schedule.dao;
 
 import java.util.List;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
+
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
+import com.softserve.edu.schedule.entity.Subject;
+import com.softserve.edu.schedule.entity.Subject_;
 
 /**
  * This interface for managing Meetings DAO implementation. It extends ReadDAO
@@ -37,7 +44,8 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      * @param meeting
      * @param meetingStatus
      */
-    public void changeStatus(final Meeting meeting, final MeetingStatus meetingStatus);
+    public void changeStatus(final Meeting meeting,
+            final MeetingStatus meetingStatus);
 
     /**
      * Return the List of searched Meetings filtered by Owner.
@@ -94,4 +102,8 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      * @return List of searched Transfer objects
      */
     public List<Meeting> searchByLevel(final String pattern);
+
+    public List<Meeting> sortByField(final String field, final Order order);
+    
+    public List<Meeting> sortBySubject(final Order order);
 }

@@ -42,6 +42,10 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Autowired
     private MeetingDAO meetingDao;
+    
+    public List<Meeting> sortByField(final String field, final Order order) {
+       return meetingDao.sortByField(field, order);
+    }
 
     /*
      * (non-Javadoc)
@@ -330,5 +334,10 @@ public class MeetingServiceImpl implements MeetingService {
     public void deleteMeetingByStatus(final MeetingStatus meetingStatus) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public List<Meeting> sortBySubject(Order order) {
+        return meetingDao.sortBySubject(order);
     }
 }

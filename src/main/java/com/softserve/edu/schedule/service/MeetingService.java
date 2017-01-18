@@ -30,6 +30,8 @@ import com.softserve.edu.schedule.entity.UserGroup;
 
 public interface MeetingService {
 
+    public List<Meeting> sortByField(final String field, final Order order);
+    
     /**
      * Saving Meeting in database.
      *
@@ -241,5 +243,8 @@ public interface MeetingService {
      * @return List<Meeting>
      */
     public List<Meeting> searchByStatus(final MeetingStatus meetingStatus);
+    
+    public List<Meeting> sortBySubject( final Order order);
+    
 
 }

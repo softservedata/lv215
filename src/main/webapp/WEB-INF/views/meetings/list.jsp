@@ -10,28 +10,28 @@
 </head>
 <body>
 	<h2>Meetings</h2>
-	<table>
+	<table class="table table-hover" >
 		<tr>
 			<th>ID</th>
 			<th>Description <a
-				href="${pageContext.request.contextPath}/meetings/sortbynameasc"><i
+				href="${pageContext.request.contextPath}/meetings/sortbydescriptionasc"><i
 					class="fa fa-arrow-circle-o-up"></i></a> <a
-				href="${pageContext.request.contextPath}/subjects/sortbynamedesc"><i
+				href="${pageContext.request.contextPath}/meetings/sortbydescriptiondesc"><i
 					class="fa fa-arrow-circle-o-down"></i> </a>
 
 			</th>
 			<th>Subject<a
-				href="${pageContext.request.contextPath}/subjects/sortbydescriptionasc">
+				href="${pageContext.request.contextPath}/meetings/sortbysubjectasc">
 					<i class="fa fa-arrow-circle-o-up"></i>
 			</a> <a
-				href="${pageContext.request.contextPath}/subjects/sortbydescriptiondesc"><i
+				href="${pageContext.request.contextPath}/meetings/sortbysubjectdesc"><i
 					class="fa fa-arrow-circle-o-down"></i> </a>
 			</th>
 			<th>Owner<a
-				href="${pageContext.request.contextPath}/subjects/sortbydescriptionasc">
+				href="${pageContext.request.contextPath}/meetings/sortbyownerasc">
 					<i class="fa fa-arrow-circle-o-up"></i>
 			</a> <a
-				href="${pageContext.request.contextPath}/subjects/sortbydescriptiondesc"><i
+				href="${pageContext.request.contextPath}/meetings/sortbyownerdesc"><i
 					class="fa fa-arrow-circle-o-down"></i> </a>
 			</th>
 			<th>Room<a
@@ -65,7 +65,7 @@
 				<td>${meeting.id}</td>
 				<td>${meeting.description}</td>
 				<td>${meeting.subject.name}</td>
-				<td>${meeting.owner.lastName}${meting.owner.firstName}</td>
+				<td>${meeting.owner.lastName} ${meeting.owner.firstName}</td>
 				<td>${meeting.room.name}</td>
 				<td><c:forEach items="${meeting.groups}" var="group">
 						<p>${group.name}</p>
