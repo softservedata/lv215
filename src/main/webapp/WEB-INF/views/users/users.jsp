@@ -49,68 +49,24 @@
 			<td>${user.role}</td>
 			<td><c:forEach items="${user.groups}" var="group">
 					<p>${group.name}</p>
-				</c:forEach>
-			</td>
+				</c:forEach></td>
 
-<%-- 			<td>
-				<form:form>
-					<select>
-						<c:forEach var="group" items="${user.groups}">
-							<p>${group.name}</p>
-						</c:forEach>
-					</select>
-				</form:form>
-			</td> --%>
-
-			<td><a href="${pageContext.request.contextPath}/users/delete/${user.id}"><i
+			<td><a
+				href="${pageContext.request.contextPath}/users/delete/${user.id}"><i
 					class="fa fa-trash-o"></i></a></td>
-			<td><a href="${pageContext.request.contextPath}/users/edit/${user.id}">
-					<i class="fa fa-pencil-square-o"></i></a></td>
-			<td><a href="${pageContext.request.contextPath}/users/banUser/${user.id}">
-					<i class="fa fa-ban"></i></a></td>
-			<td><a href="${pageContext.request.contextPath}/users/unBanUser/${user.id}">
-					<i class="fa fa-check-circle-o"></i></a></td>
+			<td><a
+				href="${pageContext.request.contextPath}/users/edit/${user.id}">
+					<i class="fa fa-pencil-square-o"></i>
+			</a></td>
+			<td><a
+				href="${pageContext.request.contextPath}/users/banUser/${user.id}">
+					<i class="fa fa-ban"></i>
+			</a></td>
+			<td><a
+				href="${pageContext.request.contextPath}/users/unBanUser/${user.id}">
+					<i class="fa fa-check-circle-o"></i>
+			</a></td>
 		</tr>
 		<br />
 	</c:forEach>
 </table>
-
-
-<%-- <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
-<h3>Present users:</h3>
-<div class="table-responsive">
-	<table class="table table-hover">
-		<tr>
-			<th>First name</th>
-			<th>Last name</th>
-			<th>Email</th>
-			<th>Position</th>
-			<th>Role</th>
-			<th>Groups</th>
-			<th></th>
-			<th><a class="btn btn-success" href="users/registration">Add user</a></th>
-		</tr>
-		<c:forEach items="${users}" var="user">
-			<tr>
-				<td>${user.firstName}</td>
-				<td>${user.firstName}</td>
-				<td><a href="users/${user.id}">${user.mail}</a></td>
-				<td>${user.position}</td>
-				<td>${user.role}</td>
-				<td>
-					<ul>
-						<c:forEach items="${user.groups}" var="group">
-							<li>${group.name}</li>
-						</c:forEach>
-					</ul>
-				</td>
-				<td><a class="btn btn-danger" href="users/delete/${user.id}">Delete</a></td>
-				<td><a class="btn btn-success" href="users/edit/${user.id}">Edit</a></td>
-			</tr>
-		</c:forEach>
-	</table>
-</div> --%>
