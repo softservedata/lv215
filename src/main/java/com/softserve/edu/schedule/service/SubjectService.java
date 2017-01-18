@@ -47,6 +47,15 @@ public interface SubjectService {
     Subject getById(final Long id);
 
     /**
+     * Return a Subject object if found.
+     *
+     * @param id
+     *            of Subject object
+     * @return room with given id
+     */
+    Subject getByIdWhithDetails(final Long id);
+    
+    /**
      * Return a List of Subject objects.
      *
      * @return List of Subject objects

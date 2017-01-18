@@ -153,5 +153,12 @@ public interface UserService {
      */
     void deleteById(final Long id);
 
+    /**
+     * Return a List of searched Users fetching Groups.
+     *
+     * @return List of searched Users transfer objects
+     */
+    List<User> getAllWithDetails();
+
 
 }

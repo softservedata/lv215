@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -88,5 +89,20 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
     public void deleteById(final Long id){
         User user = getById(id);
         delete(user);
+    }
+
+    /**
+     * Return a List of searched Users fetching Groups.
+     *
+     * @return List of searched Users transfer objects
+     */
+    @Override
+    public List<User> getAllWithDetails() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<User> cq = builder.createQuery(User.class);
+        Root<User> root = cq.from(User.class);
+        root.fetch(User_.groups, JoinType.LEFT);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
     }
 }

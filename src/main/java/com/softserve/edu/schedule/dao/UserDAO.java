@@ -35,4 +35,12 @@ public interface UserDAO extends CrudDAO<User>{
      *            a user id to delete from database.
      */
     void deleteById(final Long id);
+
+    /**
+     * Return a List of searched Users fetching Group.
+     *
+     * @return List of searched Users transfer objects
+     */
+    List<User> getAllWithDetails();
+
 }

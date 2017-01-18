@@ -9,9 +9,11 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.RoomDAO;
+import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.RoomEquipment;
@@ -29,6 +31,9 @@ import com.softserve.edu.schedule.service.implementation.specification.RoomFilte
  */
 @Repository("roomDAO")
 public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
+
+    @Autowired
+    RoomEquipmentDAO roomEquipmentDAO;
 
     /**
      * Return a Room object if found.
@@ -196,8 +201,8 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Room> cq = builder.createQuery(Room.class);
         Root<Room> root = cq.from(Room.class);
-        Predicate predicate = new RoomFilterSpecification(roomFilter)
-                .toPredicate(root, cq, builder);
+        Predicate predicate = new RoomFilterSpecification(roomFilter,
+                roomEquipmentDAO).toPredicate(root, cq, builder);
         if (predicate != null) {
             cq.where(predicate);
         }

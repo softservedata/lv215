@@ -233,4 +233,15 @@ public class UserServiceImpl implements UserService {
         userDAO.deleteById(id);
     }
 
+    /**
+     * Return a List of searched Subjects fetching Users.
+     *
+     * @return List of searched Subject transfer objects
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> getAllWithDetails() {
+        return userDAO.getAllWithDetails();
+    }
+
 }
