@@ -12,6 +12,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.entity.User;
@@ -26,6 +27,9 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
 
     @Autowired
     private UserGroupDAO userGroupDAO;
+
+    @Autowired
+    private SubjectDAO subjectDAO;
 
     /**
      * Constructor for UserDAOImpl class.
@@ -91,12 +95,26 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
      *            a user id to delete from database.
      */
     @Override
-    public void deleteById(final Long id) throws IllegalArgumentException {
+    public void deleteById(final Long id) {
         User user = getById(id);
-        user.getGroups().forEach(
-                e -> userGroupDAO.deleteUserFromUserGroup(id, e.getId()));
-        update(user);
-        delete(user);
+        boolean isUserCurator = false;
+
+        for (UserGroup group : user.getGroups()) {
+            if (userGroupDAO.isUserCurator(id, group.getId())) {
+                isUserCurator = true;
+            } else {
+                isUserCurator = false;
+            }
+        }
+
+        if (!isUserCurator) {
+            user.getGroups().forEach(
+                    e -> userGroupDAO.deleteUserFromUserGroup(id, e.getId()));
+            user.getSubjects().forEach(
+                    e -> subjectDAO.deleteUserFromSubject(id, e.getId()));
+            update(user);
+            delete(user);
+        }
     }
 
     /**

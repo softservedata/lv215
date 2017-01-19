@@ -13,6 +13,7 @@ import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
+import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
 
 @RequestMapping("/users")
@@ -21,6 +22,7 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    
 
     @RequestMapping(method = RequestMethod.GET)
     public String allUserPage(Model model) {
@@ -30,10 +32,7 @@ public class UserController {
 
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
-        try{userService.deleteById(id);
-        }catch (IllegalArgumentException e) {
-            return "redirect:/curator";
-        }
+        userService.deleteById(id);
         return "redirect:/users";
     }
 

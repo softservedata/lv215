@@ -78,13 +78,16 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
     }
 
     @Override
-    public void deleteUserFromUserGroup(Long userID, Long userGroupID)
-            throws IllegalArgumentException {
-        if (getById(userGroupID).getCurator().getId() != userID) {
-            getById(userGroupID).getUsers()
-                    .removeIf(e -> e.getId().equals(userID));
+    public void deleteUserFromUserGroup(Long userID, Long userGroupID) {
+        getById(userGroupID).getUsers().removeIf(e -> e.getId().equals(userID));
+    }
+
+    @Override
+    public boolean isUserCurator(Long userID, Long userGroupID) {
+        if (getById(userGroupID).getCurator().getId().equals(userID)) {
+            return true;
         } else {
-            throw new IllegalArgumentException();
+            return false;
         }
     }
 

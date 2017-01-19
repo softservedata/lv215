@@ -24,7 +24,7 @@ public interface UserService {
      * @param user
      *            a new user to storage in database.
      */
-    void create(final User user);
+    public void create(final User user);
 
     /**
      * Delete existed user entity from the database.
@@ -32,7 +32,7 @@ public interface UserService {
      * @param id
      *            a user id to delete from database.
      */
-    void delete(final User user);
+    public void delete(final User user);
 
     /**
      * Change field status at user entity in the database.
@@ -43,7 +43,7 @@ public interface UserService {
      * @param status
      *            a status from enum class UserStatus.
      */
-    void changeStatus(final Long id, final UserStatus status);
+    public void changeStatus(final Long id, final UserStatus status);
 
     /**
      * Change field role at user entity in the database.
@@ -54,7 +54,7 @@ public interface UserService {
      * @param role
      *            a role from enum class UserRole.
      */
-    void changeRole(final Long id, final UserRole role);
+    public void changeRole(final Long id, final UserRole role);
 
     /**
      * Change field position at user entity in the database.
@@ -65,7 +65,7 @@ public interface UserService {
      * @param position
      *            a position field in User entity.
      */
-    void changePosition(final Long id, final String position);
+    public void changePosition(final Long id, final String position);
 
     /**
      * Change field at user entity in the database.
@@ -73,7 +73,7 @@ public interface UserService {
      * @param id
      *            a user id in database.
      */
-    void update(final User user);
+    public void update(final User user);
 
     /**
      * Get all users by group what was selected.
@@ -81,7 +81,7 @@ public interface UserService {
      * @param id
      *            a group id in database.
      */
-    List<User> searchByGroup(final String group);
+    public List<User> searchByGroup(final String group);
 
     /**
      * Get all users by role what was selected.
@@ -91,7 +91,7 @@ public interface UserService {
      *
      * @return List of the user objects.
      */
-    List<User> getByRole(final UserRole userRole);
+    public List<User> getByRole(final UserRole userRole);
 
     /**
      * Get all users.
@@ -108,7 +108,7 @@ public interface UserService {
      *
      * @return List of the user objects.
      */
-    List<User> getByStatus(final UserStatus userStatus);
+    public List<User> getByStatus(final UserStatus userStatus);
 
     /**
      * Get all users by position what was selected.
@@ -121,7 +121,7 @@ public interface UserService {
      *
      * @return List of the user objects.
      */
-    List<User> search(final String field, final String pattern);
+    public List<User> search(final String field, final String pattern);
 
     /**
      * Sort all users by first name.
@@ -134,7 +134,7 @@ public interface UserService {
      *
      * @return List of the user objects.
      */
-    List<User> sort(final String field, final Order order);
+    public List<User> sort(final String field, final Order order);
 
     /**
      * Return a User object if found.
@@ -143,7 +143,7 @@ public interface UserService {
      *            of User transfer object
      * @return User transfer object
      */
-    User getById(final Long id);
+    public User getById(final Long id);
 
     /**
      * Delete existed transfer object from the database by id.
@@ -151,14 +151,14 @@ public interface UserService {
      * @param id
      *            a user id to delete from database.
      */
-    void deleteById(final Long id);
+    public void deleteById(final Long id);
 
     /**
      * Return a List of searched Users fetching Groups.
      *
      * @return List of searched Users transfer objects
      */
-    List<User> getAllWithDetails();
+    public List<User> getAllWithDetails();
 
 
 }

@@ -10,15 +10,20 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Update Position: ${userFormUpdatePosition.lastName}, ${userFormUpdatePosition.firstName}</title>
+<title>Update Position: ${userFormUpdatePosition.lastName},
+	${userFormUpdatePosition.firstName}</title>
 </head>
 <body>
-	Update
-	<form:form
-		action="saveUpdatedUserPosition/${userFormUpdatePosition.id}"
-		method="post" commandName="userFormUpdatePosition">
-		<form:input path="position" value="${userFormUpdatePosition.position}"/>
-		<input type="submit" value="Update" />
-	</form:form>
+	<div>
+		<h2>Update</h2>
+		<form:form action="saveUpdatedUserPosition/${userFormUpdatePosition.id}"
+			method="post" commandName="userFormUpdatePosition">
+			<form:hidden path="id" />
+			<form:input path="position"
+				value="${userFormUpdatePosition.position}" />
+			<br>
+			<input type="submit" value="Save" />
+		</form:form>
+	</div>
 </body>
 </html>
