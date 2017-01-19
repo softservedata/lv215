@@ -11,15 +11,15 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 <meta charset="UTF-8">
-<title>Meeting post form</title>
+<title>Meeting edit form</title>
 </head>
 <body>
 	<div>
-		Edit Meeting
+		EDIT MEETING
 		<form:form method="post" modelAttribute="meetingForm">
 			<form:hidden path="id" />
 			<form:input path="description" placeholder="Meeting description" />
-			<form:input path="subject" placeholder="Subject" />
+<%-- 			<form:input path="subject" placeholder="Subject" />
 			<form:input path="owner" placeholder="Meeting subject" />
 			<form:input path="room" placeholder="Meeting room" />
 			<form:select path="groups" id="groups" multiple="multiple">
@@ -35,7 +35,7 @@
 				<c:forEach items="${groups}" var="group">
 					<option value="${group.id}">${group.name}</option>
 				</c:forEach>
-			</form:select>
+			</form:select> --%>
 			<input type="submit" value="Register" />
 		</form:form>
 	</div>

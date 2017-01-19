@@ -10,29 +10,38 @@
 	href="${pageContext.request.contextPath}/resources/css/main.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
+
 <meta charset="UTF-8">
-<title>Meeting post form</title>
+<title>Meeting create form</title>
 </head>
 <body>
 
 	<div>
-		ADD MEETING
+		GREAT NEW MEETING
 		<form:form method="post" modelAttribute="meetingForm">
-			<form:input path="name" placeholder="Meeting name" />
-			<form:input type="textarea" path="description" placeholder="Address" />
-			<form:select path="users"
+			<form:hidden path="id" />
+			<form:input path="description" placeholder="Description" />
+			<form:input path="subject" placeholder="Subject" />
+			<form:input path="owner" placeholder="Owner" />
+			<form:input path="room" placeholder="Room" />
+			<form:input path="level" placeholder="Level" />
+			<form:select path="groups" id="groups" placeholder="Groups"
 				multiple="multiple">
-				<c:forEach items="${users}" var="user">
-					<option value="${user.id}">${user.firstName} ${user.lastName}</option>
+				<c:forEach items="${groups}" var="group">
+					<option value="${group.id}">${group.name}</option>
 				</c:forEach>
 			</form:select>
+
+			<form:input path="status" placeholder="Status" />
+
+
+
+
+
+			<%--		<form:input path="level" placeholder="Address"/>
+		<form:input path="status" placeholder="Coordinates"/> --%>
 			<input type="submit" value="Register" />
 		</form:form>
 	</div>
-	<script type="text/javascript">
-/* $(function(){
-	$("select[name=users]").chosen({width: "50%"});	
-})  */
-</script>
 </body>
 </html>

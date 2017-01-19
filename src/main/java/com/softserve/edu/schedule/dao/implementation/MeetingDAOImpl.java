@@ -50,9 +50,7 @@ import com.softserve.edu.schedule.entity.User_;
 
 @Repository("meetingDAO")
 public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
-    
-    
-    
+
     @Override
     public List<Meeting> getAll() {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -64,24 +62,6 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         root.fetch(Meeting_.groups, JoinType.LEFT);
         cq.distinct(true);
 
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    @Override
-    public List<Meeting> sortByField(final String field, final Order order) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
-        root.fetch(Meeting_.subject, JoinType.LEFT);
-        root.fetch(Meeting_.owner, JoinType.LEFT);
-        root.fetch(Meeting_.room, JoinType.LEFT);
-        root.fetch(Meeting_.groups, JoinType.LEFT);
-        cq.distinct(true);
-        if (order == Order.ASC) {
-            cq.orderBy(builder.asc(root.get(field)));
-        } else {
-            cq.orderBy(builder.desc(root.get(field)));
-        }
         return getEm().createQuery(cq).getResultList();
     }
 
@@ -266,25 +246,116 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     }
 
     @Override
-    public List<Meeting> sortBySubject(Order order) {
-            CriteriaBuilder builder = getEm().getCriteriaBuilder();
-            CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-            Root<Meeting> root = cq.from(Meeting.class);
-            root.fetch(Meeting_.subject, JoinType.LEFT);
-            root.fetch(Meeting_.owner, JoinType.LEFT);
-            root.fetch(Meeting_.room, JoinType.LEFT);
-            root.fetch(Meeting_.groups, JoinType.LEFT);
-            cq.distinct(true);
-            if (order == Order.ASC) {
-                cq.orderBy(builder.asc(root.get(Meeting_.subject)));
-                
-               
-                
-            } else {
-                //cq.orderBy(builder.desc(root.get(Subject_.description)));
-            }
-            return getEm().createQuery(cq).getResultList();
-        }
+    public List<Meeting> sortByDescription(final Order order) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.fetch(Meeting_.subject, JoinType.LEFT);
+        root.fetch(Meeting_.owner, JoinType.LEFT);
+        root.fetch(Meeting_.room, JoinType.LEFT);
+        root.fetch(Meeting_.groups, JoinType.LEFT);
+        cq.distinct(true);
+        if (order == Order.ASC) {
+            cq.orderBy(builder.asc(root.get(Meeting_.description)));
 
+        } else {
+            cq.orderBy(builder.desc(root.get(Meeting_.description)));
+        }
+        return getEm().createQuery(cq).getResultList();
     }
 
+    @Override
+    public List<Meeting> sortBySubject(final Order order) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.fetch(Meeting_.subject, JoinType.LEFT);
+        root.fetch(Meeting_.owner, JoinType.LEFT);
+        root.fetch(Meeting_.room, JoinType.LEFT);
+        root.fetch(Meeting_.groups, JoinType.LEFT);
+        cq.distinct(true);
+        if (order == Order.ASC) {
+            cq.orderBy(builder.asc(root.get(Meeting_.subject)));
+
+        } else {
+            cq.orderBy(builder.desc(root.get(Meeting_.subject)));
+        }
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Meeting> sortByOwner(final Order order) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.fetch(Meeting_.subject, JoinType.LEFT);
+        root.fetch(Meeting_.owner, JoinType.LEFT);
+        root.fetch(Meeting_.room, JoinType.LEFT);
+        root.fetch(Meeting_.groups, JoinType.LEFT);
+        cq.distinct(true);
+        if (order == Order.ASC) {
+            cq.orderBy(builder.asc(root.get(Meeting_.owner)));
+
+        } else {
+            cq.orderBy(builder.desc(root.get(Meeting_.owner)));
+        }
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Meeting> sortByRoom(final Order order) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.fetch(Meeting_.subject, JoinType.LEFT);
+        root.fetch(Meeting_.owner, JoinType.LEFT);
+        root.fetch(Meeting_.room, JoinType.LEFT);
+        root.fetch(Meeting_.groups, JoinType.LEFT);
+        cq.distinct(true);
+        if (order == Order.ASC) {
+            cq.orderBy(builder.asc(root.get(Meeting_.room)));
+
+        } else {
+            cq.orderBy(builder.desc(root.get(Meeting_.room)));
+        }
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Meeting> sortByLevel(final Order order) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.fetch(Meeting_.subject, JoinType.LEFT);
+        root.fetch(Meeting_.owner, JoinType.LEFT);
+        root.fetch(Meeting_.room, JoinType.LEFT);
+        root.fetch(Meeting_.groups, JoinType.LEFT);
+        cq.distinct(true);
+        if (order == Order.ASC) {
+            cq.orderBy(builder.asc(root.get(Meeting_.level)));
+
+        } else {
+            cq.orderBy(builder.desc(root.get(Meeting_.level)));
+        }
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Meeting> sortByStatus(final Order order) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.fetch(Meeting_.subject, JoinType.LEFT);
+        root.fetch(Meeting_.owner, JoinType.LEFT);
+        root.fetch(Meeting_.room, JoinType.LEFT);
+        root.fetch(Meeting_.groups, JoinType.LEFT);
+        cq.distinct(true);
+        if (order == Order.ASC) {
+            cq.orderBy(builder.asc(root.get(Meeting_.status)));
+
+        } else {
+            cq.orderBy(builder.desc(root.get(Meeting_.status)));
+        }
+        return getEm().createQuery(cq).getResultList();
+    }
+}

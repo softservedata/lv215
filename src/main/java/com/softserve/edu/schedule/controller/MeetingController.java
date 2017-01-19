@@ -11,14 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dto.LocationDTO;
-import com.softserve.edu.schedule.dto.RoomDTO;
-import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.Meeting_;
-import com.softserve.edu.schedule.entity.Subject;
-import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.service.LocationService;
+
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.RoomService;
@@ -37,82 +32,106 @@ public class MeetingController {
     @Autowired
     private MeetingService meetingService;
 
-    @Autowired
-    private LocationService locationService;
-
-    @Autowired
-    private SubjectService subjectService;
-
-    // @InitBinder("meetingForm")
-    // protected void initBinder(WebDataBinder binder) {
-    // binder.registerCustomEditor(Meeting.class,
-    // new MeetingEditor(meetingService));
-    // }
+     @InitBinder("meetingForm")
+     protected void initBinder(WebDataBinder binder) {
+     binder.registerCustomEditor(Meeting.class,
+     new MeetingEditor(meetingService));
+     }
 
     @RequestMapping
     public String showMeetingPage(Model model) {
         model.addAttribute("meetings", meetingService.getAll());
-        System.out.println(meetingService.getAll());
         return "meetings/list";
     }
 
     @RequestMapping(value = "/sortbydescriptionasc", method = RequestMethod.GET)
     public String sortByDescriptionAcs(Model model) {
-        model.addAttribute("meetings", meetingService
-                .sortByField(Meeting_.description.getName(), Order.ASC));
+        model.addAttribute("meetings",
+                meetingService.sortByDescription(Order.ASC));
         return "meetings/list";
     }
 
     @RequestMapping(value = "/sortbydescriptiondesc",
             method = RequestMethod.GET)
     public String sortByDescriptionDesc(Model model) {
-        model.addAttribute("meetings", meetingService
-                .sortByField(Meeting_.description.getName(), Order.DESC));
+        model.addAttribute("meetings",
+                meetingService.sortByDescription(Order.DESC));
+        return "meetings/list";
+    }
+
+    @RequestMapping(value = "/sortbylevelasc", method = RequestMethod.GET)
+    public String sortByLevelAcs(Model model) {
+        model.addAttribute("meetings", meetingService.sortByLevel(Order.ASC));
+        return "meetings/list";
+    }
+
+    @RequestMapping(value = "/sortbyleveldesc", method = RequestMethod.GET)
+    public String sortByLevelDesc(Model model) {
+        model.addAttribute("meetings", meetingService.sortByLevel(Order.DESC));
+        return "meetings/list";
+    }
+
+    @RequestMapping(value = "/sortbystatusasc", method = RequestMethod.GET)
+    public String sortByStatusAcs(Model model) {
+        model.addAttribute("meetings", meetingService.sortByStatus(Order.ASC));
+        return "meetings/list";
+    }
+
+    @RequestMapping(value = "/sortbystatusdesc", method = RequestMethod.GET)
+    public String sortByStatusDesc(Model model) {
+        model.addAttribute("meetings", meetingService.sortByStatus(Order.DESC));
         return "meetings/list";
     }
 
     @RequestMapping(value = "/sortbysubjectasc", method = RequestMethod.GET)
     public String sortBySubjectAcs(Model model) {
-        model.addAttribute("meetings", meetingService
-                .sortBySubject(Order.ASC));
+        model.addAttribute("meetings", meetingService.sortBySubject(Order.ASC));
         return "meetings/list";
     }
-    
-    @RequestMapping(value = "/sortbysubjectdesc",
-            method = RequestMethod.GET)
+
+    @RequestMapping(value = "/sortbysubjectdesc", method = RequestMethod.GET)
     public String sortBySubjectDesc(Model model) {
-        model.addAttribute("meetings", meetingService
-                .sortByField(Meeting_.subject.getName().toString(), Order.DESC));
+        model.addAttribute("meetings",
+                meetingService.sortBySubject(Order.DESC));
         return "meetings/list";
     }
-    
+
     @RequestMapping(value = "/sortbyownerasc", method = RequestMethod.GET)
     public String sortByOwnerAcs(Model model) {
-        model.addAttribute("meetings", meetingService
-                .sortByField(Meeting_.owner.getName().toString(), Order.ASC));
+        model.addAttribute("meetings", meetingService.sortByOwner(Order.ASC));
         return "meetings/list";
     }
-    @RequestMapping(value = "/sortbyownerdesc",
-            method = RequestMethod.GET)
+
+    @RequestMapping(value = "/sortbyownerdesc", method = RequestMethod.GET)
     public String sortByOwnerDesc(Model model) {
-        model.addAttribute("meetings", meetingService
-                .sortByField(Meeting_.owner.getName().toString(), Order.DESC));
+        model.addAttribute("meetings", meetingService.sortByOwner(Order.DESC));
         return "meetings/list";
     }
     
+    @RequestMapping(value = "/sortbyroomasc", method = RequestMethod.GET)
+    public String sortByRoomAcs(Model model) {
+        model.addAttribute("meetings", meetingService.sortByRoom(Order.ASC));
+        return "meetings/list";
+    }
+
+    @RequestMapping(value = "/sortbyroomdesc", method = RequestMethod.GET)
+    public String sortByRoomDesc(Model model) {
+        model.addAttribute("meetings", meetingService.sortByRoom(Order.DESC));
+        return "meetings/list";
+    }
+
+     @RequestMapping(value = "/create", method = RequestMethod.POST)
+     public String create(@ModelAttribute("meetingForm") Meeting meeting) {
+     meetingService.create(meeting);
+     return "redirect:/meetings";
+     }
     
-    // @RequestMapping(value = "/create", method = RequestMethod.POST)
-    // public String create(@ModelAttribute("subjectForm") Subject subject) {
-    // subjectService.create(subject);
-    // return "redirect:/subjects";
-    // }
-    //
-    // @RequestMapping(value = "/create", method = RequestMethod.GET)
-    // public String createForm(Model model) {
-    // model.addAttribute("subjectForm", new Subject());
-    // model.addAttribute("users", userService.getAll());
-    // return "subjects/create";
-    // }
+     @RequestMapping(value = "/create", method = RequestMethod.GET)
+     public String createForm(Model model) {
+     model.addAttribute("meetingForm", new Meeting());
+     model.addAttribute("meetings", meetingService.getAll());
+     return "meetings/create";
+     }
     //
     // @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     // public String delete(@PathVariable Long id) {

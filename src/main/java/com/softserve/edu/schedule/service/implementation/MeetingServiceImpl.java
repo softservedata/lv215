@@ -42,10 +42,7 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Autowired
     private MeetingDAO meetingDao;
-    
-    public List<Meeting> sortByField(final String field, final Order order) {
-       return meetingDao.sortByField(field, order);
-    }
+
 
     /*
      * (non-Javadoc)
@@ -336,8 +333,34 @@ public class MeetingServiceImpl implements MeetingService {
 
     }
 
+
     @Override
-    public List<Meeting> sortBySubject(Order order) {
-        return meetingDao.sortBySubject(order);
+    public List<Meeting> sortByDescription(final Order order) {
+        return meetingDao.sortByDescription(order);
+    }
+    
+    @Override
+    public List<Meeting> sortBySubject(final Order order){
+        return meetingDao.sortBySubject(order); 
+    }
+
+    @Override
+    public List<Meeting> sortByOwner(final Order order){
+        return meetingDao.sortByOwner(order); 
+    }
+
+    @Override
+    public List<Meeting> sortByRoom(final Order order){
+        return meetingDao.sortByRoom(order);
+    }
+
+    @Override
+    public List<Meeting> sortByLevel(final Order order) {
+        return meetingDao.sortByLevel(order);
+    }
+    
+    @Override
+    public List<Meeting> sortByStatus(final Order order) {
+        return meetingDao.sortByStatus(order); 
     }
 }

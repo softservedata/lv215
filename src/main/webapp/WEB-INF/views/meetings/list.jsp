@@ -10,7 +10,7 @@
 </head>
 <body>
 	<h2>Meetings</h2>
-	<table class="table table-hover" >
+	<table class="table table-hover">
 		<tr>
 			<th>ID</th>
 			<th>Description <a
@@ -35,29 +35,29 @@
 					class="fa fa-arrow-circle-o-down"></i> </a>
 			</th>
 			<th>Room<a
-				href="${pageContext.request.contextPath}/subjects/sortbydescriptionasc">
+				href="${pageContext.request.contextPath}/meetings/sortbyroomasc">
 					<i class="fa fa-arrow-circle-o-up"></i>
 			</a> <a
-				href="${pageContext.request.contextPath}/subjects/sortbydescriptiondesc"><i
+				href="${pageContext.request.contextPath}/meetings/sortbyroomdesc"><i
 					class="fa fa-arrow-circle-o-down"></i> </a>
 			</th>
 			<th>Groups</th>
 			<th>Level<a
-				href="${pageContext.request.contextPath}/subjects/sortbydescriptionasc">
+				href="${pageContext.request.contextPath}/meetings/sortbylevelasc">
 					<i class="fa fa-arrow-circle-o-up"></i>
 			</a> <a
-				href="${pageContext.request.contextPath}/subjects/sortbydescriptiondesc"><i
+				href="${pageContext.request.contextPath}/meetings/sortbyleveldesc"><i
 					class="fa fa-arrow-circle-o-down"></i> </a>
 			</th>
 			<th>Status<a
-				href="${pageContext.request.contextPath}/subjects/sortbydescriptionasc">
+				href="${pageContext.request.contextPath}/meetings/sortbystatusasc">
 					<i class="fa fa-arrow-circle-o-up"></i>
 			</a> <a
-				href="${pageContext.request.contextPath}/subjects/sortbydescriptiondesc"><i
+				href="${pageContext.request.contextPath}/meetings/sortbystatusdesc"><i
 					class="fa fa-arrow-circle-o-down"></i> </a>
 			</th>
 			<th></th>
-			<th><a href="${pageContext.request.contextPath}/subjects/create"><i
+			<th><a href="${pageContext.request.contextPath}/meetings/create"><i
 					class="fa fa-plus"></i></a></th>
 		</tr>
 		<c:forEach var="meeting" items="${meetings}">
@@ -65,7 +65,7 @@
 				<td>${meeting.id}</td>
 				<td>${meeting.description}</td>
 				<td>${meeting.subject.name}</td>
-				<td>${meeting.owner.lastName} ${meeting.owner.firstName}</td>
+				<td>${meeting.owner.lastName}${meeting.owner.firstName}</td>
 				<td>${meeting.room.name}</td>
 				<td><c:forEach items="${meeting.groups}" var="group">
 						<p>${group.name}</p>
