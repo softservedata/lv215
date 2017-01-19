@@ -5,12 +5,15 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.UserDAO;
+import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
@@ -20,6 +23,9 @@ import com.softserve.edu.schedule.entity.User_;
 
 @Repository("userDAO")
 public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
+
+	@Autowired
+	private UserGroupDAO userGroupDAO;
 
 	/**
 	 * Constructor for UserDAOImpl class.
@@ -86,6 +92,23 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
 	@Override
 	public void deleteById(final Long id) {
 		User user = getById(id);
+		user.getGroups().forEach(e -> userGroupDAO.deleteUserFromUserGroup(id, e.getId()));
+		update(user);
 		delete(user);
+	}
+
+	/**
+	 * Return a List of searched Users fetching Groups.
+	 *
+	 * @return List of searched Users transfer objects
+	 */
+	@Override
+	public List<User> getAllWithDetails() {
+		CriteriaBuilder builder = getEm().getCriteriaBuilder();
+		CriteriaQuery<User> cq = builder.createQuery(User.class);
+		Root<User> root = cq.from(User.class);
+		root.fetch(User_.groups, JoinType.LEFT);
+		cq.distinct(true);
+		return getEm().createQuery(cq).getResultList();
 	}
 }

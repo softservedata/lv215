@@ -53,12 +53,6 @@ public class UserDTO {
     private UserRole role;
 
     /**
-     * List of subjects available for this user.
-     */
-
-    private List<SubjectDTO> subjects = new ArrayList<>();
-
-    /**
      * List of groups this user participates.
      */
 
@@ -197,21 +191,6 @@ public class UserDTO {
      */
     public void setRole(UserRole role) {
         this.role = role;
-    }
-
-    /**
-     * @return the subjects
-     */
-    public List<SubjectDTO> getSubjects() {
-        return subjects;
-    }
-
-    /**
-     * @param subjects
-     *            the subjects to set
-     */
-    public void setSubjects(List<SubjectDTO> subjects) {
-        this.subjects = subjects;
     }
 
     /**

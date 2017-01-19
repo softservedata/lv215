@@ -7,6 +7,7 @@
 package com.softserve.edu.schedule.service.implementation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.SubjectDAO;
+import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.service.SubjectService;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.SubjectDTOConverter;
 
 /**
  * A SubjectService implementation to handle the operation required to
@@ -34,6 +37,9 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Autowired
     private SubjectDAO subjectDao;
+    
+    @Autowired
+    private SubjectDTOConverter subjectDTOConverter;
 
     /**
      * Saving Subject in database.
@@ -71,6 +77,18 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
+     * Return a Subject object if found.
+     *
+     * @param id
+     *            of Subject object
+     * @return room with given id
+     */
+    @Override
+    public Subject getByIdWhithDetails(Long id) {
+        return subjectDao.getByIdWhithDetails(id);
+    }
+    
+    /**
      * Return a List of Subject objects.
      *
      * @return List of Subject objects
@@ -88,8 +106,10 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Subject> getAllWithDetails() {
-        return subjectDao.getAllWithDetails();
+    public List<SubjectDTO> getAllWithDetails() {
+        return subjectDao.getAllWithDetails().stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -188,4 +208,6 @@ public class SubjectServiceImpl implements SubjectService {
     public List<Subject> searchTutors(final String pattern) {
         return subjectDao.searchTutors(pattern);
     }
+
+
 }

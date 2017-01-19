@@ -7,11 +7,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Change Role</title>
+<title>Change Role: ${user.lastName}, ${user.firstName}</title>
 </head>
 <body>
 
-	<sf:form modelAttribute="user" action="/shedule/users/changeRole/saveChangedRole/${user.id}" 
+	<sf:form modelAttribute="user" action="saveChangedRole/${user.id}" 
 		method="post">
 		<select name="chooseRole">
 			<c:forEach var="role" items="${roles}">

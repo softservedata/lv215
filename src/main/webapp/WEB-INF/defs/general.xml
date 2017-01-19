@@ -109,5 +109,4 @@
 		<put-attribute name="title" value="Edit Group" />
 		<put-attribute name="body" value="/WEB-INF/views/usergroups/edit.jsp" />
 	</definition>
-
 </tiles-definitions>

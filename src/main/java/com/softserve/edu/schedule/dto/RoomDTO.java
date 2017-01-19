@@ -1,18 +1,43 @@
+/* RoomDTO 1.0 01/17/2017 */
 package com.softserve.edu.schedule.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A DTO class to transport room data.
+ *
+ * @version 1.0 17 January 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
 public class RoomDTO {
 
+    /**
+     * Id for database.
+     */
     private Long id;
 
+    /**
+     * Room name.
+     */
     private String name;
 
+    /**
+     * Room capacity. How many people can accommodate the room.
+     */
     private String capacity;
 
+    /**
+     * Field for storage location of the room.
+     */
     private LocationDTO location;
 
+    /**
+     * Field for storage list of equipments of the room.
+     */
     private List<RoomEquipmentDTO> equipments = new ArrayList<>();
 
     /**
@@ -54,7 +79,7 @@ public class RoomDTO {
      * @param id
      *            the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -62,7 +87,7 @@ public class RoomDTO {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -70,7 +95,7 @@ public class RoomDTO {
      * @param capacity
      *            the capacity to set
      */
-    public void setCapacity(String capacity) {
+    public void setCapacity(final String capacity) {
         this.capacity = capacity;
     }
 
@@ -78,7 +103,7 @@ public class RoomDTO {
      * @param location
      *            the location to set
      */
-    public void setLocation(LocationDTO location) {
+    public void setLocation(final LocationDTO location) {
         this.location = location;
     }
 
@@ -86,8 +111,7 @@ public class RoomDTO {
      * @param equipments
      *            the equipments to set
      */
-    public void setEquipments(List<RoomEquipmentDTO> equipments) {
+    public void setEquipments(final List<RoomEquipmentDTO> equipments) {
         this.equipments = equipments;
     }
-
 }

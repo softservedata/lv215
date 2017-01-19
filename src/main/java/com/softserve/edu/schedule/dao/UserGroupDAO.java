@@ -18,6 +18,7 @@ import com.softserve.edu.schedule.entity.UserGroup;
  * @author Zhydenko Andrii
  *
  */
+
 public interface UserGroupDAO extends CrudDAO<UserGroup> {
 
 	/**
@@ -29,6 +30,8 @@ public interface UserGroupDAO extends CrudDAO<UserGroup> {
 	 *            ASC or DESC
 	 * @return list of sorted usergroups
 	 */
-	List<UserGroup> sortByFields(final String field, final Order order);
+	public List<UserGroup> sortByFields(String field, Order order);
+
+	public void deleteUserFromUserGroup(Long userID, Long userGroupID);
 
 }

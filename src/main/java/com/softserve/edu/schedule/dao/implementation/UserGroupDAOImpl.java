@@ -74,4 +74,10 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGrou
 		}
 		return getEm().createQuery(cq).getResultList();
 	}
+
+	@Override
+	public void deleteUserFromUserGroup(Long userID, Long userGroupID) {
+		getById(userGroupID).getUsers().removeIf(e -> e.getId().equals(userID));
+	}
+
 }

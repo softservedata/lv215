@@ -1,6 +1,5 @@
 package com.softserve.edu.schedule.service.implementation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,8 +40,6 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public void create(final User user) {
-        user.setStatus(UserStatus.NEW_USER);
-        user.setRole(UserRole.USER);
         userDAO.create(user);
     }
 
@@ -53,11 +50,8 @@ public class UserServiceImpl implements UserService {
      *            a user id to delete from database.
      */
     @Override
-    public void delete(final Long id) {
-        User user = userDAO.getById(id);
-        if (user != null) {
+    public void delete(final User user) {
             userDAO.delete(user);
-        }
     }
 
     /**
@@ -149,9 +143,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public List<User> getByRole(final UserRole role) {
-        List<User> users = new ArrayList<>();
-        users = userDAO.searchByRole(role);
-        return users;
+        return userDAO.searchByRole(role);
     }
 
     /**
@@ -176,9 +168,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public List<User> getByStatus(final UserStatus status) {
-        List<User> users = new ArrayList<>();
-        users = userDAO.searchByStatus(status);
-        return users;
+        return userDAO.searchByStatus(status);
     }
 
     /**
@@ -192,9 +182,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public List<User> search(final String field, final String pattern) {
-        List<User> users = new ArrayList<>();
-        users = userDAO.search(field, pattern);
-        return users;
+        return userDAO.search(field, pattern);
     }
 
     /**
@@ -205,9 +193,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public List<User> sort(final String field, final Order order) {
-        List<User> users = new ArrayList<>();
-        users = userDAO.sort(field, order);
-        return users;
+        return userDAO.sort(field, order);
     }
 
     /**
@@ -233,4 +219,14 @@ public class UserServiceImpl implements UserService {
         userDAO.deleteById(id);
     }
 
+    /**
+     * Return a List of searched Users fetching Group.
+     *
+     * @return List of searched Users transfer objects
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> getAllWithDetails() {
+        return userDAO.getAllWithDetails();
+    }
 }

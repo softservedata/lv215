@@ -6,16 +6,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/main.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
-<meta charset="UTF-8">
 <title>Subject</title>
 </head>
 <body>
 	<h2>Subject</h2>
-	<table>
+	<table class ="table table-hover">
 		<tr>
 			<th>ID</th>
 			<th>Subject Name <a href="${pageContext.request.contextPath}/subjects/sortbynameasc"><i
@@ -34,7 +29,7 @@
 				<td>${subject.name}</td>
 				<td>${subject.description}</td>
 				<td><c:forEach items="${subject.users}" var="user">
-						<p>${user.firstName}${user.lastName}</p>
+						<p>${user.firstName} ${user.lastName}</p>
 					</c:forEach></td>
 				<td><a href="${pageContext.request.contextPath}/subjects/delete/${subject.id}"><i
 						class="fa fa-trash-o"></i></a></td>

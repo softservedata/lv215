@@ -6,7 +6,9 @@
 <script type="text/javascript">
 $(function(){
 	$("select[name=locationId]").chosen({width: "100%"});
-	$("select[name=equipmentIds]").chosen({width: "75%"});	
+	$("select[name=equipments]").chosen({width: "75%"});
+	$("select[name=sortByField]").chosen({width: "70%"});
+	$("select[name=sortOrder]").chosen({width: "75%"});
 })
 </script>
 
@@ -32,9 +34,24 @@ $(function(){
 							<option value="${location.id}">${location.name}</option>	
 						</c:forEach>			
 					</form:select>
+					<br><br>
+					<label for="sortByField">Sort by:</label>
+					<form:select path="sortByField" id="sortByField">
+						<option value="0"> </option>
+						<option value="1">Location</option>
+						<option value="2">Room name</option>
+						<option value="3">Capacity</option>
+					</form:select>
 				</td>				
 				<td>
 					<form:input class="form-control" type="text" path="name" placeholder="name"/>
+					<br>
+					<label for="sortOrder">Order:</label>
+					<form:select path="sortOrder" id="sortOrder">
+						<option value="0"> </option>
+						<option value="1">Ascending</option>
+						<option value="2">Descending</option>						
+					</form:select>
 				</td>
 				<td>										
 					<form:input type="number" class="form-control" path="minCapacity" placeholder="minimal" step="1"/>
@@ -42,7 +59,7 @@ $(function(){
 					<form:input type="number" class="form-control" path="maxCapacity" placeholder="maximal" step="1"/>
 				</td>
 				<td>
-					<form:select path="equipmentIds" id="equipmentIds" multiple="multiple">						
+					<form:select path="equipments" id="equipments" multiple="multiple">						
 						<c:forEach items="${equipments}" var="equipment">
 							<option value="${equipment.id}">${equipment.name}</option>	
 						</c:forEach>			
