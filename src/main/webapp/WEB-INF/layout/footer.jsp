@@ -4,8 +4,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 
 
-<button class="btn btn-success" onclick="goBack()">Go Back</button>
-<br>
+<br><br><br>
 <p>(С) 2017 SoftServe</p>
 
 <script>

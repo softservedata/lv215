@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -15,6 +16,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
+import com.softserve.edu.schedule.entity.Location;
+import com.softserve.edu.schedule.entity.Location_;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.entity.Room_;
@@ -45,6 +48,11 @@ public class RoomFilterSpecification implements Specification<Room> {
      * List of room specifications based on which the predicate is built.
      */
     private List<Specification<Room>> list = new ArrayList<>();
+    
+    /**
+     * Location join field for sorting purposes.
+     */
+    private Join<Room, Location> locationJoin;
 
     /**
      * Constructor of RoomFilterSpecification.
@@ -133,7 +141,7 @@ public class RoomFilterSpecification implements Specification<Room> {
             final CriteriaQuery<?> query, final CriteriaBuilder cb) {
         if (filter.getSortOrder() == 1) {
             if (filter.getSortByField() == 1) {
-                query.orderBy(cb.asc(root.get(Room_.location)));
+                query.orderBy(cb.asc(locationJoin.get(Location_.name)));
             }
             if (filter.getSortByField() == 2) {
                 query.orderBy(cb.asc(root.get(Room_.name)));
@@ -143,8 +151,7 @@ public class RoomFilterSpecification implements Specification<Room> {
             }
         } else if (filter.getSortOrder() == 2) {
             if (filter.getSortByField() == 1) {
-                query.orderBy(cb.desc(root.get(Room_.location)));
-            }
+                query.orderBy(cb.desc(locationJoin.get(Location_.name)));            }
             if (filter.getSortByField() == 2) {
                 query.orderBy(cb.desc(root.get(Room_.name)));
             }
@@ -176,8 +183,8 @@ public class RoomFilterSpecification implements Specification<Room> {
             CriteriaBuilder cb) {
         if (query.getResultType() != Long.class
                 && query.getResultType() != long.class) {
-            root.fetch(Room_.location, JoinType.LEFT);
-            root.fetch(Room_.equipments, JoinType.LEFT);
+            locationJoin = root.join(Room_.location, JoinType.LEFT);
+            root.join(Room_.equipments, JoinType.LEFT);
             setSortingParameters(root, query, cb);
         }
         if (filter != null) {

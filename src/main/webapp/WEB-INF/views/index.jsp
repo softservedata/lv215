@@ -5,21 +5,9 @@
 
 
 <div class="row">
-	<p>Hello. This is start page :)</p>
-
-	<p><a href="rooms">Rooms</a>
-
-	<p><a href="locations">Locations</a>
-
-	<p><a href="subjects">Subjects</a>
-
-	<p><a href="meetings">Meetings</a>
-
-	<p><a href="users">Users</a>
-
-	<p><a href="registration">Registration</a>
-
-
+	<br><br><br>
+	<h1>Hello. This is start page :)</h1>
+	<br><br><br>	
 </div>
 
 <%-- <c:if test="${param.fail eq true}">

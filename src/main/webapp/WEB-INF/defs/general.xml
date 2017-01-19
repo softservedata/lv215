@@ -7,6 +7,7 @@
 	<definition name="common" template="/WEB-INF/layout/classic.jsp">
 		<put-attribute name="footer" value="/WEB-INF/layout/footer.jsp" />
 		<put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/layout/navigation.jsp" />
 	</definition>
 
 	<definition name="index" extends="common">
@@ -61,10 +62,9 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/changeRole.jsp" />
 	</definition>
-
-	<definition extends="common" name="locations/home">
+	<definition extends="common" name="locations/list">
 		<put-attribute name="title" value="Locations" />
-		<put-attribute name="body" value="/WEB-INF/views/locations/home.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/locations/list.jsp" />
 	</definition>
 	<definition extends="common" name="locations/create">
 		<put-attribute name="title" value="Create location" />
@@ -91,4 +91,42 @@
 		<put-attribute name="title" value="Edit Subject" />
 		<put-attribute name="body" value="/WEB-INF/views/subjects/edit.jsp" />
 	</definition>
+
+
+
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<definition extends="common" name="usergroups/list">
+		<put-attribute name="title" value="User groups" />
+		<put-attribute name="body" value="/WEB-INF/views/usergroups/list.jsp" />
+	</definition>
+
+	<definition extends="common" name="usergroups/create">
+		<put-attribute name="title" value="Create Group" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/usergroups/create.jsp" />
+	</definition>
+
+	<definition extends="common" name="usergroups/edit">
+		<put-attribute name="title" value="Edit Group" />
+		<put-attribute name="body" value="/WEB-INF/views/usergroups/edit.jsp" />
+	</definition>
+
+
+	<!-- Definition for meetings -->
+	<definition extends="common" name="meetings/list">
+		<put-attribute name="title" value="Meeting" />
+		<put-attribute name="body" value="/WEB-INF/views/meetings/list.jsp" />
+	</definition>
+	<definition extends="common" name="meetings/edit">
+		<put-attribute name="title" value="Edit Meeting" />
+		<put-attribute name="body" value="/WEB-INF/views/meetings/edit.jsp" />
+	</definition>
+	<definition extends="common" name="meetings/create">
+		<put-attribute name="title" value="Create Meeting" />
+		<put-attribute name="body" value="/WEB-INF/views/meetings/create.jsp" />
+	</definition>
+
+
 </tiles-definitions>

@@ -6,6 +6,8 @@
  */
 package com.softserve.edu.schedule.dao;
 
+import java.util.List;
+
 import com.softserve.edu.schedule.entity.UserGroup;
 
 /**
@@ -19,6 +21,20 @@ import com.softserve.edu.schedule.entity.UserGroup;
 
 public interface UserGroupDAO extends CrudDAO<UserGroup> {
 
-    void deleteUserFromUserGroup(Long userID, Long userGroupID);
+
+    void deleteUserFromUserGroup(Long userId, Long userGroupId);
+
+   
+    
+	/**
+	 * Method returns list of sorted usergroups.
+	 * 
+	 * @param field
+	 *            field for sort
+	 * @param order
+	 *            ASC or DESC
+	 * @return list of sorted usergroups
+	 */
+	public List<UserGroup> sortByFields(String field, Order order);
 
 }

@@ -14,6 +14,7 @@ import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
+import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomDTOConverter;
@@ -83,6 +84,11 @@ public class RoomServiceImpl implements RoomService {
     @Transactional(readOnly = true)
     public RoomDTO getById(final Long id) {
         return roomDTOConverter.getDTO(roomDAO.getById(id));
+    }
+    
+    //delete after metting DTO creation
+    public Room getEntityById(final Long id) {
+        return roomDAO.getById(id);
     }
 
     /**
