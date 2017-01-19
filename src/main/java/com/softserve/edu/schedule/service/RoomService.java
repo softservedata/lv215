@@ -7,6 +7,7 @@ import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
+import com.softserve.edu.schedule.entity.Room;
 
 /**
  * An interface to provide service operations with Room entity.
@@ -131,5 +132,7 @@ public interface RoomService {
      * @return List of the room DTO objects.
      */
     List<RoomDTO> getRoomsWithFilter(final RoomFilter roomFilter);
+    
+    public Room getEntityById(final Long id);
 
 }

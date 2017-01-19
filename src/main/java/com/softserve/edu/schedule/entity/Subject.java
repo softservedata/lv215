@@ -129,5 +129,4 @@ public class Subject {
     public void setMeetings(List<Meeting> meetings) {
         this.meetings = meetings;
     }
-
 }

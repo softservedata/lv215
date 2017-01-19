@@ -242,4 +242,16 @@ public interface MeetingService {
      */
     public List<Meeting> searchByStatus(final MeetingStatus meetingStatus);
 
+    public List<Meeting> sortBySubject(final Order order);
+
+    public List<Meeting> sortByOwner(final Order order);
+
+    public List<Meeting> sortByRoom(final Order order);
+
+    public List<Meeting> sortByDescription(final Order order);
+
+    public List<Meeting> sortByLevel(final Order order);
+
+    public List<Meeting> sortByStatus(final Order order);
+
 }
