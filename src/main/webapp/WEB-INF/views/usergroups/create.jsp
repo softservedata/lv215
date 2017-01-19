@@ -10,17 +10,17 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>New group</title>
 </head>
 <body>
 	<div>
-		EDIT LOCATION
-		<form:form method="post" modelAttribute="locationForm">
+		CREATE NEW GROUP
+		<form:form method="post" modelAttribute="userGroupForm">
 			<form:hidden path="id" />
 			<form:input path="name" placeholder="Title" />
-			<form:input path="address" placeholder="Address" />
-			<form:input path="coordinates" placeholder="Coordinates" />
-			<input type="submit" value="Register" />
+			<form:input path="description" placeholder="Description" />
+			<form:input path="level" placeholder="Level" />
+			<input type="submit" value="Create group" />
 		</form:form>
 	</div>
 </body>

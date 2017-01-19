@@ -91,4 +91,22 @@ public interface UserGroupService {
 	 */
 	List<UserGroup> search(final String field, final String pattern);
 
+	/**
+	 * Method returns list of sorted locations by count of groups.
+	 * 
+	 * @return list of sorted groups by count of members
+	 */
+	List<UserGroup> sortByCountMembers(final Order order);
+
+	/**
+	 * Method returns list of sorted usergroups.
+	 * 
+	 * @param field
+	 *            field for sort
+	 * @param order
+	 *            ASC or DESC
+	 * @return list of sorted usergroups
+	 */
+	List<UserGroup> sortByFields(final String field, final Order order);
+
 }
