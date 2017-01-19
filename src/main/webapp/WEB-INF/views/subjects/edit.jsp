@@ -21,7 +21,7 @@
 			<form:input path="name" placeholder="Subject name" />
 			<form:input type="textarea" path="description"
 				placeholder="Subject description" />
-			<form:select path="users" id="users" multiple="multiple">
+			<form:select path="users" multiple="multiple">
 				<c:forEach items="${users}" var="user">
 					<c:forEach items="${subjectForm.users}" var="userInSubject">
 						<c:choose>
