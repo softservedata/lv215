@@ -60,7 +60,8 @@ $(function(){
 				</form:select>
 			</div>
 			<input type="submit" class="btn btn-primary" value="Save room">
-			<input type="reset" class="btn btn-danger" value="Reset form">
+			<a class="btn btn-danger" href="/schedule/rooms/edit/${room.id}">Reset form</a>
+			<button class="btn btn-danger" onclick="goBack()">Cancel</button>
 		</form:form>
 	</div>
 </div>

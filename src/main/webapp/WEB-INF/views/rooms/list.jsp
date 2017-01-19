@@ -4,12 +4,12 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <script type="text/javascript">
-$(function(){
-	$("select[name=locationId]").chosen({width: "100%"});
-	$("select[name=equipments]").chosen({width: "75%"});
-	$("select[name=sortByField]").chosen({width: "70%"});
-	$("select[name=sortOrder]").chosen({width: "75%"});
-})
+	$(function() {
+		$("select[name=locationId]").chosen({width : "100%"});
+		$("select[name=equipments]").chosen({width : "75%"});
+		$("select[name=sortByField]").chosen({width : "70%"});
+		$("select[name=sortOrder]").chosen({width : "75%"});
+	})
 </script>
 
 <h3>Present rooms:</h3>
@@ -24,56 +24,106 @@ $(function(){
 			<th></th>
 			<th><a class="btn btn-success" href="rooms/create">Add room</a></th>
 		</tr>
-		<c:if test="${filter ne null}">
+		<c:if test="${roomFilter ne null}">
 		<tr>
-			<form:form role="form" action="rooms" method="get" modelAttribute="filter">
-				<td colspan="2">
-					<form:select path="locationId" id="locationId">
-						<option value="0"> </option>
-						<c:forEach items="${locations}" var="location">
-							<option value="${location.id}">${location.name}</option>	
-						</c:forEach>			
-					</form:select>
-					<br><br>
-					<label for="sortByField">Sort by:</label>
-					<form:select path="sortByField" id="sortByField">
-						<option value="0"> </option>
-						<option value="1">Location</option>
-						<option value="2">Room name</option>
-						<option value="3">Capacity</option>
-					</form:select>
-				</td>				
-				<td>
-					<form:input class="form-control" type="text" path="name" placeholder="name"/>
-					<br>
-					<label for="sortOrder">Order:</label>
-					<form:select path="sortOrder" id="sortOrder">
-						<option value="0"> </option>
-						<option value="1">Ascending</option>
-						<option value="2">Descending</option>						
-					</form:select>
-				</td>
-				<td>										
-					<form:input type="number" class="form-control" path="minCapacity" placeholder="minimal" step="1"/>
-					<br>						
-					<form:input type="number" class="form-control" path="maxCapacity" placeholder="maximal" step="1"/>
-				</td>
-				<td>
-					<form:select path="equipments" id="equipments" multiple="multiple">						
-						<c:forEach items="${equipments}" var="equipment">
-							<option value="${equipment.id}">${equipment.name}</option>	
-						</c:forEach>			
-					</form:select>
-				</td>
-				<td>
-					<input type="submit" class="btn btn-primary" value="Apply filter">
-				</td>
+			<form:form role="form" action="rooms" method="get" modelAttribute="roomFilter">
+			<td colspan="2">
+				<form:select path="locationId" id="locationId">
+					<option value="0"></option>
+					<c:forEach items="${locations}" var="location">
+						<c:choose>
+							<c:when test="${roomFilter.locationId eq location.id}">
+								<option value="${location.id}" selected="selected">${location.name}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${location.id}">${location.name}</option>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</form:select> 
+				<br><br> 
+				<label for="sortByField">Sort by:</label> 
+				<form:select path="sortByField" id="sortByField">
+					<option value="0"></option>
+					<c:choose>
+						<c:when test="${roomFilter.sortByField eq 1}">
+							<option value="1" selected="selected">Location</option>
+						</c:when>
+						<c:otherwise>
+							<option value="1">Location</option>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${roomFilter.sortByField eq 2}">
+							<option value="2" selected="selected">Room name</option>
+						</c:when>
+						<c:otherwise>
+							<option value="2">Room name</option>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${roomFilter.sortByField eq 3}">
+							<option value="3" selected="selected">Capacity</option>
+						</c:when>
+						<c:otherwise>
+							<option value="3">Capacity</option>
+						</c:otherwise>
+					</c:choose>					
+				</form:select>
+			</td>
+			<td>
+				<form:input class="form-control" type="text" path="name" placeholder="name" /> 
+				<br> 
+				<label for="sortOrder">Order:</label>
+				<form:select path="sortOrder" id="sortOrder">
+					<option value="0"></option>
+					<c:choose>
+						<c:when test="${roomFilter.sortOrder eq 1}">
+							<option value="1" selected="selected">Ascending</option>
+						</c:when>
+						<c:otherwise>
+							<option value="1">Ascending</option>
+						</c:otherwise>
+					</c:choose>
+					<c:choose>
+						<c:when test="${roomFilter.sortOrder eq 2}">
+							<option value="2" selected="selected">Descending</option>
+						</c:when>
+						<c:otherwise>
+							<option value="2">Descending</option>
+						</c:otherwise>
+					</c:choose>							
+				</form:select>
+			</td>
+			<td>
+				<form:input type="number" class="form-control" path="minCapacity" placeholder="minimal" step="1" /> 
+				<br> 
+				<form:input	type="number" class="form-control" path="maxCapacity" placeholder="maximal" step="1" />
+			</td>
+			<td>
+				<form:select path="equipments" id="equipments"	multiple="multiple">
+					<c:forEach items="${equipments}" var="equipment">
+						<c:forEach items="${roomFilter.equipments}" var="equipmentInFilter">							
+							<c:if test="${equipmentInFilter.id eq equipment.id}">
+								<option value="${equipment.id}" selected="selected">${equipment.name}</option>
+							</c:if>							
+						</c:forEach>
+					</c:forEach>
+					<c:forEach items="${equipments}" var="equipment">
+						<option value="${equipment.id}">${equipment.name}</option>
+					</c:forEach>
+				</form:select>
+			</td>
+			<td>
+				<input type="submit" class="btn btn-primary" value="Apply filter">
+			</td>
 			</form:form>
-				<td>
-					<a class="btn btn-primary" href="rooms">Reset filter</a>
-				</td>
+			<td>
+				<a class="btn btn-primary" 
+				href="rooms?locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1">Reset filter</a>
+			</td>
 		</tr>
-		</c:if>		
+		</c:if>
 		<c:forEach items="${rooms}" var="room">
 			<tr>
 				<td>${room.location.name}</td>
@@ -87,7 +137,8 @@ $(function(){
 						</c:forEach>
 					</ul>
 				</td>
-				<td><a class="btn btn-danger" href="rooms/delete/${room.id}">Delete</a></td>
+				<td><a class="btn btn-danger" href="rooms/delete/${room.id}"
+					onclick="return confirm('Are you sure you want to delete this room?');">Delete</a></td>
 				<td><a class="btn btn-success" href="rooms/edit/${room.id}">Edit</a></td>
 			</tr>
 		</c:forEach>
