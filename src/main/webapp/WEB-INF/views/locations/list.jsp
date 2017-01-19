@@ -42,7 +42,7 @@
 				</td>
 				<td><c:if test="${location.rooms.size() == 0}">
 						<a
-							href="${pageContext.request.contextPath}/locations/delete/${location.id}"><i
+							href="${pageContext.request.contextPath}/locations/delete/${location.id}" onclick="return confirm('Are you sure you want to delete this location?')"><i
 							class="fa fa-trash-o"></i></a>
 					</c:if></td>
 				<td><a
