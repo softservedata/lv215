@@ -1,6 +1,6 @@
 package com.softserve.edu.schedule.dto;
 
-public class SubjectUsersDTO {
+public class UserForSubjectDTO {
 
     private Long id;
     
