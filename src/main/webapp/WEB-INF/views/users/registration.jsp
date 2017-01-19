@@ -16,12 +16,12 @@
 	Registration
 	<form:form method="post" modelAttribute="userFormCreate">
 		<form:hidden path="id" />
-		<form:input path="firstName" placeholder="First Name" />
-		<form:input path="lastName" placeholder="Last Name" />
-		<form:input path="mail" placeholder="email" />
-		<form:input path="phone" placeholder="phone number" />
-		<form:input path="position" placeholder="position" />
-		<form:input path="password" type="password" placeholder="password" />
+		<form:input path="firstName" placeholder="First Name" /><br>
+		<form:input path="lastName" placeholder="Last Name" /><br>
+		<form:input path="mail" placeholder="email" /><br>
+		<form:input path="phone" placeholder="phone number" /><br>
+		<form:input path="position" placeholder="position" /><br>
+		<form:input path="password" type="password" placeholder="password" /><br>
 		<input type="submit" value="Register" />
 	</form:form>
 </body>

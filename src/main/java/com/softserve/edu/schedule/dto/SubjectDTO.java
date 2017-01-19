@@ -20,7 +20,7 @@ public class SubjectDTO {
     /**
      * List of users who can create meetings with this subject.
      */
-    private List<UserDTO> users = new ArrayList<>();
+    private List<SubjectUsersDTO> users = new ArrayList<>();
 
     /**
      * @return the id
@@ -70,7 +70,7 @@ public class SubjectDTO {
     /**
      * @return the users
      */
-    public List<UserDTO> getUsers() {
+    public List<SubjectUsersDTO> getUsers() {
         return users;
     }
 
@@ -78,7 +78,7 @@ public class SubjectDTO {
      * @param users
      *            the users to set
      */
-    public void setUsers(List<UserDTO> users) {
+    public void setUsers(List<SubjectUsersDTO> users) {
         this.users = users;
     }
 }

@@ -44,5 +44,5 @@ public interface LocationDAO extends CrudDAO<Location> {
      *            ASC or DESC
      * @return list of sorted locations
      */
-	List<Location> sortByFields(final String field, final Order order);
+    List<Location> sortByFields(final String field, final Order order);
 }

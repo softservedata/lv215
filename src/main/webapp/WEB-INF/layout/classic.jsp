@@ -8,6 +8,7 @@
 <meta charset="utf-8">
 
 <spring:url value="/resources/css/main.css" var="mainCss" />
+
 <spring:url value="/resources/img/favicon.ico" var="favico" />
 <spring:url value="/resources/css/font-awesome.min.css" var="fontCss" />
 <spring:url value="/resources/chosen_v1.6.2/chosen.min.css" var="chosenCSS" />
@@ -29,8 +30,7 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
 	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
 	crossorigin="anonymous"></script>
-<script type="text/javascript"
-	src="${chosenJs}"></script>
+<script type="text/javascript" src="${chosenJs}"></script>
 <title><tiles:getAsString name="title" /></title>
 </head>
 <body>

@@ -114,7 +114,7 @@ public class Room {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -122,7 +122,7 @@ public class Room {
      * @param capacity
      *            the capacity to set
      */
-    public void setCapacity(Integer capacity) {
+    public void setCapacity(final Integer capacity) {
         this.capacity = capacity;
     }
 
@@ -130,7 +130,7 @@ public class Room {
      * @param location
      *            the location to set
      */
-    public void setLocation(Location location) {
+    public void setLocation(final Location location) {
         this.location = location;
     }
 
@@ -138,7 +138,7 @@ public class Room {
      * @param equipments
      *            the equipments to set
      */
-    public void setEquipments(List<RoomEquipment> equipments) {
+    public void setEquipments(final List<RoomEquipment> equipments) {
         this.equipments = equipments;
     }
 
@@ -146,7 +146,7 @@ public class Room {
      * @param meetings
      *            the meetings to set
      */
-    public void setMeetings(List<Meeting> meetings) {
+    public void setMeetings(final List<Meeting> meetings) {
         this.meetings = meetings;
     }
 

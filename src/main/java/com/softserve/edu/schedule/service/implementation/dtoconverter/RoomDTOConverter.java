@@ -34,14 +34,15 @@ public class RoomDTOConverter {
     private RoomEquipmentDAO roomEquipmentDAO;
 
     /**
-     * LocationDTOConverter example to provide to DTO and from DTO conversion.
+     * LocationDTOConverter example to provide to DTO and from DTO location
+     * conversion.
      */
     @Autowired
     private LocationDTOConverter locationDTOConverter;
 
     /**
-     * RoomEquipmentDTOConverter example to provide to DTO and from DTO
-     * conversion.
+     * RoomEquipmentDTOConverter example to provide to DTO and from DTO room
+     * equipment conversion.
      */
     @Autowired
     private RoomEquipmentDTOConverter roomEquipmentDTOConverter;
@@ -54,7 +55,7 @@ public class RoomDTOConverter {
      * 
      * @return a Room object or null if given @param roomDTO is null.
      */
-    public Room getEntity(RoomDTO roomDTO) {
+    public Room getEntity(final RoomDTO roomDTO) {
         if (roomDTO != null) {
             Room room = new Room();
             if (roomDTO.getId() != null) {
@@ -87,7 +88,7 @@ public class RoomDTOConverter {
      * 
      * @return a RoomDTO object or null if given @param room is null.
      */
-    public RoomDTO getDTO(Room room) {
+    public RoomDTO getDTO(final Room room) {
         if (room != null) {
             RoomDTO roomDTO = new RoomDTO();
             if (room.getId() != null) {

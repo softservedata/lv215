@@ -19,20 +19,16 @@
 		ADD SUBJECT
 		<form:form method="post" modelAttribute="subjectForm">
 			<form:input path="name" placeholder="Subject name" />
-			<form:input type="textarea" path="description" placeholder="Subject description" />
-			<form:select path="users" id="users"
-				multiple="multiple">
+			<form:input type="textarea" path="description"
+				placeholder="Subject description" />
+			<form:select path="users" multiple="multiple">
 				<c:forEach items="${users}" var="user">
-					<option value="${user.id}">${user.firstName} ${user.lastName}</option>
+					<option value="${user.id}">${user.firstName}
+						${user.lastName}</option>
 				</c:forEach>
 			</form:select>
 			<input type="submit" value="Register" />
 		</form:form>
 	</div>
-	<script type="text/javascript">
-/* $(function(){
-	$("select[name=users]").chosen({width: "50%"});	
-})  */
-</script>
 </body>
 </html>

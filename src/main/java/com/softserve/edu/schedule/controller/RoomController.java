@@ -1,3 +1,4 @@
+/* RoomController 1.0 01/15/2017 */
 package com.softserve.edu.schedule.controller;
 
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
@@ -22,85 +24,280 @@ import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.implementation.editor.LocationDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomEquipmentDTOEditor;
 
+/**
+ * A controller class of rooms pages.
+ *
+ * @version 1.0 15 January 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
 @RequestMapping("/rooms")
 @Controller
+@SessionAttributes("roomFilter")
 public class RoomController {
 
+    /**
+     * Room model attribute name.
+     */
+    public static final String ROOM_MODEL_ATTR = "room";
+
+    /**
+     * Rooms model attribute name.
+     */
+    public static final String ROOMS_MODEL_ATTR = "rooms";
+
+    /**
+     * Locations model attribute name.
+     */
+    public static final String LOCATIONS_MODEL_ATTR = "locations";
+
+    /**
+     * Room equipments model attribute name.
+     */
+    public static final String EQUIPMENTS_MODEL_ATTR = "equipments";
+
+    /**
+     * Filter model attribute name.
+     */
+    public static final String FILTER_MODEL_ATTR = "roomFilter";
+
+    /**
+     * Path variable for room id name.
+     */
+    public static final String PATH_VAR_ID = "id";
+
+    /**
+     * Rooms list URL name.
+     */
+    public static final String ROOMS_LIST_URL = "rooms/list";
+
+    /**
+     * Rooms list redirect URL name.
+     */
+    public static final String ROOMS_REDIRECT_URL = "redirect:/rooms";
+
+    /**
+     * Show room details URL name.
+     */
+    public static final String ROOM_SHOW_URL = "rooms/show";
+
+    /**
+     * Show room details mapping URL name.
+     */
+    public static final String ROOM_SHOW_MAPPING = "/{id}";
+
+    /**
+     * Edit room information URL name.
+     */
+    public static final String ROOM_EDIT_URL = "rooms/edit";
+
+    /**
+     * Edit room information mapping URL name.
+     */
+    public static final String ROOM_EDIT_MAPPING = "/edit/{id}";
+
+    /**
+     * Create new room URL name.
+     */
+    public static final String ROOM_CREATE_URL = "rooms/create";
+
+    /**
+     * Create new room mapping URL name.
+     */
+    public static final String ROOM_CREATE_MAPPING = "/create";
+
+    /**
+     * Delete room mapping URL name.
+     */
+    public static final String ROOM_DELETE_MAPPING = "/delete/{id}";
+
+    /**
+     * RoomService example to provide rooms list to the model.
+     */
     @Autowired
     private RoomService roomService;
 
+    /**
+     * LocationService example to provide locations list to the model.
+     */
     @Autowired
     private LocationService locationService;
 
+    /**
+     * RoomEquipmentService example to provide room equipments list to the
+     * model.
+     */
     @Autowired
     private RoomEquipmentService roomEquipmentService;
 
-    @InitBinder("room")
-    protected void initBinder(WebDataBinder binder) {
+    /**
+     * Initialize binder for room model.
+     *
+     * @param binder
+     *            a WebDataBinder example to initialize.
+     */
+    @InitBinder(ROOM_MODEL_ATTR)
+    protected void initBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(LocationDTO.class,
                 new LocationDTOEditor(locationService));
         binder.registerCustomEditor(RoomEquipmentDTO.class,
                 new RoomEquipmentDTOEditor(roomEquipmentService));
     }
 
-    @InitBinder("filter")
-    protected void initBinderFilter(WebDataBinder binder) {
+    /**
+     * Initialize binder for filter model.
+     *
+     * @param binder
+     *            a WebDataBinder example to initialize.
+     */
+    @InitBinder(FILTER_MODEL_ATTR)
+    protected void initBinderFilter(final WebDataBinder binder) {
         binder.registerCustomEditor(RoomEquipmentDTO.class,
                 new RoomEquipmentDTOEditor(roomEquipmentService));
     }
 
-    @ModelAttribute("room")
+    /**
+     * Provides room model.
+     * 
+     * @return new RoomDTO object.
+     */
+    @ModelAttribute(ROOM_MODEL_ATTR)
     public RoomDTO getRoomDTO() {
         return new RoomDTO();
     }
+    
+    /**
+     * Provides room filter.
+     * 
+     * @return new RoomFilter object.
+     */
+    @ModelAttribute(FILTER_MODEL_ATTR)
+    public RoomFilter getFilter() {
+        return new RoomFilter();
+    }
 
+    /**
+     * Controls view of rooms list page.
+     *
+     * @param model
+     *            rooms list page view model.
+     * 
+     * @param filter
+     *            rooms list page view filter.
+     * 
+     * @return rooms list page URL
+     */
     @RequestMapping(method = RequestMethod.GET)
-    public String listRooms(Model model,
-            @ModelAttribute("filter") @Valid RoomFilter filter) {
-        model.addAttribute("rooms", roomService.getRoomsWithFilter(filter));
-        model.addAttribute("locations", locationService.getAll());
-        model.addAttribute("equipments", roomEquipmentService.getAll());
-        model.addAttribute("filter", filter);
-        return "rooms/list";
+    public String listRooms(final Model model,
+            @ModelAttribute(FILTER_MODEL_ATTR) @Valid final RoomFilter filter) {
+        model.addAttribute(ROOMS_MODEL_ATTR,
+                roomService.getRoomsWithFilter(filter));
+        model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
+        model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+                roomEquipmentService.getAll());
+        model.addAttribute(FILTER_MODEL_ATTR, filter);
+        return ROOMS_LIST_URL;
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public String showRoom(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("room", roomService.getById(id));
-        return "rooms/show";
+    /**
+     * Controls view of room details show page.
+     *
+     * @param id
+     *            room id to show details.
+     * 
+     * @param model
+     *            room details show page view model.
+     * 
+     * @return room show detail page URL
+     */
+    @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.GET)
+    public String showRoom(@PathVariable(PATH_VAR_ID) final Long id,
+            final Model model) {
+        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
+        return ROOM_SHOW_URL;
     }
 
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String update(@ModelAttribute("room") RoomDTO roomDTO) {
+    /**
+     * Controls processing of room update information form.
+     *
+     * @param roomDTO
+     *            an RoomDTO example which is built based on form data.
+     *
+     * @return rooms list page redirect URL
+     */
+    @RequestMapping(value = ROOM_EDIT_MAPPING, method = RequestMethod.POST)
+    public String update(
+            @ModelAttribute(ROOM_MODEL_ATTR) final RoomDTO roomDTO) {
         roomService.update(roomDTO);
-        return "redirect:/rooms";
+        return ROOMS_REDIRECT_URL;
     }
 
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String updateForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("room", roomService.getById(id));
-        model.addAttribute("locations", locationService.getAll());
-        model.addAttribute("equipments", roomEquipmentService.getAll());
-        return "rooms/edit";
+    /**
+     * Controls view of room update information page.
+     *
+     * @param id
+     *            room id to update information.
+     * 
+     * @param model
+     *            room update information page view model.
+     * 
+     * @return room update information page URL
+     */
+    @RequestMapping(value = ROOM_EDIT_MAPPING, method = RequestMethod.GET)
+    public String updateForm(@PathVariable(PATH_VAR_ID) final Long id,
+            final Model model) {
+        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
+        model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
+        model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+                roomEquipmentService.getAll());
+        return ROOM_EDIT_URL;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute("room") RoomDTO roomDTO, Model model) {
+    /**
+     * Controls processing of room create form.
+     *
+     * @param roomDTO
+     *            an RoomDTO example which is built based on form data.
+     *
+     * @return rooms list page redirect URL
+     */
+    @RequestMapping(value = ROOM_CREATE_MAPPING, method = RequestMethod.POST)
+    public String create(
+            @ModelAttribute(ROOM_MODEL_ATTR) final RoomDTO roomDTO) {
         roomService.create(roomDTO);
-        return "redirect:/rooms";
+        return ROOMS_REDIRECT_URL;
     }
 
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createForm(Model model) {
-        model.addAttribute("room", new RoomDTO());
-        model.addAttribute("locations", locationService.getAll());
-        model.addAttribute("equipments", roomEquipmentService.getAll());
-        return "rooms/create";
+    /**
+     * Controls view of room create page.
+     * 
+     * @param model
+     *            room create page view model.
+     * 
+     * @return room create page URL
+     */
+    @RequestMapping(value = ROOM_CREATE_MAPPING, method = RequestMethod.GET)
+    public String createForm(final Model model) {
+        model.addAttribute(ROOM_MODEL_ATTR, new RoomDTO());
+        model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
+        model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+                roomEquipmentService.getAll());
+        return ROOM_CREATE_URL;
     }
 
-    @RequestMapping(value = "/delete/{id}")
-    public String deleteRoom(@PathVariable Long id) {
+    /**
+     * Controls processing of room delete URL.
+     *
+     * @param id
+     *            an room id to delete from database.
+     *
+     * @return rooms list page redirect URL
+     */
+    @RequestMapping(value = ROOM_DELETE_MAPPING)
+    public String deleteRoom(@PathVariable final Long id) {
         roomService.deleteById(id);
-        return "redirect:/rooms";
+        return ROOMS_REDIRECT_URL;
     }
 }

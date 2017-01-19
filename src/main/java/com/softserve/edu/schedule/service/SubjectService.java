@@ -9,6 +9,7 @@ package com.softserve.edu.schedule.service;
 import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.entity.Subject;
 
 /**
@@ -67,7 +68,7 @@ public interface SubjectService {
      *
      * @return List of searched Subject transfer objects
      */
-    List<Subject> getAllWithDetails();
+    List<SubjectDTO> getAllWithDetails();
 
     /**
      * Deleting subject in database.
