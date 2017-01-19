@@ -34,7 +34,12 @@
 				<td>${location.name}</td>
 				<td>${location.address}</td>
 				<td>Go to map <i class="fa fa-map-o"></i></td>
-				<td>${location.rooms.size()}</td>
+				<td>
+				<span title="<c:forEach items="${location.rooms}" var="room">
+							${room.name}
+						</c:forEach>">${location.rooms.size()}</span>
+				
+				</td>
 				<td><c:if test="${location.rooms.size() == 0}">
 						<a
 							href="${pageContext.request.contextPath}/locations/delete/${location.id}"><i

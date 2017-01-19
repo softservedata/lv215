@@ -28,6 +28,14 @@ public interface LocationDAO extends CrudDAO<Location> {
 	List<Location> getAllWithDetails();
 	
 	/**
+     * Method deletes existing location from database by id.
+     *
+     * @param id
+     *            location id to delete
+     */
+    void deleteById(final Long id);
+	
+	/**
      * Method returns list of sorted locations.
      * 
      * @param field
