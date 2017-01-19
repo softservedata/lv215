@@ -103,15 +103,19 @@
 			<td>
 				<form:select path="equipments" id="equipments"	multiple="multiple">
 					<c:forEach items="${equipments}" var="equipment">
-						<c:forEach items="${roomFilter.equipments}" var="equipmentInFilter">							
-							<c:if test="${equipmentInFilter.id eq equipment.id}">
-								<option value="${equipment.id}" selected="selected">${equipment.name}</option>
-							</c:if>							
+						<c:set var="found" value="false"/>
+						<c:forEach items="${roomFilter.equipments}" var="equipmentInFilter">
+							<c:if test="${!found}">							
+								<c:if test="${equipmentInFilter.id eq equipment.id}">
+									<option value="${equipment.id}" selected="selected">${equipment.name}</option>
+									<c:set var="found" value="true"/>
+								</c:if>
+							</c:if>						
 						</c:forEach>
-					</c:forEach>
-					<c:forEach items="${equipments}" var="equipment">
-						<option value="${equipment.id}">${equipment.name}</option>
-					</c:forEach>
+						<c:if test="${!found}">
+							<option value="${equipment.id}">${equipment.name}</option>
+						</c:if>
+					</c:forEach>					
 				</form:select>
 			</td>
 			<td>
