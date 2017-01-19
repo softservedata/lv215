@@ -22,13 +22,17 @@ import com.softserve.edu.schedule.entity.UserGroup;
 public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
         implements UserGroupDAO {
 
+
     public UserGroupDAOImpl() {
         super(UserGroup.class);
     }
 
     @Override
     public void deleteUserFromUserGroup(Long userID, Long userGroupID) {
-        getById(userGroupID).getUsers().removeIf(e -> e.getId().equals(userID));
+        if (getById(userGroupID).getCurator().getId() != userID) {
+            getById(userGroupID).getUsers()
+                    .removeIf(e -> e.getId().equals(userID));
+        }
     }
 
 }

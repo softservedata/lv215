@@ -12,7 +12,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<table>
+<table class="table table-hover">
 
 	<tr>
 		<th>First name<a
@@ -50,7 +50,6 @@
 			<td><c:forEach items="${user.groups}" var="group">
 					<p>${group.name}</p>
 				</c:forEach></td>
-
 			<td><a
 				href="${pageContext.request.contextPath}/users/delete/${user.id}"><i
 					class="fa fa-trash-o"></i></a></td>

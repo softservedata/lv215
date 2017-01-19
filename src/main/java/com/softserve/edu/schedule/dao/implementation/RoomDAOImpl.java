@@ -55,7 +55,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
     /**
      * Default constructor to provide entity class for DAO.
-     * 
+     *
      */
     public RoomDAOImpl() {
         super(Room.class);
@@ -76,7 +76,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     /**
      * Find all rooms entities in the database with location and equipment
      * details.
-     * 
+     *
      * @return List of the room objects.
      */
     @Override
@@ -112,12 +112,12 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     /**
      * Find all rooms entities in the database with location and equipment
      * details which has capacity in given interval.
-     * 
+     *
      * @param minCapacity
      *            a minimum capacity.
      * @param maxCapacity
      *            a minimum capacity.
-     * 
+     *
      * @return List of the room objects.
      */
     @Override
@@ -144,10 +144,10 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     /**
      * Find all rooms entities in the database with location and equipment
      * details by given location id.
-     * 
+     *
      * @param locationId
      *            a location id to find rooms.
-     * 
+     *
      * @return List of the room objects.
      */
     @Override
@@ -165,10 +165,10 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     /**
      * Find all rooms entities in the database with location and equipment
      * details by given equipments list.
-     * 
+     *
      * @param equipments
      *            an equipments list to find rooms.
-     * 
+     *
      * @return List of the room objects.
      */
     @Override
@@ -192,10 +192,10 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
     /**
      * Find all rooms entities in the database with applied filter
-     * 
+     *
      * @param roomFilter
      *            a filter to apply.
-     * 
+     *
      * @return List of the room objects.
      */
     @Override
