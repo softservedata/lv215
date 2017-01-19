@@ -52,8 +52,6 @@ public class UserDTO {
 
     private UserRole role;
 
-
-
     /**
      * List of groups this user participates.
      */

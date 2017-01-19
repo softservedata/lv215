@@ -7,14 +7,14 @@ import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.entity.Subject;
 
-@Service("roomDTOConverter")
+@Service("subjectDTOConverter")
 public class SubjectDTOConverter {
 
     @Autowired
     private UserDAO userDAO;
 
     @Autowired
-    private UserDTOConverter userDTOConverter;
+    private SubjectUsersDTOConverter subjectUsersDTOConverter;
 
     public Subject getEntity(SubjectDTO subjectDTO) {
         if (subjectDTO != null) {
@@ -47,8 +47,9 @@ public class SubjectDTOConverter {
             if (subject.getDescription() != null) {
                 subjectDTO.setDescription(subject.getDescription());
             }
-            //TODO
-          /*  subject.getUsers().forEach(u->subjectDTO.getUsers().add();*/
+            subject.getUsers().forEach(u -> subjectDTO.getUsers()
+                    .add(subjectUsersDTOConverter.getDTO(u)));
+            return subjectDTO;
         }
         return null;
     }
