@@ -6,6 +6,8 @@
  */
 package com.softserve.edu.schedule.dao.implementation;
 
+import org.springframework.stereotype.Repository;
+
 import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.entity.UserGroup;
 
@@ -16,9 +18,17 @@ import com.softserve.edu.schedule.entity.UserGroup;
  * @author Zhydenko Andrii
  *
  */
-public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGroupDAO {
+@Repository("userGroupDAO")
+public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
+        implements UserGroupDAO {
 
-	public UserGroupDAOImpl(Class<UserGroup> entityClass) {
-		super(entityClass);
-	}
+    public UserGroupDAOImpl() {
+        super(UserGroup.class);
+    }
+
+    @Override
+    public void deleteUserFromUserGroup(Long userID, Long userGroupID) {
+        getById(userGroupID).getUsers().removeIf(e -> e.getId().equals(userID));
+    }
+
 }
