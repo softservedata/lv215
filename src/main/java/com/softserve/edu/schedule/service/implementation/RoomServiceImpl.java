@@ -214,7 +214,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<RoomDTO> getRoomsWithFilter(RoomFilter roomFilter) {
+    public List<RoomDTO> getRoomsWithFilter(final RoomFilter roomFilter) {
         return roomDAO.getRoomsWithFilter(roomFilter).stream()
                 .map(e -> roomDTOConverter.getDTO(e))
                 .collect(Collectors.toList());

@@ -57,7 +57,7 @@ public interface RoomDAO extends CrudDAO<Room> {
      * 
      * @return List of the room objects.
      */
-    public List<Room> getRoomsByLocationId(final long locationId);
+    List<Room> getRoomsByLocationId(final long locationId);
 
     /**
      * Find all rooms entities in the database with location and equipment
@@ -69,7 +69,7 @@ public interface RoomDAO extends CrudDAO<Room> {
      * @return List of the room objects.
      */
     List<Room> getRoomsWithEquipments(final List<RoomEquipment> equipments);
-    
+
     /**
      * Find all rooms entities in the database with applied filter
      * 

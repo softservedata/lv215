@@ -65,13 +65,13 @@ public class User {
      * User status in system.
      */
     @Enumerated
-    private UserStatus status;
+    private UserStatus status = UserStatus.NEW_USER;
 
     /**
      * User role in system.
      */
     @Enumerated
-    private UserRole role;
+    private UserRole role = UserRole.USER;
 
     /**
      * List of subjects available for this user.
