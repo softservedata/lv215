@@ -28,7 +28,7 @@ public interface SubjectService {
      * @param subject
      *            - Subject object
      */
-    void create(final Subject subject);
+    void create(final SubjectDTO subject);
 
     /**
      * Updating Subject in database.
@@ -36,7 +36,7 @@ public interface SubjectService {
      * @param subject
      *            - Subject object
      */
-    void update(final Subject subject);
+    void update(final SubjectDTO subject);
 
     /**
      * Return a Subject object if found.
@@ -54,7 +54,7 @@ public interface SubjectService {
      *            of Subject object
      * @return room with given id
      */
-    Subject getByIdWhithDetails(final Long id);
+    SubjectDTO getByIdWhithDetails(final Long id);
     
     /**
      * Return a List of Subject objects.
@@ -69,14 +69,6 @@ public interface SubjectService {
      * @return List of searched Subject transfer objects
      */
     List<SubjectDTO> getAllWithDetails();
-
-    /**
-     * Deleting subject in database.
-     *
-     * @param subject
-     *            - Subject object
-     */
-    void delete(final Subject subject);
     
     /**
      * Delete existed transfer object from the database by id.
@@ -85,17 +77,6 @@ public interface SubjectService {
      *            a subject id to delete from database.
      */
     void deleteById(final Long id);
-
-    /**
-     * Return a List of sorted Subject transfer objects.
-     *
-     * @param field
-     *            for sort
-     * @param order
-     *            - ASC or DESC
-     * @return List of sorted Subject transfer objects
-     */
-    List<Subject> sort(final String field, final Order order);
 
     /**
      * Return a List of sorted Subject transfer objects.
