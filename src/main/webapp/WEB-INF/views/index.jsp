@@ -17,6 +17,8 @@
 
 	<p><a href="users">Users</a>
 
+	<p><a href="usergroups">Groups</a>
+	
 	<p><a href="registration">Registration</a>
 
 

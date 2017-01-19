@@ -29,7 +29,6 @@ public class LocationController {
 	public String sortByNameAsc(Model model) {
 		model.addAttribute("locations", locationService.sortByFields("name", Order.ASC));
 		return "locations/home";
-
 	}
 
 	@RequestMapping("/sortbynamedesc")
