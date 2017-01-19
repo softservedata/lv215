@@ -1,5 +1,7 @@
 package com.softserve.edu.schedule.controller;
 
+import java.time.LocalDateTime;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,7 @@ import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
+import com.softserve.edu.schedule.service.implementation.editor.DateTimeEditor;
 import com.softserve.edu.schedule.service.implementation.editor.LocationDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.MeetingEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomEditor;
@@ -56,6 +59,10 @@ public class MeetingController {
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Subject.class,
                 new SubjectEditor(subjectService));
+        
+        binder.registerCustomEditor(LocalDateTime.class,
+                new DateTimeEditor());
+        
         binder.registerCustomEditor(User.class,
                 new UserEditor(userService));
         binder.registerCustomEditor(Room.class,

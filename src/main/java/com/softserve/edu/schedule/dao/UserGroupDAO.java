@@ -24,9 +24,7 @@ public interface UserGroupDAO extends CrudDAO<UserGroup> {
 
     void deleteUserFromUserGroup(Long userId, Long userGroupId);
 
-    void addMeetingtoUserGroup(Long meetingId, Long userGroupId);
-    
-    public void deleteMeetingFromUserGroup(Long userID, Long userGroupID);
+   
     
 	/**
 	 * Method returns list of sorted usergroups.

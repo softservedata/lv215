@@ -43,6 +43,13 @@
 					<option value="${room.id}">${room.name}</option>
 				</c:forEach>
 			</form:select>
+
+			<form:input type="datetime-local" path="startTime" id="startTime"
+				placeholder="YYYY-MM-DD" />
+
+			<form:input type="datetime-local" path="endTime" id="endTime"
+				placeholder="YYYY-MM-DD" />
+
 			<br>
 			<label for="groups">Groups:</label>
 			<form:select path="groups" id="groups" multiple="multiple">

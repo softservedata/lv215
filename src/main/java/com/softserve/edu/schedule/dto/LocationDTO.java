@@ -1,5 +1,8 @@
 package com.softserve.edu.schedule.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class LocationDTO {
 
     private Long id;
@@ -10,6 +13,7 @@ public class LocationDTO {
 
     private String coordinates;
 
+    private List<RoomForLocationDTO> rooms = new ArrayList<>();
     /**
      * @return the id
      */
@@ -69,4 +73,13 @@ public class LocationDTO {
     public void setCoordinates(String coordinates) {
         this.coordinates = coordinates;
     }
+
+	public List<RoomForLocationDTO> getRooms() {
+		return rooms;
+	}
+
+	public void setRooms(List<RoomForLocationDTO> rooms) {
+		this.rooms = rooms;
+	}
+    
 }

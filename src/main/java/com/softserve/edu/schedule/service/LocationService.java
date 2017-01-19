@@ -9,6 +9,7 @@ package com.softserve.edu.schedule.service;
 import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.entity.Location;
 
 /**
@@ -27,14 +28,14 @@ public interface LocationService {
 	 *            id of location which will be got
 	 * @return the location which has current id
 	 */
-	Location getById(final Long id);
+	LocationDTO getById(final Long id);
 
 	/**
 	 * Method returns all locations from database.
 	 * 
 	 * @return all locations from database
 	 */
-	List<Location> getAll();
+	List<LocationDTO> getAll();
 
 	/**
 	 * Method returns list of locations which suit condition of search.
@@ -45,18 +46,8 @@ public interface LocationService {
 	 *            pattern for search
 	 * @return list of locations which suit condition of search
 	 */
-	List<Location> search(final String field, final String pattern);
+	List<LocationDTO> search(final String field, final String pattern);
 
-	/**
-	 * Method returns list of sorted locations.
-	 * 
-	 * @param field
-	 *            field for sort
-	 * @param order
-	 *            ASC or DESC
-	 * @return list of sorted locations
-	 */
-	List<Location> sort(final String field, final Order order);
 
 	/**
 	 * Method creates new location in database.
@@ -64,7 +55,7 @@ public interface LocationService {
 	 * @param location
 	 *            new location
 	 */
-	void create(final Location location);
+	void create(final LocationDTO location);
 
 	/**
 	 * Method updates existing location in database.
@@ -72,7 +63,7 @@ public interface LocationService {
 	 * @param location
 	 *            location to update
 	 */
-	void update(final Location location);
+	void update(final LocationDTO location);
 
 	/**
 	 * Method deletes existing location from database.
@@ -80,22 +71,30 @@ public interface LocationService {
 	 * @param location
 	 *            location to delete
 	 */
-	void delete(final Location location);
+	void delete(final LocationDTO location);
 
 	/**
 	 * Method returns list of sorted locations by count of rooms.
 	 * 
 	 * @return list of sorted locations by count of rooms
 	 */
-	List<Location> sortByCountRooms(final Order order);
+	List<LocationDTO> sortByCountRooms(final Order order);
 
 	/**
 	 * Method returns all locations from database with room details.
 	 * 
 	 * @return all locations from database with room details
 	 */
-	List<Location> getAllWithDetails();
+	List<LocationDTO> getAllWithDetails();
 
+	/**
+	 * Method deletes existing location from database by id.
+	 * 
+	 * @param id
+	 *            location id to delete
+	 */
+    void deleteById(final Long id);
+	
 	/**
 	 * Method returns list of sorted locations.
 	 * 
@@ -105,5 +104,5 @@ public interface LocationService {
 	 *            ASC or DESC
 	 * @return list of sorted locations
 	 */
-	List<Location> sortByFields(final String field, final Order order);
+	List<LocationDTO> sortByFields(final String field, final Order order);
 }

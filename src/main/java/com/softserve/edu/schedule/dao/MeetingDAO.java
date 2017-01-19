@@ -108,6 +108,11 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
 
     public List<Meeting> sortByStatus(final Order order);
     
+    public void addMeetingtoUserGroup(Long meetingId, Long userGroupId); 
+    
+    public void deleteMeetingFromUserGroup(Long userID, Long userGroupId);
+    
+    
     
 
 }

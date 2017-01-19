@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 /* body, html {
+=======
+
+/* body, html {
+
+>>>>>>> f4204d4f4942ad221b94b536c45965f887d49ddb
 	padding: 0px;
 	margin: 0px;
 	background: url('../img/background.jpg') center;
@@ -8,8 +14,10 @@
 	color: #FFF;
 	line-height: 1.4em;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
-}
 
+} 
+
+ 
 table {
 	border-collapse: collapse;
 	width: 75%;
@@ -90,6 +98,7 @@ input[type=submit]:hover {
 }
 
 div {
+<<<<<<< HEAD
 	border-radius: 5px;
 	background-color: #f2f2f2;
 	padding: 20px;
@@ -98,3 +107,15 @@ div {
 	margin-top: 100px;
 	color: #2b5797;
 } */
+=======
+
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    width: 15%;
+    margin: 0 auto;
+    margin-top: 100px;
+    color: #2b5797;
+} */
+
+>>>>>>> f4204d4f4942ad221b94b536c45965f887d49ddb

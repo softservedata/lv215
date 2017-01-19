@@ -37,10 +37,13 @@
 			<th>Room<a
 				href="${pageContext.request.contextPath}/meetings/sortbyroomasc">
 					<i class="fa fa-arrow-circle-o-up"></i>
-			</a> <a
-				href="${pageContext.request.contextPath}/meetings/sortbyroomdesc"><i
+			</a> <a href="${pageContext.request.contextPath}/meetings/sortbyroomdesc"><i
 					class="fa fa-arrow-circle-o-down"></i> </a>
 			</th>
+
+			<th>Start time</th>
+
+			<th>End time</th>
 			<th>Groups</th>
 			<th>Level<a
 				href="${pageContext.request.contextPath}/meetings/sortbylevelasc">
@@ -65,8 +68,10 @@
 				<td>${meeting.id}</td>
 				<td>${meeting.description}</td>
 				<td>${meeting.subject.name}</td>
-				<td>${meeting.owner.lastName}  ${meeting.owner.firstName}</td>
+				<td>${meeting.owner.lastName}${meeting.owner.firstName}</td>
 				<td>${meeting.room.name}</td>
+				<td>${meeting.startTime}</td>
+				<td>${meeting.endTime}</td>
 				<td><c:forEach items="${meeting.groups}" var="group">
 						<p>${group.name}</p>
 					</c:forEach></td>

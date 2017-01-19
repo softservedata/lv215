@@ -7,6 +7,7 @@
 package com.softserve.edu.schedule.service.implementation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.LocationDAO;
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.entity.Location;
+import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.service.LocationService;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.LocationDTOConverter;
 
 /**
  * The service-level class to handle operation with locations.
@@ -30,6 +32,9 @@ public class LocationServiceImpl implements LocationService {
 	@Autowired
 	private LocationDAO locationDAO;
 
+	@Autowired
+	private LocationDTOConverter locationDTOConverter;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -39,8 +44,9 @@ public class LocationServiceImpl implements LocationService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public Location getById(final Long id) {
-		return locationDAO.getById(id);
+	public LocationDTO getById(final Long id) {
+		return locationDTOConverter.getDTO(locationDAO.getById(id));
+
 	}
 
 	/*
@@ -50,8 +56,9 @@ public class LocationServiceImpl implements LocationService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<Location> getAll() {
-		return locationDAO.getAll();
+	public List<LocationDTO> getAll() {
+		// return locationDAO.getAll();
+		return locationDAO.getAll().stream().map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
 	/*
@@ -62,21 +69,8 @@ public class LocationServiceImpl implements LocationService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<Location> search(final String field, final String pattern) {
-		return locationDAO.search(field, pattern);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.LocationService#sort(java.lang.String,
-	 * com.softserve.edu.schedule.dao.Order)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<Location> sort(final String field, final Order order) {
-		return locationDAO.sort(field, order);
+	public List<LocationDTO> search(final String field, final String pattern) {
+		return locationDAO.search(field, pattern).stream().map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
 	/*
@@ -88,8 +82,8 @@ public class LocationServiceImpl implements LocationService {
 	 */
 	@Override
 	@Transactional
-	public void create(final Location location) {
-		locationDAO.create(location);
+	public void create(final LocationDTO location) {
+		locationDAO.create(locationDTOConverter.getEntity(location));
 	}
 
 	/*
@@ -101,8 +95,8 @@ public class LocationServiceImpl implements LocationService {
 	 */
 	@Override
 	@Transactional
-	public void update(final Location location) {
-		locationDAO.update(location);
+	public void update(final LocationDTO location) {
+		locationDAO.update(locationDTOConverter.getEntity(location));
 	}
 
 	/*
@@ -114,8 +108,8 @@ public class LocationServiceImpl implements LocationService {
 	 */
 	@Override
 	@Transactional
-	public void delete(final Location location) {
-		locationDAO.delete(location);
+	public void delete(final LocationDTO location) {
+		locationDAO.delete(locationDTOConverter.getEntity(location));
 	}
 
 	/*
@@ -127,8 +121,8 @@ public class LocationServiceImpl implements LocationService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<Location> sortByCountRooms(final Order order) {
-		List<Location> locations = locationDAO.getAll();
+	public List<LocationDTO> sortByCountRooms(final Order order) {
+		List<LocationDTO> locations = getAll();
 		if (order == Order.ASC) {
 			locations.sort((l1, l2) -> l1.getRooms().size() - l2.getRooms().size());
 		} else {
@@ -145,8 +139,23 @@ public class LocationServiceImpl implements LocationService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<Location> getAllWithDetails() {
-		return locationDAO.getAllWithDetails();
+	public List<LocationDTO> getAllWithDetails() {
+		// return locationDAO.getAllWithDetails();
+		return locationDAO.getAllWithDetails().stream().map(e -> locationDTOConverter.getDTO(e))
+				.collect(Collectors.toList());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.service.LocationService#deleteById(java.lang.
+	 * Long)
+	 */
+	@Override
+	@Transactional
+	public void deleteById(final Long id) {
+		locationDAO.deleteById(id);
 	}
 
 	/*
@@ -158,8 +167,10 @@ public class LocationServiceImpl implements LocationService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<Location> sortByFields(String field, Order order) {
-		return locationDAO.sortByFields(field, order);
+	public List<LocationDTO> sortByFields(String field, Order order) {
+		//return locationDAO.sortByFields(field, order);
+		return locationDAO.sortByFields(field, order).stream().map(e -> locationDTOConverter.getDTO(e))
+		.collect(Collectors.toList());
 	}
 
 }

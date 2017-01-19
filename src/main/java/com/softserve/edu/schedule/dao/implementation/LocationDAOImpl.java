@@ -47,9 +47,19 @@ public class LocationDAOImpl extends CrudDAOImpl<Location>
         CriteriaQuery<Location> cq = builder.createQuery(Location.class);
         Root<Location> root = cq.from(Location.class);
         root.fetch("rooms", JoinType.LEFT);
+        cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
 
+	/* (non-Javadoc)
+	 * @see com.softserve.edu.schedule.dao.LocationDAO#deleteById(java.lang.Long)
+	 */
+	@Override
+	public void deleteById(Long id) {
+		Location location = getById(id);
+        delete(location);
+			}
+	
 	/* (non-Javadoc)
 	 * @see com.softserve.edu.schedule.dao.LocationDAO#sortByFields(java.lang.String, com.softserve.edu.schedule.dao.Order)
 	 */
@@ -59,6 +69,7 @@ public class LocationDAOImpl extends CrudDAOImpl<Location>
         CriteriaQuery<Location> cq = builder.createQuery(Location.class);
         Root<Location> root = cq.from(Location.class);
         root.fetch("rooms", JoinType.LEFT);
+        cq.distinct(true);
         if (order == Order.ASC) {
             cq.orderBy(builder.asc(root.get(field)));
         } else {
@@ -66,5 +77,6 @@ public class LocationDAOImpl extends CrudDAOImpl<Location>
         }
         return getEm().createQuery(cq).getResultList();
 	}
+
 
 }

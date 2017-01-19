@@ -25,10 +25,12 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
@@ -50,6 +52,9 @@ import com.softserve.edu.schedule.entity.User_;
 
 @Repository("meetingDAO")
 public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
+
+    @Autowired
+    private UserGroupDAO userGroupDAO;
 
     @Override
     public List<Meeting> getAll() {
@@ -96,6 +101,8 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     @Override
     public void deleteById(final Long id) {
         Meeting meeting = getById(id);
+        meeting.getGroups()
+                .forEach(e -> deleteMeetingFromUserGroup(id, e.getId()));
         delete(meeting);
     }
 
@@ -358,4 +365,29 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         }
         return getEm().createQuery(cq).getResultList();
     }
+
+    @Override
+    public void create(Meeting meeting) {
+        meeting.setStatus(MeetingStatus.NOT_APPROVED);
+        getEm().persist(meeting);
+        // TODO When we will make validator, move it to the validator.
+        if (meeting.getGroups() != null) {
+            meeting.getGroups().forEach(
+                    e -> addMeetingtoUserGroup(meeting.getId(), e.getId()));
+        }
+
+    }
+
+    @Override
+    public void addMeetingtoUserGroup(Long meetingId, Long userGroupId) {
+        userGroupDAO.getById(userGroupId).getMeetings().add(getById(meetingId));
+
+    }
+
+    @Override
+    public void deleteMeetingFromUserGroup(Long meetingId, Long userGroupId) {
+        userGroupDAO.getById(userGroupId).getMeetings()
+                .removeIf(e -> e.getId().equals(meetingId));
+    }
+
 }

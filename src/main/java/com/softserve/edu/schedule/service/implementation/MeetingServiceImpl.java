@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
@@ -44,9 +43,6 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     private MeetingDAO meetingDao;
 
-    @Autowired
-    private UserGroupDAO userGroupDAO;
-
     /*
      * (non-Javadoc)
      * 
@@ -56,10 +52,7 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void create(Meeting meeting) {
-        meeting.setStatus(MeetingStatus.NOT_APPROVED);
         meetingDao.create(meeting);
-        meeting.getGroups().forEach(e -> userGroupDAO
-                .addMeetingtoUserGroup(meeting.getId(), e.getId()));
     }
 
     /*
@@ -72,8 +65,8 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void update(final Meeting meeting) {
         meetingDao.update(meeting);
-        meeting.getGroups().forEach(e -> userGroupDAO
-                .addMeetingtoUserGroup(meeting.getId(), e.getId()));
+        // meeting.getGroups().forEach(e -> userGroupDAO
+        // .addMeetingtoUserGroup(meeting.getId(), e.getId()));
     }
 
     /*
@@ -121,8 +114,8 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void deleteById(final Long id) {
         meetingDao.deleteById(id);
-        
-        //userGroupDAO.deleteMeetingFromUserGroup(id, userGroupID);
+
+        // userGroupDAO.deleteMeetingFromUserGroup(id, userGroupID);
 
     }
 
