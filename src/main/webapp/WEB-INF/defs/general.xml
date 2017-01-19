@@ -61,6 +61,13 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/changeRole.jsp" />
 	</definition>
+	<definition extends="common" name="users/users/delete">
+		<put-attribute name="title" value="Can't delete" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/curator.jsp" />
+	</definition>
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 	<definition extends="common" name="locations/home">
 		<put-attribute name="title" value="Locations" />

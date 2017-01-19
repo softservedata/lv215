@@ -6,6 +6,7 @@
  */
 package com.softserve.edu.schedule.dao.implementation;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -32,56 +33,59 @@ import com.softserve.edu.schedule.entity.UserGroup_;
  *
  */
 @Repository("userGroupDAO")
-public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGroupDAO {
+public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
+        implements UserGroupDAO {
 
-	/**
-	 * Constructor of UserGroupDAOImpl
-	 */
-	public UserGroupDAOImpl() {
-		super(UserGroup.class);
-	}
+    /**
+     * Constructor of UserGroupDAOImpl
+     */
+    public UserGroupDAOImpl() {
+        super(UserGroup.class);
+    }
 
-	@Override
-	public List<UserGroup> getAll() {
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-		Root<UserGroup> root = cq.from(UserGroup.class);
+    @Override
+    public List<UserGroup> getAll() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+        Root<UserGroup> root = cq.from(UserGroup.class);
 
-		root.fetch(UserGroup_.curator, JoinType.LEFT);
-		root.fetch(UserGroup_.users, JoinType.LEFT);
-		cq.distinct(true);
-		return getEm().createQuery(cq).getResultList();
-	}
+        root.fetch(UserGroup_.curator, JoinType.LEFT);
+        root.fetch(UserGroup_.users, JoinType.LEFT);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.softserve.edu.schedule.dao.UserGroupDAO#sortByFields(java.lang.
-	 * String, com.softserve.edu.schedule.dao.Order)
-	 */
-	@Override
-	public List<UserGroup> sortByFields(String field, Order order) {
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-		Root<UserGroup> root = cq.from(UserGroup.class);
-		root.fetch("curator", JoinType.LEFT);
-		root.fetch("users", JoinType.LEFT);
-		cq.distinct(true);
-		if (order == Order.ASC) {
-			cq.orderBy(builder.asc(root.get(field)));
-		} else {
-			cq.orderBy(builder.desc(root.get(field)));
-		}
-		return getEm().createQuery(cq).getResultList();
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * @see com.softserve.edu.schedule.dao.UserGroupDAO#sortByFields(java.lang.
+     * String, com.softserve.edu.schedule.dao.Order)
+     */
+    @Override
+    public List<UserGroup> sortByFields(String field, Order order) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+        Root<UserGroup> root = cq.from(UserGroup.class);
+        root.fetch("curator", JoinType.LEFT);
+        root.fetch("users", JoinType.LEFT);
+        cq.distinct(true);
+        if (order == Order.ASC) {
+            cq.orderBy(builder.asc(root.get(field)));
+        } else {
+            cq.orderBy(builder.desc(root.get(field)));
+        }
+        return getEm().createQuery(cq).getResultList();
+    }
 
-	@Override
-    public void deleteUserFromUserGroup(Long userID, Long userGroupID) {
+    @Override
+    public void deleteUserFromUserGroup(Long userID, Long userGroupID)
+            throws IllegalArgumentException {
         if (getById(userGroupID).getCurator().getId() != userID) {
             getById(userGroupID).getUsers()
                     .removeIf(e -> e.getId().equals(userID));
+        } else {
+            throw new IllegalArgumentException();
         }
     }
-
 
 }

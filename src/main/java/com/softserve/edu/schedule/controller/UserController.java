@@ -30,7 +30,10 @@ public class UserController {
 
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
-        userService.deleteById(id);
+        try{userService.deleteById(id);
+        }catch (IllegalArgumentException e) {
+            return "redirect:/curator";
+        }
         return "redirect:/users";
     }
 
