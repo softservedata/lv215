@@ -12,6 +12,10 @@
 			<b><i>Manage your time.</i></b> 
 		</p>
 	</div>
+	<div class="col-md-6">
+		<br>
+		<a class="btn btn-success" href="registration">Registration</a>
+	</div>
 	<%-- <div class="col-md-6">
 		<p>
 			<sec:authorize access="isAuthenticated()">

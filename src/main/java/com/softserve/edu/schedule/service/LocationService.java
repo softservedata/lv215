@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.LocationDTO;
-import com.softserve.edu.schedule.entity.Location;
 
 /**
  * The service-level interface to handle operation with locations.

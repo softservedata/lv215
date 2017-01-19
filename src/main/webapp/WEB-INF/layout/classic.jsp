@@ -37,6 +37,9 @@
 
 	<header>
 		<tiles:insertAttribute name="header" />
+		<nav>
+			<tiles:insertAttribute name="navigation" />
+		</nav>
 	</header>
 	<!-- Основной контент сторінки -->
 	<div class="container">
