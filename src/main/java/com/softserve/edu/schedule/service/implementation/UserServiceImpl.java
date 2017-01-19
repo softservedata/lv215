@@ -14,7 +14,9 @@ import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.service.UserService;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSubjectDTOConverter;
+
 
 /**
  * An interface to provide service operations with User entity.
@@ -36,7 +38,11 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
     
     @Autowired
+    private UserDTOConverter userDAOConverter;
+
+    @Autowired
     private UserForSubjectDTOConverter userForSubjectDTOConverter;
+
 
     /**
      * Save new user entity into the database.

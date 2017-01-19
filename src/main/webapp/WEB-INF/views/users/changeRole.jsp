@@ -18,7 +18,7 @@
 				<option value="${role}">${role.name()}</option>
 			</c:forEach>
 		</select>
-		<button>change</button>
+		<button>Save</button>
 	</sf:form>
 
 </body>

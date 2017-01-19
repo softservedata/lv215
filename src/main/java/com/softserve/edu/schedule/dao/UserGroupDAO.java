@@ -37,4 +37,8 @@ public interface UserGroupDAO extends CrudDAO<UserGroup> {
 	 */
 	public List<UserGroup> sortByFields(String field, Order order);
 
+	public void deleteUserFromUserGroup(Long userID, Long userGroupID);
+	
+	public boolean isUserCurator(Long userID, Long userGroupID);
+
 }
