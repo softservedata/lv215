@@ -65,7 +65,7 @@
 				<td>${meeting.id}</td>
 				<td>${meeting.description}</td>
 				<td>${meeting.subject.name}</td>
-				<td>${meeting.owner.lastName}${meeting.owner.firstName}</td>
+				<td>${meeting.owner.lastName}  ${meeting.owner.firstName}</td>
 				<td>${meeting.room.name}</td>
 				<td><c:forEach items="${meeting.groups}" var="group">
 						<p>${group.name}</p>
@@ -73,7 +73,7 @@
 				<td>${meeting.level}</td>
 				<td>${meeting.status}</td>
 				<td><a
-					href="${pageContext.request.contextPath}/meetingss/delete/${meeting.id}"><i
+					href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"><i
 						class="fa fa-trash-o"></i></a></td>
 				<td><a
 					href="${pageContext.request.contextPath}/meeting/edit/${meeting.id}"><i

@@ -8,6 +8,9 @@ package com.softserve.edu.schedule.service.implementation;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.entity.UserGroup;
@@ -21,8 +24,10 @@ import com.softserve.edu.schedule.service.UserGroupService;
  * @author Zhydenko Andrii
  *
  */
+@Service("userGroupService")
 public class UserGroupServiceImpl implements UserGroupService {
-	UserGroupDAO userGroupDAO;
+	@Autowired
+    UserGroupDAO userGroupDAO;
 
 	@Override
 	public void create(UserGroup userGroup) {

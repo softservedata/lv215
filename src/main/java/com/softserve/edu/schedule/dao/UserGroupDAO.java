@@ -19,6 +19,10 @@ import com.softserve.edu.schedule.entity.UserGroup;
 
 public interface UserGroupDAO extends CrudDAO<UserGroup> {
 
-    void deleteUserFromUserGroup(Long userID, Long userGroupID);
+    void deleteUserFromUserGroup(Long userId, Long userGroupId);
+
+    void addMeetingtoUserGroup(Long meetingId, Long userGroupId);
+    
+    public void deleteMeetingFromUserGroup(Long userID, Long userGroupID);
 
 }

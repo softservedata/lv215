@@ -17,31 +17,48 @@
 <body>
 
 	<div>
-		GREAT NEW MEETING
 		<form:form method="post" modelAttribute="meetingForm">
-			<form:hidden path="id" />
+			<label for="description">Description:</label>
 			<form:input path="description" placeholder="Description" />
-			<form:input path="subject" placeholder="Subject" />
-			<form:input path="owner" placeholder="Owner" />
-			<form:input path="room" placeholder="Room" />
-			<form:input path="level" placeholder="Level" />
-			<form:select path="groups" id="groups" placeholder="Groups"
-				multiple="multiple">
+
+			<br>
+			<label for="subject">Subject:</label>
+			<form:select class="form-control" path="subject" id="subject">
+				<c:forEach items="${subjects}" var="subject">
+					<option value="${subject.id}">${subject.name}</option>
+				</c:forEach>
+			</form:select>
+			<br>
+			<label for="owner">Owner:</label>
+			<form:select class="form-control" path="owner" id="owner">
+				<c:forEach items="${owners}" var="owner">
+					<option value="${owner.id}">${owner.lastName}
+						${owner.firstName}</option>
+				</c:forEach>
+			</form:select>
+			<br>
+			<label for="room">Room:</label>
+			<form:select class="form-control" path="room" id="room">
+				<c:forEach items="${rooms}" var="room">
+					<option value="${room.id}">${room.name}</option>
+				</c:forEach>
+			</form:select>
+			<br>
+			<label for="groups">Groups:</label>
+			<form:select path="groups" id="groups" multiple="multiple">
 				<c:forEach items="${groups}" var="group">
 					<option value="${group.id}">${group.name}</option>
 				</c:forEach>
 			</form:select>
-
-			<form:input path="status" placeholder="Status" />
-
-
-
+			<br>
+			<label for="level">level:</label>
+			<form:input path="level" placeholder="Level" />
 
 
-			<%--		<form:input path="level" placeholder="Address"/>
-		<form:input path="status" placeholder="Coordinates"/> --%>
-			<input type="submit" value="Register" />
+			<br>
+			<input type="submit" value="Create new Meeting" />
 		</form:form>
 	</div>
+
 </body>
 </html>

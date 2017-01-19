@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
@@ -43,6 +44,8 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     private MeetingDAO meetingDao;
 
+    @Autowired
+    private UserGroupDAO userGroupDAO;
 
     /*
      * (non-Javadoc)
@@ -52,8 +55,11 @@ public class MeetingServiceImpl implements MeetingService {
      * edu.schedule.entity.Meeting)
      */
     @Override
-    public void create(final Meeting meeting) {
+    public void create(Meeting meeting) {
+        meeting.setStatus(MeetingStatus.NOT_APPROVED);
         meetingDao.create(meeting);
+        meeting.getGroups().forEach(e -> userGroupDAO
+                .addMeetingtoUserGroup(meeting.getId(), e.getId()));
     }
 
     /*
@@ -66,6 +72,8 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void update(final Meeting meeting) {
         meetingDao.update(meeting);
+        meeting.getGroups().forEach(e -> userGroupDAO
+                .addMeetingtoUserGroup(meeting.getId(), e.getId()));
     }
 
     /*
@@ -113,6 +121,8 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void deleteById(final Long id) {
         meetingDao.deleteById(id);
+        
+        //userGroupDAO.deleteMeetingFromUserGroup(id, userGroupID);
 
     }
 
@@ -333,24 +343,23 @@ public class MeetingServiceImpl implements MeetingService {
 
     }
 
-
     @Override
     public List<Meeting> sortByDescription(final Order order) {
         return meetingDao.sortByDescription(order);
     }
-    
+
     @Override
-    public List<Meeting> sortBySubject(final Order order){
-        return meetingDao.sortBySubject(order); 
+    public List<Meeting> sortBySubject(final Order order) {
+        return meetingDao.sortBySubject(order);
     }
 
     @Override
-    public List<Meeting> sortByOwner(final Order order){
-        return meetingDao.sortByOwner(order); 
+    public List<Meeting> sortByOwner(final Order order) {
+        return meetingDao.sortByOwner(order);
     }
 
     @Override
-    public List<Meeting> sortByRoom(final Order order){
+    public List<Meeting> sortByRoom(final Order order) {
         return meetingDao.sortByRoom(order);
     }
 
@@ -358,9 +367,9 @@ public class MeetingServiceImpl implements MeetingService {
     public List<Meeting> sortByLevel(final Order order) {
         return meetingDao.sortByLevel(order);
     }
-    
+
     @Override
     public List<Meeting> sortByStatus(final Order order) {
-        return meetingDao.sortByStatus(order); 
+        return meetingDao.sortByStatus(order);
     }
 }
