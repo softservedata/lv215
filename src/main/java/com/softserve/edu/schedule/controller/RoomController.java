@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
@@ -34,6 +35,7 @@ import com.softserve.edu.schedule.service.implementation.editor.RoomEquipmentDTO
  */
 @RequestMapping("/rooms")
 @Controller
+@SessionAttributes("roomFilter")
 public class RoomController {
 
     /**
@@ -59,7 +61,7 @@ public class RoomController {
     /**
      * Filter model attribute name.
      */
-    public static final String FILTER_MODEL_ATTR = "filter";
+    public static final String FILTER_MODEL_ATTR = "roomFilter";
 
     /**
      * Path variable for room id name.
@@ -164,6 +166,16 @@ public class RoomController {
     @ModelAttribute(ROOM_MODEL_ATTR)
     public RoomDTO getRoomDTO() {
         return new RoomDTO();
+    }
+    
+    /**
+     * Provides room filter.
+     * 
+     * @return new RoomFilter object.
+     */
+    @ModelAttribute(FILTER_MODEL_ATTR)
+    public RoomFilter getFilter() {
+        return new RoomFilter();
     }
 
     /**

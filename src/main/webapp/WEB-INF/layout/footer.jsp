@@ -12,4 +12,9 @@
 	function goBack() {
 		window.history.back();
 	}
+
+	function deleteRoomQuestion() {
+		confirm("Are you sure to delete this room?") ? location.href = "rooms/delete/${room.id}"
+				: false;
+	}
 </script>
