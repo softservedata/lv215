@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.service;
 import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
@@ -101,6 +102,13 @@ public interface UserService {
     public List<User> getAll();
 
     /**
+     * Get all users.
+     *
+     * @return List of the user objects for SubjectDTO.
+     */
+    public List<UserForSubjectDTO> getAllForSubject();
+
+    /**
      * Get all users by role what was selected.
      *
      * @param userStatus
@@ -159,6 +167,5 @@ public interface UserService {
      * @return List of searched Users transfer objects
      */
     public List<User> getAllWithDetails();
-
 
 }

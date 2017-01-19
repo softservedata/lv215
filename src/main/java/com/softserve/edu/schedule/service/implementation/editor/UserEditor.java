@@ -13,7 +13,8 @@ public class UserEditor extends PropertyEditorSupport {
     }
 
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
-        setValue(userService.getById(Long.valueOf(text)));
+    public void setAsText(String userId) throws IllegalArgumentException {
+        setValue(userService.getById(Long.valueOf(userId)));
+        
     }
 }

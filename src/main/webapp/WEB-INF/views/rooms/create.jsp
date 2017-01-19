@@ -18,6 +18,7 @@ $(function(){
 			<div class="form-group">
 				<label for="location">Location:</label>
 				<form:select class="form-control" path="location" id="location">
+					<option value="0"></option>
 					<c:forEach items="${locations}" var="location">
 						<option value="${location.id}">${location.name}</option>
 					</c:forEach>

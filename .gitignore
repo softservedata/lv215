@@ -141,4 +141,6 @@ hs_err_pid*
 bower_components
 # db.properties
 /src/main/webapp/WEB-INF/db.properties
->>>>>>> d043e70ace0d21109cfc1dfc34e2a4c098de1a16
+*.properties
+/src/main/webapp/WEB-INF/*.properties
+

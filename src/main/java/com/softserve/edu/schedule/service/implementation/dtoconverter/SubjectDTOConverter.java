@@ -14,7 +14,7 @@ public class SubjectDTOConverter {
     private UserDAO userDAO;
 
     @Autowired
-    private SubjectUsersDTOConverter subjectUsersDTOConverter;
+    private UserForSubjectDTOConverter userForSubjectDTOConverter;
 
     public Subject getEntity(SubjectDTO subjectDTO) {
         if (subjectDTO != null) {
@@ -28,8 +28,10 @@ public class SubjectDTOConverter {
             if (subjectDTO.getDescription() != null) {
                 subject.setDescription(subjectDTO.getDescription());
             }
-            subjectDTO.getUsers().forEach(
-                    u -> subject.getUsers().add(userDAO.getById(u.getId())));
+            if (subjectDTO.getUsers() != null) {
+                subjectDTO.getUsers().forEach(u -> subject.getUsers()
+                        .add(userDAO.getById(u.getId())));
+            }
             return subject;
         }
         return null;
@@ -48,7 +50,7 @@ public class SubjectDTOConverter {
                 subjectDTO.setDescription(subject.getDescription());
             }
             subject.getUsers().forEach(u -> subjectDTO.getUsers()
-                    .add(subjectUsersDTOConverter.getDTO(u)));
+                    .add(userForSubjectDTOConverter.getDTO(u)));
             return subjectDTO;
         }
         return null;

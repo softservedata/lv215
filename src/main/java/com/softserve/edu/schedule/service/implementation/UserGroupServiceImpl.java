@@ -10,7 +10,10 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+
 import org.springframework.transaction.annotation.Transactional;
+
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
@@ -25,6 +28,7 @@ import com.softserve.edu.schedule.service.UserGroupService;
  * @author Zhydenko Andrii
  *
  */
+
 @Transactional
 @Service("userGroupsService")
 public class UserGroupServiceImpl implements UserGroupService {

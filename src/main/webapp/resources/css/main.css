@@ -1,6 +1,4 @@
-
 /* body, html {
-
 	padding: 0px;
 	margin: 0px;
 	background: url('../img/background.jpg') center;
@@ -10,10 +8,8 @@
 	color: #FFF;
 	line-height: 1.4em;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
 
-} 
-
- 
 table {
 	border-collapse: collapse;
 	width: 75%;
@@ -94,13 +90,11 @@ input[type=submit]:hover {
 }
 
 div {
-
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-    width: 15%;
-    margin: 0 auto;
-    margin-top: 100px;
-    color: #2b5797;
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px;
+	width: 15%;
+	margin: 0 auto;
+	margin-top: 100px;
+	color: #2b5797;
 } */
-

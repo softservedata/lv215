@@ -21,6 +21,11 @@ import com.softserve.edu.schedule.entity.UserGroup;
 
 public interface UserGroupDAO extends CrudDAO<UserGroup> {
 
+
+    void deleteUserFromUserGroup(Long userId, Long userGroupId);
+
+   
+    
 	/**
 	 * Method returns list of sorted usergroups.
 	 * 
