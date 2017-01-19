@@ -22,6 +22,7 @@
 			<form:input type="textarea" path="description"
 				placeholder="Subject description" />
 			<form:select path="users" multiple="multiple">
+				<c:set var="found" value="false"/>
 				<c:forEach items="${users}" var="user">
 					<c:forEach items="${subjectForm.users}" var="userInSubject">
 						<c:choose>
@@ -40,5 +41,12 @@
 			<input type="submit" value="Register" />
 		</form:form>
 	</div>
+	<script type="text/javascript">
+		$(function() {
+			$("select[name=users]").chosen({
+				width : "50%"
+			});
+		})
+	</script>
 </body>
 </html>
