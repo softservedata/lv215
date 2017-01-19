@@ -2,13 +2,13 @@
 	pageEncoding="UTF-8"%>
 
 <ul class="nav nav-tabs">
-	<li><a href="calendar">Calendar</a></li>
-	<li><a href="meetings">Meetings</a></li>
-	<li><a href="subjects">Subjects</a></li>
-	<li><a href="usergroups">Groups</a></li>
-	<li><a href="users">Users</a></li>
-	<li><a href="locations">Locations</a></li>
-	<li><a href="rooms">Rooms</a></li>
-	<li><a href="roomequipments">Room Equipments</a></li>
+	<li><a href="${pageContext.request.contextPath}/calendar">Calendar</a></li>
+	<li><a href="${pageContext.request.contextPath}/meetings">Meetings</a></li>
+	<li><a href="${pageContext.request.contextPath}/subjects">Subjects</a></li>
+	<li><a href="${pageContext.request.contextPath}/usergroups">Groups</a></li>
+	<li><a href="${pageContext.request.contextPath}/users">Users</a></li>
+	<li><a href="${pageContext.request.contextPath}/locations">Locations</a></li>
+	<li><a href="${pageContext.request.contextPath}/rooms">Rooms</a></li>
+	<li><a href="${pageContext.request.contextPath}/roomequipments">Room Equipments</a></li>
 </ul>
 
