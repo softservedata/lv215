@@ -1,12 +1,20 @@
 package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.entity.Location;
 
 @Service("locationDTOConverter")
 public class LocationDTOConverter {
+	
+	@Autowired
+	private RoomForLocationDTOConverter roomForLocationDTOConverter;
+	
+	@Autowired
+	private RoomDAO roomDAO;
 
     public Location getEntity(LocationDTO locationDTO) {
         if (locationDTO != null) {
@@ -22,6 +30,10 @@ public class LocationDTOConverter {
             }
             if (locationDTO.getCoordinates() != null) {
                 location.setCoordinates(locationDTO.getCoordinates());
+            }
+            if (!locationDTO.getRooms().isEmpty()) {
+            	locationDTO.getRooms().forEach(e -> location.getRooms()
+                        .add(roomDAO.getById(e.getId())));
             }
             return location;
         }
@@ -42,6 +54,9 @@ public class LocationDTOConverter {
             }
             if (location.getCoordinates() != null) {
                 locationDTO.setCoordinates(location.getCoordinates());
+            }
+            if (!location.getRooms().isEmpty()) {
+            	location.getRooms().forEach(e->locationDTO.getRooms().add(roomForLocationDTOConverter.getDTO(e)));
             }
             return locationDTO;
         }
