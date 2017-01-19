@@ -173,6 +173,7 @@ public class MeetingController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
         meetingService.deleteById(id);
+        
         return "redirect:/meetings";
     }
     
