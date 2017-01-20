@@ -37,18 +37,6 @@ public interface LocationService {
 	List<LocationDTO> getAll();
 
 	/**
-	 * Method returns list of locations which suit condition of search.
-	 * 
-	 * @param field
-	 *            field for search
-	 * @param pattern
-	 *            pattern for search
-	 * @return list of locations which suit condition of search
-	 */
-	List<LocationDTO> search(final String field, final String pattern);
-
-
-	/**
 	 * Method creates new location in database.
 	 * 
 	 * @param location
@@ -80,28 +68,52 @@ public interface LocationService {
 	List<LocationDTO> sortByCountRooms(final Order order);
 
 	/**
-	 * Method returns all locations from database with room details.
-	 * 
-	 * @return all locations from database with room details
-	 */
-	List<LocationDTO> getAllWithDetails();
-
-	/**
 	 * Method deletes existing location from database by id.
 	 * 
 	 * @param id
 	 *            location id to delete
 	 */
-    void deleteById(final Long id);
-	
+	void deleteById(final Long id);
+
 	/**
-	 * Method returns list of sorted locations.
+	 * Method returns list of locations which suit condition of search by name.
+	 * 
+	 * @param pattern
+	 *            pattern for search
+	 * @return list of locations which suit condition of search by name
+	 */
+	List<LocationDTO> searchByName(final String pattern);
+
+	/**
+	 * Method returns list of locations which suit condition of search by
+	 * address.
+	 * 
+	 * @param pattern
+	 *            pattern for search
+	 * @return list of locations which suit condition of search by address
+	 */
+	List<LocationDTO> searchByAddress(final String pattern);
+
+	/**
+	 * Method returns list of sorted locations by name.
 	 * 
 	 * @param field
 	 *            field for sort
 	 * @param order
 	 *            ASC or DESC
-	 * @return list of sorted locations
+	 * @return list of sorted locations by name
 	 */
-	List<LocationDTO> sortByFields(final String field, final Order order);
+	List<LocationDTO> sortByName(final Order order);
+	
+	/**
+	 * Method returns list of sorted locations by address.
+	 * 
+	 * @param field
+	 *            field for sort
+	 * @param order
+	 *            ASC or DESC
+	 * @return list of sorted locations by address
+	 */
+	List<LocationDTO> sortByAddress(final Order order);
+	
 }
