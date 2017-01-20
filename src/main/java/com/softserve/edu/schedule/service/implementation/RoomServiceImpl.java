@@ -86,7 +86,7 @@ public class RoomServiceImpl implements RoomService {
         return roomDTOConverter.getDTO(roomDAO.getById(id));
     }
     
-    //delete after metting DTO creation
+    //delete after meeting DTO creation
     public Room getEntityById(final Long id) {
         return roomDAO.getById(id);
     }
