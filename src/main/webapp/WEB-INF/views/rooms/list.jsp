@@ -12,7 +12,7 @@
 	})
 </script>
 
-<h3>Present rooms:</h3>
+<h3 class="text-center">Rooms</h3>
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
@@ -22,7 +22,7 @@
 			<th>Room capacity</th>
 			<th>Room equipment</th>
 			<th></th>
-			<th><a class="btn btn-success" href="rooms/create">Add room</a></th>
+			<th class="text-center"><a class="fa fa-th-large fa-plus fa-2x" href="rooms/create"></a></th>
 		</tr>
 		<c:if test="${roomFilter ne null}">
 		<tr>
@@ -118,13 +118,12 @@
 					</c:forEach>					
 				</form:select>
 			</td>
-			<td>
-				<input type="submit" class="btn btn-primary" value="Apply filter">
+			<td>				
+				<button type="submit" class="fa fa-filter fa-2x"></button>
 			</td>
 			</form:form>
 			<td>
-				<a class="btn btn-primary" 
-				href="rooms?locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1">Reset filter</a>
+				<a class="fa fa-times-circle fa-2x" href="rooms?locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1"></a>
 			</td>
 		</tr>
 		</c:if>
@@ -141,9 +140,9 @@
 						</c:forEach>
 					</ul>
 				</td>
-				<td><a class="btn btn-danger" href="rooms/delete/${room.id}"
-					onclick="return confirm('Are you sure you want to delete this room?');">Delete</a></td>
-				<td><a class="btn btn-success" href="rooms/edit/${room.id}">Edit</a></td>
+				<td class="text-center"><a class="fa fa-trash-o fa-2x" href="rooms/delete/${room.id}"
+					onclick="return confirm('Are you sure you want to delete this room?');"></a></td>
+				<td class="text-center"><a class="fa fa-pencil-square-o fa-2x" href="rooms/edit/${room.id}"></a></td>
 			</tr>
 		</c:forEach>
 	</table>
