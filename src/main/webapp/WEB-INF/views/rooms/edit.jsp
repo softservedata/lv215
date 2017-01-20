@@ -17,8 +17,7 @@
 <div class="row">
 	<div class="col-md-6">
 		<h3>Edit room</h3>
-		<form:form role="form" method="post" modelAttribute="room">
-			<form:errors path="*" />
+		<form:form role="form" method="post" modelAttribute="room">			
 			<form:input path="id" type="hidden" />
 			<div class="form-group">
 				<label for="location">Location:</label>
@@ -34,16 +33,19 @@
 						</c:choose>
 					</c:forEach>
 				</form:select>
+				<form:errors path="location" />
 			</div>
 			<div class="form-group">
 				<label for="name">Room name:</label>
 				<form:input type="text" class="form-control" path="name" id="name"
 					placeholder="room name" required="true" />
+				<form:errors path="name" />
 			</div>
 			<div class="form-group">
 				<label for="capacity">Room capacity:</label>
 				<form:input class="form-control" type="number" path="capacity"
 					id="capacity" min="1" step="1" required="true" />
+				<form:errors path="capacity" />
 			</div>
 			<div class="form-group">
 				<label for="equipments">Room equipments:</label>
@@ -68,7 +70,7 @@
 			<input type="submit" class="btn btn-primary" value="Save room">
 			<a class="btn btn-danger" href="/schedule/rooms/edit/${room.id}">Reset
 				form</a>
-			<button class="btn btn-danger" onclick="goBack()">Cancel</button>
+			<a class="btn btn-danger" href="${pageContext.request.contextPath}/rooms">Cancel</a>
 		</form:form>
 	</div>
 </div>

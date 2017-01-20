@@ -85,23 +85,29 @@ public class RoomServiceImpl implements RoomService {
     public RoomDTO getById(final Long id) {
         return roomDTOConverter.getDTO(roomDAO.getById(id));
     }
-    
-    //delete after meeting DTO creation
+
+    // delete after meeting DTO creation
     public Room getEntityById(final Long id) {
         return roomDAO.getById(id);
     }
 
     /**
-     * Find a room DTO in the database by name.
+     * Find a room DTO in the database by name and location.
      *
      * @param roomName
      *            a room name to find in the database.
-     * @return a room DTO with given name.
+     * 
+     * @param location
+     *            a location to find room.
+     * 
+     * @return a room DTO with given name and location.
      */
     @Override
     @Transactional(readOnly = true)
-    public RoomDTO getByName(final String roomName) {
-        return roomDTOConverter.getDTO(roomDAO.getByName(roomName));
+    public RoomDTO getByNameAndLocation(final String roomName,
+            final LocationDTO location) {
+        return roomDTOConverter.getDTO(
+                roomDAO.getByNameAndLocationId(roomName, location.getId()));
     }
 
     /**
