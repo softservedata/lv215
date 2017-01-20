@@ -135,5 +135,11 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         cq.where(root.get(Subject_.id).in(id));
         return getEm().createQuery(cq).getSingleResult();
     }
+    
+    @Override
+    public void deleteUserFromSubject(Long userID, Long subjectID){
+            getById(subjectID).getUsers()
+                    .removeIf(e -> e.getId().equals(userID));
+    }
 
 }

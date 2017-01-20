@@ -51,7 +51,7 @@ public class MeetingServiceImpl implements MeetingService {
      * edu.schedule.entity.Meeting)
      */
     @Override
-    public void create(final Meeting meeting) {
+    public void create(Meeting meeting) {
         meetingDao.create(meeting);
     }
 
@@ -65,6 +65,8 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void update(final Meeting meeting) {
         meetingDao.update(meeting);
+        // meeting.getGroups().forEach(e -> userGroupDAO
+        // .addMeetingtoUserGroup(meeting.getId(), e.getId()));
     }
 
     /*
@@ -112,6 +114,8 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void deleteById(final Long id) {
         meetingDao.deleteById(id);
+
+        // userGroupDAO.deleteMeetingFromUserGroup(id, userGroupID);
 
     }
 
@@ -330,5 +334,35 @@ public class MeetingServiceImpl implements MeetingService {
     public void deleteMeetingByStatus(final MeetingStatus meetingStatus) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public List<Meeting> sortByDescription(final Order order) {
+        return meetingDao.sortByDescription(order);
+    }
+
+    @Override
+    public List<Meeting> sortBySubject(final Order order) {
+        return meetingDao.sortBySubject(order);
+    }
+
+    @Override
+    public List<Meeting> sortByOwner(final Order order) {
+        return meetingDao.sortByOwner(order);
+    }
+
+    @Override
+    public List<Meeting> sortByRoom(final Order order) {
+        return meetingDao.sortByRoom(order);
+    }
+
+    @Override
+    public List<Meeting> sortByLevel(final Order order) {
+        return meetingDao.sortByLevel(order);
+    }
+
+    @Override
+    public List<Meeting> sortByStatus(final Order order) {
+        return meetingDao.sortByStatus(order);
     }
 }

@@ -59,6 +59,12 @@ public class UserDTO {
     private List<UserGroupDTO> groups = new ArrayList<>();
 
     /**
+     * List of subjects this user participates.
+     */
+
+    private List<SubjectDTO> subjects = new ArrayList<>();
+
+    /**
      * @return the id
      */
     public Long getId() {
@@ -206,6 +212,21 @@ public class UserDTO {
      */
     public void setGroups(List<UserGroupDTO> groups) {
         this.groups = groups;
+    }
+
+    /**
+     * @return the groups
+     */
+    public List<SubjectDTO> getSubjects() {
+        return subjects;
+    }
+
+    /**
+     * @param groups
+     *            the groups to set
+     */
+    public void setSubjects(List<SubjectDTO> subjects) {
+        this.subjects = subjects;
     }
 
 }

@@ -1,6 +1,7 @@
 package com.softserve.edu.schedule.service.implementation;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,10 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserDAO;
+import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.service.UserService;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSubjectDTOConverter;
+
 
 /**
  * An interface to provide service operations with User entity.
@@ -31,6 +36,13 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private UserDAO userDAO;
+    
+    @Autowired
+    private UserDTOConverter userDAOConverter;
+
+    @Autowired
+    private UserForSubjectDTOConverter userForSubjectDTOConverter;
+
 
     /**
      * Save new user entity into the database.
@@ -155,6 +167,19 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public List<User> getAll() {
         return userDAO.getAll();
+    }
+    
+    /**
+     * Get all users.
+     *
+     * @return List of the user objects for SubjectDTO.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserForSubjectDTO> getAllForSubject() {       
+        return userDAO.getAll().stream()
+                .map(u -> userForSubjectDTOConverter.getDTO(u))
+                .collect(Collectors.toList());
     }
 
     /**

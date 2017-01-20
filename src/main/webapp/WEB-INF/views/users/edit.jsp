@@ -12,7 +12,6 @@
 			<tr><td><a href="updateUserPosition/${user.id}">
 					change position </a></td></tr>
 			<tr><td><a href="changeRole/${user.id}"> change role</a></td></tr>
-			<tr><td><a href="addToGroup/${user.id}"> add to group</a></td></tr>
 
 	</table>
 </div>

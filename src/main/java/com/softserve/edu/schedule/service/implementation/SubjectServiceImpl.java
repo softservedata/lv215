@@ -37,7 +37,7 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Autowired
     private SubjectDAO subjectDao;
-    
+
     @Autowired
     private SubjectDTOConverter subjectDTOConverter;
 
@@ -48,8 +48,8 @@ public class SubjectServiceImpl implements SubjectService {
      *            - Subject object
      */
     @Override
-    public void create(final Subject subject) {
-        subjectDao.create(subject);
+    public void create(final SubjectDTO subject) {
+        subjectDao.create(subjectDTOConverter.getEntity(subject));
     }
 
     /**
@@ -59,8 +59,8 @@ public class SubjectServiceImpl implements SubjectService {
      *            - Subject object
      */
     @Override
-    public void update(final Subject subject) {
-        subjectDao.update(subject);
+    public void update(final SubjectDTO subject) {
+        subjectDao.update(subjectDTOConverter.getEntity(subject));
     }
 
     /**
@@ -84,10 +84,10 @@ public class SubjectServiceImpl implements SubjectService {
      * @return room with given id
      */
     @Override
-    public Subject getByIdWhithDetails(Long id) {
-        return subjectDao.getByIdWhithDetails(id);
+    public SubjectDTO getByIdWhithDetails(final Long id) {
+        return subjectDTOConverter.getDTO(subjectDao.getByIdWhithDetails(id));
     }
-    
+
     /**
      * Return a List of Subject objects.
      *
@@ -113,17 +113,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
-     * Deleting subject in database.
-     *
-     * @param subject
-     *            - Subject object
-     */
-    @Override
-    public void delete(final Subject subject) {
-        subjectDao.delete(subject);
-    }
-
-    /**
      * Delete existed transfer object from the database by id.
      *
      * @param id
@@ -145,8 +134,8 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Subject> sort(final String field, final Order order) {
-        return subjectDao.sort(field, order);
+    public List<Subject> sortByName(Order order) {
+        return subjectDao.sortByName(order);
     }
 
     /**
@@ -160,25 +149,10 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Subject> sortByName(Order order) {
-        return subjectDao.sortByName(order);
-    }
-    
-    /**
-     * Return a List of sorted Subject transfer objects.
-     *
-     * @param field
-     *            for sort
-     * @param order
-     *            - ASC or DESC
-     * @return List of sorted Subject transfer objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<Subject> sortByDescription(final Order order){
+    public List<Subject> sortByDescription(final Order order) {
         return subjectDao.sortByDescription(order);
     }
-    
+
     /**
      * Return a List of searched Subject transfer objects.
      *
@@ -208,6 +182,5 @@ public class SubjectServiceImpl implements SubjectService {
     public List<Subject> searchTutors(final String pattern) {
         return subjectDao.searchTutors(pattern);
     }
-
 
 }

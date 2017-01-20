@@ -7,6 +7,7 @@ import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
+import com.softserve.edu.schedule.entity.Room;
 
 /**
  * An interface to provide service operations with Room entity.
@@ -46,13 +47,17 @@ public interface RoomService {
     RoomDTO getById(final Long id);
 
     /**
-     * Find a room DTO in the database by name.
+     * Find a room DTO in the database by name and location.
      *
      * @param roomName
      *            a room name to find in the database.
-     * @return a room DTO with given name.
+     *            
+     * @param location
+     *            a location to find room.
+     *                    
+     * @return a room DTO with given name and location.
      */
-    RoomDTO getByName(final String roomName);
+    RoomDTO getByNameAndLocation(final String roomName, final LocationDTO location);
 
     /**
      * Delete existed room entity from the database.
@@ -131,5 +136,7 @@ public interface RoomService {
      * @return List of the room DTO objects.
      */
     List<RoomDTO> getRoomsWithFilter(final RoomFilter roomFilter);
+    
+    public Room getEntityById(final Long id);
 
 }

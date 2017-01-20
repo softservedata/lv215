@@ -2,15 +2,15 @@ package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
 import org.springframework.stereotype.Service;
 
-import com.softserve.edu.schedule.dto.SubjectUsersDTO;
+import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.entity.User;
 
-@Service("subjectUsersDTOConverter")
-public class SubjectUsersDTOConverter {
+@Service("userForSubjectDTOConverter")
+public class UserForSubjectDTOConverter {
 
-    public SubjectUsersDTO getDTO(User user) {
+    public UserForSubjectDTO getDTO(User user) {
         if (user != null) {
-            SubjectUsersDTO subjectUsersDTO = new SubjectUsersDTO();
+            UserForSubjectDTO subjectUsersDTO = new UserForSubjectDTO();
             if (user.getId() != null) {
                 subjectUsersDTO.setId(user.getId());
             }

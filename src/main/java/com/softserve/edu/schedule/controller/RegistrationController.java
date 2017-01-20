@@ -13,25 +13,81 @@ import com.softserve.edu.schedule.service.UserService;
 @Controller
 public class RegistrationController {
 
+    /**
+     * Register new user mapping URL.
+     */
+    public static final String USER_REGIST_MAPPING_FROM_STARTPAGE = "registration";
+
+    /**
+     * Register new user mapping URL for administrator.
+     */
+    public static final String USER_REGIST_MAPPING_FOR_ADMIN = "users/registration";
+
+    /**
+     * Registration model attribute name.
+     */
+    public static final String USER_REGIST_MODEL_ATTR = "userFormCreate";
+
+    /**
+     * Registration model attribute name.
+     */
+    public static final String USER_REGIST_URL = "users/registration";
+
+    /**
+     * Registration model attribute name.
+     */
+    public static final String REDIRECT_STARTPAGE = "redirect:/";
+
+    /**
+     * Registration model attribute name.
+     */
+    public static final String REDIRECT_USERS_PAGE = "redirect:/users";
+
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = { "/registration", "users/registration"})
+    /**
+     * Controls view of user registration page.
+     *
+     * @param model
+     *            user registration page view model.
+     *
+     * @return start page URL
+     */
+    @RequestMapping(value = { USER_REGIST_MAPPING_FROM_STARTPAGE,
+            USER_REGIST_MAPPING_FOR_ADMIN })
     public String newUserPage(Model model) {
-        model.addAttribute("userFormCreate", new User());
-        return "users/registration";
+        model.addAttribute(USER_REGIST_MODEL_ATTR, new User());
+        return USER_REGIST_URL;
     }
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String newUserFromStartPage(@ModelAttribute("userFormCreate") User user) {
+    /**
+     * Controls view of user create form.
+     *
+     * @param User
+     *            user example which is built based on form data.
+     *
+     * @return start page URL
+     */
+    @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE, method = RequestMethod.POST)
+    public String newUserFromStartPage(
+            @ModelAttribute(USER_REGIST_MODEL_ATTR) User user) {
         userService.create(user);
-        return "redirect:/";
+        return REDIRECT_STARTPAGE;
     }
 
-    @RequestMapping(value = "users/registration"
-            , method = RequestMethod.POST)
-    public String newUserForAdmin(@ModelAttribute("userFormCreate") User user) {
+    /**
+     * Controls view of user create form for administrator.
+     *
+     * @param User
+     *            user example which is built based on form data.
+     *
+     * @return users page URL
+     */
+    @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN, method = RequestMethod.POST)
+    public String newUserForAdmin(
+            @ModelAttribute(USER_REGIST_MODEL_ATTR) User user) {
         userService.create(user);
-        return "redirect:/users";
+        return REDIRECT_USERS_PAGE;
     }
 }
