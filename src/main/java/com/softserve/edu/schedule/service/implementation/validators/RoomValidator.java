@@ -62,29 +62,59 @@ public class RoomValidator implements Validator {
     public void validate(Object target, Errors errors) {
         RoomDTO roomDTO = (RoomDTO) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "",
-                "Field can not be empty.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "capacity", "",
-                "Field can not be empty.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "location", "",
-                "Field can not be empty.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, ValidationFields.NAME,
+                ValidationMessages.NO_ERROR_CODE,
+                ValidationMessages.EMPTY_FIELD);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+                ValidationFields.CAPACITY, ValidationMessages.NO_ERROR_CODE,
+                ValidationMessages.EMPTY_FIELD);
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+                ValidationFields.LOCATION, ValidationMessages.NO_ERROR_CODE,
+                ValidationMessages.EMPTY_FIELD);
 
-        if (!roomDTO.getName().matches("^[\\p{L}0-9]*$")) {
-            errors.rejectValue("name", "", "Invalid characters in field.");
+        if (!isRoomNameValid(roomDTO)) {
+            errors.rejectValue(ValidationFields.NAME,
+                    ValidationMessages.NO_ERROR_CODE,
+                    ValidationMessages.INVALID_CHARACTERS);
         }
 
-        if (!roomDTO.getCapacity().matches("[0-9]+")) {
-            errors.rejectValue("capacity", "", "Invalid characters in field.");
-        } else if (Integer.parseInt(roomDTO.getCapacity()) <= 0) {
-            errors.rejectValue("capacity", "",
-                    "Capacity can not be zero or negative.");
+        if (!isRoomCapacityValid(roomDTO)) {
+            errors.rejectValue(ValidationFields.CAPACITY,
+                    ValidationMessages.NO_ERROR_CODE,
+                    ValidationMessages.INVALID_CHARACTERS);
         }
 
         if (hasDuplicates(roomDTO)) {
-            errors.rejectValue("name", "",
-                    "Room with this name already exist in specified location.");
+            errors.rejectValue(ValidationFields.NAME,
+                    ValidationMessages.NO_ERROR_CODE,
+                    ValidationMessages.DUPLICATE_ROOM);
         }
 
+    }
+
+    /**
+     * Checks the given roomDTO capacity contains only digits.
+     * 
+     * @param roomDTO
+     *            a RoomDTO object to check capacity.
+     * 
+     * @return true if capacity is valid
+     */
+    private boolean isRoomCapacityValid(RoomDTO roomDTO) {
+        return roomDTO.getCapacity().matches(ValidationCriteria.DIGITS_ONLY);
+    }
+
+    /**
+     * Checks the given roomDTO name contains only allowed characters.
+     * 
+     * @param roomDTO
+     *            a RoomDTO object to check name.
+     * 
+     * @return true if name is valid
+     */
+    private boolean isRoomNameValid(RoomDTO roomDTO) {
+        return roomDTO.getName()
+                .matches(ValidationCriteria.CHARACTERS_FOR_NAME);
     }
 
     /**
