@@ -9,25 +9,31 @@
 		<tr>
 			<th>ID</th>
 			<th>Name <a
-				href="${pageContext.request.contextPath}/locations/sortbynameasc"><i
+				href="${pageContext.request.contextPath}/locations/sortbynameasc"
+				title="Sort by name (ascending)"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="${pageContext.request.contextPath}/locations/sortbynamedesc"><i
+				href="${pageContext.request.contextPath}/locations/sortbynamedesc"
+				title="Sort by name (descending)"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th>Address <a
-				href="${pageContext.request.contextPath}/locations/sortbyaddressasc"><i
+				href="${pageContext.request.contextPath}/locations/sortbyaddressasc"
+				title="Sort by address (ascending)"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="${pageContext.request.contextPath}/locations/sortbyaddressdesc"><i
+				href="${pageContext.request.contextPath}/locations/sortbyaddressdesc"
+				title="Sort by address (descending)"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th>Coordinates</th>
 			<th>Rooms <a
-				href="${pageContext.request.contextPath}/locations/sortbycountroomsasc"><i
+				href="${pageContext.request.contextPath}/locations/sortbycountroomsasc"
+				title="Sort by count rooms (ascending)"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="${pageContext.request.contextPath}/locations/sortbycountroomsdesc"><i
+				href="${pageContext.request.contextPath}/locations/sortbycountroomsdesc"
+				title="Sort by count rooms (descending)"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th></th>
 			<th><a
-				href="${pageContext.request.contextPath}/locations/create"><i
-					class="fa fa-plus fa-lg"></i></a></th>
+				href="${pageContext.request.contextPath}/locations/create"
+				title="Add new location"><i class="fa fa-plus fa-lg"></i></a></th>
 		</tr>
 		<tr>
 			<td></td>
@@ -35,7 +41,7 @@
 					action="${pageContext.request.contextPath}/locations/searchByName"
 					modelAttribute="search">
 					<form:input path="name" placeholder=" Search..." />
-					<button type="submit">
+					<button type="submit" title="Search by name">
 						<i class="fa fa-search"></i>
 					</button>
 				</form:form></td>
@@ -43,7 +49,7 @@
 					action="${pageContext.request.contextPath}/locations/searchByAddress"
 					modelAttribute="search">
 					<form:input path="address" placeholder=" Search..." />
-					<button type="submit">
+					<button type="submit" title="Search by address">
 						<i class="fa fa-search"></i>
 					</button>
 				</form:form></td>
@@ -70,12 +76,12 @@
 				<td><c:if test="${location.rooms.size() == 0}">
 						<a
 							href="${pageContext.request.contextPath}/locations/delete/${location.id}"
-							onclick="return confirm('Are you sure you want to delete this location?')"><i
-							class="fa fa-trash-o fa-lg"></i></a>
+							onclick="return confirm('Are you sure you want to delete this location?')"
+							title="Delete location"><i class="fa fa-trash-o fa-lg"></i></a>
 					</c:if></td>
 				<td><a
-					href="${pageContext.request.contextPath}/locations/edit/${location.id}"><i
-						class="fa fa-pencil-square-o fa-lg"></i></a></td>
+					href="${pageContext.request.contextPath}/locations/edit/${location.id}"
+					title="Edit location"><i class="fa fa-pencil-square-o fa-lg"></i></a></td>
 			</tr>
 		</c:forEach>
 	</table>
