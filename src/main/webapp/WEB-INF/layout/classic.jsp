@@ -38,17 +38,17 @@
 <body>
 
 	<header>
-		<%-- <tiles:insertAttribute name="header" /> --%>
+		<tiles:insertAttribute name="header" />
 		<tiles:insertAttribute name="navigation" />
 	</header>
 	<!-- Основной контент сторінки -->
 	<div class="container">
 		<tiles:insertAttribute name="body" />
 	</div>
-	<%-- <footer>
+	<footer>
 		<!-- футер сторінки -->
 		<tiles:insertAttribute name="footer" />
-	</footer> --%>
+	</footer>
 
 </body>
 </html>
