@@ -27,7 +27,7 @@ public class SubjectController {
     @Autowired
     private UserService userService;
 
-    @ModelAttribute("/search")
+    @ModelAttribute("search")
     public SubjectDTO getSubjectDTO() {
         return new SubjectDTO();
     }
@@ -103,10 +103,11 @@ public class SubjectController {
         return "subjects/list";
     }
 
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    @RequestMapping(value = "/searchByName", method = RequestMethod.POST)
     public String searchByDescriptionName(
-            @PathVariable("patern") String pattern, Model model) {
-        model.addAttribute("subjects", subjectService.searchByName(pattern));
+            @ModelAttribute("search") SubjectDTO subject, Model model) {
+        model.addAttribute("subjects",
+                subjectService.searchByName(subject.getName()));
         return "subjects/list";
     }
 }
