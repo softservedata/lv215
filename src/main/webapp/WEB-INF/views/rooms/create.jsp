@@ -28,12 +28,6 @@ $(function(){
 						</c:choose>
 					</c:forEach>
 				</form:select>
-				
-				<%-- <form:select class="form-control" path="location" id="location">					
-					<c:forEach items="${locations}" var="location">
-						<option value="${location.id}">${location.name}</option>
-					</c:forEach>
-				</form:select> --%>
 				<form:errors path="location" />
 			</div>
 			<div class="form-group">
@@ -66,17 +60,11 @@ $(function(){
 							<option value="${equipment.id}">${equipment.name}</option>
 						</c:if>
 					</c:forEach>					
-				</form:select>
-				<%-- <form:select class="form-control" path="equipments" id="equipments"
-					multiple="multiple">
-					<c:forEach items="${equipments}" var="equipment">
-						<option value="${equipment.id}">${equipment.name}</option>
-					</c:forEach>
-				</form:select> --%>
+				</form:select>				
 			</div>
 			<input type="submit" class="btn btn-primary" value="Save room">
 			<a class="btn btn-danger" href="create">Reset form</a>			
-			<a class="btn btn-danger" href="${pageContext.request.contextPath}/rooms"">Cancel</a>
+			<a class="btn btn-danger" href="${pageContext.request.contextPath}/rooms">Cancel</a>
 		</form:form>
 	</div>
 </div>

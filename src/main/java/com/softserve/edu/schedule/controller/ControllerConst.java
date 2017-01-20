@@ -1,7 +1,27 @@
+/* ControllerConst 1.0 01/20/2017 */
 package com.softserve.edu.schedule.controller;
 
+/**
+ * An interface to storage controllers model attributes and mappings URL.
+ *
+ * @version 1.0 20 January 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
 public interface ControllerConst {
 
+    /**
+     * An interface to storage room controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Petro Zelyonka
+     *
+     * @since 1.8
+     */
     public interface RoomControllerConst {
         /**
          * Room model attribute name.
