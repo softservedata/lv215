@@ -10,21 +10,30 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Update: ${userFormUpdate.lastName}, ${userFormUpdate.firstName}</title>
+<title>Update: ${userFormUpdate.lastName},
+	${userFormUpdate.firstName}</title>
 </head>
 <body>
-	Update
-	<form:form
-		action="saveUpdatedUser/${userFormUpdate.id}"
-		method="post" commandName="userFormUpdate">
-		<form:input path="firstName" value="${userFormUpdate.firstName}" />
-		<form:input path="lastName" value="${userFormUpdate.lastName}" />
-		<form:input path="mail" value="${userFormUpdate.mail}" />
-		<form:input path="phone" value="${userFormUpdate.phone}" />
-		<form:input path="position" value="${userFormUpdate.position}" />
-		<form:input path="password" 
-				type="password" value="${userFormUpdate.password}" />
-		<input type="submit" value="Update" />
-	</form:form>
+	<div>
+		<h2>Update</h2>
+		<form:form action="saveUpdatedUser/${userFormUpdate.id}" method="post"
+			commandName="userFormUpdate">
+			<form:hidden path="id" />
+			<form:input path="firstName" value="${userFormUpdate.firstName}" />
+			<br>
+			<form:input path="lastName" value="${userFormUpdate.lastName}" />
+			<br>
+			<form:input path="mail" value="${userFormUpdate.mail}" />
+			<br>
+			<form:input path="phone" value="${userFormUpdate.phone}" />
+			<br>
+			<form:input path="position" value="${userFormUpdate.position}" />
+			<br>
+			<form:input path="password" type="password"
+				value="${userFormUpdate.password}" />
+			<br>
+			<input type="submit" value="Save" />
+		</form:form>
+	</div>
 </body>
 </html>

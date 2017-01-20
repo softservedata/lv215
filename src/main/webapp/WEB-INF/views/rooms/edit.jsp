@@ -4,18 +4,21 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <script type="text/javascript">
-$(function(){
-	$("select[name=location]").chosen({width: "50%"});
-	$("select[name=equipments]").chosen({width: "50%"});	
-})
+	$(function() {
+		$("select[name=location]").chosen({
+			width : "50%"
+		});
+		$("select[name=equipments]").chosen({
+			width : "50%"
+		});
+	})
 </script>
 
 <div class="row">
 	<div class="col-md-6">
 		<h3>Edit room</h3>
-		<form:form role="form" method="post" modelAttribute="room">
-			<form:errors path="*" />
-			<form:input path="id" type="hidden"/>
+		<form:form role="form" method="post" modelAttribute="room">			
+			<form:input path="id" type="hidden" />
 			<div class="form-group">
 				<label for="location">Location:</label>
 				<form:select class="form-control" path="location" id="location">
@@ -30,38 +33,44 @@ $(function(){
 						</c:choose>
 					</c:forEach>
 				</form:select>
+				<form:errors path="location" />
 			</div>
 			<div class="form-group">
 				<label for="name">Room name:</label>
 				<form:input type="text" class="form-control" path="name" id="name"
 					placeholder="room name" required="true" />
+				<form:errors path="name" />
 			</div>
 			<div class="form-group">
 				<label for="capacity">Room capacity:</label>
 				<form:input class="form-control" type="number" path="capacity"
 					id="capacity" min="1" step="1" required="true" />
+				<form:errors path="capacity" />
 			</div>
 			<div class="form-group">
 				<label for="equipments">Room equipments:</label>
 				<form:select class="form-control" path="equipments" id="equipments"
-					multiple="multiple">
+					multiple="multiple">					
 					<c:forEach items="${equipments}" var="equipment">
+						<c:set var="found" value="false"/>
 						<c:forEach items="${room.equipments}" var="equipmentInRoom">
-							<c:choose>
-								<c:when test="${equipmentInRoom.id eq equipment.id}">
+							<c:if test="${!found}">								
+								<c:if test="${equipmentInRoom.id eq equipment.id}">
 									<option value="${equipment.id}" selected="selected">${equipment.name}</option>
-								</c:when>
-							</c:choose>
+									<c:set var="found" value="true"/>
+								</c:if>
+							</c:if>									
 						</c:forEach>
-					</c:forEach>
-					<c:forEach items="${equipments}" var="equipment">
-						<option value="${equipment.id}">${equipment.name}</option>
-					</c:forEach>
+						<c:if test="${!found}">
+							<option value="${equipment.id}">${equipment.name}</option>
+						</c:if>
+					</c:forEach>					
 				</form:select>
 			</div>
 			<input type="submit" class="btn btn-primary" value="Save room">
-			<a class="btn btn-danger" href="/schedule/rooms/edit/${room.id}">Reset form</a>
-			<button class="btn btn-danger" onclick="goBack()">Cancel</button>
+			<a class="btn btn-danger" href="/schedule/rooms/edit/${room.id}">Reset
+				form</a>
+			<a class="btn btn-danger" href="${pageContext.request.contextPath}/rooms">Cancel</a>
 		</form:form>
 	</div>
 </div>

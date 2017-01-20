@@ -5,7 +5,6 @@
  * Copyright (c) Zhydenko Andrii
  */
 package com.softserve.edu.schedule.dao.implementation;
-
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -57,6 +56,7 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
 
     /*
      * (non-Javadoc)
+     *
      * 
      * @see com.softserve.edu.schedule.dao.UserGroupDAO#sortByFields(java.lang.
      * String, com.softserve.edu.schedule.dao.Order)
@@ -80,6 +80,16 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
     @Override
     public void deleteUserFromUserGroup(Long userID, Long userGroupID) {
         getById(userGroupID).getUsers().removeIf(e -> e.getId().equals(userID));
+    }
+
+
+    @Override
+    public boolean isUserCurator(Long userID, Long userGroupID) {
+        if (getById(userGroupID).getCurator().getId().equals(userID)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

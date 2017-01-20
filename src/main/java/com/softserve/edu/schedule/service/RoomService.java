@@ -47,13 +47,17 @@ public interface RoomService {
     RoomDTO getById(final Long id);
 
     /**
-     * Find a room DTO in the database by name.
+     * Find a room DTO in the database by name and location.
      *
      * @param roomName
      *            a room name to find in the database.
-     * @return a room DTO with given name.
+     *            
+     * @param location
+     *            a location to find room.
+     *                    
+     * @return a room DTO with given name and location.
      */
-    RoomDTO getByName(final String roomName);
+    RoomDTO getByNameAndLocation(final String roomName, final LocationDTO location);
 
     /**
      * Delete existed room entity from the database.

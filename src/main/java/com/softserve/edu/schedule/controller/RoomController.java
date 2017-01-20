@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -23,6 +24,7 @@ import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.implementation.editor.LocationDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomEquipmentDTOEditor;
+import com.softserve.edu.schedule.service.implementation.validators.RoomValidator;
 
 /**
  * A controller class of rooms pages.
@@ -140,6 +142,7 @@ public class RoomController {
      */
     @InitBinder(ROOM_MODEL_ATTR)
     protected void initBinder(final WebDataBinder binder) {
+        binder.setValidator(new RoomValidator(roomService));
         binder.registerCustomEditor(LocationDTO.class,
                 new LocationDTOEditor(locationService));
         binder.registerCustomEditor(RoomEquipmentDTO.class,
@@ -167,7 +170,7 @@ public class RoomController {
     public RoomDTO getRoomDTO() {
         return new RoomDTO();
     }
-    
+
     /**
      * Provides room filter.
      * 
@@ -229,7 +232,14 @@ public class RoomController {
      */
     @RequestMapping(value = ROOM_EDIT_MAPPING, method = RequestMethod.POST)
     public String update(
-            @ModelAttribute(ROOM_MODEL_ATTR) final RoomDTO roomDTO) {
+            @ModelAttribute(ROOM_MODEL_ATTR) @Valid final RoomDTO roomDTO,
+            BindingResult br, Model model) {
+        if (br.hasErrors()) {
+            model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
+            model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+                    roomEquipmentService.getAll());
+            return ROOM_EDIT_URL;
+        }
         roomService.update(roomDTO);
         return ROOMS_REDIRECT_URL;
     }
@@ -265,7 +275,14 @@ public class RoomController {
      */
     @RequestMapping(value = ROOM_CREATE_MAPPING, method = RequestMethod.POST)
     public String create(
-            @ModelAttribute(ROOM_MODEL_ATTR) final RoomDTO roomDTO) {
+            @ModelAttribute(ROOM_MODEL_ATTR) @Valid final RoomDTO roomDTO,
+            BindingResult br, Model model) {
+        if (br.hasErrors()) {
+            model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
+            model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+                    roomEquipmentService.getAll());
+            return ROOM_CREATE_URL;
+        }
         roomService.create(roomDTO);
         return ROOMS_REDIRECT_URL;
     }

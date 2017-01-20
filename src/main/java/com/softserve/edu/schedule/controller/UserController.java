@@ -46,8 +46,8 @@ public class UserController {
         return "users/users/edit/updateUser";
     }
 
-    @RequestMapping(value = "/edit/updateUser/saveUpdatedUser/{id}"
-            , method = RequestMethod.POST)
+    @RequestMapping(value = "/edit/updateUser/saveUpdatedUser/{id}",
+            method = RequestMethod.POST)
     public String updateUser(@ModelAttribute("userFormUpdate") User user) {
         userService.update(user);
         return "redirect:/users";
@@ -59,8 +59,9 @@ public class UserController {
         return "users/users/edit/updateUserPosition";
     }
 
-    @RequestMapping(value = "/edit/updateUserPosition/saveUpdatedUserPosition/{id}"
-            , method = RequestMethod.POST)
+    @RequestMapping(
+            value = "/edit/updateUserPosition/saveUpdatedUserPosition/{id}",
+            method = RequestMethod.POST)
     public String updateUserPosition(@PathVariable Long id,
             @RequestParam String position) {
         userService.changePosition(id, position);
@@ -88,10 +89,10 @@ public class UserController {
         return "users/users/edit/changeRole";
     }
 
-    @RequestMapping(value = "/edit/changeRole/saveChangedRole/{id}"
-            , method = RequestMethod.POST)
-    public String changeRole(@ModelAttribute User user, @PathVariable Long id
-            , @RequestParam UserRole chooseRole) {
+    @RequestMapping(value = "/edit/changeRole/saveChangedRole/{id}",
+            method = RequestMethod.POST)
+    public String changeRole(@ModelAttribute User user, @PathVariable Long id,
+            @RequestParam UserRole chooseRole) {
         userService.changeRole(id, chooseRole);
         return "redirect:/users";
     }
