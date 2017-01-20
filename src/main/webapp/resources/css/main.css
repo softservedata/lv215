@@ -3,15 +3,13 @@ body, html {
 	margin: 0px;
 	background: url('../img/background.jpg') center;
 	background-size: cover;
-	background-attachment: fixed;
-	/* text-align: center; */
-	/* color: #FFF; */
+	background-attachment: fixed;	
 	line-height: 1.4em;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 table {
-background-color: white;
+	background-color: rgba(255, 255, 255, 0.98);
 }
 
 .tooltip3 {
@@ -46,40 +44,49 @@ background-color: white;
 }
 
 .tooltip3:hover .tooltiptext3 {
-    visibility: visible;
+	visibility: visible;
 }
 
- /* Remove the navbar's default margin-bottom and rounded borders */ 
-    .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-        background-color: #173c72;
-    }
-    
-    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-    .row.content {height: 450px}
-    
-    /* Set gray background color and 100% height */
-    .sidenav {
-        font-size: 30px;
-      padding-top: 20px;
-      background-color: #f1f1f1;
-      height: 200%;
-    }
-    
-    /* Set black background color, white text and some padding */
-    footer {
-      background-color: #555;
-      color: white;
-      padding: 15px;
-    }
-    
-    /* On small screens, set height to 'auto' for sidenav and grid */
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height:auto;} 
-    }
-    
+/* Remove the navbar's default margin-bottom and rounded borders */
+.navbar {
+	margin-bottom: 0;
+	border-radius: 0;
+	background-color: #173c72;
+}
+
+/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+.row.content {
+	height: 450px
+}
+
+/* Set gray background color and 100% height */
+.sidenav {
+	font-size: 30px;
+	padding-top: 20px;
+	background-color: #f1f1f1;
+	height: 200%;
+}
+
+/* Set black background color, white text and some padding */
+footer {
+	background-color: #555;
+	color: white;
+	padding: 15px;
+}
+
+/* On small screens, set height to 'auto' for sidenav and grid */
+@media screen and (max-width: 767px) {
+	.sidenav {
+		height: auto;
+		padding: 15px;
+	}
+	.row.content {
+		height: auto;
+	}
+}
+
+.form-fieldset {
+	background-color: rgba(255, 255, 255, 0.8);
+	border: 5px solid #173C72;	
+	padding: 5px;
+}
