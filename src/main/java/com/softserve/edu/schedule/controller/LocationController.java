@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.LocationDTO;
+import com.softserve.edu.schedule.entity.Location_;
 import com.softserve.edu.schedule.service.LocationService;
 
 @RequestMapping("/locations")
@@ -19,6 +20,11 @@ public class LocationController {
 	@Autowired
 	private LocationService locationService;
 
+	@ModelAttribute("search")
+    public LocationDTO getLocationDTO() {
+        return new LocationDTO();
+    }
+	
 	@RequestMapping()
 	public String showList(Model model) {
 		model.addAttribute("locations", locationService.getAllWithDetails());
@@ -27,28 +33,28 @@ public class LocationController {
 
 	@RequestMapping("/sortbynameasc")
 	public String sortByNameAsc(Model model) {
-		model.addAttribute("locations", locationService.sortByFields("name", Order.ASC));
+		model.addAttribute("locations", locationService.sortByFields(Location_.name.getName(), Order.ASC));
 		return "locations/list";
 
 	}
 
 	@RequestMapping("/sortbynamedesc")
 	public String sortByNameDesc(Model model) {
-		model.addAttribute("locations", locationService.sortByFields("name", Order.DESC));
+		model.addAttribute("locations", locationService.sortByFields(Location_.name.getName(), Order.DESC));
 		return "locations/list";
 
 	}
 
 	@RequestMapping("/sortbyaddressasc")
 	public String sortByAddressAsc(Model model) {
-		model.addAttribute("locations", locationService.sortByFields("address", Order.ASC));
+		model.addAttribute("locations", locationService.sortByFields(Location_.address.getName(), Order.ASC));
 		return "locations/list";
 
 	}
 
 	@RequestMapping("/sortbyaddressdesc")
 	public String sortByAddressDesc(Model model) {
-		model.addAttribute("locations", locationService.sortByFields("address", Order.DESC));
+		model.addAttribute("locations", locationService.sortByFields(Location_.address.getName(), Order.DESC));
 		return "locations/list";
 
 	}
@@ -96,5 +102,16 @@ public class LocationController {
 		locationService.update(location);
 		return "redirect:/locations";
 	}
-
+	
+	@RequestMapping(value = "/searchByName", method = RequestMethod.POST)
+	public String searchByName(@ModelAttribute("search") LocationDTO location, Model model) {
+		model.addAttribute("locations", locationService.search(Location_.name.getName(), location.getName()));
+		return "locations/list";
+	}
+	
+	@RequestMapping(value = "/searchByAddress", method = RequestMethod.POST)
+	public String searchByAddress(@ModelAttribute("search") LocationDTO location, Model model) {
+		model.addAttribute("locations", locationService.search(Location_.address.getName(), location.getAddress()));
+		return "locations/list";
+	}
 }
