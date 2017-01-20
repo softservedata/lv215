@@ -15,7 +15,7 @@ public interface ValidationCriteria {
     /**
      * Allowed characters for name expression.
      */
-    String CHARACTERS_FOR_NAME = "^[а-яА-ЯёЁїЇa-zA-Z0-9\\-№ ]+$";
+    String CHARACTERS_FOR_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$";
 
     /**
      * Allowed only digits expression.
