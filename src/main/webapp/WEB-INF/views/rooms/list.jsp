@@ -21,11 +21,10 @@
 			<th>Room name</th>
 			<th>Room capacity</th>
 			<th>Room equipment</th>
-			<th></th>
-			<th class="text-center"><a class="fa fa-th-large fa-plus fa-2x" href="rooms/create"></a></th>
-		</tr>
-		<c:if test="${roomFilter ne null}">
-		<tr>
+			<th class="text-center"><button class="btn btn-link fa fa-filter fa-2x" data-toggle="collapse" data-target="#showfilter" title="Show filter"></button></th>
+			<th class="text-center"><a class="fa fa-plus fa-2x" href="rooms/create" title="Create room"></a></th>
+		</tr>		
+		<tr class="collapse" id="showfilter">
 			<form:form role="form" action="rooms" method="get" modelAttribute="roomFilter">
 			<td colspan="2">
 				<form:select path="locationId" id="locationId">
@@ -119,14 +118,13 @@
 				</form:select>
 			</td>
 			<td>				
-				<button type="submit" class="fa fa-filter fa-2x"></button>
+				<button type="submit" class="btn btn-link fa fa-check-circle-o fa-2x" title="Apply filter"></button>
 			</td>
 			</form:form>
 			<td>
-				<a class="fa fa-times-circle fa-2x" href="rooms?locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1"></a>
+				<a class="fa fa-ban fa-2x" href="rooms?locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1" title="Reset filter"></a>
 			</td>
-		</tr>
-		</c:if>
+		</tr>		
 		<c:forEach items="${rooms}" var="room">
 			<tr>
 				<td>${room.location.name}</td>
@@ -140,9 +138,9 @@
 						</c:forEach>
 					</ul>
 				</td>
-				<td class="text-center"><a class="fa fa-trash-o fa-2x" href="rooms/delete/${room.id}"
+				<td class="text-center"><a class="fa fa-trash-o fa-2x" href="rooms/delete/${room.id}" title="Delete room"
 					onclick="return confirm('Are you sure you want to delete this room?');"></a></td>
-				<td class="text-center"><a class="fa fa-pencil-square-o fa-2x" href="rooms/edit/${room.id}"></a></td>
+				<td class="text-center"><a class="fa fa-pencil-square-o fa-2x" href="rooms/edit/${room.id}" title="Edit room"></a></td>
 			</tr>
 		</c:forEach>
 	</table>
