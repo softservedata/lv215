@@ -12,7 +12,7 @@
 	})
 </script>
 
-<h3>Present rooms:</h3>
+<h3 class="text-center">Rooms</h3>
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
@@ -21,11 +21,10 @@
 			<th>Room name</th>
 			<th>Room capacity</th>
 			<th>Room equipment</th>
-			<th></th>
-			<th><a class="btn btn-success" href="rooms/create">Add room</a></th>
-		</tr>
-		<c:if test="${roomFilter ne null}">
-		<tr>
+			<th class="text-center"><button class="btn btn-link fa fa-filter fa-2x" data-toggle="collapse" data-target="#showfilter" title="Show filter"></button></th>
+			<th class="text-center"><a class="fa fa-plus fa-2x" href="rooms/create" title="Create room"></a></th>
+		</tr>		
+		<tr class="collapse" id="showfilter">
 			<form:form role="form" action="rooms" method="get" modelAttribute="roomFilter">
 			<td colspan="2">
 				<form:select path="locationId" id="locationId">
@@ -118,16 +117,14 @@
 					</c:forEach>					
 				</form:select>
 			</td>
-			<td>
-				<input type="submit" class="btn btn-primary" value="Apply filter">
+			<td>				
+				<button type="submit" class="btn btn-link fa fa-check-circle-o fa-2x" title="Apply filter"></button>
 			</td>
 			</form:form>
 			<td>
-				<a class="btn btn-primary" 
-				href="rooms?locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1">Reset filter</a>
+				<a class="fa fa-ban fa-2x" href="rooms?locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1" title="Reset filter"></a>
 			</td>
-		</tr>
-		</c:if>
+		</tr>		
 		<c:forEach items="${rooms}" var="room">
 			<tr>
 				<td>${room.location.name}</td>
@@ -141,9 +138,9 @@
 						</c:forEach>
 					</ul>
 				</td>
-				<td><a class="btn btn-danger" href="rooms/delete/${room.id}"
-					onclick="return confirm('Are you sure you want to delete this room?');">Delete</a></td>
-				<td><a class="btn btn-success" href="rooms/edit/${room.id}">Edit</a></td>
+				<td class="text-center"><a class="fa fa-trash-o fa-2x" href="rooms/delete/${room.id}" title="Delete room"
+					onclick="return confirm('Are you sure you want to delete this room?');"></a></td>
+				<td class="text-center"><a class="fa fa-pencil-square-o fa-2x" href="rooms/edit/${room.id}" title="Edit room"></a></td>
 			</tr>
 		</c:forEach>
 	</table>

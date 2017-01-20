@@ -65,4 +65,5 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      */
     void deleteById(final Long id);
     
+    public List<Subject> sortByField(final String field, final Order order);
 }
