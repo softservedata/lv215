@@ -81,14 +81,21 @@ public interface SubjectService {
     /**
      * Return a List of searched Subject transfer objects.
      *
-     * @param field
-     *            for search
      * @param pattern
      *            - input string
      * @return List of sorted Subject transfer objects
      */
     List<SubjectDTO> searchByName(final String pattern);
 
+    /**
+     * Return a List of searched Subject transfer objects.
+     *
+     * @param pattern
+     *            - input string
+     * @return List of sorted Subject transfer objects
+     */
+    List<SubjectDTO> searchByDescription(final String pattern);
+    
     /**
      * Return a List of searched Subject transfer objects containing searched
      * tutor.
@@ -98,7 +105,7 @@ public interface SubjectService {
      * @return List of searched Subject transfer objects containing searched
      *         tutor
      */
-    List<Subject> searchTutors(final String pattern);
+    List<SubjectDTO> searchByTutors(final String pattern);
     
     public List<SubjectDTO> sortByName( final Order order);
     

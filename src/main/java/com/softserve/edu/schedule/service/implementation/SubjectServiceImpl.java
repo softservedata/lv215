@@ -127,8 +127,6 @@ public class SubjectServiceImpl implements SubjectService {
     /**
      * Return a List of searched Subject transfer objects.
      *
-     * @param field
-     *            for search
      * @param pattern
      *            - input string
      * @return List of sorted Subject transfer objects
@@ -137,6 +135,21 @@ public class SubjectServiceImpl implements SubjectService {
     @Transactional(readOnly = true)
     public List<SubjectDTO> searchByName(final String pattern) {
         return subjectDao.search(Subject_.name.getName(), pattern).stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Return a List of searched Subject transfer objects.
+     *
+     * @param pattern
+     *            - input string
+     * @return List of sorted Subject transfer objects
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<SubjectDTO> searchByDescription(final String pattern) {
+        return subjectDao.search(Subject_.description.getName(), pattern).stream()
                 .map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }
@@ -152,14 +165,16 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Subject> searchTutors(final String pattern) {
-        return subjectDao.searchTutors(pattern);
+    public List<SubjectDTO> searchByTutors(final String pattern) {
+        return subjectDao.searchTutors(pattern).stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<SubjectDTO> sortByName(Order order) {
-        return subjectDao.sortByField(Subject_.name.getName(), order).stream()
+        return subjectDao.sort(Subject_.name.getName(), order).stream()
                 .map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }
@@ -167,7 +182,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional(readOnly = true)
     public List<SubjectDTO> sortByDescription(Order order) {
-        return subjectDao.sortByField(Subject_.description.getName(), order)
+        return subjectDao.sort(Subject_.description.getName(), order)
                 .stream().map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }

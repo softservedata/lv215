@@ -32,6 +32,11 @@ public class SubjectController {
         return new SubjectDTO();
     }
 
+    @ModelAttribute("searchTutor")
+    public UserForSubjectDTO getUserForSubjectDTO() {
+        return new UserForSubjectDTO();
+    }
+
     @InitBinder("subjectForm")
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(UserForSubjectDTO.class,
@@ -104,10 +109,27 @@ public class SubjectController {
     }
 
     @RequestMapping(value = "/searchByName", method = RequestMethod.POST)
-    public String searchByDescriptionName(
-            @ModelAttribute("search") SubjectDTO subject, Model model) {
+    public String searchByName(@ModelAttribute("search") SubjectDTO subject,
+            Model model) {
         model.addAttribute("subjects",
                 subjectService.searchByName(subject.getName()));
+        return "subjects/list";
+    }
+
+    @RequestMapping(value = "/searchByDescription", method = RequestMethod.POST)
+    public String searchByDescription(
+            @ModelAttribute("search") SubjectDTO subject, Model model) {
+        model.addAttribute("subjects",
+                subjectService.searchByDescription(subject.getDescription()));
+        return "subjects/list";
+    }
+
+    @RequestMapping(value = "/searchByTutor", method = RequestMethod.POST)
+    public String searchByTutor(
+            @ModelAttribute("searchTutor") UserForSubjectDTO user,
+            Model model) {
+        model.addAttribute("subjects",
+                subjectService.searchByTutors(user.getLastName()));
         return "subjects/list";
     }
 }
