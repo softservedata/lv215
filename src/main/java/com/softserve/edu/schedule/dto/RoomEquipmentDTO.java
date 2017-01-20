@@ -1,9 +1,25 @@
+/* RoomEquipmentDTO 1.0 01/17/2017 */
 package com.softserve.edu.schedule.dto;
 
+/**
+ * A DTO class to transport room equipment data.
+ *
+ * @version 1.0 17 January 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
 public class RoomEquipmentDTO {
 
+    /**
+     * Id for database.
+     */
     private Long id;
 
+    /**
+     * Equipment name.
+     */
     private String name;
 
     /**

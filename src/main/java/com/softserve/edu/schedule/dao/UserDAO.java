@@ -12,21 +12,21 @@ public interface UserDAO extends CrudDAO<User>{
      *
      * @return List of searched Transfer objects
      */
-    List<User> searchByRole(final UserRole role);
+    public List<User> searchByRole(final UserRole role);
 
     /**
      * Return a List of searched Transfer objects.
      *
      * @return List of searched Transfer objects
      */
-    List<User> searchByStatus(final UserStatus status);
+    public List<User> searchByStatus(final UserStatus status);
 
     /**
      * Return a List of searched Transfer objects.
      *
      * @return List of searched Transfer objects
      */
-    List<User> searchByGroup(final String group);
+    public List<User> searchByGroup(final String group);
 
     /**
      * Delete existed user entity from the database by id.
@@ -34,13 +34,13 @@ public interface UserDAO extends CrudDAO<User>{
      * @param id
      *            a user id to delete from database.
      */
-    void deleteById(final Long id);
+    public void deleteById(final Long id);
 
     /**
      * Return a List of searched Users fetching Group.
      *
      * @return List of searched Users transfer objects
      */
-    List<User> getAllWithDetails();
+    public List<User> getAllWithDetails();
 
 }

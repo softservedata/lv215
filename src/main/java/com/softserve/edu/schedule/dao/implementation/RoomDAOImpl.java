@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.dao.implementation;
 
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
@@ -55,7 +56,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
     /**
      * Default constructor to provide entity class for DAO.
-     * 
+     *
      */
     public RoomDAOImpl() {
         super(Room.class);
@@ -76,7 +77,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     /**
      * Find all rooms entities in the database with location and equipment
      * details.
-     * 
+     *
      * @return List of the room objects.
      */
     @Override
@@ -91,33 +92,44 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     }
 
     /**
-     * Find a room in the database by name.
+     * Find a room in the database by name and location id.
      *
      * @param roomName
      *            a room name to find in the database.
-     * @return a room with given name.
+     * 
+     * @param locationId
+     *            a location id to find room.
+     * 
+     * @return a room with given name and location Id.
      */
     @Override
-    public Room getByName(final String roomName) {
+    public Room getByNameAndLocationId(final String roomName,
+            final Long locationId) {
+        try {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Room> cq = builder.createQuery(Room.class);
         Root<Room> root = cq.from(Room.class);
         root.fetch(Room_.location, JoinType.LEFT);
         root.fetch(Room_.equipments, JoinType.LEFT);
-        cq.where(builder.like(root.get(Room_.name),
-                SEARCH_MASK + roomName + SEARCH_MASK));
+        Predicate predicate = builder.conjunction();
+        predicate = builder.and(predicate, builder.like(root.get(Room_.name), roomName));
+        predicate = builder.and(predicate, root.get(Room_.location).in(locationId));
+        cq.where(predicate);
         return getEm().createQuery(cq).getSingleResult();
+        } catch (NoResultException e){
+            return null;
+        }
     }
 
     /**
      * Find all rooms entities in the database with location and equipment
      * details which has capacity in given interval.
-     * 
+     *
      * @param minCapacity
      *            a minimum capacity.
      * @param maxCapacity
      *            a minimum capacity.
-     * 
+     *
      * @return List of the room objects.
      */
     @Override
@@ -144,10 +156,10 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     /**
      * Find all rooms entities in the database with location and equipment
      * details by given location id.
-     * 
+     *
      * @param locationId
      *            a location id to find rooms.
-     * 
+     *
      * @return List of the room objects.
      */
     @Override
@@ -165,10 +177,10 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     /**
      * Find all rooms entities in the database with location and equipment
      * details by given equipments list.
-     * 
+     *
      * @param equipments
      *            an equipments list to find rooms.
-     * 
+     *
      * @return List of the room objects.
      */
     @Override
@@ -192,10 +204,10 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
     /**
      * Find all rooms entities in the database with applied filter
-     * 
+     *
      * @param roomFilter
      *            a filter to apply.
-     * 
+     *
      * @return List of the room objects.
      */
     @Override

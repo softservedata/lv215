@@ -27,13 +27,17 @@ public interface RoomDAO extends CrudDAO<Room> {
     void deleteById(final Long id);
 
     /**
-     * Find a room in the database by name.
+     * Find a room in the database by name and location id.
      *
      * @param roomName
      *            a room name to find in the database.
-     * @return a room with given name.
+     * 
+     * @param locationId
+     *            a location id to find room.
+     * 
+     * @return a room with given name and location Id.
      */
-    Room getByName(final String roomName);
+    Room getByNameAndLocationId(final String roomName, final Long locationId);
 
     /**
      * Find all rooms entities in the database with location and equipment

@@ -13,24 +13,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.entity.Meeting;
-import com.softserve.edu.schedule.entity.Meeting_;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.service.MeetingService;
-import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.editor.DateTimeEditor;
-import com.softserve.edu.schedule.service.implementation.editor.LocationDTOEditor;
-import com.softserve.edu.schedule.service.implementation.editor.MeetingEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomEditor;
-import com.softserve.edu.schedule.service.implementation.editor.RoomEquipmentDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.SubjectEditor;
 import com.softserve.edu.schedule.service.implementation.editor.UserEditor;
 import com.softserve.edu.schedule.service.implementation.editor.UserGroupEditor;
@@ -41,37 +35,33 @@ public class MeetingController {
 
     @Autowired
     private MeetingService meetingService;
-    
+
     @Autowired
     private SubjectService subjectService;
 
     @Autowired
     private UserService userService;
-    
+
     @Autowired
     private RoomService roomService;
-    
+
     @Autowired
     private UserGroupService userGroupService;
-  
 
     @InitBinder("meetingForm")
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Subject.class,
                 new SubjectEditor(subjectService));
-        
-        binder.registerCustomEditor(LocalDateTime.class,
-                new DateTimeEditor());
-        
-        binder.registerCustomEditor(User.class,
-                new UserEditor(userService));
-        binder.registerCustomEditor(Room.class,
-                new RoomEditor(roomService));
+
+        binder.registerCustomEditor(LocalDateTime.class, new DateTimeEditor());
+
+        binder.registerCustomEditor(User.class, new UserEditor(userService));
+        binder.registerCustomEditor(Room.class, new RoomEditor(roomService));
         binder.registerCustomEditor(UserGroup.class,
                 new UserGroupEditor(userGroupService));
-        
+
     }
-    
+
     @ModelAttribute("meetingForm")
     public Meeting getMeeting() {
         return new Meeting();
@@ -165,38 +155,35 @@ public class MeetingController {
         return "redirect:/meetings";
     }
 
-    
-    
     @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createForm(Model model) {        
+    public String createForm(Model model) {
         model.addAttribute("meetingForm", new Meeting());
         model.addAttribute("subjects", subjectService.getAll());
         model.addAttribute("owners", userService.getAll());
         model.addAttribute("rooms", roomService.getAll());
-        model.addAttribute("groups", userGroupService.getAll());        
+        model.addAttribute("groups", userGroupService.getAll());
         return "meetings/create";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
         meetingService.deleteById(id);
-        
+
         return "redirect:/meetings";
     }
-    
-     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-     public String edit(@ModelAttribute("meetingForm") Meeting meeting) {
-     meetingService.update(meeting);
-     
-     return "redirect:/meetings";
-     }
-    
-     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-     public String editForm(@PathVariable Long id, Model model) {
-     model.addAttribute("meetingForm", meetingService.getById(id));
-     model.addAttribute("users", userService.getAll());
-     return "meetings/edit";
-     }
-    
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    public String edit(@ModelAttribute("meetingForm") Meeting meeting) {
+        meetingService.update(meeting);
+
+        return "redirect:/meetings";
+    }
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String editForm(@PathVariable Long id, Model model) {
+        model.addAttribute("meetingForm", meetingService.getById(id));
+        model.addAttribute("users", userService.getAll());
+        return "meetings/edit";
+    }
 
 }
