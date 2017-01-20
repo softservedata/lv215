@@ -135,8 +135,8 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<SubjectDTO> search(final String field, final String pattern) {
-        return subjectDao.search(field, pattern).stream()
+    public List<SubjectDTO> searchByName(final String pattern) {
+        return subjectDao.search(Subject_.name.getName(), pattern).stream()
                 .map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }

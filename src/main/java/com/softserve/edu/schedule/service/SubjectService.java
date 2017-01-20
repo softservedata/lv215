@@ -87,7 +87,7 @@ public interface SubjectService {
      *            - input string
      * @return List of sorted Subject transfer objects
      */
-    List<SubjectDTO> search(final String field, final String pattern);
+    List<SubjectDTO> searchByName(final String pattern);
 
     /**
      * Return a List of searched Subject transfer objects containing searched
