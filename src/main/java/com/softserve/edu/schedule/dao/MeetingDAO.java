@@ -37,7 +37,8 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      * @param meeting
      * @param meetingStatus
      */
-    public void changeStatus(final Meeting meeting, final MeetingStatus meetingStatus);
+    public void changeStatus(final Meeting meeting,
+            final MeetingStatus meetingStatus);
 
     /**
      * Return the List of searched Meetings filtered by Owner.
@@ -94,4 +95,24 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      * @return List of searched Transfer objects
      */
     public List<Meeting> searchByLevel(final String pattern);
+
+    public List<Meeting> sortByDescription(final Order order);
+
+    public List<Meeting> sortBySubject(final Order order);
+    
+    public List<Meeting> sortByOwner(final Order order);
+
+    public List<Meeting> sortByRoom(final Order order);
+
+    public List<Meeting> sortByLevel(final Order order);
+
+    public List<Meeting> sortByStatus(final Order order);
+    
+    public void addMeetingtoUserGroup(Long meetingId, Long userGroupId); 
+    
+    public void deleteMeetingFromUserGroup(Long userID, Long userGroupId);
+    
+    
+    
+
 }

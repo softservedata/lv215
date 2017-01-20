@@ -20,14 +20,22 @@ import com.softserve.edu.schedule.entity.Location;
  */
 public interface LocationDAO extends CrudDAO<Location> {
 
-    /**
-     * Method returns all locations from database with room details.
-     * 
-     * @return all locations from database with room details
+	/**
+	 * Method returns all locations from database with room details.
+	 * 
+	 * @return all locations from database with room details
+	 */
+	List<Location> getAllWithDetails();
+	
+	/**
+     * Method deletes existing location from database by id.
+     *
+     * @param id
+     *            location id to delete
      */
-    List<Location> getAllWithDetails();
-
-    /**
+    void deleteById(final Long id);
+	
+	/**
      * Method returns list of sorted locations.
      * 
      * @param field

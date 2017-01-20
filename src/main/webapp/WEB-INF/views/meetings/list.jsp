@@ -1,39 +1,90 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-
-
-<h3>Present rooms:</h3>
-<div class="table-responsive">
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Meetings</title>
+</head>
+<body>
+	<h2>Meetings</h2>
 	<table class="table table-hover">
 		<tr>
-			<th>Location</th>
-			<th>Address</th>
-			<th>Room name</th>
-			<th>Room capacity</th>
-			<th>Room equipment</th>
+			<th>ID</th>
+			<th>Description <a
+				href="${pageContext.request.contextPath}/meetings/sortbydescriptionasc"><i
+					class="fa fa-arrow-circle-o-up"></i></a> <a
+				href="${pageContext.request.contextPath}/meetings/sortbydescriptiondesc"><i
+					class="fa fa-arrow-circle-o-down"></i> </a>
+
+			</th>
+			<th>Subject<a
+				href="${pageContext.request.contextPath}/meetings/sortbysubjectasc">
+					<i class="fa fa-arrow-circle-o-up"></i>
+			</a> <a
+				href="${pageContext.request.contextPath}/meetings/sortbysubjectdesc"><i
+					class="fa fa-arrow-circle-o-down"></i> </a>
+			</th>
+			<th>Owner<a
+				href="${pageContext.request.contextPath}/meetings/sortbyownerasc">
+					<i class="fa fa-arrow-circle-o-up"></i>
+			</a> <a
+				href="${pageContext.request.contextPath}/meetings/sortbyownerdesc"><i
+					class="fa fa-arrow-circle-o-down"></i> </a>
+			</th>
+			<th>Room<a
+				href="${pageContext.request.contextPath}/meetings/sortbyroomasc">
+					<i class="fa fa-arrow-circle-o-up"></i>
+			</a> <a href="${pageContext.request.contextPath}/meetings/sortbyroomdesc"><i
+					class="fa fa-arrow-circle-o-down"></i> </a>
+			</th>
+
+			<th>Start time</th>
+
+			<th>End time</th>
+			<th>Groups</th>
+			<th>Level<a
+				href="${pageContext.request.contextPath}/meetings/sortbylevelasc">
+					<i class="fa fa-arrow-circle-o-up"></i>
+			</a> <a
+				href="${pageContext.request.contextPath}/meetings/sortbyleveldesc"><i
+					class="fa fa-arrow-circle-o-down"></i> </a>
+			</th>
+			<th>Status<a
+				href="${pageContext.request.contextPath}/meetings/sortbystatusasc">
+					<i class="fa fa-arrow-circle-o-up"></i>
+			</a> <a
+				href="${pageContext.request.contextPath}/meetings/sortbystatusdesc"><i
+					class="fa fa-arrow-circle-o-down"></i> </a>
+			</th>
 			<th></th>
-			<th></th>
+			<th><a href="${pageContext.request.contextPath}/meetings/create"><i
+					class="fa fa-plus"></i></a></th>
 		</tr>
-		<c:forEach items="${rooms}" var="room">
+		<c:forEach var="meeting" items="${meetings}">
 			<tr>
-				<td>${room.location.name}</td>
-				<td>${room.location.address}</td>
-				<td><a href="rooms/${room.id}">${room.name}</a></td>
-				<td>${room.capacity}</td>
-				<td>
-					<ul>
-						<c:forEach items="${room.equipments}" var="equipment">
-							<li>${equipment.name}</li>
-						</c:forEach>
-					</ul>
-				</td>
-				<td><a class="btn btn-danger" href="rooms/delete/${room.id}">Delete</a></td>
-				<td><a class="btn btn-success" href="rooms/edit/${room.id}">Edit</a></td>
+				<td>${meeting.id}</td>
+				<td>${meeting.description}</td>
+				<td>${meeting.subject.name}</td>
+				<td>${meeting.owner.lastName}${meeting.owner.firstName}</td>
+				<td>${meeting.room.name}</td>
+				<td>${meeting.startTime}</td>
+				<td>${meeting.endTime}</td>
+				<td><c:forEach items="${meeting.groups}" var="group">
+						<p>${group.name}</p>
+					</c:forEach></td>
+				<td>${meeting.level}</td>
+				<td>${meeting.status}</td>
+				<td><a
+					href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"><i
+						class="fa fa-trash-o"></i></a></td>
+				<td><a
+					href="${pageContext.request.contextPath}/meeting/edit/${meeting.id}"><i
+						class="fa fa-pencil-square-o"></i></a></td>
 			</tr>
 		</c:forEach>
 	</table>
-</div>
-<br>
-<p><a class="btn btn-success" href="rooms/create">Add room</a></p>
+</body>
+</html>
