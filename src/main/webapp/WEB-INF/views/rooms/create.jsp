@@ -5,8 +5,8 @@
 
 <script type="text/javascript">
 $(function(){
-	$("select[name=location]").chosen({width: "50%"});
-	$("select[name=equipments]").chosen({width: "50%"});	
+	$("select[name=location]").chosen({width: "100%"});
+	$("select[name=equipments]").chosen({width: "100%"});	
 })
 </script>
 
