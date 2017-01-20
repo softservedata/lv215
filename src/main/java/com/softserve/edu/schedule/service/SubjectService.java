@@ -77,28 +77,6 @@ public interface SubjectService {
      *            a subject id to delete from database.
      */
     void deleteById(final Long id);
-
-    /**
-     * Return a List of sorted Subject transfer objects.
-     *
-     * @param field
-     *            for sort
-     * @param order
-     *            - ASC or DESC
-     * @return List of sorted Subject transfer objects
-     */
-    List<Subject> sortByName(final Order order);
-    
-    /**
-     * Return a List of sorted Subject transfer objects.
-     *
-     * @param field
-     *            for sort
-     * @param order
-     *            - ASC or DESC
-     * @return List of sorted Subject transfer objects
-     */
-    List<Subject> sortByDescription(final Order order);
     
     /**
      * Return a List of searched Subject transfer objects.
@@ -109,7 +87,7 @@ public interface SubjectService {
      *            - input string
      * @return List of sorted Subject transfer objects
      */
-    List<Subject> search(final String field, final String pattern);
+    List<SubjectDTO> search(final String field, final String pattern);
 
     /**
      * Return a List of searched Subject transfer objects containing searched
@@ -121,6 +99,10 @@ public interface SubjectService {
      *         tutor
      */
     List<Subject> searchTutors(final String pattern);
+    
+    public List<SubjectDTO> sortByName( final Order order);
+    
+    public List<SubjectDTO> sortByDescription( final Order order);
 
 
 }

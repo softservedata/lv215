@@ -48,21 +48,21 @@
 			<div class="form-group">
 				<label for="equipments">Room equipments:</label>
 				<form:select class="form-control" path="equipments" id="equipments"
-					multiple="multiple">					
+					multiple="multiple">
 					<c:forEach items="${equipments}" var="equipment">
-						<c:set var="found" value="false"/>
+						<c:set var="found" value="false" />
 						<c:forEach items="${room.equipments}" var="equipmentInRoom">
-							<c:if test="${!found}">								
+							<c:if test="${!found}">
 								<c:if test="${equipmentInRoom.id eq equipment.id}">
 									<option value="${equipment.id}" selected="selected">${equipment.name}</option>
-									<c:set var="found" value="true"/>
+									<c:set var="found" value="true" />
 								</c:if>
-							</c:if>									
+							</c:if>
 						</c:forEach>
 						<c:if test="${!found}">
 							<option value="${equipment.id}">${equipment.name}</option>
 						</c:if>
-					</c:forEach>					
+					</c:forEach>
 				</form:select>
 			</div>
 			<input type="submit" class="btn btn-primary" value="Save room">

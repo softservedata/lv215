@@ -105,7 +105,7 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         }
         return getEm().createQuery(cq).getResultList();
     }
-    
+      
     /**
      * Return a List of searched Subjects fetching Users sorted by description.
      *
@@ -134,6 +134,22 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         root.fetch(Subject_.users, JoinType.LEFT);
         cq.where(root.get(Subject_.id).in(id));
         return getEm().createQuery(cq).getSingleResult();
+    }
+    
+    //TODO
+    @Override
+    public List<Subject> sortByField( final String join, final String field, final Order order) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
+        Root<Subject> root = cq.from(Subject.class);
+        root.fetch(join, JoinType.LEFT);
+        cq.distinct(true);
+        if (order == Order.ASC) {
+            cq.orderBy(builder.asc(root.get(field)));
+        } else {
+            cq.orderBy(builder.desc(root.get(field)));
+        }
+        return getEm().createQuery(cq).getResultList();
     }
 
 }

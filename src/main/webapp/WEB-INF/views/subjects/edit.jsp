@@ -22,31 +22,25 @@
 			<form:input type="textarea" path="description"
 				placeholder="Subject description" />
 			<form:select path="users" multiple="multiple">
-				<c:set var="found" value="false"/>
 				<c:forEach items="${users}" var="user">
+					<c:set var="found" value="false" />
 					<c:forEach items="${subjectForm.users}" var="userInSubject">
-						<c:choose>
-							<c:when test="${userInSubject.id eq user.id}">
+						<c:if test="${!found}">
+							<c:if test="${userInSubject.id eq user.id}">
 								<option value="${user.id}" selected="selected">${user.firstName}
 									${user.lastName}</option>
-							</c:when>
-						</c:choose>
+								<c:set var="found" value="true" />
+							</c:if>
+						</c:if>
 					</c:forEach>
-				</c:forEach>
-				<c:forEach items="${users}" var="user">
-					<option value="${user.id}">${user.firstName}
-						${user.lastName}</option>
+					<c:if test="${!found}">
+						<option value="${user.id}">${user.firstName}
+							${user.lastName}</option>
+					</c:if>
 				</c:forEach>
 			</form:select>
 			<input type="submit" value="Register" />
 		</form:form>
 	</div>
-	<script type="text/javascript">
-		$(function() {
-			$("select[name=users]").chosen({
-				width : "50%"
-			});
-		})
-	</script>
 </body>
 </html>

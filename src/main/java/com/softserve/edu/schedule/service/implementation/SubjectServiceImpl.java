@@ -17,6 +17,7 @@ import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.entity.Subject;
+import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.SubjectDTOConverter;
 
@@ -124,36 +125,6 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
-     * Return a List of sorted Subject transfer objects.
-     *
-     * @param field
-     *            for sort
-     * @param order
-     *            - ASC or DESC
-     * @return List of sorted Subject transfer objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<Subject> sortByName(Order order) {
-        return subjectDao.sortByName(order);
-    }
-
-    /**
-     * Return a List of sorted Subject transfer objects.
-     *
-     * @param field
-     *            for sort
-     * @param order
-     *            - ASC or DESC
-     * @return List of sorted Subject transfer objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<Subject> sortByDescription(final Order order) {
-        return subjectDao.sortByDescription(order);
-    }
-
-    /**
      * Return a List of searched Subject transfer objects.
      *
      * @param field
@@ -164,8 +135,10 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Subject> search(final String field, final String pattern) {
-        return subjectDao.search(field, pattern);
+    public List<SubjectDTO> search(final String field, final String pattern) {
+        return subjectDao.search(field, pattern).stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
     }
 
     /**
@@ -183,4 +156,23 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectDao.searchTutors(pattern);
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public List<SubjectDTO> sortByName(Order order) {
+        return subjectDao
+                .sortByField(Subject_.users.getName(), Subject_.name.getName(),
+                        order)
+                .stream().map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SubjectDTO> sortByDescription(Order order) {
+        return subjectDao
+                .sortByField(Subject_.users.getName(),
+                        Subject_.description.getName(), order)
+                .stream().map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
+    }
 }
