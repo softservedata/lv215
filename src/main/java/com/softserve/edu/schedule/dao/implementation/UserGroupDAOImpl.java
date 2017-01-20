@@ -77,19 +77,4 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
         return getEm().createQuery(cq).getResultList();
     }
 
-    @Override
-    public void deleteUserFromUserGroup(Long userID, Long userGroupID) {
-        getById(userGroupID).getUsers().removeIf(e -> e.getId().equals(userID));
-    }
-
-
-    @Override
-    public boolean isUserCurator(Long userID, Long userGroupID) {
-        if (getById(userGroupID).getCurator().getId().equals(userID)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }

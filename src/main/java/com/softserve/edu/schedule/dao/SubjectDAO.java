@@ -65,15 +65,4 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      */
     void deleteById(final Long id);
     
-    /**
-     * Delete existed transfer object from the database by id.
-     *
-     * @param id
-     *            a user id to delete from database.
-     *                 *
-     * @param id
-     *            a subject id where delete user from database.
-     */
-    void deleteUserFromSubject(Long userID, Long subjectID);
-
 }

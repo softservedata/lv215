@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
@@ -24,13 +25,17 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String allUserPage(Model model) {
-        model.addAttribute("users", userService.getAllWithDetails());
+        model.addAttribute("users", userService.getAll());
         return "users/users";
     }
 
     @RequestMapping("/delete/{id}")
     public String delete(@PathVariable Long id) {
-        userService.deleteById(id);
+        try {
+            userService.deleteById(id);
+        } catch (Exception e) {
+            return "redirect:/users";
+        }
         return "redirect:/users";
     }
 
@@ -46,9 +51,8 @@ public class UserController {
         return "users/users/edit/updateUser";
     }
 
-    @RequestMapping(value = "/edit/updateUser/saveUpdatedUser/{id}",
-            method = RequestMethod.POST)
-    public String updateUser(@ModelAttribute("userFormUpdate") User user) {
+    @RequestMapping(value = "/edit/updateUser/saveUpdatedUser/{id}", method = RequestMethod.POST)
+    public String updateUser(@ModelAttribute("userFormUpdate") UserDTO user) {
         userService.update(user);
         return "redirect:/users";
     }
@@ -59,9 +63,7 @@ public class UserController {
         return "users/users/edit/updateUserPosition";
     }
 
-    @RequestMapping(
-            value = "/edit/updateUserPosition/saveUpdatedUserPosition/{id}",
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/edit/updateUserPosition/saveUpdatedUserPosition/{id}", method = RequestMethod.POST)
     public String updateUserPosition(@PathVariable Long id,
             @RequestParam String position) {
         userService.changePosition(id, position);
@@ -82,15 +84,14 @@ public class UserController {
         return "redirect:/users";
     }
 
-    @RequestMapping({"/edit/changeRole/{id}"})
+    @RequestMapping({ "/edit/changeRole/{id}" })
     public String changeRole(@PathVariable Long id, Model model) {
         model.addAttribute("roles", UserRole.values());
         model.addAttribute("user", userService.getById(id));
         return "users/users/edit/changeRole";
     }
 
-    @RequestMapping(value = "/edit/changeRole/saveChangedRole/{id}",
-            method = RequestMethod.POST)
+    @RequestMapping(value = "/edit/changeRole/saveChangedRole/{id}", method = RequestMethod.POST)
     public String changeRole(@ModelAttribute User user, @PathVariable Long id,
             @RequestParam UserRole chooseRole) {
         userService.changeRole(id, chooseRole);

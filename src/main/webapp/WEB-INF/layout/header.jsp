@@ -14,7 +14,7 @@
 	</div>
 	<div class="col-md-6">
 		<br>
-		<a class="btn btn-success" href="registration">Registration</a>
+		<a class="btn btn-success" href="${pageContext.request.contextPath}/registration">Registration</a>
 	</div>
 	<%-- <div class="col-md-6">
 		<p>

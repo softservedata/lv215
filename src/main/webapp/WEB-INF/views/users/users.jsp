@@ -1,25 +1,16 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<!-- <!DOCTYPE html>
-<html>
-<head>
-<title>Users</title>
-</head> -->
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+
 <div class="table-responsive">
 	<h2>Users</h2>
 	<table class="table table-hover">
 		<tr>
-			<th>First name<a
+			<th>Name<a
 				href="${pageContext.request.contextPath}/users/sortbyfirstnameasc"><i
 					class="fa fa-arrow-circle-o-up"></i></a> <a
 				href="${pageContext.request.contextPath}/users/sortbyfirstnamedesc"><i
-					class="fa fa-arrow-circle-o-down"></i></a></th>
-			<th>Last name<a
-				href="${pageContext.request.contextPath}/users/sortbylastnameasc"><i
-					class="fa fa-arrow-circle-o-up"></i></a> <a
-				href="${pageContext.request.contextPath}/users/sortbylastnamedesc"><i
 					class="fa fa-arrow-circle-o-down"></i></a></th>
 			<th>Email</th>
 			<th>Position<a
@@ -38,8 +29,7 @@
 		</tr>
 		<c:forEach items="${users}" var="user">
 			<tr>
-				<td>${user.firstName}</td>
-				<td>${user.lastName}</td>
+				<td>${user.lastName}<a> </a>${user.firstName}</td>
 				<td>${user.mail}</td>
 				<td>${user.position}</td>
 				<td>${user.role}</td>
@@ -49,7 +39,7 @@
 				<td>
 					 <a
 					href="${pageContext.request.contextPath}/users/delete/${user.id}"
-					onclick="return confirm('Are you sure you want to delete this user?');"><i
+					onclick="return confirm('The user can not be deleted if it is curated group. Are you sure you want to delete this user?');"><i
 						class="fa fa-trash-o"></i></a>
 				</td>
 				<td><a

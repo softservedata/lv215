@@ -25,12 +25,6 @@ import com.softserve.edu.schedule.entity.User_;
 @Repository("userDAO")
 public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
 
-    @Autowired
-    private UserGroupDAO userGroupDAO;
-
-    @Autowired
-    private SubjectDAO subjectDAO;
-
     /**
      * Constructor for UserDAOImpl class.
      */
@@ -97,24 +91,7 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
     @Override
     public void deleteById(final Long id) {
         User user = getById(id);
-        boolean isUserCurator = false;
-
-        for (UserGroup group : user.getGroups()) {
-            if (userGroupDAO.isUserCurator(id, group.getId())) {
-                isUserCurator = true;
-            } else {
-                isUserCurator = false;
-            }
-        }
-
-        if (!isUserCurator) {
-            user.getGroups().forEach(
-                    e -> userGroupDAO.deleteUserFromUserGroup(id, e.getId()));
-            user.getSubjects().forEach(
-                    e -> subjectDAO.deleteUserFromSubject(id, e.getId()));
-            update(user);
-            delete(user);
-        }
+        delete(user);
     }
 
     /**
@@ -128,6 +105,7 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
         CriteriaQuery<User> cq = builder.createQuery(User.class);
         Root<User> root = cq.from(User.class);
         root.fetch(User_.groups, JoinType.LEFT);
+//        root.fetch(User_.subjects, JoinType.LEFT);
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
