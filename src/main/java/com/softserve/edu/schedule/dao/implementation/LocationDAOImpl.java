@@ -18,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.softserve.edu.schedule.dao.LocationDAO;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.entity.Location;
+import com.softserve.edu.schedule.entity.Location_;
 
 /**
  * The DAO class to handle the database operation required to manipulate a
@@ -46,7 +47,7 @@ public class LocationDAOImpl extends CrudDAOImpl<Location>
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Location> cq = builder.createQuery(Location.class);
         Root<Location> root = cq.from(Location.class);
-        root.fetch("rooms", JoinType.LEFT);
+        root.fetch(Location_.rooms, JoinType.LEFT);
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
@@ -68,7 +69,7 @@ public class LocationDAOImpl extends CrudDAOImpl<Location>
 		CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Location> cq = builder.createQuery(Location.class);
         Root<Location> root = cq.from(Location.class);
-        root.fetch("rooms", JoinType.LEFT);
+        root.fetch(Location_.rooms, JoinType.LEFT);
         cq.distinct(true);
         if (order == Order.ASC) {
             cq.orderBy(builder.asc(root.get(field)));

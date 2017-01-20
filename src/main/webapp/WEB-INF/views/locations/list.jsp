@@ -28,21 +28,48 @@
 				href="${pageContext.request.contextPath}/locations/create"><i
 					class="fa fa-plus"></i></a></th>
 		</tr>
+		<tr>
+			<td></td>
+			<td><form:form method="post"
+					action="${pageContext.request.contextPath}/locations/searchByName"
+					modelAttribute="search">
+					<form:input path="name" placeholder="Search..." />
+					<button type="submit">
+						<i class="fa fa-search"></i>
+					</button>
+				</form:form></td>
+			<td><form:form method="post"
+					action="${pageContext.request.contextPath}/locations/searchByAddress"
+					modelAttribute="search">
+					<form:input path="address" placeholder="Search..." />
+					<button type="submit">
+						<i class="fa fa-search"></i>
+					</button>
+				</form:form></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
 		<c:forEach var="location" items="${locations}">
 			<tr>
 				<td>${location.id}</td>
 				<td>${location.name}</td>
 				<td>${location.address}</td>
 				<td>Go to map <i class="fa fa-map-o"></i></td>
-				<td>
-				<span title="<c:forEach items="${location.rooms}" var="room">
+				<td><div class="tooltip3">${location.rooms.size()}
+						<c:if test="${location.rooms.size() != 0}">
+							<span class="tooltiptext3"> <c:forEach
+									items="${location.rooms}" var="room">
 							${room.name}
-						</c:forEach>">${location.rooms.size()}</span>
-				
-				</td>
+						</c:forEach>
+							</span>
+						</c:if>
+					</div></td>
 				<td><c:if test="${location.rooms.size() == 0}">
 						<a
-							href="${pageContext.request.contextPath}/locations/delete/${location.id}" onclick="return confirm('Are you sure you want to delete this location?')"><i
+							href="${pageContext.request.contextPath}/locations/delete/${location.id}"
+							onclick="return confirm('Are you sure you want to delete this location?')"><i
 							class="fa fa-trash-o"></i></a>
 					</c:if></td>
 				<td><a

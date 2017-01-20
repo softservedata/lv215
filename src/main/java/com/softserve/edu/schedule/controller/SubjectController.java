@@ -26,13 +26,18 @@ public class SubjectController {
 
     @Autowired
     private UserService userService;
-    
+
+    @ModelAttribute("search")
+    public SubjectDTO getSubjectDTO() {
+        return new SubjectDTO();
+    }
+
     @InitBinder("subjectForm")
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(UserForSubjectDTO.class,
                 new UserForSubjectDTOEditor(userService));
     }
-    
+
     @RequestMapping(method = RequestMethod.GET)
     public String showSubjectPage(Model model) {
         model.addAttribute("subjects", subjectService.getAllWithDetails());
@@ -45,7 +50,7 @@ public class SubjectController {
         model.addAttribute("users", userService.getAllForSubject());
         return "subjects/create";
     }
-    
+
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("subjectForm") SubjectDTO subject) {
         subjectService.create(subject);
@@ -54,23 +59,24 @@ public class SubjectController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("subjectForm", subjectService.getByIdWhithDetails(id));
+        model.addAttribute("subjectForm",
+                subjectService.getByIdWhithDetails(id));
         model.addAttribute("users", userService.getAllForSubject());
         return "subjects/edit";
     }
-    
+
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@ModelAttribute("subjectForm") SubjectDTO subject) {
         subjectService.update(subject);
         return "redirect:/subjects";
     }
-    
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
         subjectService.deleteById(id);
         return "redirect:/subjects";
     }
-    
+
     @RequestMapping(value = "/sortbynameasc", method = RequestMethod.GET)
     public String sortByNameAsc(Model model) {
         model.addAttribute("subjects", subjectService.sortByName(Order.ASC));
@@ -94,6 +100,14 @@ public class SubjectController {
     public String sortByDescrDesc(Model model) {
         model.addAttribute("subjects",
                 subjectService.sortByDescription(Order.DESC));
+        return "subjects/list";
+    }
+
+    @RequestMapping(value = "/searchByName", method = RequestMethod.POST)
+    public String searchByDescriptionName(
+            @ModelAttribute("search") SubjectDTO subject, Model model) {
+        model.addAttribute("subjects",
+                subjectService.searchByName(subject.getName()));
         return "subjects/list";
     }
 }
