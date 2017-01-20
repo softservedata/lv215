@@ -1,103 +1,19 @@
-/* body, html {
+body, html {
 	padding: 0px;
 	margin: 0px;
 	background: url('../img/background.jpg') center;
 	background-size: cover;
 	background-attachment: fixed;
-	text-align: center;
-	color: #FFF;
+	/* text-align: center; */
+	/* color: #FFF; */
 	line-height: 1.4em;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
 table {
-	border-collapse: collapse;
-	width: 75%;
-	margin: 0 auto;
-	margin-top: 100px;
+background-color: white;
 }
 
-th, td {
-	text-align: left;
-	padding: 8px;
-	color: #777;
-}
-
-tr:nth-child(even) {
-	background-color: #f2f2f2;
-}
-
-tr:nth-child(odd) {
-	background-color: #FFF;
-}
-
-tr:hover {
-	background-color: #789ed4;
-}
-
-tr:hover td {
-	color: #FFF;
-}
-
-th {
-	background-color: #2b5797;
-	color: white;
-}
-
-th a:link {
-	text-decoration: none;
-	color: white;
-}
-
-th a:visited {
-	text-decoration: none;
-	color: white;
-}
-
-th a:hover {
-	text-decoration: none;
-	color: white;
-}
-
-th a:active {
-	text-decoration: none;
-	color: white;
-}
-
-input[type=text], select {
-	width: 100%;
-	padding: 12px 20px;
-	margin: 8px 0;
-	display: inline-block;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-sizing: border-box;
-}
-
-input[type=submit] {
-	width: 100%;
-	background-color: #2b5797;
-	color: white;
-	padding: 14px 20px;
-	margin: 8px 0;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-}
-
-input[type=submit]:hover {
-	background-color: #789ed4;
-}
-
-div {
-    border-radius: 5px;
-    background-color: #f2f2f2;
-    padding: 20px;
-    width: 15%;
-    margin: 0 auto;
-    margin-top: 100px;
-    color: #2b5797;
-} */
 .tooltip3 {
     position: relative;
     display: inline-block;
@@ -133,3 +49,38 @@ div {
     visibility: visible;
 }
 
+ /* Remove the navbar's default margin-bottom and rounded borders */ 
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+        background-color: #173c72;
+    }
+    
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
+    
+    /* Set gray background color and 100% height */
+    .sidenav {
+        font-size: 30px;
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 200%;
+    }
+    
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;} 
+    }
+    
+    

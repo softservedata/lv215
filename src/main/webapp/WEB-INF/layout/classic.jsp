@@ -11,8 +11,10 @@
 
 <spring:url value="/resources/img/favicon.ico" var="favico" />
 <spring:url value="/resources/css/font-awesome.min.css" var="fontCss" />
-<spring:url value="/resources/chosen_v1.6.2/chosen.min.css" var="chosenCSS" />
-<spring:url value="/resources/chosen_v1.6.2/chosen.jquery.min.js" var="chosenJs" />
+<spring:url value="/resources/chosen_v1.6.2/chosen.min.css"
+	var="chosenCSS" />
+<spring:url value="/resources/chosen_v1.6.2/chosen.jquery.min.js"
+	var="chosenJs" />
 
 <link href="${favico}" rel="shortcut icon">
 <link rel="stylesheet"
@@ -36,19 +38,17 @@
 <body>
 
 	<header>
-		<tiles:insertAttribute name="header" />
-		<nav>
-			<tiles:insertAttribute name="navigation" />
-		</nav>
+		<%-- <tiles:insertAttribute name="header" /> --%>
+		<tiles:insertAttribute name="navigation" />
 	</header>
 	<!-- Основной контент сторінки -->
 	<div class="container">
 		<tiles:insertAttribute name="body" />
 	</div>
-	<footer>
+	<%-- <footer>
 		<!-- футер сторінки -->
 		<tiles:insertAttribute name="footer" />
-	</footer>
+	</footer> --%>
 
 </body>
 </html>
