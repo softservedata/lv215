@@ -12,6 +12,11 @@ table {
 	background-color: rgba(255, 255, 255, 0.98);
 }
 
+th {
+	background-color: #dee0ed;
+	font-size: 12pt;
+}
+
 .tooltip3 {
 	position: relative;
 	display: inline-block;
