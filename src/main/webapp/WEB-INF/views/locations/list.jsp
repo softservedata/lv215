@@ -36,7 +36,7 @@
 					modelAttribute="search">
 					<form:input path="name" placeholder=" Search..." />
 					<button type="submit">
-						<i class="fa fa-search fa-lg"></i>
+						<i class="fa fa-search"></i>
 					</button>
 				</form:form></td>
 			<td><form:form method="post"
@@ -44,7 +44,7 @@
 					modelAttribute="search">
 					<form:input path="address" placeholder=" Search..." />
 					<button type="submit">
-						<i class="fa fa-search fa-lg"></i>
+						<i class="fa fa-search"></i>
 					</button>
 				</form:form></td>
 			<td></td>
