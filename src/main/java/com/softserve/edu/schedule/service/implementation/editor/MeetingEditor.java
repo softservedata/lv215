@@ -1,8 +1,6 @@
 package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
-import java.time.LocalDateTime;
-
 import com.softserve.edu.schedule.service.MeetingService;
 
 public class MeetingEditor extends PropertyEditorSupport {
