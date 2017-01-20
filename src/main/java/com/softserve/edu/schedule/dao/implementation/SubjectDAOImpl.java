@@ -11,7 +11,6 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -59,21 +58,6 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
     }
 
     /**
-     * Return a List of searched Subjects fetching Users.
-     *
-     * @return List of searched Subject transfer objects
-     */
-    @Override
-    public List<Subject> getAllWithDetails() {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
-        Root<Subject> root = cq.from(Subject.class);
-        root.fetch(Subject_.users, JoinType.LEFT);
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    /**
      * Delete existed transfer object from the database by id.
      *
      * @param id
@@ -81,18 +65,7 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
      */
     @Override
     public void deleteById(Long id) {
-        Subject subject = getById(id);
-        delete(subject);
-    }
-
-    @Override
-    public Subject getByIdWhithDetails(final Long id) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
-        Root<Subject> root = cq.from(Subject.class);
-        root.fetch(Subject_.users, JoinType.LEFT);
-        cq.where(root.get(Subject_.id).in(id));
-        return getEm().createQuery(cq).getSingleResult();
+        delete(getById(id));
     }
 
     @Override

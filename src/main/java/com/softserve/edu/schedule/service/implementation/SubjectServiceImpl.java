@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
-import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.SubjectDTOConverter;
@@ -73,20 +72,8 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public Subject getById(final Long id) {
-        return subjectDao.getById(id);
-    }
-
-    /**
-     * Return a Subject object if found.
-     *
-     * @param id
-     *            of Subject object
-     * @return room with given id
-     */
-    @Override
-    public SubjectDTO getByIdWhithDetails(final Long id) {
-        return subjectDTOConverter.getDTO(subjectDao.getByIdWhithDetails(id));
+    public SubjectDTO getById(final Long id) {
+        return subjectDTOConverter.getDTO(subjectDao.getById(id));
     }
 
     /**
@@ -96,19 +83,8 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Subject> getAll() {
-        return subjectDao.getAll();
-    }
-
-    /**
-     * Return a List of searched Subjects fetching Users.
-     *
-     * @return List of searched Subject transfer objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubjectDTO> getAllWithDetails() {
-        return subjectDao.getAllWithDetails().stream()
+    public List<SubjectDTO> getAll() {
+        return subjectDao.getAll().stream()
                 .map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }
@@ -138,7 +114,7 @@ public class SubjectServiceImpl implements SubjectService {
                 .map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }
-    
+
     /**
      * Return a List of searched Subject transfer objects.
      *
@@ -149,8 +125,8 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional(readOnly = true)
     public List<SubjectDTO> searchByDescription(final String pattern) {
-        return subjectDao.search(Subject_.description.getName(), pattern).stream()
-                .map(s -> subjectDTOConverter.getDTO(s))
+        return subjectDao.search(Subject_.description.getName(), pattern)
+                .stream().map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }
 
@@ -182,8 +158,8 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional(readOnly = true)
     public List<SubjectDTO> sortByDescription(Order order) {
-        return subjectDao.sort(Subject_.description.getName(), order)
-                .stream().map(s -> subjectDTOConverter.getDTO(s))
+        return subjectDao.sort(Subject_.description.getName(), order).stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }
 }

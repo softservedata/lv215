@@ -45,7 +45,7 @@ public class SubjectController {
 
     @RequestMapping(method = RequestMethod.GET)
     public String showSubjectPage(Model model) {
-        model.addAttribute("subjects", subjectService.getAllWithDetails());
+        model.addAttribute("subjects", subjectService.getAll());
         return "subjects/list";
     }
 
@@ -64,8 +64,7 @@ public class SubjectController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("subjectForm",
-                subjectService.getByIdWhithDetails(id));
+        model.addAttribute("subjectForm", subjectService.getById(id));
         model.addAttribute("users", userService.getAllForSubject());
         return "subjects/edit";
     }
