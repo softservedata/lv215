@@ -137,12 +137,12 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
     }
 
     @Override
-    public List<Subject> sortByField(final String join, final String field,
+    public List<Subject> sortByField( final String field,
             final Order order) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
         Root<Subject> root = cq.from(Subject.class);
-        root.fetch(join, JoinType.LEFT);
+        root.fetch(Subject_.users, JoinType.LEFT);
         cq.distinct(true);
         if (order == Order.ASC) {
             cq.orderBy(builder.asc(root.get(field)));

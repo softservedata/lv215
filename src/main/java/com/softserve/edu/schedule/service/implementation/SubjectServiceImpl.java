@@ -159,19 +159,15 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional(readOnly = true)
     public List<SubjectDTO> sortByName(Order order) {
-        return subjectDao
-                .sortByField(Subject_.users.getName(), Subject_.name.getName(),
-                        order)
-                .stream().map(s -> subjectDTOConverter.getDTO(s))
+        return subjectDao.sortByField(Subject_.name.getName(), order).stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<SubjectDTO> sortByDescription(Order order) {
-        return subjectDao
-                .sortByField(Subject_.users.getName(),
-                        Subject_.description.getName(), order)
+        return subjectDao.sortByField(Subject_.description.getName(), order)
                 .stream().map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }

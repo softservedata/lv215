@@ -66,7 +66,7 @@ public interface SubjectDAO extends CrudDAO<Subject> {
     void deleteById(final Long id);
     
 
-    public List<Subject> sortByField(final String field, final String join, final Order order);
+    public List<Subject> sortByField(final String field, final Order order);
 
     /**
      * Delete existed transfer object from the database by id.
