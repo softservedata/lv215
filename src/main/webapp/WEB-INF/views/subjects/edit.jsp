@@ -39,7 +39,7 @@
 					</c:if>
 				</c:forEach>
 			</form:select>
-			<input type="submit" value="Register" />
+			<input type="submit" value="OK" />
 		</form:form>
 	</div>
 </body>

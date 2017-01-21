@@ -171,9 +171,8 @@ public class MeetingController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@ModelAttribute("meetingForm") Meeting meeting) {
-       // model.addAttribute("meetingForm", meetingService.getById(id));
-        
-        
+        // model.addAttribute("meetingForm", meetingService.getById(id));
+
         meetingService.update(meeting);
 
         return "redirect:/meetings";
@@ -187,6 +186,29 @@ public class MeetingController {
         model.addAttribute("rooms", roomService.getAll());
         model.addAttribute("groups", userGroupService.getAll());
         return "meetings/edit";
+    }
+
+    @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
+    public String editStatus(@ModelAttribute("meeting") Meeting meeting) {
+        // model.addAttribute("meetingForm", meetingService.getById(id));
+        // TODO
+
+        meetingService.update(meeting);
+
+        return "redirect:/meetings";
+    }
+
+    @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.GET)
+    public String editStatusForm(@PathVariable("id") Long id, Model model) {
+        // TODO
+        model.addAttribute("meetingForm", meetingService.getById(id));
+        model.addAttribute("meetingForm", new Meeting());
+        model.addAttribute("subjects", subjectService.getAll());
+        model.addAttribute("owners", userService.getAll());
+        model.addAttribute("rooms", roomService.getAll());
+        model.addAttribute("groups", userGroupService.getAll());
+        
+        return "meetings/editStatus";
     }
 
 }
