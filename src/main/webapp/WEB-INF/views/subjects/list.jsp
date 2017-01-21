@@ -28,7 +28,7 @@
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}/subjects/searchByName"
 					modelAttribute="search">
-					<form:input path="name" placeholder="Search..." />
+					<form:input path="name" placeholder=" Search..." />
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
@@ -36,7 +36,7 @@
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}/subjects/searchByDescription"
 					modelAttribute="search">
-					<form:input path="description" placeholder="Search..." />
+					<form:input path="description" placeholder=" Search..." />
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
@@ -44,7 +44,7 @@
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}/subjects/searchByTutor"
 					modelAttribute="searchTutor">
-					<form:input path="lastName" placeholder="Search..." />
+					<form:input path="lastName" placeholder=" Search..." />
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
@@ -62,7 +62,7 @@
 					</c:forEach></td>
 				<td><a
 					href="${pageContext.request.contextPath}/subjects/delete/${subject.id}"
-					onclick="return confirm('Are you sure you want to delete this location?')"><i
+					onclick="return confirm('Are you sure you want to delete this Subject?')"><i
 						class="fa fa-trash-o fa-lg"></i></a></td>
 				<td><a
 					href="${pageContext.request.contextPath}/subjects/edit/${subject.id}"><i

@@ -54,6 +54,7 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         Predicate predicate = builder.like(joinUser.get(User_.lastName),
                 SEARCH_MASK + pattern + SEARCH_MASK);
         cq.where(predicate);
+        cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
 
