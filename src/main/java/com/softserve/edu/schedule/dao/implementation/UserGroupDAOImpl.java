@@ -66,8 +66,8 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGrou
 		CriteriaBuilder builder = getEm().getCriteriaBuilder();
 		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
 		Root<UserGroup> root = cq.from(UserGroup.class);
-		root.fetch("curator", JoinType.LEFT);
-		root.fetch("users", JoinType.LEFT);
+		root.fetch(UserGroup_.curator, JoinType.LEFT);
+		root.fetch(UserGroup_.users, JoinType.LEFT);
 		cq.distinct(true);
 		if (order == Order.ASC) {
 			cq.orderBy(builder.asc(root.get(field)));
