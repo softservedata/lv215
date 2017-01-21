@@ -60,6 +60,26 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     private RoomEquipmentService roomEquipmentService;
 
     /**
+     * RoomValidator example to provide form validation operations.
+     */
+    @Autowired
+    private RoomValidator roomValidator;
+
+    /**
+     * LocationDTOEditor example to provide conversions from form select fields
+     * to DTO.
+     */
+    @Autowired
+    private LocationDTOEditor locationDTOEditor;
+
+    /**
+     * RoomEquipmentDTOEditor example to provide conversions from form select
+     * fields to DTO.
+     */
+    @Autowired
+    private RoomEquipmentDTOEditor roomEquipmentDTOEditor;
+
+    /**
      * Initialize binder for room model.
      *
      * @param binder
@@ -67,11 +87,10 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      */
     @InitBinder(ROOM_MODEL_ATTR)
     protected void initBinder(final WebDataBinder binder) {
-        binder.setValidator(new RoomValidator(roomService));
-        binder.registerCustomEditor(LocationDTO.class,
-                new LocationDTOEditor(locationService));
+        binder.setValidator(roomValidator);
+        binder.registerCustomEditor(LocationDTO.class, locationDTOEditor);
         binder.registerCustomEditor(RoomEquipmentDTO.class,
-                new RoomEquipmentDTOEditor(roomEquipmentService));
+                roomEquipmentDTOEditor);
     }
 
     /**
@@ -83,7 +102,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     @InitBinder(FILTER_MODEL_ATTR)
     protected void initBinderFilter(final WebDataBinder binder) {
         binder.registerCustomEditor(RoomEquipmentDTO.class,
-                new RoomEquipmentDTOEditor(roomEquipmentService));
+                roomEquipmentDTOEditor);
     }
 
     /**

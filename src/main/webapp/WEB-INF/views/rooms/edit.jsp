@@ -39,21 +39,21 @@
 							</c:choose>
 						</c:forEach>
 					</form:select>
-					<form:errors path="location" />
+					<form:errors path="location" class="text-danger"/>
 				</div>
 				<div class="form-group">
 					<label for="name"><spring:message code="lbl.room.roomName"/>:</label>
 					<spring:message code="lbl.room.roomName" var="nameForPlaceholder"/>
 					<form:input type="text" class="form-control" path="name" id="name"
 						placeholder="${nameForPlaceholder}" required="true" />
-					<form:errors path="name" />
+					<form:errors path="name" class="text-danger"/>
 				</div>
 				<div class="form-group">
 					<label for="capacity"><spring:message code="lbl.room.roomCapacity"/>:</label>
 					<spring:message code="lbl.room.roomCapacity" var="capacityForPlaceholder"/>
 					<form:input class="form-control" type="number" path="capacity"
 						id="capacity" min="1" step="1" placeholder="${capacityForPlaceholder}" required="true" />
-					<form:errors path="capacity" />
+					<form:errors path="capacity" class="text-danger"/>
 				</div>
 				<div class="form-group">
 					<label for="equipments"><spring:message code="lbl.room.roomEquipments"/>:</label>
