@@ -205,7 +205,7 @@ public interface ControllerConst {
 		
 	}
 
-
+	/**
 	 * An interface that stores all constants for USerGroup controller
 	 * 
 	 * @author Andrew
