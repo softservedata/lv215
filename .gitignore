@@ -143,4 +143,3 @@ bower_components
 /src/main/webapp/WEB-INF/db.properties
 *.properties
 /src/main/webapp/WEB-INF/*.properties
-
