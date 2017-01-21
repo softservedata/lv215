@@ -16,7 +16,7 @@ import com.softserve.edu.schedule.entity.RoomEquipment;
  *
  * @since 1.8
  */
-@Service("roomEquipmentDTOConverter")
+@Service
 public class RoomEquipmentDTOConverter {
 
     /**

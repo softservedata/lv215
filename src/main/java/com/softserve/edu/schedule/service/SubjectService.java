@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.SubjectDTO;
-import com.softserve.edu.schedule.entity.Subject;
 
 /**
  * A simple service interface to handle the operation required to manipulate an
@@ -45,31 +44,15 @@ public interface SubjectService {
      *            of Subject transfer object
      * @return Subject transfer object
      */
-    Subject getById(final Long id);
-
-    /**
-     * Return a Subject object if found.
-     *
-     * @param id
-     *            of Subject object
-     * @return room with given id
-     */
-    SubjectDTO getByIdWhithDetails(final Long id);
+    SubjectDTO getById(final Long id);
     
     /**
      * Return a List of Subject objects.
      *
      * @return List of Subject objects
      */
-    List<Subject> getAll();
-    
-    /**
-     * Return a List of searched Subjects fetching Users.
-     *
-     * @return List of searched Subject transfer objects
-     */
-    List<SubjectDTO> getAllWithDetails();
-    
+    List<SubjectDTO> getAll();
+        
     /**
      * Delete existed transfer object from the database by id.
      *
@@ -81,14 +64,21 @@ public interface SubjectService {
     /**
      * Return a List of searched Subject transfer objects.
      *
-     * @param field
-     *            for search
      * @param pattern
      *            - input string
      * @return List of sorted Subject transfer objects
      */
     List<SubjectDTO> searchByName(final String pattern);
 
+    /**
+     * Return a List of searched Subject transfer objects.
+     *
+     * @param pattern
+     *            - input string
+     * @return List of sorted Subject transfer objects
+     */
+    List<SubjectDTO> searchByDescription(final String pattern);
+    
     /**
      * Return a List of searched Subject transfer objects containing searched
      * tutor.
@@ -98,7 +88,7 @@ public interface SubjectService {
      * @return List of searched Subject transfer objects containing searched
      *         tutor
      */
-    List<Subject> searchTutors(final String pattern);
+    List<SubjectDTO> searchByTutors(final String pattern);
     
     public List<SubjectDTO> sortByName( final Order order);
     

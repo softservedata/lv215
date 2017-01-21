@@ -30,7 +30,7 @@ import com.softserve.edu.schedule.service.implementation.specification.RoomFilte
  *
  * @since 1.8
  */
-@Repository("roomDAO")
+@Repository
 public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
     @Autowired

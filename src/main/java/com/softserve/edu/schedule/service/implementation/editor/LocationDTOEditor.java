@@ -3,6 +3,9 @@ package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.softserve.edu.schedule.service.LocationService;
 
 /**
@@ -15,22 +18,14 @@ import com.softserve.edu.schedule.service.LocationService;
  *
  * @since 1.8
  */
+@Service
 public class LocationDTOEditor extends PropertyEditorSupport {
 
     /**
      * LocationService example to provide search DTO operations.
      */
-    private LocationService locationService;
-
-    /**
-     * Constructor of LocationDTOEditor.
-     * 
-     * @param locationService
-     *            LocationService example
-     */
-    public LocationDTOEditor(final LocationService locationService) {
-        this.locationService = locationService;
-    }
+    @Autowired
+    private LocationService locationService;    
 
     /**
      * Provides a LocationDTO example by given location id in String format.
