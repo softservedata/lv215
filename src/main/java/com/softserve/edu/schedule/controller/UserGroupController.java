@@ -14,7 +14,6 @@ import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.service.UserGroupService;
-import com.softserve.edu.schedule.service.UserService;
 
 @Controller
 @RequestMapping("/usergroups")
@@ -23,59 +22,56 @@ public class UserGroupController {
 	@Autowired
 	private UserGroupService userGroupService;
 
-	@Autowired
-	private UserService userService;
-
 	@ModelAttribute("userGroupForm")
 	public UserGroup getUserGroup() {
 		return new UserGroup();
 	}
 
 	@RequestMapping()
-	public String showGroupsPage(Model model) {
+	public String showGroupsPage(final Model model) {
 		List<UserGroup> groups = userGroupService.getAll();
 		model.addAttribute("usergroups", groups);
 		return "usergroups/list";
 	}
 
 	@RequestMapping("/sortbynameasc")
-	public String sortByNameAsc(Model model) {
+	public String sortByNameAsc(final Model model) {
 		model.addAttribute("usergroups", userGroupService.sortByFields(UserGroup_.name.getName(), Order.ASC));
 		return "usergroups/list";
 	}
 
 	@RequestMapping("/sortbynamedesc")
-	public String sortByNameDesc(Model model) {
+	public String sortByNameDesc(final Model model) {
 		model.addAttribute("usergroups", userGroupService.sortByFields(UserGroup_.name.getName(), Order.DESC));
 		return "usergroups/list";
 	}
 
 	@RequestMapping("/sortbylevelasc")
-	public String sortByLevelAsc(Model model) {
+	public String sortByLevelAsc(final Model model) {
 		model.addAttribute("usergroups", userGroupService.sortByFields(UserGroup_.level.getName(), Order.ASC));
 		return "usergroups/list";
 	}
 
 	@RequestMapping("/sortbyleveldesc")
-	public String sortByLevelDesc(Model model) {
+	public String sortByLevelDesc(final Model model) {
 		model.addAttribute("usergroups", userGroupService.sortByFields(UserGroup_.level.getName(), Order.DESC));
 		return "usergroups/list";
 	}
 
 	@RequestMapping("/sortbymembersasc")
-	public String sortByMembersAsc(Model model) {
+	public String sortByMembersAsc(final Model model) {
 		model.addAttribute("usergroups", userGroupService.sortByCountMembers(Order.ASC));
 		return "usergroups/list";
 	}
 
 	@RequestMapping("/sortbymembersdesc")
-	public String sortByMembersDesc(Model model) {
+	public String sortByMembersDesc(final Model model) {
 		model.addAttribute("usergroups", userGroupService.sortByCountMembers(Order.DESC));
 		return "usergroups/list";
 	}
 
 	@RequestMapping("/create")
-	public String createForm(Model model) {
+	public String createForm(final Model model) {
 		model.addAttribute("userGroupForm", new UserGroup());
 		return "usergroups/create";
 	}
@@ -87,19 +83,19 @@ public class UserGroupController {
 	}
 
 	@RequestMapping("/delete/{id}")
-	public String delete(@PathVariable Long id) {
+	public String delete(@PathVariable final Long id) {
 		userGroupService.delete(userGroupService.getById(id));
 		return "redirect:/usergroups";
 	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public String update(@ModelAttribute("userGroupForm") UserGroup userGroup) {
+	public String update(@ModelAttribute("userGroupForm") final UserGroup userGroup) {
 		userGroupService.update(userGroup);
 		return "redirect:/usergroups";
 	}
 
 	@RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-	public String updateForm(@PathVariable("id") Long id, Model model) {
+	public String updateForm(@PathVariable("id") final Long id, final Model model) {
 		model.addAttribute("userGroupForm", userGroupService.getById(id));
 		return "usergroups/edit";
 	}

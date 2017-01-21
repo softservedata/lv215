@@ -119,7 +119,7 @@ public class UserGroup {
 	 * @param id
 	 *            the id to set
 	 */
-	public void setId(Long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 
@@ -127,7 +127,7 @@ public class UserGroup {
 	 * @param name
 	 *            the name to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -135,7 +135,7 @@ public class UserGroup {
 	 * @param description
 	 *            the description to set
 	 */
-	public void setDescription(String description) {
+	public void setDescription(final String description) {
 		this.description = description;
 	}
 
@@ -143,7 +143,7 @@ public class UserGroup {
 	 * @param level
 	 *            the level to set
 	 */
-	public void setLevel(Integer level) {
+	public void setLevel(final Integer level) {
 		this.level = level;
 	}
 
@@ -151,7 +151,7 @@ public class UserGroup {
 	 * @param curator
 	 *            the curator to set
 	 */
-	public void setCurator(User curator) {
+	public void setCurator(final User curator) {
 		this.curator = curator;
 	}
 
@@ -159,7 +159,7 @@ public class UserGroup {
 	 * @param users
 	 *            the users to set
 	 */
-	public void setUsers(List<User> users) {
+	public void setUsers(final List<User> users) {
 		this.users = users;
 	}
 
@@ -167,7 +167,7 @@ public class UserGroup {
 	 * @param meetings
 	 *            the meetings to set
 	 */
-	public void setMeetings(List<Meeting> meetings) {
+	public void setMeetings(final List<Meeting> meetings) {
 		this.meetings = meetings;
 	}
 
