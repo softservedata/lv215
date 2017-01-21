@@ -18,18 +18,18 @@ public interface ValidationMessages {
     String NO_ERROR_CODE = "";
 
     /**
-     * Empty field message.
+     * Empty field message bundle mapping.
      */
-    String EMPTY_FIELD = "Field can not be empty.";
+    String EMPTY_FIELD = "vm.emptyField";
 
     /**
-     * Invalid characters in field message.
+     * Invalid characters in field message bundle mapping.
      */
-    String INVALID_CHARACTERS = "Invalid characters in field.";
+    String INVALID_CHARACTERS = "vm.ivalidCharacters";
 
     /**
-     * Duplicate room in location message.
+     * Duplicate room in location message bundle mapping.
      */
-    String DUPLICATE_ROOM = "Room with this name already exist in specified location.";
+    String DUPLICATE_ROOM = "vm.duplicateRoom";
 
 }

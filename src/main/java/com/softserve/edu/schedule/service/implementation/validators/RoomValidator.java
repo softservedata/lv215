@@ -1,6 +1,10 @@
 /* RoomValidator 1.0 01/20/2017 */
 package com.softserve.edu.schedule.service.implementation.validators;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -17,22 +21,20 @@ import com.softserve.edu.schedule.service.RoomService;
  *
  * @since 1.8
  */
+@Service
 public class RoomValidator implements Validator {
 
     /**
      * RoomService example to provide search DTO operations.
      */
-    private final RoomService roomService;
+    @Autowired
+    private RoomService roomService;
 
     /**
-     * Constructor of RoomValidator.
-     * 
-     * @param roomService
-     *            RoomService example
+     * Messages source for internationalization purposes.
      */
-    public RoomValidator(RoomService roomService) {
-        this.roomService = roomService;
-    }
+    @Autowired
+    private ResourceBundleMessageSource messageSource;
 
     /**
      * Check if this validator can validate instances of the supplied class.
@@ -64,30 +66,40 @@ public class RoomValidator implements Validator {
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, ValidationFields.NAME,
                 ValidationMessages.NO_ERROR_CODE,
-                ValidationMessages.EMPTY_FIELD);
+                messageSource.getMessage(ValidationMessages.EMPTY_FIELD,
+                        new String[0], LocaleContextHolder.getLocale()));
+
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,
                 ValidationFields.CAPACITY, ValidationMessages.NO_ERROR_CODE,
-                ValidationMessages.EMPTY_FIELD);
+                messageSource.getMessage(ValidationMessages.EMPTY_FIELD,
+                        new String[0], LocaleContextHolder.getLocale()));
+
         ValidationUtils.rejectIfEmptyOrWhitespace(errors,
                 ValidationFields.LOCATION, ValidationMessages.NO_ERROR_CODE,
-                ValidationMessages.EMPTY_FIELD);
+                messageSource.getMessage(ValidationMessages.EMPTY_FIELD,
+                        new String[0], LocaleContextHolder.getLocale()));
 
         if (!isRoomNameValid(roomDTO)) {
             errors.rejectValue(ValidationFields.NAME,
                     ValidationMessages.NO_ERROR_CODE,
-                    ValidationMessages.INVALID_CHARACTERS);
+                    messageSource.getMessage(
+                            ValidationMessages.INVALID_CHARACTERS,
+                            new String[0], LocaleContextHolder.getLocale()));
         }
 
         if (!isRoomCapacityValid(roomDTO)) {
             errors.rejectValue(ValidationFields.CAPACITY,
                     ValidationMessages.NO_ERROR_CODE,
-                    ValidationMessages.INVALID_CHARACTERS);
+                    messageSource.getMessage(
+                            ValidationMessages.INVALID_CHARACTERS,
+                            new String[0], LocaleContextHolder.getLocale()));
         }
 
         if (hasDuplicates(roomDTO)) {
             errors.rejectValue(ValidationFields.NAME,
                     ValidationMessages.NO_ERROR_CODE,
-                    ValidationMessages.DUPLICATE_ROOM);
+                    messageSource.getMessage(ValidationMessages.DUPLICATE_ROOM,
+                            new String[0], LocaleContextHolder.getLocale()));
         }
 
     }
@@ -132,7 +144,7 @@ public class RoomValidator implements Validator {
         if (dublicate == null) {
             return false;
         }
-        if (dublicate.getId() == roomDTO.getId()) {
+        if (dublicate.getId().equals(roomDTO.getId())) {
             return false;
         }
         return true;

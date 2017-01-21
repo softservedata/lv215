@@ -11,7 +11,7 @@ import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 
 @Transactional
-@Service("roomEquipmentService")
+@Service
 public class RoomEquipmentServiceImpl implements RoomEquipmentService {
 
     @Autowired
