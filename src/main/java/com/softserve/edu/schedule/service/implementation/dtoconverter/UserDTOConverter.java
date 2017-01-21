@@ -36,15 +36,15 @@ public class UserDTOConverter {
      * UserGroupDTOConverter example to provide to DTO user groups
      * conversion.
      */
-//    @Autowired
-//    private UserGroupDTOConverter userGroupDTOConverter;
+    @Autowired
+    private UserGroupFouUserDTOConverter userGroupFUDTOConverter;
 
     /**
      * SubjectDTOConverter example to provide to DTO subjects
      * conversion.
      */
-//    @Autowired
-//    private SubjectDTOConverter subjectDTOConverter;
+    @Autowired
+    private SubjectForUserDTOConverter subjectFUDTOConverter;
 
     /**
      * Convert given UserDTO object to User object
@@ -156,15 +156,15 @@ public class UserDTOConverter {
                 userDTO.setRole(user.getRole());
             }
 
-//            if (user.getSubjects() != null) {
-//                user.getSubjects().forEach(e -> userDTO.getSubjects()
-//                        .add(subjectDTOConverter.getDTO(e)));
-//            }
-//
-//            if (user.getGroups() != null) {
-//                user.getGroups().forEach(e -> userDTO.getGroups()
-//                        .add(userGroupDTOConverter.getDTO(e)));
-//            }
+            if (user.getSubjects() != null) {
+                user.getSubjects().forEach(e -> userDTO.getSubjects()
+                        .add(subjectFUDTOConverter.getDTO(e)));
+            }
+
+            if (user.getGroups() != null) {
+                user.getGroups().forEach(e -> userDTO.getGroups()
+                        .add(userGroupFUDTOConverter.getDTO(e)));
+            }
             return userDTO;
         }
         return null;
