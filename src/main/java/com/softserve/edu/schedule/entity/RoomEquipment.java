@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 /**
@@ -38,7 +40,10 @@ public class RoomEquipment {
     /**
      * List of rooms where this equipment is available.
      */
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "equipments")
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Room.class)
+    @JoinTable(name = "room_roomequipment",
+            joinColumns = {@JoinColumn(name = "equipments_id")},
+            inverseJoinColumns = {@JoinColumn(name = "rooms_id")})
     private List<Room> rooms = new ArrayList<>();
 
     /**

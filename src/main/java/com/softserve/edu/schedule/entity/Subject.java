@@ -9,6 +9,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -46,7 +48,10 @@ public class Subject {
     /**
      * List of users who can create meetings with this subject.
      */
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = User.class)
+    @JoinTable(name = "subject_user",
+            joinColumns = {@JoinColumn(name = "subjects_id")},
+            inverseJoinColumns = {@JoinColumn(name = "users_id")})
     private List<User> users = new ArrayList<>();
 
     /**

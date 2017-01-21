@@ -30,10 +30,29 @@ public interface UserGroupDAO extends CrudDAO<UserGroup> {
      *            ASC or DESC
      * @return list of sorted usergroups
      */
-    public List<UserGroup> sortByFields(String field, Order order);
+    public List<UserGroup> sortByFields(final String field, final Order order);
 
-    public void deleteUserFromUserGroup(Long userID, Long userGroupID);
+    /**
+     * Deleting user from a UserGroup
+     * 
+     * @param userID
+     *            an id of a user to delete
+     * @param userGroupID
+     *            an id of a user group
+     */
+    // public void deleteUserFromUserGroup(final Long userID,
+    // final Long userGroupID);
 
-    public boolean isUserCurator(Long userID, Long userGroupID);
+    /**
+     * Checks if user is a curator in a group
+     * 
+     * @param userID
+     *            an id of a user to check
+     * @param userGroupID
+     *            an id of a group to check
+     * @return true value if user is a curator in specified group or false if
+     *         not
+     */
+    public boolean isUserCurator(final Long userID, final Long userGroupID);
 
 }

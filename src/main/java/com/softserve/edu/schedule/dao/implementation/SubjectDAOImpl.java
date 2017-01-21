@@ -68,10 +68,4 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
     public void deleteById(Long id) {
         delete(getById(id));
     }
-
-    @Override
-    public void deleteUserFromSubject(Long userID, Long subjectID) {
-        getById(subjectID).getUsers().removeIf(e -> e.getId().equals(userID));
-    }
-
 }
