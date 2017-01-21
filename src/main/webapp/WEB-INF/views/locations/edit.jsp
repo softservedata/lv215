@@ -8,7 +8,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-lg-4 col-lg-offset-4 panel panel-default">
+		<div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
 			<h3 class="text-center">EDIT LOCATION</h3>
 			<form:form method="post"
 				modelAttribute="${LocationController.LOCATION_FORM_MODEL_ATTR}">
