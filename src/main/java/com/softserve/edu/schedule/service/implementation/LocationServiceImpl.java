@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.softserve.edu.schedule.dao.LocationDAO;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.LocationDTO;
+import com.softserve.edu.schedule.entity.Location_;
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.LocationDTOConverter;
 
@@ -57,20 +58,7 @@ public class LocationServiceImpl implements LocationService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<LocationDTO> getAll() {
-		// return locationDAO.getAll();
 		return locationDAO.getAll().stream().map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.softserve.edu.schedule.service.LocationService#search(java.lang.
-	 * String, java.lang.String)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<LocationDTO> search(final String field, final String pattern) {
-		return locationDAO.search(field, pattern).stream().map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
 	/*
@@ -135,20 +123,6 @@ public class LocationServiceImpl implements LocationService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.softserve.edu.schedule.service.LocationService#getAllWithDetails()
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<LocationDTO> getAllWithDetails() {
-		// return locationDAO.getAllWithDetails();
-		return locationDAO.getAllWithDetails().stream().map(e -> locationDTOConverter.getDTO(e))
-				.collect(Collectors.toList());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * com.softserve.edu.schedule.service.LocationService#deleteById(java.lang.
 	 * Long)
 	 */
@@ -162,15 +136,55 @@ public class LocationServiceImpl implements LocationService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.softserve.edu.schedule.service.LocationService#sortByFields(java.lang
-	 * .String, com.softserve.edu.schedule.dao.Order)
+	 * com.softserve.edu.schedule.service.LocationService#searchByName(java.lang
+	 * .String)
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<LocationDTO> sortByFields(String field, Order order) {
-		//return locationDAO.sortByFields(field, order);
-		return locationDAO.sortByFields(field, order).stream().map(e -> locationDTOConverter.getDTO(e))
-		.collect(Collectors.toList());
+	public List<LocationDTO> searchByName(final String pattern) {
+		return locationDAO.search(Location_.name.getName(), pattern).stream().map(e -> locationDTOConverter.getDTO(e))
+				.collect(Collectors.toList());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.service.LocationService#searchByAddress(java.
+	 * lang.String)
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<LocationDTO> searchByAddress(final String pattern) {
+		return locationDAO.search(Location_.address.getName(), pattern).stream()
+				.map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.softserve.edu.schedule.service.LocationService#sortByName(com.
+	 * softserve.edu.schedule.dao.Order)
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<LocationDTO> sortByName(final Order order) {
+		return locationDAO.sort(Location_.name.getName(), order).stream().map(e -> locationDTOConverter.getDTO(e))
+				.collect(Collectors.toList());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.service.LocationService#sortByAddress(com.
+	 * softserve.edu.schedule.dao.Order)
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<LocationDTO> sortByAddress(final Order order) {
+		return locationDAO.sort(Location_.address.getName(), order).stream().map(e -> locationDTOConverter.getDTO(e))
+				.collect(Collectors.toList());
 	}
 
 }

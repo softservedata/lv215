@@ -12,89 +12,104 @@ import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.service.LocationService;
 
-@RequestMapping("/locations")
 @Controller
-public class LocationController {
+public class LocationController implements ControllerConst.LocationControllerConst {
 
 	@Autowired
 	private LocationService locationService;
 
-	@RequestMapping()
+	@ModelAttribute(SEARCH_MODEL_ATTR)
+	public LocationDTO getLocationDTO() {
+		return new LocationDTO();
+	}
+
+	@RequestMapping(LOCATIONS_MAPPING)
 	public String showList(Model model) {
-		model.addAttribute("locations", locationService.getAllWithDetails());
-		return "locations/list";
+		model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
+		return LOCATIONS_LIST_URL;
 	}
 
-	@RequestMapping("/sortbynameasc")
+	@RequestMapping(LOCATIONS_SORT_BY_NAME_ASC_MAPPING)
 	public String sortByNameAsc(Model model) {
-		model.addAttribute("locations", locationService.sortByFields("name", Order.ASC));
-		return "locations/list";
+		model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.sortByName(Order.ASC));
+		return LOCATIONS_LIST_URL;
 
 	}
 
-	@RequestMapping("/sortbynamedesc")
+	@RequestMapping(LOCATIONS_SORT_BY_NAME_DESC_MAPPING)
 	public String sortByNameDesc(Model model) {
-		model.addAttribute("locations", locationService.sortByFields("name", Order.DESC));
-		return "locations/list";
+		model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.sortByName(Order.DESC));
+		return LOCATIONS_LIST_URL;
 
 	}
 
-	@RequestMapping("/sortbyaddressasc")
+	@RequestMapping(LOCATIONS_SORT_BY_ADDRESS_ASC_MAPPING)
 	public String sortByAddressAsc(Model model) {
-		model.addAttribute("locations", locationService.sortByFields("address", Order.ASC));
-		return "locations/list";
+		model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.sortByAddress(Order.ASC));
+		return LOCATIONS_LIST_URL;
 
 	}
 
-	@RequestMapping("/sortbyaddressdesc")
+	@RequestMapping(LOCATIONS_SORT_BY_ADDRESS_DESC_MAPPING)
 	public String sortByAddressDesc(Model model) {
-		model.addAttribute("locations", locationService.sortByFields("address", Order.DESC));
-		return "locations/list";
+		model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.sortByAddress(Order.DESC));
+		return LOCATIONS_LIST_URL;
 
 	}
 
-	@RequestMapping("/sortbycountroomsasc")
+	@RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING)
 	public String sortByCountRoomsAsc(Model model) {
-		model.addAttribute("locations", locationService.sortByCountRooms(Order.ASC));
-		return "locations/list";
+		model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.sortByCountRooms(Order.ASC));
+		return LOCATIONS_LIST_URL;
 
 	}
 
-	@RequestMapping("/sortbycountroomsdesc")
+	@RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING)
 	public String sortByCountRoomsDesc(Model model) {
-		model.addAttribute("locations", locationService.sortByCountRooms(Order.DESC));
-		return "locations/list";
+		model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.sortByCountRooms(Order.DESC));
+		return LOCATIONS_LIST_URL;
 
 	}
 
-	@RequestMapping("/delete/{id}")
+	@RequestMapping(LOCATION_DELETE_MAPPING + "{id}")
 	public String delete(@PathVariable Long id) {
 		locationService.deleteById(id);
-		return "redirect:/locations";
+		return LOCATIONS_REDIRECT_URL;
 	}
 
-	@RequestMapping("/create")
+	@RequestMapping(LOCATION_CREATE_MAPPING)
 	public String createForm(Model model) {
-		model.addAttribute("locationForm", new LocationDTO());
-		return "locations/create";
+		model.addAttribute(LOCATION_FORM_MODEL_ATTR, new LocationDTO());
+		return LOCATION_CREATE_URL;
 	}
 
-	@RequestMapping(value = "/create", method = RequestMethod.POST)
-	public String create(@ModelAttribute("locationForm") LocationDTO location) {
+	@RequestMapping(value = LOCATION_CREATE_MAPPING, method = RequestMethod.POST)
+	public String create(@ModelAttribute(LOCATION_FORM_MODEL_ATTR) LocationDTO location) {
 		locationService.create(location);
-		return "redirect:/locations";
+		return LOCATIONS_REDIRECT_URL;
 	}
 
-	@RequestMapping("/edit/{id}")
+	@RequestMapping(LOCATION_EDIT_MAPPING+"{id}")
 	public String updateForm(@PathVariable Long id, Model model) {
-		model.addAttribute("locationForm", locationService.getById(id));
-		return "locations/edit";
+		model.addAttribute(LOCATION_FORM_MODEL_ATTR, locationService.getById(id));
+		return LOCATION_EDIT_URL;
 	}
 
-	@RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-	public String update(@ModelAttribute("locationForm") LocationDTO location) {
+	@RequestMapping(value = LOCATION_EDIT_MAPPING+"{id}", method = RequestMethod.POST)
+	public String update(@ModelAttribute(LOCATION_FORM_MODEL_ATTR) LocationDTO location) {
 		locationService.update(location);
-		return "redirect:/locations";
+		return LOCATIONS_REDIRECT_URL;
 	}
 
+	@RequestMapping(value = LOCATIONS_SEARCH_BY_NAME_MAPPING, method = RequestMethod.POST)
+	public String searchByName(@ModelAttribute(SEARCH_MODEL_ATTR) LocationDTO location, Model model) {
+		model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.searchByName(location.getName()));
+		return LOCATIONS_LIST_URL;
+	}
+
+	@RequestMapping(value = LOCATIONS_SEARCH_BY_ADDRESS_MAPPING, method = RequestMethod.POST)
+	public String searchByAddress(@ModelAttribute(SEARCH_MODEL_ATTR) LocationDTO location, Model model) {
+		model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.searchByAddress(location.getAddress()));
+		return LOCATIONS_LIST_URL;
+	}
 }

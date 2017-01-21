@@ -33,7 +33,7 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      * @return List of searched Subject transfer objects
      */
     List<Subject> getAllWithDetails();
-    
+
     /**
      * Return a Subject object if found.
      *
@@ -49,7 +49,7 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      * @return List of searched Subjects fetching Users sorted by name
      */
     List<Subject> sortByName(final Order order);
-    
+
     /**
      * Return a List of searched Subjects fetching Users sorted by description.
      *
@@ -64,16 +64,17 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      *            a subject id to delete from database.
      */
     void deleteById(final Long id);
-    
+
+    public List<Subject> sortByField(final String field, final Order order);
+
     /**
      * Delete existed transfer object from the database by id.
      *
      * @param id
-     *            a user id to delete from database.
-     *                 *
+     *            a user id to delete from database. *
      * @param id
      *            a subject id where delete user from database.
      */
-    void deleteUserFromSubject(Long userID, Long subjectID);
+    // void deleteUserFromSubject(Long userID, Long subjectID);
 
 }

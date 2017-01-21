@@ -1,19 +1,18 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 
 <spring:url value="/resources/css/main.css" var="mainCss" />
-
 <spring:url value="/resources/img/favicon.ico" var="favico" />
 <spring:url value="/resources/css/font-awesome.min.css" var="fontCss" />
-<spring:url value="/resources/chosen_v1.6.2/chosen.min.css" var="chosenCSS" />
-<spring:url value="/resources/chosen_v1.6.2/chosen.jquery.min.js" var="chosenJs" />
-
+<spring:url value="/resources/chosen_v1.6.2/chosen.min.css"
+	var="chosenCSS" />
+<spring:url value="/resources/chosen_v1.6.2/chosen.jquery.min.js"
+	var="chosenJs" />
 <link href="${favico}" rel="shortcut icon">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -23,7 +22,6 @@
 <link rel="stylesheet" href="${chosenCSS}" />
 <link rel="stylesheet" href="${mainCss}">
 <link rel="stylesheet" href="${fontCss}">
-
 <script type="text/javascript"
 	src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script
@@ -37,16 +35,14 @@
 
 	<header>
 		<tiles:insertAttribute name="header" />
-		<nav>
-			<tiles:insertAttribute name="navigation" />
-		</nav>
+		<tiles:insertAttribute name="navigation" />
 	</header>
-	<!-- Основной контент сторінки -->
+
 	<div class="container">
 		<tiles:insertAttribute name="body" />
 	</div>
+
 	<footer>
-		<!-- футер сторінки -->
 		<tiles:insertAttribute name="footer" />
 	</footer>
 

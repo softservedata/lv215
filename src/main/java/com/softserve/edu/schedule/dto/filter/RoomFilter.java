@@ -18,6 +18,11 @@ import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 public class RoomFilter {
 
     /**
+     * Show filter parameter. If true filter will be shown.
+     */
+    private String showFilter;
+
+    /**
      * Location id for filter rooms.
      */
     private int LocationId;
@@ -51,6 +56,13 @@ public class RoomFilter {
      * List of RoomEquipmentDTO for filter rooms.
      */
     private List<RoomEquipmentDTO> equipments = new ArrayList<>();
+
+    /**
+     * @return the showFilter
+     */
+    public String getShowFilter() {
+        return showFilter;
+    }
 
     /**
      * @return the locationId
@@ -99,6 +111,14 @@ public class RoomFilter {
      */
     public List<RoomEquipmentDTO> getEquipments() {
         return equipments;
+    }
+
+    /**
+     * @param showFilter
+     *            the showFilter to set
+     */
+    public void setShowFilter(String showFilter) {
+        this.showFilter = showFilter;
     }
 
     /**

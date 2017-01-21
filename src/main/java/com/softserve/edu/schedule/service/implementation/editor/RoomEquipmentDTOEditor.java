@@ -3,6 +3,9 @@ package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
@@ -17,23 +20,14 @@ import com.softserve.edu.schedule.service.RoomEquipmentService;
  *
  * @since 1.8
  */
+@Service
 public class RoomEquipmentDTOEditor extends PropertyEditorSupport {
 
     /**
      * RoomEquipmentService example to provide search DTO operations.
      */
-    private RoomEquipmentService roomEquipmentService;
-
-    /**
-     * Constructor of RoomEquipmentDTOEditor.
-     * 
-     * @param roomEquipmentService
-     *            RoomEquipmentService example
-     */
-    public RoomEquipmentDTOEditor(
-            final RoomEquipmentService roomEquipmentService) {
-        this.roomEquipmentService = roomEquipmentService;
-    }
+    @Autowired
+    private RoomEquipmentService roomEquipmentService;    
 
     /**
      * Provides a RoomEquipmentDTO example by given room equipment id in String

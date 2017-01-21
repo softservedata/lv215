@@ -1,6 +1,10 @@
 /* RoomValidator 1.0 01/20/2017 */
 package com.softserve.edu.schedule.service.implementation.validators;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.stereotype.Service;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -17,22 +21,20 @@ import com.softserve.edu.schedule.service.RoomService;
  *
  * @since 1.8
  */
+@Service
 public class RoomValidator implements Validator {
 
     /**
      * RoomService example to provide search DTO operations.
      */
-    private final RoomService roomService;
+    @Autowired
+    private RoomService roomService;
 
     /**
-     * Constructor of RoomValidator.
-     * 
-     * @param roomService
-     *            RoomService example
+     * Messages source for internationalization purposes.
      */
-    public RoomValidator(RoomService roomService) {
-        this.roomService = roomService;
-    }
+    @Autowired
+    private ResourceBundleMessageSource messageSource;
 
     /**
      * Check if this validator can validate instances of the supplied class.
@@ -62,29 +64,69 @@ public class RoomValidator implements Validator {
     public void validate(Object target, Errors errors) {
         RoomDTO roomDTO = (RoomDTO) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "",
-                "Field can not be empty.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "capacity", "",
-                "Field can not be empty.");
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "location", "",
-                "Field can not be empty.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, ValidationFields.NAME,
+                ValidationMessages.NO_ERROR_CODE,
+                messageSource.getMessage(ValidationMessages.EMPTY_FIELD,
+                        new String[0], LocaleContextHolder.getLocale()));
 
-        if (!roomDTO.getName().matches("^[\\p{L}0-9]*$")) {
-            errors.rejectValue("name", "", "Invalid characters in field.");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+                ValidationFields.CAPACITY, ValidationMessages.NO_ERROR_CODE,
+                messageSource.getMessage(ValidationMessages.EMPTY_FIELD,
+                        new String[0], LocaleContextHolder.getLocale()));
+
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors,
+                ValidationFields.LOCATION, ValidationMessages.NO_ERROR_CODE,
+                messageSource.getMessage(ValidationMessages.EMPTY_FIELD,
+                        new String[0], LocaleContextHolder.getLocale()));
+
+        if (!isRoomNameValid(roomDTO)) {
+            errors.rejectValue(ValidationFields.NAME,
+                    ValidationMessages.NO_ERROR_CODE,
+                    messageSource.getMessage(
+                            ValidationMessages.INVALID_CHARACTERS,
+                            new String[0], LocaleContextHolder.getLocale()));
         }
 
-        if (!roomDTO.getCapacity().matches("[0-9]+")) {
-            errors.rejectValue("capacity", "", "Invalid characters in field.");
-        } else if (Integer.parseInt(roomDTO.getCapacity()) <= 0) {
-            errors.rejectValue("capacity", "",
-                    "Capacity can not be zero or negative.");
+        if (!isRoomCapacityValid(roomDTO)) {
+            errors.rejectValue(ValidationFields.CAPACITY,
+                    ValidationMessages.NO_ERROR_CODE,
+                    messageSource.getMessage(
+                            ValidationMessages.INVALID_CHARACTERS,
+                            new String[0], LocaleContextHolder.getLocale()));
         }
 
         if (hasDuplicates(roomDTO)) {
-            errors.rejectValue("name", "",
-                    "Room with this name already exist in specified location.");
+            errors.rejectValue(ValidationFields.NAME,
+                    ValidationMessages.NO_ERROR_CODE,
+                    messageSource.getMessage(ValidationMessages.DUPLICATE_ROOM,
+                            new String[0], LocaleContextHolder.getLocale()));
         }
 
+    }
+
+    /**
+     * Checks the given roomDTO capacity contains only digits.
+     * 
+     * @param roomDTO
+     *            a RoomDTO object to check capacity.
+     * 
+     * @return true if capacity is valid
+     */
+    private boolean isRoomCapacityValid(RoomDTO roomDTO) {
+        return roomDTO.getCapacity().matches(ValidationCriteria.DIGITS_ONLY);
+    }
+
+    /**
+     * Checks the given roomDTO name contains only allowed characters.
+     * 
+     * @param roomDTO
+     *            a RoomDTO object to check name.
+     * 
+     * @return true if name is valid
+     */
+    private boolean isRoomNameValid(RoomDTO roomDTO) {
+        return roomDTO.getName()
+                .matches(ValidationCriteria.CHARACTERS_FOR_NAME);
     }
 
     /**
@@ -102,7 +144,7 @@ public class RoomValidator implements Validator {
         if (dublicate == null) {
             return false;
         }
-        if (dublicate.getId() == roomDTO.getId()) {
+        if (dublicate.getId().equals(roomDTO.getId())) {
             return false;
         }
         return true;

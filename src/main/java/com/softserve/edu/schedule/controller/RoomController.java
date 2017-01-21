@@ -38,82 +38,7 @@ import com.softserve.edu.schedule.service.implementation.validators.RoomValidato
 @RequestMapping("/rooms")
 @Controller
 @SessionAttributes("roomFilter")
-public class RoomController {
-
-    /**
-     * Room model attribute name.
-     */
-    public static final String ROOM_MODEL_ATTR = "room";
-
-    /**
-     * Rooms model attribute name.
-     */
-    public static final String ROOMS_MODEL_ATTR = "rooms";
-
-    /**
-     * Locations model attribute name.
-     */
-    public static final String LOCATIONS_MODEL_ATTR = "locations";
-
-    /**
-     * Room equipments model attribute name.
-     */
-    public static final String EQUIPMENTS_MODEL_ATTR = "equipments";
-
-    /**
-     * Filter model attribute name.
-     */
-    public static final String FILTER_MODEL_ATTR = "roomFilter";
-
-    /**
-     * Path variable for room id name.
-     */
-    public static final String PATH_VAR_ID = "id";
-
-    /**
-     * Rooms list URL name.
-     */
-    public static final String ROOMS_LIST_URL = "rooms/list";
-
-    /**
-     * Rooms list redirect URL name.
-     */
-    public static final String ROOMS_REDIRECT_URL = "redirect:/rooms";
-
-    /**
-     * Show room details URL name.
-     */
-    public static final String ROOM_SHOW_URL = "rooms/show";
-
-    /**
-     * Show room details mapping URL name.
-     */
-    public static final String ROOM_SHOW_MAPPING = "/{id}";
-
-    /**
-     * Edit room information URL name.
-     */
-    public static final String ROOM_EDIT_URL = "rooms/edit";
-
-    /**
-     * Edit room information mapping URL name.
-     */
-    public static final String ROOM_EDIT_MAPPING = "/edit/{id}";
-
-    /**
-     * Create new room URL name.
-     */
-    public static final String ROOM_CREATE_URL = "rooms/create";
-
-    /**
-     * Create new room mapping URL name.
-     */
-    public static final String ROOM_CREATE_MAPPING = "/create";
-
-    /**
-     * Delete room mapping URL name.
-     */
-    public static final String ROOM_DELETE_MAPPING = "/delete/{id}";
+public class RoomController implements ControllerConst.RoomControllerConst {
 
     /**
      * RoomService example to provide rooms list to the model.
@@ -135,6 +60,26 @@ public class RoomController {
     private RoomEquipmentService roomEquipmentService;
 
     /**
+     * RoomValidator example to provide form validation operations.
+     */
+    @Autowired
+    private RoomValidator roomValidator;
+
+    /**
+     * LocationDTOEditor example to provide conversions from form select fields
+     * to DTO.
+     */
+    @Autowired
+    private LocationDTOEditor locationDTOEditor;
+
+    /**
+     * RoomEquipmentDTOEditor example to provide conversions from form select
+     * fields to DTO.
+     */
+    @Autowired
+    private RoomEquipmentDTOEditor roomEquipmentDTOEditor;
+
+    /**
      * Initialize binder for room model.
      *
      * @param binder
@@ -142,11 +87,10 @@ public class RoomController {
      */
     @InitBinder(ROOM_MODEL_ATTR)
     protected void initBinder(final WebDataBinder binder) {
-        binder.setValidator(new RoomValidator(roomService));
-        binder.registerCustomEditor(LocationDTO.class,
-                new LocationDTOEditor(locationService));
+        binder.setValidator(roomValidator);
+        binder.registerCustomEditor(LocationDTO.class, locationDTOEditor);
         binder.registerCustomEditor(RoomEquipmentDTO.class,
-                new RoomEquipmentDTOEditor(roomEquipmentService));
+                roomEquipmentDTOEditor);
     }
 
     /**
@@ -158,7 +102,7 @@ public class RoomController {
     @InitBinder(FILTER_MODEL_ATTR)
     protected void initBinderFilter(final WebDataBinder binder) {
         binder.registerCustomEditor(RoomEquipmentDTO.class,
-                new RoomEquipmentDTOEditor(roomEquipmentService));
+                roomEquipmentDTOEditor);
     }
 
     /**

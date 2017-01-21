@@ -18,7 +18,7 @@ import com.softserve.edu.schedule.entity.Location;
  *
  * @since 1.8
  */
-@Service("locationDTOConverter")
+@Service
 public class LocationDTOConverter {
 
     /**
