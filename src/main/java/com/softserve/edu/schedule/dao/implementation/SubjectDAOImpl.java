@@ -105,14 +105,14 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         }
         return getEm().createQuery(cq).getResultList();
     }
-    
+
     /**
      * Return a List of searched Subjects fetching Users sorted by description.
      *
      * @return List of searched Subjects fetching Users sorted by description
      */
     @Override
-    public List<Subject> sortByDescription(final Order order){
+    public List<Subject> sortByDescription(final Order order) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
         Root<Subject> root = cq.from(Subject.class);
@@ -135,11 +135,26 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         cq.where(root.get(Subject_.id).in(id));
         return getEm().createQuery(cq).getSingleResult();
     }
-    
+
     @Override
-    public void deleteUserFromSubject(Long userID, Long subjectID){
-            getById(subjectID).getUsers()
-                    .removeIf(e -> e.getId().equals(userID));
+    public List<Subject> sortByField( final String field,
+            final Order order) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
+        Root<Subject> root = cq.from(Subject.class);
+        root.fetch(Subject_.users, JoinType.LEFT);
+        cq.distinct(true);
+        if (order == Order.ASC) {
+            cq.orderBy(builder.asc(root.get(field)));
+        } else {
+            cq.orderBy(builder.desc(root.get(field)));
+        }
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public void deleteUserFromSubject(Long userID, Long subjectID) {
+        getById(subjectID).getUsers().removeIf(e -> e.getId().equals(userID));
     }
 
 }
