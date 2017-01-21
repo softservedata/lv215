@@ -56,13 +56,13 @@ public class UserDTO {
      * List of groups this user participates.
      */
 
-    private List<UserGroupDTO> groups = new ArrayList<>();
+    private List<UserGroupForUserDTO> groups = new ArrayList<>();
 
     /**
      * List of subjects this user participates.
      */
 
-    private List<SubjectDTO> subjects = new ArrayList<>();
+    private List<SubjectForUserDTO> subjects = new ArrayList<>();
 
     /**
      * @return the id
@@ -202,7 +202,7 @@ public class UserDTO {
     /**
      * @return the groups
      */
-    public List<UserGroupDTO> getGroups() {
+    public List<UserGroupForUserDTO> getGroups() {
         return groups;
     }
 
@@ -210,14 +210,14 @@ public class UserDTO {
      * @param groups
      *            the groups to set
      */
-    public void setGroups(List<UserGroupDTO> groups) {
+    public void setGroups(List<UserGroupForUserDTO> groups) {
         this.groups = groups;
     }
 
     /**
      * @return the groups
      */
-    public List<SubjectDTO> getSubjects() {
+    public List<SubjectForUserDTO> getSubjects() {
         return subjects;
     }
 
@@ -225,7 +225,7 @@ public class UserDTO {
      * @param groups
      *            the groups to set
      */
-    public void setSubjects(List<SubjectDTO> subjects) {
+    public void setSubjects(List<SubjectForUserDTO> subjects) {
         this.subjects = subjects;
     }
 

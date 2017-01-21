@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.service;
 import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
@@ -25,7 +26,7 @@ public interface UserService {
      * @param user
      *            a new user to storage in database.
      */
-    public void create(final User user);
+    public void create(final UserDTO userDTO);
 
     /**
      * Delete existed user entity from the database.
@@ -33,7 +34,7 @@ public interface UserService {
      * @param id
      *            a user id to delete from database.
      */
-    public void delete(final User user);
+    public void delete(final UserDTO userDTO);
 
     /**
      * Change field status at user entity in the database.
@@ -74,7 +75,7 @@ public interface UserService {
      * @param id
      *            a user id in database.
      */
-    public void update(final User user);
+    public void update(final UserDTO userDTO);
 
     /**
      * Get all users by group what was selected.
@@ -82,7 +83,7 @@ public interface UserService {
      * @param id
      *            a group id in database.
      */
-    public List<User> searchByGroup(final String group);
+    public List<UserDTO> searchByGroup(final String group);
 
     /**
      * Get all users by role what was selected.
@@ -92,14 +93,14 @@ public interface UserService {
      *
      * @return List of the user objects.
      */
-    public List<User> getByRole(final UserRole userRole);
+    public List<UserDTO> getByRole(final UserRole userRole);
 
     /**
      * Get all users.
      *
      * @return List of the user objects.
      */
-    public List<User> getAll();
+    public List<UserDTO> getAll();
 
     /**
      * Get all users.
@@ -116,7 +117,7 @@ public interface UserService {
      *
      * @return List of the user objects.
      */
-    public List<User> getByStatus(final UserStatus userStatus);
+    public List<UserDTO> getByStatus(final UserStatus userStatus);
 
     /**
      * Get all users by position what was selected.
@@ -129,7 +130,7 @@ public interface UserService {
      *
      * @return List of the user objects.
      */
-    public List<User> search(final String field, final String pattern);
+    public List<UserDTO> search(final String field, final String pattern);
 
     /**
      * Sort all users by first name.
@@ -142,7 +143,7 @@ public interface UserService {
      *
      * @return List of the user objects.
      */
-    public List<User> sort(final String field, final Order order);
+    public List<UserDTO> sort(final String field, final Order order);
 
     /**
      * Return a User object if found.
@@ -151,7 +152,7 @@ public interface UserService {
      *            of User transfer object
      * @return User transfer object
      */
-    public User getById(final Long id);
+    public UserDTO getById(final Long id);
 
     /**
      * Delete existed transfer object from the database by id.
@@ -166,6 +167,6 @@ public interface UserService {
      *
      * @return List of searched Users transfer objects
      */
-    public List<User> getAllWithDetails();
+    public List<UserDTO> getAllWithDetails();
 
 }
