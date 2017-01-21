@@ -47,15 +47,21 @@ public class MeetingController {
 
     @Autowired
     private UserGroupService userGroupService;
+    
+    @Autowired
+    private SubjectEditor subjectEditor;
+    
+    @Autowired
+    private UserEditor userEditor;
 
     @InitBinder("meetingForm")
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Subject.class,
-                new SubjectEditor(subjectService));
+                subjectEditor);
 
         binder.registerCustomEditor(LocalDateTime.class, new DateTimeEditor());
 
-        binder.registerCustomEditor(User.class, new UserEditor(userService));
+        binder.registerCustomEditor(User.class, userEditor);
         binder.registerCustomEditor(Room.class, new RoomEditor(roomService));
         binder.registerCustomEditor(UserGroup.class,
                 new UserGroupEditor(userGroupService));

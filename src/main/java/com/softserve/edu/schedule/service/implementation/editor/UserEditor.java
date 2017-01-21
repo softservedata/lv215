@@ -2,19 +2,22 @@ package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
 
-import com.softserve.edu.schedule.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import com.softserve.edu.schedule.dao.UserDAO;
+
+@Service
 public class UserEditor extends PropertyEditorSupport {
 
-    private UserService userService;
+    @Autowired
+    private UserDAO userDAO;
 
-    public UserEditor(UserService userService) {
-        this.userService = userService;
-    }
+    
 
     @Override
     public void setAsText(String userId) throws IllegalArgumentException {
-        setValue(userService.getById(Long.valueOf(userId)));
+        setValue(userDAO.getById(Long.valueOf(userId)));
         
     }
 }
