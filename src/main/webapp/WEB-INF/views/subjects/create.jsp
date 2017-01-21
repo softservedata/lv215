@@ -18,5 +18,3 @@
 		<input type="submit" value="Register" />
 	</form:form>
 </div>
-<script type="text/javascript">
-</script>

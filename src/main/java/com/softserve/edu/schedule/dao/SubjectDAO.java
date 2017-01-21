@@ -34,5 +34,4 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      *            a subject id to delete from database.
      */
     void deleteById(final Long id);
-
 }

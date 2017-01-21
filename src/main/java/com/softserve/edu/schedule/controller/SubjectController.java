@@ -63,14 +63,14 @@ public class SubjectController
         return SUBJECTS_REDIRECT_URL;
     }
 
-    @RequestMapping(LOCATION_EDIT_MAPPING + "{id}")
+    @RequestMapping(SUBJECT_EDIT_MAPPING + "{id}")
     public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute(SUBJECT_FORM_MODEL_ATTR, subjectService.getById(id));
         model.addAttribute(USERS_MODEL_ATTR, userService.getAllForSubject());
         return SUBJECTS_EDIT_URL;
     }
 
-    @RequestMapping(value = LOCATION_EDIT_MAPPING + "{id}", method = RequestMethod.POST)
+    @RequestMapping(value = SUBJECT_EDIT_MAPPING + "{id}", method = RequestMethod.POST)
     public String edit(
             @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) SubjectDTO subject) {
         subjectService.update(subject);

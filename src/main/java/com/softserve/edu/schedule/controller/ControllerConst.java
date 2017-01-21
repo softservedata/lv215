@@ -360,7 +360,27 @@ public interface ControllerConst {
         /**
          * Edit subject information mapping URL name.
          */
-        String LOCATION_EDIT_MAPPING = "/subjects/edit/";
+        String SUBJECT_EDIT_MAPPING = "/subjects/edit/";
+        
+        /**
+         *Subject field id.
+         */
+        String SUBJECT_PATH_ID = "id";
+        
+        /**
+         *Subject field name.
+         */
+        String SUBJECT_PATH_NAME = "name";
+        
+        /**
+         *Subject field description.
+         */
+        String SUBJECT_PATH_DESCRIPTION = "description";
+        
+        /**
+         *Subject field description.
+         */
+        String SUBJECT_PATH_LASTNAME = "lastName";
     }
 
 }

@@ -11,11 +11,13 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
+import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.Subject_;
@@ -57,7 +59,7 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
-
+    
     /**
      * Delete existed transfer object from the database by id.
      *
