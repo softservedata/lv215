@@ -99,7 +99,7 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     public List<Meeting> sortByDescription(final Order order);
 
     public List<Meeting> sortBySubject(final Order order);
-    
+
     public List<Meeting> sortByOwner(final Order order);
 
     public List<Meeting> sortByRoom(final Order order);
@@ -107,12 +107,9 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     public List<Meeting> sortByLevel(final Order order);
 
     public List<Meeting> sortByStatus(final Order order);
-    
-    public void addMeetingtoUserGroup(Long meetingId, Long userGroupId); 
-    
-    public void deleteMeetingFromUserGroup(Long userID, Long userGroupId);
-    
-    
-    
+
+    // public void addMeetingtoUserGroup(Long meetingId, Long userGroupId);
+
+    // public void deleteMeetingFromUserGroup(Long userID, Long userGroupId);
 
 }

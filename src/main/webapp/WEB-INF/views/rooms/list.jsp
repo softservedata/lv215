@@ -2,6 +2,8 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page import="com.softserve.edu.schedule.controller.RoomController"%>
 
 <script type="text/javascript">
 	$(function() {
@@ -12,22 +14,22 @@
 	})
 </script>
 
-<h3 class="text-center">Rooms</h3>
+<h3 class="text-center"><spring:message code="lbl.room.title"/></h3>
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
-			<th>Location</th>
-			<th>Address</th>
-			<th>Room name</th>
-			<th>Room capacity</th>
-			<th>Room equipment</th>
+			<th><spring:message code="lbl.room.location"/></th>
+			<th><spring:message code="lbl.room.address"/></th>
+			<th><spring:message code="lbl.room.roomName"/></th>
+			<th><spring:message code="lbl.room.roomCapacity"/></th>
+			<th><spring:message code="lbl.room.roomEquipments"/></th>
 			<th class="text-center v-alighn">
-				<button class="btn btn-link" data-toggle="collapse" data-target="#showfilter" title="Show filter">
+				<button class="btn btn-link" data-toggle="collapse" data-target="#showfilter" title="<spring:message code="lbl.room.showFilter"/>">
 					<i class="fa fa-filter fa-lg"></i>
 				</button>
 			</th>
 			<th class="text-center v-alighn">
-				<a href="rooms/create" title="Create room">
+				<a href="${RoomController.ROOM_CREATE_URL}" title="<spring:message code="lbl.room.createRoom"/>">
 					<i class="fa fa-plus fa-lg"></i>
 				</a>
 			</th>
@@ -40,7 +42,7 @@
 				<tr class="collapse" id="showfilter">
 			</c:otherwise>
 		</c:choose>
-			<form:form role="form" action="rooms" method="get" modelAttribute="roomFilter">
+			<form:form role="form" action="rooms" method="get" modelAttribute="${RoomController.FILTER_MODEL_ATTR}">
 			<form:input path="showFilter" type="hidden" value="true"/>
 			<td colspan="2">
 				<div class="form-group">
@@ -59,31 +61,31 @@
 					</form:select>
 				</div>				
 				<div class="form-group" id="sortfield">
-					<label for="sortByField">Sort by:</label> 
+					<label for="sortByField"><spring:message code="lbl.room.sortBy"/>:</label> 
 					<form:select class="form-control" path="sortByField" id="sortByField">
 						<option value="0"></option>
 						<c:choose>
 							<c:when test="${roomFilter.sortByField eq 1}">
-								<option value="1" selected="selected">Location</option>
+								<option value="1" selected="selected"><spring:message code="lbl.room.sortByLocation"/></option>
 							</c:when>
 							<c:otherwise>
-								<option value="1">Location</option>
+								<option value="1"><spring:message code="lbl.room.sortByLocation"/></option>
 							</c:otherwise>
 						</c:choose>
 						<c:choose>
 							<c:when test="${roomFilter.sortByField eq 2}">
-								<option value="2" selected="selected">Room name</option>
+								<option value="2" selected="selected"><spring:message code="lbl.room.sortByRoomName"/></option>
 							</c:when>
 							<c:otherwise>
-								<option value="2">Room name</option>
+								<option value="2"><spring:message code="lbl.room.sortByRoomName"/></option>
 							</c:otherwise>
 						</c:choose>
 						<c:choose>
 							<c:when test="${roomFilter.sortByField eq 3}">
-								<option value="3" selected="selected">Capacity</option>
+								<option value="3" selected="selected"><spring:message code="lbl.room.sortByCapacity"/></option>
 							</c:when>
 							<c:otherwise>
-								<option value="3">Capacity</option>
+								<option value="3"><spring:message code="lbl.room.sortByCapacity"/></option>
 							</c:otherwise>
 						</c:choose>					
 					</form:select>
@@ -91,26 +93,27 @@
 			</td>
 			<td>
 				<div class="form-group">
-					<form:input class="form-control" type="text" path="name" placeholder="name" />
+					<spring:message code="lbl.room.roomName" var="nameForFilter"/>
+					<form:input class="form-control" type="text" path="name" placeholder="${nameForFilter}" />
 				</div>
 				<div class="form-group">
-					<label for="sortOrder">Order:</label>
+					<label for="sortOrder"><spring:message code="lbl.room.sortOrder"/>:</label>
 					<form:select class="form-control" path="sortOrder" id="sortOrder">
 						<option value="0"></option>
 						<c:choose>
 							<c:when test="${roomFilter.sortOrder eq 1}">
-								<option value="1" selected="selected">Ascending</option>
+								<option value="1" selected="selected"><spring:message code="lbl.room.sortAsc"/></option>
 							</c:when>
 							<c:otherwise>
-								<option value="1">Ascending</option>
+								<option value="1"><spring:message code="lbl.room.sortAsc"/></option>
 							</c:otherwise>
 						</c:choose>
 						<c:choose>
 							<c:when test="${roomFilter.sortOrder eq 2}">
-								<option value="2" selected="selected">Descending</option>
+								<option value="2" selected="selected"><spring:message code="lbl.room.sortDesc"/></option>
 							</c:when>
 							<c:otherwise>
-								<option value="2">Descending</option>
+								<option value="2"><spring:message code="lbl.room.sortDesc"/></option>
 							</c:otherwise>
 						</c:choose>							
 					</form:select>
@@ -118,10 +121,12 @@
 			</td>
 			<td>
 				<div class="form-group">
-					<form:input type="number" class="form-control" path="minCapacity" placeholder="minimal" step="1" />
+					<spring:message code="lbl.room.filterMinCapacity" var="filterMinCapacity"/>
+					<form:input type="number" class="form-control" path="minCapacity" placeholder="${filterMinCapacity}" step="1" />
 				</div> 
 				<div class="form-group">
-					<form:input	type="number" class="form-control" path="maxCapacity" placeholder="maximal" step="1" />
+					<spring:message code="lbl.room.filterMaxCapacity" var="filterMaxCapacity"/>
+					<form:input	type="number" class="form-control" path="maxCapacity" placeholder="${filterMaxCapacity}" step="1" />
 				</div>
 			</td>
 			<td>
@@ -145,13 +150,13 @@
 				</div>
 			</td>
 			<td class="text-center v-alighn">				
-				<button type="submit" class="btn btn-link" title="Apply filter">
+				<button type="submit" class="btn btn-link" title="<spring:message code="lbl.room.applyFilter"/>">
 					<i class="fa fa-check-circle-o fa-lg"></i>
 				</button>
 			</td>
 			</form:form>
 			<td class="text-center v-alighn">
-				<a href="rooms?showFilter=false&locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1" title="Reset filter">
+				<a href="rooms?showFilter=false&locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1" title="<spring:message code="lbl.room.resetFilter"/>">
 					<i class="fa fa-ban fa-lg"></i>
 				</a>
 			</td>
@@ -170,12 +175,12 @@
 					</ul>
 				</td>
 				<td class="text-center v-alighn">
-					<a href="rooms/delete/${room.id}" title="Delete room" onclick="return confirm('Are you sure you want to delete this room?');">
+					<a href="rooms/delete/${room.id}" title="<spring:message code="lbl.room.deleteRoom"/>" onclick="return confirm('<spring:message code="lbl.room.deleteRoomConfirm"/>');">
 						<i class="fa fa-trash-o fa-lg"></i>
 					</a>
 				</td>
 				<td class="text-center v-alighn">
-					<a href="rooms/edit/${room.id}" title="Edit room">
+					<a href="rooms/edit/${room.id}" title="<spring:message code="lbl.room.editRoom"/>">
 						<i class="fa fa-pencil-square-o fa-lg"></i>
 					</a>
 				</td>

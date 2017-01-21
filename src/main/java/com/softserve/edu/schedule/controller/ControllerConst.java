@@ -205,4 +205,59 @@ public interface ControllerConst {
 		
 	}
 
+
+	 * An interface that stores all constants for USerGroup controller
+	 * 
+	 * @author Andrew
+	 *
+	 */
+
+	public interface UserGroupControllerConst {
+		/**
+		 * UserGroup model attribute name.
+		 */
+		String USERGROUP_MODEL_ATTR = "userGroupForm";
+
+		/**
+		 * UserGroups model attribute name.
+		 */
+		String USERGROUPS_MODEL_ATTR = "usergroups";
+
+		/**
+		 * UserGroup create mapping name.
+		 */
+		String USERGROUP_CREATE_MAPPING = "/create";
+
+		/**
+		 * UserGroup delete mapping name.
+		 */
+		String USERGROUP_DELETE_MAPPING = "/delete/{id}";
+
+		/**
+		 * UserGroup create url name.
+		 */
+		String USERGROUP_CREATE_URL = "usergroups/create";
+
+		/**
+		 * UserGroup edit url name.
+		 */
+		String USERGROUP_EDIT_URL = "usergroups/edit";
+
+		/**
+		 * UserGroup edit mapping name.
+		 */
+		String USERGROUP_EDIT_MAPPING = "/edit/{id}";
+
+		/**
+		 * UserGroup redirect url name.
+		 */
+		String USERGROUP_REDIRECT_URL = "redirect:/usergroups";
+
+		/**
+		 * UserGroup list url name.
+		 */
+		String USERGROUP_LIST_URL = "usergroups/list";
+
+	}
+
 }
