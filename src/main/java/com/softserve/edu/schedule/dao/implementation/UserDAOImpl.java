@@ -28,8 +28,8 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
     @Autowired
     private UserGroupDAO userGroupDAO;
 
-    @Autowired
-    private SubjectDAO subjectDAO;
+    // @Autowired
+    // private SubjectDAO subjectDAO;
 
     /**
      * Constructor for UserDAOImpl class.
@@ -108,11 +108,11 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
         }
 
         if (!isUserCurator) {
-            user.getGroups().forEach(
-                    e -> userGroupDAO.deleteUserFromUserGroup(id, e.getId()));
-            user.getSubjects().forEach(
-                    e -> subjectDAO.deleteUserFromSubject(id, e.getId()));
-            update(user);
+            // user.getGroups().forEach(
+            // e -> userGroupDAO.deleteUserFromUserGroup(id, e.getId()));
+            // user.getSubjects().forEach(
+            // e -> subjectDAO.deleteUserFromSubject(id, e.getId()));
+            // update(user);
             delete(user);
         }
     }

@@ -11,6 +11,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -58,7 +60,10 @@ public class Meeting {
     /**
      * Field for storage user groups which participate in meeting.
      */
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "meetings")
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = UserGroup.class)
+    @JoinTable(name = "usergroup_meeting",
+            joinColumns = {@JoinColumn(name = "meetings_id")},
+            inverseJoinColumns = {@JoinColumn(name = "groups_id")})
     private List<UserGroup> groups = new ArrayList<>();
 
     /**
