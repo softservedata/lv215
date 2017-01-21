@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ page import="com.softserve.edu.schedule.controller.RoomController"%>
 
 <script type="text/javascript">
 	$(function() {
@@ -27,7 +28,7 @@
 				</button>
 			</th>
 			<th class="text-center v-alighn">
-				<a href="rooms/create" title="Create room">
+				<a href="${RoomController.ROOM_CREATE_URL}" title="Create room">
 					<i class="fa fa-plus fa-lg"></i>
 				</a>
 			</th>
@@ -40,7 +41,7 @@
 				<tr class="collapse" id="showfilter">
 			</c:otherwise>
 		</c:choose>
-			<form:form role="form" action="rooms" method="get" modelAttribute="roomFilter">
+			<form:form role="form" action="rooms" method="get" modelAttribute="${RoomController.FILTER_MODEL_ATTR}">
 			<form:input path="showFilter" type="hidden" value="true"/>
 			<td colspan="2">
 				<div class="form-group">

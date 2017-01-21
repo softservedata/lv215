@@ -5,18 +5,20 @@
 <h1>Room info:</h1>
 
 <div>
-	<h4>Room name</h4>
+	<h4>Room name:</h4>
 	<p>${room.name}</p>
-	<h4>Room location</h4>
+	<h4>Room location:</h4>
 	<p>${room.location.name}</p>
-	<h4>Room address</h4>
+	<h4>Room address:</h4>
 	<p>${room.location.address}</p>
-	<h4>Room capacity</h4>
+	<h4>Room capacity:</h4>
 	<p>${room.capacity}</p>
-	<h4>Room equipment</h4>
+	<h4>Room equipment:</h4>
 	<ul>
 		<c:forEach items="${room.equipments}" var="equipment">
 			<li>${equipment.name}</li>
 		</c:forEach>
 	</ul>
+	<a class="btn btn-danger"
+		href="${pageContext.request.contextPath}/rooms">Cancel</a>
 </div>
