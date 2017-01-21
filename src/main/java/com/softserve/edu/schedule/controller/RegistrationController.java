@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.softserve.edu.schedule.controller.ControllerConst.RegistrationControllerConst;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.service.UserService;
 
@@ -21,7 +22,7 @@ import com.softserve.edu.schedule.service.UserService;
  * @since 1.8
  */
 @Controller
-public class RegistrationController implements ControllerConst {
+public class RegistrationController implements ControllerConst.RegistrationControllerConst {
 
     @Autowired
     private UserService userService;
@@ -34,13 +35,12 @@ public class RegistrationController implements ControllerConst {
      *
      * @return start page URL
      */
-    @RequestMapping(value = {
-            RegistrationControllerConst.USER_REGIST_MAPPING_FROM_STARTPAGE,
-            RegistrationControllerConst.USER_REGIST_MAPPING_FOR_ADMIN })
+    @RequestMapping(value = {USER_REGIST_MAPPING_FROM_STARTPAGE,
+           USER_REGIST_MAPPING_FOR_ADMIN })
     public String newUserPage(Model model) {
-        model.addAttribute(RegistrationControllerConst.USER_REGIST_MODEL_ATTR,
+        model.addAttribute(USER_REGIST_MODEL_ATTR,
                 new UserDTO());
-        return RegistrationControllerConst.USER_REGIST_URL;
+        return USER_REGIST_URL;
     }
 
     /**
@@ -51,13 +51,12 @@ public class RegistrationController implements ControllerConst {
      *
      * @return start page URL
      */
-    @RequestMapping(value = RegistrationControllerConst
-            .USER_REGIST_MAPPING_FROM_STARTPAGE
+    @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE
             , method = RequestMethod.POST)
     public String newUserFromStartPage(
-            @ModelAttribute(RegistrationControllerConst.USER_REGIST_MODEL_ATTR) UserDTO user) {
+            @ModelAttribute(USER_REGIST_MODEL_ATTR) UserDTO user) {
         userService.create(user);
-        return RegistrationControllerConst.REDIRECT_STARTPAGE;
+        return REDIRECT_STARTPAGE;
     }
 
     /**
@@ -68,12 +67,11 @@ public class RegistrationController implements ControllerConst {
      *
      * @return users page URL
      */
-    @RequestMapping(value = RegistrationControllerConst
-            .USER_REGIST_MAPPING_FOR_ADMIN
+    @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN
             , method = RequestMethod.POST)
     public String newUserForAdmin(
-            @ModelAttribute(RegistrationControllerConst.USER_REGIST_MODEL_ATTR) UserDTO user) {
+            @ModelAttribute(USER_REGIST_MODEL_ATTR) UserDTO user) {
         userService.create(user);
-        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
+        return REDIRECT_USERS_PAGE;
     }
 }

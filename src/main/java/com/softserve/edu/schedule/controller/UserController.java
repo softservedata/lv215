@@ -26,121 +26,119 @@ import com.softserve.edu.schedule.service.UserService;
  * @since 1.8
  */
 @Controller
-public class UserController implements ControllerConst {
+public class UserController implements ControllerConst.UserControllerConst,
+        ControllerConst.RegistrationControllerConst {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(UserControllerConst.USERS_MAPPING_FROM_HEADER)
+    @RequestMapping(USERS_MAPPING_FROM_HEADER)
     public String allUserPage(Model model) {
-        model.addAttribute(UserControllerConst.USERS_MODEL_ATTR,
-                userService.getAll());
-        return "users/users";// 3.1------String USERS_PAGE_URL = "users/users";
+        model.addAttribute(USERS_MODEL_ATTR, userService.getAll());
+        return USERS_PAGE_URL;
     }
 
-    @RequestMapping(UserControllerConst.DELETE_USER_MAPPING)
+    @RequestMapping(DELETE_USER_MAPPING)
     public String delete(@PathVariable Long id) {
         try {
             userService.deleteById(id);
         } catch (Exception e) {
-            return RegistrationControllerConst.REDIRECT_USERS_PAGE;
+            return REDIRECT_USERS_PAGE;
         }
-        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
+        return REDIRECT_USERS_PAGE;
     }
 
-    @RequestMapping(value = UserControllerConst.EDIT_USER_MAPPING)
+    @RequestMapping(value = EDIT_USER_MAPPING)
     public String edit(@PathVariable Long id, Model model) {
-        model.addAttribute(UserControllerConst.USER_MODEL_ATTR,
+        model.addAttribute(USER_MODEL_ATTR,
                 userService.getById(id));
-        return "users/users/edit";
+        return EDIT_PAGE_URL;
     }
 
-    @RequestMapping(UserControllerConst.UPDATE_USER_MAPPING)
+    @RequestMapping(UPDATE_USER_MAPPING)
     public String getEdit(@PathVariable Long id, Model model) {
-        model.addAttribute(UserControllerConst.USER_UPDATE_ATTR,
+        model.addAttribute(USER_UPDATE_ATTR,
                 userService.getById(id));
-        return "users/users/edit/updateUser";
+        return UPDATE_PAGE_URL;
     }
 
-    @RequestMapping(value = UserControllerConst.SAVE_UPDATED_USER_MAPPING
-            , method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING, method = RequestMethod.POST)
     public String updateUser(
-            @ModelAttribute(UserControllerConst.USER_UPDATE_ATTR) UserDTO user) {
+            @ModelAttribute(USER_UPDATE_ATTR) UserDTO user) {
         userService.update(user);
-        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
+        return REDIRECT_USERS_PAGE;
     }
 
-    @RequestMapping(UserControllerConst.UPDATE_POSITION_MAPPING)
+    @RequestMapping(UPDATE_POSITION_MAPPING)
     public String getEditPosition(@PathVariable Long id, Model model) {
-        model.addAttribute(UserControllerConst.USER_UPDATE_POSITION_ATTR,
+        model.addAttribute(USER_UPDATE_POSITION_ATTR,
                 userService.getById(id));
-        return "users/users/edit/updateUserPosition";
+        return UPDATE_POSITION_PAGE_URL;
     }
 
-    @RequestMapping(value = UserControllerConst.SAVE_UPDATED_POSITION_MAPPING
+    @RequestMapping(value = SAVE_UPDATED_POSITION_MAPPING
             , method = RequestMethod.POST)
     public String updateUserPosition(@PathVariable Long id,
             @RequestParam String position) {
         userService.changePosition(id, position);
-        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
+        return REDIRECT_USERS_PAGE;
     }
 
-    @RequestMapping(UserControllerConst.BAN_USER_MAPPING)
+    @RequestMapping(BAN_USER_MAPPING)
     public String bunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.BLOCKED;
         userService.changeStatus(id, userStatus);
-        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
+        return REDIRECT_USERS_PAGE;
     }
 
-    @RequestMapping(UserControllerConst.UNBAN_USER_MAPPING)
+    @RequestMapping(UNBAN_USER_MAPPING)
     public String unBunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.ACTIVE;
         userService.changeStatus(id, userStatus);
-        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
+        return REDIRECT_USERS_PAGE;
     }
 
-    @RequestMapping({ UserControllerConst.CHANGE_ROLE_MAPPING })
+    @RequestMapping({ CHANGE_ROLE_MAPPING })
     public String changeRole(@PathVariable Long id, Model model) {
-        model.addAttribute(UserControllerConst.USER_ROLE_ATTR,
+        model.addAttribute(USER_ROLE_ATTR,
                 UserRole.values());
-        model.addAttribute(UserControllerConst.USER_MODEL_ATTR,
+        model.addAttribute(USER_MODEL_ATTR,
                 userService.getById(id));
-        return "users/users/edit/changeRole";
+        return CHANGE_ROLE_PAGE_URL;
     }
 
-    @RequestMapping(value = UserControllerConst.SAVE_CHANGED_ROLE_MAPPING
-            , method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING, method = RequestMethod.POST)
     public String changeRole(@ModelAttribute User user, @PathVariable Long id,
             @RequestParam UserRole chooseRole) {
         userService.changeRole(id, chooseRole);
-        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
+        return REDIRECT_USERS_PAGE;
     }
 
-    @RequestMapping(UserControllerConst.SORT_BY_LASTNAME_ASC_MAPPING)
+    @RequestMapping(SORT_BY_LASTNAME_ASC_MAPPING)
     public String sortByLastNameAsc(Model model) {
-        model.addAttribute(UserControllerConst.USERS_MODEL_ATTR,
+        model.addAttribute(USERS_MODEL_ATTR,
                 userService.sort("lastName", Order.ASC));
-        return "users/users";// 3.1------String USERS_PAGE_URL = "users/users";
+        return USERS_PAGE_URL;
     }
 
-    @RequestMapping(UserControllerConst.SORT_BY_LASTNAME_DESC_MAPPING)
+    @RequestMapping(SORT_BY_LASTNAME_DESC_MAPPING)
     public String sortByLastNameDesc(Model model) {
-        model.addAttribute(UserControllerConst.USERS_MODEL_ATTR,
+        model.addAttribute(USERS_MODEL_ATTR,
                 userService.sort("lastName", Order.DESC));
-        return "users/users";// 3.1------String USERS_PAGE_URL = "users/users";
+        return USERS_PAGE_URL;
     }
 
-    @RequestMapping(UserControllerConst.SORT_BY_POSITION_ASC_MAPPING)
+    @RequestMapping(SORT_BY_POSITION_ASC_MAPPING)
     public String sortByPositionAsc(Model model) {
-        model.addAttribute(UserControllerConst.USERS_MODEL_ATTR,
+        model.addAttribute(USERS_MODEL_ATTR,
                 userService.sort("position", Order.ASC));
-        return "users/users";// 3.1------String USERS_PAGE_URL = "users/users";
+        return USERS_PAGE_URL;
     }
 
-    @RequestMapping(UserControllerConst.SORT_BY_POSITION_DESC_MAPPING)
+    @RequestMapping(SORT_BY_POSITION_DESC_MAPPING)
     public String sortByPositionDesc(Model model) {
-        model.addAttribute(UserControllerConst.USERS_MODEL_ATTR,
+        model.addAttribute(USERS_MODEL_ATTR,
                 userService.sort("position", Order.DESC));
-        return "users/users";// 3.1------String USERS_PAGE_URL = "users/users";
+        return USERS_PAGE_URL;
     }
 }
