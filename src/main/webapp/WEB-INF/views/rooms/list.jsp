@@ -22,10 +22,14 @@
 			<th>Room capacity</th>
 			<th>Room equipment</th>
 			<th class="text-center v-alighn">
-				<button class="btn btn-link fa fa-filter fa-lg" data-toggle="collapse" data-target="#showfilter" title="Show filter"></button>
+				<button class="btn btn-link" data-toggle="collapse" data-target="#showfilter" title="Show filter">
+					<i class="fa fa-filter fa-lg"></i>
+				</button>
 			</th>
 			<th class="text-center v-alighn">
-				<a class="fa fa-plus fa-lg" href="rooms/create" title="Create room"></a>
+				<a href="rooms/create" title="Create room">
+					<i class="fa fa-plus fa-lg"></i>
+				</a>
 			</th>
 		</tr>
 		<c:choose>
@@ -141,11 +145,15 @@
 				</div>
 			</td>
 			<td class="text-center v-alighn">				
-				<button type="submit" class="btn btn-link fa fa-check-circle-o fa-lg" title="Apply filter"></button>
+				<button type="submit" class="btn btn-link" title="Apply filter">
+					<i class="fa fa-check-circle-o fa-lg"></i>
+				</button>
 			</td>
 			</form:form>
 			<td class="text-center v-alighn">
-				<a class="fa fa-ban fa-lg" href="rooms?showFilter=false&locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1" title="Reset filter"></a>
+				<a href="rooms?showFilter=false&locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1" title="Reset filter">
+					<i class="fa fa-ban fa-lg"></i>
+				</a>
 			</td>
 		</tr>		
 		<c:forEach items="${rooms}" var="room">
@@ -161,9 +169,16 @@
 						</c:forEach>
 					</ul>
 				</td>
-				<td class="text-center v-alighn"><a class="fa fa-trash-o fa-lg" href="rooms/delete/${room.id}" title="Delete room"
-					onclick="return confirm('Are you sure you want to delete this room?');"></a></td>
-				<td class="text-center v-alighn"><a class="fa fa-pencil-square-o fa-lg" href="rooms/edit/${room.id}" title="Edit room"></a></td>
+				<td class="text-center v-alighn">
+					<a href="rooms/delete/${room.id}" title="Delete room" onclick="return confirm('Are you sure you want to delete this room?');">
+						<i class="fa fa-trash-o fa-lg"></i>
+					</a>
+				</td>
+				<td class="text-center v-alighn">
+					<a href="rooms/edit/${room.id}" title="Edit room">
+						<i class="fa fa-pencil-square-o fa-lg"></i>
+					</a>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
