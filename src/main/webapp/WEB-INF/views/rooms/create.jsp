@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ page import="com.softserve.edu.schedule.controller.RoomController"%>
 
 <script type="text/javascript">
 $(function(){
@@ -15,7 +16,7 @@ $(function(){
 	</div>
 	<div class="col-md-4">
 		<h3> </h3>
-		<form:form role="form" method="post" modelAttribute="room">
+		<form:form role="form" method="post" modelAttribute="${RoomController.ROOM_MODEL_ATTR}">
 			<fieldset class="form-fieldset">
 				<legend class="text-center">Create room</legend>
 				<div class="form-group">

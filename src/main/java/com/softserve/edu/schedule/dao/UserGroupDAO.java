@@ -30,7 +30,6 @@ public interface UserGroupDAO extends CrudDAO<UserGroup> {
      *            ASC or DESC
      * @return list of sorted usergroups
      */
-    public List<UserGroup> sortByFields(String field, Order order);
-
+    public List<UserGroup> sortByFields(final String field, final Order order);
 
 }
