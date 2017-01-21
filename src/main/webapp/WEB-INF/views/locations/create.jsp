@@ -2,10 +2,11 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ page import="com.softserve.edu.schedule.controller.LocationController"%>
 
 <div>
 	ADD LOCATION
-	<form:form method="post" modelAttribute="locationForm">
+	<form:form method="post" modelAttribute="${LocationController.LOCATION_FORM_MODEL_ATTR}">
 		<form:hidden path="id" />
 		<form:input path="name" placeholder="Title" />
 		<form:input path="address" placeholder="Address" />
