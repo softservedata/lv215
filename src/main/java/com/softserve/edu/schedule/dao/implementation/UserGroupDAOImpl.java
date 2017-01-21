@@ -6,8 +6,6 @@
  */
 package com.softserve.edu.schedule.dao.implementation;
 
-import org.springframework.stereotype.Repository;
-
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -15,8 +13,9 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Root;
 
-import com.softserve.edu.schedule.dao.Order;
+import org.springframework.stereotype.Repository;
 
+import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
@@ -26,10 +25,6 @@ import com.softserve.edu.schedule.entity.UserGroup_;
  *
  * @version 1.0 09 Jan 2017
  * @author Zhydenko Andrii
- *
- */
-/**
- * @author Andrew
  *
  */
 @Repository("userGroupDAO")
@@ -43,6 +38,11 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
         super(UserGroup.class);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getAll()
+     */
     @Override
     public List<UserGroup> getAll() {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -63,12 +63,12 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
      * String, com.softserve.edu.schedule.dao.Order)
      */
     @Override
-    public List<UserGroup> sortByFields(String field, Order order) {
+    public List<UserGroup> sortByFields(final String field, final Order order) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
         Root<UserGroup> root = cq.from(UserGroup.class);
-        root.fetch("curator", JoinType.LEFT);
-        root.fetch("users", JoinType.LEFT);
+        root.fetch(UserGroup_.curator, JoinType.LEFT);
+        root.fetch(UserGroup_.users, JoinType.LEFT);
         cq.distinct(true);
         if (order == Order.ASC) {
             cq.orderBy(builder.asc(root.get(field)));
@@ -78,13 +78,28 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
         return getEm().createQuery(cq).getResultList();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.UserGroupDAO#deleteUserFromUserGroup(java.
+     * lang.Long, java.lang.Long)
+     */
     // @Override
-    // public void deleteUserFromUserGroup(Long userID, Long userGroupID) {
+    // public void deleteUserFromUserGroup(final Long userID,
+    // final Long userGroupID) {
     // getById(userGroupID).getUsers().removeIf(e -> e.getId().equals(userID));
     // }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.UserGroupDAO#isUserCurator(java.lang.Long,
+     * java.lang.Long)
+     */
     @Override
-    public boolean isUserCurator(Long userID, Long userGroupID) {
+    public boolean isUserCurator(final Long userID, final Long userGroupID) {
         if (getById(userGroupID).getCurator().getId().equals(userID)) {
             return true;
         } else {
