@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page import="com.softserve.edu.schedule.controller.RoomController"%>
 
 <script type="text/javascript">
@@ -18,9 +19,9 @@ $(function(){
 		<h3> </h3>
 		<form:form role="form" method="post" modelAttribute="${RoomController.ROOM_MODEL_ATTR}">
 			<fieldset class="form-fieldset">
-				<legend class="text-center">Create room</legend>
+				<legend class="text-center"><spring:message code="lbl.room.createRoom"/></legend>
 				<div class="form-group">
-					<label for="location">Location:</label>
+					<label for="location"><spring:message code="lbl.room.location"/>:</label>
 					<form:select class="form-control" path="location" id="location">
 						<c:forEach items="${locations}" var="location">
 							<c:choose>
@@ -36,19 +37,21 @@ $(function(){
 					<form:errors path="location" />
 				</div>
 				<div class="form-group">
-					<label for="name">Room name:</label>
+					<label for="name"><spring:message code="lbl.room.roomName"/>:</label>
+					<spring:message code="lbl.room.roomName" var="nameForPlaceholder"/>
 					<form:input type="text" class="form-control" path="name" id="name"
-						placeholder="room name" required="true" />
+						placeholder="${nameForPlaceholder}" required="true" />
 					<form:errors path="name" />
 				</div>
 				<div class="form-group">
-					<label for="capacity">Room capacity:</label>
+					<label for="capacity"><spring:message code="lbl.room.roomCapacity"/>:</label>
+					<spring:message code="lbl.room.roomCapacity" var="capacityForPlaceholder"/>
 					<form:input class="form-control" type="number" path="capacity"
-						id="capacity" min="1" step="1" required="true" />
+						id="capacity" min="1" step="1" placeholder="${capacityForPlaceholder}" required="true" />
 					<form:errors path="capacity" />
 				</div>
 				<div class="form-group">
-					<label for="equipments">Room equipments:</label>
+					<label for="equipments"><spring:message code="lbl.room.roomEquipments"/>:</label>
 					<form:select class="form-control" path="equipments" id="equipments"
 						multiple="multiple">					
 						<c:forEach items="${equipments}" var="equipment">
@@ -68,9 +71,9 @@ $(function(){
 					</form:select>				
 				</div>
 				<div class="text-center">
-					<input type="submit" class="btn btn-primary" value="Save room">
-					<a class="btn btn-danger" href="create">Reset form</a>			
-					<a class="btn btn-danger" href="${pageContext.request.contextPath}/rooms">Cancel</a>
+					<input type="submit" class="btn btn-primary" value="<spring:message code="lbl.form.save"/>">
+					<a class="btn btn-danger" href="create"><spring:message code="lbl.form.reset"/></a>			
+					<a class="btn btn-danger" href="${pageContext.request.contextPath}/rooms"><spring:message code="lbl.form.cancel"/></a>
 				</div>
 			</fieldset>
 		</form:form>

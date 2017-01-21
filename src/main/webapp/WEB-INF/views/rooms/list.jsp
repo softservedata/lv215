@@ -93,8 +93,8 @@
 			</td>
 			<td>
 				<div class="form-group">
-					<spring:message code="lbl.room.roomName" var="nameForFilter"/>
-					<form:input class="form-control" type="text" path="name" placeholder="${nameForFilter}" />
+					<spring:message code="lbl.room.roomName" var="nameForPlaceholder"/>
+					<form:input class="form-control" type="text" path="name" placeholder="${nameForPlaceholder}" />
 				</div>
 				<div class="form-group">
 					<label for="sortOrder"><spring:message code="lbl.room.sortOrder"/>:</label>
