@@ -8,9 +8,9 @@
 	<table class="table table-hover">
 		<tr>
 			<th>Name<a
-				href="${pageContext.request.contextPath}/users/sortbyfirstnameasc"><i
+				href="${pageContext.request.contextPath}/users/sortbylastnameasc"><i
 					class="fa fa-arrow-circle-o-up"></i></a> <a
-				href="${pageContext.request.contextPath}/users/sortbyfirstnamedesc"><i
+				href="${pageContext.request.contextPath}/users/sortbylastnamedesc"><i
 					class="fa fa-arrow-circle-o-down"></i></a></th>
 			<th>Email</th>
 			<th>Position<a
