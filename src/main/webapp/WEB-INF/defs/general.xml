@@ -122,7 +122,6 @@
 		<put-attribute name="body" value="/WEB-INF/views/usergroups/edit.jsp" />
 	</definition>
 
-
 	<!-- Definition for meetings -->
 	<definition extends="common" name="meetings/list">
 		<put-attribute name="title" value="Meeting" />
@@ -136,6 +135,5 @@
 		<put-attribute name="title" value="Create Meeting" />
 		<put-attribute name="body" value="/WEB-INF/views/meetings/create.jsp" />
 	</definition>
-
 
 </tiles-definitions>

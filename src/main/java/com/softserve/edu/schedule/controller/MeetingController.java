@@ -52,14 +52,11 @@ public class MeetingController {
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Subject.class,
                 new SubjectEditor(subjectService));
-
         binder.registerCustomEditor(LocalDateTime.class, new DateTimeEditor());
-
         binder.registerCustomEditor(User.class, new UserEditor(userService));
         binder.registerCustomEditor(Room.class, new RoomEditor(roomService));
         binder.registerCustomEditor(UserGroup.class,
                 new UserGroupEditor(userGroupService));
-
     }
 
     @ModelAttribute("meetingForm")
@@ -174,15 +171,21 @@ public class MeetingController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@ModelAttribute("meetingForm") Meeting meeting) {
+       // model.addAttribute("meetingForm", meetingService.getById(id));
+        
+        
         meetingService.update(meeting);
 
         return "redirect:/meetings";
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("meetingForm", meetingService.getById(id));
-        model.addAttribute("users", userService.getAll());
+    public String editForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("meetingForm", new Meeting());
+        model.addAttribute("subjects", subjectService.getAll());
+        model.addAttribute("owners", userService.getAll());
+        model.addAttribute("rooms", roomService.getAll());
+        model.addAttribute("groups", userGroupService.getAll());
         return "meetings/edit";
     }
 

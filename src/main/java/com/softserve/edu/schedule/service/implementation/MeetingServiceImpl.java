@@ -114,8 +114,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void deleteById(final Long id) {
         meetingDao.deleteById(id);
-
-        // userGroupDAO.deleteMeetingFromUserGroup(id, userGroupID);
+        
 
     }
 
