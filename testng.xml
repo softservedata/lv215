@@ -6,12 +6,11 @@
 	<test verbose="5" name="Test1">
 		<parameter name="numberTest" value="Test" />
 		<classes>
-			<!-- <class name="com.softserve.edu.AppTest" /> -->
-			<class name="com.softserve.edu.AppTest">
+			<class name="com.softserve.edu.schedule.AppTest">
 				<methods>
 					<include name="testApp" />
 				</methods>
 			</class>
 		</classes>
-	</test> <!-- Test -->
-</suite> <!-- Suite -->
+	</test>
+</suite>

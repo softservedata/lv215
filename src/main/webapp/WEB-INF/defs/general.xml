@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN"
+       "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+<tiles-definitions>
+
+	<definition name="common" template="/WEB-INF/layout/classic.jsp">
+		<put-attribute name="footer" value="/WEB-INF/layout/footer.jsp" />
+		<put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
+		<put-attribute name="navigation" value="/WEB-INF/layout/navigation.jsp" />
+	</definition>
+
+	<definition name="index" extends="common">
+		<put-attribute name="title" value="Schedule" />
+		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
+	</definition>
+
+	<definition extends="common" name="rooms/list">
+		<put-attribute name="title" value="Rooms" />
+		<put-attribute name="body" value="/WEB-INF/views/rooms/list.jsp" />
+	</definition>
+	<definition extends="common" name="rooms/show">
+		<put-attribute name="title" value="Room details" />
+		<put-attribute name="body" value="/WEB-INF/views/rooms/show.jsp" />
+	</definition>
+	<definition extends="common" name="rooms/edit">
+		<put-attribute name="title" value="Edit room" />
+		<put-attribute name="body" value="/WEB-INF/views/rooms/edit.jsp" />
+	</definition>
+	<definition extends="common" name="rooms/create">
+		<put-attribute name="title" value="Create room" />
+		<put-attribute name="body" value="/WEB-INF/views/rooms/create.jsp" />
+	</definition>
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<definition extends="common" name="users/users">
+		<put-attribute name="title" value="Users" />
+		<put-attribute name="body" value="/WEB-INF/views/users/users.jsp" />
+	</definition>
+	<definition extends="common" name="users/registration">
+		<put-attribute name="title" value="Registration" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/registration.jsp" />
+	</definition>
+	<definition extends="common" name="users/users/edit">
+		<put-attribute name="title" value="Edit" />
+		<put-attribute name="body" value="/WEB-INF/views/users/edit.jsp" />
+	</definition>
+	<definition extends="common" name="users/users/edit/updateUser">
+		<put-attribute name="title" value="Update" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/updateUser.jsp" />
+	</definition>
+	<definition extends="common" name="users/users/edit/updateUserPosition">
+		<put-attribute name="title" value="Change position" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/updateUserPosition.jsp" />
+	</definition>
+	<definition extends="common" name="users/users/edit/changeRole">
+		<put-attribute name="title" value="Change role" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/changeRole.jsp" />
+	</definition>
+
+	<definition extends="common" name="users/users/delete">
+		<put-attribute name="title" value="Can't delete" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/curator.jsp" />
+	</definition>
+	
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<definition extends="common" name="locations/list">
+		<put-attribute name="title" value="Locations" />
+		<put-attribute name="body" value="/WEB-INF/views/locations/list.jsp" />
+	</definition>
+	<definition extends="common" name="locations/create">
+		<put-attribute name="title" value="Create location" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/locations/create.jsp" />
+	</definition>
+	<definition extends="common" name="locations/edit">
+		<put-attribute name="title" value="Edit location" />
+		<put-attribute name="body" value="/WEB-INF/views/locations/edit.jsp" />
+	</definition>
+	<definition extends="common" name="subjects/list">
+		<put-attribute name="title" value="Subjects" />
+		<put-attribute name="body" value="/WEB-INF/views/subjects/list.jsp" />
+	</definition>
+	<definition extends="common" name="subjects/update">
+		<put-attribute name="title" value="Subjects" />
+		<put-attribute name="body" value="/WEB-INF/views/subjects/create.jsp" />
+	</definition>
+	<definition extends="common" name="subjects/create">
+		<put-attribute name="title" value="Create Subject" />
+		<put-attribute name="body" value="/WEB-INF/views/subjects/create.jsp" />
+	</definition>
+	<definition extends="common" name="subjects/edit">
+		<put-attribute name="title" value="Edit Subject" />
+		<put-attribute name="body" value="/WEB-INF/views/subjects/edit.jsp" />
+	</definition>
+
+
+
+
+	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+	<definition extends="common" name="usergroups/list">
+		<put-attribute name="title" value="User groups" />
+		<put-attribute name="body" value="/WEB-INF/views/usergroups/list.jsp" />
+	</definition>
+
+	<definition extends="common" name="usergroups/create">
+		<put-attribute name="title" value="Create Group" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/usergroups/create.jsp" />
+	</definition>
+
+	<definition extends="common" name="usergroups/edit">
+		<put-attribute name="title" value="Edit Group" />
+		<put-attribute name="body" value="/WEB-INF/views/usergroups/edit.jsp" />
+	</definition>
+
+
+	<!-- Definition for meetings -->
+	<definition extends="common" name="meetings/list">
+		<put-attribute name="title" value="Meeting" />
+		<put-attribute name="body" value="/WEB-INF/views/meetings/list.jsp" />
+	</definition>
+	<definition extends="common" name="meetings/edit">
+		<put-attribute name="title" value="Edit Meeting" />
+		<put-attribute name="body" value="/WEB-INF/views/meetings/edit.jsp" />
+	</definition>
+	<definition extends="common" name="meetings/create">
+		<put-attribute name="title" value="Create Meeting" />
+		<put-attribute name="body" value="/WEB-INF/views/meetings/create.jsp" />
+	</definition>
+
+
+</tiles-definitions>
