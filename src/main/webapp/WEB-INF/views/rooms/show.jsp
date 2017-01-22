@@ -41,28 +41,29 @@
 		<div class="col-md-1">
 			<form:form role="form" action="${room.id}" method="get" modelAttribute="dateFilter">
 				<div class="form-group">
-					<label for="date">Select meetings date</label>
-					<form:input type="date" path="date" id="date" placeholder="YYYY-MM-DD" required="true" />
+					<label for="date"><spring:message code="lbl.meeting.date"/></label>
+					<spring:message code="lbl.meeting.datePlaceholder" var="datePlaceholder"/>
+					<form:input type="date" path="date" id="date" placeholder="${datePlaceholder}" required="true" />
 				</div>
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-default" value="Get meetings">					
+					<input type="submit" class="btn btn-default" value="<spring:message code="lbl.room.getMeetings"/>">					
 				</div>
 			</form:form>		
 		</div>
 		<div class="col-md-11">
-			<h1 class="text-center">Planned meetings</h1>
+			<h1 class="text-center"><spring:message code="lbl.room.plannedMeetings"/> ${dateFilter.date}</h1>
 		</div>
 	</div>
 		<div class="table-responsive">
 			<table class="table table-hover">
 				<tr>
-					<th>Date</th>
-					<th>Start time</th>
-					<th>End time</th>
-					<th>Subject</th>
-					<th>Owner</th>
-					<th>Groups</th>
-					<th>Status</th>
+					<th><spring:message code="lbl.meeting.date"/></th>
+					<th><spring:message code="lbl.meeting.startTime"/></th>
+					<th><spring:message code="lbl.meeting.endTime"/></th>
+					<th><spring:message code="lbl.meeting.subject"/></th>
+					<th><spring:message code="lbl.meeting.owner"/></th>
+					<th><spring:message code="lbl.meeting.groups"/></th>
+					<th><spring:message code="lbl.meeting.status"/></th>
 				</tr>
 				<c:forEach items="${meetings}" var="meeting">
 					<tr>
