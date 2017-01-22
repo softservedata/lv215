@@ -9,6 +9,7 @@ package com.softserve.edu.schedule.service;
 import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 
 /**
@@ -109,4 +110,13 @@ public interface UserGroupService {
 	 */
 	List<UserGroup> sortByFields(final String field, final Order order);
 
+	/**
+	 * Adding user to a list of users in a group
+	 * 
+	 * @param user
+	 *            User to be added in a list
+	 * @param groupId
+	 *            An id of a user's group
+	 */
+	void addUserToGroup(final User user, final long groupId);
 }
