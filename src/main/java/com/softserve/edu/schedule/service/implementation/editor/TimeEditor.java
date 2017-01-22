@@ -1,14 +1,17 @@
 package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
-import java.time.LocalDateTime;
+import java.time.LocalTime;
 
-public class DateTimeEditor extends PropertyEditorSupport {
+import org.springframework.stereotype.Service;
+
+@Service
+public class TimeEditor extends PropertyEditorSupport {
 
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
      if (text != null && !text.isEmpty())
-         setValue(LocalDateTime.parse(text));
+         setValue(LocalTime.parse(text));
      else
          setValue(null);
     }

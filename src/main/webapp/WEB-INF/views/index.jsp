@@ -5,9 +5,16 @@
 
 
 <div class="row">
-	<br><br><br>
-	<h1>Hello. This is start page :)</h1>
-	<br><br><br>	
+	<br>
+	<br>
+	<br>
+	<h1>
+		Hello. This is home page of your schedule. <br> We setup and
+		configure it for you. <br> Sincerely, Lv215.
+	</h1>
+	<br>
+	<br>
+	<br>
 </div>
 
 <%-- <c:if test="${param.fail eq true}">

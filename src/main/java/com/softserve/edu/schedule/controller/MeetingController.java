@@ -1,6 +1,7 @@
 package com.softserve.edu.schedule.controller;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,10 @@ import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
-import com.softserve.edu.schedule.service.implementation.editor.DateTimeEditor;
+import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomEditor;
 import com.softserve.edu.schedule.service.implementation.editor.SubjectEditor;
+import com.softserve.edu.schedule.service.implementation.editor.TimeEditor;
 import com.softserve.edu.schedule.service.implementation.editor.UserEditor;
 import com.softserve.edu.schedule.service.implementation.editor.UserGroupEditor;
 
@@ -48,18 +50,32 @@ public class MeetingController {
     @Autowired
     private UserGroupService userGroupService;
 
+    @Autowired
+    private SubjectEditor subjectEditor;
+
+    @Autowired
+    private DateEditor dateEditor;
+
+    @Autowired
+    private TimeEditor timeEditor;
+
+    @Autowired
+    private UserEditor userEditor;
+
+    @Autowired
+    private UserGroupEditor userGroupEditor;
+
+    @Autowired
+    private RoomEditor roomEditor;
+
     @InitBinder("meetingForm")
     protected void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Subject.class,
-                new SubjectEditor(subjectService));
-
-        binder.registerCustomEditor(LocalDateTime.class, new DateTimeEditor());
-
-        binder.registerCustomEditor(User.class, new UserEditor(userService));
-        binder.registerCustomEditor(Room.class, new RoomEditor(roomService));
-        binder.registerCustomEditor(UserGroup.class,
-                new UserGroupEditor(userGroupService));
-
+        binder.registerCustomEditor(Subject.class, subjectEditor);
+        binder.registerCustomEditor(LocalDate.class, dateEditor);
+        binder.registerCustomEditor(LocalTime.class, timeEditor);
+        binder.registerCustomEditor(User.class, userEditor);
+        binder.registerCustomEditor(Room.class, roomEditor);
+        binder.registerCustomEditor(UserGroup.class, userGroupEditor);
     }
 
     @ModelAttribute("meetingForm")
@@ -174,16 +190,44 @@ public class MeetingController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@ModelAttribute("meetingForm") Meeting meeting) {
+        // model.addAttribute("meetingForm", meetingService.getById(id));
+
         meetingService.update(meeting);
 
         return "redirect:/meetings";
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("meetingForm", meetingService.getById(id));
-        model.addAttribute("users", userService.getAll());
+    public String editForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("meetingForm", new Meeting());
+        model.addAttribute("subjects", subjectService.getAll());
+        model.addAttribute("owners", userService.getAll());
+        model.addAttribute("rooms", roomService.getAll());
+        model.addAttribute("groups", userGroupService.getAll());
         return "meetings/edit";
+    }
+
+    @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
+    public String editStatus(@ModelAttribute("meeting") Meeting meeting) {
+        // model.addAttribute("meetingForm", meetingService.getById(id));
+        // TODO
+
+        meetingService.update(meeting);
+
+        return "redirect:/meetings";
+    }
+
+    @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.GET)
+    public String editStatusForm(@PathVariable("id") Long id, Model model) {
+        // TODO
+        model.addAttribute("meetingForm", meetingService.getById(id));
+        model.addAttribute("meetingForm", new Meeting());
+        model.addAttribute("subjects", subjectService.getAll());
+        model.addAttribute("owners", userService.getAll());
+        model.addAttribute("rooms", roomService.getAll());
+        model.addAttribute("groups", userGroupService.getAll());
+
+        return "meetings/editStatus";
     }
 
 }

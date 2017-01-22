@@ -28,7 +28,9 @@
 					</c:if>
 				</c:forEach>
 			</form:select>
+
 			<input type="submit" value="Edit" />
+
 		</form:form>
 	</div>
 </body>

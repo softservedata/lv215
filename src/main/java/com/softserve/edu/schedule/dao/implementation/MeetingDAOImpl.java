@@ -53,9 +53,6 @@ import com.softserve.edu.schedule.entity.User_;
 @Repository("meetingDAO")
 public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
-    // @Autowired
-    // private UserGroupDAO userGroupDAO;
-
     @Override
     public List<Meeting> getAll() {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -226,7 +223,6 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * com.softserve.edu.schedule.dao.MeetingDAO#searchByDate(java.lang.String)
      */
     public List<Meeting> searchByDate(final String pattern) {
-        // TODO How to filter by Date in DB?
         return this.getAll();
     }
 
@@ -252,6 +248,13 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#sortByDescription(com.softserve
+     * .edu.schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortByDescription(final Order order) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -271,6 +274,13 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#sortBySubject(com.softserve.edu
+     * .schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortBySubject(final Order order) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -290,6 +300,13 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#sortByOwner(com.softserve.edu.
+     * schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortByOwner(final Order order) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -309,12 +326,29 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#sortByRoom(com.softserve.edu.
+     * schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortByRoom(final Order order) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
-        root.fetch(Meeting_.subject, JoinType.LEFT);
+        Join<Meeting, Room> joinUser = root.join(Meeting_.room, JoinType.LEFT);
+        if (order == Order.ASC) {
+            cq.orderBy(builder.asc(joinUser.get(Room_.name)));
+        } else {
+            cq.orderBy(builder.desc(joinUser.get(Room_.name)));
+        }
+        return getEm().createQuery(cq).getResultList();
+        
+        
+        
+       /* root.fetch(Meeting_.subject, JoinType.LEFT);
         root.fetch(Meeting_.owner, JoinType.LEFT);
         root.fetch(Meeting_.room, JoinType.LEFT);
         root.fetch(Meeting_.groups, JoinType.LEFT);
@@ -325,9 +359,16 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         } else {
             cq.orderBy(builder.desc(root.get(Meeting_.room)));
         }
-        return getEm().createQuery(cq).getResultList();
+        return getEm().createQuery(cq).getResultList();*/
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#sortByLevel(com.softserve.edu.
+     * schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortByLevel(final Order order) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -347,6 +388,13 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#sortByStatus(com.softserve.edu.
+     * schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortByStatus(final Order order) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -366,29 +414,21 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#create(java.
+     * lang.Object)
+     */
     @Override
     public void create(Meeting meeting) {
+
+        /*
+         * New meeting must has status = NOT_APPROVE.
+         */
         meeting.setStatus(MeetingStatus.NOT_APPROVED);
         getEm().persist(meeting);
-        // TODO When we will make validator, move it to the validator.
-        // if (meeting.getGroups() != null) {
-        // meeting.getGroups().forEach(
-        // e -> addMeetingtoUserGroup(meeting.getId(), e.getId()));
-        // }
-
     }
-
-    // @Override
-    // public void addMeetingtoUserGroup(Long meetingId, Long userGroupId) {
-    // userGroupDAO.getById(userGroupId).getMeetings().add(getById(meetingId));
-    //
-    // }
-
-    // @Override
-    // public void deleteMeetingFromUserGroup(Long meetingId, Long userGroupId)
-    // {
-    // userGroupDAO.getById(userGroupId).getMeetings()
-    // .removeIf(e -> e.getId().equals(meetingId));
-    // }
 
 }
