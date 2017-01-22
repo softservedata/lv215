@@ -76,12 +76,15 @@
 						<p>${group.name}</p>
 					</c:forEach></td>
 				<td>${meeting.level}</td>
-				<td>${meeting.status}</td>
+				<td>${meeting.status}<a
+					href="${pageContext.request.contextPath}/meetings/editStatus/${meeting.id}"><i
+						class="fa fa-pencil-square-o"></i></a>
+				</td>
 				<td><a
 					href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"><i
 						class="fa fa-trash-o"></i></a></td>
 				<td><a
-					href="${pageContext.request.contextPath}/meeting/edit/${meeting.id}"><i
+					href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}"><i
 						class="fa fa-pencil-square-o"></i></a></td>
 			</tr>
 		</c:forEach>

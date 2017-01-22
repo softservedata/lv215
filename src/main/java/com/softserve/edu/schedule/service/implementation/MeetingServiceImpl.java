@@ -38,7 +38,7 @@ import com.softserve.edu.schedule.service.MeetingService;
 public class MeetingServiceImpl implements MeetingService {
 
     /**
-     * Field for subjectDAO.
+     * Field for meetingDAO.
      */
     @Autowired
     private MeetingDAO meetingDao;
@@ -65,8 +65,6 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void update(final Meeting meeting) {
         meetingDao.update(meeting);
-        // meeting.getGroups().forEach(e -> userGroupDAO
-        // .addMeetingtoUserGroup(meeting.getId(), e.getId()));
     }
 
     /*
@@ -114,8 +112,6 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void deleteById(final Long id) {
         meetingDao.deleteById(id);
-
-        // userGroupDAO.deleteMeetingFromUserGroup(id, userGroupID);
 
     }
 
@@ -336,31 +332,68 @@ public class MeetingServiceImpl implements MeetingService {
 
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#sortByDescription(com.
+     * softserve.edu.schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortByDescription(final Order order) {
         return meetingDao.sortByDescription(order);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#sortBySubject(com.
+     * softserve.edu.schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortBySubject(final Order order) {
         return meetingDao.sortBySubject(order);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#sortByOwner(com.
+     * softserve.edu.schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortByOwner(final Order order) {
         return meetingDao.sortByOwner(order);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#sortByRoom(com.
+     * softserve.edu.schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortByRoom(final Order order) {
         return meetingDao.sortByRoom(order);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#sortByLevel(com.
+     * softserve.edu.schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortByLevel(final Order order) {
         return meetingDao.sortByLevel(order);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#sortByStatus(com.
+     * softserve.edu.schedule.dao.Order)
+     */
     @Override
     public List<Meeting> sortByStatus(final Order order) {
         return meetingDao.sortByStatus(order);

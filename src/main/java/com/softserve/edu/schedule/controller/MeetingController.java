@@ -48,6 +48,7 @@ public class MeetingController {
     @Autowired
     private UserGroupService userGroupService;
 
+ 
     @Autowired
     private SubjectEditor subjectEditor;
 
@@ -68,7 +69,6 @@ public class MeetingController {
         binder.registerCustomEditor(Room.class, roomEditor);
         binder.registerCustomEditor(UserGroup.class,
                 new UserGroupEditor(userGroupService));
-
     }
 
     @ModelAttribute("meetingForm")
@@ -183,16 +183,44 @@ public class MeetingController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@ModelAttribute("meetingForm") Meeting meeting) {
+        // model.addAttribute("meetingForm", meetingService.getById(id));
+
         meetingService.update(meeting);
 
         return "redirect:/meetings";
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("meetingForm", meetingService.getById(id));
-        model.addAttribute("users", userService.getAll());
+    public String editForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("meetingForm", new Meeting());
+        model.addAttribute("subjects", subjectService.getAll());
+        model.addAttribute("owners", userService.getAll());
+        model.addAttribute("rooms", roomService.getAll());
+        model.addAttribute("groups", userGroupService.getAll());
         return "meetings/edit";
+    }
+
+    @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
+    public String editStatus(@ModelAttribute("meeting") Meeting meeting) {
+        // model.addAttribute("meetingForm", meetingService.getById(id));
+        // TODO
+
+        meetingService.update(meeting);
+
+        return "redirect:/meetings";
+    }
+
+    @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.GET)
+    public String editStatusForm(@PathVariable("id") Long id, Model model) {
+        // TODO
+        model.addAttribute("meetingForm", meetingService.getById(id));
+        model.addAttribute("meetingForm", new Meeting());
+        model.addAttribute("subjects", subjectService.getAll());
+        model.addAttribute("owners", userService.getAll());
+        model.addAttribute("rooms", roomService.getAll());
+        model.addAttribute("groups", userGroupService.getAll());
+        
+        return "meetings/editStatus";
     }
 
 }

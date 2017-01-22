@@ -242,16 +242,62 @@ public interface MeetingService {
      */
     public List<Meeting> searchByStatus(final MeetingStatus meetingStatus);
 
+    /*
+     * Additional methods for doing the SEARCH operation but direct in DB.
+     */
+
+    /**
+     * Sort existent list of meetings by Subject name.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
+     */
     public List<Meeting> sortBySubject(final Order order);
 
+    /**
+     * Sort existent list of meetings by Owner lastname.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
+     */
     public List<Meeting> sortByOwner(final Order order);
 
+    /**
+     * Sort existent list of meetings by Room name.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
+     */
     public List<Meeting> sortByRoom(final Order order);
 
+    /**
+     * Sort existent list of meetings by Description.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
+     */
     public List<Meeting> sortByDescription(final Order order);
 
+    /**
+     * Sort existent list of meetings by level.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
+     */
     public List<Meeting> sortByLevel(final Order order);
 
+    /**
+     * Sort existent list of meetings by status.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
+     */
     public List<Meeting> sortByStatus(final Order order);
 
 }
