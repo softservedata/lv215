@@ -31,6 +31,12 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupEditor;
 @RequestMapping("/usergroups")
 public class UserGroupController implements ControllerConst {
 
+	@Autowired
+	private UserGroupEditor userGroupEditor;
+
+	@Autowired
+	private UserEditor userEditor;
+
 	/**
 	 * An instance of a service for a UserGroup
 	 */
@@ -61,8 +67,8 @@ public class UserGroupController implements ControllerConst {
 	 */
 	@InitBinder(UserGroupControllerConst.USERGROUP_MODEL_ATTR)
 	protected void initBinder(final WebDataBinder binder) {
-		binder.registerCustomEditor(UserGroup.class, new UserGroupEditor(userGroupService));
-		binder.registerCustomEditor(User.class, new UserEditor(userService));
+		binder.registerCustomEditor(UserGroup.class, userGroupEditor);
+		binder.registerCustomEditor(User.class, userEditor);
 	}
 
 	/**
