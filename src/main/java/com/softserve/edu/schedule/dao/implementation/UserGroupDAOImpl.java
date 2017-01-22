@@ -77,34 +77,4 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
         }
         return getEm().createQuery(cq).getResultList();
     }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.UserGroupDAO#deleteUserFromUserGroup(java.
-     * lang.Long, java.lang.Long)
-     */
-    // @Override
-    // public void deleteUserFromUserGroup(final Long userID,
-    // final Long userGroupID) {
-    // getById(userGroupID).getUsers().removeIf(e -> e.getId().equals(userID));
-    // }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.UserGroupDAO#isUserCurator(java.lang.Long,
-     * java.lang.Long)
-     */
-    @Override
-    public boolean isUserCurator(final Long userID, final Long userGroupID) {
-        if (getById(userGroupID).getCurator().getId().equals(userID)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }

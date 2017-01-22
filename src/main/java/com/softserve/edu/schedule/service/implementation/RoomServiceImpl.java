@@ -28,7 +28,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomDTOCon
  *
  * @since 1.8
  */
-@Service("roomService")
+@Service
 @Transactional
 public class RoomServiceImpl implements RoomService {
 
