@@ -17,9 +17,9 @@ import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.editor.UserForSubjectDTOEditor;
 
-
 @Controller
-public class SubjectController {
+public class SubjectController
+        implements ControllerConst.SubjectControllerConst {
 
     @Autowired
     private SubjectService subjectService;
@@ -27,111 +27,114 @@ public class SubjectController {
     @Autowired
     private UserService userService;
 
-    @ModelAttribute("search")
+    @ModelAttribute(SEARCH_MODEL_ATTR)
     public SubjectDTO getSubjectDTO() {
         return new SubjectDTO();
     }
 
-    @ModelAttribute("searchTutor")
+    @ModelAttribute(SEARCH_BY_TUTOR_MODEL_ATTR)
     public UserForSubjectDTO getUserForSubjectDTO() {
         return new UserForSubjectDTO();
     }
 
-    @InitBinder("subjectForm")
+    @InitBinder(SUBJECT_FORM_MODEL_ATTR)
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(UserForSubjectDTO.class,
                 new UserForSubjectDTOEditor(userService));
     }
 
-    @RequestMapping("/subjects")
+    @RequestMapping(SUBJECTS_MAPPING)
     public String showSubjectPage(Model model) {
-        model.addAttribute("subjects", subjectService.getAll());
-        return "subjects/list";
+        model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
+        return SUBJECTS_LIST_URL;
     }
 
-    @RequestMapping("/subjects/create")
+    @RequestMapping(SUBJECT_CREATE_MAPPING)
     public String createForm(Model model) {
-        model.addAttribute("subjectForm", new SubjectDTO());
-        model.addAttribute("users", userService.getAllForSubject());
-        return "subjects/create";
+        model.addAttribute(SUBJECT_FORM_MODEL_ATTR, new SubjectDTO());
+        model.addAttribute(USERS_MODEL_ATTR, userService.getAllForSubject());
+        return SUBJECT_CREATE_URL;
     }
 
-    @RequestMapping(value = "/subjects/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute("subjectForm") SubjectDTO subject) {
+    @RequestMapping(value = SUBJECT_CREATE_MAPPING, method = RequestMethod.POST)
+    public String create(
+            @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) SubjectDTO subject) {
         subjectService.create(subject);
-        return "redirect:/subjects";
+        return SUBJECTS_REDIRECT_URL;
     }
 
-    @RequestMapping("/subjects/edit/{id}")
+    @RequestMapping(SUBJECT_EDIT_MAPPING + "{id}")
     public String editForm(@PathVariable Long id, Model model) {
-        model.addAttribute("subjectForm", subjectService.getById(id));
-        model.addAttribute("users", userService.getAllForSubject());
-        return "subjects/edit";
+        model.addAttribute(SUBJECT_FORM_MODEL_ATTR, subjectService.getById(id));
+        model.addAttribute(USERS_MODEL_ATTR, userService.getAllForSubject());
+        return SUBJECTS_EDIT_URL;
     }
 
-    @RequestMapping(value = "/subjects/edit/{id}", method = RequestMethod.POST)
-    public String edit(@ModelAttribute("subjectForm") SubjectDTO subject) {
+    @RequestMapping(value = SUBJECT_EDIT_MAPPING + "{id}", method = RequestMethod.POST)
+    public String edit(
+            @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) SubjectDTO subject) {
         subjectService.update(subject);
-        return "redirect:/subjects";
+        return SUBJECTS_REDIRECT_URL;
     }
 
-    @RequestMapping("/subjects/delete/{id}")
+    @RequestMapping(SUBJECT_DELETE_MAPPING + "{id}")
     public String delete(@PathVariable Long id) {
         subjectService.deleteById(id);
-        return "redirect:/subjects";
+        return SUBJECTS_REDIRECT_URL;
     }
 
-    @RequestMapping("/subjects/sortbynameasc")
+    @RequestMapping(SUBJECTS_SORT_BY_NAME_ASC_MAPPING)
     public String sortByNameAsc(Model model) {
-        model.addAttribute("subjects", subjectService.sortByName(Order.ASC));
-        return "subjects/list";
+        model.addAttribute(SUBJECTS_MODEL_ATTR,
+                subjectService.sortByName(Order.ASC));
+        return SUBJECTS_LIST_URL;
     }
 
-    @RequestMapping("/subjects/sortbynamedesc")
+    @RequestMapping(SUBJECTS_SORT_BY_NAME_DESC_MAPPING)
     public String sortByNameDesc(Model model) {
-        model.addAttribute("subjects", subjectService.sortByName(Order.DESC));
-        return "subjects/list";
+        model.addAttribute(SUBJECTS_MODEL_ATTR,
+                subjectService.sortByName(Order.DESC));
+        return SUBJECTS_LIST_URL;
     }
 
-    @RequestMapping("/subjects/sortbydescriptionasc")
+    @RequestMapping(SUBJECTS_SORT_BY_DESCRIPTION_ASC_MAPPING)
     public String sortByDescrAsc(Model model) {
-        model.addAttribute("subjects",
+        model.addAttribute(SUBJECTS_MODEL_ATTR,
                 subjectService.sortByDescription(Order.ASC));
-        return "subjects/list";
+        return SUBJECTS_LIST_URL;
     }
 
-    @RequestMapping("/subjects/sortbydescriptiondesc")
+    @RequestMapping(SUBJECTS_SORT_BY_DESCRIPTION_DESC_MAPPING)
     public String sortByDescrDesc(Model model) {
-        model.addAttribute("subjects",
+        model.addAttribute(SUBJECTS_MODEL_ATTR,
                 subjectService.sortByDescription(Order.DESC));
-        return "subjects/list";
+        return SUBJECTS_LIST_URL;
     }
 
-    @RequestMapping(value = "/subjects/searchByName", method = RequestMethod.POST)
-    public String searchByName(@ModelAttribute("search") SubjectDTO subject,
+    @RequestMapping(value = SUBJECTS_SEARCH_BY_NAME_MAPPING, method = RequestMethod.POST)
+    public String searchByName(
+            @ModelAttribute(SEARCH_MODEL_ATTR) SubjectDTO subject,
             Model model) {
-        model.addAttribute("subjects",
+        model.addAttribute(SUBJECTS_MODEL_ATTR,
                 subjectService.searchByName(subject.getName()));
-        return "subjects/list";
+        return SUBJECTS_LIST_URL;
     }
 
-    @RequestMapping(value = "/subjects/searchByDescription", method = RequestMethod.POST)
+    @RequestMapping(value = SUBJECTS_SEARCH_BY_DESCRIPTION_MAPPING, method = RequestMethod.POST)
     public String searchByDescription(
-            @ModelAttribute("search") SubjectDTO subject, Model model) {
-        model.addAttribute("subjects",
+            @ModelAttribute(SEARCH_MODEL_ATTR) SubjectDTO subject,
+            Model model) {
+        model.addAttribute(SUBJECTS_MODEL_ATTR,
                 subjectService.searchByDescription(subject.getDescription()));
-        System.out.println("p" + subject.getName() + "p");
-        System.out.println("p" + subject.getDescription() + "p");
-        System.out.println(subject.getId());
-        return "subjects/list";
+        return SUBJECTS_LIST_URL;
     }
 
-    @RequestMapping(value = "/subjects/searchByTutor", method = RequestMethod.POST)
+    @RequestMapping(value = SUBJECTS_SEARCH_BY_TUTOR_MAPPING, method = RequestMethod.POST)
     public String searchByTutor(
-            @ModelAttribute("searchTutor") UserForSubjectDTO user,
+            @ModelAttribute(SEARCH_BY_TUTOR_MODEL_ATTR) UserForSubjectDTO user,
             Model model) {
-            model.addAttribute("subjects",
-                    subjectService.searchByTutors(user.getLastName()));
-        return "subjects/list";
+        model.addAttribute(SUBJECTS_MODEL_ATTR,
+                subjectService.searchByTutors(user.getLastName()));
+        return SUBJECTS_LIST_URL;
     }
 }

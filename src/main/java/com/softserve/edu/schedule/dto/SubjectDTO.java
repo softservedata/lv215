@@ -1,3 +1,9 @@
+/*
+ * SubjectDTO.java
+ * 1.0
+ * 15 Jan 2017
+ * Copyright (c) Ped'ko Volodymyr
+ */
 package com.softserve.edu.schedule.dto;
 
 import java.util.ArrayList;
@@ -5,20 +11,23 @@ import java.util.List;
 
 public class SubjectDTO {
 
+    /**
+     * SubjectDTO id.
+     */
     private Long id;
 
     /**
-     * Subject name.
+     * SubjectDTO name.
      */
     private String name;
 
     /**
-     * Subject description.
+     * SubjectDTO description.
      */
     private String description;
 
     /**
-     * List of users who can create meetings with this subject.
+     * List of subject tutors(users).
      */
     private List<UserForSubjectDTO> users = new ArrayList<>();
 

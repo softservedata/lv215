@@ -1,5 +1,5 @@
 /*
- * CrudDAO<E>.java
+ * SubjectDAOImpl.java
  * 1.0
  * 04 Jan 2017
  * Copyright (c) Ped'ko Volodymyr
@@ -23,13 +23,13 @@ import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.User_;
 
 /**
- * A simple class to handle the database operation (CRUD).
+ * A SubjectDAO implementation to handle the database operation (CRUD).
  *
  * @version 1.0 04 Jan 2016
  * @author Ped'ko Volodymyr
  *
  */
-@Repository("subjectDAO")
+@Repository
 public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
 
     /**
@@ -41,9 +41,9 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
     }
 
     /**
-     * Return a List of searched Transfer objects.
+     * Return a List of searched tutors.
      *
-     * @return List of searched Transfer objects
+     * @return List of searched tutors
      */
     @Override
     public List<Subject> searchTutors(final String pattern) {
@@ -59,7 +59,7 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
     }
 
     /**
-     * Delete existed transfer object from the database by id.
+     * Delete existed subject from the database by id.
      *
      * @param id
      *            a subject id to delete from database.
