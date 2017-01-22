@@ -1,5 +1,5 @@
 /*
- * CrudDAO<E>.java
+ * SubjectDAO.java
  * 1.0
  * 04 Jan 2017
  * Copyright (c) Ped'ko Volodymyr
@@ -12,7 +12,7 @@ import com.softserve.edu.schedule.entity.Subject;
 
 /**
  * A simple DAO interface to handle the database operation required to
- * manipulate Tutors in Subject.
+ * manipulate in database.
  *
  * @version 1.0 04 Jan 2016
  * @author Ped'ko Volodymyr
@@ -21,18 +21,17 @@ import com.softserve.edu.schedule.entity.Subject;
 public interface SubjectDAO extends CrudDAO<Subject> {
 
     /**
-     * Return a List of searched Transfer objects.
+     * Return a List of searched tutors.
      *
-     * @return List of searched Transfer objects
+     * @return List of searched tutors
      */
-    List<Subject> searchTutors(final String pattern);
+    public List<Subject> searchTutors(final String pattern);
 
     /**
-     * Delete existed transfer object from the database by id.
+     * Delete existed subject from the database by id.
      *
      * @param id
      *            a subject id to delete from database.
      */
-    void deleteById(final Long id);
-
+    public void deleteById(final Long id);
 }
