@@ -40,9 +40,8 @@
 			</a> <a href="${pageContext.request.contextPath}/meetings/sortbyroomdesc"><i
 					class="fa fa-arrow-circle-o-down"></i> </a>
 			</th>
-			
-			<th>Date</th>
 
+			<th>Date</th>
 			<th>Start time</th>
 
 			<th>End time</th>
@@ -65,6 +64,8 @@
 			<th><a href="${pageContext.request.contextPath}/meetings/create"><i
 					class="fa fa-plus"></i></a></th>
 		</tr>
+
+
 		<c:forEach var="meeting" items="${meetings}">
 			<tr>
 				<td>${meeting.id}</td>

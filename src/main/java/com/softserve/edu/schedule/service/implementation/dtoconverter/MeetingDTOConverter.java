@@ -44,7 +44,7 @@ public class MeetingDTOConverter {
     RoomDTOConverter roomDTOConverter;
 
     @Autowired
-    UserGroupDTOConverter userGroupDTOConverter;
+    UserGroupDTOForMeetingConverter userGroupDTOForMeetingConverter;
 
     public Meeting getEntity(final MeetingDTO meetingDTO) {
         if (meetingDTO != null) {
@@ -119,7 +119,7 @@ public class MeetingDTOConverter {
 
             if (meeting.getGroups() != null) {
                 meeting.getGroups().forEach(e -> meetingDTO.getGroups()
-                        .add(userGroupDTOConverter.getDTO(e)));
+                        .add(userGroupDTOForMeetingConverter.getDTO(e)));
             }
 
             if (meeting.getLevel() != null) {
