@@ -551,5 +551,7 @@ public interface ControllerConst {
          *Subject field description.
          */
         String SUBJECT_PATH_LASTNAME = "lastName";
+        
+        String SUBJECT_PATH_USERS = "users";
     }
 }
