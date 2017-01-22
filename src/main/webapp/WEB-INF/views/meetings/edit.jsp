@@ -28,7 +28,7 @@
 			<form:select class="form-control" path="subject" id="subject">
 				<c:forEach items="${subjects}" var="subject">
 					<c:choose>
-						<c:when test="${room.subject.id eq subject.id}">
+						<c:when test="${meeting.subject.id eq subject.id}">
 							<option value="${subject.id}" selected="selected">${subject.name}</option>
 						</c:when>
 						<c:otherwise>
@@ -44,7 +44,7 @@
 			<form:select class="form-control" path="owner" id="owner">
 				<c:forEach items="${owners}" var="owner">
 					<c:choose>
-						<c:when test="${room.owner.id eq owner.id}">
+						<c:when test="${meeting.owner.id eq owner.id}">
 							<option value="${owner.id}" selected="selected">${owner.lastName}</option>
 						</c:when>
 						<c:otherwise>
@@ -54,23 +54,21 @@
 				</c:forEach>
 			</form:select>
 
-			<%-- 
-			<label for="owner">Owner</label>
-			<form:select class="form-control" path="owner" id="owner">
-				<c:forEach items="${owners}" var="owner">
-					<option value="${owner.id}">${owner.lastName}
-						${owner.firstName}</option>
-				</c:forEach>
-			</form:select>
 
-
-			<br>
 			<label for="room">Room</label>
 			<form:select class="form-control" path="room" id="room">
 				<c:forEach items="${rooms}" var="room">
-					<option value="${room.id}">${room.name}</option>
+					<c:choose>
+						<c:when test="${meeting.room.id eq room.id}">
+							<option value="${room.id}" selected="selected">${room.name}</option>
+						</c:when>
+						<c:otherwise>
+							<option value="${room.id}">${room.name}</option>
+						</c:otherwise>
+					</c:choose>
 				</c:forEach>
-			</form:select> --%>
+			</form:select>
+		
 			<label for="date">Date</label>
 			<form:input type="date" path="date" id="date"
 				placeholder="YYYY-MM-DD" />
@@ -86,13 +84,29 @@
 				placeholder="HH:MM" />
 
 			<br>
-			<%-- <label for="groups">Groups</label>
-			<br>
-			<form:select path="groups" id="groups" multiple="multiple">
-				<c:forEach items="${groups}" var="group">
-					<option value="${group.id}">${group.name}</option>
-				</c:forEach>
-			</form:select> --%>
+			
+			
+			<label for="groups">Groups</label>
+					<form:select class="form-control" path="groups" id="groups"
+						multiple="multiple">
+						<c:forEach items="${groups}" var="group">
+							<c:set var="found" value="false" />
+							<c:forEach items="${meeting.group}" var="groupsInMeeting">
+								<c:if test="${!found}">
+									<c:if test="${groupsInMeeting.id eq group.id}">
+										<option value="${group.id}" selected="selected">${group.name}</option>
+										<c:set var="found" value="true" />
+									</c:if>
+								</c:if>
+							</c:forEach>
+							<c:if test="${!found}">
+								<option value="${group.id}">${group.name}</option>
+							</c:if>
+						</c:forEach>
+					</form:select>
+			
+			
+			
 			<br>
 			<label for="level">Level</label>
 			<form:input path="level" placeholder="Level" />

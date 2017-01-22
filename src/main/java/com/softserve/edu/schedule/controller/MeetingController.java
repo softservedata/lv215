@@ -199,16 +199,16 @@ public class MeetingController {
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("meetingForm", meetingService.getById(id));
-       model.addAttribute("subjects", subjectService.getAll());
-       model.addAttribute("owners", userService.getAll());
+        model.addAttribute("subjects", subjectService.getAll());
+        model.addAttribute("owners", userService.getAll());
+        model.addAttribute("rooms", roomService.getAll());
+        model.addAttribute("groups", userGroupService.getAll());
         return "meetings/edit";
+        
     }
 
     @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
     public String editStatus(@ModelAttribute("meeting") Meeting meeting) {
-        // model.addAttribute("meetingForm", meetingService.getById(id));
-        // TODO
-
         meetingService.update(meeting);
 
         return "redirect:/meetings";
@@ -223,6 +223,7 @@ public class MeetingController {
         model.addAttribute("owners", userService.getAll());
         model.addAttribute("rooms", roomService.getAll());
         model.addAttribute("groups", userGroupService.getAll());
+        
 
         return "meetings/editStatus";
     }
