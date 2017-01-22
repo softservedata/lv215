@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
+import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.service.UserGroupService;
 
@@ -157,6 +158,22 @@ public class UserGroupServiceImpl implements UserGroupService {
 			groups.sort((g1, g2) -> g2.getUsers().size() - g1.getUsers().size());
 		}
 		return groups;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.service.UserGroupService#addUserToGroup(com.
+	 * softserve.edu.schedule.entity.User)
+	 */
+	@Override
+	public void addUserToGroup(final User user, final long groupId) {
+		UserGroup group = getById(groupId);
+		List<User> users = group.getUsers();
+		users.add(user);
+		group.setUsers(users);
+		update(group);
 	}
 
 }
