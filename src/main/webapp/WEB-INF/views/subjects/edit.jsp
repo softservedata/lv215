@@ -41,7 +41,6 @@
 								<option value="${user.id}">${user.firstName}
 									${user.lastName}</option>
 							</c:if>
-<<<<<<< HEAD
 						</c:forEach>
 					</form:select>
 				</div>
@@ -52,19 +51,5 @@
 				</div>
 			</form:form>
 		</div>
-=======
-						</c:if>
-					</c:forEach>
-					<c:if test="${!found}">
-						<option value="${user.id}">${user.firstName}
-							${user.lastName}</option>
-					</c:if>
-				</c:forEach>
-			</form:select>
-
-			<input type="submit" value="Edit" />
-
-		</form:form>
->>>>>>> bf969b46eefdd8a7f219f5069bb1ad7899d87e78
 	</div>
 </div>
