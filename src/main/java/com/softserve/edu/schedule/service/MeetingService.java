@@ -10,10 +10,12 @@
 
 package com.softserve.edu.schedule.service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dto.MeetingsForRoomDTO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
@@ -289,7 +291,7 @@ public interface MeetingService {
      */
     public List<Meeting> sortByStatus(final Order order);
 
-    /**
+    /*
      * Change existing status of the meeting to given new meeting status.
      * 
      * @param id Meeting, in which the status will be changed.
@@ -298,4 +300,20 @@ public interface MeetingService {
      */
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus);
+
+    /*
+     * 
+     * Find all meetings in the DB by given date and roomId.**
+     * 
+     * @author Petro Zelyonka**
+     * 
+     * @param roomId room id for find meetings*
+     * 
+     * @param date date for find meetings**@return List of the
+     * MeetingsForRoomDTO objects.
+     */
+
+    public List<MeetingsForRoomDTO> getMeetingsByRoomIDAndDate(Long roomId,
+            LocalDate date);
+
 }
