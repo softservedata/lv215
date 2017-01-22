@@ -50,6 +50,7 @@
 			<label for="date">Date</label>
 			<form:input type="date" path="date" id="date"
 				placeholder="YYYY-MM-DD" />
+				<br>
 			<label for="startTime">Start time</label>
 			<br>
 			<form:input type="time" path="startTime" id="startTime"
