@@ -22,14 +22,13 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.SubjectDTO
 
 /**
  * A SubjectService implementation to handle the operation required to
- * manipulate an Subject menu.
+ * manipulate an Subject object and Subject DTO object.
  *
  * @version 1.0 03 Jan 2016
  * @author Ped'ko Volodymyr
  *
  */
-@Transactional
-@Service("subjectService")
+@Service
 public class SubjectServiceImpl implements SubjectService {
 
     /**
@@ -38,6 +37,9 @@ public class SubjectServiceImpl implements SubjectService {
     @Autowired
     private SubjectDAO subjectDao;
 
+    /**
+     * Field for subjectDTOConverter.
+     */
     @Autowired
     private SubjectDTOConverter subjectDTOConverter;
 
@@ -45,9 +47,10 @@ public class SubjectServiceImpl implements SubjectService {
      * Saving Subject in database.
      *
      * @param subject
-     *            - Subject object
+     *            - SubjectDTO object
      */
     @Override
+    @Transactional
     public void create(final SubjectDTO subject) {
         subjectDao.create(subjectDTOConverter.getEntity(subject));
     }
@@ -56,19 +59,20 @@ public class SubjectServiceImpl implements SubjectService {
      * Updating Subject in database.
      *
      * @param subject
-     *            - Subject object
+     *            - SubjectDTO object
      */
     @Override
+    @Transactional
     public void update(final SubjectDTO subject) {
         subjectDao.update(subjectDTOConverter.getEntity(subject));
     }
 
     /**
-     * Return a Subject object if found.
+     * Return a SubjectDTO object if found.
      *
      * @param id
      *            of Subject transfer object
-     * @return Subject transfer object
+     * @return SubjectDTO object
      */
     @Override
     @Transactional(readOnly = true)
@@ -77,9 +81,9 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
-     * Return a List of Subject objects.
+     * Return a List of SubjectDTO objects.
      *
-     * @return List of Subject objects
+     * @return List of SubjectDTO objects
      */
     @Override
     @Transactional(readOnly = true)
@@ -90,22 +94,23 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
-     * Delete existed transfer object from the database by id.
+     * Delete existed Subject from the database by id.
      *
      * @param id
-     *            a Subject id to delete from database.
+     *            a SubjectDTO id to delete from database.
      */
     @Override
+    @Transactional
     public void deleteById(Long id) {
         subjectDao.deleteById(id);
     }
 
     /**
-     * Return a List of searched Subject transfer objects.
+     * Return a List of searched SubjectDTO objects.
      *
      * @param pattern
      *            - input string
-     * @return List of sorted Subject transfer objects
+     * @return List of searched SubjectDTO transfer objects
      */
     @Override
     @Transactional(readOnly = true)
@@ -116,11 +121,11 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
-     * Return a List of searched Subject transfer objects.
+     * Return a List of searched SubjectDTO objects.
      *
      * @param pattern
      *            - input string
-     * @return List of sorted Subject transfer objects
+     * @return List of searched SubjectDTO objects
      */
     @Override
     @Transactional(readOnly = true)
@@ -131,13 +136,11 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
-     * Return a List of searched Subject transfer objects containing searched
-     * tutor.
+     * Return a List of searched SubjectDTO objects containing some tutor.
      *
      * @param pattern
-     *            searched tutor
-     * @return List of searched Subject transfer objects containing searched
-     *         tutor
+     *            - input string
+     * @return List of searched SubjectDTO objects containing some tutor
      */
     @Override
     @Transactional(readOnly = true)
@@ -147,6 +150,13 @@ public class SubjectServiceImpl implements SubjectService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Return a sorted by name List of SubjectDTO objects.
+     *
+     * @param order
+     *            - order of sort
+     * @return a sorted by name List of SubjectDTO objects
+     */
     @Override
     @Transactional(readOnly = true)
     public List<SubjectDTO> sortByName(Order order) {
@@ -155,6 +165,13 @@ public class SubjectServiceImpl implements SubjectService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Return a sorted by description List of SubjectDTO objects.
+     *
+     * @param order
+     *            - order of sort
+     * @return a sorted by description List of SubjectDTO objects
+     */
     @Override
     @Transactional(readOnly = true)
     public List<SubjectDTO> sortByDescription(Order order) {

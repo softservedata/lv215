@@ -1,5 +1,5 @@
 /*
- * CrudDAO<E>.java
+ * SubjectDAOImpl.java
  * 1.0
  * 04 Jan 2017
  * Copyright (c) Ped'ko Volodymyr
@@ -11,13 +11,11 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
-import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.Subject_;
@@ -25,13 +23,13 @@ import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.User_;
 
 /**
- * A simple class to handle the database operation (CRUD).
+ * A SubjectDAO implementation to handle the database operation (CRUD).
  *
  * @version 1.0 04 Jan 2016
  * @author Ped'ko Volodymyr
  *
  */
-@Repository("subjectDAO")
+@Repository
 public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
 
     /**
@@ -43,9 +41,9 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
     }
 
     /**
-     * Return a List of searched Transfer objects.
+     * Return a List of searched tutors.
      *
-     * @return List of searched Transfer objects
+     * @return List of searched tutors
      */
     @Override
     public List<Subject> searchTutors(final String pattern) {
@@ -59,9 +57,9 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
-    
+
     /**
-     * Delete existed transfer object from the database by id.
+     * Delete existed subject from the database by id.
      *
      * @param id
      *            a subject id to delete from database.
