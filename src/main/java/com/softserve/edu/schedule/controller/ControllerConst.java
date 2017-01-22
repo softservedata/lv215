@@ -196,6 +196,16 @@ public interface ControllerConst {
         String REDIRECT_USERS_PAGE = "redirect:/users";
     }
 
+    /**
+     * An interface to storage User controller model attributes and
+     * mappings URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Serhiy Dudynsky
+     *
+     * @since 1.8
+     */
     public interface UserControllerConst {
 
         /**
@@ -206,52 +216,52 @@ public interface ControllerConst {
         /**
          * Delete user mapping.
          */
-        String DELETE_USER_MAPPING = "/users/delete/{id}";
+        String DELETE_USER_MAPPING = "/users/delete/";
 
         /**
          * Edit user mapping.
          */
-        String EDIT_USER_MAPPING = "/users/edit/{id}";
+        String EDIT_USER_MAPPING = "/users/edit/";
 
         /**
          * Update user mapping.
          */
-        String UPDATE_USER_MAPPING = "/users/edit/updateUser/{id}";
+        String UPDATE_USER_MAPPING = "/updateUser/";
 
         /**
          * Save updated user mapping.
          */
-        String SAVE_UPDATED_USER_MAPPING = "/users/edit/updateUser/saveUpdatedUser/{id}";
+        String SAVE_UPDATED_USER_MAPPING = "/users/edit/updateUser/saveUpdatedUser/";
 
         /**
          * Update user position mapping.
          */
-        String UPDATE_POSITION_MAPPING = "/users/edit/updateUserPosition/{id}";
+        String UPDATE_POSITION_MAPPING = "/updateUserPosition/";
 
         /**
          * Save updated position user mapping.
          */
-        String SAVE_UPDATED_POSITION_MAPPING = "/users/edit/updateUserPosition/saveUpdatedUserPosition/{id}";
+        String SAVE_UPDATED_POSITION_MAPPING = "/users/edit/updateUserPosition/saveUpdatedUserPosition/";
 
         /**
          * Ban user mapping.
          */
-        String BAN_USER_MAPPING = "/users/banUser/{id}";
+        String BAN_USER_MAPPING = "/users/banUser/";
 
         /**
          * Unban user mapping.
          */
-        String UNBAN_USER_MAPPING = "/users/unBanUser/{id}";
+        String UNBAN_USER_MAPPING = "/users/unBanUser/";
 
         /**
          * Change user role mapping.
          */
-        String CHANGE_ROLE_MAPPING = "/users/edit/changeRole/{id}";
+        String CHANGE_ROLE_MAPPING = "/changeRole/";
 
         /**
          * Save changed user role mapping.
          */
-        String SAVE_CHANGED_ROLE_MAPPING = "/users/edit/changeRole/saveChangedRole/{id}";
+        String SAVE_CHANGED_ROLE_MAPPING = "/users/edit/changeRole/saveChangedRole/";
 
         /**
          * Sort by last name mapping - ascending.
@@ -272,6 +282,16 @@ public interface ControllerConst {
          * Sort by position mapping - descending.
          */
         String SORT_BY_POSITION_DESC_MAPPING = "/users/sortbypositiondesc";
+        
+        /**
+         * Search by last name mapping.
+         */
+        String SEARCH_BY_LASTNANE_MAPPING = "/user/searchByLastName";
+        
+        /**
+         * Search by position mapping.
+         */
+        String SEARCH_BY_POSITION_MAPPING = "/user/searchByPosition";
 
         /**
          * User model attribute name.
@@ -297,6 +317,11 @@ public interface ControllerConst {
          * Roles from user model attribute name.
          */
         String USER_ROLE_ATTR = "roles";
+        
+        /**
+         * Search model attribute name.
+         */
+        String SEARCH_MODEL_ATTR = "search";
         
         /**
          * Users list URL name.
