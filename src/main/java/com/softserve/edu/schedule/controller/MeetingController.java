@@ -1,6 +1,7 @@
 package com.softserve.edu.schedule.controller;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,9 +24,10 @@ import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
-import com.softserve.edu.schedule.service.implementation.editor.DateTimeEditor;
+import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomEditor;
 import com.softserve.edu.schedule.service.implementation.editor.SubjectEditor;
+import com.softserve.edu.schedule.service.implementation.editor.TimeEditor;
 import com.softserve.edu.schedule.service.implementation.editor.UserEditor;
 import com.softserve.edu.schedule.service.implementation.editor.UserGroupEditor;
 
@@ -48,15 +50,20 @@ public class MeetingController {
     @Autowired
     private UserGroupService userGroupService;
 
- 
     @Autowired
     private SubjectEditor subjectEditor;
 
     @Autowired
-    private DateTimeEditor dateTimeEditor;
+    private DateEditor dateEditor;
+
+    @Autowired
+    private TimeEditor timeEditor;
 
     @Autowired
     private UserEditor userEditor;
+
+    @Autowired
+    private UserGroupEditor userGroupEditor;
 
     @Autowired
     private RoomEditor roomEditor;
@@ -64,11 +71,11 @@ public class MeetingController {
     @InitBinder("meetingForm")
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(Subject.class, subjectEditor);
-        binder.registerCustomEditor(LocalDateTime.class, dateTimeEditor);
+        binder.registerCustomEditor(LocalDate.class, dateEditor);
+        binder.registerCustomEditor(LocalTime.class, timeEditor);
         binder.registerCustomEditor(User.class, userEditor);
         binder.registerCustomEditor(Room.class, roomEditor);
-        binder.registerCustomEditor(UserGroup.class,
-                new UserGroupEditor(userGroupService));
+        binder.registerCustomEditor(UserGroup.class, userGroupEditor);
     }
 
     @ModelAttribute("meetingForm")
@@ -219,7 +226,7 @@ public class MeetingController {
         model.addAttribute("owners", userService.getAll());
         model.addAttribute("rooms", roomService.getAll());
         model.addAttribute("groups", userGroupService.getAll());
-        
+
         return "meetings/editStatus";
     }
 
