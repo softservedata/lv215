@@ -18,8 +18,23 @@
 		<form:form method="post" modelAttribute="userGroupForm">
 			<form:hidden path="id" />
 			<form:input path="name" placeholder="Title" />
+			<br>
+
 			<form:input path="description" placeholder="Description" />
+			<br>
+
 			<form:input path="level" placeholder="Level" />
+			<br>
+
+			<label for="curator">Curator</label>
+			<form:select class="form-control" path="curator" id="curator">
+				<c:forEach items="${users}" var="curator">
+					<option value="${curator.id}">${curator.lastName}
+						${curator.firstName}</option>
+				</c:forEach>
+			</form:select>
+			<br>
+			
 			<input type="submit" value="Edit group" />
 		</form:form>
 	</div>

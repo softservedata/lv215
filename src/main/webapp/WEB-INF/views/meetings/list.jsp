@@ -41,6 +41,7 @@
 					class="fa fa-arrow-circle-o-down"></i> </a>
 			</th>
 
+			<th>Date</th>
 			<th>Start time</th>
 
 			<th>End time</th>
@@ -63,6 +64,8 @@
 			<th><a href="${pageContext.request.contextPath}/meetings/create"><i
 					class="fa fa-plus"></i></a></th>
 		</tr>
+
+
 		<c:forEach var="meeting" items="${meetings}">
 			<tr>
 				<td>${meeting.id}</td>
@@ -70,18 +73,22 @@
 				<td>${meeting.subject.name}</td>
 				<td>${meeting.owner.lastName}${meeting.owner.firstName}</td>
 				<td>${meeting.room.name}</td>
+				<td>${meeting.date}</td>
 				<td>${meeting.startTime}</td>
 				<td>${meeting.endTime}</td>
 				<td><c:forEach items="${meeting.groups}" var="group">
 						<p>${group.name}</p>
 					</c:forEach></td>
 				<td>${meeting.level}</td>
-				<td>${meeting.status}</td>
+				<td>${meeting.status}<a
+					href="${pageContext.request.contextPath}/meetings/editStatus/${meeting.id}"><i
+						class="fa fa-pencil-square-o"></i></a>
+				</td>
 				<td><a
 					href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"><i
 						class="fa fa-trash-o"></i></a></td>
 				<td><a
-					href="${pageContext.request.contextPath}/meeting/edit/${meeting.id}"><i
+					href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}"><i
 						class="fa fa-pencil-square-o"></i></a></td>
 			</tr>
 		</c:forEach>

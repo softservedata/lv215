@@ -2,20 +2,20 @@ package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
 
-import com.softserve.edu.schedule.service.UserGroupService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.softserve.edu.schedule.dao.UserGroupDAO;
 
 // delete after meeting DTO
+@Service
 public class UserGroupEditor extends PropertyEditorSupport {
 
-    private UserGroupService userGroupService;
+	@Autowired
+	private UserGroupDAO userGroupDAO;
 
-    public UserGroupEditor(final UserGroupService userGroupService) {
-        this.userGroupService = userGroupService;
-    }
-
-    @Override
-    public void setAsText(final String groupId)
-            throws IllegalArgumentException {
-        setValue(userGroupService.getById(Long.valueOf(groupId)));
-    }
+	@Override
+	public void setAsText(final String groupId) throws IllegalArgumentException {
+		setValue(userGroupDAO.getById(Long.valueOf(groupId)));
+	}
 }
