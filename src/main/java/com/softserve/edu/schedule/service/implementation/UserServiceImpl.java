@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
      * Save new user entity into the database.
      *
      * @param user
-     *            a new user to storage in database.
+     *            a userDTO for to storage new user in database.
      */
     @Override
     @Transactional

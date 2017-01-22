@@ -46,10 +46,9 @@
 					</div>
 					<div class="form-group text-center">
 						<input type="submit" class="btn btn-default"
-							value="<spring:message code="lbl.form.save"/>"> <a
+							value="<spring:message code="lbl.form.save"/>"><a
 							class="btn btn-default"
-							href="${pageContext.request.contextPath}${UserController.SAVE_UPDATED_USER_MAPPING}${userFormUpdate.id}"><spring:message
-								code="lbl.form.cancel" /></a>
+							href="${pageContext.request.contextPath}${UsernController.SAVE_UPDATED_USER_MAPPING}">Cancel</a>
 					</div>
 				</form:form>
 			</div>
