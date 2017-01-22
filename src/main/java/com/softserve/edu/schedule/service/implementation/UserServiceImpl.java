@@ -8,15 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
-import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
+import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSubjectDTOConverter;
@@ -44,12 +42,6 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserForSubjectDTOConverter userForSubjectDTOConverter;
-    
-    @Autowired
-    private UserGroupDAO userGroupDAO;
-
-    @Autowired
-    private SubjectDAO subjectDAO;
 
     /**
      * Save new user entity into the database.
@@ -61,18 +53,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void create(final UserDTO userDTO) {
         userDAO.create(userDTOConverter.getEntity(userDTO));
-    }
-
-    /**
-     * Delete existed user entity from the database.
-     *
-     * @param id
-     *            a user id to delete from database.
-     */
-    @Override
-    @Transactional
-    public void delete(final UserDTO userDTO) {
-        userDAO.delete(userDTOConverter.getEntity(userDTO));
     }
 
     /**
@@ -142,37 +122,6 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Get all users by group what was selected.
-     *
-     * @param id
-     *            a group id in database.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserDTO> searchByGroup(final String group) {
-        // return userDAO.searchByGroup(group)
-        return userDAO.searchByGroup(group).stream()
-                .map(e -> userDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Get all users by role what was selected.
-     *
-     * @param userRole
-     *            a value role from enum class UserRole.
-     *
-     * @return List of the userDTO objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserDTO> getByRole(final UserRole role) {
-        return userDAO.searchByRole(role).stream()
-                .map(e -> userDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Get all usersDTO.
      *
      * @return List of the userDTO objects.
@@ -198,21 +147,21 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Get all users by role what was selected.
+     * Get all users by last name what was selected.
      *
-     * @param userRole
-     *            a value role from enum class UserRole.
+     * @param position
+     *            a value of name field in database.
      *
      * @return List of the userDTO objects.
      */
     @Override
     @Transactional(readOnly = true)
-    public List<UserDTO> getByStatus(final UserStatus status) {
-        return userDAO.searchByStatus(status).stream()
+    public List<UserDTO> searchByLastName(final String pattern) {
+        return userDAO.search(User_.lastName.getName(), pattern).stream()
                 .map(e -> userDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
-
+    
     /**
      * Get all users by position what was selected.
      *
@@ -223,8 +172,8 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<UserDTO> search(final String field, final String pattern) {
-        return userDAO.search(field, pattern).stream()
+    public List<UserDTO> searchByPosition(final String pattern) {
+        return userDAO.search(User_.position.getName(), pattern).stream()
                 .map(e -> userDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -236,8 +185,21 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<UserDTO> sort(final String field, final Order order) {
-        return userDAO.sort(field, order).stream()
+    public List<UserDTO> sortByLastName(final Order order) {
+        return userDAO.sort(User_.lastName.getName(), order).stream()
+                .map(e -> userDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
+    
+    /**
+     * Sort all users by last name.
+     *
+     * @return List of the userDTO objects.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserDTO> sortByPosition(final Order order) {
+        return userDAO.sort(User_.position.getName(), order).stream()
                 .map(e -> userDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -254,19 +216,6 @@ public class UserServiceImpl implements UserService {
     public UserDTO getById(final Long id) {
         return userDTOConverter.getDTO(userDAO.getById(id));
     }
-
-    /**
-     * Return a List of searched Users fetching Group.
-     *
-     * @return List of searched UserDTO transfer objects
-     */
-    @Override
-
-    public List<UserDTO> getAllWithDetails() {
-        return userDAO.getAllWithDetails().stream()
-                .map(e -> userDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
     
     /**
      * Delete existed transfer object from the database by id.
@@ -277,43 +226,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void deleteById(final Long id) {
-        User user = userDAO.getById(id);
-        boolean isUserCurator = false;
-
-        for (UserGroup group : user.getGroups()) {
-            if (isUserCurator(id, group.getId())) {
-                isUserCurator = true;
-            } else {
-                isUserCurator = false;
-            }
-        }
-
-        if (!isUserCurator) {
-            user.getGroups().forEach(
-                    e -> deleteUserFromUserGroup(id, e.getId()));
-            user.getSubjects().forEach(
-                    e -> deleteUserFromSubject(id, e.getId()));
-            userDAO.deleteById(id);
-        }
+        userDAO.deleteById(id);
     }
-    
-    @Transactional
-    public void deleteUserFromSubject(Long userID, Long subjectID){
-        subjectDAO.getById(subjectID).getUsers()
-                .removeIf(e -> e.getId().equals(userID));
-    }
-    
-    @Transactional
-    public void deleteUserFromUserGroup(Long userID, Long userGroupID) {
-        userGroupDAO.getById(userGroupID).getUsers().removeIf(e -> e.getId().equals(userID));
-    }
-    
-    @Transactional
-    public boolean isUserCurator(Long userID, Long userGroupID) {
-        if (userGroupDAO.getById(userGroupID).getCurator().getId().equals(userID)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+   
 }

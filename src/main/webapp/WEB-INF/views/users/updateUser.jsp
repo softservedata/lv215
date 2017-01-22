@@ -2,38 +2,57 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/main.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Update: ${userFormUpdate.lastName},
-	${userFormUpdate.firstName}</title>
-</head>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
 <body>
-	<div>
-		<h2>Update</h2>
-		<form:form action="saveUpdatedUser/${userFormUpdate.id}" method="post"
-			commandName="userFormUpdate">
-			<form:hidden path="id" />
-			<form:input path="firstName" value="${userFormUpdate.firstName}" />
-			<br>
-			<form:input path="lastName" value="${userFormUpdate.lastName}" />
-			<br>
-			<form:input path="mail" value="${userFormUpdate.mail}" />
-			<br>
-			<form:input path="phone" value="${userFormUpdate.phone}" />
-			<br>
-			<form:input path="position" value="${userFormUpdate.position}" />
-			<br>
-			<form:input path="password" type="password"
-				value="${userFormUpdate.password}" />
-			<br>
-			<input type="submit" value="Save" />
-		</form:form>
+	<div class="container">
+		<div class="row">
+			<div
+				class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+				<h3 class="text-center">UPDATE</h3>
+				<form:form
+					action="${pageContext.request.contextPath}${UserController.SAVE_UPDATED_USER_MAPPING}${userFormUpdate.id}"
+					commandName="${UserController.USER_UPDATE_ATTR}" method="post">
+					<form:hidden path="id" />
+					<div class="form-group">
+						<label for="firstName">FIRST NAME</label>
+						<form:input class="form-control" path="firstName"
+							value="${userFormUpdate.firstName}" />
+					</div>
+					<div class="form-group">
+						<label for="lastName">LAST NAME</label>
+						<form:input class="form-control" path="lastName"
+							value="${userFormUpdate.lastName}" />
+					</div>
+					<div class="form-group">
+						<label for="mail">EMAIL</label>
+						<form:input class="form-control" path="mail"
+							value="${userFormUpdate.mail}" />
+					</div>
+					<div class="form-group">
+						<label for="phone">PHONE NUMBER</label>
+						<form:input class="form-control" path="phone"
+							value="${userFormUpdate.phone}" />
+					</div>
+					<div class="form-group">
+						<label for="position">POSITION</label>
+						<form:input class="form-control" path="position"
+							value="${userFormUpdate.position}" />
+					</div>
+					<div class="form-group">
+						<label for="password">PASSWORD</label>
+						<form:input class="form-control" type="password" path="password"
+							value="${userFormUpdate.password}" />
+					</div>
+					<div class="form-group text-center">
+						<input type="submit" class="btn btn-default"
+							value="<spring:message code="lbl.form.save"/>"> <a
+							class="btn btn-default"
+							href="${pageContext.request.contextPath}${UserController.SAVE_UPDATED_USER_MAPPING}${userFormUpdate.id}"><spring:message
+								code="lbl.form.cancel" /></a>
+					</div>
+				</form:form>
+			</div>
+		</div>
 	</div>
 </body>
-</html>
