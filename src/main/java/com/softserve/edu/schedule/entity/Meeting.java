@@ -1,7 +1,8 @@
 /* Meeting 1.0 12/25/2016 */
 package com.softserve.edu.schedule.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,12 +51,17 @@ public class Meeting {
     /**
      * Start time of the meeting.
      */
-    private LocalDateTime startTime;
+    private LocalDate date;
+
+    /**
+     * Start time of the meeting.
+     */
+    private LocalTime startTime;
 
     /**
      * End time of the meeting.
      */
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
     /**
      * Field for storage user groups which participate in meeting.
@@ -110,16 +116,23 @@ public class Meeting {
     }
 
     /**
+     * @return the date
+     */
+    public LocalDate getDate() {
+        return date;
+    }
+
+    /**
      * @return the startTime
      */
-    public LocalDateTime getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
     /**
      * @return the endTime
      */
-    public LocalDateTime getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
@@ -183,10 +196,18 @@ public class Meeting {
     }
 
     /**
+     * @param date
+     *            the date to set
+     */
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    /**
      * @param startTime
      *            the startTime to set
      */
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
@@ -194,7 +215,7 @@ public class Meeting {
      * @param endTime
      *            the endTime to set
      */
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 
