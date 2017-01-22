@@ -23,8 +23,8 @@ public interface UserService {
     /**
      * Save new user entity into the database.
      *
-     * @param user
-     *            a new user to storage in database.
+     * @param userDTO
+     *            a new userDTO for to storage new user in database.
      */
     public void create(final UserDTO userDTO);
 
