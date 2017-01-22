@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.entity.Meeting;
+import com.softserve.edu.schedule.entity.Meeting_;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.User;
@@ -190,8 +191,6 @@ public class MeetingController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@ModelAttribute("meetingForm") Meeting meeting) {
-        // model.addAttribute("meetingForm", meetingService.getById(id));
-
         meetingService.update(meeting);
 
         return "redirect:/meetings";
@@ -199,11 +198,9 @@ public class MeetingController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("meetingForm", new Meeting());
-        model.addAttribute("subjects", subjectService.getAll());
-        model.addAttribute("owners", userService.getAll());
-        model.addAttribute("rooms", roomService.getAll());
-        model.addAttribute("groups", userGroupService.getAll());
+        model.addAttribute("meetingForm", meetingService.getById(id));
+       model.addAttribute("subjects", subjectService.getAll());
+       model.addAttribute("owners", userService.getAll());
         return "meetings/edit";
     }
 

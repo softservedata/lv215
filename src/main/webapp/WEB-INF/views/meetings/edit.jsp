@@ -27,10 +27,34 @@
 			<label for="subject">Subject</label>
 			<form:select class="form-control" path="subject" id="subject">
 				<c:forEach items="${subjects}" var="subject">
-					<option value="${subject.id}">${subject.name}</option>
+					<c:choose>
+						<c:when test="${room.subject.id eq subject.id}">
+							<option value="${subject.id}" selected="selected">${subject.name}</option>
+						</c:when>
+						<c:otherwise>
+							<option value="${subject.id}">${subject.name}</option>
+						</c:otherwise>
+					</c:choose>
+				</c:forEach>
+			</form:select>
+			<form:errors path="subject" class="text-danger" />
+
+
+			<label for="owner">Owner</label>
+			<form:select class="form-control" path="owner" id="owner">
+				<c:forEach items="${owners}" var="owner">
+					<c:choose>
+						<c:when test="${room.owner.id eq owner.id}">
+							<option value="${owner.id}" selected="selected">${owner.lastName}</option>
+						</c:when>
+						<c:otherwise>
+							<option value="${owner.id}">${owner.lastName}</option>
+						</c:otherwise>
+					</c:choose>
 				</c:forEach>
 			</form:select>
 
+			<%-- 
 			<label for="owner">Owner</label>
 			<form:select class="form-control" path="owner" id="owner">
 				<c:forEach items="${owners}" var="owner">
@@ -46,10 +70,11 @@
 				<c:forEach items="${rooms}" var="room">
 					<option value="${room.id}">${room.name}</option>
 				</c:forEach>
-			</form:select>
+			</form:select> --%>
 			<label for="date">Date</label>
 			<form:input type="date" path="date" id="date"
 				placeholder="YYYY-MM-DD" />
+			<br>
 			<label for="startTime">Start time</label>
 			<br>
 			<form:input type="time" path="startTime" id="startTime"
@@ -61,13 +86,13 @@
 				placeholder="HH:MM" />
 
 			<br>
-			<label for="groups">Groups</label>
+			<%-- <label for="groups">Groups</label>
 			<br>
 			<form:select path="groups" id="groups" multiple="multiple">
 				<c:forEach items="${groups}" var="group">
 					<option value="${group.id}">${group.name}</option>
 				</c:forEach>
-			</form:select>
+			</form:select> --%>
 			<br>
 			<label for="level">Level</label>
 			<form:input path="level" placeholder="Level" />
@@ -75,7 +100,7 @@
 			<label for="status">Status</label>
 			<form:input path="status" placeholder="status" />
 			<br>
-						
+
 			<input type="submit" class="btn btn-primary"
 				value="<spring:message code="lbl.form.save"/>">
 			<a class="btn btn-danger"
