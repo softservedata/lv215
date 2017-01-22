@@ -1,21 +1,6 @@
 /* ControllerConst 1.0 01/20/2017 */
 package com.softserve.edu.schedule.controller;
 
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.softserve.edu.schedule.controller.ControllerConst.RegistrationControllerConst;
-import com.softserve.edu.schedule.controller.ControllerConst.UserControllerConst;
-import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dto.UserDTO;
-import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.UserRole;
-import com.softserve.edu.schedule.entity.UserStatus;
-
 /**
  * An interface to storage controllers model attributes and mappings URL.
  *
