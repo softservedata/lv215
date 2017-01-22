@@ -9,6 +9,7 @@
  */
 package com.softserve.edu.schedule.dao;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.softserve.edu.schedule.entity.Meeting;
@@ -32,12 +33,12 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     public void deleteById(Long id);
 
     /**
-     * For the given Meeting changes meeting status for given MeetingStatus.
+     * For the given Meeting id changes meeting status for given MeetingStatus.
      * 
-     * @param meeting
-     * @param meetingStatus
+     * @param id Id of the meeting.
+     * @param meetingStatus New meeting status.
      */
-    public void changeStatus(final Meeting meeting,
+    public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus);
 
     /**
@@ -96,47 +97,73 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      */
     public List<Meeting> searchByLevel(final String pattern);
 
-    /** Sort existent list of meetings by Description.
-     * @param order parameter for sorting (ASC DESC)
-     * @return
-     *          List of sorted meetings.
+    /**
+     * Sort existent list of meetings by Description.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
      */
     public List<Meeting> sortByDescription(final Order order);
 
-    /** Sort existent list of meetings by Subject name.
-     * @param order parameter for sorting (ASC DESC)
-     * @return
-     *          List of sorted meetings.
+    /**
+     * Sort existent list of meetings by Subject name.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
      */
     public List<Meeting> sortBySubject(final Order order);
 
-    /** Sort existent list of meetings by Owner LastName.
-     * @param order parameter for sorting (ASC DESC)
-     * @return
-     *          List of sorted meetings.
+    /**
+     * Sort existent list of meetings by Owner LastName.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
      */
     public List<Meeting> sortByOwner(final Order order);
-   
-    /** Sort existent list of meetings by Room name.
-     * @param order parameter for sorting (ASC DESC)
-     * @return
-     *          List of sorted meetings.
+
+    /**
+     * Sort existent list of meetings by Room name.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
      */
     public List<Meeting> sortByRoom(final Order order);
-    
-    /** Sort existent list of meetings by level.
-     * @param order parameter for sorting (ASC DESC)
-     * @return
-     *          List of sorted meetings.
+
+    /**
+     * Sort existent list of meetings by level.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
      */
     public List<Meeting> sortByLevel(final Order order);
 
-    /** Sort existent list of meetings by Status.
-     * @param order parameter for sorting (ASC DESC)
-     * @return
-     *          List of sorted meetings.
+    /**
+     * Sort existent list of meetings by Status.
+     * 
+     * @param order
+     *            parameter for sorting (ASC DESC)
+     * @return List of sorted meetings.
      */
     public List<Meeting> sortByStatus(final Order order);
 
+    /**
+     * Find all meetings in the DB by given date and roomId.
+     * 
+     * @author Petro Zelyonka
+     * 
+     * @param roomId
+     *            room id for find meetings
+     * @param date
+     *            date for find meetings
+     * 
+     * @return List of the Meeting objects.
+     */
+    public List<Meeting> getMeetingsByRoomIDAndDate(final Long roomId,
+            final LocalDate date);
 
 }

@@ -16,8 +16,11 @@
 
 package com.softserve.edu.schedule.dao.implementation;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -25,12 +28,10 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
@@ -95,9 +96,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * com.softserve.edu.schedule.dao.MeetingDAO#changeStatus(com.softserve.edu.
      * schedule.entity.Meeting, com.softserve.edu.schedule.entity.MeetingStatus)
      */
-    public void changeStatus(Meeting meeting,
+    public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
-        this.delete(meeting);
+        Meeting meeting = this.getById(id);
         meeting.setStatus(meetingStatus);
         this.update(meeting);
 
@@ -438,6 +439,42 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
          */
         meeting.setStatus(MeetingStatus.NOT_APPROVED);
         getEm().persist(meeting);
+    }
+
+    /**
+     * Find all meetings in the DB by given date and roomId.
+     * 
+     * @author Petro Zelyonka
+     * 
+     * @param roomId
+     *            room id for find meetings
+     * @param date
+     *            date for find meetings
+     * 
+     * @return List of the Meeting objects.
+     */
+    @Override
+    public List<Meeting> getMeetingsByRoomIDAndDate(final Long roomId,
+            final LocalDate date) {
+        try {
+            CriteriaBuilder builder = getEm().getCriteriaBuilder();
+            CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+            Root<Meeting> root = cq.from(Meeting.class);
+            Join<Meeting, Room> roomJoin = root.join(Meeting_.room,
+                    JoinType.LEFT);
+            root.join(Meeting_.subject, JoinType.LEFT);
+            root.join(Meeting_.owner, JoinType.LEFT);
+            root.join(Meeting_.groups, JoinType.LEFT);
+            Predicate predicate = builder.conjunction();
+            predicate = builder.and(predicate,
+                    roomJoin.get(Room_.id).in(roomId));
+            predicate = builder.and(predicate,
+                    root.get(Meeting_.date).in(date));
+            cq.where(predicate);
+            return getEm().createQuery(cq).getResultList();
+        } catch (NoResultException e) {
+            return new ArrayList<>();
+        }
     }
 
 }

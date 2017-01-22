@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page import="com.softserve.edu.schedule.controller.UserController"%>
+<%@ page import="com.softserve.edu.schedule.controller.RegistrationController"%>
 
 
 <h3 class="text-center">Users</h3>
@@ -26,8 +27,34 @@
 			<th></th>
 			<th></th>
 			<th><a
-				href="${pageContext.request.contextPath}${UserController.USER_REGIST_MAPPING_FOR_ADMIN}"><i
+				href="${pageContext.request.contextPath}/${RegistrationController.USER_REGIST_MAPPING_FOR_ADMIN}"><i
 					class="fa fa-plus"></i></a></th>
+		</tr>
+		
+<tr>
+			
+			<td><form:form method="post"
+					action="${pageContext.request.contextPath}${UserController.SEARCH_BY_LASTNANE_MAPPING}"
+					modelAttribute="${UserController.SEARCH_MODEL_ATTR}">
+					<form:input path="lastName" placeholder=" Search..." />
+					<button type="submit" title="Search by lastName">
+						<i class="fa fa-search"></i>
+					</button>
+				</form:form></td>
+			<td></td>
+			<td><form:form method="post"
+					action="${pageContext.request.contextPath}${UserController.SEARCH_BY_POSITION_MAPPING}"
+					modelAttribute="${UserController.SEARCH_MODEL_ATTR}">
+					<form:input path="position" placeholder=" Search..." />
+					<button type="submit" title="Search by position">
+						<i class="fa fa-search"></i>
+					</button>
+				</form:form></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
 		</tr>
 		<c:forEach items="${users}" var="user">
 			<tr>

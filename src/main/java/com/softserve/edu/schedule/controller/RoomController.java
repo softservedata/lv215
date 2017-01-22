@@ -1,6 +1,8 @@
 /* RoomController 1.0 01/15/2017 */
 package com.softserve.edu.schedule.controller;
 
+import java.time.LocalDate;
+
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,10 +18,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
+import com.softserve.edu.schedule.dto.filter.DateFilter;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.service.LocationService;
+import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.RoomService;
+import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
 import com.softserve.edu.schedule.service.implementation.editor.LocationDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomEquipmentDTOEditor;
 import com.softserve.edu.schedule.service.implementation.validators.RoomValidator;
@@ -51,6 +56,12 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     private LocationService locationService;
 
     /**
+     * MeetingService example to provide meetings list to the model.
+     */
+    @Autowired
+    private MeetingService meetingService;
+
+    /**
      * RoomEquipmentService example to provide room equipments list to the
      * model.
      */
@@ -76,6 +87,13 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      */
     @Autowired
     private RoomEquipmentDTOEditor roomEquipmentDTOEditor;
+
+    /**
+     * DateEditor example to provide conversions from form date fields to
+     * LocalDate objects.
+     */
+    @Autowired
+    private DateEditor dateEditor;
 
     /**
      * Initialize binder for room model.
@@ -104,6 +122,17 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     }
 
     /**
+     * Initialize binder for filter model.
+     *
+     * @param binder
+     *            a WebDataBinder example to initialize.
+     */
+    @InitBinder(DATE_FILTER_MODEL_ATTR)
+    protected void initBinderDateFilter(final WebDataBinder binder) {
+        binder.registerCustomEditor(LocalDate.class, dateEditor);
+    }
+
+    /**
      * Provides room model.
      * 
      * @return new RoomDTO object.
@@ -121,6 +150,16 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     @ModelAttribute(FILTER_MODEL_ATTR)
     public RoomFilter getFilter() {
         return new RoomFilter();
+    }
+
+    /**
+     * Provides date filter for filtering meetings.
+     * 
+     * @return new RoomFilter object.
+     */
+    @ModelAttribute(DATE_FILTER_MODEL_ATTR)
+    public DateFilter getDateFilter() {
+        return new DateFilter();
     }
 
     /**
@@ -159,8 +198,11 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      */
     @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.GET)
     public String showRoom(@PathVariable(PATH_VAR_ID) final Long id,
-            final Model model) {
+            final Model model,
+            @ModelAttribute(DATE_FILTER_MODEL_ATTR) @Valid final DateFilter dateFilter) {
         model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
+        model.addAttribute(MEETINGS_MODEL_ATTR, meetingService
+                .getMeetingsByRoomIDAndDate(id, dateFilter.getDate()));
         return ROOM_SHOW_URL;
     }
 

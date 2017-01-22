@@ -1,21 +1,6 @@
 /* ControllerConst 1.0 01/20/2017 */
 package com.softserve.edu.schedule.controller;
 
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import com.softserve.edu.schedule.controller.ControllerConst.RegistrationControllerConst;
-import com.softserve.edu.schedule.controller.ControllerConst.UserControllerConst;
-import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dto.UserDTO;
-import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.UserRole;
-import com.softserve.edu.schedule.entity.UserStatus;
-
 /**
  * An interface to storage controllers model attributes and mappings URL.
  *
@@ -56,11 +41,21 @@ public interface ControllerConst {
          * Room equipments model attribute name.
          */
         String EQUIPMENTS_MODEL_ATTR = "equipments";
+        
+        /**
+         * Room meetings model attribute name.
+         */
+        String MEETINGS_MODEL_ATTR = "meetings";
 
         /**
          * Filter model attribute name.
          */
         String FILTER_MODEL_ATTR = "roomFilter";
+        
+        /**
+         * Date filter model attribute name.
+         */
+        String DATE_FILTER_MODEL_ATTR = "dateFilter";
 
         /**
          * Path variable for room id name.
@@ -211,6 +206,16 @@ public interface ControllerConst {
         String REDIRECT_USERS_PAGE = "redirect:/users";
     }
 
+    /**
+     * An interface to storage User controller model attributes and
+     * mappings URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Serhiy Dudynsky
+     *
+     * @since 1.8
+     */
     public interface UserControllerConst {
 
         /**
@@ -221,52 +226,52 @@ public interface ControllerConst {
         /**
          * Delete user mapping.
          */
-        String DELETE_USER_MAPPING = "/users/delete/{id}";
+        String DELETE_USER_MAPPING = "/users/delete/";
 
         /**
          * Edit user mapping.
          */
-        String EDIT_USER_MAPPING = "/users/edit/{id}";
+        String EDIT_USER_MAPPING = "/users/edit/";
 
         /**
          * Update user mapping.
          */
-        String UPDATE_USER_MAPPING = "/users/edit/updateUser/{id}";
+        String UPDATE_USER_MAPPING = "/updateUser/";
 
         /**
          * Save updated user mapping.
          */
-        String SAVE_UPDATED_USER_MAPPING = "/users/edit/updateUser/saveUpdatedUser/{id}";
+        String SAVE_UPDATED_USER_MAPPING = "/users/edit/updateUser/saveUpdatedUser/";
 
         /**
          * Update user position mapping.
          */
-        String UPDATE_POSITION_MAPPING = "/users/edit/updateUserPosition/{id}";
+        String UPDATE_POSITION_MAPPING = "/updateUserPosition/";
 
         /**
          * Save updated position user mapping.
          */
-        String SAVE_UPDATED_POSITION_MAPPING = "/users/edit/updateUserPosition/saveUpdatedUserPosition/{id}";
+        String SAVE_UPDATED_POSITION_MAPPING = "/users/edit/updateUserPosition/saveUpdatedUserPosition/";
 
         /**
          * Ban user mapping.
          */
-        String BAN_USER_MAPPING = "/users/banUser/{id}";
+        String BAN_USER_MAPPING = "/users/banUser/";
 
         /**
          * Unban user mapping.
          */
-        String UNBAN_USER_MAPPING = "/users/unBanUser/{id}";
+        String UNBAN_USER_MAPPING = "/users/unBanUser/";
 
         /**
          * Change user role mapping.
          */
-        String CHANGE_ROLE_MAPPING = "/users/edit/changeRole/{id}";
+        String CHANGE_ROLE_MAPPING = "/changeRole/";
 
         /**
          * Save changed user role mapping.
          */
-        String SAVE_CHANGED_ROLE_MAPPING = "/users/edit/changeRole/saveChangedRole/{id}";
+        String SAVE_CHANGED_ROLE_MAPPING = "/users/edit/changeRole/saveChangedRole/";
 
         /**
          * Sort by last name mapping - ascending.
@@ -287,6 +292,16 @@ public interface ControllerConst {
          * Sort by position mapping - descending.
          */
         String SORT_BY_POSITION_DESC_MAPPING = "/users/sortbypositiondesc";
+        
+        /**
+         * Search by last name mapping.
+         */
+        String SEARCH_BY_LASTNANE_MAPPING = "/user/searchByLastName";
+        
+        /**
+         * Search by position mapping.
+         */
+        String SEARCH_BY_POSITION_MAPPING = "/user/searchByPosition";
 
         /**
          * User model attribute name.
@@ -314,6 +329,11 @@ public interface ControllerConst {
         String USER_ROLE_ATTR = "roles";
         
         /**
+         * Search model attribute name.
+         */
+        String SEARCH_MODEL_ATTR = "search";
+        
+        /**
          * Users list URL name.
          */
         String USERS_PAGE_URL = "users/users";
@@ -339,111 +359,234 @@ public interface ControllerConst {
         String CHANGE_ROLE_PAGE_URL = "users/users/edit/changeRole";
     }
 
+    /**
+     * An interface to storage location controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Oleksandr Butyter
+     */
+    public interface LocationControllerConst {
+        /**
+         * Search model attribute name.
+         */
+        String SEARCH_MODEL_ATTR = "search";
 
-	/**
-	 * An interface to storage location controller model attributes and mappings
-	 * URL.
-	 *
-	 * @version 1.0 20 January 2017
-	 *
-	 * @author Oleksandr Butyter
-	 */
-	public interface LocationControllerConst {
-		/**
-		 * Search model attribute name.
-		 */
-		String SEARCH_MODEL_ATTR = "search";
+        /**
+         * Locations model attribute name.
+         */
+        String LOCATIONS_MODEL_ATTR = "locations";
 
-		/**
-		 * Locations model attribute name.
-		 */
-		String LOCATIONS_MODEL_ATTR = "locations";
+        /**
+         * Location form model attribute name.
+         */
+        String LOCATION_FORM_MODEL_ATTR = "locationForm";
 
-		/**
-		 * Location form model attribute name.
-		 */
-		String LOCATION_FORM_MODEL_ATTR = "locationForm";
-		
-		/**
-		 * Locations list URL.
-		 */
-		String LOCATIONS_LIST_URL = "locations/list";
+        /**
+         * Locations list URL.
+         */
+        String LOCATIONS_LIST_URL = "locations/list";
 
-		/**
-		 * Locations list redirect URL.
-		 */
-		String LOCATIONS_REDIRECT_URL = "redirect:/locations";
-		
-		/**
-		 * Create new location URL.
-		 */
-		String LOCATION_CREATE_URL = "locations/create";
+        /**
+         * Locations list redirect URL.
+         */
+        String LOCATIONS_REDIRECT_URL = "redirect:/locations";
 
-		/**
-		 * Edit location information URL.
-		 */
-		String LOCATION_EDIT_URL = "locations/edit";
-		
-		/**
-		 * Locations mapping URL.
-		 */
-		String LOCATIONS_MAPPING = "/locations";
-		
-		/**
-		 * Locations sort by name (asc) mapping URL.
-		 */
-		String LOCATIONS_SORT_BY_NAME_ASC_MAPPING = "/locations/sortbynameasc";
-		
-		/**
-		 * Locations sort by name (desc) mapping URL.
-		 */
-		String LOCATIONS_SORT_BY_NAME_DESC_MAPPING = "/locations/sortbynamedesc";
-		
-		/**
-		 * Locations sort by address (asc) mapping URL.
-		 */
-		String LOCATIONS_SORT_BY_ADDRESS_ASC_MAPPING = "/locations/sortbyaddressasc";
-		
-		/**
-		 * Locations sort by address (desc) mapping URL.
-		 */
-		String LOCATIONS_SORT_BY_ADDRESS_DESC_MAPPING = "/locations/sortbyaddressdesc";
-		
-		/**
-		 * Locations sort by count rooms (asc) mapping URL.
-		 */
-		String LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING = "/locations/sortbycountroomsasc";
-		
-		/**
-		 * Locations sort by count rooms (desc) mapping URL.
-		 */
-		String LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING = "/locations/sortbycountroomsdesc";
-		
-		/**
-		 * Locations search by name mapping URL.
-		 */
-		String LOCATIONS_SEARCH_BY_NAME_MAPPING = "/locations/searchByName";
-		
-		/**
-		 * Locations search by address mapping URL.
-		 */
-		String LOCATIONS_SEARCH_BY_ADDRESS_MAPPING = "/locations/searchByAddress";
-		
-		/**
-		 * Delete location mapping URL name.
-		 */
-		String LOCATION_DELETE_MAPPING = "/locations/delete/";
-		
-		/**
-		 * Create new location mapping URL name.
-		 */
-		String LOCATION_CREATE_MAPPING = "/locations/create";
-		
-		/**
-		 * Edit location information mapping URL name.
-		 */
-		String LOCATION_EDIT_MAPPING = "/locations/edit/";
-		
-	}
+        /**
+         * Create new location URL.
+         */
+        String LOCATION_CREATE_URL = "locations/create";
 
+        /**
+         * Edit location information URL.
+         */
+        String LOCATION_EDIT_URL = "locations/edit";
+
+        /**
+         * Locations mapping URL.
+         */
+        String LOCATIONS_MAPPING = "/locations";
+
+        /**
+         * Locations sort by name (asc) mapping URL.
+         */
+        String LOCATIONS_SORT_BY_NAME_ASC_MAPPING = "/locations/sortbynameasc";
+
+        /**
+         * Locations sort by name (desc) mapping URL.
+         */
+        String LOCATIONS_SORT_BY_NAME_DESC_MAPPING = "/locations/sortbynamedesc";
+
+        /**
+         * Locations sort by address (asc) mapping URL.
+         */
+        String LOCATIONS_SORT_BY_ADDRESS_ASC_MAPPING = "/locations/sortbyaddressasc";
+
+        /**
+         * Locations sort by address (desc) mapping URL.
+         */
+        String LOCATIONS_SORT_BY_ADDRESS_DESC_MAPPING = "/locations/sortbyaddressdesc";
+
+        /**
+         * Locations sort by count rooms (asc) mapping URL.
+         */
+        String LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING = "/locations/sortbycountroomsasc";
+
+        /**
+         * Locations sort by count rooms (desc) mapping URL.
+         */
+        String LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING = "/locations/sortbycountroomsdesc";
+
+        /**
+         * Locations search by name mapping URL.
+         */
+        String LOCATIONS_SEARCH_BY_NAME_MAPPING = "/locations/searchByName";
+
+        /**
+         * Locations search by address mapping URL.
+         */
+        String LOCATIONS_SEARCH_BY_ADDRESS_MAPPING = "/locations/searchByAddress";
+
+        /**
+         * Delete location mapping URL name.
+         */
+        String LOCATION_DELETE_MAPPING = "/locations/delete/";
+
+        /**
+         * Create new location mapping URL name.
+         */
+        String LOCATION_CREATE_MAPPING = "/locations/create";
+
+        /**
+         * Edit location information mapping URL name.
+         */
+        String LOCATION_EDIT_MAPPING = "/locations/edit/";
+
+    }
+
+    public interface SubjectControllerConst {
+
+        /**
+         * Search model attribute name.
+         */
+        String SEARCH_MODEL_ATTR = "search";
+        
+        /**
+         * Search model attribute tutor.
+         */
+        String SEARCH_BY_TUTOR_MODEL_ATTR = "searchTutor";
+        
+        /**
+         * Subject form model attribute name.
+         */
+        String SUBJECT_FORM_MODEL_ATTR = "subjectForm";
+        
+        /**
+         * Subjects model attribute name.
+         */
+        String SUBJECTS_MODEL_ATTR = "subjects";
+        
+        /**
+         * Users model attribute name.
+         */
+        String USERS_MODEL_ATTR = "users";
+        
+        /**
+         * Subjects list URL.
+         */
+        String SUBJECTS_LIST_URL = "subjects/list";
+        
+        /**
+         *Subjects list redirect URL.
+         */
+        String SUBJECTS_REDIRECT_URL = "redirect:/subjects";
+        
+        /**
+         * Create new Subject URL.
+         */
+        String SUBJECT_CREATE_URL = "subjects/create";
+
+        /**
+         * Edit location information URL.
+         */
+        String SUBJECTS_EDIT_URL = "subjects/edit";
+        
+        /**
+         * Subjects mapping URL.
+         */
+        String SUBJECTS_MAPPING = "/subjects";
+        
+        /**
+         * Subjects sort by name (asc) mapping URL.
+         */
+        String SUBJECTS_SORT_BY_NAME_ASC_MAPPING = "/subjects/sortbynameasc";
+
+        /**
+         * Subjects sort by name (desc) mapping URL.
+         */
+        String SUBJECTS_SORT_BY_NAME_DESC_MAPPING = "/subjects/sortbynamedesc";
+        
+        /**
+         * Subjects sort by description (asc) mapping URL.
+         */
+        String SUBJECTS_SORT_BY_DESCRIPTION_ASC_MAPPING = "/subjects/sortbydescriptionasc";
+
+        /**
+         * Subjects sort by description (desc) mapping URL.
+         */
+        String SUBJECTS_SORT_BY_DESCRIPTION_DESC_MAPPING = "/subjects/sortbydescriptiondesc";
+        
+        /**
+         * Subjects search by name mapping URL.
+         */
+        String SUBJECTS_SEARCH_BY_NAME_MAPPING = "/subjects/searchByName";
+        
+        /**
+         * Subjects search by description mapping URL.
+         */
+        String SUBJECTS_SEARCH_BY_DESCRIPTION_MAPPING = "/subjects/searchByDescription";
+        
+        /**
+         * Subjects search by description mapping URL.
+         */
+        String SUBJECTS_SEARCH_BY_TUTOR_MAPPING = "/subjects/searchByTutor";
+        
+        /**
+         * Delete subject mapping URL name.
+         */
+        String SUBJECT_DELETE_MAPPING = "/subjects/delete/";
+        
+        /**
+         * Create new subject mapping URL name.
+         */
+        String SUBJECT_CREATE_MAPPING = "/subjects/create";
+        
+        /**
+         * Edit subject information mapping URL name.
+         */
+        String SUBJECT_EDIT_MAPPING = "/subjects/edit/";
+        
+        /**
+         *Subject field id.
+         */
+        String SUBJECT_PATH_ID = "id";
+        
+        /**
+         *Subject field name.
+         */
+        String SUBJECT_PATH_NAME = "name";
+        
+        /**
+         *Subject field description.
+         */
+        String SUBJECT_PATH_DESCRIPTION = "description";
+        
+        /**
+         *Subject field description.
+         */
+        String SUBJECT_PATH_LASTNAME = "lastName";
+        
+        String SUBJECT_PATH_USERS = "users";
+    }
 }

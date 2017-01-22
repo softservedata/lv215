@@ -29,14 +29,6 @@ public interface UserService {
     public void create(final UserDTO userDTO);
 
     /**
-     * Delete existed user entity from the database.
-     *
-     * @param id
-     *            a user id to delete from database.
-     */
-    public void delete(final UserDTO userDTO);
-
-    /**
      * Change field status at user entity in the database.
      *
      * @param id
@@ -78,24 +70,6 @@ public interface UserService {
     public void update(final UserDTO userDTO);
 
     /**
-     * Get all users by group what was selected.
-     *
-     * @param id
-     *            a group id in database.
-     */
-    public List<UserDTO> searchByGroup(final String group);
-
-    /**
-     * Get all users by role what was selected.
-     *
-     * @param userRole
-     *            a value role from enum class UserRole.
-     *
-     * @return List of the user objects.
-     */
-    public List<UserDTO> getByRole(final UserRole userRole);
-
-    /**
      * Get all users.
      *
      * @return List of the user objects.
@@ -110,40 +84,44 @@ public interface UserService {
     public List<UserForSubjectDTO> getAllForSubject();
 
     /**
-     * Get all users by role what was selected.
-     *
-     * @param userStatus
-     *            a value status from enum class UserRole.
-     *
-     * @return List of the user objects.
-     */
-    public List<UserDTO> getByStatus(final UserStatus userStatus);
-
-    /**
-     * Get all users by position what was selected.
-     *
-     * @param field
-     *            a name of column in database.
+     * Get all users by last name what was selected.
      *
      * @param pattern
      *            a value of field in database.
      *
      * @return List of the user objects.
      */
-    public List<UserDTO> search(final String field, final String pattern);
+    public List<UserDTO> searchByLastName(final String pattern);
+    
+    /**
+     * Get all users by position what was selected.
+     *
+     * @param pattern
+     *            a value of field in database.
+     *
+     * @return List of the user objects.
+     */
+    public List<UserDTO> searchByPosition(final String pattern);
 
     /**
      * Sort all users by first name.
      *
-     * @param field
-     *            a name of column in database.
-     *
-     * @param pattern
-     *            a value of field in database.
+     * @param order
+     *            a constant ASC or DESC.
      *
      * @return List of the user objects.
      */
-    public List<UserDTO> sort(final String field, final Order order);
+    public List<UserDTO> sortByLastName(final Order order);
+    
+    /**
+     * Sort all users by first name.
+     *
+     * @param order
+     *            a constant ASC or DESC.
+     *
+     * @return List of the user objects.
+     */
+    public List<UserDTO> sortByPosition(final Order order);
 
     /**
      * Return a User object if found.
@@ -161,12 +139,5 @@ public interface UserService {
      *            a user id to delete from database.
      */
     public void deleteById(final Long id);
-
-    /**
-     * Return a List of searched Users fetching Groups.
-     *
-     * @return List of searched Users transfer objects
-     */
-    public List<UserDTO> getAllWithDetails();
 
 }
