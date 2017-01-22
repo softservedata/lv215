@@ -12,11 +12,30 @@
 	<div>
 		CREATE NEW GROUP
 		<form:form method="post" modelAttribute="userGroupForm">
-			<form:hidden path="id" />
-			<form:input path="name" placeholder="Title" />
-			<form:input path="description" placeholder="Description" />
-			<form:input path="level" placeholder="Level" />
-			<input type="submit" value="Create group" />
+			<fieldset class="form-fieldset">
+				<form:hidden path="id" />
+
+				<label for="name">Name</label>
+				<form:input path="name" placeholder="Title" />
+				<br> 
+				
+				<label for="description">Description</label>
+				<form:input path="description" placeholder="Description" />
+				<br> 
+				
+				<label for="level">Level</label>
+				<form:input path="level" placeholder="Level" />
+				<br> 
+				
+				<label for="curator">Curator</label>
+				<form:select class="form-control" path="curator" id="curator">
+					<c:forEach items="${users}" var="curator">
+						<option value="${curator.id}">${curator.lastName}
+							${curator.firstName}</option>
+					</c:forEach>
+				</form:select>
+				<br> <input type="submit" value="Create group" />
+			</fieldset>
 		</form:form>
 	</div>
 </body>

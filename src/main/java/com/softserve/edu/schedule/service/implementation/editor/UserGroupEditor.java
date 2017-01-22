@@ -11,12 +11,11 @@ import com.softserve.edu.schedule.dao.UserGroupDAO;
 @Service
 public class UserGroupEditor extends PropertyEditorSupport {
 
-    @Autowired
-    private UserGroupDAO userGroupDAO;    
+	@Autowired
+	private UserGroupDAO userGroupDAO;
 
-    @Override
-    public void setAsText(final String groupId)
-            throws IllegalArgumentException {
-        setValue(userGroupDAO.getById(Long.valueOf(groupId)));
-    }
+	@Override
+	public void setAsText(final String groupId) throws IllegalArgumentException {
+		setValue(userGroupDAO.getById(Long.valueOf(groupId)));
+	}
 }

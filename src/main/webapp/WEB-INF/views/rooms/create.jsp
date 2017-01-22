@@ -12,14 +12,11 @@ $(function(){
 })
 </script>
 
-<div class="row">
-	<div class="col-md-2">
-	</div>
-	<div class="col-md-4">
-		<h3> </h3>
-		<form:form role="form" method="post" modelAttribute="${RoomController.ROOM_MODEL_ATTR}">
-			<fieldset class="form-fieldset">
-				<legend class="text-center"><spring:message code="lbl.room.createRoom"/></legend>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+			<h3 class="text-center"><spring:message code="lbl.room.createRoom"/></h3>			
+			<form:form role="form" method="post" modelAttribute="${RoomController.ROOM_MODEL_ATTR}">				
 				<div class="form-group">
 					<label for="location"><spring:message code="lbl.room.location"/>:</label>
 					<form:select class="form-control" path="location" id="location">
@@ -35,7 +32,7 @@ $(function(){
 						</c:forEach>
 					</form:select>
 					<form:errors path="location" class="text-danger"/>
-				</div>
+					</div>
 				<div class="form-group">
 					<label for="name"><spring:message code="lbl.room.roomName"/>:</label>
 					<spring:message code="lbl.room.roomName" var="nameForPlaceholder"/>
@@ -70,13 +67,12 @@ $(function(){
 						</c:forEach>					
 					</form:select>				
 				</div>
-				<div class="text-center">
-					<input type="submit" class="btn btn-primary" value="<spring:message code="lbl.form.save"/>">
-					<a class="btn btn-danger" href="create"><spring:message code="lbl.form.reset"/></a>			
-					<a class="btn btn-danger" href="${pageContext.request.contextPath}/rooms"><spring:message code="lbl.form.cancel"/></a>
-				</div>
-			</fieldset>
-		</form:form>
+				<div class="form-group text-center">
+					<input type="submit" class="btn btn-default" value="<spring:message code="lbl.form.save"/>">
+					<a class="btn btn-default" href="create"><spring:message code="lbl.form.reset"/></a>			
+					<a class="btn btn-default" href="${pageContext.request.contextPath}/rooms"><spring:message code="lbl.form.cancel"/></a>
+				</div>				
+			</form:form>
+		</div>
 	</div>
 </div>
-<br>
