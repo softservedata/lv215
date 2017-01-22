@@ -54,6 +54,19 @@ import com.softserve.edu.schedule.entity.User_;
 public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
     @Override
+    public Meeting getById(Long id) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.fetch(Meeting_.subject, JoinType.LEFT);
+        root.fetch(Meeting_.owner, JoinType.LEFT);
+        root.fetch(Meeting_.room, JoinType.LEFT);
+        root.fetch(Meeting_.groups, JoinType.LEFT);
+        cq.where(root.get(Meeting_.id).in(id));
+        return getEm().createQuery(cq).getSingleResult();
+    }
+
+    @Override
     public List<Meeting> getAll() {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
@@ -345,21 +358,17 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
             cq.orderBy(builder.desc(joinUser.get(Room_.name)));
         }
         return getEm().createQuery(cq).getResultList();
-        
-        
-        
-       /* root.fetch(Meeting_.subject, JoinType.LEFT);
-        root.fetch(Meeting_.owner, JoinType.LEFT);
-        root.fetch(Meeting_.room, JoinType.LEFT);
-        root.fetch(Meeting_.groups, JoinType.LEFT);
-        cq.distinct(true);
-        if (order == Order.ASC) {
-            cq.orderBy(builder.asc(root.get(Meeting_.room)));
 
-        } else {
-            cq.orderBy(builder.desc(root.get(Meeting_.room)));
-        }
-        return getEm().createQuery(cq).getResultList();*/
+        /*
+         * root.fetch(Meeting_.subject, JoinType.LEFT);
+         * root.fetch(Meeting_.owner, JoinType.LEFT); root.fetch(Meeting_.room,
+         * JoinType.LEFT); root.fetch(Meeting_.groups, JoinType.LEFT);
+         * cq.distinct(true); if (order == Order.ASC) {
+         * cq.orderBy(builder.asc(root.get(Meeting_.room)));
+         * 
+         * } else { cq.orderBy(builder.desc(root.get(Meeting_.room))); } return
+         * getEm().createQuery(cq).getResultList();
+         */
     }
 
     /*
