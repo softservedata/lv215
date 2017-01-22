@@ -17,6 +17,7 @@
 		EDIT GROUP
 		<form:form method="post" modelAttribute="userGroupForm">
 			<form:hidden path="id" />
+			<form:hidden path="users" />
 			<form:input path="name" placeholder="Title" />
 			<br>
 
@@ -28,12 +29,11 @@
 
 			<label for="curator">Curator</label>
 			<form:select class="form-control" path="curator" id="curator">
-				<c:forEach items="${users}" var="curator">
+				<c:forEach items="${curators}" var="curator">
 					<option value="${curator.id}">${curator.lastName}
 						${curator.firstName}</option>
 				</c:forEach>
 			</form:select>
-			<br>
 			
 			<input type="submit" value="Edit group" />
 		</form:form>

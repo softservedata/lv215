@@ -243,7 +243,7 @@ public class UserGroupController implements ControllerConst {
 	@RequestMapping(value = UserGroupControllerConst.USERGROUP_EDIT_MAPPING, method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") final Long id, final Model model) {
 		model.addAttribute(UserGroupControllerConst.USERGROUP_MODEL_ATTR, userGroupService.getById(id));
-		model.addAttribute(UserGroup_.users.getName(), userService.getAll());
+		model.addAttribute("curators", userService.getAll());
 		return UserGroupControllerConst.USERGROUP_EDIT_URL;
 	}
 }

@@ -10,6 +10,7 @@
 			<form:input path="name" placeholder="Subject name" />
 			<form:input type="textarea" path="description"
 				placeholder="Subject description" />
+			
 			<form:select path="users" multiple="multiple">
 				<c:forEach items="${users}" var="user">
 					<c:set var="found" value="false" />
