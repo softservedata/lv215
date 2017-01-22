@@ -179,19 +179,6 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * (non-Javadoc)
      * 
-     * @see com.softserve.edu.schedule.service.MeetingService#changeStatus(com.
-     * softserve.edu.schedule.entity.Meeting,
-     * com.softserve.edu.schedule.entity.MeetingStatus)
-     */
-    @Override
-    public void changeStatus(final Meeting meeting,
-            final MeetingStatus meetingStatus) {
-        meetingDao.changeStatus(meeting, meetingStatus);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see
      * com.softserve.edu.schedule.service.MeetingService#searchByDescription(
      * java.lang.String)
@@ -409,6 +396,19 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingDao.sortByStatus(order);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#updateMeetingStatus(com
+     * .softserve.edu.schedule.entity.Meeting,
+     * com.softserve.edu.schedule.entity.MeetingStatus)
+     */
+    public void changeMeetingStatus(final Long id,
+            final MeetingStatus meetingStatus) {
+        meetingDao.changeMeetingStatus(id, meetingStatus);
+    }
+
     /**
      * Find all meetings in the DB by given date and roomId.
      * 
@@ -427,5 +427,6 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingDao.getMeetingsByRoomIDAndDate(roomId, date).stream()
                 .map(e -> meetingsForRoomDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
+
     }
 }

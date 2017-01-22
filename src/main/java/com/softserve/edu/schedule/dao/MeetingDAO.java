@@ -33,12 +33,12 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     public void deleteById(Long id);
 
     /**
-     * For the given Meeting changes meeting status for given MeetingStatus.
+     * For the given Meeting id changes meeting status for given MeetingStatus.
      * 
-     * @param meeting
-     * @param meetingStatus
+     * @param id Id of the meeting.
+     * @param meetingStatus New meeting status.
      */
-    public void changeStatus(final Meeting meeting,
+    public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus);
 
     /**

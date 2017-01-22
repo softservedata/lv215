@@ -1,90 +1,116 @@
-<%@ page language="java" contentType="text/html; charset=utf-8"
-	pageEncoding="utf-8"%>
-<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html>
-<head>
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/main.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/resources/css/font-awesome.min.css">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<meta charset="UTF-8">
-<title>Meeting create form</title>
-</head>
-<body>
+<script type="text/javascript">
+	$(function() {
+		$("select[name=subject]").chosen({
+			width : "100%"
+		});
+		$("select[name=owner]").chosen({
+			width : "100%"
+		});
+		$("select[name=room]").chosen({
+			width : "100%"
+		});
+		$("select[name=groups]").chosen({
+			width : "100%"
+		});
+		$("select[name=status]").chosen({
+			width : "100%"
+		});
+	})
+</script>
+<div class="container">
+	<div class="row">
+		<div
+			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+			<h3 class="text-center">Create new Meeting</h3>
+			<form:form role="form" method="post" modelAttribute="meetingForm">
+				<form:input path="id" type="hidden" />
 
-	<div>
-		<form:form method="post" modelAttribute="meetingForm">
-
-			<label for="description">Description</label>
-
-			<form:input path="description" placeholder="Description" />
-			<br>
-
-			<label for="subject">Subject</label>
-			<form:select class="form-control" path="subject" id="subject">
-				<c:forEach items="${subjects}" var="subject">
-					<option value="${subject.id}">${subject.name}</option>
-				</c:forEach>
-			</form:select>
-
-			<label for="owner">Owner</label>
-			<form:select class="form-control" path="owner" id="owner">
-				<c:forEach items="${owners}" var="owner">
-					<option value="${owner.id}">${owner.lastName}
-						${owner.firstName}</option>
-				</c:forEach>
-			</form:select>
-
-
-			<br>
-			<label for="room">Room</label>
-			<form:select class="form-control" path="room" id="room">
-				<c:forEach items="${rooms}" var="room">
-					<option value="${room.id}">${room.name}</option>
-				</c:forEach>
-			</form:select>
-			<label for="date">Date</label>
-			<form:input type="date" path="date" id="date"
-				placeholder="YYYY-MM-DD" />
-				<br>
-			<label for="startTime">Start time</label>
-			<br>
-			<form:input type="time" path="startTime" id="startTime"
-				placeholder="HH:MM" />
-			<br>
-			<label for="endTime">End time</label>
-			<br>
-			<form:input type="time" path="endTime" id="endTime"
-				placeholder="HH:MM" />
-
-			<br>
-			<label for="groups">Groups</label>
-			<br>
-			<form:select path="groups" id="groups" multiple="multiple">
-				<c:forEach items="${groups}" var="group">
-					<option value="${group.id}">${group.name}</option>
-				</c:forEach>
-			</form:select>
-			<br>
-			<label for="level">Level</label>
-			<form:input path="level" placeholder="Level" />
-
-
-			<br>
-			<input type="submit" class="btn btn-primary"
-				value="<spring:message code="lbl.form.save"/>">
-			<a class="btn btn-danger"
-				href="/schedule/meetings/create"><spring:message
-					code="lbl.form.reset" /></a>
-			<a class="btn btn-danger"
-				href="${pageContext.request.contextPath}/meetings"><spring:message
-					code="lbl.form.cancel" /></a>
-		</form:form>
+				<div class="form-group">
+					<label for="description">Description</label>
+					<form:input type="text" class="form-control" path="description"
+						id="description" placeholder="Description" required="true" />
+				</div>
+				<div class="form-group">
+					<label for="subject">Subject</label>
+					<form:select class="form-control" path="subject" id="subject">
+						<c:forEach items="${subjects}" var="subject">
+							<option value="${subject.id}">${subject.name}</option>
+						</c:forEach>
+					</form:select>
+				</div>
+				<div class="form-group">
+					<label for="owner">Owner</label>
+					<form:select class="form-control" path="owner" id="owner">
+						<c:forEach items="${owners}" var="owner">
+							<option value="${owner.id}">${owner.lastName}
+								${owner.firstName}</option>
+						</c:forEach>
+					</form:select>
+				</div>
+				<div class="form-group">
+					<label for="room">Room</label>
+					<form:select class="form-control" path="room" id="room">
+						<c:forEach items="${rooms}" var="room">
+							<option value="${room.id}">${room.name}</option>
+						</c:forEach>
+					</form:select>
+				</div>
+				<div class="form-group">
+					<label for="date">Date</label>
+					<form:input type="date" path="date" id="date"
+						placeholder="YYYY-MM-DD" required="true" />
+				</div>
+				<div class="form-group">
+					<label for="startTime">Start time</label>
+					<form:input type="time" path="startTime" id="startTime"
+						placeholder="HH:MM" required="true" />
+				</div>
+				<div class="form-group">
+					<label for="endTime">End time</label>
+					<form:input type="time" path="endTime" id="endTime"
+						placeholder="HH:MM" required="true" />
+				</div>
+				<div class="form-group">
+					<label for="groups">Groups</label>
+					<form:select class="form-control" path="groups" id="groups"
+						multiple="multiple">
+						<c:forEach items="${groups}" var="group">
+							<c:set var="found" value="false" />
+							<c:forEach items="${meetingForm.groups}" var="groupsInMeeting">
+								<c:if test="${!found}">
+									<c:if test="${groupsInMeeting.id eq group.id}">
+										<option value="${group.id}" selected="selected">${group.name}</option>
+										<c:set var="found" value="true" />
+									</c:if>
+								</c:if>
+							</c:forEach>
+							<c:if test="${!found}">
+								<option value="${group.id}">${group.name}</option>
+							</c:if>
+						</c:forEach>
+					</form:select>
+				</div>
+				<div class="form-group">
+					<label for="level">Level</label>
+					<form:input type="number" min="1" max="5" step="1"
+						class="form-control" path="level" id="level" placeholder="Level"
+						required="true" />
+				</div>
+				<div class="form-group text-center">
+					<input type="submit" class="btn btn-default"
+						value="<spring:message code="lbl.form.save"/>"> <a
+						class="btn btn-default" href="/schedule/meetings/create"><spring:message
+							code="lbl.form.reset" /></a> <a class="btn btn-default"
+						href="${pageContext.request.contextPath}/meetings"><spring:message
+							code="lbl.form.cancel" /></a>
+				</div>
+			</form:form>
+		</div>
 	</div>
-
-</body>
-</html>
+</div>

@@ -96,9 +96,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * com.softserve.edu.schedule.dao.MeetingDAO#changeStatus(com.softserve.edu.
      * schedule.entity.Meeting, com.softserve.edu.schedule.entity.MeetingStatus)
      */
-    public void changeStatus(Meeting meeting,
+    public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
-        this.delete(meeting);
+        Meeting meeting = this.getById(id);
         meeting.setStatus(meetingStatus);
         this.update(meeting);
 

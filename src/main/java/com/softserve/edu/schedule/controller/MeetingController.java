@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
@@ -185,14 +186,12 @@ public class MeetingController {
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
         meetingService.deleteById(id);
-
         return "redirect:/meetings";
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@ModelAttribute("meetingForm") Meeting meeting) {
         meetingService.update(meeting);
-
         return "redirect:/meetings";
     }
 
@@ -209,25 +208,26 @@ public class MeetingController {
 
     @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
     public String editStatus(@ModelAttribute("meeting") Meeting meeting) {
-        // model.addAttribute("meetingForm", meetingService.getById(id));
-        // TODO
-
-        meetingService.update(meeting);
-
+        meetingService.changeMeetingStatus(meeting.getId(),
+                meeting.getStatus());
         return "redirect:/meetings";
     }
 
     @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.GET)
     public String editStatusForm(@PathVariable("id") Long id, Model model) {
-        // TODO
         model.addAttribute("meetingForm", meetingService.getById(id));
-        model.addAttribute("meetingForm", new Meeting());
         model.addAttribute("subjects", subjectService.getAll());
         model.addAttribute("owners", userService.getAll());
         model.addAttribute("rooms", roomService.getAll());
         model.addAttribute("groups", userGroupService.getAll());
-
+        model.addAttribute("meetingStatuses", MeetingStatus.values());
         return "meetings/editStatus";
     }
 
+    @RequestMapping(value = "/searchbydescription", method = RequestMethod.POST)
+    public String searchByDescription(@ModelAttribute("meetings") Meeting meeting, Model model) {
+        model.addAttribute("meetings", meetingService.searchByDescription(meeting.getDescription()));
+        return "meetings/list";
+    }    
+    
 }
