@@ -13,7 +13,7 @@ import com.softserve.edu.schedule.dto.SubjectDTO;
 
 /**
  * A simple service interface to handle the operation required to manipulate an
- * Subject menu.
+ * Subject object and SubjectDTO object.
  *
  * @version 1.0 04 Jan 2016
  * @author Ped'ko Volodymyr
@@ -25,74 +25,85 @@ public interface SubjectService {
      * Saving Subject in database.
      *
      * @param subject
-     *            - Subject object
+     *            - SubjectDTO object
      */
-    void create(final SubjectDTO subject);
+    public void create(final SubjectDTO subject);
 
     /**
      * Updating Subject in database.
      *
      * @param subject
-     *            - Subject object
+     *            - SubjectDTO object
      */
-    void update(final SubjectDTO subject);
+    public void update(final SubjectDTO subject);
 
     /**
-     * Return a Subject object if found.
+     * Return a SubjectDTO object if found.
      *
      * @param id
      *            of Subject transfer object
-     * @return Subject transfer object
+     * @return SubjectDTO object
      */
-    SubjectDTO getById(final Long id);
-    
+    public SubjectDTO getById(final Long id);
+
     /**
-     * Return a List of Subject objects.
+     * Return a List of SubjectDTO objects.
      *
-     * @return List of Subject objects
+     * @return List of SubjectDTO objects
      */
-    List<SubjectDTO> getAll();
-        
+    public List<SubjectDTO> getAll();
+
     /**
-     * Delete existed transfer object from the database by id.
+     * Delete existed Subject from the database by id.
      *
      * @param id
-     *            a subject id to delete from database.
+     *            a SubjectDTO id to delete from database.
      */
-    void deleteById(final Long id);
-    
+    public void deleteById(final Long id);
+
     /**
-     * Return a List of searched Subject transfer objects.
+     * Return a List of searched SubjectDTO objects.
      *
      * @param pattern
      *            - input string
-     * @return List of sorted Subject transfer objects
+     * @return List of searched SubjectDTO transfer objects
      */
-    List<SubjectDTO> searchByName(final String pattern);
+    public List<SubjectDTO> searchByName(final String pattern);
 
     /**
-     * Return a List of searched Subject transfer objects.
+     * Return a List of searched SubjectDTO objects.
      *
      * @param pattern
      *            - input string
-     * @return List of sorted Subject transfer objects
+     * @return List of searched SubjectDTO objects
      */
-    List<SubjectDTO> searchByDescription(final String pattern);
-    
+    public List<SubjectDTO> searchByDescription(final String pattern);
+
     /**
-     * Return a List of searched Subject transfer objects containing searched
-     * tutor.
+     * Return a List of searched SubjectDTO objects containing some tutor.
      *
      * @param pattern
-     *            searched tutor
-     * @return List of searched Subject transfer objects containing searched
-     *         tutor
+     *            - input string
+     * @return List of searched SubjectDTO objects containing some tutor
      */
-    List<SubjectDTO> searchByTutors(final String pattern);
-    
-    public List<SubjectDTO> sortByName( final Order order);
-    
-    public List<SubjectDTO> sortByDescription( final Order order);
+    public List<SubjectDTO> searchByTutors(final String pattern);
 
+    /**
+     * Return a sorted by name List of SubjectDTO objects.
+     *
+     * @param order
+     *            - order of sort
+     * @return a sorted by name List of SubjectDTO objects
+     */
+    public List<SubjectDTO> sortByName(final Order order);
+
+    /**
+     * Return a sorted by description List of SubjectDTO objects.
+     *
+     * @param order
+     *            - order of sort
+     * @return a sorted by description List of SubjectDTO objects
+     */
+    public List<SubjectDTO> sortByDescription(final Order order);
 
 }
