@@ -25,12 +25,10 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
@@ -95,9 +93,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * com.softserve.edu.schedule.dao.MeetingDAO#changeStatus(com.softserve.edu.
      * schedule.entity.Meeting, com.softserve.edu.schedule.entity.MeetingStatus)
      */
-    public void changeStatus(Meeting meeting,
+    public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
-        this.delete(meeting);
+        Meeting meeting = this.getById(id);
         meeting.setStatus(meetingStatus);
         this.update(meeting);
 

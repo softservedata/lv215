@@ -166,18 +166,6 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingDao.searchByStatus(meetingStatus.toString());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#changeStatus(com.
-     * softserve.edu.schedule.entity.Meeting,
-     * com.softserve.edu.schedule.entity.MeetingStatus)
-     */
-    @Override
-    public void changeStatus(final Meeting meeting,
-            final MeetingStatus meetingStatus) {
-        meetingDao.changeStatus(meeting, meetingStatus);
-    }
 
     /*
      * (non-Javadoc)
@@ -397,5 +385,13 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public List<Meeting> sortByStatus(final Order order) {
         return meetingDao.sortByStatus(order);
+    }
+    
+    /* (non-Javadoc)
+     * @see com.softserve.edu.schedule.service.MeetingService#updateMeetingStatus(com.softserve.edu.schedule.entity.Meeting, com.softserve.edu.schedule.entity.MeetingStatus)
+     */
+    public void changeMeetingStatus(final Long id,
+            final MeetingStatus meetingStatus) {
+        meetingDao.changeMeetingStatus(id, meetingStatus);
     }
 }

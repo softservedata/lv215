@@ -146,17 +146,6 @@ public interface MeetingService {
      */
     public List<Meeting> search(final String field, final String pattern);
 
-    /**
-     * Change the status in given (existences in DB) meeting.
-     * 
-     * @param meeting
-     *            old meeting, will be changed.
-     * @param meetingStatus
-     *            new meeting status.
-     */
-    public void changeStatus(final Meeting meeting,
-            final MeetingStatus meetingStatus);
-
     /*
      * Additional methods for doing the SEARCH operation but direct in DB.
      */
@@ -300,4 +289,13 @@ public interface MeetingService {
      */
     public List<Meeting> sortByStatus(final Order order);
 
+    /**
+     * Change existing status of the meeting to given new meeting status.
+     * 
+     * @param id Meeting, in which the status will be changed.
+     * 
+     * @param meetingStatus New meeting status.
+     */
+    public void changeMeetingStatus(final Long id,
+            final MeetingStatus meetingStatus);
 }
