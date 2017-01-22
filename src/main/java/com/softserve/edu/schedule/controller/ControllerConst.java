@@ -256,7 +256,7 @@ public interface ControllerConst {
         /**
          * Change user role mapping.
          */
-        String CHANGE_ROLE_MAPPING = "/changeRole/";//"/users/edit/changeRole/"
+        String CHANGE_ROLE_MAPPING = "/changeRole/";
 
         /**
          * Save changed user role mapping.
@@ -282,6 +282,16 @@ public interface ControllerConst {
          * Sort by position mapping - descending.
          */
         String SORT_BY_POSITION_DESC_MAPPING = "/users/sortbypositiondesc";
+        
+        /**
+         * Search by last name mapping.
+         */
+        String SEARCH_BY_LASTNANE_MAPPING = "/user/searchByLastName";
+        
+        /**
+         * Search by position mapping.
+         */
+        String SEARCH_BY_POSITION_MAPPING = "/user/searchByPosition";
 
         /**
          * User model attribute name.
@@ -308,15 +318,10 @@ public interface ControllerConst {
          */
         String USER_ROLE_ATTR = "roles";
         
-//        /**
-//         * Last name model attribute name.
-//         */
-//        String LASTNAME_MODUL_ATTR = "lastName";
-//        
-//        /**
-//         * Last name model attribute name.
-//         */
-//        String POSITION_MODUL_ATTR = "position";
+        /**
+         * Search model attribute name.
+         */
+        String SEARCH_MODEL_ATTR = "search";
         
         /**
          * Users list URL name.

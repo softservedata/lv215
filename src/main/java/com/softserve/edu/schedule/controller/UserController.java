@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
@@ -31,6 +32,11 @@ public class UserController implements ControllerConst.UserControllerConst,
 
     @Autowired
     private UserService userService;
+    
+    @ModelAttribute(SEARCH_MODEL_ATTR)
+    public UserDTO getUserDTO() {
+        return new UserDTO();
+    }
 
     @RequestMapping(USERS_MAPPING_FROM_HEADER)
     public String allUserPage(Model model) {
@@ -141,6 +147,18 @@ public class UserController implements ControllerConst.UserControllerConst,
     public String sortByPositionDesc(Model model) {
         model.addAttribute(USERS_MODEL_ATTR,
                 userService.sortByPosition(Order.DESC));
+        return USERS_PAGE_URL;
+    }
+    
+    @RequestMapping(value = SEARCH_BY_LASTNANE_MAPPING, method = RequestMethod.POST)
+    public String searchByName(@ModelAttribute(SEARCH_MODEL_ATTR) UserDTO user, Model model) {
+        model.addAttribute(USERS_MODEL_ATTR, userService.searchByLastName(user.getLastName()));
+        return USERS_PAGE_URL;
+    }
+    
+    @RequestMapping(value = SEARCH_BY_POSITION_MAPPING, method = RequestMethod.POST)
+    public String searchByPosition(@ModelAttribute(SEARCH_MODEL_ATTR) UserDTO user, Model model) {
+        model.addAttribute(USERS_MODEL_ATTR, userService.searchByPosition(user.getPosition()));
         return USERS_PAGE_URL;
     }
 }
