@@ -40,6 +40,8 @@
 			</a> <a href="${pageContext.request.contextPath}/meetings/sortbyroomdesc"><i
 					class="fa fa-arrow-circle-o-down"></i> </a>
 			</th>
+			
+			<th>Date</th>
 
 			<th>Start time</th>
 
@@ -70,6 +72,7 @@
 				<td>${meeting.subject.name}</td>
 				<td>${meeting.owner.lastName}${meeting.owner.firstName}</td>
 				<td>${meeting.room.name}</td>
+				<td>${meeting.date}</td>
 				<td>${meeting.startTime}</td>
 				<td>${meeting.endTime}</td>
 				<td><c:forEach items="${meeting.groups}" var="group">
