@@ -31,31 +31,7 @@
 					class="fa fa-plus"></i></a></th>
 		</tr>
 		
-		<tr>
-			<td></td>
-			<td><form:form method="post"
-					action="${pageContext.request.contextPath}${LocationController.LOCATIONS_SEARCH_BY_NAME_MAPPING}"
-					modelAttribute="${LocationController.SEARCH_MODEL_ATTR}">
-					<form:input path="name" placeholder=" Search..." />
-					<button type="submit" title="Search by name">
-						<i class="fa fa-search"></i>
-					</button>
-				</form:form></td>
-			<td></td>
-			<td><form:form method="post"
-					action="${pageContext.request.contextPath}${LocationController.LOCATIONS_SEARCH_BY_ADDRESS_MAPPING}"
-					modelAttribute="${LocationController.SEARCH_MODEL_ATTR}">
-					<form:input path="address" placeholder=" Search..." />
-					<button type="submit" title="Search by address">
-						<i class="fa fa-search"></i>
-					</button>
-				</form:form></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
+
 		<c:forEach items="${users}" var="user">
 			<tr>
 				<td>${user.lastName}<a> </a>${user.firstName}</td>
