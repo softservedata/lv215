@@ -26,6 +26,9 @@ public class SubjectController
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private UserForSubjectDTOEditor userForSubjectDTOEditor;
 
     @ModelAttribute(SEARCH_MODEL_ATTR)
     public SubjectDTO getSubjectDTO() {
@@ -40,7 +43,7 @@ public class SubjectController
     @InitBinder(SUBJECT_FORM_MODEL_ATTR)
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(UserForSubjectDTO.class,
-                new UserForSubjectDTOEditor(userService));
+                userForSubjectDTOEditor);
     }
 
     @RequestMapping(SUBJECTS_MAPPING)

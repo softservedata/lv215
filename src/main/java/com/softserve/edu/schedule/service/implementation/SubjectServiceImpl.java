@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
+import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.SubjectDTOConverter;
@@ -102,6 +103,12 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional
     public void deleteById(Long id) {
+        if (subjectDao.getById(id).getMeetings().size() != 0) {
+            subjectDao.getById(id).getMeetings()
+                    .forEach(m -> m.setSubject(null));
+            subjectDao.getById(id).getMeetings()
+                    .forEach(m -> m.setStatus(MeetingStatus.NOT_APPROVED));
+        } 
         subjectDao.deleteById(id);
     }
 
