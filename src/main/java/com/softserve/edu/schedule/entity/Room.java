@@ -62,7 +62,7 @@ public class Room {
     /**
      * Field for storage list of meetings in the room.
      */
-    @OneToMany(mappedBy = "room", orphanRemoval = true)
+    @OneToMany(mappedBy = "room") //, orphanRemoval = true
     private List<Meeting> meetings = new ArrayList<>();
 
     /**
