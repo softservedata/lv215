@@ -9,8 +9,10 @@
  */
 package com.softserve.edu.schedule.service.implementation;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dto.MeetingsForRoomDTO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
@@ -25,6 +28,7 @@ import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.service.MeetingService;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingsForRoomDTOConverter;
 
 /**
  * This is implementation of the interface for managing Meetings Service.
@@ -42,6 +46,12 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Autowired
     private MeetingDAO meetingDao;
+
+    /**
+     * Field for MeetingsForRoomDTOConverter.
+     */
+    @Autowired
+    private MeetingsForRoomDTOConverter meetingsForRoomDTOConverter;
 
     /*
      * (non-Javadoc)
@@ -164,19 +174,6 @@ public class MeetingServiceImpl implements MeetingService {
     @Transactional(readOnly = true)
     public List<Meeting> searchByStatus(final MeetingStatus meetingStatus) {
         return meetingDao.searchByStatus(meetingStatus.toString());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#changeStatus(com.
-     * softserve.edu.schedule.entity.Meeting,
-     * com.softserve.edu.schedule.entity.MeetingStatus)
-     */
-    @Override
-    public void changeStatus(final Meeting meeting,
-            final MeetingStatus meetingStatus) {
-        meetingDao.changeStatus(meeting, meetingStatus);
     }
 
     /*
@@ -397,5 +394,39 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public List<Meeting> sortByStatus(final Order order) {
         return meetingDao.sortByStatus(order);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#updateMeetingStatus(com
+     * .softserve.edu.schedule.entity.Meeting,
+     * com.softserve.edu.schedule.entity.MeetingStatus)
+     */
+    public void changeMeetingStatus(final Long id,
+            final MeetingStatus meetingStatus) {
+        meetingDao.changeMeetingStatus(id, meetingStatus);
+    }
+
+    /**
+     * Find all meetings in the DB by given date and roomId.
+     * 
+     * @author Petro Zelyonka
+     * 
+     * @param roomId
+     *            room id for find meetings
+     * @param date
+     *            date for find meetings
+     * 
+     * @return List of the MeetingsForRoomDTO objects.
+     */
+    @Override
+    public List<MeetingsForRoomDTO> getMeetingsByRoomIDAndDate(Long roomId,
+            LocalDate date) {
+        return meetingDao.getMeetingsByRoomIDAndDate(roomId, date).stream()
+                .map(e -> meetingsForRoomDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+
     }
 }

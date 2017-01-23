@@ -41,11 +41,21 @@ public interface ControllerConst {
          * Room equipments model attribute name.
          */
         String EQUIPMENTS_MODEL_ATTR = "equipments";
+        
+        /**
+         * Room meetings model attribute name.
+         */
+        String MEETINGS_MODEL_ATTR = "meetings";
 
         /**
          * Filter model attribute name.
          */
         String FILTER_MODEL_ATTR = "roomFilter";
+        
+        /**
+         * Date filter model attribute name.
+         */
+        String DATE_FILTER_MODEL_ATTR = "dateFilter";
 
         /**
          * Path variable for room id name.

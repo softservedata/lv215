@@ -62,9 +62,15 @@
 			</th>
 			<th></th>
 			<th><a href="${pageContext.request.contextPath}/meetings/create"><i
-					class="fa fa-plus"></i></a></th>
+					class="fa fa-plus fa-lg"></i></a></th>
 		</tr>
 
+		<tr>
+			<td></td>
+			<td></td>
+
+
+		</tr>
 
 		<c:forEach var="meeting" items="${meetings}">
 			<tr>
@@ -86,10 +92,10 @@
 				</td>
 				<td><a
 					href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"><i
-						class="fa fa-trash-o"></i></a></td>
+						class="fa fa-trash-o fa-lg"></i></a></td>
 				<td><a
 					href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}"><i
-						class="fa fa-pencil-square-o"></i></a></td>
+						class="fa fa-pencil-square-o fa-lg"></i></a></td>
 			</tr>
 		</c:forEach>
 	</table>
