@@ -12,6 +12,7 @@ import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.entity.User;
+import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.entity.User_;
@@ -225,8 +226,20 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public void deleteById(final Long id) {
-        userDAO.deleteById(id);
-    }
-   
+    public boolean deleteById(final Long id) {
+        boolean isCurator = false;
+        List<UserGroup> group = userDAO.getById(id).getGroups();
+        
+        for (UserGroup userGroup : group) {
+            if(userGroup.getCurator().getId().equals(id)){
+                isCurator = true;
+            }
+        }
+        if(!isCurator){
+            userDAO.deleteById(id);
+            return true;
+        }else{
+            return false;
+        }
+    }   
 }

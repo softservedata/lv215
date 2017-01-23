@@ -357,6 +357,11 @@ public interface ControllerConst {
          * Change role user URL name.
          */
         String CHANGE_ROLE_PAGE_URL = "users/users/edit/changeRole";
+        
+        /**
+         * Delete user URL if user is curator in some group.
+         */
+        String DELETE_USER_URL = "users/users/delete";
     }
 
     /**
