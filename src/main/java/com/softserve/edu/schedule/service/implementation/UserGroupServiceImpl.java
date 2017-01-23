@@ -6,6 +6,7 @@
  */
 package com.softserve.edu.schedule.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -168,10 +169,15 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 * softserve.edu.schedule.entity.User)
 	 */
 	@Override
-	public void addUserToGroup(final User user, final long groupId) {
-		UserGroup group = getById(groupId);
+	public void addUserToGroup(final User user, final UserGroup group) {
 		List<User> users = group.getUsers();
-		users.add(user);
+		if (users != null) {
+			users.add(user);
+		} else {
+			users = new ArrayList<User>();
+			users.add(group.getCurator());
+		}
+
 		group.setUsers(users);
 		update(group);
 	}
