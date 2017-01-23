@@ -148,17 +148,6 @@ public interface MeetingService {
      */
     public List<Meeting> search(final String field, final String pattern);
 
-    /**
-     * Change the status in given (existences in DB) meeting.
-     * 
-     * @param meeting
-     *            old meeting, will be changed.
-     * @param meetingStatus
-     *            new meeting status.
-     */
-    public void changeStatus(final Meeting meeting,
-            final MeetingStatus meetingStatus);
-
     /*
      * Additional methods for doing the SEARCH operation but direct in DB.
      */
@@ -302,18 +291,28 @@ public interface MeetingService {
      */
     public List<Meeting> sortByStatus(final Order order);
 
-    /**
-     * Find all meetings in the DB by given date and roomId.
+    /*
+     * Change existing status of the meeting to given new meeting status.
      * 
-     * @author Petro Zelyonka
+     * @param id Meeting, in which the status will be changed.
      * 
-     * @param roomId
-     *            room id for find meetings
-     * @param date
-     *            date for find meetings
-     * 
-     * @return List of the MeetingsForRoomDTO objects.
+     * @param meetingStatus New meeting status.
      */
+    public void changeMeetingStatus(final Long id,
+            final MeetingStatus meetingStatus);
+
+    /*
+     * 
+     * Find all meetings in the DB by given date and roomId.**
+     * 
+     * @author Petro Zelyonka**
+     * 
+     * @param roomId room id for find meetings*
+     * 
+     * @param date date for find meetings**@return List of the
+     * MeetingsForRoomDTO objects.
+     */
+
     public List<MeetingsForRoomDTO> getMeetingsByRoomIDAndDate(Long roomId,
             LocalDate date);
 
