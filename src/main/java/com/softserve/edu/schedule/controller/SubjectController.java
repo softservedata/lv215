@@ -1,3 +1,9 @@
+/*
+ * SubjectServiceImpl.java
+ * 1.0
+ * 24 Jan 2017
+ * Copyright (c) Ped'ko Volodymyr
+ */
 package com.softserve.edu.schedule.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,37 +27,77 @@ import com.softserve.edu.schedule.service.implementation.editor.UserForSubjectDT
 public class SubjectController
         implements ControllerConst.SubjectControllerConst {
 
+    /**
+     * SubjectService example to provide subjects list to the model.
+     */
     @Autowired
     private SubjectService subjectService;
 
+    /**
+     * UserService example to provide users list to the model.
+     */
     @Autowired
     private UserService userService;
-    
+
+    /**
+     * UserForSubjectDTOEditor example to provide conversions from form select
+     * fields to DTO.
+     */
     @Autowired
     private UserForSubjectDTOEditor userForSubjectDTOEditor;
 
+    /**
+     * Method provides model attribute for search.
+     * 
+     * @return new SubjectDTO object
+     */
     @ModelAttribute(SEARCH_MODEL_ATTR)
     public SubjectDTO getSubjectDTO() {
         return new SubjectDTO();
     }
 
+    /**
+     * Method provides model attribute for search.
+     * 
+     * @return new UserForSubjectDTO object
+     */
     @ModelAttribute(SEARCH_BY_TUTOR_MODEL_ATTR)
     public UserForSubjectDTO getUserForSubjectDTO() {
         return new UserForSubjectDTO();
     }
 
+    /**
+     * Initialize binder for subject model.
+     *
+     * @param binder
+     *            a WebDataBinder example to initialize.
+     */
     @InitBinder(SUBJECT_FORM_MODEL_ATTR)
     protected void initBinder(WebDataBinder binder) {
         binder.registerCustomEditor(UserForSubjectDTO.class,
                 userForSubjectDTOEditor);
     }
 
+    /**
+     * Method controls view of subjects list page.
+     * 
+     * @param model
+     *            subjects list page model
+     * @return subjects list page URL
+     */
     @RequestMapping(SUBJECTS_MAPPING)
     public String showSubjectPage(Model model) {
         model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
         return SUBJECTS_LIST_URL;
     }
 
+    /**
+     * Method prepares form for creating subject
+     * 
+     * @param model
+     *            subjects create page model
+     * @return subjects create page URL
+     */
     @RequestMapping(SUBJECT_CREATE_MAPPING)
     public String createForm(Model model) {
         model.addAttribute(SUBJECT_FORM_MODEL_ATTR, new SubjectDTO());
@@ -59,6 +105,13 @@ public class SubjectController
         return SUBJECT_CREATE_URL;
     }
 
+    /**
+     * Method creates new subject
+     * 
+     * @param subject
+     *            subjects create page model
+     * @return subjects list page URL (redirect)
+     */
     @RequestMapping(value = SUBJECT_CREATE_MAPPING, method = RequestMethod.POST)
     public String create(
             @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) SubjectDTO subject) {
@@ -66,6 +119,13 @@ public class SubjectController
         return SUBJECTS_REDIRECT_URL;
     }
 
+    /**
+     * Method prepares form for editing subject
+     * 
+     * @param model
+     *            subjects edit page model
+     * @return subjects edit page URL
+     */
     @RequestMapping(SUBJECT_EDIT_MAPPING + "{id}")
     public String editForm(@PathVariable Long id, Model model) {
         model.addAttribute(SUBJECT_FORM_MODEL_ATTR, subjectService.getById(id));
@@ -73,19 +133,41 @@ public class SubjectController
         return SUBJECTS_EDIT_URL;
     }
 
-    @RequestMapping(value = SUBJECT_EDIT_MAPPING + "{id}", method = RequestMethod.POST)
+    /**
+     * Method edits current subject
+     * 
+     * @param subject
+     *            subjects edit page model
+     * @return subjects list page URL (redirect)
+     */
+    @RequestMapping(value = SUBJECT_EDIT_MAPPING
+            + "{id}", method = RequestMethod.POST)
     public String edit(
             @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) SubjectDTO subject) {
         subjectService.update(subject);
         return SUBJECTS_REDIRECT_URL;
     }
 
+    /**
+     * Method provides deleting subject by id.
+     * 
+     * @param id
+     *            id subject to delete
+     * @return subjects list page URL (redirect)
+     */
     @RequestMapping(SUBJECT_DELETE_MAPPING + "{id}")
     public String delete(@PathVariable Long id) {
         subjectService.deleteById(id);
         return SUBJECTS_REDIRECT_URL;
     }
 
+    /**
+     * Method provides sorting of subject list by name in asc order.
+     * 
+     * @param model
+     *            subjects list page model
+     * @return subjects list page URL
+     */
     @RequestMapping(SUBJECTS_SORT_BY_NAME_ASC_MAPPING)
     public String sortByNameAsc(Model model) {
         model.addAttribute(SUBJECTS_MODEL_ATTR,
@@ -93,6 +175,13 @@ public class SubjectController
         return SUBJECTS_LIST_URL;
     }
 
+    /**
+     * Method provides sorting of subject list by name in desc order.
+     * 
+     * @param model
+     *            subjects list page model
+     * @return subjects list page URL
+     */
     @RequestMapping(SUBJECTS_SORT_BY_NAME_DESC_MAPPING)
     public String sortByNameDesc(Model model) {
         model.addAttribute(SUBJECTS_MODEL_ATTR,
@@ -100,6 +189,13 @@ public class SubjectController
         return SUBJECTS_LIST_URL;
     }
 
+    /**
+     * Method provides sorting of subject list by description in asc order.
+     * 
+     * @param model
+     *            subjects list page model
+     * @return subjects list page URL
+     */
     @RequestMapping(SUBJECTS_SORT_BY_DESCRIPTION_ASC_MAPPING)
     public String sortByDescrAsc(Model model) {
         model.addAttribute(SUBJECTS_MODEL_ATTR,
@@ -107,6 +203,13 @@ public class SubjectController
         return SUBJECTS_LIST_URL;
     }
 
+    /**
+     * Method provides sorting of subject list by description in desc order.
+     * 
+     * @param model
+     *            subjects list page model
+     * @return subjects list page URL
+     */
     @RequestMapping(SUBJECTS_SORT_BY_DESCRIPTION_DESC_MAPPING)
     public String sortByDescrDesc(Model model) {
         model.addAttribute(SUBJECTS_MODEL_ATTR,
@@ -114,6 +217,15 @@ public class SubjectController
         return SUBJECTS_LIST_URL;
     }
 
+    /**
+     * Method provides searching subject by name.
+     * 
+     * @param subject
+     *            search pattern model
+     * @param model
+     *            subjects list page model
+     * @return subjects list page URL
+     */
     @RequestMapping(value = SUBJECTS_SEARCH_BY_NAME_MAPPING, method = RequestMethod.POST)
     public String searchByName(
             @ModelAttribute(SEARCH_MODEL_ATTR) SubjectDTO subject,
@@ -123,6 +235,15 @@ public class SubjectController
         return SUBJECTS_LIST_URL;
     }
 
+    /**
+     * Method provides searching subject by description.
+     * 
+     * @param subject
+     *            search pattern model
+     * @param model
+     *            subjects list page model
+     * @return subjects list page URL
+     */
     @RequestMapping(value = SUBJECTS_SEARCH_BY_DESCRIPTION_MAPPING, method = RequestMethod.POST)
     public String searchByDescription(
             @ModelAttribute(SEARCH_MODEL_ATTR) SubjectDTO subject,
@@ -132,6 +253,15 @@ public class SubjectController
         return SUBJECTS_LIST_URL;
     }
 
+    /**
+     * Method provides searching subject by tutor.
+     * 
+     * @param user
+     *            search pattern model
+     * @param model
+     *            subjects list page model
+     * @return subjects list page URL
+     */
     @RequestMapping(value = SUBJECTS_SEARCH_BY_TUTOR_MAPPING, method = RequestMethod.POST)
     public String searchByTutor(
             @ModelAttribute(SEARCH_BY_TUTOR_MODEL_ATTR) UserForSubjectDTO user,
