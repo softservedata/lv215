@@ -44,7 +44,7 @@
 					${usergroup.curator.lastName}</td>
 				<td>${usergroup.users.size()}</td>
 
-				<td><c:if test="${usergroup.users.size() <= 1}">
+				<td><c:if test="${usergroup.users.size() <= 100}">
 						<a
 							href="${pageContext.request.contextPath}/usergroups/delete/${usergroup.id}"><i
 							class="fa fa-trash-o"></i></a>
