@@ -19,7 +19,7 @@ import com.softserve.edu.schedule.entity.Location;
  * @author Oleksandr Butyter
  *
  */
-@Repository("locationDAO")
+@Repository
 public class LocationDAOImpl extends CrudDAOImpl<Location>
         implements LocationDAO {
 
