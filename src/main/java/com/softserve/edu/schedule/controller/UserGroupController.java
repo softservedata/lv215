@@ -187,7 +187,8 @@ public class UserGroupController implements ControllerConst {
 	@RequestMapping(UserGroupControllerConst.USERGROUP_CREATE_MAPPING)
 	public String createForm(final Model model) {
 		model.addAttribute(UserGroupControllerConst.USERGROUP_MODEL_ATTR, new UserGroup());
-		model.addAttribute(UserGroup_.users.getName(), userService.getAll());
+		model.addAttribute("curators", userService.getAll());
+		model.addAttribute("allUsers", userService.getAll());
 		return UserGroupControllerConst.USERGROUP_CREATE_URL;
 	}
 
@@ -201,7 +202,7 @@ public class UserGroupController implements ControllerConst {
 	@RequestMapping(value = UserGroupControllerConst.USERGROUP_CREATE_MAPPING, method = RequestMethod.POST)
 	public String create(@ModelAttribute(UserGroupControllerConst.USERGROUP_MODEL_ATTR) UserGroup userGroup) {
 		userGroupService.create(userGroup);
-		userGroupService.addUserToGroup(userGroup.getCurator(), userGroup.getId());
+		userGroupService.addUserToGroup(userGroup.getCurator(), userGroup);
 		return UserGroupControllerConst.USERGROUP_REDIRECT_URL;
 	}
 
@@ -227,7 +228,8 @@ public class UserGroupController implements ControllerConst {
 	 */
 	@RequestMapping(value = UserGroupControllerConst.USERGROUP_EDIT_MAPPING, method = RequestMethod.POST)
 	public String update(@ModelAttribute(UserGroupControllerConst.USERGROUP_MODEL_ATTR) final UserGroup userGroup) {
-		userGroupService.update(userGroup);
+		userGroupService.addUserToGroup(userGroup.getCurator(), userGroup);
+
 		return UserGroupControllerConst.USERGROUP_REDIRECT_URL;
 	}
 
@@ -243,7 +245,8 @@ public class UserGroupController implements ControllerConst {
 	@RequestMapping(value = UserGroupControllerConst.USERGROUP_EDIT_MAPPING, method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") final Long id, final Model model) {
 		model.addAttribute(UserGroupControllerConst.USERGROUP_MODEL_ATTR, userGroupService.getById(id));
-		model.addAttribute(UserGroup_.users.getName(), userService.getAll());
+		model.addAttribute("curators", userService.getAll());
+		model.addAttribute("allUsers", userService.getAll());
 		return UserGroupControllerConst.USERGROUP_EDIT_URL;
 	}
 }

@@ -115,8 +115,8 @@ public interface UserGroupService {
 	 * 
 	 * @param user
 	 *            User to be added in a list
-	 * @param groupId
-	 *            An id of a user's group
+	 * @param group
+	 *            Group where we need to add a user
 	 */
-	void addUserToGroup(final User user, final long groupId);
+	public void addUserToGroup(final User user, final UserGroup group);
 }
