@@ -1,4 +1,4 @@
-/* RoomDTO 1.0 01/22/2017 */
+/* MeetingForRoomDTO 1.0 01/22/2017 */
 package com.softserve.edu.schedule.dto;
 
 import java.time.LocalDate;
@@ -17,7 +17,7 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  *
  * @since 1.8
  */
-public class MeetingsForRoomDTO {
+public class MeetingForRoomDTO {
 
     /**
      * Id for database.
