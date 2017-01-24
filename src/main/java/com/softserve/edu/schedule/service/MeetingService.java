@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dto.MeetingForRoomDTO;
+import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
@@ -302,18 +302,18 @@ public interface MeetingService {
             final MeetingStatus meetingStatus);
 
     /*
+     * Find all meetings in the DB by given date and roomId.
      * 
-     * Find all meetings in the DB by given date and roomId.**
+     * @author Petro Zelyonka
      * 
-     * @author Petro Zelyonka**
+     * @param roomId room id for find meetings
      * 
-     * @param roomId room id for find meetings*
+     * @param date date for find meetings
      * 
-     * @param date date for find meetings**@return List of the
-     * MeetingsForRoomDTO objects.
+     * @return List of the MeetingCompactDTO objects.
      */
 
-    public List<MeetingForRoomDTO> getMeetingsByRoomIDAndDate(Long roomId,
+    public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId,
             LocalDate date);
 
 }

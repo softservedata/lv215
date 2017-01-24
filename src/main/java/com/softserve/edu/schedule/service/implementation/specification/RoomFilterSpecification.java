@@ -48,7 +48,7 @@ public class RoomFilterSpecification implements Specification<Room> {
      * List of room specifications based on which the predicate is built.
      */
     private List<Specification<Room>> list = new ArrayList<>();
-    
+
     /**
      * Location join field for sorting purposes.
      */
@@ -76,8 +76,8 @@ public class RoomFilterSpecification implements Specification<Room> {
      */
     private void findByLocationId() {
         if (filter.getLocationId() > 0) {
-            list.add((root, cq, cb) -> root.get(Room_.location)
-                    .in(filter.getLocationId()));
+            list.add((root, criteriaQuery, criteriaBuilder) -> root
+                    .get(Room_.location).in(filter.getLocationId()));
         }
     }
 
@@ -87,8 +87,9 @@ public class RoomFilterSpecification implements Specification<Room> {
      */
     private void findByName() {
         if (filter.getName() != null && !filter.getName().equals("")) {
-            list.add((root, cq, cb) -> cb.like(cb.lower(root.get(Room_.name)),
-                    "%" + filter.getName().toLowerCase() + "%"));
+            list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                    .like(criteriaBuilder.lower(root.get(Room_.name)),
+                            "%" + filter.getName().toLowerCase() + "%"));
         }
     }
 
@@ -98,14 +99,17 @@ public class RoomFilterSpecification implements Specification<Room> {
      */
     private void findByMaxMinCapacity() {
         if (filter.getMaxCapacity() > 0 && filter.getMinCapacity() > 0) {
-            list.add((root, cq, cb) -> cb.between(root.get(Room_.capacity),
-                    filter.getMinCapacity(), filter.getMaxCapacity()));
+            list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                    .between(root.get(Room_.capacity), filter.getMinCapacity(),
+                            filter.getMaxCapacity()));
         } else if (filter.getMaxCapacity() > 0) {
-            list.add((root, cq, cb) -> cb.lessThan(root.get(Room_.capacity),
-                    filter.getMaxCapacity()));
+            list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                    .lessThan(root.get(Room_.capacity),
+                            filter.getMaxCapacity()));
         } else if (filter.getMinCapacity() > 0) {
-            list.add((root, cq, cb) -> cb.greaterThan(root.get(Room_.capacity),
-                    filter.getMinCapacity()));
+            list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                    .greaterThan(root.get(Room_.capacity),
+                            filter.getMinCapacity()));
         }
     }
 
@@ -119,8 +123,9 @@ public class RoomFilterSpecification implements Specification<Room> {
             List<RoomEquipment> equipments = filter.getEquipments().stream()
                     .map(e -> roomEquipmentDAO.getById(e.getId()))
                     .collect(Collectors.toList());
-            equipments.forEach(e -> list.add((root, cq, cb) -> cb.isMember(e,
-                    root.get(Room_.equipments))));
+            equipments.forEach(e -> list.add(
+                    (root, criteriQuery, criteriaBuilder) -> criteriaBuilder
+                            .isMember(e, root.get(Room_.equipments))));
         }
     }
 
@@ -131,35 +136,43 @@ public class RoomFilterSpecification implements Specification<Room> {
      * @param root
      *            a root of predicate
      * 
-     * @param query
+     * @param criteriaQuery
      *            a query to add sorting order.
      * 
-     * @param cb
+     * @param criteriaBuilder
      *            a criteria builder of predicate.
      */
     private void setSortingParameters(final Root<Room> root,
-            final CriteriaQuery<?> query, final CriteriaBuilder cb) {
+            final CriteriaQuery<?> criteriaQuery,
+            final CriteriaBuilder criteriaBuilder) {
         if (filter.getSortOrder() == 1) {
             if (filter.getSortByField() == 1) {
-                query.orderBy(cb.asc(locationJoin.get(Location_.name)));
+                criteriaQuery.orderBy(
+                        criteriaBuilder.asc(locationJoin.get(Location_.name)));
             }
             if (filter.getSortByField() == 2) {
-                query.orderBy(cb.asc(root.get(Room_.name)));
+                criteriaQuery
+                        .orderBy(criteriaBuilder.asc(root.get(Room_.name)));
             }
             if (filter.getSortByField() == 3) {
-                query.orderBy(cb.asc(root.get(Room_.capacity)));
+                criteriaQuery
+                        .orderBy(criteriaBuilder.asc(root.get(Room_.capacity)));
             }
         } else if (filter.getSortOrder() == 2) {
             if (filter.getSortByField() == 1) {
-                query.orderBy(cb.desc(locationJoin.get(Location_.name)));            }
+                criteriaQuery.orderBy(
+                        criteriaBuilder.desc(locationJoin.get(Location_.name)));
+            }
             if (filter.getSortByField() == 2) {
-                query.orderBy(cb.desc(root.get(Room_.name)));
+                criteriaQuery
+                        .orderBy(criteriaBuilder.desc(root.get(Room_.name)));
             }
             if (filter.getSortByField() == 3) {
-                query.orderBy(cb.desc(root.get(Room_.capacity)));
+                criteriaQuery.orderBy(
+                        criteriaBuilder.desc(root.get(Room_.capacity)));
             }
         } else {
-            query.orderBy(cb.asc(root.get(Room_.id)));
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Room_.id)));
         }
     }
 
@@ -169,23 +182,23 @@ public class RoomFilterSpecification implements Specification<Room> {
      * @param root
      *            a root of predicate
      * 
-     * @param query
+     * @param criteriaQuery
      *            a query of predicate.
      * 
-     * @param cb
+     * @param criteriaBuilder
      *            a criteria builder of predicate.
      * 
      * @return a Predicate example to search rooms in database by given filter
      *         parameters.
      */
     @Override
-    public Predicate toPredicate(Root<Room> root, CriteriaQuery<?> query,
-            CriteriaBuilder cb) {
-        if (query.getResultType() != Long.class
-                && query.getResultType() != long.class) {
+    public Predicate toPredicate(Root<Room> root,
+            CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        if (criteriaQuery.getResultType() != Long.class
+                && criteriaQuery.getResultType() != long.class) {
             locationJoin = root.join(Room_.location, JoinType.LEFT);
             root.join(Room_.equipments, JoinType.LEFT);
-            setSortingParameters(root, query, cb);
+            setSortingParameters(root, criteriaQuery, criteriaBuilder);
         }
         if (filter != null) {
             findByLocationId();
@@ -199,6 +212,6 @@ public class RoomFilterSpecification implements Specification<Room> {
         for (int i = 1; i < list.size(); i++) {
             spec = spec.and(list.get(i));
         }
-        return spec.toPredicate(root, query, cb);
+        return spec.toPredicate(root, criteriaQuery, criteriaBuilder);
     }
 }
