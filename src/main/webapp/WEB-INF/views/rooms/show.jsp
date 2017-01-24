@@ -71,7 +71,11 @@
 						<td>${meeting.startTime}</td>
 						<td>${meeting.endTime}</td>
 						<td>${meeting.subjectName}</td>
-						<td>${meeting.ownerFullName}</td>
+						<td>
+							<a href="mailto:${meeting.ownerMail}?subject=Your meeting ${meeting.subjectName}" target="_blank">
+								${meeting.ownerFullName}
+							</a>
+						</td>
 						<td>
 							<ul>
 								<c:forEach items="${meeting.groupsNames}" var="groupName">
