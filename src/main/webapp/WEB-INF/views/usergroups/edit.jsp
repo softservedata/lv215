@@ -12,12 +12,6 @@
 		$("select[name=curators]").chosen({
 			width : "100%"
 		});
-		$("select[name=users]").chosen({
-			width : "100%"
-		});
-		$("select[name=curators]").chosen({
-			width : "100%"
-		});
 	})
 </script>
 <div class="container">
@@ -25,7 +19,7 @@
 		<div
 			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
 
-			<h3 class="text-center">Edit Group</h3>
+			<h3 class="text-center">EDIT GROUP</h3>
 			<form:form method="post" modelAttribute="userGroupForm">
 				<form:hidden path="id" />
 
@@ -55,8 +49,7 @@
 								<option value="${curator.id}" selected="selected">${curator.lastName}</option>
 							</c:when>
 							<c:otherwise>
-								<option value="${curator.id}">${curator.lastName}
-									${curator.firstName}</option>
+								<option value="${curator.id}">${curator.lastName}</option>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
