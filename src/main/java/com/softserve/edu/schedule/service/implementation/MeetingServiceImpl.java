@@ -20,7 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dto.MeetingForRoomDTO;
+//import com.softserve.edu.schedule.dto.MeetingForRoomDTO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
@@ -28,7 +28,7 @@ import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.service.MeetingService;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForRoomDTOConverter;
+//import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForRoomDTOConverter;
 
 /**
  * This is implementation of the interface for managing Meetings Service.
@@ -421,12 +421,12 @@ public class MeetingServiceImpl implements MeetingService {
      * 
      * @return List of the MeetingsForRoomDTO objects.
      */
-    @Override
-    public List<MeetingForRoomDTO> getMeetingsByRoomIDAndDate(Long roomId,
-            LocalDate date) {
-        return meetingDao.getMeetingsByRoomIDAndDate(roomId, date).stream()
-                .map(e -> meetingsForRoomDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-
-    }
+//    @Override
+//    public List<MeetingForRoomDTO> getMeetingsByRoomIDAndDate(Long roomId,
+//            LocalDate date) {
+//        return meetingDao.getMeetingsByRoomIDAndDate(roomId, date).stream()
+//                .map(e -> meetingsForRoomDTOConverter.getDTO(e))
+//                .collect(Collectors.toList());
+//
+//    }
 }

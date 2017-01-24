@@ -12,15 +12,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dto.LocationDTO;
-import com.softserve.edu.schedule.dto.MeetingForMailDTO;
+//import com.softserve.edu.schedule.dto.MeetingForMailDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.service.RoomService;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForMailDTOConverter;
+//import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForMailDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomDTOConverter;
-import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingCanceledMailService;
+//import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingCanceledMailService;
 
 /**
  * A class to provide service operations with Room entity.
@@ -44,8 +44,8 @@ public class RoomServiceImpl implements RoomService {
     /**
      * RoomDTOConverter example to provide to DTO and from DTO conversion.
      */
-    @Autowired
-    private MeetingForMailDTOConverter meetingForMailDTOConverter;
+//    @Autowired
+//    private MeetingForMailDTOConverter meetingForMailDTOConverter;
 
     /**
      * RoomDTOConverter example to provide to DTO and from DTO conversion.
@@ -57,8 +57,8 @@ public class RoomServiceImpl implements RoomService {
      * MeetingCanceledMailService example to provide send mail to user
      * operations.
      */
-    @Autowired
-    private MeetingCanceledMailService meetingCanceledMailService;
+//    @Autowired
+//    private MeetingCanceledMailService meetingCanceledMailService;
 
     /**
      * Save new room entity into the database.
@@ -121,21 +121,21 @@ public class RoomServiceImpl implements RoomService {
      * @param id
      *            a room id to delete from database.
      */
-    @Override
-    public void deleteById(final Long id) {
-        Room room = roomDAO.getById(id);
-        List<MeetingForMailDTO> meetingToAlert = new ArrayList<>();
-        room.getMeetings().forEach(e -> {
-            if (e.getDate().isAfter(LocalDate.now().minusDays(1))) {
-                e.setStatus(MeetingStatus.NOT_APPROVED);
-                meetingToAlert.add(meetingForMailDTOConverter.getDTO(e));
-            }
-            e.setRoom(null);
-        });
-        meetingToAlert.forEach(
-                e -> meetingCanceledMailService.sendInfoMessageRoomDeletion(e));
-        roomDAO.delete(room);
-    }
+//    @Override
+//    public void deleteById(final Long id) {
+//        Room room = roomDAO.getById(id);
+//        List<MeetingForMailDTO> meetingToAlert = new ArrayList<>();
+//        room.getMeetings().forEach(e -> {
+//            if (e.getDate().isAfter(LocalDate.now().minusDays(1))) {
+//                e.setStatus(MeetingStatus.NOT_APPROVED);
+//                meetingToAlert.add(meetingForMailDTOConverter.getDTO(e));
+//            }
+//            e.setRoom(null);
+//        });
+//        meetingToAlert.forEach(
+//                e -> meetingCanceledMailService.sendInfoMessageRoomDeletion(e));
+//        roomDAO.delete(room);
+//    }
 
     /**
      * Find all rooms entities in the database.

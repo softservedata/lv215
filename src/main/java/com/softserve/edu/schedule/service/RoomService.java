@@ -59,13 +59,13 @@ public interface RoomService {
     RoomDTO getByNameAndLocation(final String roomName,
             final LocationDTO location);
 
-    /**
-     * Delete existed room entity from the database by id.
-     *
-     * @param id
-     *            a room id to delete from database.
-     */
-    void deleteById(final Long id);
+//    /**
+//     * Delete existed room entity from the database by id.
+//     *
+//     * @param id
+//     *            a room id to delete from database.
+//     */
+//    void deleteById(final Long id);
 
     /**
      * Find all rooms entities in the database.
