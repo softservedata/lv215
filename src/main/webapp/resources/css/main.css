@@ -115,3 +115,6 @@ table>tbody>tr>.v-alighn {
 textarea {
 	resize:vertical;
 }
+.input-number {
+	 width: 75px;
+}

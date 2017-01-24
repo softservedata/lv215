@@ -8,7 +8,7 @@
 	<div class="row">
 		<div class="col-md-1">
 			<br>
-			<a class="btn btn-default"	href="${pageContext.request.contextPath}/rooms"><spring:message code="lbl.form.cancel"/></a>			
+			<a class="btn btn-default"	href="${pageContext.request.contextPath}/rooms"><spring:message code="lbl.form.back"/></a>			
 		</div>
 		<div class="col-md-11">
 			<h1 class="text-center"><spring:message code="lbl.room.roomDetails"/></h1>
