@@ -1,6 +1,8 @@
 package com.softserve.edu.schedule.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,34 +10,39 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
 
 public class MeetingDTO {
 
+    /**
+     * Id for database.
+     */
     private Long id;
 
     /**
      * Field for storage subject of the meeting.
      */
-
     private SubjectDTO subject;
 
     /**
      * Field for storage room of the meeting.
      */
-
     private RoomDTO room;
+
+    /**
+     * Date of the meeting.
+     */
+    private LocalDate date;
 
     /**
      * Start time of the meeting.
      */
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
     /**
      * End time of the meeting.
      */
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
     /**
-     * Field for storage user groups which participate in meeting.
+     * User groups which participate in meeting.
      */
-
     private List<UserGroupDTO> groups = new ArrayList<>();
 
     /**
@@ -66,18 +73,81 @@ public class MeetingDTO {
     }
 
     /**
+     * @return the subject
+     */
+    public SubjectDTO getSubject() {
+        return subject;
+    }
+
+    /**
+     * @return the room
+     */
+    public RoomDTO getRoom() {
+        return room;
+    }
+
+    /**
+     * @return the date
+     */
+    public LocalDate getDate() {
+        return date;
+    }
+
+    /**
+     * @return the startTime
+     */
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    /**
+     * @return the endTime
+     */
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    /**
+     * @return the groups
+     */
+    public List<UserGroupDTO> getGroups() {
+        return groups;
+    }
+
+    /**
+     * @return the owner
+     */
+    public UserDTO getOwner() {
+        return owner;
+    }
+
+    /**
+     * @return the status
+     */
+    public MeetingStatus getStatus() {
+        return status;
+    }
+
+    /**
+     * @return the level
+     */
+    public Integer getLevel() {
+        return level;
+    }
+
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
      * @param id
      *            the id to set
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * @return the subject
-     */
-    public SubjectDTO getSubject() {
-        return subject;
     }
 
     /**
@@ -89,13 +159,6 @@ public class MeetingDTO {
     }
 
     /**
-     * @return the room
-     */
-    public RoomDTO getRoom() {
-        return room;
-    }
-
-    /**
      * @param room
      *            the room to set
      */
@@ -104,40 +167,27 @@ public class MeetingDTO {
     }
 
     /**
-     * @return the startTime
+     * @param date
+     *            the date to set
      */
-    public LocalDateTime getStartTime() {
-        return startTime;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 
     /**
      * @param startTime
      *            the startTime to set
      */
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
-    }
-
-    /**
-     * @return the endTime
-     */
-    public LocalDateTime getEndTime() {
-        return endTime;
     }
 
     /**
      * @param endTime
      *            the endTime to set
      */
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
-    }
-
-    /**
-     * @return the groups
-     */
-    public List<UserGroupDTO> getGroups() {
-        return groups;
     }
 
     /**
@@ -149,25 +199,11 @@ public class MeetingDTO {
     }
 
     /**
-     * @return the owner
-     */
-    public UserDTO getOwner() {
-        return owner;
-    }
-
-    /**
      * @param owner
      *            the owner to set
      */
     public void setOwner(UserDTO owner) {
         this.owner = owner;
-    }
-
-    /**
-     * @return the status
-     */
-    public MeetingStatus getStatus() {
-        return status;
     }
 
     /**
@@ -179,25 +215,11 @@ public class MeetingDTO {
     }
 
     /**
-     * @return the level
-     */
-    public Integer getLevel() {
-        return level;
-    }
-
-    /**
      * @param level
      *            the level to set
      */
     public void setLevel(Integer level) {
         this.level = level;
-    }
-
-    /**
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
     }
 
     /**
@@ -207,5 +229,4 @@ public class MeetingDTO {
     public void setDescription(String description) {
         this.description = description;
     }
-
 }

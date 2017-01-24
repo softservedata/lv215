@@ -1,4 +1,5 @@
-/* UserDTOEditor 1.0 01/17/2017 */
+
+/* UserGroupDTOEditor 1.0 01/17/2017 */
 package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
@@ -6,7 +7,9 @@ import java.beans.PropertyEditorSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.softserve.edu.schedule.service.LocationService;
+import com.softserve.edu.schedule.entity.UserGroup;
+import com.softserve.edu.schedule.service.UserGroupService;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserGroupForMeetingDTOConverter;
 
 /**
  * A class to provide conversion operations from form field locationId to
@@ -14,18 +17,20 @@ import com.softserve.edu.schedule.service.LocationService;
  *
  * @version 1.0 17 January 2017
  *
- * @author Petro Zelyonka
  *
  * @since 1.8
  */
 @Service
-public class LocationDTOEditor extends PropertyEditorSupport {
+public class UserGroupForMeetingDTOEditor extends PropertyEditorSupport {
 
     /**
      * LocationService example to provide search DTO operations.
      */
     @Autowired
-    private LocationService locationService;    
+    private UserGroupService userGroupService;
+
+    @Autowired
+    private UserGroupForMeetingDTOConverter userGroupForMeetingDTOConverter;
 
     /**
      * Provides a LocationDTO example by given location id in String format.
@@ -39,6 +44,7 @@ public class LocationDTOEditor extends PropertyEditorSupport {
     @Override
 
     public void setAsText(String text) throws IllegalArgumentException {
-        setValue(locationService.getById(Long.valueOf(text)));
+        UserGroup userGroup = userGroupService.getById(Long.valueOf(text));
+        setValue(userGroupForMeetingDTOConverter.getDTO(userGroup));
     }
 }

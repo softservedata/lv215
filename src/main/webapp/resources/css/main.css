@@ -74,11 +74,11 @@ th {
 }
 
 /* Set black background color, white text and some padding */
-footer {
+/* footer {
 	background-color: #555;
 	color: white;
-	padding: 15px;
-}
+	padding: 15px; 
+}*/
 
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
@@ -114,4 +114,13 @@ table>tbody>tr>.v-alighn {
 }
 textarea {
 	resize:vertical;
+}
+
+.searchMeeting {
+	width:70px;
+}
+
+
+.searchMeetingBig {
+	width:120px;
 }

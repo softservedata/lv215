@@ -4,7 +4,6 @@ import java.beans.PropertyEditorSupport;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
-import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.service.UserService;
 
 public class UserForSubjectDTOEditor extends PropertyEditorSupport {
