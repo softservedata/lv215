@@ -57,7 +57,7 @@ public class UserGroupDTOConverter {
 				userGroupDTO.setName(userGroup.getName());
 			}
 			if (userGroup.getDescription() != null) {
-				userGroupDTO.setDescription(userGroup.getDescription());
+				userGroupDTO.setName(userGroup.getDescription());
 			}
 			if (userGroup.getLevel() != null) {
 				userGroupDTO.setLevel(userGroup.getLevel());

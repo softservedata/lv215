@@ -11,6 +11,7 @@ package com.softserve.edu.schedule.controller;
  * @since 1.8
  */
 public interface ControllerConst {
+
 	/**
 	 * An interface to storage room controller model attributes and mappings
 	 * URL.
@@ -106,90 +107,6 @@ public interface ControllerConst {
 		 * Delete room mapping URL name.
 		 */
 		String ROOM_DELETE_MAPPING = "/delete/{id}";
-	}
-
-	/**
-	 * An interface that stores all constants for USerGroup controller
-	 * 
-	 * @author Andrew
-	 *
-	 */
-
-	public interface UserGroupControllerConst {
-		/**
-		 * UserGroup model attribute name.
-		 */
-		String USERGROUP_MODEL_ATTR = "userGroupForm";
-
-		/**
-		 * UserGroups model attribute name.
-		 */
-		String USERGROUPS_MODEL_ATTR = "usergroups";
-
-		/**
-		 * UserGroup create mapping name.
-		 */
-		String USERGROUP_CREATE_MAPPING = "/create";
-
-		/**
-		 * UserGroup delete mapping name.
-		 */
-		String USERGROUP_DELETE_MAPPING = "/delete/{id}";
-
-		/**
-		 * UserGroup create url name.
-		 */
-		String USERGROUP_CREATE_URL = "usergroups/create";
-
-		/**
-		 * UserGroup edit url name.
-		 */
-		String USERGROUP_EDIT_URL = "usergroups/edit";
-
-		/**
-		 * UserGroup edit mapping name.
-		 */
-		String USERGROUP_EDIT_MAPPING = "/edit/{id}";
-
-		/**
-		 * UserGroup redirect url name.
-		 */
-		String USERGROUP_REDIRECT_URL = "redirect:/usergroups";
-
-		/**
-		 * UserGroup list url name.
-		 */
-		String USERGROUP_LIST_URL = "usergroups/list";
-
-		/**
-		 * Mapping for searching.
-		 */
-		String SEARCH_MODEL_ATTR = "search";
-
-		/**
-		 * Groups searching by name mapping.
-		 */
-		String USERGROUPS_SEARCH_BY_NAME_MAPPING = "/usergroups/searchByName";
-
-		/**
-		 * Groups searching by curator mapping.
-		 */
-		String USERGROUPS_SEARCH_BY_CURATOR_MAPPING = "/usergroups/searchByCurator";
-
-		/**
-		 * Curators attribute.
-		 */
-		String USERGROUP_CURATORS_ATTR = "curators";
-
-		/**
-		 * All users attribute.
-		 */
-		String USERGROUP_ALL_USERS_ATTR = "allUsers";
-
-		/**
-		 * Mapping on a usergroups page
-		 */
-		String USERGROUP_MAPPING = "/usergroups";
 	}
 
 	/**
@@ -386,6 +303,11 @@ public interface ControllerConst {
 		 * Change role user URL name.
 		 */
 		String CHANGE_ROLE_PAGE_URL = "users/users/edit/changeRole";
+
+		/**
+		 * Delete user URL if user is curator in some group.
+		 */
+		String DELETE_USER_URL = "users/users/delete";
 	}
 
 	/**
@@ -617,5 +539,89 @@ public interface ControllerConst {
 		String SUBJECT_PATH_LASTNAME = "lastName";
 
 		String SUBJECT_PATH_USERS = "users";
+	}
+
+	/**
+	 * An interface that stores all constants for USerGroup controller
+	 * 
+	 * @author Andrew
+	 *
+	 */
+
+	public interface UserGroupControllerConst {
+		/**
+		 * UserGroup model attribute name.
+		 */
+		String USERGROUP_MODEL_ATTR = "userGroupForm";
+
+		/**
+		 * UserGroups model attribute name.
+		 */
+		String USERGROUPS_MODEL_ATTR = "usergroups";
+
+		/**
+		 * UserGroup create mapping name.
+		 */
+		String USERGROUP_CREATE_MAPPING = "/create";
+
+		/**
+		 * UserGroup delete mapping name.
+		 */
+		String USERGROUP_DELETE_MAPPING = "/delete/{id}";
+
+		/**
+		 * UserGroup create url name.
+		 */
+		String USERGROUP_CREATE_URL = "usergroups/create";
+
+		/**
+		 * UserGroup edit url name.
+		 */
+		String USERGROUP_EDIT_URL = "usergroups/edit";
+
+		/**
+		 * UserGroup edit mapping name.
+		 */
+		String USERGROUP_EDIT_MAPPING = "/edit/{id}";
+
+		/**
+		 * UserGroup redirect url name.
+		 */
+		String USERGROUP_REDIRECT_URL = "redirect:/usergroups";
+
+		/**
+		 * UserGroup list url name.
+		 */
+		String USERGROUP_LIST_URL = "usergroups/list";
+
+		/**
+		 * Mapping for searching.
+		 */
+		String SEARCH_MODEL_ATTR = "search";
+
+		/**
+		 * Groups searching by name mapping.
+		 */
+		String USERGROUPS_SEARCH_BY_NAME_MAPPING = "/usergroups/searchByName";
+
+		/**
+		 * Groups searching by curator mapping.
+		 */
+		String USERGROUPS_SEARCH_BY_CURATOR_MAPPING = "/usergroups/searchByCurator";
+
+		/**
+		 * Curators attribute.
+		 */
+		String USERGROUP_CURATORS_ATTR = "curators";
+
+		/**
+		 * All users attribute.
+		 */
+		String USERGROUP_ALL_USERS_ATTR = "allUsers";
+
+		/**
+		 * Mapping on a usergroups page
+		 */
+		String USERGROUP_MAPPING = "/usergroups";
 	}
 }

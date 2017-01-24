@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service;
 
 import com.softserve.edu.schedule.dao.LocationDAO;
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
+import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.entity.Room;
 
 /**
@@ -32,20 +34,6 @@ public class RoomDTOConverter {
      */
     @Autowired
     private RoomEquipmentDAO roomEquipmentDAO;
-
-    /**
-     * LocationDTOConverter example to provide to DTO and from DTO location
-     * conversion.
-     */
-    @Autowired
-    private LocationDTOConverter locationDTOConverter;
-
-    /**
-     * RoomEquipmentDTOConverter example to provide to DTO and from DTO room
-     * equipment conversion.
-     */
-    @Autowired
-    private RoomEquipmentDTOConverter roomEquipmentDTOConverter;
 
     /**
      * Convert given RoomDTO object to Room object
@@ -101,12 +89,19 @@ public class RoomDTOConverter {
                 roomDTO.setCapacity(String.valueOf(room.getCapacity()));
             }
             if (room.getLocation() != null) {
-                roomDTO.setLocation(
-                        locationDTOConverter.getDTO(room.getLocation()));
+                LocationDTO locationDTO = new LocationDTO();
+                locationDTO.setId(room.getLocation().getId());
+                locationDTO.setName(room.getLocation().getName());
+                locationDTO.setAddress(room.getLocation().getAddress());
+                roomDTO.setLocation(locationDTO);
             }
             if (room.getEquipments() != null) {
-                room.getEquipments().forEach(e -> roomDTO.getEquipments()
-                        .add(roomEquipmentDTOConverter.getDTO(e)));
+                room.getEquipments().forEach(e -> {
+                    RoomEquipmentDTO roomEquipmentDTO = new RoomEquipmentDTO();
+                    roomEquipmentDTO.setId(e.getId());
+                    roomEquipmentDTO.setName(e.getName());
+                    roomDTO.getEquipments().add(roomEquipmentDTO);
+                });
             }
             return roomDTO;
         }

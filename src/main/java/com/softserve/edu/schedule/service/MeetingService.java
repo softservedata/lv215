@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dto.MeetingsForRoomDTO;
+import com.softserve.edu.schedule.dto.MeetingForRoomDTO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
@@ -313,7 +313,7 @@ public interface MeetingService {
      * MeetingsForRoomDTO objects.
      */
 
-    public List<MeetingsForRoomDTO> getMeetingsByRoomIDAndDate(Long roomId,
+    public List<MeetingForRoomDTO> getMeetingsByRoomIDAndDate(Long roomId,
             LocalDate date);
 
 }

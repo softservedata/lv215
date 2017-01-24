@@ -122,11 +122,11 @@
 			<td>
 				<div class="form-group">
 					<spring:message code="lbl.room.filterMinCapacity" var="filterMinCapacity"/>
-					<form:input type="number" class="form-control" path="minCapacity" placeholder="${filterMinCapacity}" step="1" />
+					<form:input type="number" class="form-control" path="minCapacity" placeholder="${filterMinCapacity}" step="1" required="true"/>
 				</div> 
 				<div class="form-group">
 					<spring:message code="lbl.room.filterMaxCapacity" var="filterMaxCapacity"/>
-					<form:input	type="number" class="form-control" path="maxCapacity" placeholder="${filterMaxCapacity}" step="1" />
+					<form:input	type="number" class="form-control" path="maxCapacity" placeholder="${filterMaxCapacity}" step="1" required="true"/>
 				</div>
 			</td>
 			<td>

@@ -1,15 +1,15 @@
-/* MeetingsForRoomDTOConverter 1.0 01/22/2017 */
+/* MeetingForRoomDTOConverter 1.0 01/22/2017 */
 package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
-import com.softserve.edu.schedule.dto.MeetingsForRoomDTO;
+import com.softserve.edu.schedule.dto.MeetingForRoomDTO;
 import com.softserve.edu.schedule.entity.Meeting;
 
 /**
- * A class to provide conversion operations between RoomDTO and Room entity.
+ * A class to provide conversion operations between MeetingForRoomDTO and Meeting entity.
  *
  * @version 1.0 22 January 2017
  *
@@ -18,7 +18,7 @@ import com.softserve.edu.schedule.entity.Meeting;
  * @since 1.8
  */
 @Service
-public class MeetingsForRoomDTOConverter {
+public class MeetingForRoomDTOConverter {
 
     /**
      * MeetingDAO example to provide database operations.
@@ -34,7 +34,7 @@ public class MeetingsForRoomDTOConverter {
      * 
      * @return a Meeting object.
      */
-    public Meeting getEntity(final MeetingsForRoomDTO meetingsForRoomDTO) {
+    public Meeting getEntity(final MeetingForRoomDTO meetingsForRoomDTO) {
         return meetingDAO.getById(meetingsForRoomDTO.getId());
     }
 
@@ -46,9 +46,9 @@ public class MeetingsForRoomDTOConverter {
      * 
      * @return a MeetingsForRoomDTO object or null if given @param room is null.
      */
-    public MeetingsForRoomDTO getDTO(final Meeting meeting) {
+    public MeetingForRoomDTO getDTO(final Meeting meeting) {
         if (meeting != null) {
-            MeetingsForRoomDTO meetingsForRoomDTO = new MeetingsForRoomDTO();
+            MeetingForRoomDTO meetingsForRoomDTO = new MeetingForRoomDTO();
             if (meeting.getId() != null) {
                 meetingsForRoomDTO.setId(meeting.getId());
             }
