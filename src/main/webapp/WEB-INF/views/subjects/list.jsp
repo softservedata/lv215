@@ -23,7 +23,8 @@
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th>Tutors</th>
 			<th></th>
-			<th><a href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"><i
+			<th><a
+				href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"><i
 					class="fa fa-plus fa-lg"></i></a></th>
 		</tr>
 		<tr>
@@ -31,7 +32,8 @@
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SEARCH_BY_NAME_MAPPING}"
 					modelAttribute="${SubjectController.SEARCH_MODEL_ATTR}">
-					<form:input path="${SubjectController.SUBJECT_PATH_NAME}" placeholder=" Search..." />
+					<form:input path="${SubjectController.SUBJECT_PATH_NAME}"
+						placeholder=" Search..." />
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
@@ -39,7 +41,8 @@
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SEARCH_BY_DESCRIPTION_MAPPING}"
 					modelAttribute="${SubjectController.SEARCH_MODEL_ATTR}">
-					<form:input path="${SubjectController.SUBJECT_PATH_DESCRIPTION}" placeholder=" Search..." />
+					<form:input path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"
+						placeholder=" Search..." />
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
@@ -47,13 +50,14 @@
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SEARCH_BY_TUTOR_MAPPING}"
 					modelAttribute="${SubjectController.SEARCH_BY_TUTOR_MODEL_ATTR}">
-					<form:input path="${SubjectController.SUBJECT_PATH_LASTNAME}" placeholder=" Search..." />
+					<form:input path="${SubjectController.SUBJECT_PATH_LASTNAME}"
+						placeholder=" Search..." />
 					<button type="submit">
 						<i class="fa fa-search"></i>
 					</button>
 				</form:form></td>
 			<td></td>
-			<td></td>	
+			<td></td>
 		</tr>
 		<c:forEach var="subject" items="${subjects}">
 			<tr>
@@ -61,7 +65,7 @@
 				<td>${subject.name}</td>
 				<td>${subject.description}</td>
 				<td><c:forEach items="${subject.users}" var="user">
-						<p>${user.firstName} ${user.lastName}</p>
+						<p>${user.firstName}${user.lastName}</p>
 					</c:forEach></td>
 				<td><a
 					href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DELETE_MAPPING}${subject.id}"
