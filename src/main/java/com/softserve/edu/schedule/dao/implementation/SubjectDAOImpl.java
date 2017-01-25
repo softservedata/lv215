@@ -46,7 +46,7 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
      * @return List of searched tutors
      */
     @Override
-    public List<Subject> searchTutors(final String pattern) {
+    public List<Subject> searchSubjectsByTutor(final String pattern) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
         Root<Subject> root = cq.from(Subject.class);
@@ -56,16 +56,5 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         cq.where(predicate);
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
-    }
-
-    /**
-     * Delete existed subject from the database by id.
-     *
-     * @param id
-     *            a subject id to delete from database.
-     */
-    @Override
-    public void deleteById(Long id) {
-        delete(getById(id));
     }
 }

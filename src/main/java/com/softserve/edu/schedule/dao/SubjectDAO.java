@@ -25,13 +25,5 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      *
      * @return List of searched tutors
      */
-    public List<Subject> searchTutors(final String pattern);
-
-    /**
-     * Delete existed subject from the database by id.
-     *
-     * @param id
-     *            a subject id to delete from database.
-     */
-    public void deleteById(final Long id);
+    public List<Subject> searchSubjectsByTutor(final String pattern);
 }

@@ -88,6 +88,10 @@ public class SubjectDTO {
      *            the users to set
      */
     public void setUsers(List<UserForSubjectDTO> users) {
-        this.users = users;
+        if (users == null) {
+            this.users = new ArrayList<>();
+        } else {
+            this.users = users;
+        }
     }
 }

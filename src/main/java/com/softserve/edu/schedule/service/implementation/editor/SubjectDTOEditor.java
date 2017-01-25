@@ -41,7 +41,7 @@ public class SubjectDTOEditor extends PropertyEditorSupport {
      *             if @param text is not String.
      */
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(final String text) throws IllegalArgumentException {
         setValue(subjectService.getById(Long.valueOf(text)));
     }
 

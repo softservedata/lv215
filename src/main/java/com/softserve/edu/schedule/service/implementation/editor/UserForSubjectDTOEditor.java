@@ -43,7 +43,7 @@ public class UserForSubjectDTOEditor extends PropertyEditorSupport {
      *             if @param text is not String.
      */
     @Override
-    public void setAsText(String userForSUbjectDTOId)
+    public void setAsText(final String userForSUbjectDTOId)
             throws IllegalArgumentException {
         UserDTO user = userService.getById(Long.valueOf(userForSUbjectDTOId));
         UserForSubjectDTO userForSubjectDTO = new UserForSubjectDTO();
