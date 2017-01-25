@@ -11,17 +11,19 @@
 package com.softserve.edu.schedule.service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
+
+import com.softserve.edu.schedule.dto.MeetingDTO;
+
+import com.softserve.edu.schedule.dto.UserGroupDTO;
+
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
-import com.softserve.edu.schedule.entity.Meeting;
+
+
 import com.softserve.edu.schedule.entity.MeetingStatus;
-import com.softserve.edu.schedule.entity.Room;
-import com.softserve.edu.schedule.entity.Subject;
-import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.UserGroup;
 
 /**
  * This interface for managing Meetings Service.
@@ -38,7 +40,7 @@ public interface MeetingService {
      * @param meeting
      *            - Meeting object
      */
-    public void create(final Meeting meeting);
+    public void create(final MeetingDTO meetingDTO);
 
     /**
      * Return a Meeting object if found.
@@ -47,14 +49,14 @@ public interface MeetingService {
      *            of Meeting transfer object
      * @return Meeting transfer object
      */
-    public Meeting getById(final Long id);
+    public MeetingDTO getById(final Long id);
 
     /**
      * Read all meetings from DB.
      * 
      * @return List<Meeting> our meetings.
      */
-    public List<Meeting> getAll();
+    public List<MeetingDTO> getAll();
 
     /**
      * Update (replace) existence meeting in DB. If such meeting no exist in DB,
@@ -63,7 +65,7 @@ public interface MeetingService {
      * @param meeting
      *            our meeting.
      */
-    public void update(final Meeting meeting);
+    public void update(final MeetingDTO meetingDTO);
 
     /**
      * Delete meeting from DB.
@@ -71,7 +73,7 @@ public interface MeetingService {
      * @param meeting
      *            our meeting.
      */
-    public void delete(final Meeting meeting);
+    public void delete(final MeetingDTO meetingDTO);
 
     /**
      * Delete meeting from DB by given id.
@@ -82,51 +84,6 @@ public interface MeetingService {
     public void deleteById(final Long id);
 
     /**
-     * Delete meeting from DB by given User. It means, that all meetings, which
-     * was approved with owner User will be deleted.
-     * 
-     * @param user
-     *            our owner for meeting.
-     */
-    public void deleteByOwner(final User user);
-
-    /**
-     * Delete meetings from DB by given Room. It means, that all meetings, which
-     * was approved in this room will be deleted.
-     * 
-     * @param room
-     *            our room for meeting.
-     */
-    public void deleteByRoom(final Room room);
-
-    /**
-     * Delete meetings from DB by given Date. It means, that all meetings, which
-     * are planned at this Date will be deleted.
-     * 
-     * @param userGroup
-     *            our userGroup for meeting.
-     */
-    public void deleteByDate(final LocalDateTime localDateTime);
-
-    /**
-     * Delete meetings from DB by given User Group. It means, that all meetings,
-     * which consist only this User Group will be deleted.
-     * 
-     * @param userGroup
-     *            our userGroup for meeting.
-     */
-    public void deleteMeetingByUserGroup(final UserGroup userGroup);
-
-    /**
-     * Delete meetings from DB by given Status. It means, that all meetings,
-     * which have this Status will be deleted.
-     * 
-     * @param meetingStatus
-     *            our Status for meeting.
-     */
-    public void deleteMeetingByStatus(final MeetingStatus meetingStatus);
-
-    /**
      * Return a List of sorted Meeting transfer objects.
      *
      * @param field
@@ -135,7 +92,7 @@ public interface MeetingService {
      *            - ASC or DESC
      * @return List of sorted Subject transfer objects
      */
-    public List<Meeting> sort(final String field, final Order order);
+    public List<MeetingDTO> sort(final String field, final Order order);
 
     /**
      * Return a List of searched Meeting transfer objects.
@@ -146,7 +103,7 @@ public interface MeetingService {
      *            - input string
      * @return List of sorted Subject transfer objects
      */
-    public List<Meeting> search(final String field, final String pattern);
+    public List<MeetingDTO> search(final String field, final String pattern);
 
     /*
      * Additional methods for doing the SEARCH operation but direct in DB.
@@ -159,7 +116,7 @@ public interface MeetingService {
      *            our description for meeting.
      * @return List<Meeting> returns list.
      */
-    public List<Meeting> searchByDescription(final String description);
+    public List<MeetingDTO> searchByDescription(final String description);
 
     /**
      * Find all meetings in the DB by given subject.
@@ -168,7 +125,7 @@ public interface MeetingService {
      *            our subject for meeting.
      * @return List<Meeting> returns list.
      */
-    public List<Meeting> searchBySubject(final Subject subject);
+    public List<MeetingDTO> searchBySubject(final String pattern);
 
     /**
      * Find all meetings in the DB by given Owner.
@@ -177,7 +134,7 @@ public interface MeetingService {
      *            our user for meeting.
      * @return List<Meeting> returns list.
      */
-    public List<Meeting> searchByOwner(final User user);
+    public List<MeetingDTO> searchByOwner(final String pattern);
 
     /**
      * Find all meetings in the DB by given Room.
@@ -186,7 +143,7 @@ public interface MeetingService {
      *            our room for meeting.
      * @return List<Meeting> list.
      */
-    public List<Meeting> searchByRoom(final Room room);
+    public List<MeetingDTO> searchByRoom(final String pattern);
 
     /**
      * Find all meetings in the DB by given date.
@@ -195,7 +152,7 @@ public interface MeetingService {
      *            our date for meeting.
      * @return List<Meeting> list.
      */
-    public List<Meeting> searchByDate(final LocalDateTime date);
+    public List<MeetingDTO> searchByDate(final LocalDate date);
 
     /**
      * Find all meetings in the DB by given userGroup.
@@ -204,7 +161,7 @@ public interface MeetingService {
      *            our userGroup for meeting.
      * @return List<Meeting>
      */
-    public List<Meeting> searchByUserGroup(final UserGroup userGroup);
+    public List<MeetingDTO> searchByUserGroup(final String pattern);
 
     /**
      * Find all meetings in the DB by given userGroups.
@@ -213,7 +170,8 @@ public interface MeetingService {
      *            our list of userGroups for meeting.
      * @return List<Meeting>
      */
-    public List<Meeting> searchByUserGroups(final List<UserGroup> userGroups);
+    public List<MeetingDTO> searchByUserGroups(
+            final List<UserGroupDTO> userGroups);
 
     /**
      * Find all meetings in the DB by given level.
@@ -222,7 +180,7 @@ public interface MeetingService {
      *            of the meeting.
      * @return List<Meeting>
      */
-    public List<Meeting> searchByLevel(final Integer level);
+    public List<MeetingDTO> searchByLevel(final String level);
 
     /**
      * Find all meetings in the DB by given meetingStatus.
@@ -231,7 +189,7 @@ public interface MeetingService {
      *            of the meeting.
      * @return List<Meeting>
      */
-    public List<Meeting> searchByStatus(final MeetingStatus meetingStatus);
+    public List<MeetingDTO> searchByStatus(final MeetingStatus meetingStatus);
 
     /*
      * Additional methods for doing the SEARCH operation but direct in DB.
@@ -244,16 +202,16 @@ public interface MeetingService {
      *            parameter for sorting (ASC DESC)
      * @return List of sorted meetings.
      */
-    public List<Meeting> sortBySubject(final Order order);
+    public List<MeetingDTO> sortBySubject(final Order order);
 
     /**
-     * Sort existent list of meetings by Owner lastname.
+     * Sort existent list of meetings by Owner last name.
      * 
      * @param order
      *            parameter for sorting (ASC DESC)
      * @return List of sorted meetings.
      */
-    public List<Meeting> sortByOwner(final Order order);
+    public List<MeetingDTO> sortByOwner(final Order order);
 
     /**
      * Sort existent list of meetings by Room name.
@@ -262,7 +220,7 @@ public interface MeetingService {
      *            parameter for sorting (ASC DESC)
      * @return List of sorted meetings.
      */
-    public List<Meeting> sortByRoom(final Order order);
+    public List<MeetingDTO> sortByRoom(final Order order);
 
     /**
      * Sort existent list of meetings by Description.
@@ -271,7 +229,7 @@ public interface MeetingService {
      *            parameter for sorting (ASC DESC)
      * @return List of sorted meetings.
      */
-    public List<Meeting> sortByDescription(final Order order);
+    public List<MeetingDTO> sortByDescription(final Order order);
 
     /**
      * Sort existent list of meetings by level.
@@ -280,7 +238,7 @@ public interface MeetingService {
      *            parameter for sorting (ASC DESC)
      * @return List of sorted meetings.
      */
-    public List<Meeting> sortByLevel(final Order order);
+    public List<MeetingDTO> sortByLevel(final Order order);
 
     /**
      * Sort existent list of meetings by status.
@@ -289,9 +247,9 @@ public interface MeetingService {
      *            parameter for sorting (ASC DESC)
      * @return List of sorted meetings.
      */
-    public List<Meeting> sortByStatus(final Order order);
+    public List<MeetingDTO> sortByStatus(final Order order);
 
-    /*
+    /**
      * Change existing status of the meeting to given new meeting status.
      * 
      * @param id Meeting, in which the status will be changed.
@@ -301,10 +259,16 @@ public interface MeetingService {
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus);
 
+
+    /**
+     * 
+     * Find all meetings in the DB by given date and roomId.
+=======
     /*
      * Find all meetings in the DB by given date and roomId.
      * 
      * @author Petro Zelyonka
+>>>>>>> 16056cdee5ab399e1bbba4433adbcce1ccc387bc
      * 
      * @param roomId room id for find meetings
      * 

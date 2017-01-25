@@ -35,8 +35,10 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     /**
      * For the given Meeting id changes meeting status for given MeetingStatus.
      * 
-     * @param id Id of the meeting.
-     * @param meetingStatus New meeting status.
+     * @param id
+     *            Id of the meeting.
+     * @param meetingStatus
+     *            New meeting status.
      */
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus);
@@ -81,7 +83,7 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *
      * @return List of searched Transfer objects
      */
-    public List<Meeting> searchByDate(final String pattern);
+    public List<Meeting> searchByDate(final LocalDate date);
 
     /**
      * Return the List of searched Meetings filtered by Date.
@@ -165,5 +167,4 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      */
     public List<Meeting> getMeetingsByRoomIDAndDate(final Long roomId,
             final LocalDate date);
-
 }
