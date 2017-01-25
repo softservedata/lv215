@@ -16,28 +16,35 @@ public interface ValidationCriteria {
      * Allowed characters for name expression.
      */
     String CHARACTERS_FOR_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$";
+    
+    /**
+     * Allowed characters for name expression.
+     */
+    String CHARACTERS_FOR_USERNAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z\\-№ ].{5,25}+$";
 
     /**
      * Allowed only digits expression in specific order.
      */
     String CHARACTERS_FOR_PHONE = "\\d{3}-\\d{7}";
-
-    /**
-     * Allowed characters for email expression in specific order.
-     */
-    String CHARACTERS_FOR_MAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
+//
+//    /**
+//     * Allowed characters for email expression in specific order.
+//     */
+//    String CHARACTERS_FOR_MAIL = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+//            + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+//
     /**
      * Allowed characters for password expression in specific order.
      * 
-     * ^ # start-of-string (?=.*[0-9]) # a digit must occur at least once
-     * (?=.*[a-z]) # a lower case letter must occur at least once (?=.*[A-Z]) #
-     * an upper case letter must occur at least once (?=.*[@#$%^&+=]) # a
-     * special character must occur at least once (?=\S+$) # no whitespace
-     * allowed in the entire string .{8,} # anything, at least eight places
+     * ^ # start-of-string 
+     * (?=.*[0-9]) # a digit must occur at least once
+     * (?=.*[a-z]) # a lower case letter must occur at least once 
+     * (?=.*[A-Z]) # an upper case letter must occur at least once 
+     * (?=.*[@#$%^&+=]) # a special character must occur at least once 
+     * (?=\S+$) # no whitespace allowed in the entire string 
+     * .{8,} # anything, at least eight places
      * though $ # end-of-string
      */
-    String CHARACTERS_FOR_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,}$";
+    String CHARACTERS_FOR_PASSWORD = "\\A(?=\\S*[0-9])(?=\\S*[a-z])(?=\\S*[A-Z])(?=\\S*[@#$%^&+=])\\S{8,}\\z";
 
 }

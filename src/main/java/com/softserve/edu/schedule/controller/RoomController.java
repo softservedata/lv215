@@ -308,10 +308,10 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *            an room id to delete from database.
      *
      * @return rooms list page redirect URL
-//     */
-//    @RequestMapping(value = ROOM_DELETE_MAPPING)
-//    public String deleteRoom(@PathVariable final Long id) {
-//        roomService.deleteById(id);
-//        return ROOMS_REDIRECT_URL;
-//    }
+     */
+    @RequestMapping(value = ROOM_DELETE_MAPPING)
+    public String deleteRoom(@PathVariable final Long id) {
+        roomService.deleteById(id);
+        return ROOMS_REDIRECT_URL;
+    }
 }
