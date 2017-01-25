@@ -39,7 +39,8 @@ public interface RoomDAO extends CrudDAO<Room> {
      * 
      * @return List of the room objects.
      */
-    List<Room> getRoomsPageWithFilter(final RoomFilter roomFilter, final Paginator roomPaginator);
+    List<Room> getRoomsPageWithFilter(final RoomFilter roomFilter,
+            final Paginator roomPaginator);
 
     /**
      * Find all rooms entities in the database with location and equipment
