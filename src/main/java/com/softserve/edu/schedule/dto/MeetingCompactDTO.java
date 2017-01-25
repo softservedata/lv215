@@ -1,11 +1,15 @@
-/* MeetingForMailDTO 1.0 01/22/2017 */
+/* MeetingCompactDTO 1.0 01/22/2017 */
 package com.softserve.edu.schedule.dto;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.softserve.edu.schedule.entity.MeetingStatus;
 
 /**
- * A DTO class to transport meetings data for mail sending services.
+ * A compact DTO class to transport meetings data information purposes.
  *
  * @version 1.0 22 January 2017
  *
@@ -13,7 +17,7 @@ import java.time.LocalTime;
  *
  * @since 1.8
  */
-public class MeetingForMailDTO {
+public class MeetingCompactDTO {
 
     /**
      * Field for storage subject name of the meeting.
@@ -46,9 +50,19 @@ public class MeetingForMailDTO {
     private String ownerFullName;
 
     /**
+     * List of meeting groups names.
+     */
+    private List<String> groupsNames = new ArrayList<>();
+
+    /**
      * Field for storage mail of the owner of the meeting.
      */
     private String ownerMail;
+
+    /**
+     * Status of the meeting.
+     */
+    private MeetingStatus status;
 
     /**
      * @return the subjectName
@@ -93,10 +107,24 @@ public class MeetingForMailDTO {
     }
 
     /**
+     * @return the groupsNames
+     */
+    public List<String> getGroupsNames() {
+        return groupsNames;
+    }
+
+    /**
      * @return the ownerMail
      */
     public String getOwnerMail() {
         return ownerMail;
+    }
+
+    /**
+     * @return the status
+     */
+    public MeetingStatus getStatus() {
+        return status;
     }
 
     /**
@@ -148,11 +176,27 @@ public class MeetingForMailDTO {
     }
 
     /**
+     * @param groupsNames
+     *            the groupsNames to set
+     */
+    public void setGroupsNames(List<String> groupsNames) {
+        this.groupsNames = groupsNames;
+    }
+
+    /**
      * @param ownerMail
      *            the ownerMail to set
      */
     public void setOwnerMail(String ownerMail) {
         this.ownerMail = ownerMail;
+    }
+
+    /**
+     * @param status
+     *            the status to set
+     */
+    public void setStatus(MeetingStatus status) {
+        this.status = status;
     }
 
 }

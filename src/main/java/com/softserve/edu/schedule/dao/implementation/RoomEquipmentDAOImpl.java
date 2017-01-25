@@ -12,4 +12,10 @@ public class RoomEquipmentDAOImpl extends CrudDAOImpl<RoomEquipment>
     public RoomEquipmentDAOImpl() {
         super(RoomEquipment.class);
     }
+    
+    @Override
+    public  void deleteById(Long id){
+		RoomEquipment equipment = getById(id);
+		delete(equipment);
+    }
 }

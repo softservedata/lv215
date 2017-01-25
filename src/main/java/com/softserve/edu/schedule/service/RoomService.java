@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Room;
 
@@ -59,13 +60,13 @@ public interface RoomService {
     RoomDTO getByNameAndLocation(final String roomName,
             final LocationDTO location);
 
-//    /**
-//     * Delete existed room entity from the database by id.
-//     *
-//     * @param id
-//     *            a room id to delete from database.
-//     */
-//    void deleteById(final Long id);
+    /**
+     * Delete existed room entity from the database by id.
+     *
+     * @param id
+     *            a room id to delete from database.
+     */
+    void deleteById(final Long id);
 
     /**
      * Find all rooms entities in the database.
@@ -90,7 +91,8 @@ public interface RoomService {
      * 
      * @return List of the room DTO objects.
      */
-    List<RoomDTO> getRoomsWithFilter(final RoomFilter roomFilter);
+    List<RoomDTO> getRoomsPageWithFilter(final RoomFilter roomFilter,
+            final Paginator roomPaginator);
 
     // TODO Delete after all go to DTOs
     public Room getEntityById(final Long id);

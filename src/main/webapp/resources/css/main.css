@@ -77,8 +77,13 @@ th {
 /* footer {
 	background-color: #555;
 	color: white;
+<<<<<<< HEAD
+	padding: 15px; 
+}*/
+=======
 	padding: 15px;
 } */
+>>>>>>> 16056cdee5ab399e1bbba4433adbcce1ccc387bc
 
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
@@ -114,4 +119,18 @@ table>tbody>tr>.v-alighn {
 }
 textarea {
 	resize:vertical;
+}
+<<<<<<< HEAD
+
+.searchMeeting {
+	width:70px;
+}
+
+
+.searchMeetingBig {
+	width:120px;
+=======
+.input-number {
+	 width: 75px;
+>>>>>>> 16056cdee5ab399e1bbba4433adbcce1ccc387bc
 }
