@@ -29,28 +29,28 @@
 	<table class="table table-hover">
 		<tr>
 			<th class="v-alighn"><spring:message code="lbl.room.location" />
-				<a href="rooms?sortByField=1&sortOrder=1"
+				<a href="rooms?sortByField=1&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.room.sortAsc"/>"> <i
 					class="fa fa-arrow-circle-o-up fa-lg"></i>
-			</a> <a href="rooms?sortByField=1&sortOrder=2"
+			</a> <a href="rooms?sortByField=1&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.room.sortDesc"/>"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a></th>
 			<th class="v-alighn"><spring:message code="lbl.room.address" /></th>
 			<th class="v-alighn"><spring:message code="lbl.room.roomName" />
-				<a href="rooms?sortByField=2&sortOrder=1"
+				<a href="rooms?sortByField=2&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.room.sortAsc"/>"> <i
 					class="fa fa-arrow-circle-o-up fa-lg"></i>
-			</a> <a href="rooms?sortByField=2&sortOrder=2"
+			</a> <a href="rooms?sortByField=2&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.room.sortDesc"/>"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a></th>
 			<th class="v-alighn"><spring:message
 					code="lbl.room.roomCapacity" /> <a
-				href="rooms?sortByField=3&sortOrder=1"
+				href="rooms?sortByField=3&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.room.sortAsc"/>"> <i
 					class="fa fa-arrow-circle-o-up fa-lg"></i>
-			</a> <a href="rooms?sortByField=3&sortOrder=2"
+			</a> <a href="rooms?sortByField=3&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.room.sortDesc"/>"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a></th>
@@ -147,7 +147,7 @@
 			</td>
 		</form:form>
 		<td class="text-center v-alighn"><a
-			href="rooms?showFilter=false&locationId=0&sortByField=0&name=&sortOrder=0&minCapacity=0&maxCapacity=0&_equipments=1"
+			href="rooms?showFilter=false&locationId=0&name=&minCapacity=0&maxCapacity=0&_equipments=1&pageNumber=0"
 			title="<spring:message code="lbl.room.resetFilter"/>"> <i
 				class="fa fa-ban fa-lg"></i>
 		</a></td>
@@ -180,15 +180,62 @@
 		</c:forEach>
 	</table>
 </div>
-<div>
-	<p>Results per page</p>
-	<a href="rooms?pageSize=5">5</a> <a href="rooms?pageSize=10">10</a> <a
-		href="rooms?pageSize=20">20</a>
+<div class="row">
+<div class="col-md-2">
+	<p><spring:message code="lbl.form.resPerPage"/></p>
+	<c:choose>
+		<c:when test="${roomPaginator.pageSize eq 5}">
+			<a class="btn btn-primary" href="rooms?pageSize=5&pageNumber=0">5</a>
+		</c:when>
+		<c:otherwise>
+			<a class="btn btn-default" href="rooms?pageSize=5&pageNumber=0">5</a>
+		</c:otherwise>
+	</c:choose>
+	<c:choose>
+		<c:when test="${roomPaginator.pageSize eq 10}">
+			<a class="btn btn-primary" href="rooms?pageSize=10&pageNumber=0">10</a>
+		</c:when>
+		<c:otherwise>
+			<a class="btn btn-default" href="rooms?pageSize=10&pageNumber=0">10</a>
+		</c:otherwise>
+	</c:choose>
+	<c:choose>
+		<c:when test="${roomPaginator.pageSize eq 20}">
+			<a class="btn btn-primary" href="rooms?pageSize=20&pageNumber=0">20</a>
+		</c:when>
+		<c:otherwise>
+			<a class="btn btn-default" href="rooms?pageSize=20&pageNumber=0">20</a>
+		</c:otherwise>
+	</c:choose>	
 </div>
-<div>
-	<c:if test="${roomPaginator.pageNumber > 0}">
-		<a href="rooms?pageNumber=${roomPaginator.pageNumber-1}">Previous</a>
-	</c:if>
-	<a href="rooms?pageNumber=${roomPaginator.pageNumber+1}">Next</a>
+<div class="col-md-10 text-center">
+	<ul class="pagination">
+		<c:choose>
+			<c:when test="${roomPaginator.hasPrevious()}">
+				<li><a href="rooms?pageNumber=${roomPaginator.pageNumber-1}"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+			</c:when>
+			<c:otherwise>
+				<li class="disabled"><a href="#"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+			</c:otherwise>
+		</c:choose>
+		<c:forEach var="page" begin="0" end="${roomPaginator.pagesCount}">
+			<c:choose>
+				<c:when test="${roomPaginator.pageNumber eq page}">
+					<li class="active"><a href="#">${page + 1}</a></li>
+				</c:when>
+				<c:otherwise>
+					<li><a href="rooms?pageNumber=${page}">${page + 1}</a></li>
+				</c:otherwise>
+			</c:choose>			
+		</c:forEach>  		
+  		<c:choose>
+			<c:when test="${roomPaginator.hasNext()}">
+				<li><a href="rooms?pageNumber=${roomPaginator.pageNumber+1}"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+			</c:when>
+			<c:otherwise>
+				<li class="disabled"><a href="#"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+			</c:otherwise>
+		</c:choose>
+	</ul>	
 </div>
-<br>
+</div>
