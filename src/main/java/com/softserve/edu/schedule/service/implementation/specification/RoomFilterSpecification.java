@@ -88,8 +88,7 @@ public class RoomFilterSpecification implements Specification<Room> {
     private void findByName() {
         if (filter.getName() != null && !filter.getName().equals("")) {
             list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
-                    .like(criteriaBuilder.lower(root.get(Room_.name)),
-                            "%" + filter.getName().toLowerCase() + "%"));
+                    .like(root.get(Room_.name), "%" + filter.getName() + "%"));
         }
     }
 
@@ -194,12 +193,9 @@ public class RoomFilterSpecification implements Specification<Room> {
     @Override
     public Predicate toPredicate(Root<Room> root,
             CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-        if (criteriaQuery.getResultType() != Long.class
-                && criteriaQuery.getResultType() != long.class) {
-            locationJoin = root.join(Room_.location, JoinType.LEFT);
-            root.join(Room_.equipments, JoinType.LEFT);
-            setSortingParameters(root, criteriaQuery, criteriaBuilder);
-        }
+        locationJoin = root.join(Room_.location, JoinType.LEFT);
+        root.join(Room_.equipments, JoinType.LEFT);
+        setSortingParameters(root, criteriaQuery, criteriaBuilder);
         if (filter != null) {
             findByLocationId();
             findByName();

@@ -14,6 +14,7 @@ import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
@@ -173,8 +174,9 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<RoomDTO> getRoomsWithFilter(final RoomFilter roomFilter) {
-        return roomDAO.getRoomsWithFilter(roomFilter).stream()
+    public List<RoomDTO> getRoomsPageWithFilter(final RoomFilter roomFilter,
+            final Paginator roomPaginator) {
+        return roomDAO.getRoomsPageWithFilter(roomFilter, roomPaginator).stream()
                 .map(e -> roomDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
