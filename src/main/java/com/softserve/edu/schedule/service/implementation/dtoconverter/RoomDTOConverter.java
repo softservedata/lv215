@@ -46,23 +46,15 @@ public class RoomDTOConverter {
     public Room getEntity(final RoomDTO roomDTO) {
         if (roomDTO != null) {
             Room room = new Room();
-            if (roomDTO.getId() != null) {
-                room.setId(roomDTO.getId());
-            }
+            room.setId(roomDTO.getId());
             if (roomDTO.getLocation() != null) {
                 room.setLocation(
                         locationDAO.getById(roomDTO.getLocation().getId()));
             }
-            if (roomDTO.getName() != null) {
-                room.setName(roomDTO.getName());
-            }
-            if (roomDTO.getCapacity() != null) {
-                room.setCapacity(Integer.parseInt(roomDTO.getCapacity()));
-            }
-            if (roomDTO.getEquipments() != null) {
-                roomDTO.getEquipments().forEach(e -> room.getEquipments()
-                        .add(roomEquipmentDAO.getById(e.getId())));
-            }
+            room.setName(roomDTO.getName());
+            room.setCapacity(roomDTO.getCapacity());
+            roomDTO.getEquipments().forEach(e -> room.getEquipments()
+                    .add(roomEquipmentDAO.getById(e.getId())));
             return room;
         }
         return null;
@@ -79,15 +71,9 @@ public class RoomDTOConverter {
     public RoomDTO getDTO(final Room room) {
         if (room != null) {
             RoomDTO roomDTO = new RoomDTO();
-            if (room.getId() != null) {
-                roomDTO.setId(room.getId());
-            }
-            if (room.getName() != null) {
-                roomDTO.setName(room.getName());
-            }
-            if (room.getCapacity() != null) {
-                roomDTO.setCapacity(String.valueOf(room.getCapacity()));
-            }
+            roomDTO.setId(room.getId());
+            roomDTO.setName(room.getName());
+            roomDTO.setCapacity(room.getCapacity());
             if (room.getLocation() != null) {
                 LocationDTO locationDTO = new LocationDTO();
                 locationDTO.setId(room.getLocation().getId());
@@ -95,14 +81,12 @@ public class RoomDTOConverter {
                 locationDTO.setAddress(room.getLocation().getAddress());
                 roomDTO.setLocation(locationDTO);
             }
-            if (room.getEquipments() != null) {
-                room.getEquipments().forEach(e -> {
-                    RoomEquipmentDTO roomEquipmentDTO = new RoomEquipmentDTO();
-                    roomEquipmentDTO.setId(e.getId());
-                    roomEquipmentDTO.setName(e.getName());
-                    roomDTO.getEquipments().add(roomEquipmentDTO);
-                });
-            }
+            room.getEquipments().forEach(e -> {
+                RoomEquipmentDTO roomEquipmentDTO = new RoomEquipmentDTO();
+                roomEquipmentDTO.setId(e.getId());
+                roomEquipmentDTO.setName(e.getName());
+                roomDTO.getEquipments().add(roomEquipmentDTO);
+            });
             return roomDTO;
         }
         return null;

@@ -49,7 +49,7 @@ public class Meeting {
     private Room room;
 
     /**
-     * Start time of the meeting.
+     * Date of the meeting.
      */
     private LocalDate date;
 

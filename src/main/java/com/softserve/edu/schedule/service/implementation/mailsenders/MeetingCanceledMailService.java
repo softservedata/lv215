@@ -12,7 +12,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.softserve.edu.schedule.dto.MeetingForMailDTO;
+import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 
 /**
  * A class to provide mail notifications of the meetings owners about cancelled
@@ -42,7 +42,7 @@ public class MeetingCanceledMailService {
      */
     @Async
     public void sendInfoMessageRoomDeletion(
-            final MeetingForMailDTO meetingForMailDTO) {
+            final MeetingCompactDTO meetingForMailDTO) {
         String reason = "the unavailability of the selected room";
         sendInfoMessageMeetingCanceled(meetingForMailDTO, reason);
     }
@@ -58,7 +58,7 @@ public class MeetingCanceledMailService {
      *            reason of meeting canceling.
      */
     private void sendInfoMessageMeetingCanceled(
-            final MeetingForMailDTO meetingForMailDTO, final String reason) {
+            final MeetingCompactDTO meetingForMailDTO, final String reason) {
 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
 

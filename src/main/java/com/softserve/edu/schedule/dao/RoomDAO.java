@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.dao;
 
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Room;
 
@@ -38,7 +39,7 @@ public interface RoomDAO extends CrudDAO<Room> {
      * 
      * @return List of the room objects.
      */
-    List<Room> getRoomsWithFilter(final RoomFilter roomFilter);
+    List<Room> getRoomsPageWithFilter(final RoomFilter roomFilter, final Paginator roomPaginator);
 
     /**
      * Find all rooms entities in the database with location and equipment
