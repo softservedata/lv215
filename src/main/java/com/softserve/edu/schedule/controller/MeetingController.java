@@ -19,6 +19,7 @@ import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
+import com.softserve.edu.schedule.dto.filter.DateFilter;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.RoomService;
@@ -68,6 +69,7 @@ public class MeetingController {
 
     @Autowired
     private RoomDTOEditor roomDTOEditor;
+   
 
     @InitBinder("meetingForm")
     protected void initBinder(WebDataBinder binder) {
@@ -77,6 +79,13 @@ public class MeetingController {
         binder.registerCustomEditor(UserDTO.class, userDTOEditor);
         binder.registerCustomEditor(RoomDTO.class, roomDTOEditor);
         binder.registerCustomEditor(UserGroupDTO.class, userGroupDTOEditor);
+        
+    }
+    
+    @InitBinder("searchmeetingsbydate")
+    protected void initBinderForDate(WebDataBinder binder) {
+        binder.registerCustomEditor(LocalDate.class, dateEditor);
+        
     }
 
     @ModelAttribute("meetingForm")
@@ -105,8 +114,8 @@ public class MeetingController {
     }
 
     @ModelAttribute("searchmeetingsbydate")
-    public MeetingDTO searchMeetingByDate() {
-        return new MeetingDTO();
+    public DateFilter searchMeetingByDate() {
+        return new DateFilter();
     }
 
     @ModelAttribute("searchmeetingsbygroup")
@@ -124,12 +133,20 @@ public class MeetingController {
         return new MeetingDTO();
     }
 
+    /**Shows start page for Meetings.
+     * @param model
+     * @return
+     */
     @RequestMapping
     public String showMeetingPage(Model model) {
         model.addAttribute("meetings", meetingService.getAll());
         return "meetings/list";
     }
 
+    /**Sort all meetings by description order: ASC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbydescriptionasc", method = RequestMethod.GET)
     public String sortByDescriptionAcs(Model model) {
         model.addAttribute("meetings",
@@ -137,6 +154,10 @@ public class MeetingController {
         return "meetings/list";
     }
 
+    /**Sort all meetings by description order: DESC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbydescriptiondesc",
             method = RequestMethod.GET)
     public String sortByDescriptionDesc(Model model) {
@@ -145,36 +166,60 @@ public class MeetingController {
         return "meetings/list";
     }
 
+    /**Sort all meetings by level order: ASC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbylevelasc", method = RequestMethod.GET)
     public String sortByLevelAcs(Model model) {
         model.addAttribute("meetings", meetingService.sortByLevel(Order.ASC));
         return "meetings/list";
     }
 
+    /**Sort all meetings by level order: DESC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbyleveldesc", method = RequestMethod.GET)
     public String sortByLevelDesc(Model model) {
         model.addAttribute("meetings", meetingService.sortByLevel(Order.DESC));
         return "meetings/list";
     }
 
+    /**Sort all meetings by status order: ASC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbystatusasc", method = RequestMethod.GET)
     public String sortByStatusAcs(Model model) {
         model.addAttribute("meetings", meetingService.sortByStatus(Order.ASC));
         return "meetings/list";
     }
 
+    /**Sort all meetings by status order: DESC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbystatusdesc", method = RequestMethod.GET)
     public String sortByStatusDesc(Model model) {
         model.addAttribute("meetings", meetingService.sortByStatus(Order.DESC));
         return "meetings/list";
     }
 
+    /**Sort all meetings by subject name order: ASC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbysubjectasc", method = RequestMethod.GET)
     public String sortBySubjectAcs(Model model) {
         model.addAttribute("meetings", meetingService.sortBySubject(Order.ASC));
         return "meetings/list";
     }
 
+    /**Sort all meetings by subject name order: DESC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbysubjectdesc", method = RequestMethod.GET)
     public String sortBySubjectDesc(Model model) {
         model.addAttribute("meetings",
@@ -182,36 +227,60 @@ public class MeetingController {
         return "meetings/list";
     }
 
+    /**Sort all meetings by owner last name order: ASC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbyownerasc", method = RequestMethod.GET)
     public String sortByOwnerAcs(Model model) {
         model.addAttribute("meetings", meetingService.sortByOwner(Order.ASC));
         return "meetings/list";
     }
 
+    /**Sort all meetings by owner last name order: DESC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbyownerdesc", method = RequestMethod.GET)
     public String sortByOwnerDesc(Model model) {
         model.addAttribute("meetings", meetingService.sortByOwner(Order.DESC));
         return "meetings/list";
     }
 
+    /**Sort all meetings by room name order: ASC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbyroomasc", method = RequestMethod.GET)
     public String sortByRoomAcs(Model model) {
         model.addAttribute("meetings", meetingService.sortByRoom(Order.ASC));
         return "meetings/list";
     }
 
+    /**Sort all meetings by room name order: DESC.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/sortbyroomdesc", method = RequestMethod.GET)
     public String sortByRoomDesc(Model model) {
         model.addAttribute("meetings", meetingService.sortByRoom(Order.DESC));
         return "meetings/list";
     }
 
+    /**Creates new meetingDTO.
+     * @param meetingDTO
+     * @return
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     public String create(@ModelAttribute("meetingForm") MeetingDTO meetingDTO) {
         meetingService.create(meetingDTO);
         return "redirect:/meetings";
     }
 
+    /**Creates new meetingDTO.
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createForm(Model model) {
         model.addAttribute("meetingForm", new MeetingDTO());
@@ -222,18 +291,31 @@ public class MeetingController {
         return "meetings/create";
     }
 
+    /**Deletes meeting by given id.
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
         meetingService.deleteById(id);
         return "redirect:/meetings";
     }
 
+    /**Deletes meeting by given id.
+     * @param meetingDTO
+     * @return
+     */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
     public String edit(@ModelAttribute("meetingForm") MeetingDTO meetingDTO) {
         meetingService.update(meetingDTO);
         return "redirect:/meetings";
     }
 
+    /**Edits meeting by given id.
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("meetingForm", meetingService.getById(id));
@@ -245,6 +327,10 @@ public class MeetingController {
         return "meetings/edit";
     }
 
+    /**Edits meeting by given id.
+     * @param meetingDTO
+     * @return
+     */
     @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
     public String editStatus(@ModelAttribute("meeting") MeetingDTO meetingDTO) {
         meetingService.changeMeetingStatus(meetingDTO.getId(),
@@ -252,6 +338,11 @@ public class MeetingController {
         return "redirect:/meetings";
     }
 
+    /**Edits meeting status by given id.
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.GET)
     public String editStatusForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("meetingForm", meetingService.getById(id));
@@ -267,6 +358,11 @@ public class MeetingController {
      * Search methods.
      */
 
+    /**Search meeting by given description.
+     * @param meetingDTO
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/searchmeetingsbydescription",
             method = RequestMethod.POST)
     public String searchByDescription(
@@ -277,6 +373,11 @@ public class MeetingController {
         return "meetings/list";
     }
 
+    /**Search meeting by given subjectDTO.
+     * @param subjectDTO
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/searchmeetingsbysubject",
             method = RequestMethod.POST)
     public String searchBySubject(
@@ -287,6 +388,11 @@ public class MeetingController {
         return "meetings/list";
     }
 
+    /**Search meeting by given ownerDTO.
+     * @param userDTO
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/searchmeetingsbyowner",
             method = RequestMethod.POST)
     public String searchByOwnew(
@@ -297,6 +403,11 @@ public class MeetingController {
         return "meetings/list";
     }
 
+    /**Search meeting by given roomDTO.
+     * @param roomDTO
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/searchmeetingsbyroom",
             method = RequestMethod.POST)
     public String searchByRoom(
@@ -307,6 +418,11 @@ public class MeetingController {
         return "meetings/list";
     }
 
+    /**Search meeting by given level.
+     * @param meetingDTO
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/searchmeetingsbylevel",
             method = RequestMethod.POST)
     public String searchByLevel(
@@ -317,17 +433,26 @@ public class MeetingController {
         return "meetings/list";
     }
 
-    // TODO
+    /**Search meeting by given date.
+     * @param dateFilter
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/searchmeetingsbydate",
             method = RequestMethod.POST)
     public String searchByDate(
-            @ModelAttribute("searchmeetingsbydate") MeetingDTO meetingDTO,
+            @ModelAttribute("searchmeetingsbydate") DateFilter dateFilter,
             Model model) {
-        model.addAttribute("searchmeetingsbydate", meetingService
-                .searchByDate(meetingDTO.getDate()));
+        model.addAttribute("meetings", meetingService
+                .searchByDate(dateFilter.getDate()));
         return "meetings/list";
     }
 
+    /**Search meeting by given userGroups.
+     * @param userGroupDTO
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/searchmeetingsbygroup",
             method = RequestMethod.POST)
     public String searchByGroups(
@@ -338,6 +463,11 @@ public class MeetingController {
         return "meetings/list";
     }
 
+    /**Search meeting by given status.
+     * @param meetingDTO
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/searchmeetingsbystatus",
             method = RequestMethod.POST)
     public String searchByStatus(
