@@ -26,5 +26,36 @@ public interface ValidationFields {
      * Location field.
      */
     String LOCATION = "location";
+    
+    /**
+     * FirstName field.
+     */
+    String FIRSTNAME = "firstName";
+    
+    /**
+     * LastName field.
+     */
+    String LASTNAME = "lastName";
+    
+    
+    /**
+     * Mail field.
+     */
+    String MAIL = "mail";
+    
+    /**
+     * Phone field.
+     */
+    String PHONE = "phone";
+    
+    /**
+     * Position field.
+     */
+    String POSITION= "position";
+    
+    /**
+     * Password field.
+     */
+    String PASSWORD = "password";
 
 }

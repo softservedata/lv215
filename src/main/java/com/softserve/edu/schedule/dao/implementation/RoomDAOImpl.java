@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.Room_;
@@ -123,7 +124,8 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
      * @return List of the room objects.
      */
     @Override
-    public List<Room> getRoomsWithFilter(final RoomFilter roomFilter) {
+    public List<Room> getRoomsPageWithFilter(final RoomFilter roomFilter,
+            final Paginator roomPaginator) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Room> cq = builder.createQuery(Room.class);
         Root<Room> root = cq.from(Room.class);
@@ -133,7 +135,8 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
             cq.where(predicate);
         }
         cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
+        return getEm().createQuery(cq).setFirstResult(roomPaginator.getOffset())
+                .setMaxResults(roomPaginator.getPageSize()).getResultList();
     }
 
 }

@@ -42,17 +42,18 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGrou
 	 * 
 	 * @see com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getAll()
 	 */
-	@Override
-	public List<UserGroup> getAll() {
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-		Root<UserGroup> root = cq.from(UserGroup.class);
-
-		root.fetch(UserGroup_.curator, JoinType.LEFT);
-		root.fetch(UserGroup_.users, JoinType.LEFT);
-		cq.distinct(true);
-		return getEm().createQuery(cq).getResultList();
-	}
+	/*
+	 * @Override
+	 * 
+	 * public List<UserGroup> getAll() { CriteriaBuilder builder =
+	 * getEm().getCriteriaBuilder(); CriteriaQuery<UserGroup> cq =
+	 * builder.createQuery(UserGroup.class); Root<UserGroup> root =
+	 * cq.from(UserGroup.class);
+	 * 
+	 * root.fetch(UserGroup_.curator, JoinType.LEFT);
+	 * root.fetch(UserGroup_.users, JoinType.LEFT); cq.distinct(true); return
+	 * getEm().createQuery(cq).getResultList(); }
+	 */
 
 	/*
 	 * (non-Javadoc)
@@ -77,6 +78,13 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGrou
 		return getEm().createQuery(cq).getResultList();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getById(java.
+	 * lang.Long)
+	 */
 	@Override
 	public UserGroup getById(Long id) {
 		CriteriaBuilder builder = getEm().getCriteriaBuilder();

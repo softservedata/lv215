@@ -9,8 +9,8 @@ package com.softserve.edu.schedule.service;
 import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.UserGroup;
+import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserGroupDTO;
 
 /**
  * A simple service interface to handle the operation required to manipulate a
@@ -28,7 +28,7 @@ public interface UserGroupService {
 	 * @param UserGroup
 	 *            - UserGroup object
 	 */
-	void create(final UserGroup userGroup);
+	void create(final UserGroupDTO userGroupDTO);
 
 	/**
 	 * Updating UserGroup in database.
@@ -36,7 +36,7 @@ public interface UserGroupService {
 	 * @param userGroup
 	 *            - UserGroup object
 	 */
-	void update(final UserGroup userGroup);
+	void update(final UserGroupDTO userGroupDTO);
 
 	/**
 	 * Returns a UserGroup object if it exists in table.
@@ -45,7 +45,7 @@ public interface UserGroupService {
 	 *            UserGroup transfer object id
 	 * @return UserGroup transfer object
 	 */
-	UserGroup getById(final Long id);
+	UserGroupDTO getById(final Long id);
 
 	/**
 	 * Deleting existed UserGroup entity from the database by id.
@@ -60,7 +60,7 @@ public interface UserGroupService {
 	 *
 	 * @return List of UserGroup objects
 	 */
-	List<UserGroup> getAll();
+	List<UserGroupDTO> getAll();
 
 	/**
 	 * Deleting UserGroup in database.
@@ -68,7 +68,7 @@ public interface UserGroupService {
 	 * @param userGroup
 	 *            - UserGroup object
 	 */
-	void delete(final UserGroup userGroup);
+	void delete(final UserGroupDTO userGroupDTO);
 
 	/**
 	 * Returns a List of sorted UserGroup transfer objects.
@@ -79,7 +79,7 @@ public interface UserGroupService {
 	 *            - ASC or DESC
 	 * @return List of sorted UserGroup transfer objects
 	 */
-	List<UserGroup> sort(final String field, final Order order);
+	List<UserGroupDTO> sort(final String field, final Order order);
 
 	/**
 	 * Returns a List of searched UserGroup transfer objects.
@@ -90,14 +90,14 @@ public interface UserGroupService {
 	 *            - input string
 	 * @return List of sorted UserGroup transfer objects
 	 */
-	List<UserGroup> search(final String field, final String pattern);
+	List<UserGroupDTO> search(final String field, final String pattern);
 
 	/**
 	 * Method returns list of sorted locations by count of groups.
 	 * 
 	 * @return list of sorted groups by count of members
 	 */
-	List<UserGroup> sortByCountMembers(final Order order);
+	List<UserGroupDTO> sortByCountMembers(final Order order);
 
 	/**
 	 * Method returns list of sorted usergroups.
@@ -108,7 +108,7 @@ public interface UserGroupService {
 	 *            ASC or DESC
 	 * @return list of sorted usergroups
 	 */
-	List<UserGroup> sortByFields(final String field, final Order order);
+	List<UserGroupDTO> sortByFields(final String field, final Order order);
 
 	/**
 	 * Adding user to a list of users in a group
@@ -118,5 +118,23 @@ public interface UserGroupService {
 	 * @param group
 	 *            Group where we need to add a user
 	 */
-	public void addUserToGroup(final User user, final UserGroup group);
+	public UserGroupDTO addUserToGroup(final UserDTO userDTO, final UserGroupDTO userGroupDTO);
+
+	/**
+	 * Method for searching groups by name pattern
+	 * 
+	 * @param pattern
+	 *            a patter to search
+	 * @return List of UserGroups
+	 */
+	public List<UserGroupDTO> searchByName(final String pattern);
+
+	/**
+	 * Method for searching groups by curator pattern
+	 * 
+	 * @param pattern
+	 *            a patter to search
+	 * @return List of UserGroups
+	 */
+	public List<UserGroupDTO> searchByCurator(final String pattern);
 }

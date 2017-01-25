@@ -12,12 +12,6 @@
 		$("select[name=curators]").chosen({
 			width : "100%"
 		});
-		$("select[name=users]").chosen({
-			width : "100%"
-		});
-		$("select[name=curators]").chosen({
-			width : "100%"
-		});
 	})
 </script>
 <div class="container">
@@ -25,25 +19,27 @@
 		<div
 			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
 
-			<h3 class="text-center">Create Group</h3>
+			<h3 class="text-center">CREATE GROUP</h3>
 			<form:form method="post" modelAttribute="userGroupForm">
 				<form:hidden path="id" />
 
 				<div class="form-group">
 					<label for="Title">Title</label>
-					<form:input path="name" class="form-control" placeholder="Title" />
+					<form:input path="name" class="form-control" placeholder="Title"
+						required="true" />
 				</div>
 
 				<div class="form-group">
 					<label for="description">Description</label>
 					<form:input path="description" class="form-control"
-						placeholder="Description" />
+						placeholder="Description" required="true" />
 				</div>
 
 
 				<div class="form-group">
 					<label for="level">Level</label>
-					<form:input path="level" class="form-control" placeholder="Level" />
+					<form:input path="level" class="form-control" placeholder="Level"
+						required="true" />
 				</div>
 
 
@@ -55,14 +51,12 @@
 								<option value="${curator.id}" selected="selected">${curator.lastName}</option>
 							</c:when>
 							<c:otherwise>
-								<option value="${curator.id}">${curator.lastName}
-									${curator.firstName}</option>
+								<option value="${curator.id}">${curator.lastName}</option>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
 				</form:select>
 
-				<div class="form-group"></div>
 				<label for="users">Members</label>
 				<form:select class="form-control" path="users" id="users"
 					multiple="multiple">
@@ -81,6 +75,7 @@
 						</c:if>
 					</c:forEach>
 				</form:select>
+				
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
 						value="<spring:message code="lbl.form.save"/>"> <a
