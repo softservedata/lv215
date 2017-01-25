@@ -137,6 +137,5 @@ public interface UserService {
      * @param id
      *            a user id to delete from database.
      */
-    public void deleteById(final Long id);
-
+    public boolean deleteById(final Long id);
 }

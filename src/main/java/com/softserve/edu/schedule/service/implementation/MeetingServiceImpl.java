@@ -17,14 +17,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
+
 import com.softserve.edu.schedule.dto.MeetingDTO;
-import com.softserve.edu.schedule.dto.MeetingsForRoomDTO;
+
 import com.softserve.edu.schedule.dto.UserGroupDTO;
+
+import com.softserve.edu.schedule.dto.MeetingCompactDTO;
+
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
 import com.softserve.edu.schedule.service.MeetingService;
+
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingsForRoomDTOConverter;
+
+import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
+
 
 /**
  * This is implementation of the interface for managing Meetings Service.
@@ -50,7 +57,7 @@ public class MeetingServiceImpl implements MeetingService {
      * Field for MeetingsForRoomDTOConverter.
      */
     @Autowired
-    private MeetingsForRoomDTOConverter meetingsForRoomDTOConverter;
+    private MeetingCompactDTOConverter meetingCompactDTOConverter;
 
     /*
      * (non-Javadoc)
@@ -385,14 +392,18 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * (non-Javadoc)
      * 
+<<<<<<< HEAD
      * @see com.softserve.edu.schedule.service.MeetingService#
      * getMeetingsByRoomIDAndDate(java.lang.Long, java.time.LocalDate)
+=======
+     * @return List of the MeetingCompactDTO objects.
+>>>>>>> 16056cdee5ab399e1bbba4433adbcce1ccc387bc
      */
     @Override
-    public List<MeetingsForRoomDTO> getMeetingsByRoomIDAndDate(Long roomId,
+    public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId,
             LocalDate date) {
         return meetingDao.getMeetingsByRoomIDAndDate(roomId, date).stream()
-                .map(e -> meetingsForRoomDTOConverter.getDTO(e))
+                .map(e -> meetingCompactDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
 }

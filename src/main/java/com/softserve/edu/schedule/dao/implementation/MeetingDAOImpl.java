@@ -460,6 +460,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
             predicate = builder.and(predicate,
                     root.get(Meeting_.date).in(date));
             cq.where(predicate);
+            cq.distinct(true);
             return getEm().createQuery(cq).getResultList();
         } catch (NoResultException e) {
             return new ArrayList<>();

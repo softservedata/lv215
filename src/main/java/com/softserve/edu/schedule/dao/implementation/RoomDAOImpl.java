@@ -15,9 +15,9 @@ import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Room;
-import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.entity.Room_;
 import com.softserve.edu.schedule.service.implementation.specification.RoomFilterSpecification;
 
@@ -33,8 +33,20 @@ import com.softserve.edu.schedule.service.implementation.specification.RoomFilte
 @Repository
 public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
+    /**
+     * RoomEquipmentDAO example to provide database operations.
+     *
+     */
     @Autowired
     RoomEquipmentDAO roomEquipmentDAO;
+
+    /**
+     * Default constructor to provide entity class for DAO.
+     *
+     */
+    public RoomDAOImpl() {
+        super(Room.class);
+    }
 
     /**
      * Return a Room object if found.
@@ -52,26 +64,6 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
         root.fetch(Room_.equipments, JoinType.LEFT);
         cq.where(root.get(Room_.id).in(id));
         return getEm().createQuery(cq).getSingleResult();
-    }
-
-    /**
-     * Default constructor to provide entity class for DAO.
-     *
-     */
-    public RoomDAOImpl() {
-        super(Room.class);
-    }
-
-    /**
-     * Delete existed room entity from the database by id.
-     *
-     * @param id
-     *            a room id to delete from database.
-     */
-    @Override
-    public void deleteById(final Long id) {
-        Room room = getById(id);
-        delete(room);
     }
 
     /**
@@ -106,100 +98,21 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     public Room getByNameAndLocationId(final String roomName,
             final Long locationId) {
         try {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Room> cq = builder.createQuery(Room.class);
-        Root<Room> root = cq.from(Room.class);
-        root.fetch(Room_.location, JoinType.LEFT);
-        root.fetch(Room_.equipments, JoinType.LEFT);
-        Predicate predicate = builder.conjunction();
-        predicate = builder.and(predicate, builder.like(root.get(Room_.name), roomName));
-        predicate = builder.and(predicate, root.get(Room_.location).in(locationId));
-        cq.where(predicate);
-        return getEm().createQuery(cq).getSingleResult();
-        } catch (NoResultException e){
+            CriteriaBuilder builder = getEm().getCriteriaBuilder();
+            CriteriaQuery<Room> cq = builder.createQuery(Room.class);
+            Root<Room> root = cq.from(Room.class);
+            root.fetch(Room_.location, JoinType.LEFT);
+            root.fetch(Room_.equipments, JoinType.LEFT);
+            Predicate predicate = builder.conjunction();
+            predicate = builder.and(predicate,
+                    builder.like(root.get(Room_.name), roomName));
+            predicate = builder.and(predicate,
+                    root.get(Room_.location).in(locationId));
+            cq.where(predicate);
+            return getEm().createQuery(cq).getSingleResult();
+        } catch (NoResultException e) {
             return null;
         }
-    }
-
-    /**
-     * Find all rooms entities in the database with location and equipment
-     * details which has capacity in given interval.
-     *
-     * @param minCapacity
-     *            a minimum capacity.
-     * @param maxCapacity
-     *            a minimum capacity.
-     *
-     * @return List of the room objects.
-     */
-    @Override
-    public List<Room> getRoomsByCapacity(final int minCapacity,
-            final int maxCapacity) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Room> cq = builder.createQuery(Room.class);
-        Root<Room> root = cq.from(Room.class);
-        root.fetch(Room_.location, JoinType.LEFT);
-        root.fetch(Room_.equipments, JoinType.LEFT);
-        if (maxCapacity > 0 && minCapacity > 0) {
-            cq.where(builder.between(root.get(Room_.capacity), minCapacity,
-                    maxCapacity));
-        } else if (maxCapacity > 0) {
-            cq.where(builder.lessThan(root.get(Room_.capacity), maxCapacity));
-        } else if (minCapacity > 0) {
-            cq.where(
-                    builder.greaterThan(root.get(Room_.capacity), minCapacity));
-        }
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    /**
-     * Find all rooms entities in the database with location and equipment
-     * details by given location id.
-     *
-     * @param locationId
-     *            a location id to find rooms.
-     *
-     * @return List of the room objects.
-     */
-    @Override
-    public List<Room> getRoomsByLocationId(final long locationId) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Room> cq = builder.createQuery(Room.class);
-        Root<Room> root = cq.from(Room.class);
-        root.fetch(Room_.location, JoinType.LEFT);
-        root.fetch(Room_.equipments, JoinType.LEFT);
-        cq.where(root.get(Room_.location).in(locationId));
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    /**
-     * Find all rooms entities in the database with location and equipment
-     * details by given equipments list.
-     *
-     * @param equipments
-     *            an equipments list to find rooms.
-     *
-     * @return List of the room objects.
-     */
-    @Override
-    public List<Room> getRoomsWithEquipments(
-            final List<RoomEquipment> equipments) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Room> cq = builder.createQuery(Room.class);
-        Root<Room> root = cq.from(Room.class);
-        root.fetch(Room_.location, JoinType.LEFT);
-        root.fetch(Room_.equipments, JoinType.LEFT);
-        Predicate predicate = builder.conjunction();
-        for (RoomEquipment equipment : equipments) {
-            Predicate newPredicate = builder.isMember(equipment,
-                    root.get(Room_.equipments));
-            predicate = builder.and(predicate, newPredicate);
-        }
-        cq.where(predicate);
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
     }
 
     /**
@@ -211,7 +124,8 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
      * @return List of the room objects.
      */
     @Override
-    public List<Room> getRoomsWithFilter(final RoomFilter roomFilter) {
+    public List<Room> getRoomsPageWithFilter(final RoomFilter roomFilter,
+            final Paginator roomPaginator) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Room> cq = builder.createQuery(Room.class);
         Root<Room> root = cq.from(Room.class);
@@ -221,7 +135,8 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
             cq.where(predicate);
         }
         cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
+        return getEm().createQuery(cq).setFirstResult(roomPaginator.getOffset())
+                .setMaxResults(roomPaginator.getPageSize()).getResultList();
     }
 
 }

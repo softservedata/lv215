@@ -7,6 +7,7 @@ import java.beans.PropertyEditorSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserGroupForMeetingDTOConverter;
@@ -29,8 +30,6 @@ public class UserGroupForMeetingDTOEditor extends PropertyEditorSupport {
     @Autowired
     private UserGroupService userGroupService;
 
-    @Autowired
-    private UserGroupForMeetingDTOConverter userGroupForMeetingDTOConverter;
 
     /**
      * Provides a LocationDTO example by given location id in String format.
@@ -44,7 +43,7 @@ public class UserGroupForMeetingDTOEditor extends PropertyEditorSupport {
     @Override
 
     public void setAsText(String text) throws IllegalArgumentException {
-        UserGroup userGroup = userGroupService.getById(Long.valueOf(text));
-        setValue(userGroupForMeetingDTOConverter.getDTO(userGroup));
+        UserGroupDTO userGroupDTO = userGroupService.getById(Long.valueOf(text));
+        setValue(userGroupDTO);
     }
 }

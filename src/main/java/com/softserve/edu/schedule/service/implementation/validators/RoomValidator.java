@@ -113,7 +113,7 @@ public class RoomValidator implements Validator {
      * @return true if capacity is valid
      */
     private boolean isRoomCapacityValid(RoomDTO roomDTO) {
-        return roomDTO.getCapacity().matches(ValidationCriteria.DIGITS_ONLY);
+        return roomDTO.getCapacity() > 0;
     }
 
     /**

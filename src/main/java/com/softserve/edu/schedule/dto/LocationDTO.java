@@ -112,7 +112,11 @@ public class LocationDTO {
      *            the rooms to set
      */
     public void setRooms(List<RoomForLocationDTO> rooms) {
-        this.rooms = rooms;
+        if (rooms == null) {
+            this.rooms = new ArrayList<>();
+        } else {
+            this.rooms = rooms;
+        }
     }
 
 }

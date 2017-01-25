@@ -11,11 +11,13 @@ import com.softserve.edu.schedule.service.UserService;
 @Service
 public class UserDTOEditor extends PropertyEditorSupport {
 
-    @Autowired
-    private UserService userService;
 
-    @Override
-    public void setAsText(String text) throws IllegalArgumentException {
-        setValue(userService.getById(Long.valueOf(text)));
-    }
+	@Autowired
+	private UserService userService;
+
+	@Override
+	public void setAsText(String text) throws IllegalArgumentException {
+		setValue(userService.getById(Long.valueOf(text)));
+	}
+
 }
