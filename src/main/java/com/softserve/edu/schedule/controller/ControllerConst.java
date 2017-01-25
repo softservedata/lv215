@@ -22,6 +22,8 @@ public interface ControllerConst {
 	 *
 	 * @since 1.8
 	 */
+	
+	String ROOM_EQUIPMENTS_URL = "/roomequipments";
 	public interface RoomControllerConst {
 		/**
 		 * Room model attribute name.
@@ -623,5 +625,31 @@ public interface ControllerConst {
 		 * Mapping on a usergroups page
 		 */
 		String USERGROUP_MAPPING = "/usergroups";
+	}
+	
+	public interface RoomEquipmentControllerConst{
+		String ROOM_EQUIPMENTS_MAPPING = "/roomequipments";
+		
+		String ROOM_EQUIPMENTS_CREATE = "/create";
+		
+		String ROOM_EQUIPMENTS_LIST = "roomequipments/list";
+		
+		String ROOM_EQUIPMENTS_CREATE_URL = "roomequipments/create";
+		
+		String ROOM_EQUIPMENTS_REDIRECT = "redirect:/roomequipments";
+		
+		String ROOM_EQUIPMENTS_EDIT_URL = "roomequipments/edit";
+		
+		String ROOM_EQUIPMENTS_EDIT = "/edit/";
+		
+		String 	ROOM_EQUIPMENTS_MODEL_ATTR = "equipments";
+		
+		String 	ROOM_EQUIPMENTS_DELETE = "/delete/";
+		
+		String ROOM_EQUIPMENT_FORM = "equipmentForm";
+		
+		String ROOM_EQUIPMENTS_SORT_ASC = "/sortbynameasc";
+		
+		String ROOM_EQUIPMENTS_SORT_DESC = "/sortbynamedesc";
 	}
 }

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomEquipmentDTOConverter;
 
 /**
  * A class to provide conversion operations from form field roomEquipmentId to
@@ -28,6 +29,9 @@ public class RoomEquipmentDTOEditor extends PropertyEditorSupport {
      */
     @Autowired
     private RoomEquipmentService roomEquipmentService;    
+    
+    @Autowired
+    private RoomEquipmentDTOConverter roomEquipmentDTOConverter;
 
     /**
      * Provides a RoomEquipmentDTO example by given room equipment id in String
@@ -42,8 +46,8 @@ public class RoomEquipmentDTOEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(final String roomEquipmentId)
             throws IllegalArgumentException {
-        RoomEquipment roomEquipment = roomEquipmentService
-                .getById(Long.valueOf(roomEquipmentId));
+        RoomEquipment roomEquipment = roomEquipmentDTOConverter
+        		.getEntity(roomEquipmentService.getById(Long.valueOf(roomEquipmentId)));
         RoomEquipmentDTO roomEquipmentDTO = new RoomEquipmentDTO();
         roomEquipmentDTO.setId(roomEquipment.getId());
         roomEquipmentDTO.setName(roomEquipment.getName());
