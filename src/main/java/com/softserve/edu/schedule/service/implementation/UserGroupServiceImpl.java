@@ -180,6 +180,8 @@ public class UserGroupServiceImpl implements UserGroupService {
 	public UserGroupDTO addUserToGroup(final UserDTO userDTO, final UserGroupDTO userGroupDTO) {
 		List<UserDTO> users = userGroupDTO.getUsers();
 
+		// TODO
+		// hashCode
 		if (users != null) {
 			for (UserDTO user : users) {
 				if (user.getId() == userDTO.getId()) {
