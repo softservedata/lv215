@@ -8,12 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.softserve.edu.schedule.controller.ControllerConst.RoomEquipmentControllerConst;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 
-//@RequestMapping("/roomequipments")
 @RequestMapping(ControllerConst.ROOM_EQUIPMENTS_URL)
 @Controller
 public class RoomEquipmentController implements ControllerConst.RoomEquipmentControllerConst{

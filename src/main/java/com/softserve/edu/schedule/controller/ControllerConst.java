@@ -54,6 +54,11 @@ public interface ControllerConst {
 		 * Filter model attribute name.
 		 */
 		String FILTER_MODEL_ATTR = "roomFilter";
+		
+		/**
+                 * Filter model attribute name.
+                 */
+                String ROOM_PAGINATOR_MODEL_ATTR = "roomPaginator";
 
 		/**
 		 * Date filter model attribute name.

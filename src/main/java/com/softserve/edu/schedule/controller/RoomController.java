@@ -158,7 +158,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      * 
      * @return new Paginator object.
      */
-    @ModelAttribute("roomPaginator")
+    @ModelAttribute(ROOM_PAGINATOR_MODEL_ATTR)
     public Paginator getPaginator() {
         return new Paginator();
     }
@@ -187,7 +187,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     @RequestMapping(method = RequestMethod.GET)
     public String listRooms(final Model model,
             @ModelAttribute(FILTER_MODEL_ATTR) final RoomFilter filter,
-            @ModelAttribute("roomPaginator") final Paginator paginator) {
+            @ModelAttribute(ROOM_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
         model.addAttribute(ROOMS_MODEL_ATTR,
                 roomService.getRoomsPageWithFilter(filter, paginator));
         model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
