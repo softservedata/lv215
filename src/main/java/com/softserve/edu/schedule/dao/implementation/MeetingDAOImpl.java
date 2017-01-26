@@ -32,6 +32,14 @@ import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dao.UserGroupDAO;
+import com.softserve.edu.schedule.dto.MeetingDTO;
+import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.SubjectDTO;
+import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserGroupDTO;
+import com.softserve.edu.schedule.dto.filter.MeetingFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
@@ -43,6 +51,8 @@ import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.entity.User_;
+import com.softserve.edu.schedule.service.implementation.specification.MeetingFilterSpecification;
+import com.softserve.edu.schedule.service.implementation.specification.RoomFilterSpecification;
 
 /**
  * This class implements the MeetingsDAO. It also implements ReadDAO interface.
@@ -58,6 +68,29 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      */
     public MeetingDAOImpl() {
         super(Meeting.class);
+    }
+    UserGroupDAO userGroupDAO;
+    
+    
+    //TODO
+    @Override
+    public List<Meeting> getMeetingPageWithFilter(final MeetingFilter meetingFilter,
+            final Paginator meetingPaginator) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> criteriaQuery = builder.createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
+        
+        Predicate predicate = new MeetingFilterSpecification(meetingFilter,
+                userGroupDAO).toPredicate(root, criteriaQuery, builder);
+        if (predicate != null) {
+            criteriaQuery.where(predicate);
+        }
+        criteriaQuery.distinct(true);
+        meetingPaginator.setPagesCount(
+                getEm().createQuery(criteriaQuery).getResultList().size());
+        return getEm().createQuery(criteriaQuery)
+                .setFirstResult(meetingPaginator.getOffset())
+                .setMaxResults(meetingPaginator.getPageSize()).getResultList();
     }
 
     /*
@@ -130,13 +163,13 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * String)
      */
     @Override
-    public List<Meeting> searchBySubject(final String pattern) {
+    public List<Meeting> searchBySubject(final SubjectDTO subjectDTO) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
         Join<Meeting, Subject> joinSubject = root.join(Meeting_.subject);
         Predicate predicate = builder.like(joinSubject.get(Subject_.name),
-                SEARCH_MASK + pattern + SEARCH_MASK);
+                SEARCH_MASK + subjectDTO.getName() + SEARCH_MASK);
         cq.where(predicate);
         return getEm().createQuery(cq).getResultList();
     }
@@ -148,13 +181,13 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * com.softserve.edu.schedule.dao.MeetingDAO#searchByOwner(java.lang.String)
      */
     @Override
-    public List<Meeting> searchByOwner(final String pattern) {
+    public List<Meeting> searchByOwner(final UserDTO userDTO) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
         Join<Meeting, User> joinUser = root.join(Meeting_.owner);
         Predicate predicate = builder.like(joinUser.get(User_.lastName),
-                SEARCH_MASK + pattern + SEARCH_MASK);
+                SEARCH_MASK + userDTO.getLastName() + SEARCH_MASK);
         cq.where(predicate);
         return getEm().createQuery(cq).getResultList();
     }
@@ -165,13 +198,13 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * @see
      * com.softserve.edu.schedule.dao.MeetingDAO#searchByRoom(java.lang.String)
      */
-    public List<Meeting> searchByRoom(final String pattern) {
+    public List<Meeting> searchByRoom(final RoomDTO roomDTO) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
         Join<Meeting, Room> joinRoom = root.join(Meeting_.room);
         Predicate predicate = builder.like(joinRoom.get(Room_.name),
-                SEARCH_MASK + pattern + SEARCH_MASK);
+                SEARCH_MASK + roomDTO.getName() + SEARCH_MASK);
         cq.where(predicate);
         return getEm().createQuery(cq).getResultList();
     }
@@ -183,13 +216,13 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * com.softserve.edu.schedule.dao.MeetingDAO#searchByUserGroup(java.lang.
      * String)
      */
-    public List<Meeting> searchByUserGroup(final String pattern) {
+    public List<Meeting> searchByUserGroup(final UserGroupDTO userGroupDTO) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
         Join<Meeting, UserGroup> joinUserGroup = root.join(Meeting_.groups);
         Predicate predicate = builder.like(joinUserGroup.get(UserGroup_.name),
-                SEARCH_MASK + pattern + SEARCH_MASK);
+                SEARCH_MASK + userGroupDTO.getName() + SEARCH_MASK);
         cq.where(predicate);
         return getEm().createQuery(cq).getResultList();
     }
@@ -200,14 +233,14 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * @see com.softserve.edu.schedule.dao.MeetingDAO#searchByStatus(java.lang.
      * String)
      */
-    public List<Meeting> searchByStatus(final String pattern) {
+    public List<Meeting> searchByStatus(final MeetingDTO meetingDTO) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
         Join<Meeting, MeetingStatus> joinStatus = root.join(Meeting_.status);
         Predicate predicate = builder.like(
                 joinStatus.get(Meeting_.status.toString()),
-                SEARCH_MASK + pattern + SEARCH_MASK);
+                SEARCH_MASK + meetingDTO.getStatus().toString() + SEARCH_MASK);
         cq.where(predicate);
         return getEm().createQuery(cq).getResultList();
     }
@@ -218,7 +251,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * @see
      * com.softserve.edu.schedule.dao.MeetingDAO#searchByLevel(java.lang.String)
      */
-    public List<Meeting> searchByLevel(final String pattern) {
+    public List<Meeting> searchByLevel(final MeetingDTO meetingDTO) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
@@ -228,7 +261,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         root.fetch(Meeting_.groups, JoinType.LEFT);
         cq.distinct(true);
         cq.where(builder.like(root.get(Meeting_.level.getName()),
-                SEARCH_MASK + pattern + SEARCH_MASK));
+                SEARCH_MASK + meetingDTO.getLevel().toString() + SEARCH_MASK));
         return getEm().createQuery(cq).getResultList();
     }
 
@@ -259,7 +292,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * String)
      */
     @Override
-    public List<Meeting> searchByDescription(String pattern) {
+    public List<Meeting> searchByDescription(MeetingDTO meetingDTO) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
@@ -269,7 +302,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         root.fetch(Meeting_.groups, JoinType.LEFT);
         cq.distinct(true);
         cq.where(builder.like(root.get(Meeting_.description),
-                SEARCH_MASK + pattern + SEARCH_MASK));
+                SEARCH_MASK + meetingDTO.getDescription() + SEARCH_MASK));
         return getEm().createQuery(cq).getResultList();
     }
 

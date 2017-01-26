@@ -12,6 +12,13 @@ package com.softserve.edu.schedule.dao;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.MeetingDTO;
+import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.SubjectDTO;
+import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserGroupDTO;
+import com.softserve.edu.schedule.dto.filter.MeetingFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 
@@ -24,6 +31,11 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  */
 public interface MeetingDAO extends CrudDAO<Meeting> {
 
+    
+    //TODO
+    public List<Meeting> getMeetingPageWithFilter(final MeetingFilter meetingFilter,
+            final Paginator meetingPaginator);
+    
     /**
      * Delete Meeting by id.
      * 
@@ -48,35 +60,35 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *
      * @return List of searched Transfer objects
      */
-    public List<Meeting> searchByOwner(final String pattern);
+    public List<Meeting> searchByOwner(final UserDTO userDTO);
 
     /**
      * Return the List of searched Meetings filtered by Description.
      *
      * @return List of searched Transfer objects
      */
-    public List<Meeting> searchByDescription(final String pattern);
+    public List<Meeting> searchByDescription(final MeetingDTO meetingDTO);
 
     /**
      * Return the List of searched Meetings filtered by Subject.
      *
      * @return List of searched Transfer objects
      */
-    public List<Meeting> searchBySubject(final String pattern);
+    public List<Meeting> searchBySubject(final SubjectDTO subjectDTO);
 
     /**
      * Return the List of searched Meetings filtered by Room.
      *
      * @return List of searched Transfer objects
      */
-    public List<Meeting> searchByRoom(final String pattern);
+    public List<Meeting> searchByRoom(final RoomDTO roomDTO);
 
     /**
      * Return the List of searched Meetings filtered by UserGroup.
      *
      * @return List of searched Transfer objects
      */
-    public List<Meeting> searchByUserGroup(final String pattern);
+    public List<Meeting> searchByUserGroup(final UserGroupDTO userGroupDTO);
 
     /**
      * Return the List of searched Meetings filtered by Status.
@@ -90,14 +102,14 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *
      * @return List of searched Transfer objects
      */
-    public List<Meeting> searchByStatus(final String pattern);
+    public List<Meeting> searchByStatus(final MeetingDTO meetingDTO);
 
     /**
      * Return the List of searched Meetings filtered by level.
      *
      * @return List of searched Transfer objects
      */
-    public List<Meeting> searchByLevel(final String pattern);
+    public List<Meeting> searchByLevel(final MeetingDTO meetingDTO);
 
     /**
      * Sort existent list of meetings by Description.

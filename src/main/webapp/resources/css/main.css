@@ -121,16 +121,20 @@ textarea {
 	resize:vertical;
 }
 <<<<<<< HEAD
+=======
+
+>>>>>>> 04f27c9a0a3c968b0d8cb8fc0fb345704320ada5
 
 .searchMeeting {
 	width:70px;
 }
 
-
 .searchMeetingBig {
 	width:120px;
-=======
+
+}
+
 .input-number {
 	 width: 75px;
->>>>>>> 16056cdee5ab399e1bbba4433adbcce1ccc387bc
+
 }

@@ -27,7 +27,6 @@ public class UserGroupForMeetingDTOEditor extends PropertyEditorSupport {
     @Autowired
     private UserGroupService userGroupService;
 
-
     /**
      * Provides a LocationDTO example by given location id in String format.
      * 
@@ -40,7 +39,8 @@ public class UserGroupForMeetingDTOEditor extends PropertyEditorSupport {
     @Override
 
     public void setAsText(String text) throws IllegalArgumentException {
-        UserGroupDTO userGroupDTO = userGroupService.getById(Long.valueOf(text));
+        UserGroupDTO userGroupDTO = userGroupService
+                .getById(Long.valueOf(text));
         setValue(userGroupDTO);
     }
 }
