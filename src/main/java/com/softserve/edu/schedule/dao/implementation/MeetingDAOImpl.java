@@ -28,6 +28,7 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
@@ -52,7 +53,6 @@ import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.implementation.specification.MeetingFilterSpecification;
-import com.softserve.edu.schedule.service.implementation.specification.RoomFilterSpecification;
 
 /**
  * This class implements the MeetingsDAO. It also implements ReadDAO interface.
@@ -69,17 +69,20 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     public MeetingDAOImpl() {
         super(Meeting.class);
     }
+
+    @Autowired
     UserGroupDAO userGroupDAO;
-    
-    
-    //TODO
+
+    // TODO
     @Override
-    public List<Meeting> getMeetingPageWithFilter(final MeetingFilter meetingFilter,
+    public List<Meeting> getMeetingPageWithFilter(
+            final MeetingFilter meetingFilter,
             final Paginator meetingPaginator) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> criteriaQuery = builder.createQuery(Meeting.class);
+        CriteriaQuery<Meeting> criteriaQuery = builder
+                .createQuery(Meeting.class);
         Root<Meeting> root = criteriaQuery.from(Meeting.class);
-        
+
         Predicate predicate = new MeetingFilterSpecification(meetingFilter,
                 userGroupDAO).toPredicate(root, criteriaQuery, builder);
         if (predicate != null) {
@@ -272,16 +275,16 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * com.softserve.edu.schedule.dao.MeetingDAO#searchByDate(java.lang.String)
      */
     public List<Meeting> searchByDate(final LocalDate date) {
-                CriteriaBuilder builder = getEm().getCriteriaBuilder();
-                CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-                Root<Meeting> root = cq.from(Meeting.class);
-                root.fetch(Meeting_.subject, JoinType.LEFT);
-                root.fetch(Meeting_.owner, JoinType.LEFT);
-                root.fetch(Meeting_.room, JoinType.LEFT);
-                root.fetch(Meeting_.groups, JoinType.LEFT);
-                cq.distinct(true);
-                cq.where(root.get(Meeting_.date).in(date));
-                return getEm().createQuery(cq).getResultList();
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.fetch(Meeting_.subject, JoinType.LEFT);
+        root.fetch(Meeting_.owner, JoinType.LEFT);
+        root.fetch(Meeting_.room, JoinType.LEFT);
+        root.fetch(Meeting_.groups, JoinType.LEFT);
+        cq.distinct(true);
+        cq.where(root.get(Meeting_.date).in(date));
+        return getEm().createQuery(cq).getResultList();
     }
 
     /*

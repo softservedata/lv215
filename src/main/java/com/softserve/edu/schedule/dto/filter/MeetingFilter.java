@@ -5,9 +5,7 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
-import com.softserve.edu.schedule.service.implementation.specification.MeetingSortField;
 
 public class MeetingFilter {
 
@@ -33,62 +31,52 @@ public class MeetingFilter {
 
     private LocalTime endTime;
 
-    private String status;
+    private int status = -1;
 
-    private Order sortOrder;
+    private int sortOrder;
 
-    private MeetingSortField fieldForSorting;
+    private int fieldForSorting;
 
     /**
-     * @return the date
+     * @return the showFilter
      */
-    public LocalDate getDate() {
-        return date;
+    public String getShowFilter() {
+        return showFilter;
     }
 
     /**
-     * @param date
-     *            the date to set
+     * @return the description
      */
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public String getDescription() {
+        return description;
     }
 
     /**
-     * @return the startTime
+     * @return the subjectId
      */
-    public LocalTime getStartTime() {
-        return startTime;
+    public Long getSubjectId() {
+        return subjectId;
     }
 
     /**
-     * @param startTime
-     *            the startTime to set
+     * @return the ownerId
      */
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
     /**
-     * @return the endTime
+     * @return the roomId
      */
-    public LocalTime getEndTime() {
-        return endTime;
+    public Long getRoomId() {
+        return roomId;
     }
 
     /**
-     * @param endTime
-     *            the endTime to set
+     * @return the groups
      */
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
-
-    /**
-     * @return the fieldForSorting
-     */
-    public MeetingSortField getFieldForSorting() {
-        return fieldForSorting;
+    public List<UserGroupDTO> getGroups() {
+        return groups;
     }
 
     /**
@@ -99,14 +87,6 @@ public class MeetingFilter {
     }
 
     /**
-     * @param maxLevel
-     *            the maxLevel to set
-     */
-    public void setMaxLevel(Integer maxLevel) {
-        this.maxLevel = maxLevel;
-    }
-
-    /**
      * @return the minLevel
      */
     public Integer getMinLevel() {
@@ -114,26 +94,45 @@ public class MeetingFilter {
     }
 
     /**
-     * @param minLevel
-     *            the minLevel to set
+     * @return the date
      */
-    public void setMinLevel(Integer minLevel) {
-        this.minLevel = minLevel;
+    public LocalDate getDate() {
+        return date;
     }
 
     /**
-     * @param fieldForSorting
-     *            the fieldForSorting to set
+     * @return the startTime
      */
-    public void setFieldForSorting(MeetingSortField fieldForSorting) {
-        this.fieldForSorting = fieldForSorting;
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
     /**
-     * @return the showFilter
+     * @return the endTime
      */
-    public String getShowFilter() {
-        return showFilter;
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    /**
+     * @return the status
+     */
+    public int getStatus() {
+        return status;
+    }
+
+    /**
+     * @return the sortOrder
+     */
+    public int getSortOrder() {
+        return sortOrder;
+    }
+
+    /**
+     * @return the fieldForSorting
+     */
+    public int getFieldForSorting() {
+        return fieldForSorting;
     }
 
     /**
@@ -145,25 +144,11 @@ public class MeetingFilter {
     }
 
     /**
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
-    }
-
-    /**
      * @param description
      *            the description to set
      */
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    /**
-     * @return the subjectId
-     */
-    public Long getSubjectId() {
-        return subjectId;
     }
 
     /**
@@ -175,25 +160,11 @@ public class MeetingFilter {
     }
 
     /**
-     * @return the ownerId
-     */
-    public Long getOwnerId() {
-        return ownerId;
-    }
-
-    /**
      * @param ownerId
      *            the ownerId to set
      */
     public void setOwnerId(Long ownerId) {
         this.ownerId = ownerId;
-    }
-
-    /**
-     * @return the roomId
-     */
-    public Long getRoomId() {
-        return roomId;
     }
 
     /**
@@ -205,48 +176,74 @@ public class MeetingFilter {
     }
 
     /**
-     * @return the userGroupDTO
+     * @param groups
+     *            the groups to set
      */
-    public List<UserGroupDTO> getGroups() {
-        return groups;
+    public void setGroups(List<UserGroupDTO> groups) {
+        this.groups = groups;
     }
 
     /**
-     * @param userGroupDTO
-     *            the userGroupDTO to set
+     * @param maxLevel
+     *            the maxLevel to set
      */
-    public void setGroups(List<UserGroupDTO> userGroupDTO) {
-        this.groups = userGroupDTO;
+    public void setMaxLevel(Integer maxLevel) {
+        this.maxLevel = maxLevel;
     }
 
     /**
-     * @return the status
+     * @param minLevel
+     *            the minLevel to set
      */
-    public String getStatus() {
-        return status;
+    public void setMinLevel(Integer minLevel) {
+        this.minLevel = minLevel;
+    }
+
+    /**
+     * @param date
+     *            the date to set
+     */
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    /**
+     * @param startTime
+     *            the startTime to set
+     */
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    /**
+     * @param endTime
+     *            the endTime to set
+     */
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
 
     /**
      * @param status
      *            the status to set
      */
-    public void setStatus(String status) {
+    public void setStatus(int status) {
         this.status = status;
-    }
-
-    /**
-     * @return the sortOrder
-     */
-    public Order getSortOrder() {
-        return sortOrder;
     }
 
     /**
      * @param sortOrder
      *            the sortOrder to set
      */
-    public void setSortOrder(Order sortOrder) {
+    public void setSortOrder(int sortOrder) {
         this.sortOrder = sortOrder;
     }
 
+    /**
+     * @param fieldForSorting
+     *            the fieldForSorting to set
+     */
+    public void setFieldForSorting(int fieldForSorting) {
+        this.fieldForSorting = fieldForSorting;
+    }
 }
