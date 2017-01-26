@@ -1,14 +1,20 @@
 package com.softserve.edu.schedule.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.service.UserService;
+import com.softserve.edu.schedule.service.implementation.validators.UserValidator;
 
 
 /**
@@ -24,7 +30,24 @@ import com.softserve.edu.schedule.service.UserService;
 public class RegistrationController implements ControllerConst.RegistrationControllerConst {
 
     @Autowired
-    private UserService userService;
+    private UserService userService;    
+    
+    /**
+     * UserValidator example to provide form validation operations.
+     */
+    @Autowired
+    private UserValidator userValidator;    
+    
+    /**
+     * Initialize binder for user model.
+     *
+     * @param binder
+     *            a WebDataBinder example to initialize.
+     */
+    @InitBinder(USER_REGIST_MODEL_ATTR)
+    protected void initBinder(final WebDataBinder binder) {
+        binder.setValidator(userValidator);
+    }
 
     /**
      * Controls view of user registration page.
@@ -53,8 +76,11 @@ public class RegistrationController implements ControllerConst.RegistrationContr
     @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE
             , method = RequestMethod.POST)
     public String newUserFromStartPage(
-            @ModelAttribute(USER_REGIST_MODEL_ATTR) UserDTO user) {
-        userService.create(user);
+            @ModelAttribute(USER_REGIST_MODEL_ATTR)@Valid final UserDTO userDTO, BindingResult br) {
+        if(br.hasErrors()){
+            return USER_REGIST_URL;
+        }
+        userService.create(userDTO);
         return REDIRECT_STARTPAGE;
     }
 
@@ -69,8 +95,11 @@ public class RegistrationController implements ControllerConst.RegistrationContr
     @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN
             , method = RequestMethod.POST)
     public String newUserForAdmin(
-            @ModelAttribute(USER_REGIST_MODEL_ATTR) UserDTO user) {
-        userService.create(user);
+            @ModelAttribute(USER_REGIST_MODEL_ATTR)@Valid final UserDTO userDTO, BindingResult br) {
+        if(br.hasErrors()){
+            return USER_REGIST_URL;
+        }
+        userService.create(userDTO);
         return REDIRECT_USERS_PAGE;
     }
 }
