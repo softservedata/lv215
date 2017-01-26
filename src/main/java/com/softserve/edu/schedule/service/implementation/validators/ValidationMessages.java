@@ -31,5 +31,7 @@ public interface ValidationMessages {
      * Duplicate room in location message bundle mapping.
      */
     String DUPLICATE_ROOM = "vm.duplicateRoom";
+    
+    
 
 }

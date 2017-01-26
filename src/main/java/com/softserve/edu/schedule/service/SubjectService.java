@@ -77,6 +77,13 @@ public interface SubjectService {
      * @return List of searched SubjectDTO transfer objects
      */
     public List<SubjectDTO> searchByName(final String pattern);
+    
+    /**
+     * Return a searched SubjectDTO.
+     *
+     * @return searched SubjectDTO
+     */
+    public List<SubjectDTO> getSubjectByName(final String subjectName);
 
     /**
      * Return a List of searched SubjectDTO objects.

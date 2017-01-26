@@ -6,9 +6,12 @@
  */
 package com.softserve.edu.schedule.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,6 +24,7 @@ import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.editor.UserForSubjectDTOEditor;
+import com.softserve.edu.schedule.service.implementation.validators.SubjectValidator;
 
 @Controller
 public class SubjectController
@@ -38,6 +42,9 @@ public class SubjectController
      */
     @Autowired
     private UserForSubjectDTOEditor userForSubjectDTOEditor;
+
+    @Autowired
+    private SubjectValidator subjectValidator;
 
     /**
      * Method provides model attribute for search.
@@ -67,6 +74,7 @@ public class SubjectController
      */
     @InitBinder(SUBJECT_FORM_MODEL_ATTR)
     protected void initBinder(final WebDataBinder binder) {
+        binder.setValidator(subjectValidator);
         binder.registerCustomEditor(UserForSubjectDTO.class,
                 userForSubjectDTOEditor);
     }
@@ -108,7 +116,13 @@ public class SubjectController
      */
     @RequestMapping(value = SUBJECT_CREATE_MAPPING, method = RequestMethod.POST)
     public String create(
-            @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) final SubjectDTO subject) {
+            @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
+            final BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute(USERS_MODEL_ATTR,
+                    subjectService.getAllUserForSubjectDTO());
+            return SUBJECT_CREATE_URL;
+        }
         subjectService.create(subject);
         return SUBJECTS_REDIRECT_URL;
     }
@@ -138,7 +152,13 @@ public class SubjectController
     @RequestMapping(value = SUBJECT_EDIT_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String edit(
-            @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) final SubjectDTO subject) {
+            @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
+            final BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute(USERS_MODEL_ATTR,
+                    subjectService.getAllUserForSubjectDTO());
+            return SUBJECTS_EDIT_URL;
+        }
         subjectService.update(subject);
         return SUBJECTS_REDIRECT_URL;
     }

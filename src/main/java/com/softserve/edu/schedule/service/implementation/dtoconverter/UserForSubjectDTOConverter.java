@@ -6,7 +6,7 @@
  */
 package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.entity.User;
@@ -20,7 +20,7 @@ import com.softserve.edu.schedule.entity.User;
  *
  * @since 1.8
  */
-@Service
+@Component
 public class UserForSubjectDTOConverter {
 
     /**

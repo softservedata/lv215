@@ -96,6 +96,18 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
+     * Return a searched SubjectDTO.
+     *
+     * @return searched SubjectDTO
+     */
+    @Override
+    public List<SubjectDTO> getSubjectByName(final String subjectName) {
+        return subjectDao.getSubjectByName(subjectName).stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Return a List of SubjectDTO objects.
      *
      * @return List of SubjectDTO objects

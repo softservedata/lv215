@@ -26,4 +26,11 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      * @return List of searched tutors
      */
     public List<Subject> searchSubjectsByTutor(final String pattern);
+    
+    /**
+     * Return a searched Subject.
+     *
+     * @return searched Subject
+     */
+    public List<Subject> getSubjectByName(final String subjectName);
 }

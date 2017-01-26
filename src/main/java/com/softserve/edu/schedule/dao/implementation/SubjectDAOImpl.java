@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -55,6 +56,21 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
                 SEARCH_MASK + pattern + SEARCH_MASK);
         cq.where(predicate);
         cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    /**
+     * Return a searched Subject.
+     *
+     * @return searched Subject
+     */
+    @Override
+    public List<Subject> getSubjectByName(final String subjectName) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
+        Root<Subject> root = cq.from(Subject.class);
+        root.fetch(Subject_.users, JoinType.LEFT);
+        cq.where(builder.like(root.get(Subject_.name), subjectName));
         return getEm().createQuery(cq).getResultList();
     }
 }

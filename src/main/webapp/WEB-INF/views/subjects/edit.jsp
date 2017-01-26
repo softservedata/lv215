@@ -16,11 +16,13 @@
 					<label for="${SubjectController.SUBJECT_PATH_NAME}">Subject</label>
 					<form:input class="form-control"
 						path="${SubjectController.SUBJECT_PATH_NAME}" />
+					<form:errors path="${SubjectController.SUBJECT_PATH_NAME}" />
 				</div>
 				<div class="form-group">
 					<label for="${SubjectController.SUBJECT_PATH_DESCRIPTION}">Description</label>
 					<form:textarea class="form-control"
 						path="${SubjectController.SUBJECT_PATH_DESCRIPTION}" />
+						<form:errors path="${SubjectController.SUBJECT_PATH_DESCRIPTION}" />
 				</div>
 				<div class="form-group">
 					<label for="${SubjectController.SUBJECT_PATH_USERS}">Tutor(s)</label>
@@ -43,6 +45,7 @@
 							</c:if>
 						</c:forEach>
 					</form:select>
+					<form:errors path="${SubjectController.SUBJECT_PATH_USERS}" />
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default" value="Edite" /> <a
