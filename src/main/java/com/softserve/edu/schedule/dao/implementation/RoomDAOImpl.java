@@ -34,6 +34,18 @@ import com.softserve.edu.schedule.service.implementation.specification.RoomFilte
 public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
     /**
+     * Deleting Room object from database. Don't touch this method -it has
+     * aspects attached.
+     *
+     * @param room
+     *            - Transfer object
+     */
+    @Override
+    public void delete(Room room) {
+        super.delete(room);
+    }
+
+    /**
      * RoomEquipmentDAO example to provide database operations.
      *
      */
