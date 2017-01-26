@@ -296,7 +296,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	@RequestMapping(value = "/searchByCurator", method = RequestMethod.POST)
 	public String searchByCurator(@ModelAttribute(SEARCH_MODEL_ATTR) UserGroupDTO userGroupDTO, Model model) {
 		model.addAttribute(USERGROUPS_MODEL_ATTR,
-				userGroupService.searchByCurator(userGroupDTO.getCurator().getLastName()));
+				userGroupService.searchGroupsByCurators(userGroupDTO.getCurator().getLastName()));
 		return USERGROUP_LIST_URL;
 	}
 }

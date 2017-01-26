@@ -3,8 +3,9 @@ package com.softserve.edu.schedule.service.implementation.dtoconverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
-import com.softserve.edu.schedule.dao.UserGroupDAO;
+import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.entity.UserGroup;
@@ -16,7 +17,16 @@ public class UserGroupDTOConverter {
 	private UserDAO userDAO;
 
 	@Autowired
-	private UserGroupDAO userGroupDAO;
+	private MeetingDAO meetingDAO;
+
+	@Autowired
+	private SubjectDTOConverter subjectConverter;
+
+	@Autowired
+	private UserDTOConverter userConverter;
+
+	@Autowired
+	private RoomDTOConverter roomConverter;
 
 	public UserGroup getEntity(final UserGroupDTO userGroupDTO) {
 		UserGroup userGroup = new UserGroup();
@@ -27,7 +37,8 @@ public class UserGroupDTOConverter {
 		userGroup.setLevel(userGroupDTO.getLevel());
 		userGroup.setCurator(userDAO.getById(userGroupDTO.getCurator().getId()));
 		userGroupDTO.getUsers().forEach(e -> userGroup.getUsers().add(userDAO.getById(e.getId())));
-		userGroup.setMeetings(userGroupDAO.getById(userGroupDTO.getId()).getMeetings());
+		userGroupDTO.getMeetings().forEach(e -> userGroup.getMeetings().add(meetingDAO.getById(e.getId())));
+
 		return userGroup;
 	}
 
@@ -51,6 +62,32 @@ public class UserGroupDTOConverter {
 			user.setLastName(e.getLastName());
 			userGroupDTO.getUsers().add(user);
 		});
+
+		userGroup.getMeetings().forEach(e -> {
+			MeetingDTO meeting = new MeetingDTO();
+			meeting.setId(e.getId());
+			meeting.setSubject(subjectConverter.getDTO(e.getSubject()));
+			meeting.setRoom(roomConverter.getDTO(e.getRoom()));
+			meeting.setDate(e.getDate());
+			meeting.setStartTime(e.getStartTime());
+			meeting.setEndTime(e.getEndTime());
+
+			// List<UserGroup> groups = e.getGroups();
+			// List<UserGroupDTO> groupsDTO = new ArrayList<>();
+			//
+			// for (int i = 0; i < groups.size(); i++) {
+			// groupsDTO.add(getDTO(groups.get(i)));
+			// }
+			// meeting.setGroups(groupsDTO);
+
+			meeting.setOwner(userConverter.getDTO(e.getOwner()));
+			meeting.setStatus(e.getStatus());
+			meeting.setLevel(e.getLevel());
+			meeting.setDescription(e.getDescription());
+
+			userGroupDTO.getMeetings().add(meeting);
+		});
+
 		return userGroupDTO;
 	}
 }

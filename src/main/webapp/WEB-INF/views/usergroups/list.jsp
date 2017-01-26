@@ -35,7 +35,7 @@
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}${UserGroupController.USERGROUPS_SEARCH_BY_NAME_MAPPING}"
 					modelAttribute="${UserGroupController.SEARCH_MODEL_ATTR}">
-					<form:input path="name" placeholder="Search..." />
+					<form:input path="${UserGroupController.USERGROUP_PATH_NAME}" placeholder="Search..." />
 					<button type="submit" title="Search by name">
 						<i class="fa fa-search"></i>
 					</button>
@@ -44,7 +44,7 @@
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}${UserGroupController.USERGROUPS_SEARCH_BY_CURATOR_MAPPING}"
 					modelAttribute="${UserGroupController.SEARCH_MODEL_ATTR}">
-					<form:input path="curator" placeholder="Search..." />
+					<form:input path="curator.lastName" placeholder="Search..." />
 					<button type="submit" title="Search by curator">
 						<i class="fa fa-search"></i>
 					</button>

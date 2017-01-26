@@ -119,6 +119,9 @@ public class UserGroupDTO {
 	 * @return the users
 	 */
 	public List<UserDTO> getUsers() {
+		if (users == null) {
+			return new ArrayList<>();
+		}
 		return users;
 	}
 
@@ -134,6 +137,9 @@ public class UserGroupDTO {
 	 * @return the meetings
 	 */
 	public List<MeetingDTO> getMeetings() {
+		if (meetings == null) {
+			return new ArrayList<>();
+		}
 		return meetings;
 	}
 

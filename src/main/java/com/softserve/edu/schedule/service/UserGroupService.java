@@ -136,5 +136,5 @@ public interface UserGroupService {
 	 *            a patter to search
 	 * @return List of UserGroups
 	 */
-	public List<UserGroupDTO> searchByCurator(final String pattern);
+	public List<UserGroupDTO> searchGroupsByCurators(final String pattern);
 }

@@ -25,19 +25,19 @@
 
 				<div class="form-group">
 					<label for="Title">Title</label>
-					<form:input path="name" class="form-control" placeholder="Title" />
+					<form:input path="name" class="form-control" placeholder="Title" required="true"/>
 				</div>
 
 				<div class="form-group">
 					<label for="description">Description</label>
 					<form:input path="description" class="form-control"
-						placeholder="Description" />
+						placeholder="Description" required="true"/>
 				</div>
 
 
 				<div class="form-group">
 					<label for="level">Level</label>
-					<form:input path="level" class="form-control" placeholder="Level" />
+					<form:input path="level" class="form-control" placeholder="Level" required="true"/>
 				</div>
 
 
@@ -46,10 +46,10 @@
 					<c:forEach items="${curators}" var="curator">
 						<c:choose>
 							<c:when test="${userGroupForm.curator.id eq curator.id}">
-								<option value="${curator.id}" selected="selected">${curator.lastName}</option>
+								<option value="${curator.id}" selected="selected">${curator.lastName} ${curator.firstName}</option>
 							</c:when>
 							<c:otherwise>
-								<option value="${curator.id}">${curator.lastName}</option>
+								<option value="${curator.id}">${curator.lastName} ${curator.firstName}</option>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
@@ -64,13 +64,13 @@
 						<c:forEach items="${userGroupForm.users}" var="userInGroup">
 							<c:if test="${!found}">
 								<c:if test="${userInGroup.id eq user.id}">
-									<option value="${user.id}" selected="selected">${user.lastName}</option>
+									<option value="${user.id}" selected="selected">${user.lastName} ${user.firstName.charAt(0)}.</option>
 									<c:set var="found" value="true" />
 								</c:if>
 							</c:if>
 						</c:forEach>
 						<c:if test="${!found}">
-							<option value="${user.id}">${user.lastName}</option>
+							<option value="${user.id}">${user.lastName} ${user.firstName.charAt(0)}.</option>
 						</c:if>
 					</c:forEach>
 				</form:select>
