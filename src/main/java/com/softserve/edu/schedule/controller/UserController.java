@@ -243,8 +243,8 @@ public class UserController implements ControllerConst.UserControllerConst,
     @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String changeRole(@PathVariable Long id,
-            @RequestParam UserRole chooseRole) {
-        userService.changeRole(id, chooseRole);
+            @RequestParam UserRole role) {
+        userService.changeRole(id, role);
         return REDIRECT_USERS_PAGE;
     }
 
