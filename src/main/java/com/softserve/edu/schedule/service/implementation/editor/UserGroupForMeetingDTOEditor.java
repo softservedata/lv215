@@ -1,5 +1,4 @@
-
-/* UserGroupDTOEditor 1.0 01/17/2017 */
+/* UserGroupForMeetingDTOEditor 1.0 01/17/2017 */
 package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
@@ -8,9 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.softserve.edu.schedule.dto.UserGroupDTO;
-import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.service.UserGroupService;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.UserGroupForMeetingDTOConverter;
 
 /**
  * A class to provide conversion operations from form field locationId to
