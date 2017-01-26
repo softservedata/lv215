@@ -2,6 +2,7 @@
 package com.softserve.edu.schedule.service.implementation.mailsenders;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.mail.internet.InternetAddress;
@@ -10,6 +11,7 @@ import javax.mail.internet.MimeMessage;
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -46,10 +48,21 @@ public class MeetingCanceledMailService implements MailConstants {
     private VelocityEngine velocityEngine;
 
     /**
+     * Messages source for internationalization purposes.
+     */
+    @Autowired
+    private ResourceBundleMessageSource messageSource;
+
+    /**
      * Field for import from message attribute from mail.properties
      */
     @Value(DEFAULT_MESSAGE_FROM_ADDRESS)
     private String fromAddress;
+
+    /**
+     * MimeMessagePreparator example
+     */
+    private MimeMessagePreparator preparator;
 
     /**
      * Send mail notifications to the meetings owners if meeting is cancelled
@@ -60,20 +73,32 @@ public class MeetingCanceledMailService implements MailConstants {
      */
     @Async
     public void sendInfoMessageRoomDeletion(
-            final MeetingCompactDTO meetingCompactDTO) {
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-
+            final MeetingCompactDTO meetingCompactDTO, Locale locale) {
+        preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(
                         new InternetAddress(meetingCompactDTO.getOwnerMail()));
                 message.setFrom(new InternetAddress(fromAddress));
-                message.setSubject(MEETING_CANCELLED_MESSAGE_SUBJECT);
+                message.setSubject(messageSource.getMessage(
+                        MEETING_CANCELLED_MESSAGE_SUBJECT, new String[0],
+                        locale));
                 Map<String, Object> model = new HashMap<>();
                 model.put(MEETING_MODEL_NAME, meetingCompactDTO);
-                String text = VelocityEngineUtils.mergeTemplateIntoString(
-                        velocityEngine, MEETING_CANCELLED_TEMPLATE,
-                        DEFAULT_VELOCITY_ENCODING, model);
+                String text;
+                if (locale.getLanguage().equals("ua")) {
+                    text = VelocityEngineUtils.mergeTemplateIntoString(
+                            velocityEngine, MEETING_CANCELLED_TEMPLATE_UA,
+                            DEFAULT_VELOCITY_ENCODING, model);
+                } else if (locale.getLanguage().equals("ru")) {
+                    text = VelocityEngineUtils.mergeTemplateIntoString(
+                            velocityEngine, MEETING_CANCELLED_TEMPLATE_RU,
+                            DEFAULT_VELOCITY_ENCODING, model);
+                } else {
+                    text = VelocityEngineUtils.mergeTemplateIntoString(
+                            velocityEngine, MEETING_CANCELLED_TEMPLATE_EN,
+                            DEFAULT_VELOCITY_ENCODING, model);
+                }
                 message.setText(text, true);
             }
         };

@@ -3,71 +3,100 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html>
-<html>
-<head>
-<title>Meetings</title>
-</head>
-<body>
+
+<script type="text/javascript">
+	$(function() {
+		$("select[name=subjectId]").chosen({width : "100%"});
+		$("select[name=ownerId]").chosen({width : "100%"});
+		$("select[name=roomId]").chosen({width : "100%"});
+		$("select[name=groups]").chosen({width : "100%"});
+		$("select[name=status]").chosen({width : "100%"});
+	})
+</script>
 	<h3 class="text-center">Meetings</h3>
 	<table class="table table-hover">
 		<tr>
-
-			<th>Description <%-- <a
-				href="${pageContext.request.contextPath}/meetings/sortbydescriptionasc"><i
-					class="fa fa-arrow-circle-o-up"></i></a><a
-				href="${pageContext.request.contextPath}/meetings/sortbydescriptiondesc"><i
-					class="fa fa-arrow-circle-o-down"></i> </a> --%>
-
+			<th>Description
+				<a href="meetings?fieldForSorting=0&sortOrder=0&pageNumber=0" title="Sort Ascending">
+				 	<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				 </a> 
+				<a href="meetings?fieldForSorting=0&sortOrder=1&pageNumber=0" title="Sort Descending"> 
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
 			</th>
-			<th>Subject <%-- <a
-				href="${pageContext.request.contextPath}/meetings/sortbysubjectasc">
-					<i class="fa fa-arrow-circle-o-up"></i>
-			</a> <a
-				href="${pageContext.request.contextPath}/meetings/sortbysubjectdesc"><i
-					class="fa fa-arrow-circle-o-down"></i> </a>--%>
+			<th>Subject 
+				<a href="meetings?fieldForSorting=1&sortOrder=0&pageNumber=0" title="Sort Ascending">
+				 	<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				 </a> 
+				<a href="meetings?fieldForSorting=1&sortOrder=1&pageNumber=0" title="Sort Descending"> 
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
 			</th>
-			<th>Owner<%-- <a
-				href="${pageContext.request.contextPath}/meetings/sortbyownerasc">
-					<i class="fa fa-arrow-circle-o-up"></i>
-			</a> <a
-				href="${pageContext.request.contextPath}/meetings/sortbyownerdesc"><i
-					class="fa fa-arrow-circle-o-down"></i> </a> --%>
+			<th>Owner
+				<a href="meetings?fieldForSorting=2&sortOrder=0&pageNumber=0" title="Sort Ascending">
+				 	<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				 </a> 
+				<a href="meetings?fieldForSorting=2&sortOrder=1&pageNumber=0" title="Sort Descending"> 
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
 			</th>
-			<th>Room<%-- <a
-				href="${pageContext.request.contextPath}/meetings/sortbyroomasc">
-					<i class="fa fa-arrow-circle-o-up"></i>
-			</a> <a href="${pageContext.request.contextPath}/meetings/sortbyroomdesc"><i
-					class="fa fa-arrow-circle-o-down"></i> </a> --%>
+			<th>Room
+				<a href="meetings?fieldForSorting=3&sortOrder=0&pageNumber=0" title="Sort Ascending">
+				 	<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				 </a> 
+				<a href="meetings?fieldForSorting=3&sortOrder=1&pageNumber=0" title="Sort Descending"> 
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
 			</th>
-
-			<th>Date</th>
-			<th>StartTime</th>
-
-			<th>EndTime</th>
+			<th>Date
+				<a href="meetings?fieldForSorting=4&sortOrder=0&pageNumber=0" title="Sort Ascending">
+				 	<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				 </a> 
+				<a href="meetings?fieldForSorting=4&sortOrder=1&pageNumber=0" title="Sort Descending"> 
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
+			</th>
+			<th>StartTime
+				<a href="meetings?fieldForSorting=5&sortOrder=0&pageNumber=0" title="Sort Ascending">
+				 	<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				 </a> 
+				<a href="meetings?fieldForSorting=5&sortOrder=1&pageNumber=0" title="Sort Descending"> 
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
+			</th>
+			<th>EndTime
+				<a href="meetings?fieldForSorting=6&sortOrder=0&pageNumber=0" title="Sort Ascending">
+				 	<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				 </a> 
+				<a href="meetings?fieldForSorting=6&sortOrder=1&pageNumber=0" title="Sort Descending"> 
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
+			</th>
 			<th>Groups</th>
-			<th class="searchMeetingBig">Level<%-- <a
-				href="${pageContext.request.contextPath}/meetings/sortbylevelasc">
-					<i class="fa fa-arrow-circle-o-up"></i>
-			</a><a
-				href="${pageContext.request.contextPath}/meetings/sortbyleveldesc"><i
-					class="fa fa-arrow-circle-o-down"></i></a> --%>
+			<th>Level
+				<a href="meetings?fieldForSorting=7&sortOrder=0&pageNumber=0" title="Sort Ascending">
+				 	<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				 </a> 
+				<a href="meetings?fieldForSorting=7&sortOrder=1&pageNumber=0" title="Sort Descending"> 
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
 			</th>
-			<th>Status<%-- <a
-				href="${pageContext.request.contextPath}/meetings/sortbystatusasc">
-					<i class="fa fa-arrow-circle-o-up"></i>
-			</a><a
-				href="${pageContext.request.contextPath}/meetings/sortbystatusdesc"><i
-					class="fa fa-arrow-circle-o-down"></i></a> --%>
+			<th>Status
+				<a href="meetings?fieldForSorting=8&sortOrder=0&pageNumber=0" title="Sort Ascending">
+				 	<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				 </a> 
+				<a href="meetings?fieldForSorting=8&sortOrder=1&pageNumber=0" title="Sort Descending"> 
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
 			</th>
-			<!-- Filter buttom -->
+			<!-- Filter button -->
 			<th class="text-center v-alighn">
 				<button class="btn btn-link" data-toggle="collapse"
 					data-target="#showfilter" title="showFilter">
 					<i class="fa fa-filter fa-lg"></i>
 				</button>
 			</th>
-			<th><a href="${pageContext.request.contextPath}/meetings/create"><i
+			<th class="text-center v-alighn"><a href="${pageContext.request.contextPath}/meetings/create"><i
 					class="fa fa-plus fa-lg"></i></a></th>
 		</tr>
 
@@ -95,8 +124,7 @@
 				<!-- subject -->
 				<td>
 					<div class="form-group">
-						<form:select class="form-control" path="subjectId"
-							id="subjectId">
+						<form:select class="form-control" path="subjectId" id="subjectId">
 							<option value="0"></option>
 							<c:forEach items="${subjects}" var="subject">
 								<c:choose>
@@ -114,16 +142,17 @@
 				<!-- owner -->
 				<td>
 					<div class="form-group">
-						<form:select class="form-control" path="ownerId"
-							id="ownerId">
+						<form:select class="form-control" path="ownerId" id="ownerId">
 							<option value="0"></option>
 							<c:forEach items="${users}" var="owner">
 								<c:choose>
 									<c:when test="${meetingFilter.ownerId eq owner.id}">
-										<option value="${owner.id}" selected="selected">${owner.lastName} ${owner.firstName}</option>
+										<option value="${owner.id}" selected="selected">${owner.lastName}
+											${owner.firstName}</option>
 									</c:when>
 									<c:otherwise>
-										<option value="${owner.id}">${owner.lastName} ${owner.firstName}</option>
+										<option value="${owner.id}">${owner.lastName}
+											${owner.firstName}</option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
@@ -133,8 +162,7 @@
 				<!-- room -->
 				<td>
 					<div class="form-group">
-						<form:select class="form-control" path="roomId"
-							id="roomId">
+						<form:select class="form-control" path="roomId" id="roomId">
 							<option value="0"></option>
 							<c:forEach items="${rooms}" var="room">
 								<c:choose>
@@ -142,7 +170,7 @@
 										<option value="${room.id}" selected="selected">${room.name}</option>
 									</c:when>
 									<c:otherwise>
-										<option value="${room.id}">${owner.name}</option>
+										<option value="${room.id}">${room.name}</option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
@@ -153,37 +181,34 @@
 				<td>
 					<div class="form-group col-xs-10">
 
-						<form:input class="form-control input-sm" type="date"
-							path="date" placeholder="YYYY-MM-DD" />
+						<form:input class="form-control input-sm" type="date" path="date"
+							placeholder="YYYY-MM-DD" />
 					</div>
 				</td>
 				<!-- Start Time -->
 				<td>
 					<div class="form-group col-xs-10">
 
-						<form:input class="form-control input-sm" type="time" 
-						path="startTime" id="startTime"
-						placeholder="HH:MM" />
+						<form:input class="form-control input-sm" type="time"
+							path="startTime" id="startTime" placeholder="HH:MM" />
 					</div>
 				</td>
-		<!-- End Time -->
+				<!-- End Time -->
 				<td>
 					<div class="form-group col-xs-10">
 
-						<form:input class="form-control input-sm" type="time" 
-						path="endTime" id="endTime"
-						placeholder="HH:MM" />
+						<form:input class="form-control input-sm" type="time"
+							path="endTime" id="endTime" placeholder="HH:MM" />
 					</div>
-				</td>	
+				</td>
 				<!-- UserGroups -->
 				<td>
 					<div class="form-group">
-						<form:select class="form-control" path="groups"
-							id="groups" multiple="multiple">
+						<form:select class="form-control" path="groups" id="groups"
+							multiple="multiple">
 							<c:forEach items="${userGroups}" var="userGroup">
 								<c:set var="found" value="false" />
-								<c:forEach items="${meetingFilter.groups}"
-									var="groupsInFilter">
+								<c:forEach items="${meetingFilter.groups}" var="groupsInFilter">
 									<c:if test="${!found}">
 										<c:if test="${groupsInFilter.id eq userGroup.id}">
 											<option value="${userGroup.id}" selected="selected">${userGroup.name}</option>
@@ -202,31 +227,30 @@
 				<td>
 					<div class="form-group">
 						<form:input type="number" class="input-number" path="minLevel"
-							step="1"  title="MIN" />
+							step="1" title="MIN" />
 						<form:input type="number" class="input-number" path="maxLevel"
-							step="1"  title="MAX" />
+							step="1" title="MAX" />
 					</div>
 				</td>
 				<!-- Status -->
 				<td>
 					<div class="form-group">
-						<form:select class="form-control" path="status"
-							id="status">
-							 <option value="-1"></option>
+						<form:select class="form-control" path="status" id="status">
+							<option value="-1"></option>
 							<c:forEach items="${meetingStatuses}" var="status">
 								<c:choose>
-									<c:when test="${meetingFilter.status eq status}">
-										<option value="${status}" selected="selected">${status}</option>
+									<c:when test="${meetingFilter.status eq status.ordinal()}">
+										<option value="${status.ordinal()}" selected="selected">${status}</option>
 									</c:when>
 									<c:otherwise>
-										<option value="${status}">${status}</option>
+										<option value="${status.ordinal()}">${status}</option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
 						</form:select>
 					</div>
 				</td>
-				
+
 				<td class="text-center v-alighn">
 					<button type="submit" class="btn btn-link"
 						title="<spring:message code="lbl.room.applyFilter"/>">
@@ -234,9 +258,10 @@
 					</button>
 				</td>
 			</form:form>
-			<td class="text-center v-alighn">
-				 <a href="#" title="resetFilter"> <i class="fa fa-ban fa-lg"></i></a>
-			</td>
+			<td class="text-center v-alighn"><a
+				href="meetings?showFilter=false&description=&subjectId=0&ownerId=0&roomId=0&date=&startTime=&endTime=&_groups=1&minLevel=&maxLevel=&status=-1"
+				title="resetFilter"> <i class="fa fa-ban fa-lg"></i>
+			</a></td>
 		</tr>
 		<!-- End Filter form -->
 
@@ -267,5 +292,46 @@
 			</tr>
 		</c:forEach>
 	</table>
-</body>
-</html>
+<div class="row">
+	<div class="col-md-2">
+		<p><spring:message code="lbl.form.resPerPage"/></p>
+		<c:choose>
+			<c:when test="${meetingPaginator.pageSize eq 5}">
+				<a class="btn btn-primary" href="meetings?pageSize=5&pageNumber=0">5</a>
+			</c:when>
+			<c:otherwise>
+				<a class="btn btn-default" href="meetings?pageSize=5&pageNumber=0">5</a>
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${meetingPaginator.pageSize eq 10}">
+				<a class="btn btn-primary" href="meetings?pageSize=10&pageNumber=0">10</a>
+			</c:when>
+			<c:otherwise>
+				<a class="btn btn-default" href="meetings?pageSize=10&pageNumber=0">10</a>
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${meetingPaginator.pageSize eq 20}">
+				<a class="btn btn-primary" href="meetings?pageSize=20&pageNumber=0">20</a>
+			</c:when>
+			<c:otherwise>
+				<a class="btn btn-default" href="meetings?pageSize=20&pageNumber=0">20</a>
+			</c:otherwise>
+		</c:choose>	
+	</div>
+	<div class="col-md-10 text-center">	
+		<ul id="paginationList" class="pagination"></ul>	
+	</div>
+</div>
+<script>
+ $('#paginationList').twbsPagination({
+        totalPages: ${meetingPaginator.pagesCount + 1},
+        startPage: ${meetingPaginator.pageNumber + 1},
+        visiblePages: 10,
+        initiateStartPageClick: false,        
+        onPageClick: function (event, page) {
+        	window.location = "meetings?pageNumber=" + (page-1);        	
+        }
+    });
+</script>

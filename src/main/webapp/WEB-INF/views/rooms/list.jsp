@@ -12,13 +12,7 @@
 		});
 		$("select[name=equipments]").chosen({
 			width : "100%"
-		});
-		$("select[name=sortByField]").chosen({
-			width : "75%"
-		});
-		$("select[name=sortOrder]").chosen({
-			width : "75%"
-		});
+		});		
 	})
 </script>
 
@@ -184,11 +178,11 @@
 	<div class="col-md-2">
 		<p><spring:message code="lbl.form.resPerPage"/></p>
 		<c:choose>
-			<c:when test="${roomPaginator.pageSize eq 2}">
-				<a class="btn btn-primary" href="rooms?pageSize=2&pageNumber=0">2</a>
+			<c:when test="${roomPaginator.pageSize eq 5}">
+				<a class="btn btn-primary" href="rooms?pageSize=5&pageNumber=0">5</a>
 			</c:when>
 			<c:otherwise>
-				<a class="btn btn-default" href="rooms?pageSize=2&pageNumber=0">2</a>
+				<a class="btn btn-default" href="rooms?pageSize=5&pageNumber=0">5</a>
 			</c:otherwise>
 		</c:choose>
 		<c:choose>
