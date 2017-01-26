@@ -1,16 +1,24 @@
 /* MeetingCanceledMailService 1.0 01/23/2017 */
 package com.softserve.edu.schedule.service.implementation.mailsenders;
 
-import javax.mail.Message;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 
@@ -25,7 +33,7 @@ import com.softserve.edu.schedule.dto.MeetingCompactDTO;
  * @since 1.8
  */
 @Service
-public class MeetingCanceledMailService {
+public class MeetingCanceledMailService implements MailConstants {
 
     /**
      * JavaMailSender example to provide mail sending.
@@ -34,50 +42,64 @@ public class MeetingCanceledMailService {
     private JavaMailSender mailSender;
 
     /**
+     * VelocityEngine example to provide mail templates using.
+     */
+    @Autowired
+    private VelocityEngine velocityEngine;
+
+    /**
+     * Messages source for internationalization purposes.
+     */
+    @Autowired
+    private ResourceBundleMessageSource messageSource;
+
+    /**
+     * Field for import from message attribute from mail.properties
+     */
+    @Value(DEFAULT_MESSAGE_FROM_ADDRESS)
+    private String fromAddress;
+
+    /**
+     * MimeMessagePreparator example
+     */
+    private MimeMessagePreparator preparator;
+
+    /**
      * Send mail notifications to the meetings owners if meeting is cancelled
      * because of room delete.
      * 
-     * @param meetingForMailDTO
+     * @param meetingCompactDTO
      *            a DTO object which contains mail message parameters.
      */
     @Async
     public void sendInfoMessageRoomDeletion(
-            final MeetingCompactDTO meetingForMailDTO) {
-        String reason = "the unavailability of the selected room";
-        sendInfoMessageMeetingCanceled(meetingForMailDTO, reason);
-    }
-
-    /**
-     * Send mail notifications to the meetings owners if meeting is cancelled
-     * because of provided reason.
-     * 
-     * @param meetingForMailDTO
-     *            a DTO object which contains mail message parameters.
-     * 
-     * @param reason
-     *            reason of meeting canceling.
-     */
-    private void sendInfoMessageMeetingCanceled(
-            final MeetingCompactDTO meetingForMailDTO, final String reason) {
-
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
-
+            final MeetingCompactDTO meetingCompactDTO, Locale locale) {
+        preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
-
-                mimeMessage.setRecipient(Message.RecipientType.TO,
-                        new InternetAddress(meetingForMailDTO.getOwnerMail()));
-                mimeMessage.setFrom(
-                        new InternetAddress("scheduler-support@e-shop.com"));
-                mimeMessage.setSubject("Meeting cancelled");
-                mimeMessage
-                        .setText("Dear " + meetingForMailDTO.getOwnerFullName()
-                                + ", unfortunately your meeting with subject "
-                                + meetingForMailDTO.getSubjectName()
-                                + " planned on " + meetingForMailDTO.getDate()
-                                + " at " + meetingForMailDTO.getStartTime()
-                                + " in " + meetingForMailDTO.getRoomName()
-                                + " was canceled because of " + reason
-                                + ". Please correct this meeting.");
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                message.setTo(
+                        new InternetAddress(meetingCompactDTO.getOwnerMail()));
+                message.setFrom(new InternetAddress(fromAddress));
+                message.setSubject(messageSource.getMessage(
+                        MEETING_CANCELLED_MESSAGE_SUBJECT, new String[0],
+                        locale));
+                Map<String, Object> model = new HashMap<>();
+                model.put(MEETING_MODEL_NAME, meetingCompactDTO);
+                String text;
+                if (locale.getLanguage().equals("ua")) {
+                    text = VelocityEngineUtils.mergeTemplateIntoString(
+                            velocityEngine, MEETING_CANCELLED_TEMPLATE_UA,
+                            DEFAULT_VELOCITY_ENCODING, model);
+                } else if (locale.getLanguage().equals("ru")) {
+                    text = VelocityEngineUtils.mergeTemplateIntoString(
+                            velocityEngine, MEETING_CANCELLED_TEMPLATE_RU,
+                            DEFAULT_VELOCITY_ENCODING, model);
+                } else {
+                    text = VelocityEngineUtils.mergeTemplateIntoString(
+                            velocityEngine, MEETING_CANCELLED_TEMPLATE_EN,
+                            DEFAULT_VELOCITY_ENCODING, model);
+                }
+                message.setText(text, true);
             }
         };
         try {

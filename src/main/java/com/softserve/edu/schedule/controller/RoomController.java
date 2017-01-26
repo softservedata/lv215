@@ -39,9 +39,10 @@ import com.softserve.edu.schedule.service.implementation.validators.RoomValidato
  *
  * @since 1.8
  */
-@RequestMapping("/rooms")
+@RequestMapping(ControllerConst.RoomControllerConst.ROOMS_URL)
 @Controller
-@SessionAttributes({"roomFilter", "roomPaginator"})
+@SessionAttributes({ControllerConst.RoomControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.RoomControllerConst.ROOM_PAGINATOR_MODEL_ATTR})
 public class RoomController implements ControllerConst.RoomControllerConst {
 
     /**

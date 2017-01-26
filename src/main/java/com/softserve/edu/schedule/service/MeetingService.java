@@ -17,9 +17,12 @@ import java.util.List;
 import com.softserve.edu.schedule.dao.Order;
 
 import com.softserve.edu.schedule.dto.MeetingDTO;
-
+import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.SubjectDTO;
+import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
-
+import com.softserve.edu.schedule.dto.filter.MeetingFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 
 
@@ -83,6 +86,9 @@ public interface MeetingService {
      */
     public void deleteById(final Long id);
 
+    public List<MeetingDTO> getMeetingPageWithFilter(final MeetingFilter meetingFilter,
+            final Paginator roomPaginator);
+    
     /**
      * Return a List of sorted Meeting transfer objects.
      *
@@ -116,7 +122,7 @@ public interface MeetingService {
      *            our description for meeting.
      * @return List<Meeting> returns list.
      */
-    public List<MeetingDTO> searchByDescription(final String description);
+    public List<MeetingDTO> searchByDescription(final MeetingDTO meetingDTO);
 
     /**
      * Find all meetings in the DB by given subject.
@@ -125,7 +131,7 @@ public interface MeetingService {
      *            our subject for meeting.
      * @return List<Meeting> returns list.
      */
-    public List<MeetingDTO> searchBySubject(final String pattern);
+    public List<MeetingDTO> searchBySubject(final SubjectDTO subjectDTO);
 
     /**
      * Find all meetings in the DB by given Owner.
@@ -134,7 +140,7 @@ public interface MeetingService {
      *            our user for meeting.
      * @return List<Meeting> returns list.
      */
-    public List<MeetingDTO> searchByOwner(final String pattern);
+    public List<MeetingDTO> searchByOwner(final UserDTO userDTO);
 
     /**
      * Find all meetings in the DB by given Room.
@@ -143,7 +149,7 @@ public interface MeetingService {
      *            our room for meeting.
      * @return List<Meeting> list.
      */
-    public List<MeetingDTO> searchByRoom(final String pattern);
+    public List<MeetingDTO> searchByRoom(final RoomDTO roomDTO);
 
     /**
      * Find all meetings in the DB by given date.
@@ -161,7 +167,7 @@ public interface MeetingService {
      *            our userGroup for meeting.
      * @return List<Meeting>
      */
-    public List<MeetingDTO> searchByUserGroup(final String pattern);
+    public List<MeetingDTO> searchByUserGroup(final UserGroupDTO userGroupDTO);
 
     /**
      * Find all meetings in the DB by given userGroups.
@@ -180,7 +186,7 @@ public interface MeetingService {
      *            of the meeting.
      * @return List<Meeting>
      */
-    public List<MeetingDTO> searchByLevel(final String level);
+    public List<MeetingDTO> searchByLevel(final MeetingDTO meetingDTO);
 
     /**
      * Find all meetings in the DB by given meetingStatus.
@@ -189,7 +195,7 @@ public interface MeetingService {
      *            of the meeting.
      * @return List<Meeting>
      */
-    public List<MeetingDTO> searchByStatus(final MeetingStatus meetingStatus);
+    public List<MeetingDTO> searchByStatus(final MeetingDTO meetingDTO);
 
     /*
      * Additional methods for doing the SEARCH operation but direct in DB.
