@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -22,7 +22,7 @@ import com.softserve.edu.schedule.service.UserService;
  *
  * @since 1.8
  */
-@Service
+@Component
 public class UserValidator  implements Validator {
     
     /**
@@ -94,7 +94,7 @@ public class UserValidator  implements Validator {
             errors.rejectValue(ValidationFields.FIRSTNAME,
                     ValidationMessages.NO_ERROR_CODE,
                     messageSource.getMessage(
-                            ValidationMessages.INVALID_CHARACTERS,
+                            ValidationMessages.INVALID_NAME,
                             new String[0], LocaleContextHolder.getLocale()));
         }
         
@@ -102,7 +102,7 @@ public class UserValidator  implements Validator {
             errors.rejectValue(ValidationFields.LASTNAME,
                     ValidationMessages.NO_ERROR_CODE,
                     messageSource.getMessage(
-                            ValidationMessages.INVALID_CHARACTERS,
+                            ValidationMessages.INVALID_NAME,
                             new String[0], LocaleContextHolder.getLocale()));
         }
         
@@ -110,7 +110,7 @@ public class UserValidator  implements Validator {
             errors.rejectValue(ValidationFields.POSITION,
                     ValidationMessages.NO_ERROR_CODE,
                     messageSource.getMessage(
-                            ValidationMessages.INVALID_CHARACTERS,
+                            ValidationMessages.INVALID_NAME,
                             new String[0], LocaleContextHolder.getLocale()));
         }
         
@@ -118,7 +118,7 @@ public class UserValidator  implements Validator {
             errors.rejectValue(ValidationFields.MAIL,
                     ValidationMessages.NO_ERROR_CODE,
                     messageSource.getMessage(
-                            ValidationMessages.INVALID_CHARACTERS,
+                            ValidationMessages.INVALID_MAIL,
                             new String[0], LocaleContextHolder.getLocale()));
         }
         
@@ -156,7 +156,7 @@ public class UserValidator  implements Validator {
      * @return true if FirstName is valid
      */
     private boolean isUserFirstNameValid(UserDTO userDTO) {
-        return userDTO.getFirstName().matches(ValidationCriteria.CHARACTERS_FOR_NAME);
+        return userDTO.getFirstName().matches(ValidationCriteria.CHARACTERS_FOR_USERNAME);
     }
     
     /**
@@ -168,7 +168,7 @@ public class UserValidator  implements Validator {
      * @return true if lastName is valid
      */
     private boolean isUserLastNameValid(UserDTO userDTO) {
-        return userDTO.getLastName().matches(ValidationCriteria.CHARACTERS_FOR_NAME);
+        return userDTO.getLastName().matches(ValidationCriteria.CHARACTERS_FOR_USERNAME);
     }
     
     /**
@@ -180,7 +180,7 @@ public class UserValidator  implements Validator {
      * @return true if position is valid
      */
     private boolean isPositionValid(UserDTO userDTO) {
-        return userDTO.getPosition().matches(ValidationCriteria.CHARACTERS_FOR_NAME);
+        return userDTO.getPosition().matches(ValidationCriteria.CHARACTERS_FOR_USERNAME);
     }
     
     /**
@@ -204,8 +204,8 @@ public class UserValidator  implements Validator {
      * @return true if phone is valid
      */
     private boolean isMailValid(UserDTO userDTO) {
-//        return userDTO.getMail().matches(ValidationCriteria.CHARACTERS_FOR_MAIL);
-        return userDTO.getMail().matches(ValidationCriteria.CHARACTERS_FOR_NAME);
+        return userDTO.getMail().matches(ValidationCriteria.CHARACTERS_FOR_MAIL);
+//        return userDTO.getMail().matches(ValidationCriteria.CHARACTERS_FOR_NAME);
     }
     
     /**
@@ -232,10 +232,18 @@ public class UserValidator  implements Validator {
      */
     private boolean hasDuplicates(UserDTO userDTO) {
         List<UserDTO> dublicate = userService.searchByMail(userDTO.getMail());
-        if (dublicate.size() == 0) {
-            return false;
+        if (dublicate.size() == 1) {
+            if(dublicate.stream().anyMatch(e -> e.getId().equals(userDTO.getId()))){
+                return false;
+            }
+            return true;
+//            for (UserDTO userDTO2 : dublicate) {
+//                if(userDTO.getId().equals(userDTO2.getId())){
+//                    return false;
+//                }
+//            }  
         }
-        return true;
+        return false;
     }
 
 }

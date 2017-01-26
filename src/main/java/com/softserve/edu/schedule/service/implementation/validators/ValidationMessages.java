@@ -32,16 +32,14 @@ public interface ValidationMessages {
      */
     String DUPLICATE_ROOM = "vm.duplicateRoom";
     
-    /**
-     * Duplicate mail in user bundle mapping.
-     */
     String DUPLICATE_MAIL = "vm.duplicateMail";
-    
-    /**
-     * Invalid characters in field message bundle mapping.
-     */
+
     String WRONG_PHONE_NUMBER = "vm.wrongPhonNamber";
     
     String INCORECT_PASSWORD = "vm.incorectPassword";
+    
+    String INVALID_NAME = "vm.incorectName";
+    
+    String INVALID_MAIL = "vm.incorecMail";
 
 }
