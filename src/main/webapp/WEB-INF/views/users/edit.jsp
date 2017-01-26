@@ -10,25 +10,24 @@
 		<div class="row">
 			<div
 				class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
-				<h3 class="text-center">UPDATE: ${user.lastName} ${user.firstName}</h3>
+				<h3 class="text-center"><spring:message code="lbl.user.update"/>: ${user.lastName} ${user.firstName}</h3>
 				
 					<form:hidden path="id" />
 					<div class="form-group">
-						<a
+						<a class="form-control" 
 						href="${pageContext.request.contextPath}${UserController.UPDATE_USER_MAPPING}${user.id}">
-							UPDATE </a>
+							<spring:message code="lbl.user.update"/> </a>
 					</div>
 					<div class="form-group">
-						<a
+						<a class="form-control" 
 						href="${pageContext.request.contextPath}${UserController.UPDATE_POSITION_MAPPING}${user.id}">
-							CHANGE POSITION </a>
+							<spring:message code="lbl.user.changePosition"/> </a>
 					</div>
 					<div class="form-group">
-						<a
+						<a class="form-control" 
 						href="${pageContext.request.contextPath}${UserController.CHANGE_ROLE_MAPPING}${user.id}">
-							CHANGE ROLE</a>
-					</div>
-				
+							<spring:message code="lbl.user.changeRole"/></a>
+					</div>				
 			</div>
 		</div>
 	</div>

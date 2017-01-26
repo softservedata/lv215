@@ -16,8 +16,8 @@ import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
-import com.softserve.edu.schedule.service.implementation.editor.UserDTOEditor;
-import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEditor;
+//import com.softserve.edu.schedule.service.implementation.editor.UserDTOEditor;
+//import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEditor;
 
 /**
  * Controller class for a UserGroup
@@ -32,14 +32,14 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	/**
 	 * Editor for a userGroup
 	 */
-	@Autowired
-	private UserGroupDTOEditor userGroupDTOEditor;
-
-	/**
-	 * Editor for a user
-	 */
-	@Autowired
-	private UserDTOEditor userDTOEditor;
+//	@Autowired
+//	private UserGroupDTOEditor userGroupDTOEditor;
+//
+//	/**
+//	 * Editor for a user
+//	 */
+//	@Autowired
+//	private UserDTOEditor userDTOEditor;
 
 	/**
 	 * Service for a UserGroup
@@ -88,12 +88,12 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 * 
 	 * @param binder
 	 *            WebDataBinder object
-	 */
-	@InitBinder(USERGROUP_MODEL_ATTR)
-	protected void initBinder(final WebDataBinder binder) {
-		binder.registerCustomEditor(UserDTO.class, userDTOEditor);
-		binder.registerCustomEditor(UserGroupDTO.class, userGroupDTOEditor);
-	}
+//	 */
+//	@InitBinder(USERGROUP_MODEL_ATTR)
+//	protected void initBinder(final WebDataBinder binder) {
+//		binder.registerCustomEditor(UserDTO.class, userDTOEditor);
+//		binder.registerCustomEditor(UserGroupDTO.class, userGroupDTOEditor);
+//	}
 
 	/**
 	 * Shows view with all UserGroups
