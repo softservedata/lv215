@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-
 import org.apache.velocity.app.VelocityEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,6 +76,7 @@ public class MeetingCanceledMailService implements MailConstants {
         preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
+                
                 message.setTo(
                         new InternetAddress(meetingCompactDTO.getOwnerMail()));
                 message.setFrom(new InternetAddress(fromAddress));
