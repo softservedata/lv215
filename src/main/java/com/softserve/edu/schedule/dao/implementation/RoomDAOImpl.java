@@ -34,6 +34,18 @@ import com.softserve.edu.schedule.service.implementation.specification.RoomFilte
 public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
     /**
+     * Deleting Room object from database. Don't touch this method -it has
+     * aspects attached.
+     *
+     * @param room
+     *            - Transfer object
+     */
+    @Override
+    public void delete(Room room) {
+        super.delete(room);
+    }
+
+    /**
      * RoomEquipmentDAO example to provide database operations.
      *
      */
@@ -127,16 +139,18 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     public List<Room> getRoomsPageWithFilter(final RoomFilter roomFilter,
             final Paginator roomPaginator) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Room> cq = builder.createQuery(Room.class);
-        Root<Room> root = cq.from(Room.class);
+        CriteriaQuery<Room> criteriaQuery = builder.createQuery(Room.class);
+        Root<Room> root = criteriaQuery.from(Room.class);
         Predicate predicate = new RoomFilterSpecification(roomFilter,
-                roomEquipmentDAO).toPredicate(root, cq, builder);
+                roomEquipmentDAO).toPredicate(root, criteriaQuery, builder);
         if (predicate != null) {
-            cq.where(predicate);
+            criteriaQuery.where(predicate);
         }
-        cq.distinct(true);
-        return getEm().createQuery(cq).setFirstResult(roomPaginator.getOffset())
+        criteriaQuery.distinct(true);
+        roomPaginator.setPagesCount(
+                getEm().createQuery(criteriaQuery).getResultList().size());
+        return getEm().createQuery(criteriaQuery)
+                .setFirstResult(roomPaginator.getOffset())
                 .setMaxResults(roomPaginator.getPageSize()).getResultList();
     }
-
 }

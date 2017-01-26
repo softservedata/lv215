@@ -23,8 +23,6 @@ public interface ControllerConst {
 	 * @since 1.8
 	 */
 
-	String ROOM_EQUIPMENTS_URL = "/roomequipments";
-
 	public interface RoomControllerConst {
 		/**
 		 * Room model attribute name.
@@ -70,6 +68,11 @@ public interface ControllerConst {
 		 * Path variable for room id name.
 		 */
 		String PATH_VAR_ID = "id";
+
+		/**
+		 * Rooms section URL name.
+		 */
+		String ROOMS_URL = "/rooms";
 
 		/**
 		 * Rooms list URL name.
@@ -631,20 +634,12 @@ public interface ControllerConst {
 		 * Mapping on a usergroups page
 		 */
 		String USERGROUP_MAPPING = "/usergroups";
-
-		/**
-		 * Path for name field
-		 */
-		String USERGROUP_PATH_NAME = "name";
-
-		/**
-		 * Path for lastName field
-		 */
-		String USERGROUP_PATH_LASTNAME = "lastName";
-
 	}
 
 	public interface RoomEquipmentControllerConst {
+
+		String ROOM_EQUIPMENTS_URL = "/roomequipments";
+
 		String ROOM_EQUIPMENTS_MAPPING = "/roomequipments";
 
 		String ROOM_EQUIPMENTS_CREATE = "/create";
