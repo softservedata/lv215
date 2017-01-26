@@ -34,7 +34,7 @@
 		<tiles:insertAttribute name="navigation" />
 	</header>
 
-	<div class="container">
+	<div class="container" style="width:100%">
 		<tiles:insertAttribute name="body" />
 	</div>
 

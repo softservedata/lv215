@@ -13,7 +13,7 @@
 	<table class="table table-hover">
 		<tr>
 
-			<th>Description <%-- <a
+			<th class="description">Description <%-- <a
 				href="${pageContext.request.contextPath}/meetings/sortbydescriptionasc"><i
 					class="fa fa-arrow-circle-o-up"></i></a><a
 				href="${pageContext.request.contextPath}/meetings/sortbydescriptiondesc"><i
@@ -73,6 +73,7 @@
 
 		<tr>
 			<!-- Filter form -->
+			
 			<c:choose>
 				<c:when test="${meetingFilter.showFilter eq true}">
 					<tr class="collapse in" id="showfilter">
@@ -81,15 +82,15 @@
 					<tr class="collapse" id="showfilter">
 				</c:otherwise>
 			</c:choose>
-			<form:form role="form" action="meetings" method="get"
+			<form:form role="form" action="meetings" method="get" 
 				modelAttribute="meetingFilter">
 				<form:input path="showFilter" type="hidden" value="true" />
 				<!-- description -->
 				<td>
-					<div class="form-group col-xs-10">
+					<div class="form-group">
 
 						<form:input class="form-control input-sm" type="text"
-							path="description" placeholder="meetingDescription" />
+							path="description" placeholder="Description" />
 					</div>
 				</td>
 				<!-- subject -->
@@ -142,7 +143,7 @@
 										<option value="${room.id}" selected="selected">${room.name}</option>
 									</c:when>
 									<c:otherwise>
-										<option value="${room.id}">${owner.name}</option>
+										<option value="${room.id}">${room.name}</option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>
@@ -151,15 +152,14 @@
 				</td>
 				<!-- date -->
 				<td>
-					<div class="form-group col-xs-10">
-
-						<form:input class="form-control input-sm" type="date"
+					<div class="form-group">
+						<form:input class="form-control input-sm" type="date" style="width:120px"
 							path="date" placeholder="YYYY-MM-DD" />
 					</div>
 				</td>
 				<!-- Start Time -->
 				<td>
-					<div class="form-group col-xs-10">
+					<div class="form-group">
 
 						<form:input class="form-control input-sm" type="time" 
 						path="startTime" id="startTime"
@@ -168,7 +168,7 @@
 				</td>
 		<!-- End Time -->
 				<td>
-					<div class="form-group col-xs-10">
+					<div class="form-group">
 
 						<form:input class="form-control input-sm" type="time" 
 						path="endTime" id="endTime"
@@ -209,7 +209,7 @@
 				</td>
 				<!-- Status -->
 				<td>
-					<div class="form-group">
+					<%-- <div class="form-group">
 						<form:select class="form-control" path="status"
 							id="status">
 							 <option value="-1"></option>
@@ -224,7 +224,7 @@
 								</c:choose>
 							</c:forEach>
 						</form:select>
-					</div>
+					</div> --%>
 				</td>
 				
 				<td class="text-center v-alighn">
@@ -235,7 +235,7 @@
 				</td>
 			</form:form>
 			<td class="text-center v-alighn">
-				 <a href="#" title="resetFilter"> <i class="fa fa-ban fa-lg"></i></a>
+				 <a href="meetings?showFilter=false&description=&subjectId=0&ownerId=0&roomId=0&date=null&startTime=null&endTime=null&minLevel=0&maxLevel=0&groups=1&pageNumber=0" title="resetFilter"> <i class="fa fa-ban fa-lg"></i></a>
 			</td>
 		</tr>
 		<!-- End Filter form -->
@@ -254,7 +254,11 @@
 						<p>${group.name}</p>
 					</c:forEach></td>
 				<td>${meeting.level}</td>
-				<td>${meeting.status}<a
+				<td>
+				<c:when test="${meeting.status} == }">
+										<option value="${status}" selected="selected">${status}</option>
+									</c:when>
+				${meeting.status}<a
 					href="${pageContext.request.contextPath}/meetings/editStatus/${meeting.id}"><i
 						class="fa fa-pencil-square-o"></i></a>
 				</td>
