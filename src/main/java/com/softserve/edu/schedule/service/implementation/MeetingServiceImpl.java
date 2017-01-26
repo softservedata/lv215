@@ -25,7 +25,6 @@ import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
-import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 
 import com.softserve.edu.schedule.entity.MeetingStatus;
@@ -35,7 +34,6 @@ import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
-
 
 /**
  * This is implementation of the interface for managing Meetings Service.
@@ -138,13 +136,15 @@ public class MeetingServiceImpl implements MeetingService {
         meetingDao.deleteById(id);
 
     }
-    
-    //TODO
+
+    // TODO
     @Override
     @Transactional(readOnly = true)
-    public List<MeetingDTO> getMeetingPageWithFilter(final MeetingFilter meetingFilter,
+    public List<MeetingDTO> getMeetingPageWithFilter(
+            final MeetingFilter meetingFilter,
             final Paginator meetingPaginator) {
-        return meetingDao.getMeetingPageWithFilter(meetingFilter, meetingPaginator)
+        return meetingDao
+                .getMeetingPageWithFilter(meetingFilter, meetingPaginator)
                 .stream().map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -186,8 +186,10 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     @Transactional(readOnly = true)
     public List<MeetingDTO> searchByLevel(final MeetingDTO meetingDTO) {
-        return meetingDao.search(Meeting_.level.getName(), meetingDTO.getLevel().toString()).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
+        return meetingDao
+                .search(Meeting_.level.getName(),
+                        meetingDTO.getLevel().toString())
+                .stream().map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
 
@@ -274,8 +276,10 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     @Transactional(readOnly = true)
     public List<MeetingDTO> searchByDate(final LocalDate date) {
-/*        String pattern = "" + date.getMonthValue() + "." + date.getDayOfMonth()
-                + "." + date.getYear();*/
+        /*
+         * String pattern = "" + date.getMonthValue() + "." +
+         * date.getDayOfMonth() + "." + date.getYear();
+         */
         return meetingDao.searchByDate(date).stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
@@ -406,12 +410,13 @@ public class MeetingServiceImpl implements MeetingService {
     /*
      * (non-Javadoc)
      * 
-<<<<<<< HEAD
+     * <<<<<<< HEAD
+     * 
      * @see com.softserve.edu.schedule.service.MeetingService#
-     * getMeetingsByRoomIDAndDate(java.lang.Long, java.time.LocalDate)
-=======
-     * @return List of the MeetingCompactDTO objects.
->>>>>>> 16056cdee5ab399e1bbba4433adbcce1ccc387bc
+     * getMeetingsByRoomIDAndDate(java.lang.Long, java.time.LocalDate) =======
+     * 
+     * @return List of the MeetingCompactDTO objects. >>>>>>>
+     * 16056cdee5ab399e1bbba4433adbcce1ccc387bc
      */
     @Override
     public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId,

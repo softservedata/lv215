@@ -1,10 +1,5 @@
 package com.softserve.edu.schedule.service.implementation.specification;
 
-import org.springframework.data.jpa.domain.Specification;
-
-import com.softserve.edu.schedule.entity.Location;
-import com.softserve.edu.schedule.entity.Location_;
-import com.softserve.edu.schedule.entity.Meeting;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,25 +11,21 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
-import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
-import com.softserve.edu.schedule.dto.filter.RoomFilter;
-
+import com.softserve.edu.schedule.entity.Meeting;
+import com.softserve.edu.schedule.entity.Meeting_;
 import com.softserve.edu.schedule.entity.Room;
-import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.entity.Room_;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.User_;
-import com.softserve.edu.schedule.entity.Meeting;
-import com.softserve.edu.schedule.entity.Meeting_;
 
 public class MeetingFilterSpecification implements Specification<Meeting> {
 
@@ -173,7 +164,7 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
     }
 
     private void findByStatus() {
-        if (meetingFilter.getStatus() != null) {
+        if (meetingFilter.getStatus() >= 0) {
             list.add((root, criteriaQuery, criteriaBuilder) -> root
                     .get(Meeting_.status).in(meetingFilter.getStatus()));
         }
@@ -182,96 +173,110 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
     private void setSortingParameters(final Root<Meeting> root,
             final CriteriaQuery<?> criteriaQuery,
             final CriteriaBuilder criteriaBuilder) {
-        if (meetingFilter.getSortOrder() == Order.ASC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.DESCRIPTION) {
+        if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
+                .getFieldForSorting() == MeetingSortField.DESCRIPTION
+                        .ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.asc(root.get(Meeting_.description)));
         }
-        if (meetingFilter.getSortOrder() == Order.DESC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.DESCRIPTION) {
+        if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
+                && meetingFilter
+                        .getFieldForSorting() == MeetingSortField.DESCRIPTION
+                                .ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.desc(root.get(Meeting_.description)));
         }
 
-        if (meetingFilter.getSortOrder() == Order.ASC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.SUBJECT) {
+        if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
+                .getFieldForSorting() == MeetingSortField.SUBJECT.ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.asc(subjectJoin.get(Subject_.name)));
         }
-        if (meetingFilter.getSortOrder() == Order.DESC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.SUBJECT) {
+        if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
+                && meetingFilter
+                        .getFieldForSorting() == MeetingSortField.SUBJECT
+                                .ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.desc(subjectJoin.get(Subject_.name)));
         }
 
-        if (meetingFilter.getSortOrder() == Order.ASC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.OWNER) {
+        if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
+                .getFieldForSorting() == MeetingSortField.OWNER.ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.asc(ownerJoin.get(User_.firstName)));
         }
-        if (meetingFilter.getSortOrder() == Order.DESC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.OWNER) {
+        if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
+                && meetingFilter.getFieldForSorting() == MeetingSortField.OWNER
+                        .ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.desc(ownerJoin.get(User_.firstName)));
         }
-        if (meetingFilter.getSortOrder() == Order.ASC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.ROOM) {
+        if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
+                .getFieldForSorting() == MeetingSortField.ROOM.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(roomJoin.get(Room_.name)));
         }
-        if (meetingFilter.getSortOrder() == Order.DESC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.ROOM) {
+        if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
+                && meetingFilter.getFieldForSorting() == MeetingSortField.ROOM
+                        .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(roomJoin.get(Room_.name)));
         }
-        if (meetingFilter.getSortOrder() == Order.ASC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.DATE) {
+        if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
+                .getFieldForSorting() == MeetingSortField.DATE.ordinal()) {
             criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Meeting_.date)));
         }
-        if (meetingFilter.getSortOrder() == Order.DESC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.DATE) {
+        if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
+                && meetingFilter.getFieldForSorting() == MeetingSortField.DATE
+                        .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.date)));
 
         }
-        if (meetingFilter.getSortOrder() == Order.ASC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.STARTTIME) {
+        if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
+                .getFieldForSorting() == MeetingSortField.STARTTIME.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.startTime)));
 
         }
-        if (meetingFilter.getSortOrder() == Order.DESC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.STARTTIME) {
+        if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
+                && meetingFilter
+                        .getFieldForSorting() == MeetingSortField.STARTTIME
+                                .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.endTime)));
         }
-        if (meetingFilter.getSortOrder() == Order.ASC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.ENDTIME) {
+        if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
+                .getFieldForSorting() == MeetingSortField.ENDTIME.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.endTime)));
         }
-        if (meetingFilter.getSortOrder() == Order.DESC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.ENDTIME) {
+        if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
+                && meetingFilter
+                        .getFieldForSorting() == MeetingSortField.ENDTIME
+                                .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.endTime)));
         }
-        if (meetingFilter.getSortOrder() == Order.ASC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.LEVEL) {
+        if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
+                .getFieldForSorting() == MeetingSortField.LEVEL.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.level)));
         }
-        if (meetingFilter.getSortOrder() == Order.DESC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.LEVEL) {
+        if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
+                && meetingFilter.getFieldForSorting() == MeetingSortField.LEVEL
+                        .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.level)));
         }
-        if (meetingFilter.getSortOrder() == Order.ASC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.STATUS) {
+        if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
+                .getFieldForSorting() == MeetingSortField.STATUS.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.status)));
         }
-        if (meetingFilter.getSortOrder() == Order.DESC && meetingFilter
-                .getFieldForSorting() == MeetingSortField.STATUS) {
+        if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
+                && meetingFilter.getFieldForSorting() == MeetingSortField.STATUS
+                        .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.status)));
         }

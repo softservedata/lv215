@@ -14,17 +14,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
-
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
-import com.softserve.edu.schedule.dto.filter.DateFilter;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
-import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.MeetingService;
@@ -41,7 +37,7 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEdit
 
 @RequestMapping("/meetings")
 @Controller
-@SessionAttributes({ "meetingFilter", "meetingPaginator" })
+@SessionAttributes({"meetingFilter", "meetingPaginator"})
 public class MeetingController {
 
     @Autowired
