@@ -369,7 +369,7 @@ public class MeetingController {
             @ModelAttribute("searchmeetingsbydescription") MeetingDTO meetingDTO,
             Model model) {
         model.addAttribute("meetings", meetingService
-                .searchByDescription(meetingDTO.getDescription()));
+                .searchByDescription(meetingDTO));
         return "meetings/list";
     }
 
@@ -384,7 +384,7 @@ public class MeetingController {
             @ModelAttribute("searchmeetingsbysubject") SubjectDTO subjectDTO,
             Model model) {
         model.addAttribute("meetings",
-                meetingService.searchBySubject(subjectDTO.getName()));
+                meetingService.searchBySubject(subjectDTO));
         return "meetings/list";
     }
 
@@ -399,7 +399,7 @@ public class MeetingController {
             @ModelAttribute("searchmeetingsbyowner") UserDTO userDTO,
             Model model) {
         model.addAttribute("meetings",
-                meetingService.searchByOwner(userDTO.getLastName()));
+                meetingService.searchByOwner(userDTO));
         return "meetings/list";
     }
 
@@ -414,7 +414,7 @@ public class MeetingController {
             @ModelAttribute("searchmeetingsbyroom") RoomDTO roomDTO,
             Model model) {
         model.addAttribute("meetings",
-                meetingService.searchByRoom(roomDTO.getName()));
+                meetingService.searchByRoom(roomDTO));
         return "meetings/list";
     }
 
@@ -429,7 +429,7 @@ public class MeetingController {
             @ModelAttribute("searchmeetingsbylevel") MeetingDTO meetingDTO,
             Model model) {
         model.addAttribute("meetings",
-                meetingService.searchByLevel(meetingDTO.getLevel().toString()));
+                meetingService.searchByLevel(meetingDTO));
         return "meetings/list";
     }
 
@@ -459,7 +459,7 @@ public class MeetingController {
             @ModelAttribute("searchmeetingsbygroup") UserGroupDTO userGroupDTO,
             Model model) {
         model.addAttribute("meetings",
-                meetingService.searchByUserGroup(userGroupDTO.getName()));
+                meetingService.searchByUserGroup(userGroupDTO));
         return "meetings/list";
     }
 
@@ -474,7 +474,7 @@ public class MeetingController {
             @ModelAttribute("searchmeetingsbystatus") MeetingDTO meetingDTO,
             Model model) {
         model.addAttribute("meetings",
-                meetingService.searchByStatus(meetingDTO.getStatus()));
+                meetingService.searchByStatus(meetingDTO));
         return "meetings/list";
     }
 }

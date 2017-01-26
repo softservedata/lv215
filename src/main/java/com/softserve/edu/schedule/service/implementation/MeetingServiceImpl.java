@@ -19,7 +19,9 @@ import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
 
 import com.softserve.edu.schedule.dto.MeetingDTO;
-
+import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.SubjectDTO;
+import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
 
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
@@ -171,8 +173,8 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByLevel(final String pattern) {
-        return meetingDao.search(Meeting_.level.getName(), pattern).stream()
+    public List<MeetingDTO> searchByLevel(final MeetingDTO meetingDTO) {
+        return meetingDao.search(Meeting_.level.getName(), meetingDTO.getLevel().toString()).stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -186,8 +188,8 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByStatus(final MeetingStatus meetingStatus) {
-        return meetingDao.searchByStatus(meetingStatus.toString()).stream()
+    public List<MeetingDTO> searchByStatus(final MeetingDTO meetingDTO) {
+        return meetingDao.searchByStatus(meetingDTO).stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -201,8 +203,8 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByDescription(final String description) {
-        return meetingDao.searchByDescription(description).stream()
+    public List<MeetingDTO> searchByDescription(final MeetingDTO meetingDTO) {
+        return meetingDao.searchByDescription(meetingDTO).stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -216,8 +218,8 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<MeetingDTO> searchBySubject(final String pattern) {
-        return meetingDao.searchBySubject(pattern).stream()
+    public List<MeetingDTO> searchBySubject(final SubjectDTO subjectDTO) {
+        return meetingDao.searchBySubject(subjectDTO).stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -230,8 +232,8 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByOwner(final String pattern) {
-        return meetingDao.searchByOwner(pattern).stream()
+    public List<MeetingDTO> searchByOwner(final UserDTO userDTO) {
+        return meetingDao.searchByOwner(userDTO).stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -244,8 +246,8 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByRoom(final String pattern) {
-        return meetingDao.searchByRoom(pattern).stream()
+    public List<MeetingDTO> searchByRoom(final RoomDTO roomDTO) {
+        return meetingDao.searchByRoom(roomDTO).stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -276,8 +278,8 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByUserGroup(final String pattern) {
-        return meetingDao.searchByUserGroup(pattern).stream()
+    public List<MeetingDTO> searchByUserGroup(final UserGroupDTO userGroupDTO) {
+        return meetingDao.searchByUserGroup(userGroupDTO).stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
