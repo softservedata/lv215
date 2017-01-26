@@ -7,7 +7,7 @@ import java.util.List;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 
 /**
- * A DTO class to transport filter data.
+ * A DTO class to storage and transport filter data.
  *
  * @version 1.0 17 January 2017
  *
