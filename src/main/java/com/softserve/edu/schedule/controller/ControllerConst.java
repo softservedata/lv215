@@ -634,6 +634,16 @@ public interface ControllerConst {
 		 * Mapping on a usergroups page
 		 */
 		String USERGROUP_MAPPING = "/usergroups";
+
+		/**
+		 * Path name
+		 */
+		String USERGROUP_PATH_NAME = "name";
+
+		/**
+		 * Path curator's lastname
+		 */
+		String USERGROUP_PATH_CURATOR_LASTNAME = "curator.lastName";
 	}
 
 	public interface RoomEquipmentControllerConst {
