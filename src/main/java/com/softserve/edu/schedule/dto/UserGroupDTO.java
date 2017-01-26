@@ -31,13 +31,11 @@ public class UserGroupDTO {
 	/**
 	 * List of users in this group.
 	 */
-
 	private List<UserDTO> users = new ArrayList<>();
 
 	/**
 	 * List of meetings of this group.
 	 */
-
 	private List<MeetingDTO> meetings = new ArrayList<>();
 
 	/**
@@ -130,7 +128,11 @@ public class UserGroupDTO {
 	 *            the users to set
 	 */
 	public void setUsers(List<UserDTO> users) {
-		this.users = users;
+		if (users == null) {
+			this.users = new ArrayList<>();
+		} else {
+			this.users = users;
+		}
 	}
 
 	/**
