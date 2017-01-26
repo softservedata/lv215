@@ -17,6 +17,8 @@ import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
+import com.softserve.edu.schedule.dto.filter.MeetingFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 
@@ -29,6 +31,11 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  */
 public interface MeetingDAO extends CrudDAO<Meeting> {
 
+    
+    //TODO
+    public List<Meeting> getMeetingPageWithFilter(final MeetingFilter meetingFilter,
+            final Paginator meetingPaginator);
+    
     /**
      * Delete Meeting by id.
      * 

@@ -32,11 +32,14 @@ import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
+import com.softserve.edu.schedule.dto.filter.MeetingFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
@@ -48,6 +51,8 @@ import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.entity.User_;
+import com.softserve.edu.schedule.service.implementation.specification.MeetingFilterSpecification;
+import com.softserve.edu.schedule.service.implementation.specification.RoomFilterSpecification;
 
 /**
  * This class implements the MeetingsDAO. It also implements ReadDAO interface.
@@ -63,6 +68,29 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      */
     public MeetingDAOImpl() {
         super(Meeting.class);
+    }
+    UserGroupDAO userGroupDAO;
+    
+    
+    //TODO
+    @Override
+    public List<Meeting> getMeetingPageWithFilter(final MeetingFilter meetingFilter,
+            final Paginator meetingPaginator) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> criteriaQuery = builder.createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
+        
+        Predicate predicate = new MeetingFilterSpecification(meetingFilter,
+                userGroupDAO).toPredicate(root, criteriaQuery, builder);
+        if (predicate != null) {
+            criteriaQuery.where(predicate);
+        }
+        criteriaQuery.distinct(true);
+        meetingPaginator.setPagesCount(
+                getEm().createQuery(criteriaQuery).getResultList().size());
+        return getEm().createQuery(criteriaQuery)
+                .setFirstResult(meetingPaginator.getOffset())
+                .setMaxResults(meetingPaginator.getPageSize()).getResultList();
     }
 
     /*

@@ -21,7 +21,8 @@ import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
-
+import com.softserve.edu.schedule.dto.filter.MeetingFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 
 
@@ -85,6 +86,9 @@ public interface MeetingService {
      */
     public void deleteById(final Long id);
 
+    public List<MeetingDTO> getMeetingPageWithFilter(final MeetingFilter meetingFilter,
+            final Paginator roomPaginator);
+    
     /**
      * Return a List of sorted Meeting transfer objects.
      *
