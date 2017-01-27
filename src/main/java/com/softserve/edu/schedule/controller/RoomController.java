@@ -210,15 +210,15 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      * 
      * @return room show detail page URL
      */
-    @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.GET)
-    public String showRoom(@PathVariable(PATH_VAR_ID) final Long id,
-            final Model model,
-            @ModelAttribute(DATE_FILTER_MODEL_ATTR) @Valid final DateFilter dateFilter) {
-        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
-        model.addAttribute(MEETINGS_MODEL_ATTR, meetingService
-                .getMeetingsByRoomIDAndDate(id, dateFilter.getDate()));
-        return ROOM_SHOW_URL;
-    }
+//    @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.GET)
+//    public String showRoom(@PathVariable(PATH_VAR_ID) final Long id,
+//            final Model model,
+//            @ModelAttribute(DATE_FILTER_MODEL_ATTR) @Valid final DateFilter dateFilter) {
+//        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
+//        model.addAttribute(MEETINGS_MODEL_ATTR, meetingService
+//                .getMeetingsByRoomIDAndDate(id, dateFilter.getDate()));
+//        return ROOM_SHOW_URL;
+//    }
 
     /**
      * Controls processing of room update information form.

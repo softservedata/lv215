@@ -6,9 +6,7 @@
 <body>
 	<body>
 		<h3>Dear ${meeting.getOwnerFullName()},</h3>
-		<p> unfortunately one of your meetings was canceled,
-			because of the unavailability of the selected room. 
-			Please correct this meeting.</p>
+		<p> unfortunately one of your meetings was canceled, because of the unavailability of the selected room. Please correct this meeting.</p>
 		<h4>Meeting details:</h4>
 		<table>
 			<tr>
@@ -24,11 +22,11 @@
 				<td>${meeting.getDate()}</td>
 			</tr>
 			<tr>
-				<th>Start Time:</th>
+				<th>Start time:</th>
 				<td>${meeting.getStartTime()}</td>
 			</tr>
 			<tr>
-				<th>End Time:</th>
+				<th>End time:</th>
 				<td>${meeting.getEndTime()}</td>
 			</tr>			
 		</table>		

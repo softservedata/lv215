@@ -16,6 +16,7 @@
 	<h3 class="text-center">Meetings</h3>
 	<table class="table table-hover">
 		<tr>
+
 			<th style="width:15%">Description <br>
 				 <a href="meetings?fieldForSorting=0&sortOrder=0&pageNumber=0" title="Sort Ascending">
 				 	<i class="fa fa-arrow-circle-o-up fa-lg"></i>
@@ -40,6 +41,7 @@
 					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
 				</a>
 			</th>
+
 			<th class="allInnerForms1">Room <br>
 				<a href="meetings?fieldForSorting=3&sortOrder=0&pageNumber=0" title="Sort Ascending">
 				 	<i class="fa fa-arrow-circle-o-up fa-lg"></i>
@@ -179,6 +181,7 @@
 				</td>
 				<!-- date -->
 				<td>
+
 					<div class="form-group allInnerforms2 ">
 						<form:input class="form-control input-sm allInnerForms2" type="date" path="date"
 							placeholder="YYYY-MM-DD" />
@@ -188,6 +191,7 @@
 				<td>
 					<div class="form-group">
 
+
 						<form:input class="form-control input-sm allInnerForms" type="time"
 							path="startTime" id="startTime" placeholder="HH:MM" />
 					</div>
@@ -195,13 +199,13 @@
 				<!-- End Time -->
 				<td>
 					<div class="form-group">
-
 						<form:input class="form-control input-sm allInnerForms" type="time"
 							path="endTime" id="endTime" placeholder="HH:MM" />
 					</div>
 				</td>
 				<!-- UserGroups -->
 				<td>
+
 					<div class="form-group allInnerForms1">
 						<form:select class="form-control " path="groups" id="groups"
 							multiple="multiple">
