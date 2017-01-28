@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -46,7 +47,7 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
      * @return List of searched tutors
      */
     @Override
-    public List<Subject> searchTutors(final String pattern) {
+    public List<Subject> searchSubjectsByTutor(final String pattern) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
         Root<Subject> root = cq.from(Subject.class);
@@ -59,13 +60,17 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
     }
 
     /**
-     * Delete existed subject from the database by id.
+     * Return a searched Subject.
      *
-     * @param id
-     *            a subject id to delete from database.
+     * @return searched Subject
      */
     @Override
-    public void deleteById(Long id) {
-        delete(getById(id));
+    public List<Subject> getSubjectByName(final String subjectName) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
+        Root<Subject> root = cq.from(Subject.class);
+        root.fetch(Subject_.users, JoinType.LEFT);
+        cq.where(builder.like(root.get(Subject_.name), subjectName));
+        return getEm().createQuery(cq).getResultList();
     }
 }
