@@ -265,7 +265,6 @@
 			<version>${org.slf4j.version}</version>
 			<scope>runtime</scope>
 		</dependency>
-
 	</dependencies>
 
 	<build>

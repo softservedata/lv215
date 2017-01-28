@@ -2,7 +2,7 @@
 package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dto.LocationDTO;
@@ -18,7 +18,7 @@ import com.softserve.edu.schedule.entity.Location;
  *
  * @since 1.8
  */
-@Service
+@Component
 public class LocationDTOConverter {
 
     /**

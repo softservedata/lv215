@@ -62,5 +62,8 @@
 	        <property name="paramName" value="lang" />
 	    </bean>
     </mvc:interceptors>  
-	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="/i118n/messages" />
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
 </beans>
