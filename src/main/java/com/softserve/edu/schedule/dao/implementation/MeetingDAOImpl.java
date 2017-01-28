@@ -31,6 +31,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.softserve.edu.schedule.aspect.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
@@ -73,7 +74,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     @Autowired
     UserGroupDAO userGroupDAO;
 
-    // TODO
+    @PerfomanceLoggable
     @Override
     public List<Meeting> getMeetingPageWithFilter(
             final MeetingFilter meetingFilter,

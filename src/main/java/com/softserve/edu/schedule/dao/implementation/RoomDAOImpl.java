@@ -13,6 +13,8 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.softserve.edu.schedule.aspect.Loggable;
+import com.softserve.edu.schedule.aspect.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -30,6 +32,8 @@ import com.softserve.edu.schedule.service.implementation.specification.RoomFilte
  *
  * @since 1.8
  */
+@PerfomanceLoggable
+@Loggable
 @Repository
 public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 

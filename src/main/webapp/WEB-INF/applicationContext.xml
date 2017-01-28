@@ -85,8 +85,6 @@
 	<!-- Enable AOP -->
 	<aop:aspectj-autoproxy />
 
-	<bean name="deleteEventsAspect" class="com.softserve.edu.schedule.aspect.DeleteEventsAspect" />
-
 	<!-- localization -->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
