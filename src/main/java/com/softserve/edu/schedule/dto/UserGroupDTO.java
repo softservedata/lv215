@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -26,7 +27,7 @@ public class UserGroupDTO {
 	/**
 	 * Level of the group. The higher the value - the more important group.
 	 */
-	@NotEmpty(message = "Please enter level.")
+	@NotNull(message = "Please enter level.")
 	private Integer level;
 
 	/**
