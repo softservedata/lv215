@@ -1,8 +1,12 @@
 package com.softserve.edu.schedule.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -91,6 +95,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 */
 	@InitBinder(USERGROUP_MODEL_ATTR)
 	protected void initBinder(final WebDataBinder binder) {
+		binder.registerCustomEditor(Integer.class, null, new CustomNumberEditor(Integer.class, true));
 		binder.registerCustomEditor(UserDTO.class, userDTOEditor);
 		binder.registerCustomEditor(UserGroupDTO.class, userGroupDTOEditor);
 	}
@@ -218,8 +223,15 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 * @return URL of a page that shows all UserGroups
 	 */
 	@RequestMapping(value = USERGROUP_CREATE_MAPPING, method = RequestMethod.POST)
-	public String create(@ModelAttribute(USERGROUP_MODEL_ATTR) UserGroupDTO userGroupDTO) {
-		userGroupService.create(userGroupService.addUserToGroup(userGroupDTO.getCurator(), userGroupDTO));
+	public String create(@ModelAttribute(USERGROUP_MODEL_ATTR) @Valid UserGroupDTO userGroupDTO, BindingResult result,
+			Model model) {
+		if (result.hasErrors()) {
+			model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAll());
+			model.addAttribute(USERGROUP_ALL_USERS_ATTR, userService.getAll());
+			return USERGROUP_CREATE_URL;
+		} else {
+			userGroupService.create(userGroupService.addUserToGroup(userGroupDTO.getCurator(), userGroupDTO));
+		}
 		return USERGROUP_REDIRECT_URL;
 	}
 
@@ -244,7 +256,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 * @return URL of a page that shows all UserGroups
 	 */
 	@RequestMapping(value = USERGROUP_EDIT_MAPPING, method = RequestMethod.POST)
-	public String update(@ModelAttribute(USERGROUP_MODEL_ATTR) final UserGroupDTO userGroupDTO) {
+	public String update(@ModelAttribute(USERGROUP_MODEL_ATTR) @Valid final UserGroupDTO userGroupDTO) {
 		userGroupService.addUserToGroup(userGroupDTO.getCurator(), userGroupDTO);
 		userGroupService.update(userGroupDTO);
 

@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ page
-	import="com.softserve.edu.schedule.controller.UserGroupController"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page import="com.softserve.edu.schedule.controller.UserGroupController"%>
 
-<h3 class="text-center">Groups</h3>
+<h3 class="text-center"><spring:message code="lbl.group.title"/></h3>
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
