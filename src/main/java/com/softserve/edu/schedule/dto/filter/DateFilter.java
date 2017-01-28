@@ -1,10 +1,10 @@
-/* RoomFilter 1.0 01/22/2017 */
+/* DateFilter 1.0 01/22/2017 */
 package com.softserve.edu.schedule.dto.filter;
 
 import java.time.LocalDate;
 
 /**
- * A DTO class to transport filter data.
+ * A DTO class to storage and transport date filter data.
  *
  * @version 1.0 22 January 2017
  *

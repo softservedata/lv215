@@ -137,6 +137,15 @@ public interface UserService {
      * @param id
      *            a user id to delete from database.
      */
-    public void deleteById(final Long id);
-
+    public boolean deleteById(final Long id);
+    
+    /**
+     * Find a user DTO in the database by mail.
+     *
+     * @param userMail
+     *            a user mail to find in the database.
+     * 
+     * @return a user DTO with given mail.
+     */
+    public List<UserDTO> searchByMail(final String mail);
 }

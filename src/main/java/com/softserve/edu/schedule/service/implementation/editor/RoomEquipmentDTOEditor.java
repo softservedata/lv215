@@ -6,8 +6,6 @@ import java.beans.PropertyEditorSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
-import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 
 /**
@@ -27,7 +25,7 @@ public class RoomEquipmentDTOEditor extends PropertyEditorSupport {
      * RoomEquipmentService example to provide search DTO operations.
      */
     @Autowired
-    private RoomEquipmentService roomEquipmentService;    
+    private RoomEquipmentService roomEquipmentService;
 
     /**
      * Provides a RoomEquipmentDTO example by given room equipment id in String
@@ -42,11 +40,6 @@ public class RoomEquipmentDTOEditor extends PropertyEditorSupport {
     @Override
     public void setAsText(final String roomEquipmentId)
             throws IllegalArgumentException {
-        RoomEquipment roomEquipment = roomEquipmentService
-                .getById(Long.valueOf(roomEquipmentId));
-        RoomEquipmentDTO roomEquipmentDTO = new RoomEquipmentDTO();
-        roomEquipmentDTO.setId(roomEquipment.getId());
-        roomEquipmentDTO.setName(roomEquipment.getName());
-        setValue(roomEquipmentDTO);
+        setValue(roomEquipmentService.getById(Long.valueOf(roomEquipmentId)));
     }
 }

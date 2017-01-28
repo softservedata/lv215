@@ -1,8 +1,13 @@
 package com.softserve.edu.schedule.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +19,7 @@ import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.service.UserService;
+import com.softserve.edu.schedule.service.implementation.validators.UserValidator;
 
 /**
  * A controller class of user pages.
@@ -33,6 +39,31 @@ public class UserController implements ControllerConst.UserControllerConst,
      */
     @Autowired
     private UserService userService;
+
+    /**
+     * UserValidator example to provide form validation operations.
+     */
+    @Autowired
+    private UserValidator userValidator;    
+    
+    /**
+     * Initialize binder for user model.
+     *
+     * @param binder
+     *            a WebDataBinder example to initialize.
+     */
+    @InitBinder(value = {USER_UPDATE_ATTR/*, USER_UPDATE_POSITION_ATTR*/})
+    protected void initBinder(final WebDataBinder binder) {
+        binder.setValidator(userValidator);
+    }
+    
+    
+//    String USER_UPDATE_ATTR = "userFormUpdate";
+//
+//    /**
+//     * User for update position model attribute name.
+//     */
+//    String USER_UPDATE_POSITION_ATTR = "userFormUpdatePosition";
     
     /**
      * Provides user model.
@@ -43,7 +74,7 @@ public class UserController implements ControllerConst.UserControllerConst,
     public UserDTO getUserDTO() {
         return new UserDTO();
     }
-    
+
     /**
      * Controls view of users list page.
      *
@@ -66,16 +97,17 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(DELETE_USER_MAPPING+"{id}")
-    public String delete(@PathVariable Long id) {
-        try {
-            userService.deleteById(id);
-        } catch (Exception e) {
+    @RequestMapping(DELETE_USER_MAPPING + "{id}")
+    public String delete(@PathVariable Long id, Model model) {
+        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
+        
+        if (userService.deleteById(id)) {
             return REDIRECT_USERS_PAGE;
+        } else {
+            return DELETE_USER_URL;
         }
-        return REDIRECT_USERS_PAGE;
     }
-    
+
     /**
      * Controls processing of user edit URL.
      *
@@ -84,10 +116,9 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = EDIT_USER_MAPPING+"{id}")
+    @RequestMapping(value = EDIT_USER_MAPPING + "{id}")
     public String edit(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_MODEL_ATTR,
-                userService.getById(id));
+        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
         return EDIT_PAGE_URL;
     }
 
@@ -99,10 +130,9 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(UPDATE_USER_MAPPING+"{id}")
+    @RequestMapping(UPDATE_USER_MAPPING + "{id}")
     public String getEdit(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_UPDATE_ATTR,
-                userService.getById(id));
+        model.addAttribute(USER_UPDATE_ATTR, userService.getById(id));
         return UPDATE_PAGE_URL;
     }
 
@@ -114,10 +144,12 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING+"{id}"
-            , method = RequestMethod.POST)
-    public String updateUser(
-            @ModelAttribute(USER_UPDATE_ATTR) UserDTO user) {
+    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING
+            + "{id}", method = RequestMethod.POST)
+    public String updateUser(@ModelAttribute(USER_UPDATE_ATTR)@Valid UserDTO user, BindingResult br) {
+        if(br.hasErrors()){
+            return UPDATE_PAGE_URL;
+        }
         userService.update(user);
         return REDIRECT_USERS_PAGE;
     }
@@ -130,13 +162,12 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(UPDATE_POSITION_MAPPING+"{id}")
+    @RequestMapping(UPDATE_POSITION_MAPPING + "{id}")
     public String getEditPosition(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_UPDATE_POSITION_ATTR,
-                userService.getById(id));
+        model.addAttribute(USER_UPDATE_POSITION_ATTR, userService.getById(id));
         return UPDATE_POSITION_PAGE_URL;
     }
-  
+
     /**
      * Controls processing save updated position of user URL.
      *
@@ -145,10 +176,13 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_UPDATED_POSITION_MAPPING+"{id}"
-            , method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_UPDATED_POSITION_MAPPING
+            + "{id}", method = RequestMethod.POST)
     public String updateUserPosition(@PathVariable Long id,
-            @RequestParam String position) {
+            @RequestParam /*@Valid*/ String position/*, BindingResult br*/) {
+/*        if(br.hasErrors()){
+            return UPDATE_POSITION_PAGE_URL;
+        }*/
         userService.changePosition(id, position);
         return REDIRECT_USERS_PAGE;
     }
@@ -161,7 +195,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(BAN_USER_MAPPING+"{id}")
+    @RequestMapping(BAN_USER_MAPPING + "{id}")
     public String bunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.BLOCKED;
         userService.changeStatus(id, userStatus);
@@ -176,7 +210,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(UNBAN_USER_MAPPING+"{id}")
+    @RequestMapping(UNBAN_USER_MAPPING + "{id}")
     public String unBunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.ACTIVE;
         userService.changeStatus(id, userStatus);
@@ -191,12 +225,10 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(CHANGE_ROLE_MAPPING+"{id}")
+    @RequestMapping(CHANGE_ROLE_MAPPING + "{id}")
     public String changeRole(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_ROLE_ATTR,
-                UserRole.values());
-        model.addAttribute(USER_MODEL_ATTR,
-                userService.getById(id));
+        model.addAttribute(USER_ROLE_ATTR, UserRole.values());
+        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
         return CHANGE_ROLE_PAGE_URL;
     }
 
@@ -208,17 +240,16 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING+"{id}"
-            , method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING
+            + "{id}", method = RequestMethod.POST)
     public String changeRole(@PathVariable Long id,
-            @RequestParam UserRole chooseRole) {
-        userService.changeRole(id, chooseRole);
+            @RequestParam UserRole role) {
+        userService.changeRole(id, role);
         return REDIRECT_USERS_PAGE;
     }
 
     /**
-     * Controls view of users list page in 
-     *  ascending order by last name.
+     * Controls view of users list page in ascending order by last name.
      *
      * @param model
      *            users list page view model.
@@ -233,8 +264,7 @@ public class UserController implements ControllerConst.UserControllerConst,
     }
 
     /**
-     * Controls view of users list page in 
-     *  descending order by last name.
+     * Controls view of users list page in descending order by last name.
      *
      * @param model
      *            users list page view model.
@@ -249,8 +279,7 @@ public class UserController implements ControllerConst.UserControllerConst,
     }
 
     /**
-     * Controls view of users list page in 
-     *  ascending order by position.
+     * Controls view of users list page in ascending order by position.
      *
      * @param model
      *            users list page view model.
@@ -265,8 +294,7 @@ public class UserController implements ControllerConst.UserControllerConst,
     }
 
     /**
-     * Controls view of users list page in 
-     *  descending order by position.
+     * Controls view of users list page in descending order by position.
      *
      * @param model
      *            users list page view model.
@@ -279,38 +307,42 @@ public class UserController implements ControllerConst.UserControllerConst,
                 userService.sortByPosition(Order.DESC));
         return USERS_PAGE_URL;
     }
-    
+
     /**
      * Controls view for search user by last name.
      *
      * @param model
      *            users list page view model.
-     *            
+     * 
      * @param user
      *            UserDTO example with required last name.
      * 
      * @return users list page URL
      */
     @RequestMapping(value = SEARCH_BY_LASTNANE_MAPPING, method = RequestMethod.POST)
-    public String searchByName(@ModelAttribute(SEARCH_MODEL_ATTR) UserDTO user, Model model) {
-        model.addAttribute(USERS_MODEL_ATTR, userService.searchByLastName(user.getLastName()));
+    public String searchByName(@ModelAttribute(SEARCH_MODEL_ATTR) UserDTO user,
+            Model model) {
+        model.addAttribute(USERS_MODEL_ATTR,
+                userService.searchByLastName(user.getLastName()));
         return USERS_PAGE_URL;
     }
-    
+
     /**
      * Controls view for search user by position.
      *
      * @param model
      *            users list page view model.
-     *            
+     * 
      * @param user
      *            UserDTO example with required position.
      * 
      * @return users list page URL
      */
     @RequestMapping(value = SEARCH_BY_POSITION_MAPPING, method = RequestMethod.POST)
-    public String searchByPosition(@ModelAttribute(SEARCH_MODEL_ATTR) UserDTO user, Model model) {
-        model.addAttribute(USERS_MODEL_ATTR, userService.searchByPosition(user.getPosition()));
+    public String searchByPosition(
+            @ModelAttribute(SEARCH_MODEL_ATTR) UserDTO user, Model model) {
+        model.addAttribute(USERS_MODEL_ATTR,
+                userService.searchByPosition(user.getPosition()));
         return USERS_PAGE_URL;
     }
 }

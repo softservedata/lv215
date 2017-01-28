@@ -14,6 +14,10 @@
 		<put-attribute name="title" value="Schedule" />
 		<put-attribute name="body" value="/WEB-INF/views/index.jsp" />
 	</definition>
+	<definition name="error" extends="common">
+		<put-attribute name="title" value="Error" />
+		<put-attribute name="body" value="/WEB-INF/views/error.jsp" />
+	</definition>
 
 	<definition extends="common" name="rooms/list">
 		<put-attribute name="title" value="Rooms" />
@@ -65,10 +69,9 @@
 
 	<definition extends="common" name="users/users/delete">
 		<put-attribute name="title" value="Can't delete" />
-		<put-attribute name="body"
-			value="/WEB-INF/views/users/curator.jsp" />
+		<put-attribute name="body" value="/WEB-INF/views/users/curator.jsp" />
 	</definition>
-	
+
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 
 	<definition extends="common" name="locations/list">
@@ -137,6 +140,24 @@
 	</definition>
 	<definition extends="common" name="meetings/editStatus">
 		<put-attribute name="title" value="Edit Meeting Status" />
-		<put-attribute name="body" value="/WEB-INF/views/meetings/editStatus.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/meetings/editStatus.jsp" />
+	</definition>
+
+
+
+	<!-- Definitions for room equipments -->
+	<definition extends="common" name="roomequipments/list">
+		<put-attribute name="title" value="AllRoomEquipment" />
+		<put-attribute name="body" value="/WEB-INF/views/equipments/list.jsp" />
+	</definition>
+	<definition extends="common" name="roomequipments/create">
+		<put-attribute name="title" value="Create New Equipment" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/equipments/create.jsp" />
+	</definition>
+	<definition extends="common" name="roomequipments/edit">
+		<put-attribute name="title" value="Edit Equipment" />
+		<put-attribute name="body" value="/WEB-INF/views/equipments/edit.jsp" />
 	</definition>
 </tiles-definitions>

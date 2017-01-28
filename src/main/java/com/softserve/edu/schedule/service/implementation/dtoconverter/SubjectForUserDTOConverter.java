@@ -14,7 +14,7 @@ import com.softserve.edu.schedule.entity.Subject;
  *
  * @since 1.8
  */
-@Service("subjectForUserDTOConverter")
+@Service
 public class SubjectForUserDTOConverter {
 
     /**

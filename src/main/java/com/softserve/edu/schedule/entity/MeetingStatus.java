@@ -12,6 +12,6 @@ package com.softserve.edu.schedule.entity;
  */
 public enum MeetingStatus {
 
-    NOT_APPROVED, APPROVED, DISAPPROVED, FINISHED;
+     APPROVED, DISAPPROVED, FINISHED, NOT_APPROVED;
 
 }

@@ -19,6 +19,7 @@ import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.dto.filter.DateFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.MeetingService;
@@ -38,9 +39,10 @@ import com.softserve.edu.schedule.service.implementation.validators.RoomValidato
  *
  * @since 1.8
  */
-@RequestMapping("/rooms")
+@RequestMapping(ControllerConst.RoomControllerConst.ROOMS_URL)
 @Controller
-@SessionAttributes("roomFilter")
+@SessionAttributes({ControllerConst.RoomControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.RoomControllerConst.ROOM_PAGINATOR_MODEL_ATTR})
 public class RoomController implements ControllerConst.RoomControllerConst {
 
     /**
@@ -153,6 +155,16 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     }
 
     /**
+     * Provides pagination object for rooms list page.
+     * 
+     * @return new Paginator object.
+     */
+    @ModelAttribute(ROOM_PAGINATOR_MODEL_ATTR)
+    public Paginator getPaginator() {
+        return new Paginator();
+    }
+
+    /**
      * Provides date filter for filtering meetings.
      * 
      * @return new RoomFilter object.
@@ -175,13 +187,15 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String listRooms(final Model model,
-            @ModelAttribute(FILTER_MODEL_ATTR) @Valid final RoomFilter filter) {
+            @ModelAttribute(FILTER_MODEL_ATTR) final RoomFilter filter,
+            @ModelAttribute(ROOM_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
         model.addAttribute(ROOMS_MODEL_ATTR,
-                roomService.getRoomsWithFilter(filter));
+                roomService.getRoomsPageWithFilter(filter, paginator));
         model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
         model.addAttribute(EQUIPMENTS_MODEL_ATTR,
                 roomEquipmentService.getAll());
         model.addAttribute(FILTER_MODEL_ATTR, filter);
+        model.addAttribute("roomPaginator", paginator);
         return ROOMS_LIST_URL;
     }
 

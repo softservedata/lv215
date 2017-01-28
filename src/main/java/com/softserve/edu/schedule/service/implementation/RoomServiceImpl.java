@@ -8,14 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.schedule.aspect.Loggable;
 import com.softserve.edu.schedule.dao.RoomDAO;
-import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
-import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Room;
-import com.softserve.edu.schedule.entity.RoomEquipment;
 import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomDTOConverter;
 
@@ -28,6 +27,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomDTOCon
  *
  * @since 1.8
  */
+@Loggable
 @Service
 @Transactional
 public class RoomServiceImpl implements RoomService {
@@ -37,12 +37,6 @@ public class RoomServiceImpl implements RoomService {
      */
     @Autowired
     private RoomDAO roomDAO;
-
-    /**
-     * RoomEquipmentDAO example to provide database operations.
-     */
-    @Autowired
-    private RoomEquipmentDAO roomEquipmentDAO;
 
     /**
      * RoomDTOConverter example to provide to DTO and from DTO conversion.
@@ -86,11 +80,6 @@ public class RoomServiceImpl implements RoomService {
         return roomDTOConverter.getDTO(roomDAO.getById(id));
     }
 
-    // delete after meeting DTO creation
-    public Room getEntityById(final Long id) {
-        return roomDAO.getById(id);
-    }
-
     /**
      * Find a room DTO in the database by name and location.
      *
@@ -111,17 +100,6 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
-     * Delete existed room entity from the database.
-     *
-     * @param room
-     *            a room DTO object to delete from database.
-     */
-    @Override
-    public void delete(final RoomDTO roomDTO) {
-        roomDAO.delete(roomDTOConverter.getEntity(roomDTO));
-    }
-
-    /**
      * Delete existed room entity from the database by id.
      *
      * @param id
@@ -129,7 +107,8 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public void deleteById(final Long id) {
-        roomDAO.deleteById(id);
+        Room room = roomDAO.getById(id);
+        roomDAO.delete(room);
     }
 
     /**
@@ -159,64 +138,6 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
-     * Find all rooms in the database with location and equipment details which
-     * has capacity in given interval.
-     * 
-     * @param minCapacity
-     *            a minimum capacity.
-     * @param maxCapacity
-     *            a minimum capacity.
-     * 
-     * @return List of the room DTO objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<RoomDTO> getRoomsByCapacity(final int minCapacity,
-            final int maxCapacity) {
-        return roomDAO.getRoomsByCapacity(minCapacity, maxCapacity).stream()
-                .map(e -> roomDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Find all rooms in the database with location and equipment details by
-     * given location.
-     * 
-     * @param location
-     *            a location DTO to find rooms.
-     * 
-     * @return List of the room DTO objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<RoomDTO> getRoomsByLocation(final LocationDTO location) {
-        return roomDAO.getRoomsByLocationId(location.getId()).stream()
-                .map(e -> roomDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Find all rooms entities in the database with location and equipment
-     * details which has given list of equipments.
-     * 
-     * @param equipments
-     *            a list of equipments DTO to find rooms.
-     * 
-     * @return List of the room DTO objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<RoomDTO> getRoomsWithEquipments(
-            final List<RoomEquipmentDTO> equipments) {
-        List<RoomEquipment> re = equipments.stream()
-                .map(e -> roomEquipmentDAO.getById(e.getId()))
-                .collect(Collectors.toList());
-        return roomDAO.getRoomsWithEquipments(re).stream()
-                .map(e -> roomDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /**
      * Find all rooms entities in the database with applied filter
      * 
      * @param roomFilter
@@ -226,10 +147,16 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<RoomDTO> getRoomsWithFilter(final RoomFilter roomFilter) {
-        return roomDAO.getRoomsWithFilter(roomFilter).stream()
-                .map(e -> roomDTOConverter.getDTO(e))
+    public List<RoomDTO> getRoomsPageWithFilter(final RoomFilter roomFilter,
+            final Paginator roomPaginator) {
+        return roomDAO.getRoomsPageWithFilter(roomFilter, roomPaginator)
+                .stream().map(e -> roomDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Room getEntityById(final Long id) {
+        return roomDAO.getById(id);
     }
 
 }

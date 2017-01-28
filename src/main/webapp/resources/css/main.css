@@ -80,6 +80,7 @@ th {
 	padding: 15px;
 } */
 
+
 /* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
 	.sidenav {
@@ -115,3 +116,18 @@ table>tbody>tr>.v-alighn {
 textarea {
 	resize:vertical;
 }
+
+.searchMeeting {
+	width:70px;
+}
+
+.searchMeetingBig {
+	width:120px;
+
+}
+
+.input-number {
+	 width: 75px;
+
+}
+

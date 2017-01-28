@@ -8,7 +8,7 @@
 	<div class="row">
 		<div class="col-md-1">
 			<br>
-			<a class="btn btn-default"	href="${pageContext.request.contextPath}/rooms"><spring:message code="lbl.form.cancel"/></a>			
+			<a class="btn btn-default"	href="${pageContext.request.contextPath}/rooms"><spring:message code="lbl.form.back"/></a>			
 		</div>
 		<div class="col-md-11">
 			<h1 class="text-center"><spring:message code="lbl.room.roomDetails"/></h1>
@@ -71,7 +71,11 @@
 						<td>${meeting.startTime}</td>
 						<td>${meeting.endTime}</td>
 						<td>${meeting.subjectName}</td>
-						<td>${meeting.ownerFullName}</td>
+						<td>
+							<a href="mailto:${meeting.ownerMail}?subject=Your meeting ${meeting.subjectName}" target="_blank">
+								${meeting.ownerFullName}
+							</a>
+						</td>
 						<td>
 							<ul>
 								<c:forEach items="${meeting.groupsNames}" var="groupName">

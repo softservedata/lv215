@@ -4,7 +4,6 @@ package com.softserve.edu.schedule.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -112,6 +111,9 @@ public class UserGroup {
 	 * @return the users
 	 */
 	public List<User> getUsers() {
+		if (users == null) {
+			return new ArrayList<>();
+		}
 		return users;
 	}
 
@@ -119,6 +121,9 @@ public class UserGroup {
 	 * @return the meetings
 	 */
 	public List<Meeting> getMeetings() {
+		if (meetings == null) {
+			return new ArrayList<>();
+		}
 		return meetings;
 	}
 

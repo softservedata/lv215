@@ -1,4 +1,4 @@
-/* LocationDTOEditor 1.0 01/17/2017 */
+/* UserDTOEditor 1.0 01/17/2017 */
 package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;

@@ -12,29 +12,32 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dto.LocationDTO;
-import com.softserve.edu.schedule.entity.Meeting;
+import com.softserve.edu.schedule.dto.MeetingDTO;
+import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.SubjectDTO;
+import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserGroupDTO;
+import com.softserve.edu.schedule.dto.filter.MeetingFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.MeetingStatus;
-import com.softserve.edu.schedule.entity.Room;
-import com.softserve.edu.schedule.entity.Subject;
-import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.UserGroup;
+import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
-import com.softserve.edu.schedule.service.implementation.editor.RoomEditor;
-import com.softserve.edu.schedule.service.implementation.editor.SubjectEditor;
+import com.softserve.edu.schedule.service.implementation.editor.RoomDTOEditor;
+import com.softserve.edu.schedule.service.implementation.editor.SubjectDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.TimeEditor;
-import com.softserve.edu.schedule.service.implementation.editor.UserEditor;
-import com.softserve.edu.schedule.service.implementation.editor.UserGroupEditor;
+import com.softserve.edu.schedule.service.implementation.editor.UserDTOEditor;
+import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEditor;
 
 @RequestMapping("/meetings")
 @Controller
+@SessionAttributes({"meetingFilter", "meetingPaginator"})
 public class MeetingController {
 
     @Autowired
@@ -42,6 +45,9 @@ public class MeetingController {
 
     @Autowired
     private SubjectService subjectService;
+
+    @Autowired
+    LocationService locationService;
 
     @Autowired
     private UserService userService;
@@ -53,7 +59,7 @@ public class MeetingController {
     private UserGroupService userGroupService;
 
     @Autowired
-    private SubjectEditor subjectEditor;
+    private SubjectDTOEditor subjectDTOEditor;
 
     @Autowired
     private DateEditor dateEditor;
@@ -62,120 +68,85 @@ public class MeetingController {
     private TimeEditor timeEditor;
 
     @Autowired
-    private UserEditor userEditor;
+    private UserDTOEditor userDTOEditor;
 
     @Autowired
-    private UserGroupEditor userGroupEditor;
+    private UserGroupDTOEditor userGroupDTOEditor;
 
     @Autowired
-    private RoomEditor roomEditor;
+    private RoomDTOEditor roomDTOEditor;
 
     @InitBinder("meetingForm")
     protected void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Subject.class, subjectEditor);
+        binder.registerCustomEditor(SubjectDTO.class, subjectDTOEditor);
         binder.registerCustomEditor(LocalDate.class, dateEditor);
         binder.registerCustomEditor(LocalTime.class, timeEditor);
-        binder.registerCustomEditor(User.class, userEditor);
-        binder.registerCustomEditor(Room.class, roomEditor);
-        binder.registerCustomEditor(UserGroup.class, userGroupEditor);
+        binder.registerCustomEditor(UserDTO.class, userDTOEditor);
+        binder.registerCustomEditor(RoomDTO.class, roomDTOEditor);
+        binder.registerCustomEditor(UserGroupDTO.class, userGroupDTOEditor);
+
     }
 
-    @ModelAttribute("meetingForm")
-    public Meeting getMeeting() {
-        return new Meeting();
+    @InitBinder("meetingFilter")
+    protected void initBinderFilter(final WebDataBinder binder) {
+        binder.registerCustomEditor(UserGroupDTO.class, userGroupDTOEditor);
+        binder.registerCustomEditor(LocalDate.class, dateEditor);
+        binder.registerCustomEditor(LocalTime.class, timeEditor);
     }
 
+    @ModelAttribute("meetingFilter")
+    public MeetingFilter getFilter() {
+        return new MeetingFilter();
+    }
+
+    @ModelAttribute("meetingPaginator")
+    public Paginator getPaginator() {
+        return new Paginator();
+    }
+
+    /**
+     * Shows start page for Meetings.
+     * 
+     * @param model
+     * @return
+     */
     @RequestMapping
-    public String showMeetingPage(Model model) {
-        model.addAttribute("meetings", meetingService.getAll());
+    public String showMeetingPage(Model model,
+            @ModelAttribute("meetingFilter") final MeetingFilter meetingFilter,
+            @ModelAttribute("meetingPaginator") final Paginator paginator) {
+        model.addAttribute("meetings", meetingService
+                .getMeetingPageWithFilter(meetingFilter, paginator));
+        model.addAttribute("users", userService.getAll());
+        model.addAttribute("subjects", subjectService.getAll());
+        model.addAttribute("rooms", roomService.getAll());
+        model.addAttribute("userGroups", userGroupService.getAll());
+        model.addAttribute("meetingFilter", meetingFilter);
+        model.addAttribute("meetingPaginator", paginator);
+        model.addAttribute("meetingStatuses", MeetingStatus.values());
         return "meetings/list";
     }
 
-    @RequestMapping(value = "/sortbydescriptionasc", method = RequestMethod.GET)
-    public String sortByDescriptionAcs(Model model) {
-        model.addAttribute("meetings",
-                meetingService.sortByDescription(Order.ASC));
-        return "meetings/list";
-    }
-
-    @RequestMapping(value = "/sortbydescriptiondesc",
-            method = RequestMethod.GET)
-    public String sortByDescriptionDesc(Model model) {
-        model.addAttribute("meetings",
-                meetingService.sortByDescription(Order.DESC));
-        return "meetings/list";
-    }
-
-    @RequestMapping(value = "/sortbylevelasc", method = RequestMethod.GET)
-    public String sortByLevelAcs(Model model) {
-        model.addAttribute("meetings", meetingService.sortByLevel(Order.ASC));
-        return "meetings/list";
-    }
-
-    @RequestMapping(value = "/sortbyleveldesc", method = RequestMethod.GET)
-    public String sortByLevelDesc(Model model) {
-        model.addAttribute("meetings", meetingService.sortByLevel(Order.DESC));
-        return "meetings/list";
-    }
-
-    @RequestMapping(value = "/sortbystatusasc", method = RequestMethod.GET)
-    public String sortByStatusAcs(Model model) {
-        model.addAttribute("meetings", meetingService.sortByStatus(Order.ASC));
-        return "meetings/list";
-    }
-
-    @RequestMapping(value = "/sortbystatusdesc", method = RequestMethod.GET)
-    public String sortByStatusDesc(Model model) {
-        model.addAttribute("meetings", meetingService.sortByStatus(Order.DESC));
-        return "meetings/list";
-    }
-
-    @RequestMapping(value = "/sortbysubjectasc", method = RequestMethod.GET)
-    public String sortBySubjectAcs(Model model) {
-        model.addAttribute("meetings", meetingService.sortBySubject(Order.ASC));
-        return "meetings/list";
-    }
-
-    @RequestMapping(value = "/sortbysubjectdesc", method = RequestMethod.GET)
-    public String sortBySubjectDesc(Model model) {
-        model.addAttribute("meetings",
-                meetingService.sortBySubject(Order.DESC));
-        return "meetings/list";
-    }
-
-    @RequestMapping(value = "/sortbyownerasc", method = RequestMethod.GET)
-    public String sortByOwnerAcs(Model model) {
-        model.addAttribute("meetings", meetingService.sortByOwner(Order.ASC));
-        return "meetings/list";
-    }
-
-    @RequestMapping(value = "/sortbyownerdesc", method = RequestMethod.GET)
-    public String sortByOwnerDesc(Model model) {
-        model.addAttribute("meetings", meetingService.sortByOwner(Order.DESC));
-        return "meetings/list";
-    }
-
-    @RequestMapping(value = "/sortbyroomasc", method = RequestMethod.GET)
-    public String sortByRoomAcs(Model model) {
-        model.addAttribute("meetings", meetingService.sortByRoom(Order.ASC));
-        return "meetings/list";
-    }
-
-    @RequestMapping(value = "/sortbyroomdesc", method = RequestMethod.GET)
-    public String sortByRoomDesc(Model model) {
-        model.addAttribute("meetings", meetingService.sortByRoom(Order.DESC));
-        return "meetings/list";
-    }
-
+    /**
+     * Creates new meetingDTO.
+     * 
+     * @param meetingDTO
+     * @return
+     */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute("meetingForm") Meeting meeting) {
-        meetingService.create(meeting);
+    public String create(@ModelAttribute("meetingForm") MeetingDTO meetingDTO) {
+        meetingService.create(meetingDTO);
         return "redirect:/meetings";
     }
 
+    /**
+     * Creates new meetingDTO.
+     * 
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createForm(Model model) {
-        model.addAttribute("meetingForm", new Meeting());
+        model.addAttribute("meetingForm", new MeetingDTO());
         model.addAttribute("subjects", subjectService.getAll());
         model.addAttribute("owners", userService.getAll());
         model.addAttribute("rooms", roomService.getAll());
@@ -183,18 +154,37 @@ public class MeetingController {
         return "meetings/create";
     }
 
+    /**
+     * Deletes meeting by given id.
+     * 
+     * @param id
+     * @return
+     */
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
         meetingService.deleteById(id);
         return "redirect:/meetings";
     }
 
+    /**
+     * Deletes meeting by given id.
+     * 
+     * @param meetingDTO
+     * @return
+     */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String edit(@ModelAttribute("meetingForm") Meeting meeting) {
-        meetingService.update(meeting);
+    public String edit(@ModelAttribute("meetingForm") MeetingDTO meetingDTO) {
+        meetingService.update(meetingDTO);
         return "redirect:/meetings";
     }
 
+    /**
+     * Edits meeting by given id.
+     * 
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("meetingForm", meetingService.getById(id));
@@ -206,13 +196,26 @@ public class MeetingController {
         return "meetings/edit";
     }
 
+    /**
+     * Edits meeting by given id.
+     * 
+     * @param meetingDTO
+     * @return
+     */
     @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
-    public String editStatus(@ModelAttribute("meeting") Meeting meeting) {
-        meetingService.changeMeetingStatus(meeting.getId(),
-                meeting.getStatus());
+    public String editStatus(@ModelAttribute("meeting") MeetingDTO meetingDTO) {
+        meetingService.changeMeetingStatus(meetingDTO.getId(),
+                meetingDTO.getStatus());
         return "redirect:/meetings";
     }
 
+    /**
+     * Edits meeting status by given id.
+     * 
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.GET)
     public String editStatusForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("meetingForm", meetingService.getById(id));
@@ -224,10 +227,4 @@ public class MeetingController {
         return "meetings/editStatus";
     }
 
-    @RequestMapping(value = "/searchbydescription", method = RequestMethod.POST)
-    public String searchByDescription(@ModelAttribute("meetings") Meeting meeting, Model model) {
-        model.addAttribute("meetings", meetingService.searchByDescription(meeting.getDescription()));
-        return "meetings/list";
-    }    
-    
 }

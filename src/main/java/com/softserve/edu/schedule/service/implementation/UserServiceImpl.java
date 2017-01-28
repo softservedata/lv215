@@ -225,8 +225,30 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public void deleteById(final Long id) {
-        userDAO.deleteById(id);
+    public boolean deleteById(final Long id) {
+        if (userDAO.getById(id).getGroups().stream()
+                .noneMatch(e -> e.getCurator().getId().equals(id))) {
+            userDAO.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
+    } 
+    
+    /**
+     * Find a user DTO in the database by mail.
+     *
+     * @param userMail
+     *            a user mail to find in the database.
+     * 
+     * @return a user DTO with given mail.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserDTO> searchByMail(final String mail) {
+        return userDAO.search(User_.mail.getName(), mail).stream()
+                .map(e -> userDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
     }
-   
+
 }

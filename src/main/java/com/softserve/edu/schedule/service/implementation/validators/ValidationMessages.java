@@ -32,4 +32,28 @@ public interface ValidationMessages {
      */
     String DUPLICATE_ROOM = "vm.duplicateRoom";
 
+    String DUPLICATE_MAIL = "vm.duplicateMail";
+
+    String WRONG_PHONE_NUMBER = "vm.wrongPhonNamber";
+
+    String INCORECT_PASSWORD = "vm.incorectPassword";
+
+    String INVALID_NAME = "vm.incorectName";
+
+    String INVALID_MAIL = "vm.incorecMail";
+    
+    /**
+     * Empty field or wrong characters.
+     */
+    String INVALID_CHARACTERS_OR_EMPTY_FIELD = "vm.invalidCharactersOrEmptyField";
+    
+    /**
+     * No tutors selected.
+     */
+    String INVALID_SUBJECT_TUTOR_COUNT ="vm.invalidTutorCount";
+    
+    /**
+     * Duplicate subject.
+     */
+    String DUPLICATE_SUBJECT = "vm.duplicateSubject";
 }

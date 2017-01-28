@@ -23,6 +23,6 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
      */
     @Override
     public void deleteById(final Long id) {
-        delete(getById(id));    
+        delete(getById(id));
     }
 }

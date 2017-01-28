@@ -1,29 +1,33 @@
-/* LocationDTOConverter 1.0 01/17/2017 */
+/* MeetingDTOConverter 1.0 01/17/2017 */
 
 package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.softserve.edu.schedule.dao.LocationDAO;
-import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
-import com.softserve.edu.schedule.dto.LocationDTO;
+
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
-import com.softserve.edu.schedule.entity.Location;
+import com.softserve.edu.schedule.dto.SubjectDTO;
+import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.Room;
+import com.softserve.edu.schedule.entity.Subject;
+import com.softserve.edu.schedule.entity.User;
 
+@Service
 public class MeetingDTOConverter {
+
     @Autowired
     private UserDAO userDAO;
 
     @Autowired
-    private MeetingDAO meetingDAO;
+    private UserGroupDAO userGroupDAO;
 
     @Autowired
     private SubjectDAO subjectDAO;
@@ -31,57 +35,45 @@ public class MeetingDTOConverter {
     @Autowired
     private RoomDAO roomDAO;
 
-    @Autowired
-    private UserGroupDAO userGoupDAO;
-
-    @Autowired
-    UserDTOConverter userDTOConverter;
-
-    @Autowired
-    SubjectDTOConverter subjectDTOConverter;
-
-    @Autowired
-    RoomDTOConverter roomDTOConverter;
-
-    @Autowired
-    UserGroupDTOForMeetingConverter userGroupDTOForMeetingConverter;
-
     public Meeting getEntity(final MeetingDTO meetingDTO) {
         if (meetingDTO != null) {
             Meeting meeting = new Meeting();
             if (meetingDTO.getId() != null) {
                 meeting.setId(meetingDTO.getId());
             }
-            if (meetingDTO.getDescription() != null) {
-                meeting.setDescription(meetingDTO.getDescription());
-            }
             if (meetingDTO.getSubject() != null) {
                 meeting.setSubject(
                         subjectDAO.getById(meetingDTO.getSubject().getId()));
+            }
+            if (meetingDTO.getRoom() != null) {
+                meeting.setRoom(roomDAO.getById(meetingDTO.getRoom().getId()));
+            }
+            if (meetingDTO.getDate() != null) {
+                meeting.setDate(meetingDTO.getDate());
+            }
+            if (meetingDTO.getStartTime() != null) {
+                meeting.setStartTime(meetingDTO.getStartTime());
+            }
+            if (meetingDTO.getEndTime() != null) {
+                meeting.setEndTime(meetingDTO.getEndTime());
+            }
+            if (meetingDTO.getGroups() != null) {
+                meetingDTO.getGroups().forEach(g -> meeting.getGroups()
+                        .add(userGroupDAO.getById(g.getId())));
             }
             if (meetingDTO.getOwner() != null) {
                 meeting.setOwner(
                         userDAO.getById(meetingDTO.getOwner().getId()));
             }
-
-            if (meetingDTO.getRoom() != null) {
-                meeting.setRoom(roomDAO.getById(meetingDTO.getRoom().getId()));
-            }
-
-            // TODO add converter for date !
-
-            if (meetingDTO.getGroups() != null) {
-                meetingDTO.getGroups().forEach(e -> meeting.getGroups()
-                        .add(userGoupDAO.getById(e.getId())));
-            }
-
-            if (meetingDTO.getLevel() != null) {
-                meeting.setLevel(meetingDTO.getLevel());
-            }
             if (meetingDTO.getStatus() != null) {
                 meeting.setStatus(meetingDTO.getStatus());
             }
-
+            if (meetingDTO.getLevel() != null) {
+                meeting.setLevel(meetingDTO.getLevel());
+            }
+            if (meetingDTO.getDescription() != null) {
+                meeting.setDescription(meetingDTO.getDescription());
+            }
             return meeting;
         }
         return null;
@@ -101,34 +93,54 @@ public class MeetingDTOConverter {
             if (meeting.getId() != null) {
                 meetingDTO.setId(meeting.getId());
             }
-            if (meeting.getDescription() != null) {
-                meetingDTO.setDescription(meeting.getDescription());
+            if (meeting.getSubject() != null) {
+                Subject subject = meeting.getSubject();
+                SubjectDTO subjectDTO = new SubjectDTO();
+                subjectDTO.setId(subject.getId());
+                subjectDTO.setName(subject.getName());
+                meetingDTO.setSubject(subjectDTO);
+            }
+            if (meeting.getRoom() != null) {
+                Room room = meeting.getRoom();
+                RoomDTO roomDTO = new RoomDTO();
+                roomDTO.setId(room.getId());
+                roomDTO.setName(room.getName());
+                meetingDTO.setRoom(roomDTO);
+            }
+            if (meeting.getDate() != null) {
+                meetingDTO.setDate(meeting.getDate());
+            }
+            if (meeting.getStartTime() != null) {
+                meetingDTO.setStartTime(meeting.getStartTime());
+            }
+            if (meeting.getEndTime() != null) {
+                meetingDTO.setEndTime(meeting.getEndTime());
+            }
+            if (meeting.getGroups() != null) {
+                meeting.getGroups().forEach(e -> {
+                    UserGroupDTO userGroupDTO = new UserGroupDTO();
+                    userGroupDTO.setId(e.getId());
+                    userGroupDTO.setName(e.getName());
+                    meetingDTO.getGroups().add(userGroupDTO);
+                });
             }
             if (meeting.getOwner() != null) {
-                meetingDTO
-                        .setOwner(userDTOConverter.getDTO(meeting.getOwner()));
-            }
-            if (meeting.getSubject() != null) {
-                meetingDTO.setSubject(
-                        subjectDTOConverter.getDTO(meeting.getSubject()));
-            }
-
-            if (meeting.getRoom() != null) {
-                meetingDTO.setRoom(roomDTOConverter.getDTO(meeting.getRoom()));
-            }
-
-            if (meeting.getGroups() != null) {
-                meeting.getGroups().forEach(e -> meetingDTO.getGroups()
-                        .add(userGroupDTOForMeetingConverter.getDTO(e)));
-            }
-
-            if (meeting.getLevel() != null) {
-                meetingDTO.setLevel(meeting.getLevel());
+                User user = meeting.getOwner();
+                UserDTO userDTO = new UserDTO();
+                userDTO.setId(user.getId());
+                userDTO.setFirstName(user.getFirstName());
+                userDTO.setLastName(user.getLastName());
+                meetingDTO.setOwner(userDTO);
             }
             if (meeting.getStatus() != null) {
                 meetingDTO.setStatus(meeting.getStatus());
             }
-
+            if (meeting.getLevel() != null) {
+                meetingDTO.setLevel(meeting.getLevel());
+            }
+            if (meeting.getDescription() != null) {
+                meetingDTO.setDescription(meeting.getDescription());
+            }
             return meetingDTO;
         }
         return null;

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import com.softserve.edu.schedule.dao.UserGroupDAO;
 
-// delete after meeting DTO
 @Service
 public class UserGroupEditor extends PropertyEditorSupport {
 

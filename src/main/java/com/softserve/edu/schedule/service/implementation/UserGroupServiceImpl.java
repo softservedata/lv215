@@ -6,8 +6,8 @@
  */
 package com.softserve.edu.schedule.service.implementation;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
-import com.softserve.edu.schedule.entity.User;
+import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.entity.UserGroup;
+import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.service.UserGroupService;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserGroupDTOConverter;
 
 /**
  * A UserGroupService implementation to handle the operation required to
@@ -36,6 +39,9 @@ public class UserGroupServiceImpl implements UserGroupService {
 	@Autowired
 	private UserGroupDAO userGroupDAO;
 
+	@Autowired
+	private UserGroupDTOConverter userGroupConverter;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -44,8 +50,8 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 * edu.schedule.entity.UserGroup)
 	 */
 	@Override
-	public void create(final UserGroup userGroup) {
-		userGroupDAO.create(userGroup);
+	public void create(final UserGroupDTO userGroupDTO) {
+		userGroupDAO.create(userGroupConverter.getEntity(userGroupDTO));
 	}
 
 	/*
@@ -56,8 +62,8 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 * edu.schedule.entity.UserGroup)
 	 */
 	@Override
-	public void update(final UserGroup userGroup) {
-		userGroupDAO.update(userGroup);
+	public void update(final UserGroupDTO userGroupDTO) {
+		userGroupDAO.update(userGroupConverter.getEntity(userGroupDTO));
 	}
 
 	/*
@@ -68,8 +74,8 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 * Long)
 	 */
 	@Override
-	public UserGroup getById(final Long id) {
-		return userGroupDAO.getById(id);
+	public UserGroupDTO getById(final Long id) {
+		return userGroupConverter.getDTO(userGroupDAO.getById(id));
 	}
 
 	/*
@@ -91,8 +97,8 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 * @see com.softserve.edu.schedule.service.UserGroupService#getAll()
 	 */
 	@Override
-	public List<UserGroup> getAll() {
-		return userGroupDAO.getAll();
+	public List<UserGroupDTO> getAll() {
+		return userGroupDAO.getAll().stream().map(s -> userGroupConverter.getDTO(s)).collect(Collectors.toList());
 	}
 
 	/*
@@ -103,8 +109,8 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 * edu.schedule.entity.UserGroup)
 	 */
 	@Override
-	public void delete(final UserGroup userGroup) {
-		userGroupDAO.delete(userGroup);
+	public void delete(final UserGroupDTO userGroupDTO) {
+		userGroupDAO.delete(userGroupConverter.getEntity(userGroupDTO));
 	}
 
 	/*
@@ -114,8 +120,8 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 * String, com.softserve.edu.schedule.dao.Order)
 	 */
 	@Override
-	public List<UserGroup> sort(final String field, final Order order) {
-		return userGroupDAO.sort(field, order);
+	public List<UserGroupDTO> sort(final String field, final Order order) {
+		return userGroupDAO.sort(field, order).stream().map(e -> userGroupConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
 	/*
@@ -126,8 +132,8 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 * String, java.lang.String)
 	 */
 	@Override
-	public List<UserGroup> search(final String field, final String pattern) {
-		return userGroupDAO.search(field, pattern);
+	public List<UserGroupDTO> search(final String field, final String pattern) {
+		return userGroupDAO.search(field, pattern).stream().map(e -> userGroupConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
 	/*
@@ -138,8 +144,9 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 * lang.String, com.softserve.edu.schedule.dao.Order)
 	 */
 	@Override
-	public List<UserGroup> sortByFields(final String field, final Order order) {
-		return userGroupDAO.sortByFields(field, order);
+	public List<UserGroupDTO> sortByFields(final String field, final Order order) {
+		return userGroupDAO.sortByFields(field, order).stream().map(e -> userGroupConverter.getDTO(e))
+				.collect(Collectors.toList());
 	}
 
 	/*
@@ -151,14 +158,14 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<UserGroup> sortByCountMembers(final Order order) {
+	public List<UserGroupDTO> sortByCountMembers(final Order order) {
 		List<UserGroup> groups = userGroupDAO.getAll();
 		if (order == Order.ASC) {
 			groups.sort((g1, g2) -> g1.getUsers().size() - g2.getUsers().size());
 		} else {
 			groups.sort((g1, g2) -> g2.getUsers().size() - g1.getUsers().size());
 		}
-		return groups;
+		return groups.stream().map(e -> userGroupConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
 	/*
@@ -169,17 +176,42 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 * softserve.edu.schedule.entity.User)
 	 */
 	@Override
-	public void addUserToGroup(final User user, final UserGroup group) {
-		List<User> users = group.getUsers();
-		if (users != null) {
-			users.add(user);
-		} else {
-			users = new ArrayList<User>();
-			users.add(group.getCurator());
+	public UserGroupDTO addUserToGroup(final UserDTO userDTO, final UserGroupDTO userGroupDTO) {
+		if (userGroupDTO.getUsers().contains(userDTO)) {
+			return userGroupDTO;
 		}
 
-		group.setUsers(users);
-		update(group);
+		List<UserDTO> users = userGroupDTO.getUsers();
+		users.add(userDTO);
+		userGroupDTO.setUsers(users);
+		return userGroupDTO;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.service.UserGroupService#searchByName(java.
+	 * lang.String)
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserGroupDTO> searchByName(final String pattern) {
+		return userGroupDAO.search(UserGroup_.name.getName(), pattern).stream().map(e -> userGroupConverter.getDTO(e))
+				.collect(Collectors.toList());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.softserve.edu.schedule.service.UserGroupService#
+	 * searchGroupsByCurators(java. lang.String)
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserGroupDTO> searchGroupsByCurators(final String pattern) {
+		return userGroupDAO.searchGroupsByCurators(pattern).stream().map(e -> userGroupConverter.getDTO(e))
+				.collect(Collectors.toList());
 	}
 
 }

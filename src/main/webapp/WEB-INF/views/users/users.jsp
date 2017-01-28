@@ -2,27 +2,28 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ page import="com.softserve.edu.schedule.controller.UserController"%>
 <%@ page import="com.softserve.edu.schedule.controller.RegistrationController"%>
 
 
-<h3 class="text-center">Users</h3>
+<h3 class="text-center"><spring:message code="lbl.user.title"/></h3>
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
-			<th>Name<a
+			<th><spring:message code="lbl.user.name"/><a
 				href="${pageContext.request.contextPath}${UserController.SORT_BY_LASTNAME_ASC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-up"></i></a> <a
 				href="${pageContext.request.contextPath}${UserController.SORT_BY_LASTNAME_DESC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-down"></i></a></th>
-			<th>Email</th>
-			<th>Position<a
+			<th><spring:message code="lbl.user.mail"/></th>
+			<th><spring:message code="lbl.user.position"/><a
 				href="${pageContext.request.contextPath}${UserController.SORT_BY_POSITION_ASC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-up"></i></a> <a
 				href="${pageContext.request.contextPath}${UserController.SORT_BY_POSITION_DESC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-down"></i></a></th>
-			<th>Role</th>
-			<th>Group</th>
+			<th><spring:message code="lbl.user.role"/></th>
+			<th><spring:message code="lbl.user.group"/></th>
 			<th></th>
 			<th></th>
 			<th></th>
@@ -66,8 +67,8 @@
 						<p>${group.name}</p>
 					</c:forEach></td>
 				<td><a
-					href="${pageContext.request.contextPath}${UserController.DELETE_USER_MAPPING}${user.id}"
-					onclick="return confirm('The user can not be deleted if he is curated group. Are you sure you want to delete this user?');"><i
+					href="${pageContext.request.contextPath}${UserController.DELETE_USER_MAPPING}${user.id}" 
+					 onclick="return confirm('The user can not be deleted if he is curated group. Are you sure you want to delete this user?');"><i
 						class="fa fa-trash-o"></i></a></td>
 				<td><a
 					href="${pageContext.request.contextPath}${UserController.EDIT_USER_MAPPING}${user.id}">
