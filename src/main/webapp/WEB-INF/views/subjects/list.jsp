@@ -80,7 +80,7 @@
 				<td><a
 					href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DELETE_MAPPING}${subject.id}"
 					title="<spring:message code="lbl.subject.delete"/>"
-					onclick="return confirm('Are you sure you want to delete this Subject?')"><i
+					onclick="return confirm('<spring:message code="lbl.subject.deleteConfirm"/>')"><i
 						class="fa fa-trash-o fa-lg"></i></a></td>
 				<td><a
 					href="${pageContext.request.contextPath}${SubjectController.SUBJECT_EDIT_MAPPING}${subject.id}"
