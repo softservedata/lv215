@@ -112,7 +112,7 @@
 		class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
 		<property name="prefix" value="/thymeleaf/" />
 		<property name="suffix" value=".html" />
-		<property name="templateMode" value="HTML5" />
+		<property name="templateMode" value="HTML" />
 		<property name="characterEncoding" value="UTF-8" />
 		<property name="cacheable" value="false" />
 	</bean>
