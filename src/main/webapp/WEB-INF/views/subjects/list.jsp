@@ -14,19 +14,24 @@
 		<tr>
 			<th>ID</th>
 			<th><spring:message code="lbl.subject.name" /> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_NAME_ASC_MAPPING}"><i
+				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_NAME_ASC_MAPPING}"
+				title="<spring:message code="lbl.subject.sortAsc"/>"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_NAME_DESC_MAPPING}"><i
+				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_NAME_DESC_MAPPING}"
+				title="<spring:message code="lbl.subject.sortDesc"/>"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th><spring:message code="lbl.subject.description" /> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_DESCRIPTION_ASC_MAPPING}"><i
+				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_DESCRIPTION_ASC_MAPPING}"
+				title="<spring:message code="lbl.subject.sortAsc"/>"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_DESCRIPTION_DESC_MAPPING}"><i
+				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_DESCRIPTION_DESC_MAPPING}"
+				title="<spring:message code="lbl.subject.sortDesc"/>"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th><spring:message code="lbl.subject.tutor" /> </th>
 			<th></th>
 			<th><a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"><i
+				href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"
+				title="<spring:message code="lbl.subject.add"/>"><i
 					class="fa fa-plus fa-lg"></i></a></th>
 		</tr>
 		<tr>
@@ -34,27 +39,30 @@
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SEARCH_BY_NAME_MAPPING}"
 					modelAttribute="${SubjectController.SEARCH_MODEL_ATTR}">
+					<spring:message code="lbl.subject.search" var="search" />
 					<form:input path="${SubjectController.SUBJECT_PATH_NAME}"
-						placeholder=" Search..." />
-					<button type="submit">
+						placeholder=" ${search}"/>
+					<button type="submit" title="<spring:message code="lbl.subject.searchByName"/>">
 						<i class="fa fa-search"></i>
 					</button>
 				</form:form></td>
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SEARCH_BY_DESCRIPTION_MAPPING}"
 					modelAttribute="${SubjectController.SEARCH_MODEL_ATTR}">
+					<spring:message code="lbl.subject.search" var="search" />
 					<form:input path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"
-						placeholder=" Search..." />
-					<button type="submit">
+						placeholder=" ${search}" />
+					<button type="submit" title="<spring:message code="lbl.subject.searchByDescription"/>">
 						<i class="fa fa-search"></i>
 					</button>
 				</form:form></td>
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SEARCH_BY_TUTOR_MAPPING}"
 					modelAttribute="${SubjectController.SEARCH_BY_TUTOR_MODEL_ATTR}">
+					<spring:message code="lbl.subject.search" var="search" />
 					<form:input path="${SubjectController.SUBJECT_PATH_LASTNAME}"
-						placeholder=" Search..." />
-					<button type="submit">
+						placeholder=" ${search}" />
+					<button type="submit" title="<spring:message code="lbl.subject.searchByTutor"/>">
 						<i class="fa fa-search"></i>
 					</button>
 				</form:form></td>
@@ -71,10 +79,12 @@
 					</c:forEach></td>
 				<td><a
 					href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DELETE_MAPPING}${subject.id}"
+					title="<spring:message code="lbl.subject.delete"/>"
 					onclick="return confirm('Are you sure you want to delete this Subject?')"><i
 						class="fa fa-trash-o fa-lg"></i></a></td>
 				<td><a
-					href="${pageContext.request.contextPath}${SubjectController.SUBJECT_EDIT_MAPPING}${subject.id}"><i
+					href="${pageContext.request.contextPath}${SubjectController.SUBJECT_EDIT_MAPPING}${subject.id}"
+					title="<spring:message code="lbl.subject.edit"/>"><i
 						class="fa fa-pencil-square-o fa-lg"></i></a></td>
 			</tr>
 		</c:forEach>
