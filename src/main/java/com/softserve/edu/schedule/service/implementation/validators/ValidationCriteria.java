@@ -18,6 +18,11 @@ public interface ValidationCriteria {
     String CHARACTERS_FOR_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$";
 
     /**
+     * Allowed characters for name expression.
+     */
+    String CHARACTERS_FOR_USERNAME = "[а-яА-ЯёЁіІєЄїЇa-zA-Z]{2,25}";
+
+    /**
      * Allowed only digits expression in specific order.
      */
     String CHARACTERS_FOR_PHONE = "\\d{3}-\\d{7}";
@@ -38,18 +43,18 @@ public interface ValidationCriteria {
      * allowed in the entire string .{8,} # anything, at least eight places
      * though $ # end-of-string
      */
-    String CHARACTERS_FOR_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,}$";
-    
+    String CHARACTERS_FOR_PASSWORD = "\\A(?=\\S*[0-9])(?=\\S*[a-z])(?=\\S*[A-Z])(?=\\S*[@#$%^&+=])\\S{8,}\\z";
+
     /**
      * Allowed characters for name expression.
      */
     String CHARACTERS_FOR_SUBJECT_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$";
-    
+
     /**
      * Allowed characters for description expression.
      */
     String CHARECTERS_FOR_SUBJECT_DESCRIPTION = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$";
-    
+
     /**
      * Array size comparator.
      */

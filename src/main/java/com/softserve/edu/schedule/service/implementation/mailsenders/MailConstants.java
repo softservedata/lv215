@@ -5,7 +5,7 @@ public interface MailConstants {
     /**
      * Meeting cancelled message subject.
      */
-    String MEETING_CANCELLED_MESSAGE_SUBJECT = "Meeting cancelled";
+    String MEETING_CANCELLED_MESSAGE_SUBJECT = "meetingCanceled.messageSubject";
 
     /**
      * Default message from attribute.
@@ -15,13 +15,13 @@ public interface MailConstants {
     /**
      * Default velocity template encoding.
      */
-    String DEFAULT_VELOCITY_ENCODING = "UTF-8";
+    String DEFAULT_MESSAGE_ENCODING = "UTF-8";
 
     /**
-     * Meeting cancelled message template location.
+     * Meeting cancelled message template for EN locale location.
      */
-    String MEETING_CANCELLED_TEMPLATE = "velocity/meetingCancelledDueRoomUnavailability.vm";
-
+    String MEETING_CANCELLED_TEMPLATE = "meetingCancelledDueRoomUnavailability";
+    
     /**
      * Model name for meeting cancelled template.
      */

@@ -12,13 +12,7 @@
 		});
 		$("select[name=equipments]").chosen({
 			width : "100%"
-		});
-		$("select[name=sortByField]").chosen({
-			width : "75%"
-		});
-		$("select[name=sortOrder]").chosen({
-			width : "75%"
-		});
+		});		
 	})
 </script>
 
@@ -181,61 +175,45 @@
 	</table>
 </div>
 <div class="row">
-<div class="col-md-2">
-	<p><spring:message code="lbl.form.resPerPage"/></p>
-	<c:choose>
-		<c:when test="${roomPaginator.pageSize eq 5}">
-			<a class="btn btn-primary" href="rooms?pageSize=5&pageNumber=0">5</a>
-		</c:when>
-		<c:otherwise>
-			<a class="btn btn-default" href="rooms?pageSize=5&pageNumber=0">5</a>
-		</c:otherwise>
-	</c:choose>
-	<c:choose>
-		<c:when test="${roomPaginator.pageSize eq 10}">
-			<a class="btn btn-primary" href="rooms?pageSize=10&pageNumber=0">10</a>
-		</c:when>
-		<c:otherwise>
-			<a class="btn btn-default" href="rooms?pageSize=10&pageNumber=0">10</a>
-		</c:otherwise>
-	</c:choose>
-	<c:choose>
-		<c:when test="${roomPaginator.pageSize eq 20}">
-			<a class="btn btn-primary" href="rooms?pageSize=20&pageNumber=0">20</a>
-		</c:when>
-		<c:otherwise>
-			<a class="btn btn-default" href="rooms?pageSize=20&pageNumber=0">20</a>
-		</c:otherwise>
-	</c:choose>	
-</div>
-<div class="col-md-10 text-center">
-	<ul class="pagination">
+	<div class="col-md-2">
+		<p><spring:message code="lbl.form.resPerPage"/></p>
 		<c:choose>
-			<c:when test="${roomPaginator.hasPrevious()}">
-				<li><a href="rooms?pageNumber=${roomPaginator.pageNumber-1}"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+			<c:when test="${roomPaginator.pageSize eq 5}">
+				<a class="btn btn-primary" href="rooms?pageSize=5&pageNumber=0">5</a>
 			</c:when>
 			<c:otherwise>
-				<li class="disabled"><a href="#"><i class="fa fa-angle-double-left" aria-hidden="true"></i></a></li>
+				<a class="btn btn-default" href="rooms?pageSize=5&pageNumber=0">5</a>
 			</c:otherwise>
 		</c:choose>
-		<c:forEach var="page" begin="0" end="${roomPaginator.pagesCount}">
-			<c:choose>
-				<c:when test="${roomPaginator.pageNumber eq page}">
-					<li class="active"><a href="#">${page + 1}</a></li>
-				</c:when>
-				<c:otherwise>
-					<li><a href="rooms?pageNumber=${page}">${page + 1}</a></li>
-				</c:otherwise>
-			</c:choose>			
-		</c:forEach>  		
-  		<c:choose>
-			<c:when test="${roomPaginator.hasNext()}">
-				<li><a href="rooms?pageNumber=${roomPaginator.pageNumber+1}"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+		<c:choose>
+			<c:when test="${roomPaginator.pageSize eq 10}">
+				<a class="btn btn-primary" href="rooms?pageSize=10&pageNumber=0">10</a>
 			</c:when>
 			<c:otherwise>
-				<li class="disabled"><a href="#"><i class="fa fa-angle-double-right" aria-hidden="true"></i></a></li>
+				<a class="btn btn-default" href="rooms?pageSize=10&pageNumber=0">10</a>
 			</c:otherwise>
 		</c:choose>
-	</ul>	
+		<c:choose>
+			<c:when test="${roomPaginator.pageSize eq 20}">
+				<a class="btn btn-primary" href="rooms?pageSize=20&pageNumber=0">20</a>
+			</c:when>
+			<c:otherwise>
+				<a class="btn btn-default" href="rooms?pageSize=20&pageNumber=0">20</a>
+			</c:otherwise>
+		</c:choose>	
+	</div>
+	<div class="col-md-10 text-center">	
+		<ul id="paginationList" class="pagination"></ul>	
+	</div>
 </div>
-</div>
+<script>
+ $('#paginationList').twbsPagination({
+        totalPages: ${roomPaginator.pagesCount + 1},
+        startPage: ${roomPaginator.pageNumber + 1},
+        visiblePages: 10,
+        initiateStartPageClick: false,        
+        onPageClick: function (event, page) {
+        	window.location = "rooms?pageNumber=" + (page-1);        	
+        }
+    });
+</script>

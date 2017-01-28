@@ -110,6 +110,10 @@ public class Paginator {
      *            the total number of records in the current query result
      */
     public void setPagesCount(int resultCount) {
-        this.pagesCount = resultCount / pageSize;
+        if (resultCount % pageSize == 0) {
+            this.pagesCount = resultCount / pageSize - 1;
+        } else {
+            this.pagesCount = resultCount / pageSize;
+        }
     }
 }

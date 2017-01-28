@@ -12,7 +12,6 @@ import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.entity.User_;
@@ -227,19 +226,29 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean deleteById(final Long id) {
-        boolean isCurator = false;
-        List<UserGroup> group = userDAO.getById(id).getGroups();
-        
-        for (UserGroup userGroup : group) {
-            if(userGroup.getCurator().getId().equals(id)){
-                isCurator = true;
-            }
-        }
-        if(!isCurator){
+        if (userDAO.getById(id).getGroups().stream()
+                .noneMatch(e -> e.getCurator().getId().equals(id))) {
             userDAO.deleteById(id);
             return true;
-        }else{
+        } else {
             return false;
         }
-    }   
+    } 
+    
+    /**
+     * Find a user DTO in the database by mail.
+     *
+     * @param userMail
+     *            a user mail to find in the database.
+     * 
+     * @return a user DTO with given mail.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserDTO> searchByMail(final String mail) {
+        return userDAO.search(User_.mail.getName(), mail).stream()
+                .map(e -> userDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
+
 }

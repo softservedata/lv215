@@ -35,8 +35,7 @@ public interface ValidationFields {
     /**
      * LastName field.
      */
-    String LASTNAME = "lastName";
-    
+    String LASTNAME = "lastName";   
     
     /**
      * Mail field.

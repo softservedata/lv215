@@ -31,7 +31,14 @@ public interface ValidationMessages {
      * Duplicate room in location message bundle mapping.
      */
     String DUPLICATE_ROOM = "vm.duplicateRoom";
-    
-    
 
+    String DUPLICATE_MAIL = "vm.duplicateMail";
+
+    String WRONG_PHONE_NUMBER = "vm.wrongPhonNamber";
+
+    String INCORECT_PASSWORD = "vm.incorectPassword";
+
+    String INVALID_NAME = "vm.incorectName";
+
+    String INVALID_MAIL = "vm.incorecMail";
 }
