@@ -3,6 +3,11 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class UserGroupDTO {
 
 	private Long id;
@@ -10,17 +15,19 @@ public class UserGroupDTO {
 	/**
 	 * User group name.
 	 */
+	@Size(min = 5, max = 20, message = "Length should be between 5 and 20")
 	private String name;
 
 	/**
 	 * User group description.
 	 */
-
+	@NotEmpty(message = "Please enter group description.")
 	private String description;
 
 	/**
 	 * Level of the group. The higher the value - the more important group.
 	 */
+	@NotNull(message = "Please enter level.")
 	private Integer level;
 
 	/**
@@ -31,13 +38,11 @@ public class UserGroupDTO {
 	/**
 	 * List of users in this group.
 	 */
-
 	private List<UserDTO> users = new ArrayList<>();
 
 	/**
 	 * List of meetings of this group.
 	 */
-
 	private List<MeetingDTO> meetings = new ArrayList<>();
 
 	/**
@@ -119,6 +124,9 @@ public class UserGroupDTO {
 	 * @return the users
 	 */
 	public List<UserDTO> getUsers() {
+		if (users == null) {
+			return new ArrayList<>();
+		}
 		return users;
 	}
 
@@ -127,13 +135,20 @@ public class UserGroupDTO {
 	 *            the users to set
 	 */
 	public void setUsers(List<UserDTO> users) {
-		this.users = users;
+		if (users == null) {
+			this.users = new ArrayList<>();
+		} else {
+			this.users = users;
+		}
 	}
 
 	/**
 	 * @return the meetings
 	 */
 	public List<MeetingDTO> getMeetings() {
+		if (meetings == null) {
+			return new ArrayList<>();
+		}
 		return meetings;
 	}
 

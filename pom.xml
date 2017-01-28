@@ -47,7 +47,7 @@
 		<org.spring.security.test>4.0.1.RELEASE</org.spring.security.test>
 		<org.springframework.ldap.version>2.0.2.RELEASE</org.springframework.ldap.version>
 		<!-- - - - - - Spring AspectJ - - - - - -->
-		<org.aspectj.version>1.6.11</org.aspectj.version>
+		<org.aspectj.version>1.8.10</org.aspectj.version>
 		<!-- - - - - - BytecodeAssist - - - - - -->
 		<bytecode.javassist.version>3.20.0-GA</bytecode.javassist.version>
 		<!-- - - - - - Apache Tiles - - - - - -->
@@ -172,6 +172,7 @@
 			<version>${org.aspectj.version}</version>
 		</dependency>
 
+
 		<!-- - - - - - Spring - - - - - -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -263,7 +264,6 @@
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${org.slf4j.version}</version>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
