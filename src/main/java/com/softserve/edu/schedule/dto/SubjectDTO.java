@@ -10,8 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.softserve.edu.schedule.service.implementation.validators.CheckSubject;
+import com.softserve.edu.schedule.service.implementation.validators.ValidationFields;
 
-@CheckSubject(name = "name", description = "description", id = "id", users = "users")
+/**
+ * A DTO class to transport subject data.
+ *
+ * @version 1.0 17 January 2017
+ *
+ * @author Ped'ko Volodymyr
+ *
+ * @since 1.8
+ */
+@CheckSubject(name = ValidationFields.SUBJECT_NAME, 
+description = ValidationFields.SUBJECT_DESCRIPTION, 
+id = ValidationFields.SUJECT_ID, 
+users = ValidationFields.SUBJECT_USERS)
 public class SubjectDTO {
 
     /**

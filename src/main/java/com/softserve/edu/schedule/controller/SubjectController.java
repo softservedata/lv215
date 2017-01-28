@@ -42,9 +42,6 @@ public class SubjectController
     @Autowired
     private UserForSubjectDTOEditor userForSubjectDTOEditor;
 
-/*    @Autowired
-    private SubjectValidator subjectValidator;*/
-
     /**
      * Method provides model attribute for search.
      * 
@@ -73,7 +70,6 @@ public class SubjectController
      */
     @InitBinder(SUBJECT_FORM_MODEL_ATTR)
     protected void initBinder(final WebDataBinder binder) {
-/*        binder.setValidator(subjectValidator);*/
         binder.registerCustomEditor(UserForSubjectDTO.class,
                 userForSubjectDTOEditor);
     }

@@ -70,6 +70,11 @@ public interface ValidationFields {
     /**
      * Subject users field.
      */
-    String SUBJECTS_USERS = "users";
+    String SUBJECT_USERS = "users";
+    
+    /**
+     * Subject id field.
+     */
+    String SUJECT_ID = "id";
 
 }
