@@ -27,7 +27,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.LocationDT
  * @author Oleksandr Butyter
  *
  */
-@Service("locationService")
+@Service
 public class LocationServiceImpl implements LocationService {
 
 	@Autowired
@@ -185,6 +185,20 @@ public class LocationServiceImpl implements LocationService {
 	public List<LocationDTO> sortByAddress(final Order order) {
 		return locationDAO.sort(Location_.address.getName(), order).stream().map(e -> locationDTOConverter.getDTO(e))
 				.collect(Collectors.toList());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.service.LocationService#getLocationsByName(
+	 * java.lang.String)
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<LocationDTO> getLocationsByName(String locationName) {
+		return locationDAO.getLocationsByField(Location_.name.getName(), locationName).stream()
+				.map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
 }
