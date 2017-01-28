@@ -33,8 +33,8 @@ import javax.validation.Payload;
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = CheckSubjectValidator.class)
-public @interface CheckSubject {
+@Constraint(validatedBy = SubjectValidatorImpl.class)
+public @interface SubjectValidator {
 
     String message() default "";
 
