@@ -21,15 +21,23 @@ import com.softserve.edu.schedule.entity.UserGroup;
 
 public interface UserGroupDAO extends CrudDAO<UserGroup> {
 
-    /**
-     * Method returns list of sorted usergroups.
-     * 
-     * @param field
-     *            field for sort
-     * @param order
-     *            ASC or DESC
-     * @return list of sorted usergroups
-     */
-    public List<UserGroup> sortByFields(final String field, final Order order);
+	/**
+	 * Method returns list of sorted usergroups.
+	 * 
+	 * @param field
+	 *            field for sort
+	 * @param order
+	 *            ASC or DESC
+	 * @return list of sorted usergroups
+	 */
+	public List<UserGroup> sortByFields(final String field, final Order order);
 
+	/**
+	 * Searching groups by curator's last name
+	 * 
+	 * @param pattern
+	 *            Substring that is a pattern for searching
+	 * @return List of sorted groups
+	 */
+	public List<UserGroup> searchGroupsByCurators(final String pattern);
 }
