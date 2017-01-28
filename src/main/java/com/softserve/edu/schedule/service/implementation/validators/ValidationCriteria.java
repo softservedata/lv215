@@ -39,5 +39,19 @@ public interface ValidationCriteria {
      * though $ # end-of-string
      */
     String CHARACTERS_FOR_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\\\S+$).{8,}$";
-
+    
+    /**
+     * Allowed characters for name expression.
+     */
+    String CHARACTERS_FOR_SUBJECT_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$";
+    
+    /**
+     * Allowed characters for description expression.
+     */
+    String CHARECTERS_FOR_SUBJECT_DESCRIPTION = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$";
+    
+    /**
+     * Array size comparator.
+     */
+    Integer ZERO = 0;
 }

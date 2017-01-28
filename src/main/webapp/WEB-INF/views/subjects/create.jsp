@@ -27,10 +27,23 @@
 				</div>
 				<div class="form-group">
 					<label for="${SubjectController.SUBJECT_PATH_USERS}">Tutor(s)</label>
-					<form:select class="form-control" path="${SubjectController.SUBJECT_PATH_USERS}" multiple="multiple">
+					<form:select class="form-control"
+						path="${SubjectController.SUBJECT_PATH_USERS}" multiple="multiple">
 						<c:forEach items="${users}" var="user">
-							<option value="${user.id}">${user.firstName}
-								${user.lastName}</option>
+							<c:set var="found" value="false" />
+							<c:forEach items="${subjectForm.users}" var="userInSubject">
+								<c:if test="${!found}">
+									<c:if test="${userInSubject.id eq user.id}">
+										<option value="${user.id}" selected="selected">${user.firstName}
+											${user.lastName}</option>
+										<c:set var="found" value="true" />
+									</c:if>
+								</c:if>
+							</c:forEach>
+							<c:if test="${!found}">
+								<option value="${user.id}">${user.firstName}
+									${user.lastName}</option>
+							</c:if>
 						</c:forEach>
 					</form:select>
 					<form:errors path="${SubjectController.SUBJECT_PATH_USERS}"/>

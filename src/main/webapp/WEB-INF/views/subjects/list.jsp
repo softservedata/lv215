@@ -6,22 +6,24 @@
 <%@ page
 	import="com.softserve.edu.schedule.controller.SubjectController"%>
 
-<h3 class="text-center">Subjects</h3>
+<h3 class="text-center">
+	<spring:message code="lbl.subject.title" />
+</h3>
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
 			<th>ID</th>
-			<th>Subject Name <a
+			<th><spring:message code="lbl.subject.name" /> <a
 				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_NAME_ASC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
 				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_NAME_DESC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
-			<th>Subject Description <a
+			<th><spring:message code="lbl.subject.description" /> <a
 				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_DESCRIPTION_ASC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
 				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_DESCRIPTION_DESC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
-			<th>Tutors</th>
+			<th><spring:message code="lbl.subject.tutor" /> </th>
 			<th></th>
 			<th><a
 				href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"><i

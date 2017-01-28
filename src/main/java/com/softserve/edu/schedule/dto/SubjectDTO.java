@@ -9,6 +9,9 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softserve.edu.schedule.service.implementation.validators.CheckSubject;
+
+@CheckSubject(name = "name", description = "description", id = "id", users = "users")
 public class SubjectDTO {
 
     /**

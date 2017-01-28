@@ -55,24 +55,37 @@ public class SubjectValidator implements Validator {
         SubjectDTO subjectDTO = (SubjectDTO) target;
 
         if (!isSubjectNameValid(subjectDTO)) {
-            errors.rejectValue("name", "", "Something goes wrong");
+            errors.rejectValue(ValidationFields.SUBJECT_NAME,
+                    ValidationMessages.EMPTY_FIELD, "Something goes wrong");
         }
         if (!isSubjectDescriptionValid(subjectDTO)) {
-            errors.rejectValue("description", "", "Something goes wrong");
+            errors.rejectValue(ValidationFields.SUBJECT_DESCRIPTION,
+                    ValidationMessages.EMPTY_FIELD, "Something goes wrong");
         }
         if (!isSubjectUsersValid(subjectDTO)) {
-            errors.rejectValue("users", "", "Something goes wrong");
+            errors.rejectValue(ValidationFields.SUBJECTS_USERS,
+                    ValidationMessages.EMPTY_FIELD, "Something goes wrong");
         }
         if (!isSubjectDuplicate(subjectDTO)) {
-            errors.rejectValue("name", "", "Duplicate");
+            errors.rejectValue(ValidationFields.SUBJECT_NAME,
+                    ValidationMessages.EMPTY_FIELD, "Duplicate");
         }
 
     }
 
-    private boolean isSubjectDuplicate(SubjectDTO subjectDTO) {
+    /**
+     * Checks the subjects in the database with the same name and location as
+     * given subjetDTO parameter.
+     * 
+     * @param subjectDTO
+     *            a SUbjectDTO object to check duplicates.
+     * 
+     * @return true if there are duplicates
+     */
+    private boolean isSubjectDuplicate(SubjectDTO subjectDTO) { 
         List<SubjectDTO> duplicateList = subjectService
                 .getSubjectByName(subjectDTO.getName());
-        if (duplicateList.size() > 0) {
+        if (duplicateList.size() > ValidationCriteria.ZERO) {
             if (duplicateList.stream()
                     .anyMatch(s -> s.getId().equals(subjectDTO.getId()))) {
                 return true;
@@ -82,18 +95,42 @@ public class SubjectValidator implements Validator {
         return true;
     }
 
+    /**
+     * Checks the given subjectDTO name contains only allowed characters.
+     * 
+     * @param subjectDTO
+     *            a SubjectDTO object to check name.
+     * 
+     * @return true if name is valid
+     */
     private boolean isSubjectUsersValid(SubjectDTO subjectDTO) {
-        return subjectDTO.getUsers().size() > 0;
+        return subjectDTO.getUsers().size() > ValidationCriteria.ZERO;
     }
 
+    /**
+     * Checks the given subjectDTO name contains only allowed characters.
+     * 
+     * @param subjectDTO
+     *            a SubjectDTO object to check name.
+     * 
+     * @return true if name is valid
+     */
     private boolean isSubjectDescriptionValid(SubjectDTO subjectDTO) {
         return subjectDTO.getName()
-                .matches("^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$");
+                .matches(ValidationCriteria.CHARACTERS_FOR_SUBJECT_NAME);
     }
 
+    /**
+     * Checks the given subjectDTO name contains only allowed characters.
+     * 
+     * @param subjectDTO
+     *            a SubjectDTO object to check name.
+     * 
+     * @return true if name is valid
+     */
     private boolean isSubjectNameValid(SubjectDTO subjectDTO) {
         return subjectDTO.getDescription()
-                .matches("^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$");
+                .matches(ValidationCriteria.CHARECTERS_FOR_SUBJECT_DESCRIPTION);
     }
 
 }
