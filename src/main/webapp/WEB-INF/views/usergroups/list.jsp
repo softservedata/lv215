@@ -9,18 +9,18 @@
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
-			<th>Name <a
+			<th><spring:message code="lbl.group.name"/><a
 				href="${pageContext.request.contextPath}/usergroups/sortbynameasc"><i
 					class="fa fa-arrow-circle-o-up"></i></a> <a
 				href="${pageContext.request.contextPath}/usergroups/sortbynamedesc"><i
 					class="fa fa-arrow-circle-o-down"></i></a></th>
-			<th>Curator</th>
-			<th>Level <a
+			<th><spring:message code="lbl.group.curator"/></th>
+			<th><spring:message code="lbl.group.level"/><a
 				href="${pageContext.request.contextPath}/usergroups/sortbylevelasc"><i
 					class="fa fa-arrow-circle-o-up"></i></a> <a
 				href="${pageContext.request.contextPath}/usergroups/sortbyleveldesc"><i
 					class="fa fa-arrow-circle-o-down"></i></a></th>
-			<th>Members<a
+			<th><spring:message code="lbl.group.members"/><a
 				href="${pageContext.request.contextPath}/usergroups/sortbymembersasc"><i
 					class="fa fa-arrow-circle-o-up"></i></a> <a
 				href="${pageContext.request.contextPath}/usergroups/sortbymembersdesc"><i
@@ -61,11 +61,11 @@
 				<td>${usergroup.curator.lastName} ${usergroup.curator.firstName}</td>
 				<td><c:choose>
 						<c:when test="${usergroup.level == 0}">
-						Students</c:when>
+						<spring:message code="lbl.group.students"/></c:when>
 						<c:when test="${usergroup.level == 1}">
-						Teachers</c:when>
+						<spring:message code="lbl.group.teachers"/></c:when>
 						<c:otherwise>
-						Unknown</c:otherwise>
+						<spring:message code="lbl.group.unknown"/></c:otherwise>
 					</c:choose></td>
 				<td>${usergroup.users.size()}</td>
 

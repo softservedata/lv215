@@ -15,23 +15,13 @@ public interface MailConstants {
     /**
      * Default velocity template encoding.
      */
-    String DEFAULT_VELOCITY_ENCODING = "UTF-8";
+    String DEFAULT_MESSAGE_ENCODING = "UTF-8";
 
     /**
      * Meeting cancelled message template for EN locale location.
      */
-    String MEETING_CANCELLED_TEMPLATE_EN = "velocity/meetingCancelledDueRoomUnavailability_en.vm";
+    String MEETING_CANCELLED_TEMPLATE = "meetingCancelledDueRoomUnavailability";
     
-    /**
-     * Meeting cancelled message template for RU locale location.
-     */
-    String MEETING_CANCELLED_TEMPLATE_RU = "velocity/meetingCancelledDueRoomUnavailability_ru.vm";
-    
-    /**
-     * Meeting cancelled message template for UA locale location.
-     */
-    String MEETING_CANCELLED_TEMPLATE_UA = "velocity/meetingCancelledDueRoomUnavailability_ua.vm";
-
     /**
      * Model name for meeting cancelled template.
      */

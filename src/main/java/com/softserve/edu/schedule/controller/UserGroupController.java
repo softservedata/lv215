@@ -259,7 +259,6 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	public String update(@ModelAttribute(USERGROUP_MODEL_ATTR) @Valid final UserGroupDTO userGroupDTO) {
 		userGroupService.addUserToGroup(userGroupDTO.getCurator(), userGroupDTO);
 		userGroupService.update(userGroupDTO);
-
 		return USERGROUP_REDIRECT_URL;
 	}
 
@@ -295,7 +294,6 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 		return USERGROUP_LIST_URL;
 	}
 
-	// TODO
 	/**
 	 * Mapped method for searching by curator.
 	 * 

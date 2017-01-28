@@ -11,4 +11,5 @@ public interface UserDAO extends CrudDAO<User>{
      *            a user id to delete from database.
      */
     public void deleteById(final Long id);
+    
 }
