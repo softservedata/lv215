@@ -26,6 +26,11 @@ public interface ValidationMessages {
      * Invalid characters in field message bundle mapping.
      */
     String INVALID_CHARACTERS = "vm.ivalidCharacters";
+    
+    /**
+     * Invalid room capacity message bundle mapping.
+     */
+    String INVALID_ROOM_CAPACITY = "vm.ivalidRoomCapacity";
 
     /**
      * Duplicate room in location message bundle mapping.

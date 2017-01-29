@@ -81,7 +81,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
-     * Find a room DTO in the database by name and location.
+     * Find rooms DTO in the database by name and location.
      *
      * @param roomName
      *            a room name to find in the database.
@@ -89,14 +89,15 @@ public class RoomServiceImpl implements RoomService {
      * @param location
      *            a location to find room.
      * 
-     * @return a room DTO with given name and location.
+     * @return list of rooms DTO with given name and location.
      */
     @Override
     @Transactional(readOnly = true)
-    public RoomDTO getByNameAndLocation(final String roomName,
+    public List<RoomDTO> getByNameAndLocation(final String roomName,
             final LocationDTO location) {
-        return roomDTOConverter.getDTO(
-                roomDAO.getByNameAndLocationId(roomName, location.getId()));
+        return roomDAO.getByNameAndLocationId(roomName, location.getId())
+                .stream().map(e -> roomDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
     }
 
     /**

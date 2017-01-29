@@ -47,7 +47,7 @@ public interface RoomService {
     RoomDTO getById(final Long id);
 
     /**
-     * Find a room DTO in the database by name and location.
+     * Find rooms DTO in the database by name and location.
      *
      * @param roomName
      *            a room name to find in the database.
@@ -55,9 +55,9 @@ public interface RoomService {
      * @param location
      *            a location to find room.
      * 
-     * @return a room DTO with given name and location.
+     * @return list of rooms DTO with given name and location.
      */
-    RoomDTO getByNameAndLocation(final String roomName,
+    List<RoomDTO> getByNameAndLocation(final String roomName,
             final LocationDTO location);
 
     /**
