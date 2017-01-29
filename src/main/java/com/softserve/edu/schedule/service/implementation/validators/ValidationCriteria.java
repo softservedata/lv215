@@ -59,4 +59,14 @@ public interface ValidationCriteria {
      * Array size comparator.
      */
     Integer ZERO = 0;
+    
+    /**
+     * Allowed characters for name expression.
+     */
+    String PATTERN_FOR_LOCATION_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'\\.\\,\\s\\-]{2,254}$";
+    
+    /**
+     * Allowed characters for name expression.
+     */
+    String PATTERN_FOR_LOCATION_ADDRESS = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'\\.\\,\\s\\-]{10,254}$";
 }

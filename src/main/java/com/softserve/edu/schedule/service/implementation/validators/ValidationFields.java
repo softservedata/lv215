@@ -77,4 +77,13 @@ public interface ValidationFields {
      */
     String SUJECT_ID = "id";
 
+    /**
+     * Id field.
+     */
+    String ID = "id";
+    
+    /**
+     * Address field.
+     */
+    String ADDRESS = "address";
 }
