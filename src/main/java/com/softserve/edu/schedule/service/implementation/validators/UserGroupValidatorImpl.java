@@ -143,7 +143,7 @@ public class UserGroupValidatorImpl implements ConstraintValidator<UserGroupVali
 		isNotEmptyLevel = hasLevel(groupLevel);
 
 		showErrors(isUniqueName, isCorrectLengthName, isNotEmptyDescription, isNotEmptyLevel, context);
-		return (isCorrectLengthName && isUniqueName && isNotEmptyDescription);
+		return (isCorrectLengthName && isUniqueName && isNotEmptyDescription && isNotEmptyLevel);
 	}
 
 	/**
@@ -257,7 +257,7 @@ public class UserGroupValidatorImpl implements ConstraintValidator<UserGroupVali
 			errorMessage(description, ValidationMessages.INVALID_GROUP_DESCRIPTION, context);
 		}
 		if (!isNotEmptyLevel) {
-			errorMessage(level, ValidationMessages.INVALID_GROUP_LEVEL, context);
+			errorMessage(level, ValidationMessages.EMPTY_GROUP_LEVEL, context);
 		}
 	}
 }

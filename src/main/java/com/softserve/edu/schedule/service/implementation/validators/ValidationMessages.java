@@ -63,9 +63,9 @@ public interface ValidationMessages {
 	String INVALID_GROUP_DESCRIPTION = "vm.emptyGroupDescription";
 
 	/**
-	 * Invalid group level message bundle mapping.
+	 * Empty group level message bundle mapping.
 	 */
-	String INVALID_GROUP_LEVEL = "vm.emptyGroupLevel";
+	String EMPTY_GROUP_LEVEL = "vm.emptyGroupLevel";
 
 	/**
 	 * Empty field or wrong characters.
