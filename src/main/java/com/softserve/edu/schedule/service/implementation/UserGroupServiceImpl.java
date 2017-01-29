@@ -121,7 +121,8 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 */
 	@Override
 	public List<UserGroupDTO> sort(final String field, final Order order) {
-		return userGroupDAO.sort(field, order).stream().map(e -> userGroupConverter.getDTO(e)).collect(Collectors.toList());
+		return userGroupDAO.sort(field, order).stream().map(e -> userGroupConverter.getDTO(e))
+				.collect(Collectors.toList());
 	}
 
 	/*
@@ -133,7 +134,8 @@ public class UserGroupServiceImpl implements UserGroupService {
 	 */
 	@Override
 	public List<UserGroupDTO> search(final String field, final String pattern) {
-		return userGroupDAO.search(field, pattern).stream().map(e -> userGroupConverter.getDTO(e)).collect(Collectors.toList());
+		return userGroupDAO.search(field, pattern).stream().map(e -> userGroupConverter.getDTO(e))
+				.collect(Collectors.toList());
 	}
 
 	/*

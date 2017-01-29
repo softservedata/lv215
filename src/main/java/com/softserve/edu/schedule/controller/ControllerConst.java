@@ -644,6 +644,11 @@ public interface ControllerConst {
 		 * Path curator's lastname
 		 */
 		String USERGROUP_PATH_CURATOR_LASTNAME = "curator.lastName";
+
+		/**
+		 * Message for a usergroup name constraint
+		 */
+		String USERGROUP_NAME_CONSTRAINT_MESSAGE = "Name should be unique with length between 5 and 20";
 	}
 
 	public interface RoomEquipmentControllerConst {
