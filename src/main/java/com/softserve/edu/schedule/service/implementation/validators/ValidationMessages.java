@@ -56,4 +56,19 @@ public interface ValidationMessages {
      * Duplicate subject.
      */
     String DUPLICATE_SUBJECT = "vm.duplicateSubject";
+    
+    /**
+     * Invalid location name.
+     */
+    String INVALID_LOCATION_NAME ="vm.invalidName";
+    
+    /**
+     * Invalid location address.
+     */
+    String INVALID_LOCATION_ADDRESS ="vm.invalidAddress";
+    
+    /**
+     * Duplicate location.
+     */
+    String DUPLICATE_LOCATION = "vm.dublicateLocation";
 }

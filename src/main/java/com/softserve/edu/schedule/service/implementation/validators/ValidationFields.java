@@ -68,8 +68,12 @@ public interface ValidationFields {
     String USERS = "users";
     
     /**
-     * Subject id field.
+     * Id field.
      */
     String ID = "id";
-
+    
+    /**
+     * Address field.
+     */
+    String ADDRESS = "address";
 }

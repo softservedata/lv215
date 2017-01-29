@@ -84,9 +84,6 @@ public class LocationValidatorImpl implements ConstraintValidator<LocationValida
 	 */
 	@Override
 	public boolean isValid(final Object value, ConstraintValidatorContext context) {
-		context.disableDefaultConstraintViolation();
-		context.buildConstraintViolationWithTemplate(messageSource.getMessage(ValidationMessages.DUPLICATE_ROOM,
-				new String[0], LocaleContextHolder.getLocale())).addPropertyNode(name).addConstraintViolation();
 		boolean validName = false;
 		boolean validAddress = false;
 		boolean noDuplicate = false;
@@ -114,7 +111,7 @@ public class LocationValidatorImpl implements ConstraintValidator<LocationValida
 	 * @return true if name of location is origin, else - otherwise.
 	 */
 	private boolean isOriginName(String id, String name) {
-		List<LocationDTO> duplicates = locationService.getLocationsByName(name);
+		List<LocationDTO> duplicates = locationService.getLocationsByName(name.trim());
 		if (!duplicates.isEmpty()) {
 			if (duplicates.stream().anyMatch(s -> s.getId().equals(Long.parseLong(id)))) {
 				return true;
@@ -132,7 +129,7 @@ public class LocationValidatorImpl implements ConstraintValidator<LocationValida
 	 * @return true if name of location matches pattern, else - otherwise.
 	 */
 	private boolean isValidName(String name) {
-		return (name.matches("^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'\\.\\,\\s\\-]{2,10}$")) ? true : false;
+		return (name.matches(ValidationCriteria.PATTERN_FOR_LOCATION_NAME)) ? true : false;
 	}
 
 	/**
@@ -143,7 +140,7 @@ public class LocationValidatorImpl implements ConstraintValidator<LocationValida
 	 * @return true if address of location matches pattern, else - otherwise.
 	 */
 	private boolean isValidAddress(String address) {
-		return (address.matches("^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'\\.\\,\\s\\-]{5,10}$")) ? true : false;
+		return (address.matches(ValidationCriteria.PATTERN_FOR_LOCATION_ADDRESS)) ? true : false;
 	}
 
 	/**
@@ -171,13 +168,13 @@ public class LocationValidatorImpl implements ConstraintValidator<LocationValida
 	private void printErrorMessages(boolean validName, boolean validAddress, boolean noDuplicate,
 			ConstraintValidatorContext context) {
 		if (!validName) {
-			errorMessage(name, "", context);
+			errorMessage(name, ValidationMessages.INVALID_LOCATION_NAME, context);
 		}
 		if (!validAddress) {
-			errorMessage(address, "", context);
+			errorMessage(address, ValidationMessages.INVALID_LOCATION_ADDRESS, context);
 		}
 		if (!noDuplicate) {
-			errorMessage(name, "", context);
+			errorMessage(name, ValidationMessages.DUPLICATE_LOCATION, context);
 		}
 	}
 
