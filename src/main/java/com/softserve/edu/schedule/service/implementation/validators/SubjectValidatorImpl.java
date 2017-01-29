@@ -28,8 +28,8 @@ import com.softserve.edu.schedule.service.SubjectService;
  *
  * @since 1.8
  */
-public class CheckSubjectValidator
-        implements ConstraintValidator<CheckSubject, Object> {
+public class SubjectValidatorImpl
+        implements ConstraintValidator<SubjectValidator, Object> {
 
     /**
      * A input parameter name.
@@ -72,7 +72,7 @@ public class CheckSubjectValidator
      *            annotation instance for a given constraint declaration
      */
     @Override
-    public void initialize(final CheckSubject constraintAnnotation) {
+    public void initialize(final SubjectValidator constraintAnnotation) {
         name = constraintAnnotation.name();
         description = constraintAnnotation.description();
         id = constraintAnnotation.id();

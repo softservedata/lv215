@@ -9,7 +9,7 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.softserve.edu.schedule.service.implementation.validators.CheckSubject;
+import com.softserve.edu.schedule.service.implementation.validators.SubjectValidator;
 import com.softserve.edu.schedule.service.implementation.validators.ValidationFields;
 
 /**
@@ -21,7 +21,7 @@ import com.softserve.edu.schedule.service.implementation.validators.ValidationFi
  *
  * @since 1.8
  */
-@CheckSubject(name = ValidationFields.SUBJECT_NAME, 
+@SubjectValidator(name = ValidationFields.SUBJECT_NAME, 
 description = ValidationFields.SUBJECT_DESCRIPTION, 
 id = ValidationFields.SUJECT_ID, 
 users = ValidationFields.SUBJECT_USERS)
