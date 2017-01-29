@@ -6,7 +6,7 @@
  */
 package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.softserve.edu.schedule.dto.RoomForLocationDTO;
 import com.softserve.edu.schedule.entity.Room;
@@ -18,7 +18,7 @@ import com.softserve.edu.schedule.entity.Room;
  *
  * @author Oleksandr Butyter
  */
-@Service
+@Component
 public class RoomForLocationDTOConverter {
 
 	/**

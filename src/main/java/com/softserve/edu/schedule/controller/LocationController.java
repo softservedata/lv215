@@ -6,9 +6,12 @@
  */
 package com.softserve.edu.schedule.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +37,7 @@ public class LocationController implements ControllerConst.LocationControllerCon
 	 */
 	@Autowired
 	private LocationService locationService;
-
+    
 	/**
 	 * Method provides model attribute for search.
 	 * 
@@ -44,7 +47,7 @@ public class LocationController implements ControllerConst.LocationControllerCon
 	public LocationDTO getLocationDTO() {
 		return new LocationDTO();
 	}
-
+	
 	/**
 	 * Method controls view of locations list page.
 	 * 
@@ -173,7 +176,10 @@ public class LocationController implements ControllerConst.LocationControllerCon
 	 * @return locations list page URL (redirect)
 	 */
 	@RequestMapping(value = LOCATION_CREATE_MAPPING, method = RequestMethod.POST)
-	public String create(@ModelAttribute(LOCATION_FORM_MODEL_ATTR) LocationDTO location) {
+	public String create(@ModelAttribute(LOCATION_FORM_MODEL_ATTR) @Valid LocationDTO location, BindingResult result) {
+		if (result.hasErrors()){
+			return LOCATION_CREATE_URL;
+		}
 		locationService.create(location);
 		return LOCATIONS_REDIRECT_URL;
 	}
@@ -199,7 +205,10 @@ public class LocationController implements ControllerConst.LocationControllerCon
 	 * @return locations list page URL (redirect)
 	 */
 	@RequestMapping(value = LOCATION_EDIT_MAPPING + "{id}", method = RequestMethod.POST)
-	public String update(@ModelAttribute(LOCATION_FORM_MODEL_ATTR) LocationDTO location) {
+	public String update(@ModelAttribute(LOCATION_FORM_MODEL_ATTR) @Valid LocationDTO location, BindingResult result) {
+		if (result.hasErrors()){
+			return LOCATION_EDIT_URL;
+		}
 		locationService.update(location);
 		return LOCATIONS_REDIRECT_URL;
 	}

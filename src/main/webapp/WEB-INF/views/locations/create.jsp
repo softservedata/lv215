@@ -16,16 +16,18 @@
 				<div class="form-group">
 					<label for="name">TITLE</label>
 					<form:input class="form-control" path="name" placeholder="Title" />
+					<form:errors path="name" style="color: red"/>
 				</div>
 				<div class="form-group">
 					<label for="address">ADDRESS</label>
 					<form:input class="form-control" path="address"
 						placeholder="Address" />
+						<form:errors path="address" style="color: red"/>
 				</div>
 				<div class="form-group">
 					<label for="coordinates">COORDINATES</label>
 					<form:input class="form-control" path="coordinates"
-						placeholder="Coordinates" />
+						placeholder="Coordinates"/>
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"

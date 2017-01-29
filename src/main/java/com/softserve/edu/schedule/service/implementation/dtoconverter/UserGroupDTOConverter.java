@@ -21,24 +21,17 @@ public class UserGroupDTOConverter {
 	public UserGroup getEntity(final UserGroupDTO userGroupDTO) {
 		if (userGroupDTO != null) {
 			UserGroup userGroup = new UserGroup();
-			if (userGroupDTO.getId() != null) {
-				userGroup.setId(userGroupDTO.getId());
-			}
-			if (userGroupDTO.getName() != null) {
-				userGroup.setName(userGroupDTO.getName());
-			}
-			if (userGroupDTO.getDescription() != null) {
-				userGroup.setDescription(userGroupDTO.getDescription());
-			}
-			if (userGroupDTO.getLevel() != null) {
-				userGroup.setLevel(userGroupDTO.getLevel());
-			}
+			userGroup.setId(userGroupDTO.getId());
+			userGroup.setName(userGroupDTO.getName());
+			userGroup.setDescription(userGroupDTO.getDescription());
+			userGroup.setLevel(userGroupDTO.getLevel());
+
 			if (userGroupDTO.getCurator() != null) {
 				userGroup.setCurator(userDAO.getById(userGroupDTO.getCurator().getId()));
 			}
-			if (userGroupDTO.getUsers() != null) {
-				userGroupDTO.getUsers().forEach(e -> userGroup.getUsers().add(userDAO.getById(e.getId())));
-			}
+
+			userGroupDTO.getUsers().forEach(e -> userGroup.getUsers().add(userDAO.getById(e.getId())));
+
 			if (userGroupDTO.getId() != null) {
 				userGroup.setMeetings(userGroupDAO.getById(userGroupDTO.getId()).getMeetings());
 			}
@@ -50,18 +43,10 @@ public class UserGroupDTOConverter {
 	public UserGroupDTO getDTO(final UserGroup userGroup) {
 		if (userGroup != null) {
 			UserGroupDTO userGroupDTO = new UserGroupDTO();
-			if (userGroup.getId() != null) {
-				userGroupDTO.setId(userGroup.getId());
-			}
-			if (userGroup.getName() != null) {
-				userGroupDTO.setName(userGroup.getName());
-			}
-			if (userGroup.getDescription() != null) {
-				userGroupDTO.setDescription(userGroup.getDescription());
-			}
-			if (userGroup.getLevel() != null) {
-				userGroupDTO.setLevel(userGroup.getLevel());
-			}
+			userGroupDTO.setId(userGroup.getId());
+			userGroupDTO.setName(userGroup.getName());
+			userGroupDTO.setDescription(userGroup.getDescription());
+			userGroupDTO.setLevel(userGroup.getLevel());
 			if (userGroup.getCurator() != null) {
 				UserDTO curator = new UserDTO();
 				curator.setId(userGroup.getCurator().getId());
@@ -69,18 +54,16 @@ public class UserGroupDTOConverter {
 				curator.setLastName(userGroup.getCurator().getLastName());
 				userGroupDTO.setCurator(curator);
 			}
-			if (userGroup.getUsers() != null) {
-				userGroup.getUsers().forEach(e -> {
-					UserDTO user = new UserDTO();
-					user.setId(e.getId());
-					user.setFirstName(e.getFirstName());
-					user.setLastName(e.getLastName());
-					userGroupDTO.getUsers().add(user);
-				});
-			}
+
+			userGroup.getUsers().forEach(e -> {
+				UserDTO user = new UserDTO();
+				user.setId(e.getId());
+				user.setFirstName(e.getFirstName());
+				user.setLastName(e.getLastName());
+				userGroupDTO.getUsers().add(user);
+			});
 			return userGroupDTO;
 		}
 		return null;
 	}
-
 }

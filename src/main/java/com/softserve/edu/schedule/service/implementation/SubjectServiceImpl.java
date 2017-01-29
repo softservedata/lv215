@@ -6,6 +6,7 @@
  */
 package com.softserve.edu.schedule.service.implementation;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,10 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.SubjectDAO;
+import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
+import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.entity.MeetingStatus;
+import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.SubjectDTOConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSubjectDTOConverter;
 
 /**
  * A SubjectService implementation to handle the operation required to
@@ -37,11 +43,20 @@ public class SubjectServiceImpl implements SubjectService {
     @Autowired
     private SubjectDAO subjectDao;
 
+    @Autowired
+    private UserDAO userDao;
+
     /**
      * Field for subjectDTOConverter.
      */
     @Autowired
     private SubjectDTOConverter subjectDTOConverter;
+
+    /**
+     * Field for userForSubjectDTOconverter.
+     */
+    @Autowired
+    private UserForSubjectDTOConverter userForSubjectDTOconverter;
 
     /**
      * Saving Subject in database.
@@ -81,6 +96,18 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
+     * Return a searched SubjectDTO.
+     *
+     * @return searched SubjectDTO
+     */
+    @Override
+    public List<SubjectDTO> getSubjectByName(final String subjectName) {
+        return subjectDao.getSubjectByName(subjectName).stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Return a List of SubjectDTO objects.
      *
      * @return List of SubjectDTO objects
@@ -94,6 +121,19 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
+     * Get all UserForSubjectDTO.
+     *
+     * @return List of the UserForSubjectDTO objects for SubjectDTO.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserForSubjectDTO> getAllUserForSubjectDTO() {
+        return userDao.getAll().stream()
+                .map(u -> userForSubjectDTOconverter.getDTO(u))
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Delete existed Subject from the database by id.
      *
      * @param id
@@ -102,7 +142,14 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        subjectDao.deleteById(id);
+        Subject subject = subjectDao.getById(id);
+        subject.getMeetings().forEach(m -> {
+            if (m.getDate().isAfter(LocalDate.now().minusDays(1))) {
+                m.setStatus(MeetingStatus.NOT_APPROVED);
+            }
+            m.setSubject(null);
+        });
+        subjectDao.delete(subject);
     }
 
     /**
@@ -145,7 +192,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional(readOnly = true)
     public List<SubjectDTO> searchByTutors(final String pattern) {
-        return subjectDao.searchTutors(pattern).stream()
+        return subjectDao.searchSubjectsByTutor(pattern).stream()
                 .map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }
@@ -159,7 +206,7 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<SubjectDTO> sortByName(Order order) {
+    public List<SubjectDTO> sortByName(final Order order) {
         return subjectDao.sort(Subject_.name.getName(), order).stream()
                 .map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
@@ -174,7 +221,7 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     @Transactional(readOnly = true)
-    public List<SubjectDTO> sortByDescription(Order order) {
+    public List<SubjectDTO> sortByDescription(final Order order) {
         return subjectDao.sort(Subject_.description.getName(), order).stream()
                 .map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());

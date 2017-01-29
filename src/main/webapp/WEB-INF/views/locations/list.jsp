@@ -9,7 +9,6 @@
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
-			<th>ID</th>
 			<th>Name <a
 				href="${pageContext.request.contextPath}${LocationController.LOCATIONS_SORT_BY_NAME_ASC_MAPPING}"
 				title="Sort by name (ascending)"><i
@@ -38,7 +37,6 @@
 				title="Add new location"><i class="fa fa-plus fa-lg"></i></a></th>
 		</tr>
 		<tr>
-			<td></td>
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}${LocationController.LOCATIONS_SEARCH_BY_NAME_MAPPING}"
 					modelAttribute="${LocationController.SEARCH_MODEL_ATTR}">
@@ -62,7 +60,6 @@
 		</tr>
 		<c:forEach var="location" items="${locations}">
 			<tr>
-				<td>${location.id}</td>
 				<td>${location.name}</td>
 				<td>${location.address}</td>
 				<td>Go to map <i class="fa fa-map-o"></i></td>

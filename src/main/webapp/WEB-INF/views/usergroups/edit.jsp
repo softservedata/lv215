@@ -19,44 +19,49 @@
 		<div
 			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
 
-			<h3 class="text-center">EDIT GROUP</h3>
+			<h3 class="text-center"><spring:message code="lbl.group.edit"/></h3>
 			<form:form method="post" modelAttribute="userGroupForm">
 				<form:hidden path="id" />
 
 				<div class="form-group">
-					<label for="Title">Title</label>
+					<label for="Title"><spring:message code="lbl.group.title"/></label>
 					<form:input path="name" class="form-control" placeholder="Title" />
+					<form:errors path="name" class="text-danger" />
 				</div>
 
 				<div class="form-group">
-					<label for="description">Description</label>
+					<label for="description"><spring:message code="lbl.group.description"/></label>
 					<form:input path="description" class="form-control"
 						placeholder="Description" />
+					<form:errors path="description" class="text-danger" />
 				</div>
 
 
 				<div class="form-group">
-					<label for="level">Level</label>
+					<label for="level"><spring:message code="lbl.group.level"/></label>
 					<form:input path="level" class="form-control" placeholder="Level" />
+					<form:errors path="level" class="text-danger" />
 				</div>
 
 
-				<label for="curator">Curator</label>
+				<label for="curator"><spring:message code="lbl.group.curator"/></label>
 				<form:select class="form-control" path="curator" id="curator">
 					<c:forEach items="${curators}" var="curator">
 						<c:choose>
 							<c:when test="${userGroupForm.curator.id eq curator.id}">
-								<option value="${curator.id}" selected="selected">${curator.lastName}</option>
+								<option value="${curator.id}" selected="selected">${curator.lastName}
+									${curator.firstName}</option>
 							</c:when>
 							<c:otherwise>
-								<option value="${curator.id}">${curator.lastName}</option>
+								<option value="${curator.id}">${curator.lastName}
+									${curator.firstName}</option>
 							</c:otherwise>
 						</c:choose>
 					</c:forEach>
 				</form:select>
 
 				<div class="form-group"></div>
-				<label for="users">Members</label>
+				<label for="users"><spring:message code="lbl.group.members"/></label>
 				<form:select class="form-control" path="users" id="users"
 					multiple="multiple">
 					<c:forEach items="${allUsers}" var="user">
@@ -64,13 +69,15 @@
 						<c:forEach items="${userGroupForm.users}" var="userInGroup">
 							<c:if test="${!found}">
 								<c:if test="${userInGroup.id eq user.id}">
-									<option value="${user.id}" selected="selected">${user.lastName}</option>
+									<option value="${user.id}" selected="selected">${user.lastName}
+										${user.firstName.charAt(0)}.</option>
 									<c:set var="found" value="true" />
 								</c:if>
 							</c:if>
 						</c:forEach>
 						<c:if test="${!found}">
-							<option value="${user.id}">${user.lastName}</option>
+							<option value="${user.id}">${user.lastName}
+								${user.firstName.charAt(0)}.</option>
 						</c:if>
 					</c:forEach>
 				</form:select>

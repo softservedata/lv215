@@ -1,8 +1,12 @@
 package com.softserve.edu.schedule.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -16,8 +20,8 @@ import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
-//import com.softserve.edu.schedule.service.implementation.editor.UserDTOEditor;
-//import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEditor;
+import com.softserve.edu.schedule.service.implementation.editor.UserDTOEditor;
+import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEditor;
 
 /**
  * Controller class for a UserGroup
@@ -32,14 +36,14 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	/**
 	 * Editor for a userGroup
 	 */
-//	@Autowired
-//	private UserGroupDTOEditor userGroupDTOEditor;
-//
-//	/**
-//	 * Editor for a user
-//	 */
-//	@Autowired
-//	private UserDTOEditor userDTOEditor;
+	@Autowired
+	private UserGroupDTOEditor userGroupDTOEditor;
+
+	/**
+	 * Editor for a user
+	 */
+	@Autowired
+	private UserDTOEditor userDTOEditor;
 
 	/**
 	 * Service for a UserGroup
@@ -88,12 +92,13 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 * 
 	 * @param binder
 	 *            WebDataBinder object
-//	 */
-//	@InitBinder(USERGROUP_MODEL_ATTR)
-//	protected void initBinder(final WebDataBinder binder) {
-//		binder.registerCustomEditor(UserDTO.class, userDTOEditor);
-//		binder.registerCustomEditor(UserGroupDTO.class, userGroupDTOEditor);
-//	}
+	 */
+	@InitBinder(USERGROUP_MODEL_ATTR)
+	protected void initBinder(final WebDataBinder binder) {
+		binder.registerCustomEditor(Integer.class, null, new CustomNumberEditor(Integer.class, true));
+		binder.registerCustomEditor(UserDTO.class, userDTOEditor);
+		binder.registerCustomEditor(UserGroupDTO.class, userGroupDTOEditor);
+	}
 
 	/**
 	 * Shows view with all UserGroups
@@ -218,8 +223,15 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 * @return URL of a page that shows all UserGroups
 	 */
 	@RequestMapping(value = USERGROUP_CREATE_MAPPING, method = RequestMethod.POST)
-	public String create(@ModelAttribute(USERGROUP_MODEL_ATTR) UserGroupDTO userGroupDTO) {
-		userGroupService.create(userGroupService.addUserToGroup(userGroupDTO.getCurator(), userGroupDTO));
+	public String create(@ModelAttribute(USERGROUP_MODEL_ATTR) @Valid UserGroupDTO userGroupDTO, BindingResult result,
+			Model model) {
+		if (result.hasErrors()) {
+			model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAll());
+			model.addAttribute(USERGROUP_ALL_USERS_ATTR, userService.getAll());
+			return USERGROUP_CREATE_URL;
+		} else {
+			userGroupService.create(userGroupService.addUserToGroup(userGroupDTO.getCurator(), userGroupDTO));
+		}
 		return USERGROUP_REDIRECT_URL;
 	}
 
@@ -283,7 +295,6 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 		return USERGROUP_LIST_URL;
 	}
 
-	// TODO
 	/**
 	 * Mapped method for searching by curator.
 	 * 
@@ -296,7 +307,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	@RequestMapping(value = "/searchByCurator", method = RequestMethod.POST)
 	public String searchByCurator(@ModelAttribute(SEARCH_MODEL_ATTR) UserGroupDTO userGroupDTO, Model model) {
 		model.addAttribute(USERGROUPS_MODEL_ATTR,
-				userGroupService.searchByCurator(userGroupDTO.getCurator().getLastName()));
+				userGroupService.searchGroupsByCurators(userGroupDTO.getCurator().getLastName()));
 		return USERGROUP_LIST_URL;
 	}
 }
