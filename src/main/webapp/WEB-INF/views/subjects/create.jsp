@@ -15,20 +15,24 @@
 				modelAttribute="${SubjectController.SUBJECT_FORM_MODEL_ATTR}">
 				<div class="form-group">
 					<label for="${SubjectController.SUBJECT_PATH_NAME}"><spring:message code="lbl.subject.name" /></label>
+					<spring:message code="vm.invalidCharactersOrEmptyField" var="name" />
+					<spring:message code="lbl.subject.createName" var="namePH" />
 					<form:input class="form-control" path="${SubjectController.SUBJECT_PATH_NAME}"
-						placeholder="Subject..." />
+						placeholder="${namePH}" required="true" pattern = "[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}" title = "${name}"/>
 					<form:errors path="${SubjectController.SUBJECT_PATH_NAME}"/>	
 				</div>
 				<div class="form-group">
 					<label for="${SubjectController.SUBJECT_PATH_DESCRIPTION}"><spring:message code="lbl.subject.description" /></label>
+					<spring:message code="vm.invalidCharactersOrEmptyField" var="description" />
+					<spring:message code="lbl.subject.createDesc" var="descPH" />
 					<form:textarea class="form-control" path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"
-						placeholder="Description..." />
+						placeholder="${descPH}" required="true" pattern = "[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,1000}" title = "${description}"/>
 						<form:errors path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"/>
 				</div>
 				<div class="form-group">
 					<label for="${SubjectController.SUBJECT_PATH_USERS}"><spring:message code="lbl.subject.tutor" /></label>
 					<form:select class="form-control"
-						path="${SubjectController.SUBJECT_PATH_USERS}" multiple="multiple">
+						path="${SubjectController.SUBJECT_PATH_USERS}" multiple="multiple" required="true">
 						<c:forEach items="${users}" var="user">
 							<c:set var="found" value="false" />
 							<c:forEach items="${subjectForm.users}" var="userInSubject">
