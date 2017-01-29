@@ -13,9 +13,14 @@ package com.softserve.edu.schedule.service.implementation.validators;
 public interface ValidationCriteria {
 
 	/**
-	 * Allowed characters for name expression.
+	 * Allowed characters for room name.
 	 */
-	String CHARACTERS_FOR_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$";
+	String PATTERN_FOR_ROOM_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'\\.\\,\\s\\-]{2,254}$";
+
+	/**
+	 * Allowed maximal room capacity.
+	 */
+	Integer MAX_ROOM_CAPACITY = 50000;
 
 	/**
 	 * Allowed characters for name expression.
@@ -44,4 +49,29 @@ public interface ValidationCriteria {
 	 * though $ # end-of-string
 	 */
 	String CHARACTERS_FOR_PASSWORD = "\\A(?=\\S*[0-9])(?=\\S*[a-z])(?=\\S*[A-Z])(?=\\S*[@#$%^&+=])\\S{8,}\\z";
+
+	/**
+	 * Allowed characters for name expression.
+	 */
+	String PATTERN_FOR_SUBJECT_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=\\.\\,\\s\\-]{1,254}$";
+
+	/**
+	 * Allowed characters for description expression.
+	 */
+	String PATTERN_FOR_SUBJECT_DESCRIPTION = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=\\.\\,\\s\\-]{1,1000}$";
+
+	/**
+	 * Array size comparator.
+	 */
+	Integer ZERO = 0;
+
+	/**
+	 * Allowed characters for name expression.
+	 */
+	String PATTERN_FOR_LOCATION_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'\\.\\,\\s\\-]{2,254}$";
+
+	/**
+	 * Allowed characters for name expression.
+	 */
+	String PATTERN_FOR_LOCATION_ADDRESS = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'\\.\\,\\s\\-]{10,254}$";
 }

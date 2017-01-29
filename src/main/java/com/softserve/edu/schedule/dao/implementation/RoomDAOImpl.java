@@ -13,6 +13,7 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.softserve.edu.schedule.aspect.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -30,6 +31,7 @@ import com.softserve.edu.schedule.service.implementation.specification.RoomFilte
  *
  * @since 1.8
  */
+@PerfomanceLoggable
 @Repository
 public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
@@ -96,7 +98,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     }
 
     /**
-     * Find a room in the database by name and location id.
+     * Find rooms in the database by name and location id.
      *
      * @param roomName
      *            a room name to find in the database.
@@ -104,10 +106,10 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
      * @param locationId
      *            a location id to find room.
      * 
-     * @return a room with given name and location Id.
+     * @return List of rooms with given name and location Id.
      */
     @Override
-    public Room getByNameAndLocationId(final String roomName,
+    public List<Room> getByNameAndLocationId(final String roomName,
             final Long locationId) {
         try {
             CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -121,7 +123,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
             predicate = builder.and(predicate,
                     root.get(Room_.location).in(locationId));
             cq.where(predicate);
-            return getEm().createQuery(cq).getSingleResult();
+            return getEm().createQuery(cq).getResultList();
         } catch (NoResultException e) {
             return null;
         }

@@ -116,4 +116,12 @@ public interface LocationService {
 	 */
 	List<LocationDTO> sortByAddress(final Order order);
 	
+	/**
+	 * Method returns list of locations which suit condition of search by name.
+	 * 
+	 * @param locationName
+	 *            location name for search
+	 * @return list of locations which suit condition of search by name
+	 */
+	List<LocationDTO> getLocationsByName(final String locationName);
 }

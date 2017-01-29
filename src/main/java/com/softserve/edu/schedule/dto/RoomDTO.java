@@ -4,6 +4,9 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softserve.edu.schedule.service.implementation.validators.RoomValidator;
+import com.softserve.edu.schedule.service.implementation.validators.ValidationFields;
+
 /**
  * A DTO class to transport room data.
  *
@@ -13,6 +16,7 @@ import java.util.List;
  *
  * @since 1.8
  */
+@RoomValidator(name = ValidationFields.NAME, capacity = ValidationFields.CAPACITY)
 public class RoomDTO {
 
     /**

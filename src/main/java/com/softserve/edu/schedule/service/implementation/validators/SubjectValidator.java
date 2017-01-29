@@ -1,9 +1,15 @@
-/* RoomValidator 1.0 01/29/2017 */
+/*
+ * SubjectValidator.java
+ * 1.0
+ * 27 Jan 2017
+ * Copyright (c) Ped'ko Volodymyr
+ */
 package com.softserve.edu.schedule.service.implementation.validators;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -11,18 +17,19 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * The validator of checking room input data.
- * 
- * @version 1.0 29 January 2017
+ * A validator to check SubjectDTO input param.
  *
- * @author Petro Zelyonka
+ * @version 1.0 27 January 2017
+ *
+ * @author Ped'ko Volodymyr
  *
  * @since 1.8
  */
-@Target({TYPE})
+@Target(TYPE)
 @Retention(RUNTIME)
-@Constraint(validatedBy = RoomValidatorImpl.class)
-public @interface RoomValidator {
+@Documented
+@Constraint(validatedBy = SubjectValidatorImpl.class)
+public @interface SubjectValidator {
 
     String message() default "";
 
@@ -30,15 +37,9 @@ public @interface RoomValidator {
 
     Class<? extends Payload>[] payload() default {};
 
-    /**
-     * An input parameter room name
-     */
     String name();
 
-    /**
-     * An input parameter room capacity
-     * 
-     */
-    String capacity();
-
+    String description();
+    
+    String users();
 }

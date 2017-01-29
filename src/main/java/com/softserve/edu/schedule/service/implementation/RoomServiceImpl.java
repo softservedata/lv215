@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.schedule.aspect.Loggable;
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
@@ -26,6 +27,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomDTOCon
  *
  * @since 1.8
  */
+@Loggable
 @Service
 @Transactional
 public class RoomServiceImpl implements RoomService {
@@ -79,7 +81,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
-     * Find a room DTO in the database by name and location.
+     * Find rooms DTO in the database by name and location.
      *
      * @param roomName
      *            a room name to find in the database.
@@ -87,14 +89,15 @@ public class RoomServiceImpl implements RoomService {
      * @param location
      *            a location to find room.
      * 
-     * @return a room DTO with given name and location.
+     * @return list of rooms DTO with given name and location.
      */
     @Override
     @Transactional(readOnly = true)
-    public RoomDTO getByNameAndLocation(final String roomName,
+    public List<RoomDTO> getByNameAndLocation(final String roomName,
             final LocationDTO location) {
-        return roomDTOConverter.getDTO(
-                roomDAO.getByNameAndLocationId(roomName, location.getId()));
+        return roomDAO.getByNameAndLocationId(roomName, location.getId())
+                .stream().map(e -> roomDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
     }
 
     /**

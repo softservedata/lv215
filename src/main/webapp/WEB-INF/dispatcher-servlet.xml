@@ -71,5 +71,5 @@
 			<property name="paramName" value="lang" />
 		</bean>
 	</mvc:interceptors>
-
-</beans>
+	
+</beans>	

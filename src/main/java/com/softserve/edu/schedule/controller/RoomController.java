@@ -28,7 +28,6 @@ import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
 import com.softserve.edu.schedule.service.implementation.editor.LocationDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomEquipmentDTOEditor;
-import com.softserve.edu.schedule.service.implementation.validators.RoomValidator;
 
 /**
  * A controller class of rooms pages.
@@ -71,12 +70,6 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     private RoomEquipmentService roomEquipmentService;
 
     /**
-     * RoomValidator example to provide form validation operations.
-     */
-    @Autowired
-    private RoomValidator roomValidator;
-
-    /**
      * LocationDTOEditor example to provide conversions from form select fields
      * to DTO.
      */
@@ -105,7 +98,6 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      */
     @InitBinder(ROOM_MODEL_ATTR)
     protected void initBinder(final WebDataBinder binder) {
-        binder.setValidator(roomValidator);
         binder.registerCustomEditor(LocationDTO.class, locationDTOEditor);
         binder.registerCustomEditor(RoomEquipmentDTO.class,
                 roomEquipmentDTOEditor);

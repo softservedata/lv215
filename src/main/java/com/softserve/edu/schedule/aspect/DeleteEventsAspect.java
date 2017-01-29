@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
 
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.entity.MeetingStatus;
@@ -15,6 +16,7 @@ import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
 import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingCanceledMailService;
 
+@Component
 @Aspect
 public class DeleteEventsAspect {
 

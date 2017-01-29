@@ -13,6 +13,26 @@ package com.softserve.edu.schedule.controller;
 public interface ControllerConst {
 
 	/**
+	 * Application root URL
+	 */
+	String ROOT_URL = "/";
+
+	/**
+	 * Index page URL
+	 */
+	String INDEX_URL = "index";
+
+	/**
+	 * Error handling page URL
+	 */
+	String ERROR_PAGE_URL = "error";
+
+	/**
+	 * Exception model attribute name.
+	 */
+	String EXCEPTION_MODEL_ATTR = "exception";
+
+	/**
 	 * An interface to storage room controller model attributes and mappings
 	 * URL.
 	 *
@@ -644,11 +664,6 @@ public interface ControllerConst {
 		 * Path curator's lastname
 		 */
 		String USERGROUP_PATH_CURATOR_LASTNAME = "curator.lastName";
-
-		/**
-		 * Message for a usergroup name constraint
-		 */
-		String USERGROUP_NAME_CONSTRAINT_MESSAGE = "Name should be unique with length between 5 and 20";
 	}
 
 	public interface RoomEquipmentControllerConst {

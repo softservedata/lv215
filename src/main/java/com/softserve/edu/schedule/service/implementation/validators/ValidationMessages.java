@@ -28,6 +28,11 @@ public interface ValidationMessages {
 	String INVALID_CHARACTERS = "vm.ivalidCharacters";
 
 	/**
+	 * Invalid room capacity message bundle mapping.
+	 */
+	String INVALID_ROOM_CAPACITY = "vm.ivalidRoomCapacity";
+
+	/**
 	 * Duplicate room in location message bundle mapping.
 	 */
 	String DUPLICATE_ROOM = "vm.duplicateRoom";
@@ -62,4 +67,33 @@ public interface ValidationMessages {
 	 */
 	String INVALID_GROUP_LEVEL = "vm.emptyGroupLevel";
 
+	/**
+	 * Empty field or wrong characters.
+	 */
+	String INVALID_CHARACTERS_OR_EMPTY_FIELD = "vm.invalidCharactersOrEmptyField";
+
+	/**
+	 * No tutors selected.
+	 */
+	String INVALID_SUBJECT_TUTOR_COUNT = "vm.invalidTutorCount";
+
+	/**
+	 * Duplicate subject.
+	 */
+	String DUPLICATE_SUBJECT = "vm.duplicateSubject";
+
+	/**
+	 * Invalid location name.
+	 */
+	String INVALID_LOCATION_NAME = "vm.invalidName";
+
+	/**
+	 * Invalid location address.
+	 */
+	String INVALID_LOCATION_ADDRESS = "vm.invalidAddress";
+
+	/**
+	 * Duplicate location.
+	 */
+	String DUPLICATE_LOCATION = "vm.dublicateLocation";
 }

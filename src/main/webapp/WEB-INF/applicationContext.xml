@@ -85,8 +85,6 @@
 	<!-- Enable AOP -->
 	<aop:aspectj-autoproxy />
 
-	<bean name="deleteEventsAspect" class="com.softserve.edu.schedule.aspect.DeleteEventsAspect" />
-
 	<!-- localization -->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -114,7 +112,7 @@
 		class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
 		<property name="prefix" value="/thymeleaf/" />
 		<property name="suffix" value=".html" />
-		<property name="templateMode" value="HTML5" />
+		<property name="templateMode" value="HTML" />
 		<property name="characterEncoding" value="UTF-8" />
 		<property name="cacheable" value="false" />
 	</bean>

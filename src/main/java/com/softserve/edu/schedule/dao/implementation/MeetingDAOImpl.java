@@ -72,8 +72,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
     @Autowired
     UserGroupDAO userGroupDAO;
-
-    // TODO
+    
     @Override
     public List<Meeting> getMeetingPageWithFilter(
             final MeetingFilter meetingFilter,

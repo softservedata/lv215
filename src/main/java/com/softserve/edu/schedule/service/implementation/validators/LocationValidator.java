@@ -1,3 +1,9 @@
+/*
+ * LocationValidator
+ * 1.0
+ * 28 Jan 2017
+ * Copyright (c) Oleksandr Butyter
+ */
 package com.softserve.edu.schedule.service.implementation.validators;
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
@@ -15,11 +21,18 @@ import java.lang.annotation.Target;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
+/**
+ * The validator of checking location input data.
+ * 
+ * @version 1.0 28 Jan 2017
+ * @author Oleksandr Butyter
+ *
+ */
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE })
 @Retention(RUNTIME)
 @Documented
-@Constraint(validatedBy = com.softserve.edu.schedule.service.implementation.validators.UserGroupValidatorImpl.class)
-public @interface UserGroupValidator {
+@Constraint(validatedBy = LocationValidatorImpl.class)
+public @interface LocationValidator {
 
 	String message() default "";
 
@@ -27,15 +40,9 @@ public @interface UserGroupValidator {
 
 	Class<? extends Payload>[] payload() default {};
 
-	int min() default 5;
-
-	int max() default (20);
+	String id();
 
 	String name();
 
-	String id();
-
-	String description();
-
-	String level();
+	String address();
 }

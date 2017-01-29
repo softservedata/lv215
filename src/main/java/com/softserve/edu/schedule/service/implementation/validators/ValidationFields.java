@@ -72,4 +72,13 @@ public interface ValidationFields {
 	 */
 	String LEVEL = "level";
 
+	/**
+	 * Subject users field.
+	 */
+	String USERS = "users";
+
+	/**
+	 * Address field.
+	 */
+	String ADDRESS = "address";
 }
