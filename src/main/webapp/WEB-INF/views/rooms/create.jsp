@@ -36,15 +36,19 @@ $(function(){
 				<div class="form-group">
 					<label for="name"><spring:message code="lbl.room.roomName"/>:</label>
 					<spring:message code="lbl.room.roomName" var="nameForPlaceholder"/>
+					<spring:message code="vm.invalidName" var="invalidName" />
 					<form:input type="text" class="form-control" path="name" id="name"
-						placeholder="${nameForPlaceholder}" required="true" />
+						placeholder="${nameForPlaceholder}" pattern = "[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№',\.\s\-]{2,254}" required="true" 
+						oninvalid="this.setCustomValidity('${invalidName}')" oninput="setCustomValidity('')"/>
 					<form:errors path="name" class="text-danger"/>
 				</div>
 				<div class="form-group">
 					<label for="capacity"><spring:message code="lbl.room.roomCapacity"/>:</label>
 					<spring:message code="lbl.room.roomCapacity" var="capacityForPlaceholder"/>
+					<spring:message code="vm.ivalidRoomCapacity" var="invalidCapacity" />
 					<form:input class="form-control" type="number" path="capacity"
-						id="capacity" min="1" step="1" placeholder="${capacityForPlaceholder}" required="true" />
+						id="capacity" min="1" max="50000" step="1" placeholder="${capacityForPlaceholder}" required="true" 
+						oninvalid="this.setCustomValidity('${invalidCapacity}')" oninput="setCustomValidity('')" />
 					<form:errors path="capacity" class="text-danger"/>
 				</div>
 				<div class="form-group">

@@ -57,7 +57,7 @@ public class RoomValidatorImpl
      *            annotation instance for a given constraint declaration
      */
     @Override
-    public void initialize(RoomValidator constraintAnnotation) {
+    public void initialize(final RoomValidator constraintAnnotation) {
         name = constraintAnnotation.name();
         capacity = constraintAnnotation.capacity();
     }
@@ -74,12 +74,14 @@ public class RoomValidatorImpl
      */
     @Override
     public boolean isValid(final Object value,
-            ConstraintValidatorContext context) {
+            final ConstraintValidatorContext context) {
         RoomDTO roomDTO = (RoomDTO) value;
-        printErrorMessages(isNameValid(roomDTO), isCapacityValid(roomDTO),
-                hasNoDuplicates(roomDTO), context);
-        return (isNameValid(roomDTO) && isCapacityValid(roomDTO)
-                && hasNoDuplicates(roomDTO));
+        boolean isNameValid = isNameValid(roomDTO);
+        boolean isCapacityValid = isCapacityValid(roomDTO);
+        boolean hasNoDuplicates = hasNoDuplicates(roomDTO);
+        printErrorMessages(isNameValid, isCapacityValid, hasNoDuplicates,
+                context);
+        return isNameValid && isCapacityValid && hasNoDuplicates;
     }
 
     /**
@@ -91,7 +93,7 @@ public class RoomValidatorImpl
      * 
      * @return true if there are no duplicates
      */
-    private boolean hasNoDuplicates(RoomDTO roomDTO) {
+    private boolean hasNoDuplicates(final RoomDTO roomDTO) {
         List<RoomDTO> duplicates = roomService.getByNameAndLocation(
                 roomDTO.getName().trim(), roomDTO.getLocation());
         return duplicates.isEmpty() || duplicates.stream()
@@ -106,7 +108,7 @@ public class RoomValidatorImpl
      * 
      * @return true if name is valid
      */
-    private boolean isNameValid(RoomDTO roomDTO) {
+    private boolean isNameValid(final RoomDTO roomDTO) {
         return roomDTO.getName()
                 .matches(ValidationCriteria.PATTERN_FOR_ROOM_NAME);
     }
@@ -120,7 +122,7 @@ public class RoomValidatorImpl
      * 
      * @return true if capacity is valid
      */
-    private boolean isCapacityValid(RoomDTO roomDTO) {
+    private boolean isCapacityValid(final RoomDTO roomDTO) {
         return roomDTO.getCapacity() > 0
                 && roomDTO.getCapacity() < ValidationCriteria.MAX_ROOM_CAPACITY;
     }
@@ -132,8 +134,8 @@ public class RoomValidatorImpl
      * @param message
      * @param context
      */
-    private void errorMessage(String field, String message,
-            ConstraintValidatorContext context) {
+    private void errorMessage(final String field, final String message,
+            final ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(messageSource.getMessage(
                 message, new String[0], LocaleContextHolder.getLocale()))
@@ -148,9 +150,9 @@ public class RoomValidatorImpl
      * @param hasNoDuplicates
      * @param context
      */
-    private void printErrorMessages(boolean isNameValid,
-            boolean isCapacityValid, boolean hasNoDuplicates,
-            ConstraintValidatorContext context) {
+    private void printErrorMessages(final boolean isNameValid,
+            final boolean isCapacityValid, final boolean hasNoDuplicates,
+            final ConstraintValidatorContext context) {
         if (!isNameValid) {
             errorMessage(name,
                     ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD,
