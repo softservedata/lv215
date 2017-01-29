@@ -1,5 +1,5 @@
 /*
- * SubjectDTO.java
+ * SubjectValidatorImpl.java
  * 1.0
  * 27 Jan 2017
  * Copyright (c) Ped'ko Volodymyr
@@ -28,8 +28,8 @@ import com.softserve.edu.schedule.service.SubjectService;
  *
  * @since 1.8
  */
-public class CheckSubjectValidator
-        implements ConstraintValidator<CheckSubject, Object> {
+public class SubjectValidatorImpl
+        implements ConstraintValidator<SubjectValidator, Object> {
 
     /**
      * A input parameter name.
@@ -72,7 +72,7 @@ public class CheckSubjectValidator
      *            annotation instance for a given constraint declaration
      */
     @Override
-    public void initialize(final CheckSubject constraintAnnotation) {
+    public void initialize(final SubjectValidator constraintAnnotation) {
         name = constraintAnnotation.name();
         description = constraintAnnotation.description();
         id = constraintAnnotation.id();
@@ -122,7 +122,7 @@ public class CheckSubjectValidator
      * @return true if no duplicate in subjects list
      */
     private boolean isOriginName(String idObj, String nameObj) {
-        List<SubjectDTO> duplicates = subjectService.getSubjectByName(nameObj);
+        List<SubjectDTO> duplicates = subjectService.getSubjectByName(nameObj.trim());
         if (!duplicates.isEmpty()) {
             if (duplicates.stream()
                     .anyMatch(s -> s.getId().equals(Long.parseLong(idObj)))) {
@@ -142,10 +142,7 @@ public class CheckSubjectValidator
      * @return true if users are selected
      */
     private boolean isValidMultiselect(String[] usersObj) {
-        if (usersObj.length == ValidationCriteria.ZERO) {
-            return false;
-        }
-        return true;
+        return (usersObj.length == ValidationCriteria.ZERO) ? false : true;
     }
 
     /**
@@ -157,11 +154,9 @@ public class CheckSubjectValidator
      * @return true if description is valid
      */
     private boolean isValiDescription(String description) {
-        if (description
-                .matches(ValidationCriteria.CHARACTERS_FOR_SUBJECT_NAME)) {
-            return true;
-        }
-        return false;
+        return (description
+                .matches(ValidationCriteria.PATTERN_FOR_SUBJECT_NAME)) ? true
+                        : false;
     }
 
     /**
@@ -173,11 +168,9 @@ public class CheckSubjectValidator
      * @return true if name is valid
      */
     private boolean isValidName(String name) {
-        if (name.matches(
-                ValidationCriteria.CHARECTERS_FOR_SUBJECT_DESCRIPTION)) {
-            return true;
-        }
-        return false;
+        return (name
+                .matches(ValidationCriteria.PATTERN_FOR_SUBJECT_DESCRIPTION))
+                        ? true : false;
     }
 
     /**

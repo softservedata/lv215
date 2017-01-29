@@ -48,12 +48,12 @@ public interface ValidationCriteria {
     /**
      * Allowed characters for name expression.
      */
-    String CHARACTERS_FOR_SUBJECT_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$";
+    String PATTERN_FOR_SUBJECT_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=\\.\\,\\s\\-]{1,254}$";
 
     /**
      * Allowed characters for description expression.
      */
-    String CHARECTERS_FOR_SUBJECT_DESCRIPTION = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$";
+    String PATTERN_FOR_SUBJECT_DESCRIPTION = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=\\.\\,\\s\\-]{1,1000}$";
 
     /**
      * Array size comparator.
