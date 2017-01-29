@@ -6,11 +6,6 @@
  */
 package com.softserve.edu.schedule.service.implementation.validators;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -30,7 +25,7 @@ import javax.validation.Payload;
  *
  * @since 1.8
  */
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE })
+@Target(TYPE)
 @Retention(RUNTIME)
 @Documented
 @Constraint(validatedBy = SubjectValidatorImpl.class)
@@ -45,8 +40,6 @@ public @interface SubjectValidator {
     String name();
 
     String description();
-
-    String id();
     
     String users();
 }

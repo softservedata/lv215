@@ -21,7 +21,7 @@ import com.softserve.edu.schedule.service.implementation.validators.ValidationFi
  *
  * @since 1.8
  */
-@SubjectValidator(name = ValidationFields.NAME, description = ValidationFields.DESCRIPTION, id = ValidationFields.ID, users = ValidationFields.USERS)
+@SubjectValidator(name = ValidationFields.NAME, description = ValidationFields.DESCRIPTION, users = ValidationFields.USERS)
 public class SubjectDTO {
 
     /**
