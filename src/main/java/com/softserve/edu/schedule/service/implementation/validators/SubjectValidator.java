@@ -1,5 +1,5 @@
 /*
- * SubjectDTO.java
+ * SubjectValidator.java
  * 1.0
  * 27 Jan 2017
  * Copyright (c) Ped'ko Volodymyr

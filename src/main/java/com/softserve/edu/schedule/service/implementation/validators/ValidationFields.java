@@ -58,23 +58,18 @@ public interface ValidationFields {
     String PASSWORD = "password";
     
     /**
-     * Subject Name field.
-     */
-    String SUBJECT_NAME = "name";
-    
-    /**
      * Subject Description field.
      */
-    String SUBJECT_DESCRIPTION = "description";
+    String DESCRIPTION = "description";
     
     /**
      * Subject users field.
      */
-    String SUBJECT_USERS = "users";
+    String USERS = "users";
     
     /**
      * Subject id field.
      */
-    String SUJECT_ID = "id";
+    String ID = "id";
 
 }
