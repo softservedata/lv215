@@ -69,7 +69,7 @@
 						<c:if test="${location.rooms.size() != 0}">
 							<span class="tooltiptext3"> <c:forEach
 									items="${location.rooms}" var="room">
-							${room.name}
+							<a href="${pageContext.request.contextPath}/rooms/${room.id}">${room.name}</a>
 						</c:forEach>
 							</span>
 						</c:if>

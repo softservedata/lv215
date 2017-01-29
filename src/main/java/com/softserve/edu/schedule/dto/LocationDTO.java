@@ -16,7 +16,7 @@ import com.softserve.edu.schedule.service.implementation.validators.ValidationFi
  *
  * @since 1.8
  */
-@LocationValidator(id = ValidationFields.ID, name = ValidationFields.NAME, address = ValidationFields.ADDRESS)
+@LocationValidator(name = ValidationFields.NAME, address = ValidationFields.ADDRESS)
 public class LocationDTO {
 
 	/**

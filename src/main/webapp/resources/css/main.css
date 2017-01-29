@@ -130,4 +130,10 @@ textarea {
 	 width: 75px;
 
 }
-
+#map {
+        height: 326px;
+        width: 100%;
+       }
+.panel-map {
+	margin-top: 50px;
+}

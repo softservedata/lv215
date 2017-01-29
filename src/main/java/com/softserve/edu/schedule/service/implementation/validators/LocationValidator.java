@@ -6,11 +6,6 @@
  */
 package com.softserve.edu.schedule.service.implementation.validators;
 
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.CONSTRUCTOR;
-import static java.lang.annotation.ElementType.FIELD;
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
@@ -28,7 +23,7 @@ import javax.validation.Payload;
  * @author Oleksandr Butyter
  *
  */
-@Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER, TYPE })
+@Target(TYPE)
 @Retention(RUNTIME)
 @Documented
 @Constraint(validatedBy = LocationValidatorImpl.class)
@@ -39,8 +34,6 @@ public @interface LocationValidator {
 	Class<?>[] groups() default {};
 
 	Class<? extends Payload>[] payload() default {};
-
-	String id();
 
 	String name();
 

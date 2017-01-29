@@ -11,7 +11,6 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -27,11 +26,6 @@ import com.softserve.edu.schedule.service.LocationService;
  *
  */
 public class LocationValidatorImpl implements ConstraintValidator<LocationValidator, Object> {
-
-	/**
-	 * An input parameter id
-	 */
-	private String id;
 
 	/**
 	 * An input parameter name
@@ -66,7 +60,6 @@ public class LocationValidatorImpl implements ConstraintValidator<LocationValida
 	 */
 	@Override
 	public void initialize(LocationValidator constraintAnnotation) {
-		id = constraintAnnotation.id();
 		name = constraintAnnotation.name();
 		address = constraintAnnotation.address();
 
@@ -84,18 +77,10 @@ public class LocationValidatorImpl implements ConstraintValidator<LocationValida
 	 */
 	@Override
 	public boolean isValid(final Object value, ConstraintValidatorContext context) {
-		boolean validName = false;
-		boolean validAddress = false;
-		boolean noDuplicate = false;
-		try {
-			final String inputtedLocationId = BeanUtils.getProperty(value, id);
-			final String inputtedLocationName = BeanUtils.getProperty(value, name);
-			final String inputtedLocationAddress = BeanUtils.getProperty(value, address);
-			validName = isValidName(inputtedLocationName);
-			validAddress = isValidAddress(inputtedLocationAddress);
-			noDuplicate = isOriginName(inputtedLocationId, inputtedLocationName);
-		} catch (Exception e) {
-		}
+		LocationDTO locationDTO = (LocationDTO) value;
+		boolean validName = isValidName(locationDTO);
+		boolean validAddress = isValidAddress(locationDTO);
+		boolean noDuplicate = isOriginName(locationDTO);
 		printErrorMessages(validName, validAddress, noDuplicate, context);
 		return (validName && validAddress && noDuplicate);
 
@@ -104,43 +89,35 @@ public class LocationValidatorImpl implements ConstraintValidator<LocationValida
 	/**
 	 * Method checks if the name of location is origin.
 	 * 
-	 * @param id
-	 *            id of location to check
-	 * @param name
-	 *            name of location to check
+	 * @param locationDTO
+	 *            input data to check
 	 * @return true if name of location is origin, else - otherwise.
 	 */
-	private boolean isOriginName(String id, String name) {
-		List<LocationDTO> duplicates = locationService.getLocationsByName(name.trim());
-		if (!duplicates.isEmpty()) {
-			if (duplicates.stream().anyMatch(s -> s.getId().equals(Long.parseLong(id)))) {
-				return true;
-			}
-			return false;
-		}
-		return true;
+	private boolean isOriginName(LocationDTO locationDTO) {
+		List<LocationDTO> duplicates = locationService.getLocationsByName(locationDTO.getName().trim());
+		return duplicates.isEmpty() || duplicates.stream().anyMatch(s -> s.getId().equals(locationDTO.getId()));
 	}
 
 	/**
 	 * Method checks if name of location matches pattern.
 	 * 
-	 * @param name
-	 *            name of location to check
+	 * @param locationDTO
+	 *            input data to check
 	 * @return true if name of location matches pattern, else - otherwise.
 	 */
-	private boolean isValidName(String name) {
-		return (name.matches(ValidationCriteria.PATTERN_FOR_LOCATION_NAME)) ? true : false;
+	private boolean isValidName(LocationDTO locationDTO) {
+		return locationDTO.getName().matches(ValidationCriteria.PATTERN_FOR_LOCATION_NAME);
 	}
 
 	/**
 	 * Method checks if address of location matches pattern.
 	 * 
-	 * @param address
-	 *            address of location to check
+	 * @param locationDTO
+	 *            input data to check
 	 * @return true if address of location matches pattern, else - otherwise.
 	 */
-	private boolean isValidAddress(String address) {
-		return (address.matches(ValidationCriteria.PATTERN_FOR_LOCATION_ADDRESS)) ? true : false;
+	private boolean isValidAddress(LocationDTO locationDTO) {
+		return locationDTO.getAddress().matches(ValidationCriteria.PATTERN_FOR_LOCATION_ADDRESS);
 	}
 
 	/**
