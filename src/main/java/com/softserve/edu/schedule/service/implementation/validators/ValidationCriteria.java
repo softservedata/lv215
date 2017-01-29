@@ -13,9 +13,14 @@ package com.softserve.edu.schedule.service.implementation.validators;
 public interface ValidationCriteria {
 
     /**
-     * Allowed characters for name expression.
+     * Allowed characters for room name.
      */
-    String CHARACTERS_FOR_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9\\-№ ]+$";
+    String PATTERN_FOR_ROOM_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'\\.\\,\\s\\-]{2,254}$";
+
+    /**
+     * Allowed maximal room capacity.
+     */
+    Integer MAX_ROOM_CAPACITY = 50000;
 
     /**
      * Allowed characters for name expression.
@@ -59,12 +64,12 @@ public interface ValidationCriteria {
      * Array size comparator.
      */
     Integer ZERO = 0;
-    
+
     /**
      * Allowed characters for name expression.
      */
     String PATTERN_FOR_LOCATION_NAME = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'\\.\\,\\s\\-]{2,254}$";
-    
+
     /**
      * Allowed characters for name expression.
      */
