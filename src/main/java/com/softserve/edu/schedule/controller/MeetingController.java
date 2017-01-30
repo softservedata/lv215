@@ -221,7 +221,7 @@ public class MeetingController {
      * @return
      */
     @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
-    public String editStatus(@ModelAttribute("meeting") MeetingDTO meetingDTO) {
+    public String editStatus(@Valid @ModelAttribute("meeting") MeetingDTO meetingDTO) {
         meetingService.changeMeetingStatus(meetingDTO.getId(),
                 meetingDTO.getStatus());
         return "redirect:/meetings";
