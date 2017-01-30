@@ -237,11 +237,6 @@ public class UserValidator  implements Validator {
                 return false;
             }
             return true;
-//            for (UserDTO userDTO2 : dublicate) {
-//                if(userDTO.getId().equals(userDTO2.getId())){
-//                    return false;
-//                }
-//            }  
         }
         return false;
     }

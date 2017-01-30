@@ -71,7 +71,7 @@
 					 onclick="return confirm('The user can not be deleted if he is curated group. Are you sure you want to delete this user?');"><i
 						class="fa fa-trash-o"></i></a></td>
 				<td><a
-					href="${pageContext.request.contextPath}${UserController.EDIT_USER_MAPPING}${user.id}">
+					href="${pageContext.request.contextPath}${UserController.CHANGE_ROLE_MAPPING}${user.id}">
 						<i class="fa fa-pencil-square-o"></i>
 				</a></td>
 				<td><c:if test="${user.status.ordinal() == 1}">

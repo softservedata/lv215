@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     @Transactional
-    public void create(final UserDTO userDTO) {
+    public void create(final UserDTO userDTO) {      
         userDAO.create(userDTOConverter.getEntity(userDTO));
     }
 
@@ -250,5 +250,4 @@ public class UserServiceImpl implements UserService {
                 .map(e -> userDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
-
 }

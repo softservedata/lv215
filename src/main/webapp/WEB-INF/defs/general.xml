@@ -43,21 +43,21 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/registration.jsp" />
 	</definition>
-	<definition extends="common" name="users/users/edit">
+<!-- 	<definition extends="common" name="users/users/edit">
 		<put-attribute name="title" value="Edit" />
 		<put-attribute name="body" value="/WEB-INF/views/users/edit.jsp" />
-	</definition>
-	<definition extends="common" name="users/users/edit/updateUser">
+	</definition> -->
+	<definition extends="common" name="users/users/updateUser">
 		<put-attribute name="title" value="Update" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/updateUser.jsp" />
 	</definition>
-	<definition extends="common" name="users/users/edit/updateUserPosition">
+<!-- 	<definition extends="common" name="users/users/edit/updateUserPosition">
 		<put-attribute name="title" value="Change position" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/updateUserPosition.jsp" />
-	</definition>
-	<definition extends="common" name="users/users/edit/changeRole">
+	</definition> -->
+	<definition extends="common" name="users/users/changeRole">
 		<put-attribute name="title" value="Change role" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/changeRole.jsp" />

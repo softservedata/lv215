@@ -188,27 +188,27 @@ public interface ControllerConst {
         /**
          * Edit user mapping.
          */
-        String EDIT_USER_MAPPING = "/users/edit/";
+//        String EDIT_USER_MAPPING = "/users/edit/";
 
         /**
          * Update user mapping.
          */
-        String UPDATE_USER_MAPPING = "/updateUser/";
+        String UPDATE_USER_MAPPING = "updateUser";
 
         /**
          * Save updated user mapping.
          */
-        String SAVE_UPDATED_USER_MAPPING = "/users/edit/updateUser/saveUpdatedUser/";
+        String SAVE_UPDATED_USER_MAPPING = "updateUser/saveUpdatedUser/";
 
         /**
          * Update user position mapping.
          */
-        String UPDATE_POSITION_MAPPING = "/updateUserPosition/";
+//        String UPDATE_POSITION_MAPPING = "/updateUserPosition/";
 
         /**
          * Save updated position user mapping.
          */
-        String SAVE_UPDATED_POSITION_MAPPING = "/users/edit/updateUserPosition/saveUpdatedUserPosition/";
+//        String SAVE_UPDATED_POSITION_MAPPING = "/users/edit/updateUserPosition/saveUpdatedUserPosition/";
 
         /**
          * Ban user mapping.
@@ -228,7 +228,7 @@ public interface ControllerConst {
         /**
          * Save changed user role mapping.
          */
-        String SAVE_CHANGED_ROLE_MAPPING = "/users/edit/changeRole/saveChangedRole/";
+        String SAVE_CHANGED_ROLE_MAPPING = "/users/changeRole/saveChangedRole/";
 
         /**
          * Sort by last name mapping - ascending.
@@ -298,22 +298,22 @@ public interface ControllerConst {
         /**
          * Edit user URL name.
          */
-        String EDIT_PAGE_URL = "users/users/edit";
+//        String EDIT_PAGE_URL = "users/users/edit";
 
         /**
          * Update user URL name.
          */
-        String UPDATE_PAGE_URL = "users/users/edit/updateUser";
+        String UPDATE_PAGE_URL = "users/users/updateUser";
 
         /**
          * Update position user URL name.
          */
-        String UPDATE_POSITION_PAGE_URL = "users/users/edit/updateUserPosition";
+        String UPDATE_POSITION_PAGE_URL = "users/users/updateUserPosition";
 
         /**
          * Change role user URL name.
          */
-        String CHANGE_ROLE_PAGE_URL = "users/users/edit/changeRole";
+        String CHANGE_ROLE_PAGE_URL = "users/users/changeRole";
 
         /**
          * Delete user URL if user is curator in some group.

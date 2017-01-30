@@ -44,27 +44,19 @@ public class UserController implements ControllerConst.UserControllerConst,
      * UserValidator example to provide form validation operations.
      */
     @Autowired
-    private UserValidator userValidator;    
-    
+    private UserValidator userValidator;
+
     /**
      * Initialize binder for user model.
      *
      * @param binder
      *            a WebDataBinder example to initialize.
      */
-    @InitBinder(value = {USER_UPDATE_ATTR/*, USER_UPDATE_POSITION_ATTR*/})
+    @InitBinder(value = { USER_UPDATE_ATTR , USER_UPDATE_POSITION_ATTR })
     protected void initBinder(final WebDataBinder binder) {
         binder.setValidator(userValidator);
     }
-    
-    
-//    String USER_UPDATE_ATTR = "userFormUpdate";
-//
-//    /**
-//     * User for update position model attribute name.
-//     */
-//    String USER_UPDATE_POSITION_ATTR = "userFormUpdatePosition";
-    
+
     /**
      * Provides user model.
      * 
@@ -100,7 +92,7 @@ public class UserController implements ControllerConst.UserControllerConst,
     @RequestMapping(DELETE_USER_MAPPING + "{id}")
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
-        
+
         if (userService.deleteById(id)) {
             return REDIRECT_USERS_PAGE;
         } else {
@@ -108,19 +100,19 @@ public class UserController implements ControllerConst.UserControllerConst,
         }
     }
 
-    /**
-     * Controls processing of user edit URL.
-     *
-     * @param id
-     *            an user id to edit user in database.
-     *
-     * @return users list page redirect URL
-     */
-    @RequestMapping(value = EDIT_USER_MAPPING + "{id}")
-    public String edit(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
-        return EDIT_PAGE_URL;
-    }
+//    /**
+//     * Controls processing of user edit URL.
+//     *
+//     * @param id
+//     *            an user id to edit user in database.
+//     *
+//     * @return users list page redirect URL
+//     */
+//    @RequestMapping(value = EDIT_USER_MAPPING + "{id}")
+//    public String edit(@PathVariable Long id, Model model) {
+//        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
+//        return EDIT_PAGE_URL;
+//    }
 
     /**
      * Controls processing of user update URL.
@@ -146,46 +138,51 @@ public class UserController implements ControllerConst.UserControllerConst,
      */
     @RequestMapping(value = SAVE_UPDATED_USER_MAPPING
             + "{id}", method = RequestMethod.POST)
-    public String updateUser(@ModelAttribute(USER_UPDATE_ATTR)@Valid UserDTO user, BindingResult br) {
-        if(br.hasErrors()){
+    public String updateUser(
+            @ModelAttribute(USER_UPDATE_ATTR) @Valid UserDTO user,
+            BindingResult br) {
+        if (br.hasErrors()) {
             return UPDATE_PAGE_URL;
         }
         userService.update(user);
         return REDIRECT_USERS_PAGE;
     }
 
-    /**
-     * Controls processing of user update position URL.
-     *
-     * @param id
-     *            an user id to update position of user in database.
-     *
-     * @return users list page redirect URL
-     */
-    @RequestMapping(UPDATE_POSITION_MAPPING + "{id}")
-    public String getEditPosition(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_UPDATE_POSITION_ATTR, userService.getById(id));
-        return UPDATE_POSITION_PAGE_URL;
-    }
-
-    /**
-     * Controls processing save updated position of user URL.
-     *
-     * @param id
-     *            an user id to update position of user in database.
-     *
-     * @return users list page redirect URL
-     */
-    @RequestMapping(value = SAVE_UPDATED_POSITION_MAPPING
-            + "{id}", method = RequestMethod.POST)
-    public String updateUserPosition(@PathVariable Long id,
-            @RequestParam /*@Valid*/ String position/*, BindingResult br*/) {
-/*        if(br.hasErrors()){
-            return UPDATE_POSITION_PAGE_URL;
-        }*/
-        userService.changePosition(id, position);
-        return REDIRECT_USERS_PAGE;
-    }
+//    /**
+//     * Controls processing of user update position URL.
+//     *
+//     * @param id
+//     *            an user id to update position of user in database.
+//     *
+//     * @return users list page redirect URL
+//     */
+//    @RequestMapping(UPDATE_POSITION_MAPPING + "{id}")
+//    public String getEditPosition(@PathVariable Long id, Model model) {
+//        model.addAttribute(USER_UPDATE_POSITION_ATTR, userService.getById(id));
+//        return UPDATE_POSITION_PAGE_URL;
+//    }
+//
+//    /**
+//     * Controls processing save updated position of user URL.
+//     *
+//     * @param id
+//     *            an user id to update position of user in database.
+//     *
+//     * @return users list page redirect URL
+//     */
+//    @RequestMapping(value = SAVE_UPDATED_POSITION_MAPPING
+//            + "{id}", method = RequestMethod.POST)
+//    public String updateUserPosition(
+//            @ModelAttribute(USER_UPDATE_POSITION_ATTR) @Valid UserDTO user,
+//            @PathVariable Long id, /*@RequestParam String position,*/
+//            BindingResult br) {
+//        if (br.hasErrors()) {
+//            return UPDATE_POSITION_PAGE_URL;
+//        }
+//        userService.changePosition(id, position);
+//        userService.update(user);
+//        return REDIRECT_USERS_PAGE;
+//    }
 
     /**
      * Controls processing of user change status (to BLOCKED) URL.

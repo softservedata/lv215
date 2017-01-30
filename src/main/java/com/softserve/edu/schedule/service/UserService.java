@@ -148,4 +148,5 @@ public interface UserService {
      * @return a user DTO with given mail.
      */
     public List<UserDTO> searchByMail(final String mail);
+    
 }

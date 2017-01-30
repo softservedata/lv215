@@ -84,7 +84,7 @@
 
 	<!-- Enable AOP -->
 	<aop:aspectj-autoproxy />
-	
+
 	<bean name="deleteEventsAspect" class="com.softserve.edu.schedule.aspect.DeleteEventsAspect" />
 
 	<!-- localization -->
