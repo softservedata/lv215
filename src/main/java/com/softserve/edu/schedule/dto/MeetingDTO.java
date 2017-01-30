@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.softserve.edu.schedule.entity.MeetingStatus;
+import com.softserve.edu.schedule.service.implementation.validators.MeetingValidator;
+import com.softserve.edu.schedule.service.implementation.validators.SubjectValidator;
 
 public class MeetingDTO {
 
