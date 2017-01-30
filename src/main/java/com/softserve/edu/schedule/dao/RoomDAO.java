@@ -19,7 +19,7 @@ import com.softserve.edu.schedule.entity.Room;
 public interface RoomDAO extends CrudDAO<Room> {
 
     /**
-     * Find a room in the database by name and location id.
+     * Find rooms in the database by name and location id.
      *
      * @param roomName
      *            a room name to find in the database.
@@ -27,9 +27,10 @@ public interface RoomDAO extends CrudDAO<Room> {
      * @param locationId
      *            a location id to find room.
      * 
-     * @return a room with given name and location Id.
+     * @return List of rooms with given name and location Id.
      */
-    Room getByNameAndLocationId(final String roomName, final Long locationId);
+    List<Room> getByNameAndLocationId(final String roomName,
+            final Long locationId);
 
     /**
      * Find all rooms entities in the database with applied filter

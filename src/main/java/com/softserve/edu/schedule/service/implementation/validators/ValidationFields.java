@@ -12,69 +12,73 @@ package com.softserve.edu.schedule.service.implementation.validators;
  */
 public interface ValidationFields {
 
-    /**
-     * Name field.
-     */
-    String NAME = "name";
+	/**
+	 * Id field.
+	 */
+	String ID = "id";
 
-    /**
-     * Capacity field.
-     */
-    String CAPACITY = "capacity";
+	/**
+	 * Name field.
+	 */
+	String NAME = "name";
 
-    /**
-     * Location field.
-     */
-    String LOCATION = "location";
-    
-    /**
-     * FirstName field.
-     */
-    String FIRSTNAME = "firstName";
-    
-    /**
-     * LastName field.
-     */
-    String LASTNAME = "lastName";   
-    
-    /**
-     * Mail field.
-     */
-    String MAIL = "mail";
-    
-    /**
-     * Phone field.
-     */
-    String PHONE = "phone";
-    
-    /**
-     * Position field.
-     */
-    String POSITION= "position";
-    
-    /**
-     * Password field.
-     */
-    String PASSWORD = "password";
-    
-    /**
-     * Subject Name field.
-     */
-    String SUBJECT_NAME = "name";
-    
-    /**
-     * Subject Description field.
-     */
-    String SUBJECT_DESCRIPTION = "description";
-    
-    /**
-     * Subject users field.
-     */
-    String SUBJECT_USERS = "users";
-    
-    /**
-     * Subject id field.
-     */
-    String SUJECT_ID = "id";
+	/**
+	 * Capacity field.
+	 */
+	String CAPACITY = "capacity";
 
+	/**
+	 * Location field.
+	 */
+	String LOCATION = "location";
+
+	/**
+	 * FirstName field.
+	 */
+	String FIRSTNAME = "firstName";
+
+	/**
+	 * LastName field.
+	 */
+	String LASTNAME = "lastName";
+
+	/**
+	 * Mail field.
+	 */
+	String MAIL = "mail";
+
+	/**
+	 * Phone field.
+	 */
+	String PHONE = "phone";
+
+	/**
+	 * Position field.
+	 */
+	String POSITION = "position";
+
+	/**
+	 * Password field.
+	 */
+	String PASSWORD = "password";
+
+	/**
+	 * Description field.
+	 */
+	String DESCRIPTION = "description";
+
+	/**
+	 * Level field.
+	 */
+	String LEVEL = "level";
+
+	/**
+	 * Subject users field.
+	 */
+	String USERS = "users";
+
+	/**
+	 * Address field.
+	 */
+	String ADDRESS = "address";
 }

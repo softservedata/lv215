@@ -1,5 +1,5 @@
 /*
- * SubjectDTO.java
+ * SubjectValidatorImpl.java
  * 1.0
  * 27 Jan 2017
  * Copyright (c) Ped'ko Volodymyr
@@ -11,7 +11,6 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
@@ -42,11 +41,6 @@ public class SubjectValidatorImpl
     private String description;
 
     /**
-     * A input parameter description.
-     */
-    private String id;
-
-    /**
      * A input parameter users.
      */
     private String users;
@@ -75,7 +69,6 @@ public class SubjectValidatorImpl
     public void initialize(final SubjectValidator constraintAnnotation) {
         name = constraintAnnotation.name();
         description = constraintAnnotation.description();
-        id = constraintAnnotation.id();
         users = constraintAnnotation.users();
     }
 
@@ -92,22 +85,11 @@ public class SubjectValidatorImpl
     @Override
     public boolean isValid(final Object value,
             ConstraintValidatorContext context) {
-        boolean validName = false;
-        boolean validDescription = false;
-        boolean validMultiselect = false;
-        boolean noDuplicate = false;
-        try {
-            final String nameObj = BeanUtils.getProperty(value, name);
-            final String descriptionObj = BeanUtils.getProperty(value,
-                    description);
-            final String idObj = BeanUtils.getProperty(value, id);
-            final String[] usersObj = BeanUtils.getArrayProperty(value, users);
-            validName = (isValidName(nameObj));
-            validDescription = (isValiDescription(descriptionObj));
-            validMultiselect = (isValidMultiselect(usersObj));
-            noDuplicate = (isOriginName(idObj, nameObj));
-        } catch (Exception e) {
-        }
+        SubjectDTO subjectDTO = (SubjectDTO) value;
+        boolean validName = isValidName(subjectDTO);
+        boolean validDescription = isValiDescription(subjectDTO);
+        boolean validMultiselect = isValidMultiselect(subjectDTO);
+        boolean noDuplicate = isOriginName(subjectDTO);
         printErrorMessages(validName, validDescription, validMultiselect,
                 noDuplicate, context);
         return (validName && validDescription && validMultiselect
@@ -121,16 +103,18 @@ public class SubjectValidatorImpl
      * @param nameObj
      * @return true if no duplicate in subjects list
      */
-    private boolean isOriginName(String idObj, String nameObj) {
-        List<SubjectDTO> duplicates = subjectService.getSubjectByName(nameObj);
-        if (!duplicates.isEmpty()) {
+    private boolean isOriginName(SubjectDTO subjectDTO) {
+        List<SubjectDTO> duplicates = subjectService
+                .getSubjectByName(subjectDTO.getName().trim());
+/*        if (!duplicates.isEmpty()) {
             if (duplicates.stream()
-                    .anyMatch(s -> s.getId().equals(Long.parseLong(idObj)))) {
+                    .anyMatch(s -> s.getId().equals(subjectDTO.getId()))) {
                 return true;
             }
             return false;
-        }
-        return true;
+        }*/
+        return duplicates.isEmpty() || duplicates.stream()
+        .anyMatch(s -> s.getId().equals(subjectDTO.getId()));
     }
 
     /**
@@ -141,11 +125,8 @@ public class SubjectValidatorImpl
      * 
      * @return true if users are selected
      */
-    private boolean isValidMultiselect(String[] usersObj) {
-        if (usersObj.length == ValidationCriteria.ZERO) {
-            return false;
-        }
-        return true;
+    private boolean isValidMultiselect(SubjectDTO subjectDTO) {
+        return subjectDTO.getUsers().size() > ValidationCriteria.ZERO;
     }
 
     /**
@@ -156,12 +137,9 @@ public class SubjectValidatorImpl
      * 
      * @return true if description is valid
      */
-    private boolean isValiDescription(String description) {
-        if (description
-                .matches(ValidationCriteria.CHARACTERS_FOR_SUBJECT_NAME)) {
-            return true;
-        }
-        return false;
+    private boolean isValiDescription(SubjectDTO subjectDTO) {
+        return subjectDTO.getDescription()
+                .matches(ValidationCriteria.PATTERN_FOR_SUBJECT_NAME);
     }
 
     /**
@@ -172,12 +150,9 @@ public class SubjectValidatorImpl
      * 
      * @return true if name is valid
      */
-    private boolean isValidName(String name) {
-        if (name.matches(
-                ValidationCriteria.CHARECTERS_FOR_SUBJECT_DESCRIPTION)) {
-            return true;
-        }
-        return false;
+    private boolean isValidName(SubjectDTO subjectDTO) {
+        return subjectDTO.getName()
+                .matches(ValidationCriteria.PATTERN_FOR_SUBJECT_DESCRIPTION);
     }
 
     /**
