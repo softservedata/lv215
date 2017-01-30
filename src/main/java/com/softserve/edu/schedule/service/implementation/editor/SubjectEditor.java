@@ -13,8 +13,6 @@ public class SubjectEditor extends PropertyEditorSupport {
     @Autowired
     private SubjectDAO subjectDAO;
 
-    
-
     @Override
     public void setAsText(String subjectId) throws IllegalArgumentException {
         setValue(subjectDAO.getById(Long.valueOf(subjectId)));

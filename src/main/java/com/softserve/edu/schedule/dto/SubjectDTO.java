@@ -9,6 +9,18 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softserve.edu.schedule.service.implementation.validators.SubjectValidator;
+
+/**
+ * A DTO class to transport subject data.
+ *
+ * @version 1.0 17 January 2017
+ *
+ * @author Ped'ko Volodymyr
+ *
+ * @since 1.8
+ */
+@SubjectValidator
 public class SubjectDTO {
 
     /**
@@ -88,6 +100,10 @@ public class SubjectDTO {
      *            the users to set
      */
     public void setUsers(List<UserForSubjectDTO> users) {
-        this.users = users;
+        if (users == null) {
+            this.users = new ArrayList<>();
+        } else {
+            this.users = users;
+        }
     }
 }

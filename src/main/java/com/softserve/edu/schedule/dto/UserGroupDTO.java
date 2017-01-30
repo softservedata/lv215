@@ -3,6 +3,10 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softserve.edu.schedule.service.implementation.validators.UserGroupValidator;
+import com.softserve.edu.schedule.service.implementation.validators.ValidationFields;
+
+@UserGroupValidator(min = 5, max = 20, id = ValidationFields.ID, name = ValidationFields.NAME, description = ValidationFields.DESCRIPTION, level = ValidationFields.LEVEL)
 public class UserGroupDTO {
 
 	private Long id;
@@ -15,7 +19,6 @@ public class UserGroupDTO {
 	/**
 	 * User group description.
 	 */
-
 	private String description;
 
 	/**
@@ -31,13 +34,11 @@ public class UserGroupDTO {
 	/**
 	 * List of users in this group.
 	 */
-
 	private List<UserDTO> users = new ArrayList<>();
 
 	/**
 	 * List of meetings of this group.
 	 */
-
 	private List<MeetingDTO> meetings = new ArrayList<>();
 
 	/**
@@ -119,6 +120,9 @@ public class UserGroupDTO {
 	 * @return the users
 	 */
 	public List<UserDTO> getUsers() {
+		if (users == null) {
+			return new ArrayList<>();
+		}
 		return users;
 	}
 
@@ -127,13 +131,20 @@ public class UserGroupDTO {
 	 *            the users to set
 	 */
 	public void setUsers(List<UserDTO> users) {
-		this.users = users;
+		if (users == null) {
+			this.users = new ArrayList<>();
+		} else {
+			this.users = users;
+		}
 	}
 
 	/**
 	 * @return the meetings
 	 */
 	public List<MeetingDTO> getMeetings() {
+		if (meetings == null) {
+			return new ArrayList<>();
+		}
 		return meetings;
 	}
 

@@ -6,6 +6,12 @@
  */
 package com.softserve.edu.schedule.dao.implementation;
 
+import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.LocationDAO;
@@ -20,23 +26,37 @@ import com.softserve.edu.schedule.entity.Location;
  *
  */
 @Repository
-public class LocationDAOImpl extends CrudDAOImpl<Location>
-        implements LocationDAO {
+public class LocationDAOImpl extends CrudDAOImpl<Location> implements LocationDAO {
 
-    /**
-     * Constructor of LocationDAOImpl
-     */
-    public LocationDAOImpl() {
-        super(Location.class);
-    }
+	/**
+	 * Constructor of LocationDAOImpl
+	 */
+	public LocationDAOImpl() {
+		super(Location.class);
+	}
 
-	/* (non-Javadoc)
-	 * @see com.softserve.edu.schedule.dao.LocationDAO#deleteById(java.lang.Long)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.dao.LocationDAO#deleteById(java.lang.Long)
 	 */
 	@Override
 	public void deleteById(Long id) {
 		Location location = getById(id);
-        delete(location);
-			}
+		delete(location);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.softserve.edu.schedule.dao.LocationDAO#getLocationsByField(java.lang.String, java.lang.String)
+	 */
+	@Override
+	public List<Location> getLocationsByField(final String field, final String pattern) {
+		CriteriaBuilder builder = getEm().getCriteriaBuilder();
+		CriteriaQuery<Location> cq = builder.createQuery(Location.class);
+		Root<Location> root = cq.from(Location.class);
+		cq.where(builder.like(root.get(field), pattern));
+		return getEm().createQuery(cq).getResultList();
+	}
 
 }

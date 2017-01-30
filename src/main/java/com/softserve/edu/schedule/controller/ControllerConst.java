@@ -13,6 +13,26 @@ package com.softserve.edu.schedule.controller;
 public interface ControllerConst {
 
     /**
+     * Application root URL
+     */
+    String ROOT_URL = "/";
+
+    /**
+     * Index page URL
+     */
+    String INDEX_URL = "index";
+
+    /**
+     * Error handling page URL
+     */
+    String ERROR_PAGE_URL = "error";
+
+    /**
+     * Exception model attribute name.
+     */
+    String EXCEPTION_MODEL_ATTR = "exception";
+
+    /**
      * An interface to storage room controller model attributes and mappings
      * URL.
      *
@@ -68,7 +88,7 @@ public interface ControllerConst {
          * Path variable for room id name.
          */
         String PATH_VAR_ID = "id";
-        
+
         /**
          * Rooms section URL name.
          */
@@ -120,46 +140,18 @@ public interface ControllerConst {
         String ROOM_DELETE_MAPPING = "/delete/{id}";
     }
 
-    /**
-     * An interface to storage Registration controller model attributes and
-     * mappings URL.
-     *
-     * @version 1.0 20 January 2017
-     *
-     * @author Serhiy Dudynsky
-     *
-     * @since 1.8
-     */
     public interface RegistrationControllerConst {
 
-        /**
-         * Register new user mapping.
-         */
         String USER_REGIST_MAPPING_FROM_STARTPAGE = "registration";
 
-        /**
-         * Register new user mapping for administrator.
-         */
         String USER_REGIST_MAPPING_FOR_ADMIN = "users/registration";
 
-        /**
-         * Registration model attribute name.
-         */
         String USER_REGIST_MODEL_ATTR = "userFormCreate";
 
-        /**
-         * Registration mapping URL name.
-         */
         String USER_REGIST_URL = "users/registration";
 
-        /**
-         * Redirect to start page mapping URL name.
-         */
         String REDIRECT_STARTPAGE = "redirect:/";
 
-        /**
-         * Redirect to users page mapping URL name.
-         */
         String REDIRECT_USERS_PAGE = "redirect:/users";
     }
 
@@ -175,149 +167,63 @@ public interface ControllerConst {
      */
     public interface UserControllerConst {
 
-        /**
-         * Users mapping.
-         */
         String USERS_MAPPING_FROM_HEADER = "/users";
 
-        /**
-         * Delete user mapping.
-         */
         String DELETE_USER_MAPPING = "/users/delete/";
 
-        /**
-         * Edit user mapping.
-         */
-//        String EDIT_USER_MAPPING = "/users/edit/";
+        // String EDIT_USER_MAPPING = "/users/edit/";
 
-        /**
-         * Update user mapping.
-         */
         String UPDATE_USER_MAPPING = "updateUser";
 
-        /**
-         * Save updated user mapping.
-         */
         String SAVE_UPDATED_USER_MAPPING = "updateUser/saveUpdatedUser/";
 
-        /**
-         * Update user position mapping.
-         */
-//        String UPDATE_POSITION_MAPPING = "/updateUserPosition/";
+        // String UPDATE_POSITION_MAPPING = "/updateUserPosition/";
 
-        /**
-         * Save updated position user mapping.
-         */
-//        String SAVE_UPDATED_POSITION_MAPPING = "/users/edit/updateUserPosition/saveUpdatedUserPosition/";
+        // String SAVE_UPDATED_POSITION_MAPPING =
+        // "/users/edit/updateUserPosition/saveUpdatedUserPosition/";
 
-        /**
-         * Ban user mapping.
-         */
         String BAN_USER_MAPPING = "/users/banUser/";
 
-        /**
-         * Unban user mapping.
-         */
         String UNBAN_USER_MAPPING = "/users/unBanUser/";
 
-        /**
-         * Change user role mapping.
-         */
         String CHANGE_ROLE_MAPPING = "/changeRole/";
 
-        /**
-         * Save changed user role mapping.
-         */
         String SAVE_CHANGED_ROLE_MAPPING = "/users/changeRole/saveChangedRole/";
 
-        /**
-         * Sort by last name mapping - ascending.
-         */
         String SORT_BY_LASTNAME_ASC_MAPPING = "/users/sortbylastnameasc";
 
-        /**
-         * Sort by last name mapping - descending.
-         */
         String SORT_BY_LASTNAME_DESC_MAPPING = "/users/sortbylastnamedesc";
 
-        /**
-         * Sort by position mapping - ascending.
-         */
         String SORT_BY_POSITION_ASC_MAPPING = "/users/sortbypositionasc";
 
-        /**
-         * Sort by position mapping - descending.
-         */
         String SORT_BY_POSITION_DESC_MAPPING = "/users/sortbypositiondesc";
 
-        /**
-         * Search by last name mapping.
-         */
         String SEARCH_BY_LASTNANE_MAPPING = "/user/searchByLastName";
 
-        /**
-         * Search by position mapping.
-         */
         String SEARCH_BY_POSITION_MAPPING = "/user/searchByPosition";
 
-        /**
-         * User model attribute name.
-         */
         String USERS_MODEL_ATTR = "users";
 
-        /**
-         * User model attribute name.
-         */
         String USER_MODEL_ATTR = "user";
 
-        /**
-         * User for update model attribute name.
-         */
         String USER_UPDATE_ATTR = "userFormUpdate";
 
-        /**
-         * User for update position model attribute name.
-         */
         String USER_UPDATE_POSITION_ATTR = "userFormUpdatePosition";
 
-        /**
-         * Roles from user model attribute name.
-         */
         String USER_ROLE_ATTR = "roles";
 
-        /**
-         * Search model attribute name.
-         */
         String SEARCH_MODEL_ATTR = "search";
 
-        /**
-         * Users list URL name.
-         */
         String USERS_PAGE_URL = "users/users";
 
-        /**
-         * Edit user URL name.
-         */
-//        String EDIT_PAGE_URL = "users/users/edit";
+        // String EDIT_PAGE_URL = "users/users/edit";
 
-        /**
-         * Update user URL name.
-         */
         String UPDATE_PAGE_URL = "users/users/updateUser";
 
-        /**
-         * Update position user URL name.
-         */
         String UPDATE_POSITION_PAGE_URL = "users/users/updateUserPosition";
 
-        /**
-         * Change role user URL name.
-         */
         String CHANGE_ROLE_PAGE_URL = "users/users/changeRole";
 
-        /**
-         * Delete user URL if user is curator in some group.
-         */
         String DELETE_USER_URL = "users/users/delete";
     }
 
@@ -634,6 +540,16 @@ public interface ControllerConst {
          * Mapping on a usergroups page
          */
         String USERGROUP_MAPPING = "/usergroups";
+
+        /**
+         * Path name
+         */
+        String USERGROUP_PATH_NAME = "name";
+
+        /**
+         * Path curator's lastname
+         */
+        String USERGROUP_PATH_CURATOR_LASTNAME = "curator.lastName";
     }
 
     public interface RoomEquipmentControllerConst {

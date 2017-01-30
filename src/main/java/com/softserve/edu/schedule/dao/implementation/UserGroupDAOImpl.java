@@ -10,21 +10,33 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
+import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
+import com.softserve.edu.schedule.entity.User_;
 
 /**
  * A simple class to handle the database operation (CRUD).
  *
  * @version 1.0 09 Jan 2017
  * @author Zhydenko Andrii
+ *
+ */
+/**
+ * @author Andrew
+ *
+ */
+/**
+ * @author Andrew
  *
  */
 @Repository("userGroupDAO")
@@ -94,5 +106,26 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
         root.fetch(UserGroup_.users, JoinType.LEFT);
         cq.where(root.get(UserGroup_.id).in(id));
         return getEm().createQuery(cq).getSingleResult();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.UserGroupDAO#searchGroupsByCurators(java.
+     * lang.String)
+     */
+    @Override
+    public List<UserGroup> searchGroupsByCurators(String pattern) {
+        // TODO Auto-generated method stub
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+        Root<UserGroup> root = cq.from(UserGroup.class);
+        Join<UserGroup, User> joinUser = root.join(UserGroup_.users);
+        Predicate predicate = builder.like(joinUser.get(User_.lastName),
+                SEARCH_MASK + pattern + SEARCH_MASK);
+        cq.where(predicate);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
     }
 }

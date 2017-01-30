@@ -85,8 +85,6 @@
 	<!-- Enable AOP -->
 	<aop:aspectj-autoproxy />
 
-	<bean name="deleteEventsAspect" class="com.softserve.edu.schedule.aspect.DeleteEventsAspect" />
-
 	<!-- localization -->
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -108,16 +106,20 @@
 			</props>
 		</property>
 	</bean>
-	<bean id="velocityEngine"
-		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
-		<property name="velocityProperties">
-			<value>
-				resource.loader=class
-				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
-				input.encoding=UTF-8
-				output.encoding=UTF-8
-			</value>
-		</property>
+
+	<!-- THYMELEAF configuration -->
+	<bean id="templateResolver"
+		class="org.thymeleaf.templateresolver.ClassLoaderTemplateResolver">
+		<property name="prefix" value="/thymeleaf/" />
+		<property name="suffix" value=".html" />
+		<property name="templateMode" value="HTML" />
+		<property name="characterEncoding" value="UTF-8" />
+		<property name="cacheable" value="false" />
+	</bean>
+
+	<bean id="templateEngine" class="org.thymeleaf.spring4.SpringTemplateEngine">
+		<property name="templateResolver" ref="templateResolver" />
+		<property name="enableSpringELCompiler" value="false" />
 	</bean>
 
 </beans>

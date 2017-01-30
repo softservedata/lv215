@@ -4,6 +4,9 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softserve.edu.schedule.service.implementation.validators.LocationValidator;
+import com.softserve.edu.schedule.service.implementation.validators.ValidationFields;
+
 /**
  * A DTO class to transport location data.
  *
@@ -13,110 +16,108 @@ import java.util.List;
  *
  * @since 1.8
  */
+@LocationValidator(id = ValidationFields.ID, name = ValidationFields.NAME, address = ValidationFields.ADDRESS)
 public class LocationDTO {
 
-    /**
-     * Id for database.
-     */
-    private Long id;
+	/**
+	 * Id for database.
+	 */
+	private Long id;
 
-    /**
-     * Location name.
-     */
-    private String name;
+	/**
+	 * Location name.
+	 */
 
-    /**
-     * Location address.
-     */
-    private String address;
+	private String name;
 
-    /**
-     * Location coordinates.
-     */
-    private String coordinates;
+	/**
+	 * Location address.
+	 */
+	private String address;
 
-    /**
-     * Field for storage list of rooms of the location.
-     */
-    private List<RoomForLocationDTO> rooms = new ArrayList<>();
+	/**
+	 * Location coordinates.
+	 */
+	private String coordinates;
 
-    /**
-     * @return the id
-     */
-    public Long getId() {
-        return id;
-    }
+	/**
+	 * Field for storage list of rooms of the location.
+	 */
+	private List<RoomForLocationDTO> rooms = new ArrayList<>();
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * @return the address
-     */
-    public String getAddress() {
-        return address;
-    }
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @return the coordinates
-     */
-    public String getCoordinates() {
-        return coordinates;
-    }
+	/**
+	 * @return the address
+	 */
+	public String getAddress() {
+		return address;
+	}
 
-    /**
-     * @return the rooms
-     */
-    public List<RoomForLocationDTO> getRooms() {
-        return rooms;
-    }
+	/**
+	 * @return the coordinates
+	 */
+	public String getCoordinates() {
+		return coordinates;
+	}
 
-    /**
-     * @param id
-     *            the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
+	/**
+	 * @return the rooms
+	 */
+	public List<RoomForLocationDTO> getRooms() {
+		return rooms;
+	}
 
-    /**
-     * @param name
-     *            the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+	/**
+	 * @param id
+	 *            the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    /**
-     * @param address
-     *            the address to set
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
+	/**
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    /**
-     * @param coordinates
-     *            the coordinates to set
-     */
-    public void setCoordinates(String coordinates) {
-        this.coordinates = coordinates;
-    }
+	/**
+	 * @param address
+	 *            the address to set
+	 */
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
-    /**
-     * @param rooms
-     *            the rooms to set
-     */
-    public void setRooms(List<RoomForLocationDTO> rooms) {
-        if (rooms == null) {
-            this.rooms = new ArrayList<>();
-        } else {
-            this.rooms = rooms;
-        }
-    }
+	/**
+	 * @param coordinates
+	 *            the coordinates to set
+	 */
+	public void setCoordinates(String coordinates) {
+		this.coordinates = coordinates;
+	}
+
+	/**
+	 * @param rooms
+	 *            the rooms to set
+	 */
+	public void setRooms(List<RoomForLocationDTO> rooms) {
+		this.rooms = rooms;
+	}
 
 }
