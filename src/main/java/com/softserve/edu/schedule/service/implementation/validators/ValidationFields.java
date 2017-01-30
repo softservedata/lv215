@@ -12,88 +12,90 @@ package com.softserve.edu.schedule.service.implementation.validators;
  */
 public interface ValidationFields {
 
-	/**
-	 * Id field.
-	 */
-	String ID = "id";
+    /**
+     * Id field.
+     */
+    String ID = "id";
 
-	/**
-	 * Name field.
-	 */
-	String NAME = "name";
+    /**
+     * Name field.
+     */
+    String NAME = "name";
 
-	/**
-	 * Capacity field.
-	 */
-	String CAPACITY = "capacity";
+    /**
+     * Capacity field.
+     */
+    String CAPACITY = "capacity";
 
-	/**
-	 * Location field.
-	 */
-	String LOCATION = "location";
+    /**
+     * Location field.
+     */
+    String LOCATION = "location";
 
-	/**
-	 * FirstName field.
-	 */
-	String FIRSTNAME = "firstName";
+    /**
+     * FirstName field.
+     */
+    String FIRSTNAME = "firstName";
 
-	/**
-	 * LastName field.
-	 */
-	String LASTNAME = "lastName";
+    /**
+     * LastName field.
+     */
+    String LASTNAME = "lastName";
 
-	/**
-	 * Mail field.
-	 */
-	String MAIL = "mail";
+    /**
+     * Mail field.
+     */
+    String MAIL = "mail";
 
-	/**
-	 * Phone field.
-	 */
-	String PHONE = "phone";
+    /**
+     * Phone field.
+     */
+    String PHONE = "phone";
 
-	/**
-	 * Position field.
-	 */
-	String POSITION = "position";
+    /**
+     * Position field.
+     */
+    String POSITION = "position";
 
-	/**
-	 * Password field.
-	 */
-	String PASSWORD = "password";
+    /**
+     * Password field.
+     */
+    String PASSWORD = "password";
 
-	/**
-	 * Description field.
-	 */
-	String DESCRIPTION = "description";
+    /**
+     * Description field.
+     */
+    String DESCRIPTION = "description";
 
-	/**
-	 * Level field.
-	 */
-	String LEVEL = "level";
+    /**
+     * Level field.
+     */
+    String LEVEL = "level";
 
-	/**
-	 * Subject users field.
-	 */
-	String USERS = "users";
+    /**
+     * Subject users field.
+     */
+    String USERS = "users";
 
-	/**
-	 * Address field.
-	 */
-	String ADDRESS = "address";
-	
-	/**
-	 * Date for the meeting.
-	 */
-	String DATE = "date";
-	/**
-	 * Start time of the meeting.
-	 */
-	String STARTTIME = "start time";
-	/**
-	 * End time of the meeting.
-	 */
-	String ENDTIME = "end time";
-	
-	String GROUPS = "groups";
+    /**
+     * Address field.
+     */
+    String ADDRESS = "address";
+
+    /**
+     * Date for the meeting.
+     */
+    String DATE = "date";
+    /**
+     * Start time of the meeting.
+     */
+    String STARTTIME = "startTime";
+    /**
+     * End time of the meeting.
+     */
+    String ENDTIME = "endTime";
+
+    String GROUPS = "groups";
+
+    String SUBJECT = "subject";
 }

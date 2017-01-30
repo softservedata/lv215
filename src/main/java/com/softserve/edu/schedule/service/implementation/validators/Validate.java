@@ -21,7 +21,8 @@ import javax.validation.Payload;
  */
 @Target({TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = {RoomValidator.class, SubjectValidator.class})
+@Constraint(validatedBy = {RoomValidator.class, SubjectValidator.class,
+        MeetingValidator.class})
 public @interface Validate {
 
     String message() default "";

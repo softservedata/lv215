@@ -35,6 +35,7 @@
 					<label for="description">Description</label>
 					<form:input type="text" class="form-control" path="description"
 						id="description" placeholder="Description" required="true" />
+					<form:errors path="description" class="text-danger"/>
 				</div>
 
 				<div class="form-group">
@@ -51,6 +52,7 @@
 							</c:choose>
 						</c:forEach>
 					</form:select>
+					<form:errors path="subject" class="text-danger"/>
 				</div>
 				<div class="form-group">
 					<label for="owner">Owner</label>
@@ -88,16 +90,19 @@
 					<label for="date">Date</label>
 					<form:input type="date" path="date" id="date"
 						placeholder="YYYY-MM-DD" required="true" />
+					<form:errors path="date" class="text-danger"/>
 				</div>
 				<div class="form-group">
 					<label for="startTime">Start time</label>
 					<form:input type="time" path="startTime" id="startTime"
 						placeholder="HH:MM" required="true" />
+					<form:errors path="startTime" class="text-danger"/>
 				</div>
 				<div class="form-group">
 					<label for="endTime">End time</label>
 					<form:input type="time" path="endTime" id="endTime"
 						placeholder="HH:MM" required="true" />
+					<form:errors path="endTime" class="text-danger"/>
 				</div>
 				<div class="form-group">
 					<label for="groups">Groups</label>
@@ -118,12 +123,14 @@
 							</c:if>
 						</c:forEach>
 					</form:select>
+					<form:errors path="groups" class="text-danger"/>
 				</div>
 				<div class="form-group">
 					<label for="level">Level</label>
 					<form:input type="number" min="1" max="5" step="1"
 						class="form-control" path="level" id="level" placeholder="Level"
 						required="true" />
+					<form:errors path="level" class="text-danger"/>
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
