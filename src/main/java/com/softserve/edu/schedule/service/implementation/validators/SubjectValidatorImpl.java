@@ -31,21 +31,6 @@ public class SubjectValidatorImpl
         implements ConstraintValidator<SubjectValidator, Object> {
 
     /**
-     * A input parameter name.
-     */
-    private String name;
-
-    /**
-     * A input parameter description.
-     */
-    private String description;
-
-    /**
-     * A input parameter users.
-     */
-    private String users;
-
-    /**
      * Messages source for internationalization purposes.
      */
     @Autowired
@@ -67,9 +52,7 @@ public class SubjectValidatorImpl
      */
     @Override
     public void initialize(final SubjectValidator constraintAnnotation) {
-        name = constraintAnnotation.name();
-        description = constraintAnnotation.description();
-        users = constraintAnnotation.users();
+        
     }
 
     /**
@@ -99,29 +82,20 @@ public class SubjectValidatorImpl
     /**
      * Check curent subject name for duplicates.
      * 
-     * @param idObj
-     * @param nameObj
+     * @param SubjectDTO
      * @return true if no duplicate in subjects list
      */
     private boolean isOriginName(SubjectDTO subjectDTO) {
         List<SubjectDTO> duplicates = subjectService
                 .getSubjectByName(subjectDTO.getName().trim());
-/*        if (!duplicates.isEmpty()) {
-            if (duplicates.stream()
-                    .anyMatch(s -> s.getId().equals(subjectDTO.getId()))) {
-                return true;
-            }
-            return false;
-        }*/
         return duplicates.isEmpty() || duplicates.stream()
-        .anyMatch(s -> s.getId().equals(subjectDTO.getId()));
+                .anyMatch(s -> s.getId().equals(subjectDTO.getId()));
     }
 
     /**
      * Checks subjectDTO users to be selected.
      * 
-     * @param usersObj
-     *            an array of users to be checked.
+     * @param SubjectDTO
      * 
      * @return true if users are selected
      */
@@ -132,8 +106,7 @@ public class SubjectValidatorImpl
     /**
      * Checks the given subjectDTO description contains only allowed characters.
      * 
-     * @param description
-     *            a SubjectDTO description to be checked.
+     * @param SubjectDTO
      * 
      * @return true if description is valid
      */
@@ -145,8 +118,7 @@ public class SubjectValidatorImpl
     /**
      * Checks the given subjectDTO name contains only allowed characters.
      * 
-     * @param name
-     *            a SubjectDTO name to be checked.
+     * @param SubjectDTO
      * 
      * @return true if name is valid
      */
@@ -183,21 +155,22 @@ public class SubjectValidatorImpl
             boolean validMultiselect, boolean noDuplicate,
             ConstraintValidatorContext context) {
         if (!validName) {
-            errorMessage(name,
+            errorMessage(ValidationFields.NAME,
                     ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD,
                     context);
         }
         if (!validDescription) {
-            errorMessage(description,
+            errorMessage(ValidationFields.DESCRIPTION,
                     ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD,
                     context);
         }
         if (!validMultiselect) {
-            errorMessage(users, ValidationMessages.INVALID_SUBJECT_TUTOR_COUNT,
+            errorMessage(ValidationFields.USERS, ValidationMessages.INVALID_SUBJECT_TUTOR_COUNT,
                     context);
         }
         if (!noDuplicate) {
-            errorMessage(name, ValidationMessages.DUPLICATE_SUBJECT, context);
+            errorMessage(ValidationFields.NAME,
+                    ValidationMessages.DUPLICATE_SUBJECT, context);
         }
     }
 }

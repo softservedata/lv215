@@ -36,10 +36,4 @@ public @interface SubjectValidator {
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    String name();
-
-    String description();
-    
-    String users();
 }
