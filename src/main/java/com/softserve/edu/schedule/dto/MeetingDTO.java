@@ -1,13 +1,14 @@
 package com.softserve.edu.schedule.dto;
 
 import java.time.LocalDate;
-
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.softserve.edu.schedule.entity.MeetingStatus;
+import com.softserve.edu.schedule.service.implementation.validators.Validate;
 
+@Validate
 public class MeetingDTO {
 
     /**

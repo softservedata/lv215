@@ -96,4 +96,11 @@ public interface ValidationMessages {
 	 * Duplicate location.
 	 */
 	String DUPLICATE_LOCATION = "vm.dublicateLocation";
+	
+	
+	String INVALID_DATE = "vm.invalidDate";
+	
+	String INVALID_MEETING_GROUPS_COUNT = "vm.invalidMeetingGroup";
+	
+	String DUPLICATE_MEETING = "vm.duplicateMeeting";
 }

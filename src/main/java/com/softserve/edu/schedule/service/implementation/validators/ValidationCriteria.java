@@ -59,7 +59,7 @@ public interface ValidationCriteria {
 	 * Allowed characters for description expression.
 	 */
 	String PATTERN_FOR_SUBJECT_DESCRIPTION = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=\\.\\,\\s\\-]{1,1000}$";
-
+	
 	/**
 	 * Array size comparator.
 	 */
@@ -74,4 +74,11 @@ public interface ValidationCriteria {
 	 * Allowed characters for name expression.
 	 */
 	String PATTERN_FOR_LOCATION_ADDRESS = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'\\.\\,\\s\\-]{10,254}$";
+	
+	/**
+	 * Allowed characters for Meeting description expression.
+	 */
+	String PATTERN_FOR_MEETING_DESCRIPTION = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=\\.\\,\\s\\-]{1,1000}$";
+	
+	
 }
