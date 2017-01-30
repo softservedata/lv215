@@ -16,15 +16,15 @@
 <h3 class="text-center">Meetings</h3>
 <table class="table table-hover meetingsTable">
 	<tr>
-
-		<th style="width: 15%">Description <br> <a
+		<th style="width: 3%">ID <br></th>
+		<!-- <th style="width: 15%">Description <br> <a
 			href="meetings?fieldForSorting=0&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=0&sortOrder=1&pageNumber=0"
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
 		</a>
-		</th>
+		</th> -->
 		<th class="allInnerForms1">Subject <br> <a
 			href="meetings?fieldForSorting=1&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
@@ -58,7 +58,7 @@
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
 		</a>
 		</th>
-		<th>StartTime <br><!--  <a
+		<th>StartTime <br> <!--  <a
 			href="meetings?fieldForSorting=5&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=5&sortOrder=1&pageNumber=0"
@@ -66,7 +66,7 @@
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
 		</a> -->
 		</th>
-		<th>EndTime <br><!--  <a
+		<th>EndTime <br> <!--  <a
 			href="meetings?fieldForSorting=6&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=6&sortOrder=1&pageNumber=0"
@@ -117,13 +117,20 @@
 			modelAttribute="meetingFilter">
 			<form:input path="showFilter" type="hidden" value="true" />
 
-			<!-- description -->
+			<!-- ID -->
+			<td style="width: 100%">
+				<div class="form-group">
+					<form:input class="form-control input-sm allInnerForms" type="text"
+						path="description" placeholder="ID" />
+				</div>
+			</td>
+			<%-- <!-- description -->
 			<td style="width: 15%">
 				<div class="form-group">
 					<form:input class="form-control input-sm allInnerForms" type="text"
 						path="description" placeholder="meetingDescription" />
 				</div>
-			</td>
+			</td> --%>
 			<!-- subject -->
 			<td>
 				<div class="form-group allInnerForms1">
@@ -241,8 +248,7 @@
 			<!-- Status -->
 			<td>
 				<div class="form-group ">
-					<form:select class="form-control" path="status"
-						id="status">
+					<form:select class="form-control" path="status" id="status">
 						<option value="-1"></option>
 						<c:forEach items="${meetingStatuses}" var="status">
 							<c:choose>
@@ -274,10 +280,10 @@
 
 	<c:forEach var="meeting" items="${meetings}">
 		<tr>
-
-			<td>${meeting.description}</td>
+			<td>${meeting.id}</td>
+			<%-- <td>${meeting.description}</td> --%>
 			<td>${meeting.subject.name}</td>
-			<td>${meeting.owner.lastName}${meeting.owner.firstName}</td>
+			<td>${meeting.owner.lastName} ${meeting.owner.firstName}</td>
 			<td>${meeting.room.name}</td>
 			<td>${meeting.date}</td>
 			<td>${meeting.startTime}</td>
