@@ -6,9 +6,12 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.constraints.Size;
+
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.implementation.validators.MeetingValidator;
 import com.softserve.edu.schedule.service.implementation.validators.SubjectValidator;
+
 
 public class MeetingDTO {
 
@@ -60,11 +63,13 @@ public class MeetingDTO {
     /**
      * Level of the meeting. The higher the value - the more important meeting.
      */
+    @Size(min=1)
     private Integer level;
 
     /**
      * Description of the meeting.
      */
+  
     private String description;
 
     /**
