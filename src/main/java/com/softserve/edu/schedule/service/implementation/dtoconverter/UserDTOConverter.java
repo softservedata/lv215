@@ -69,10 +69,14 @@ public class UserDTOConverter {
         user.setPhone(userDTO.getPhone());
 
         user.setPosition(userDTO.getPosition());
-
-        user.setStatus(userDTO.getStatus());
-
-        user.setRole(userDTO.getRole());
+        
+        if (userDTO.getStatus() != null) {
+            user.setStatus(userDTO.getStatus());
+        }
+        
+        if (userDTO.getRole() != null) {
+            user.setRole(userDTO.getRole());
+        }
 
         userDTO.getSubjects().forEach(
                 e -> user.getSubjects().add(subjectDAO.getById(e.getId())));
@@ -109,10 +113,14 @@ public class UserDTOConverter {
         userDTO.setPhone(user.getPhone());
 
         userDTO.setPosition(user.getPosition());
-
-        userDTO.setStatus(user.getStatus());
-
-        userDTO.setRole(user.getRole());
+        
+        if (user.getStatus() != null) {
+            userDTO.setStatus(user.getStatus());
+        }
+        
+        if (user.getRole() != null) {
+            userDTO.setRole(user.getRole());
+        }
 
         user.getSubjects().forEach(e -> userDTO.getSubjects()
                 .add(subjectFUDTOConverter.getDTO(e)));

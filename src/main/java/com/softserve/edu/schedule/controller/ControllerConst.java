@@ -171,16 +171,9 @@ public interface ControllerConst {
 
         String DELETE_USER_MAPPING = "/users/delete/";
 
-        // String EDIT_USER_MAPPING = "/users/edit/";
+        String UPDATE_USER_MAPPING = "update";
 
-        String UPDATE_USER_MAPPING = "updateUser";
-
-        String SAVE_UPDATED_USER_MAPPING = "updateUser/saveUpdatedUser/";
-
-        // String UPDATE_POSITION_MAPPING = "/updateUserPosition/";
-
-        // String SAVE_UPDATED_POSITION_MAPPING =
-        // "/users/edit/updateUserPosition/saveUpdatedUserPosition/";
+        String SAVE_UPDATED_USER_MAPPING = "update/saveUpdatedUser/";
 
         String BAN_USER_MAPPING = "/users/banUser/";
 
@@ -216,15 +209,21 @@ public interface ControllerConst {
 
         String USERS_PAGE_URL = "users/users";
 
-        // String EDIT_PAGE_URL = "users/users/edit";
-
         String UPDATE_PAGE_URL = "users/users/updateUser";
-
-        String UPDATE_POSITION_PAGE_URL = "users/users/updateUserPosition";
 
         String CHANGE_ROLE_PAGE_URL = "users/users/changeRole";
 
         String DELETE_USER_URL = "users/users/delete";
+        
+        String USER_PROFILE_MAPPING = "profile";
+                
+        String USER_PROFILE_URL = "users/users/profile";
+        
+        String CHANGE_PASSWORD_MAPPING = "changePassword";
+        
+        String SAVE_CHANGED_PASSWORD_MAPPING = "changePassword/saveChangePassword";
+        
+        String CHANGE_PASSWORD_URL = "users/users/changePassword";
     }
 
     /**
