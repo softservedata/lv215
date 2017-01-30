@@ -13,10 +13,12 @@
 		$("select[name=status]").chosen({width : "100%"});
 	})
 </script>
-<h3 class="text-center">Meetings</h3>
+<h3 class="text-center">
+	<spring:message code="lbl.meeting.all" />
+</h3>
 <table class="table table-hover meetingsTable">
 	<tr>
-		<th style="width: 3%">ID <br></th>
+		<th style="width: 3%"><spring:message code="lbl.meeting.id" /> <br></th>
 		<!-- <th style="width: 15%">Description <br> <a
 			href="meetings?fieldForSorting=0&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
@@ -25,57 +27,56 @@
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
 		</a>
 		</th> -->
-		<th class="allInnerForms1">Subject <br> <a
+		<th class="allInnerForms1"><spring:message
+				code="lbl.meeting.subject" /> <br> <a
 			href="meetings?fieldForSorting=1&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=1&sortOrder=1&pageNumber=0"
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
-		</a>
-		</th>
-		<th class="allInnerForms1">Owner <br> <a
+		</a></th>
+		<th class="allInnerForms1"><spring:message
+				code="lbl.meeting.owner" /> <br> <a
 			href="meetings?fieldForSorting=2&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=2&sortOrder=1&pageNumber=0"
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
-		</a>
-		</th>
+		</a></th>
 
-		<th class="allInnerForms1">Room <br> <a
+		<th class="allInnerForms1"><spring:message
+				code="lbl.meeting.room" /> <br> <a
 			href="meetings?fieldForSorting=3&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=3&sortOrder=1&pageNumber=0"
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
-		</a>
-		</th>
-		<th class="allInnerForms2">Date <br> <a
+		</a></th>
+		<th class="allInnerForms2"><spring:message
+				code="lbl.meeting.date" /> <br> <a
 			href="meetings?fieldForSorting=4&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=4&sortOrder=1&pageNumber=0"
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
-		</a>
-		</th>
-		<th>StartTime <br> <!--  <a
+		</a></th>
+		<th><spring:message code="lbl.meeting.starttime" /><br> <!--  <a
 			href="meetings?fieldForSorting=5&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=5&sortOrder=1&pageNumber=0"
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
-		</a> -->
-		</th>
-		<th>EndTime <br> <!--  <a
+		</a> --></th>
+		<th><spring:message code="lbl.meeting.endtime" /><br> <!--  <a
 			href="meetings?fieldForSorting=6&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=6&sortOrder=1&pageNumber=0"
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
-		</a> -->
-		</th>
-		<th class="allInnerForms1">Groups</th>
-		<th>Level <br> <a
+		</a> --></th>
+		<th class="allInnerForms1"><spring:message
+				code="lbl.meeting.groups" /></th>
+		<th><spring:message code="lbl.meeting.level" /> <br> <a
 			href="meetings?fieldForSorting=7&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=7&sortOrder=1&pageNumber=0"
@@ -83,7 +84,7 @@
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
 		</a>
 		</th>
-		<th>Status <br> <a
+		<th><spring:message code="lbl.meeting.status" /> <br> <a
 			href="meetings?fieldForSorting=8&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=8&sortOrder=1&pageNumber=0"
@@ -283,7 +284,7 @@
 			<td>${meeting.id}</td>
 			<%-- <td>${meeting.description}</td> --%>
 			<td>${meeting.subject.name}</td>
-			<td>${meeting.owner.lastName} ${meeting.owner.firstName}</td>
+			<td>${meeting.owner.lastName}${meeting.owner.firstName}</td>
 			<td>${meeting.room.name}</td>
 			<td>${meeting.date}</td>
 			<td>${meeting.startTime}</td>
