@@ -1,11 +1,5 @@
+/* RoomValidator 1.0 01/29/2017 */
 package com.softserve.edu.schedule.service.implementation.validators;
-
-/*
- * SubjectValidator.java
- * 1.0
- * 27 Jan 2017
- * Copyright (c) Bohdan Melnyk.
- */
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -17,22 +11,23 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * A validator to check SubjectDTO input param.
+ * The validator annotation for checking input data.
+ * 
+ * @version 1.0 29 January 2017
  *
- * @version 1.0 27 January 2017
- *
- * @author Bohdan Melnyk
+ * @author Petro Zelyonka
  *
  * @since 1.8
  */
-@Target(TYPE)
+@Target({TYPE})
 @Retention(RUNTIME)
-@Constraint(validatedBy = MeetingValidatorImpl.class)
-public @interface MeetingValidator {
+@Constraint(validatedBy = {RoomValidator.class, SubjectValidator.class})
+public @interface Validate {
 
     String message() default "";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
+
 }

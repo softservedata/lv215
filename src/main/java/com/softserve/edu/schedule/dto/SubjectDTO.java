@@ -9,7 +9,7 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.softserve.edu.schedule.service.implementation.validators.SubjectValidator;
+import com.softserve.edu.schedule.service.implementation.validators.Validate;
 
 /**
  * A DTO class to transport subject data.
@@ -20,7 +20,7 @@ import com.softserve.edu.schedule.service.implementation.validators.SubjectValid
  *
  * @since 1.8
  */
-@SubjectValidator
+@Validate
 public class SubjectDTO {
 
     /**
