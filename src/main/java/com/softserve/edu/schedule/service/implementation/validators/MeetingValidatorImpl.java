@@ -83,9 +83,9 @@ public class MeetingValidatorImpl implements ConstraintValidator<MeetingValidato
 		printErrorMessages(isValidDescription, isValidDate, isValidDateToCompareCurrentDate, isValidStartTime,
 				isValidEndTime, isValidEndTimeToCompareStartTime, isValidMultiselectGroups,
 				isValidLevel, isOriginMeeting, context);
-		return (isValidDescription);/* && isValidDate && isValidDateToCompareCurrentDate && isValidStartTime &&
+		return (isValidDescription && isValidDate && isValidDateToCompareCurrentDate && isValidStartTime &&
 				isValidEndTime && isValidEndTimeToCompareStartTime && isValidMultiselectGroups && isValidLevel
-				&& isOriginMeeting*/
+				&& isOriginMeeting);
 	}
 
 	/**
@@ -192,7 +192,7 @@ public class MeetingValidatorImpl implements ConstraintValidator<MeetingValidato
 			errorMessage(ValidationFields.GROUPS, ValidationMessages.INVALID_SUBJECT_TUTOR_COUNT, context);
 		}
 		if (!isOriginMeeting) {
-			errorMessage(ValidationFields.NAME, ValidationMessages.DUPLICATE_SUBJECT, context);
+			errorMessage(ValidationFields.NAME, ValidationMessages.DUPLICATE_MEETING, context);
 		}
 	}
 }
