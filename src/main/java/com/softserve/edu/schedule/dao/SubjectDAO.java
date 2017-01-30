@@ -23,19 +23,20 @@ import com.softserve.edu.schedule.entity.Subject;
 public interface SubjectDAO extends CrudDAO<Subject> {
 
     /**
-     * Return a List of searched tutors.
-     *
-     * @return List of searched tutors
-     */
-    public List<Subject> searchSubjectsByTutor(final String pattern);
-
-    /**
      * Return a searched Subject.
      *
      * @return searched Subject
      */
     public List<Subject> getSubjectByName(final String subjectName);
 
+    /**
+     * Find all subjects entities in the database with applied filter
+     * 
+     * @param subjectFilter
+     *            a filter to apply.
+     * 
+     * @return List of the subject objects.
+     */
     public List<Subject> getSubjectsPageWithFilter(
             final SubjectFilter subjectFilter,
             final Paginator subjectPaginator);

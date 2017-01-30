@@ -1,5 +1,5 @@
 /*
- * SubjectServiceImpl.java
+ * SubjectController.java
  * 1.0
  * 24 Jan 2017
  * Copyright (c) Ped'ko Volodymyr
@@ -95,6 +95,10 @@ public class SubjectController
      * 
      * @param model
      *            subjects list page model
+     * @param filter
+     *            the subject filtter to set
+     * @param paginator
+     *            the paginator to set
      * @return subjects list page URL
      */
     @RequestMapping(SUBJECTS_MAPPING)

@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
@@ -23,7 +22,6 @@ import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Subject;
-import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.SubjectDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSubjectDTOConverter;
@@ -155,80 +153,14 @@ public class SubjectServiceImpl implements SubjectService {
     }
 
     /**
-     * Return a List of searched SubjectDTO objects.
-     *
-     * @param pattern
-     *            - input string
-     * @return List of searched SubjectDTO transfer objects
+     * Find all subjects entities in the database with applied filter
+     * 
+     * @param subjectFilter
+     *            a filter to apply.
+     * @param subjectPaginator
+     *            the subjectPaginator to set
+     * @return List of the subject DTO objects.
      */
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubjectDTO> searchByName(final String pattern) {
-        return subjectDao.search(Subject_.name.getName(), pattern).stream()
-                .map(s -> subjectDTOConverter.getDTO(s))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Return a List of searched SubjectDTO objects.
-     *
-     * @param pattern
-     *            - input string
-     * @return List of searched SubjectDTO objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubjectDTO> searchByDescription(final String pattern) {
-        return subjectDao.search(Subject_.description.getName(), pattern)
-                .stream().map(s -> subjectDTOConverter.getDTO(s))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Return a List of searched SubjectDTO objects containing some tutor.
-     *
-     * @param pattern
-     *            - input string
-     * @return List of searched SubjectDTO objects containing some tutor
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubjectDTO> searchByTutors(final String pattern) {
-        return subjectDao.searchSubjectsByTutor(pattern).stream()
-                .map(s -> subjectDTOConverter.getDTO(s))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Return a sorted by name List of SubjectDTO objects.
-     *
-     * @param order
-     *            - order of sort
-     * @return a sorted by name List of SubjectDTO objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubjectDTO> sortByName(final Order order) {
-        return subjectDao.sort(Subject_.name.getName(), order).stream()
-                .map(s -> subjectDTOConverter.getDTO(s))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Return a sorted by description List of SubjectDTO objects.
-     *
-     * @param order
-     *            - order of sort
-     * @return a sorted by description List of SubjectDTO objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubjectDTO> sortByDescription(final Order order) {
-        return subjectDao.sort(Subject_.description.getName(), order).stream()
-                .map(s -> subjectDTOConverter.getDTO(s))
-                .collect(Collectors.toList());
-    }
-
     @Override
     @Transactional(readOnly = true)
     public List<SubjectDTO> getSubjectsPageWithFilter(
