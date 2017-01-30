@@ -3,11 +3,10 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import com.softserve.edu.schedule.service.implementation.validators.UserGroupValidator;
+import com.softserve.edu.schedule.service.implementation.validators.ValidationFields;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
+@UserGroupValidator(min = 5, max = 20, id = ValidationFields.ID, name = ValidationFields.NAME, description = ValidationFields.DESCRIPTION, level = ValidationFields.LEVEL)
 public class UserGroupDTO {
 
 	private Long id;
@@ -15,19 +14,16 @@ public class UserGroupDTO {
 	/**
 	 * User group name.
 	 */
-	@Size(min = 5, max = 20, message = "Length should be between 5 and 20")
 	private String name;
 
 	/**
 	 * User group description.
 	 */
-	@NotEmpty(message = "Please enter group description.")
 	private String description;
 
 	/**
 	 * Level of the group. The higher the value - the more important group.
 	 */
-	@NotNull(message = "Please enter level.")
 	private Integer level;
 
 	/**

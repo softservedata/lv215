@@ -256,9 +256,16 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 * @return URL of a page that shows all UserGroups
 	 */
 	@RequestMapping(value = USERGROUP_EDIT_MAPPING, method = RequestMethod.POST)
-	public String update(@ModelAttribute(USERGROUP_MODEL_ATTR) final UserGroupDTO userGroupDTO) {
-		userGroupService.addUserToGroup(userGroupDTO.getCurator(), userGroupDTO);
-		userGroupService.update(userGroupDTO);
+	public String update(@ModelAttribute(USERGROUP_MODEL_ATTR) @Valid final UserGroupDTO userGroupDTO,
+			BindingResult result, Model model) {
+		if (result.hasErrors()) {
+			model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAll());
+			model.addAttribute(USERGROUP_ALL_USERS_ATTR, userService.getAll());
+			return USERGROUP_EDIT_URL;
+		} else {
+			userGroupService.addUserToGroup(userGroupDTO.getCurator(), userGroupDTO);
+			userGroupService.update(userGroupDTO);
+		}
 
 		return USERGROUP_REDIRECT_URL;
 	}

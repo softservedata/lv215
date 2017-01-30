@@ -1,3 +1,4 @@
+/* GlobalExceptionController 1.0 01/29/2017 */
 package com.softserve.edu.schedule.controller;
 
 import org.slf4j.Logger;
@@ -7,22 +8,45 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+/**
+ * A controller class for global exception handling.
+ *
+ * @version 1.0 29 January 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
 @ControllerAdvice
-public class GlobalExceptionController {
+public class GlobalExceptionController implements ControllerConst {
 
+    /**
+     * Logger example to provide logging of exceptions.
+     */
     private Logger log = LoggerFactory
             .getLogger(GlobalExceptionController.class);
 
+    /**
+     * Controls global exception handling.
+     *
+     * @param model
+     *            errors page view model.
+     * 
+     * @param ex
+     *            handled exception
+     * 
+     * @return errors page URL
+     */
     @ExceptionHandler(Exception.class)
-    @RequestMapping("/")
+    @RequestMapping(ROOT_URL)
     public String showErrorPage(final Model model, Exception ex) {
-        log.error("We have caught exception: " + ex.getMessage(), ex);
-        model.addAttribute("exception", ex);
+        log.error(ex.getMessage(), ex);
+        model.addAttribute(EXCEPTION_MODEL_ATTR, ex);
         System.out.println(ex.getClass());
         System.out.println(ex.getMessage());
         System.out.println(ex.getCause());
         System.out.println(ex.toString());
-        return "error";
+        return ERROR_PAGE_URL;
     }
 
 }
