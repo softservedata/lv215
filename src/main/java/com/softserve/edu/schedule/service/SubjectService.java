@@ -11,6 +11,8 @@ import java.util.List;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 
 /**
  * A simple service interface to handle the operation required to manipulate an
@@ -53,13 +55,13 @@ public interface SubjectService {
      * @return List of SubjectDTO objects
      */
     public List<SubjectDTO> getAll();
-    
+
     /**
      * Get all UserForSubjectDTO.
      *
      * @return List of the UserForSubjectDTO objects for SubjectDTO.
      */
-    public List<UserForSubjectDTO> getAllUserForSubjectDTO(); 
+    public List<UserForSubjectDTO> getAllUserForSubjectDTO();
 
     /**
      * Delete existed Subject from the database by id.
@@ -77,7 +79,7 @@ public interface SubjectService {
      * @return List of searched SubjectDTO transfer objects
      */
     public List<SubjectDTO> searchByName(final String pattern);
-    
+
     /**
      * Return a searched SubjectDTO.
      *
@@ -120,5 +122,9 @@ public interface SubjectService {
      * @return a sorted by description List of SubjectDTO objects
      */
     public List<SubjectDTO> sortByDescription(final Order order);
+
+    List<SubjectDTO> getSubjectsPageWithFilter(
+            final SubjectFilter subjectFilter,
+            final Paginator subjectPaginator);
 
 }

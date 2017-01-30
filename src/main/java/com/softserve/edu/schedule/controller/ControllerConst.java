@@ -463,6 +463,16 @@ public interface ControllerConst {
 		 * Subject form model attribute name.
 		 */
 		String SUBJECT_FORM_MODEL_ATTR = "subjectForm";
+		
+	     /**
+         * Filter model attribute name.
+         */
+        String FILTER_MODEL_ATTR = "subjectFilter";
+        
+        /**
+         * Filter model attribute name.
+         */
+        String SUBJECT_PAGINATOR_MODEL_ATTR = "subjectPaginator";
 
 		/**
 		 * Subjects model attribute name.

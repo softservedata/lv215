@@ -15,13 +15,18 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.SubjectDAO;
+import com.softserve.edu.schedule.dao.UserDAO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.User_;
+import com.softserve.edu.schedule.service.implementation.specification.SubjectFilterSpecification;
 
 /**
  * A SubjectDAO implementation to handle the database operation (CRUD).
@@ -32,6 +37,9 @@ import com.softserve.edu.schedule.entity.User_;
  */
 @Repository
 public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
+
+    @Autowired
+    UserDAO userDao;
 
     /**
      * Overridden default constructor to provide entity class for DAO.
@@ -72,5 +80,25 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         root.fetch(Subject_.users, JoinType.LEFT);
         cq.where(builder.like(root.get(Subject_.name), subjectName));
         return getEm().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Subject> getSubjectsPageWithFilter(SubjectFilter subjectFilter,
+            Paginator subjectPaginator) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Subject> criteriaQuery = builder
+                .createQuery(Subject.class);
+        Root<Subject> root = criteriaQuery.from(Subject.class);
+        Predicate predicate = new SubjectFilterSpecification(subjectFilter,
+                userDao).toPredicate(root, criteriaQuery, builder);
+        if (predicate != null) {
+            criteriaQuery.where(predicate);
+        }
+        criteriaQuery.distinct(true);
+        subjectPaginator.setPagesCount(
+                getEm().createQuery(criteriaQuery).getResultList().size());
+        return getEm().createQuery(criteriaQuery)
+                .setFirstResult(subjectPaginator.getOffset())
+                .setMaxResults(subjectPaginator.getPageSize()).getResultList();
     }
 }

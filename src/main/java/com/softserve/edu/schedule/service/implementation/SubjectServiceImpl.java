@@ -19,6 +19,8 @@ import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.Subject_;
@@ -224,6 +226,16 @@ public class SubjectServiceImpl implements SubjectService {
     public List<SubjectDTO> sortByDescription(final Order order) {
         return subjectDao.sort(Subject_.description.getName(), order).stream()
                 .map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<SubjectDTO> getSubjectsPageWithFilter(
+            SubjectFilter subjectFilter, Paginator subjectPaginator) {
+        return subjectDao
+                .getSubjectsPageWithFilter(subjectFilter, subjectPaginator)
+                .stream().map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }
 }

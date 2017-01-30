@@ -8,6 +8,8 @@ package com.softserve.edu.schedule.dao;
 
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.entity.Subject;
 
 /**
@@ -26,11 +28,15 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      * @return List of searched tutors
      */
     public List<Subject> searchSubjectsByTutor(final String pattern);
-    
+
     /**
      * Return a searched Subject.
      *
      * @return searched Subject
      */
     public List<Subject> getSubjectByName(final String subjectName);
+
+    public List<Subject> getSubjectsPageWithFilter(
+            final SubjectFilter subjectFilter,
+            final Paginator subjectPaginator);
 }

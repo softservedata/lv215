@@ -14,60 +14,87 @@
 		<tr>
 			<th>ID</th>
 			<th><spring:message code="lbl.subject.name" /> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_NAME_ASC_MAPPING}"
+				href="subjects?sortByField=1&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.subject.sortAsc"/>"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_NAME_DESC_MAPPING}"
+				href="subjects?sortByField=1&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.subject.sortDesc"/>"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th><spring:message code="lbl.subject.description" /> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_DESCRIPTION_ASC_MAPPING}"
+				href="subjects?sortByField=2&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.subject.sortAsc"/>"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SORT_BY_DESCRIPTION_DESC_MAPPING}"
+				href="subjects?sortByField=2&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.subject.sortDesc"/>"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th><spring:message code="lbl.subject.tutor" /> </th>
-			<th></th>
+			<th>				
+				<button class="btn btn-link" data-toggle="collapse"
+					data-target="#showfilter"
+					title="<spring:message code="lbl.room.showFilter"/>">
+					<i class="fa fa-filter fa-lg"></i>
+				</button></th>
 			<th><a
 				href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"
 				title="<spring:message code="lbl.subject.add"/>"><i
 					class="fa fa-plus fa-lg"></i></a></th>
 		</tr>
 		<tr>
+		<c:choose>
+			<c:when test="${subjectFilter.showFilter eq true}">
+				<tr class="collapse in" id="showfilter">
+			</c:when>
+			<c:otherwise>
+				<tr class="collapse" id="showfilter">
+			</c:otherwise>
+		</c:choose>
+		<form:form role="form" action="subjects" method="get"
+			modelAttribute="${SubjectController.FILTER_MODEL_ATTR}">
+			<form:input path="showFilter" type="hidden" value="true" />
 			<td></td>
-			<td><form:form method="post"
-					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SEARCH_BY_NAME_MAPPING}"
-					modelAttribute="${SubjectController.SEARCH_MODEL_ATTR}">
+			<td>
+				<div class="form-group col-xs-10">
 					<spring:message code="lbl.subject.search" var="search" />
-					<form:input path="${SubjectController.SUBJECT_PATH_NAME}"
-						placeholder=" ${search}"/>
-					<button type="submit" title="<spring:message code="lbl.subject.searchByName"/>">
-						<i class="fa fa-search"></i>
-					</button>
-				</form:form></td>
-			<td><form:form method="post"
-					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SEARCH_BY_DESCRIPTION_MAPPING}"
-					modelAttribute="${SubjectController.SEARCH_MODEL_ATTR}">
+					<form:input class="form-control input-sm" type="text" path="name"
+						placeholder="${search}" />
+				</div>
+			</td>
+			<td>
+				<div class="form-group col-xs-10">
 					<spring:message code="lbl.subject.search" var="search" />
-					<form:input path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"
-						placeholder=" ${search}" />
-					<button type="submit" title="<spring:message code="lbl.subject.searchByDescription"/>">
-						<i class="fa fa-search"></i>
-					</button>
-				</form:form></td>
-			<td><form:form method="post"
-					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_SEARCH_BY_TUTOR_MAPPING}"
-					modelAttribute="${SubjectController.SEARCH_BY_TUTOR_MODEL_ATTR}">
-					<spring:message code="lbl.subject.search" var="search" />
-					<form:input path="${SubjectController.SUBJECT_PATH_LASTNAME}"
-						placeholder=" ${search}" />
-					<button type="submit" title="<spring:message code="lbl.subject.searchByTutor"/>">
-						<i class="fa fa-search"></i>
-					</button>
-				</form:form></td>
-			<td></td>
-			<td></td>
+					<form:input class="form-control input-sm" type="text" path="description"
+						placeholder="${search}" />
+				</div>
+			</td>
+			<td>
+				<div class="form-group">
+					<form:select class="form-control" path="userId" id="userId">
+						<option value="0"></option>
+						<c:forEach items="${users}" var="user">
+							<c:choose>
+								<c:when test="${subjectFilter.userId eq user.id}">
+									<option value="${user.id}" selected="selected">${user.firstName} ${user.lastName}</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${user.id}">${user.firstName} ${user.lastName}</option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</form:select>
+				</div>
+			</td>
+			<td class="text-center v-alighn">
+				<button type="submit" class="btn btn-link"
+					title="<spring:message code="lbl.room.applyFilter"/>">
+					<i class="fa fa-check-circle-o fa-lg"></i>
+				</button>
+			</td>
+		</form:form>
+		<td class="text-center v-alighn"><a
+			href="subjects?showFilter=false&name=&description=&userId=0"
+			title="<spring:message code="lbl.room.resetFilter"/>"> <i
+				class="fa fa-ban fa-lg"></i>
+		</a></td>
 		</tr>
 		<c:forEach var="subject" items="${subjects}">
 			<tr>
@@ -89,4 +116,47 @@
 			</tr>
 		</c:forEach>
 	</table>
+<div class="row">
+	<div class="col-md-2">
+		<p><spring:message code="lbl.form.resPerPage"/></p>
+		<c:choose>
+			<c:when test="${subjectPaginator.pageSize eq 5}">
+				<a class="btn btn-primary" href="subjects?pageSize=5&pageNumber=0">5</a>
+			</c:when>
+			<c:otherwise>
+				<a class="btn btn-default" href="subjects?pageSize=5&pageNumber=0">5</a>
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${subjectPaginator.pageSize eq 10}">
+				<a class="btn btn-primary" href="subjects?pageSize=10&pageNumber=0">10</a>
+			</c:when>
+			<c:otherwise>
+				<a class="btn btn-default" href="subjects?pageSize=10&pageNumber=0">10</a>
+			</c:otherwise>
+		</c:choose>
+		<c:choose>
+			<c:when test="${subjectPaginator.pageSize eq 20}">
+				<a class="btn btn-primary" href="subjects?pageSize=20&pageNumber=0">20</a>
+			</c:when>
+			<c:otherwise>
+				<a class="btn btn-default" href="subjects?pageSize=20&pageNumber=0">20</a>
+			</c:otherwise>
+		</c:choose>	
+	</div>
+	<div class="col-md-10 text-center">	
+		<ul id="paginationList" class="pagination"></ul>	
+	</div>
 </div>
+</div>
+<script>
+ $('#paginationList').twbsPagination({
+        totalPages: ${subjectPaginator.pagesCount + 1},
+        startPage: ${subjectPaginator.pageNumber + 1},
+        visiblePages: 10,
+        initiateStartPageClick: false,        
+        onPageClick: function (event, page) {
+        	window.location = "subjects?pageNumber=" + (page-1);        	
+        }
+    });
+</script>

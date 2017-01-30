@@ -18,14 +18,18 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.editor.UserForSubjectDTOEditor;
 
 @Controller
+@SessionAttributes({ ControllerConst.SubjectControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.SubjectControllerConst.SUBJECT_PAGINATOR_MODEL_ATTR })
 public class SubjectController
         implements ControllerConst.SubjectControllerConst {
 
@@ -43,23 +47,35 @@ public class SubjectController
     private UserForSubjectDTOEditor userForSubjectDTOEditor;
 
     /**
-     * Method provides model attribute for search.
+     * Method provides model attribute for filter.
      * 
-     * @return new SubjectDTO object
+     * @return new SubjectFilter object
      */
-    @ModelAttribute(SEARCH_MODEL_ATTR)
-    public SubjectDTO getSubjectDTO() {
-        return new SubjectDTO();
+    @ModelAttribute(FILTER_MODEL_ATTR)
+    public SubjectFilter getFilter() {
+        return new SubjectFilter();
     }
 
     /**
-     * Method provides model attribute for search.
+     * Provides pagination object for rooms list page.
      * 
-     * @return new UserForSubjectDTO object
+     * @return new Paginator object.
      */
-    @ModelAttribute(SEARCH_BY_TUTOR_MODEL_ATTR)
-    public UserForSubjectDTO getUserForSubjectDTO() {
-        return new UserForSubjectDTO();
+    @ModelAttribute(SUBJECT_PAGINATOR_MODEL_ATTR)
+    public Paginator getPaginator() {
+        return new Paginator();
+    }
+
+    /**
+     * Initialize binder for filter model.
+     *
+     * @param binder
+     *            a WebDataBinder example to initialize.
+     */
+    @InitBinder(FILTER_MODEL_ATTR)
+    protected void initBinderFilter(final WebDataBinder binder) {
+        binder.registerCustomEditor(UserForSubjectDTO.class,
+                userForSubjectDTOEditor);
     }
 
     /**
@@ -82,8 +98,13 @@ public class SubjectController
      * @return subjects list page URL
      */
     @RequestMapping(SUBJECTS_MAPPING)
-    public String showSubjectPage(final Model model) {
-        model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
+    public String showSubjectPage(final Model model,
+            @ModelAttribute(FILTER_MODEL_ATTR) final SubjectFilter filter,
+            @ModelAttribute(SUBJECT_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
+        model.addAttribute(SUBJECTS_MODEL_ATTR,
+                subjectService.getSubjectsPageWithFilter(filter, paginator));
+        model.addAttribute(USERS_MODEL_ATTR,
+                subjectService.getAllUserForSubjectDTO());
         return SUBJECTS_LIST_URL;
     }
 
@@ -169,115 +190,5 @@ public class SubjectController
     public String delete(@PathVariable final Long id) {
         subjectService.deleteById(id);
         return SUBJECTS_REDIRECT_URL;
-    }
-
-    /**
-     * Method provides sorting of subject list by name in asc order.
-     * 
-     * @param model
-     *            subjects list page model
-     * @return subjects list page URL
-     */
-    @RequestMapping(SUBJECTS_SORT_BY_NAME_ASC_MAPPING)
-    public String sortByNameAsc(final Model model) {
-        model.addAttribute(SUBJECTS_MODEL_ATTR,
-                subjectService.sortByName(Order.ASC));
-        return SUBJECTS_LIST_URL;
-    }
-
-    /**
-     * Method provides sorting of subject list by name in desc order.
-     * 
-     * @param model
-     *            subjects list page model
-     * @return subjects list page URL
-     */
-    @RequestMapping(SUBJECTS_SORT_BY_NAME_DESC_MAPPING)
-    public String sortByNameDesc(final Model model) {
-        model.addAttribute(SUBJECTS_MODEL_ATTR,
-                subjectService.sortByName(Order.DESC));
-        return SUBJECTS_LIST_URL;
-    }
-
-    /**
-     * Method provides sorting of subject list by description in asc order.
-     * 
-     * @param model
-     *            subjects list page model
-     * @return subjects list page URL
-     */
-    @RequestMapping(SUBJECTS_SORT_BY_DESCRIPTION_ASC_MAPPING)
-    public String sortByDescrAsc(final Model model) {
-        model.addAttribute(SUBJECTS_MODEL_ATTR,
-                subjectService.sortByDescription(Order.ASC));
-        return SUBJECTS_LIST_URL;
-    }
-
-    /**
-     * Method provides sorting of subject list by description in desc order.
-     * 
-     * @param model
-     *            subjects list page model
-     * @return subjects list page URL
-     */
-    @RequestMapping(SUBJECTS_SORT_BY_DESCRIPTION_DESC_MAPPING)
-    public String sortByDescrDesc(final Model model) {
-        model.addAttribute(SUBJECTS_MODEL_ATTR,
-                subjectService.sortByDescription(Order.DESC));
-        return SUBJECTS_LIST_URL;
-    }
-
-    /**
-     * Method provides searching subject by name.
-     * 
-     * @param subject
-     *            search pattern model
-     * @param model
-     *            subjects list page model
-     * @return subjects list page URL
-     */
-    @RequestMapping(value = SUBJECTS_SEARCH_BY_NAME_MAPPING, method = RequestMethod.POST)
-    public String searchByName(
-            @ModelAttribute(SEARCH_MODEL_ATTR) final SubjectDTO subject,
-            final Model model) {
-        model.addAttribute(SUBJECTS_MODEL_ATTR,
-                subjectService.searchByName(subject.getName()));
-        return SUBJECTS_LIST_URL;
-    }
-
-    /**
-     * Method provides searching subject by description.
-     * 
-     * @param subject
-     *            search pattern model
-     * @param model
-     *            subjects list page model
-     * @return subjects list page URL
-     */
-    @RequestMapping(value = SUBJECTS_SEARCH_BY_DESCRIPTION_MAPPING, method = RequestMethod.POST)
-    public String searchByDescription(
-            @ModelAttribute(SEARCH_MODEL_ATTR) final SubjectDTO subject,
-            final Model model) {
-        model.addAttribute(SUBJECTS_MODEL_ATTR,
-                subjectService.searchByDescription(subject.getDescription()));
-        return SUBJECTS_LIST_URL;
-    }
-
-    /**
-     * Method provides searching subject by tutor.
-     * 
-     * @param user
-     *            search pattern model
-     * @param model
-     *            subjects list page model
-     * @return subjects list page URL
-     */
-    @RequestMapping(value = SUBJECTS_SEARCH_BY_TUTOR_MAPPING, method = RequestMethod.POST)
-    public String searchByTutor(
-            @ModelAttribute(SEARCH_BY_TUTOR_MODEL_ATTR) final UserForSubjectDTO user,
-            final Model model) {
-        model.addAttribute(SUBJECTS_MODEL_ATTR,
-                subjectService.searchByTutors(user.getLastName()));
-        return SUBJECTS_LIST_URL;
     }
 }
