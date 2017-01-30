@@ -81,4 +81,19 @@ public interface ValidationFields {
 	 * Address field.
 	 */
 	String ADDRESS = "address";
+	
+	/**
+	 * Date for the meeting.
+	 */
+	String DATE = "date";
+	/**
+	 * Start time of the meeting.
+	 */
+	String STARTTIME = "start time";
+	/**
+	 * End time of the meeting.
+	 */
+	String ENDTIME = "end time";
+	
+	String GROUPS = "groups";
 }
