@@ -31,11 +31,7 @@
 			<form:form role="form" method="post" modelAttribute="meetingForm">
 				<form:input path="id" type="hidden" />
 
-				<div class="form-group">
-					<label for="description">Description</label>
-					<form:input type="text" class="form-control" path="description"
-						id="description" placeholder="Description" required="true" />
-				</div>
+				
 				<div class="form-group">
 					<label for="subject">Subject</label>
 					<form:select class="form-control" path="subject" id="subject">
@@ -98,9 +94,14 @@
 				</div>
 				<div class="form-group">
 					<label for="level">Level</label>
-					<form:input type="number" min="1" max="5" step="1"
+					<form:input type="number" min="1" max="12" step="1"
 						class="form-control" path="level" id="level" placeholder="Level"
-						required="true" />
+						 />
+				</div>
+				<div class="form-group ">
+					<label for="description">Description</label>
+					<form:textarea class="form-control" path="description"
+						id="description" placeholder="Description"  />
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
@@ -110,6 +111,8 @@
 						href="${pageContext.request.contextPath}/meetings"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
+				
+				
 			</form:form>
 		</div>
 	</div>

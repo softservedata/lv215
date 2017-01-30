@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -92,6 +93,7 @@ public class Meeting {
     /**
      * Description of the meeting.
      */
+    @Lob
     private String description;
 
     /**
