@@ -3,8 +3,6 @@ package com.softserve.edu.schedule.service.implementation;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -257,7 +255,7 @@ public class UserServiceImpl implements UserService {
         return userDTOConverter.getDTO(userDAO.findByMail(userMail));
     }
 
-    @PostConstruct
+/*    @PostConstruct
     public void postConstruct() {
         if (userDAO.getById(1L) == null) {
             User user = new User();
@@ -267,7 +265,7 @@ public class UserServiceImpl implements UserService {
             user.setPassword(encoder.encode("admin"));
             userDAO.create(user);
         }
-    }
+    }*/
 
     /**
      * Change password of user in the database.
@@ -288,6 +286,7 @@ public class UserServiceImpl implements UserService {
      * 
      * @return a user DTO with given mail.
      */
+    @Transactional
     public void changePassword(UserDTOForChangePassword userDTO, String password,
             String firstNewPassword, String secondNewPassword) {
 

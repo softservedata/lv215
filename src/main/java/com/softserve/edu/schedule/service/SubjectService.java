@@ -8,9 +8,10 @@ package com.softserve.edu.schedule.service;
 
 import java.util.List;
 
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 
 /**
  * A simple service interface to handle the operation required to manipulate an
@@ -53,13 +54,13 @@ public interface SubjectService {
      * @return List of SubjectDTO objects
      */
     public List<SubjectDTO> getAll();
-    
+
     /**
      * Get all UserForSubjectDTO.
      *
      * @return List of the UserForSubjectDTO objects for SubjectDTO.
      */
-    public List<UserForSubjectDTO> getAllUserForSubjectDTO(); 
+    public List<UserForSubjectDTO> getAllUserForSubjectDTO();
 
     /**
      * Delete existed Subject from the database by id.
@@ -70,15 +71,6 @@ public interface SubjectService {
     public void deleteById(final Long id);
 
     /**
-     * Return a List of searched SubjectDTO objects.
-     *
-     * @param pattern
-     *            - input string
-     * @return List of searched SubjectDTO transfer objects
-     */
-    public List<SubjectDTO> searchByName(final String pattern);
-    
-    /**
      * Return a searched SubjectDTO.
      *
      * @return searched SubjectDTO
@@ -86,39 +78,16 @@ public interface SubjectService {
     public List<SubjectDTO> getSubjectByName(final String subjectName);
 
     /**
-     * Return a List of searched SubjectDTO objects.
-     *
-     * @param pattern
-     *            - input string
-     * @return List of searched SubjectDTO objects
+     * Find all subjects entities in the database with applied filter
+     * 
+     * @param subjectFilter
+     *            a filter to apply.
+     * @param subjectPaginator
+     *            the subjectPaginator to set
+     * @return List of the subject DTO objects.
      */
-    public List<SubjectDTO> searchByDescription(final String pattern);
-
-    /**
-     * Return a List of searched SubjectDTO objects containing some tutor.
-     *
-     * @param pattern
-     *            - input string
-     * @return List of searched SubjectDTO objects containing some tutor
-     */
-    public List<SubjectDTO> searchByTutors(final String pattern);
-
-    /**
-     * Return a sorted by name List of SubjectDTO objects.
-     *
-     * @param order
-     *            - order of sort
-     * @return a sorted by name List of SubjectDTO objects
-     */
-    public List<SubjectDTO> sortByName(final Order order);
-
-    /**
-     * Return a sorted by description List of SubjectDTO objects.
-     *
-     * @param order
-     *            - order of sort
-     * @return a sorted by description List of SubjectDTO objects
-     */
-    public List<SubjectDTO> sortByDescription(final Order order);
+    List<SubjectDTO> getSubjectsPageWithFilter(
+            final SubjectFilter subjectFilter,
+            final Paginator subjectPaginator);
 
 }
