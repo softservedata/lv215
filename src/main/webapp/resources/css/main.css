@@ -73,6 +73,7 @@ th {
 	height: 200%;
 }
 
+
 /* Set black background color, white text and some padding */
 /* footer {
 	background-color: #555;
@@ -80,8 +81,6 @@ th {
 	padding: 15px;
 } */
 
-
-/* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
 	.sidenav {
 		height: auto;
@@ -105,6 +104,7 @@ table>tbody>tr>.v-alighn {
 #sortfield {
 	margin-top: 24px;
 }
+
 .btn-default {
 	background-color: #dee0ed;
 }
@@ -113,23 +113,30 @@ table>tbody>tr>.v-alighn {
 	background-color: rgba(255, 255, 255, 0.9);
 	margin-top: 50px;
 }
+
 textarea {
 	resize:vertical;
 }
-
-.searchMeeting {
-	width:70px;
+/* For meeetingJsp */
+.allInnerForms {
+	width:10%;
+	padding-right: 0px;
+	padding-left: 1px;
+	mergin-left: 0px;
+	mergin-right: 0px;
 }
 
-.searchMeetingBig {
-	width:120px;
-
+.level {
+	padding-right: 0px;
+	padding-left: 1px;
+	mergin-left: 0px;
+	mergin-right: 0px;
 }
 
-.input-number {
-	 width: 75px;
-
+.allInnerForms1 {
+	width: 100px;
 }
+
 #map {
         height: 326px;
         width: 100%;
@@ -137,3 +144,24 @@ textarea {
 .panel-map {
 	margin-top: 50px;
 }
+
+.allInnerForms2 {
+	width: 120px;
+	padding-right: 0px;
+	padding-left: 1px;
+	mergin-left: 0px;
+	mergin-right: 0px;
+}
+.levelclass{
+	width:60px;
+}
+.groupclass{
+	width:60px;
+}
+.meetingsTable{
+	width:100%;
+}
+.container{
+	width:95%;
+}
+

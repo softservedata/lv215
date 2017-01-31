@@ -39,11 +39,13 @@ public interface ValidationMessages {
 
 	String DUPLICATE_MAIL = "vm.duplicateMail";
 
-	String WRONG_PHONE_NUMBER = "vm.wrongPhonNamber";
+	String INVALID_PHONE_NUMBER = "vm.wrongPhonNamber";
 
 	String INCORECT_PASSWORD = "vm.incorectPassword";
 
 	String INVALID_NAME = "vm.incorectName";
+	
+	String INVALID_LEVEL ="vm.invalidLevel";
 
 	String INVALID_MAIL = "vm.incorecMail";
 
@@ -96,4 +98,15 @@ public interface ValidationMessages {
 	 * Duplicate location.
 	 */
 	String DUPLICATE_LOCATION = "vm.dublicateLocation";
+	
+	//For Meetings
+	
+	String INVALID_DATE = "vm.invalidDate";
+	
+	String INVALID_ENDTIME_COMPARE_STARTTIME = "vm.invalidEndTimeMustBeAfterStartTime";
+	
+	String INVALID_MEETING_GROUPS_COUNT = "vm.invalidMeetingGroup";
+	
+	String DUPLICATE_MEETING = "vm.duplicateMeeting";
+	String INVALID_TIME = "vm.invalidTime";
 }

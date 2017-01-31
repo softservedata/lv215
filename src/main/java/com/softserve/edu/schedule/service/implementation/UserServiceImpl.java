@@ -3,10 +3,15 @@ package com.softserve.edu.schedule.service.implementation;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.schedule.aspect.Loggable;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
@@ -28,6 +33,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSub
  *
  * @since 1.8
  */
+@Loggable
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
@@ -43,6 +49,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserForSubjectDTOConverter userForSubjectDTOConverter;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     /**
      * Save new user entity into the database.
      *
@@ -50,8 +59,9 @@ public class UserServiceImpl implements UserService {
      *            a userDTO for to storage new user in database.
      */
     @Override
-    @Transactional
+    @Transactional     
     public void create(final UserDTO userDTO) {
+        userDTO.setPassword(encoder.encode(userDTO.getPassword()));
         userDAO.create(userDTOConverter.getEntity(userDTO));
     }
 
@@ -90,23 +100,6 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Change field position at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param position
-     *            a position field in User entity.
-     */
-    @Override
-    @Transactional
-    public void changePosition(final Long id, final String position) {
-        User user = userDAO.getById(id);
-        user.setPosition(position);
-        userDAO.update(user);
-    }
-
-    /**
      * Change field at user entity in the database.
      *
      * @param userDTO
@@ -116,6 +109,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(final UserDTO userDTO) {
         User user = userDTOConverter.getEntity(userDTO);
+        user.setPassword(userDAO.getById(user.getId()).getPassword());
         user.setStatus(userDAO.getById(user.getId()).getStatus());
         user.setRole(userDAO.getById(user.getId()).getRole());
         userDAO.update(user);
@@ -161,7 +155,7 @@ public class UserServiceImpl implements UserService {
                 .map(e -> userDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
-    
+
     /**
      * Get all users by position what was selected.
      *
@@ -190,7 +184,7 @@ public class UserServiceImpl implements UserService {
                 .map(e -> userDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
-    
+
     /**
      * Sort all users by last name.
      *
@@ -216,7 +210,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO getById(final Long id) {
         return userDTOConverter.getDTO(userDAO.getById(id));
     }
-    
+
     /**
      * Delete existed transfer object from the database by id.
      *
@@ -233,8 +227,8 @@ public class UserServiceImpl implements UserService {
         } else {
             return false;
         }
-    } 
-    
+    }
+
     /**
      * Find a user DTO in the database by mail.
      *
@@ -251,4 +245,22 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public UserDTO loadUserByUsername(String userMail)
+            throws UsernameNotFoundException {
+        return userDTOConverter.getDTO(userDAO.findByMail(userMail));
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        if (userDAO.getById(1L) == null) {
+            User user = new User();
+            user.setId(1L);
+            user.setMail("admin@admin.com");
+            user.setRole(UserRole.ADMIN);
+            user.setPassword(encoder.encode("admin"));
+            userDAO.create(user);
+        }
+    }
 }

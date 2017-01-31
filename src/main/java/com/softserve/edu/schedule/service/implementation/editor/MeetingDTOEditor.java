@@ -3,11 +3,11 @@ package com.softserve.edu.schedule.service.implementation.editor;
 import java.beans.PropertyEditorSupport;
 import com.softserve.edu.schedule.service.MeetingService;
 
-public class MeetingEditor extends PropertyEditorSupport {
+public class MeetingDTOEditor extends PropertyEditorSupport {
 
     private MeetingService meetingService;
 
-    public MeetingEditor(MeetingService meetingService) {
+    public MeetingDTOEditor(MeetingService meetingService) {
         this.meetingService = meetingService;
     }
 
