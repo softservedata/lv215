@@ -64,16 +64,18 @@ public class UserDTOConverter {
 
         user.setMail(userDTO.getMail());
 
-        user.setPassword(userDTO.getPassword());
+        if (userDTO.getPassword() != null) {
+            user.setPassword(userDTO.getPassword());
+        }
 
         user.setPhone(userDTO.getPhone());
 
         user.setPosition(userDTO.getPosition());
-        
+
         if (userDTO.getStatus() != null) {
             user.setStatus(userDTO.getStatus());
         }
-        
+
         if (userDTO.getRole() != null) {
             user.setRole(userDTO.getRole());
         }
@@ -108,16 +110,18 @@ public class UserDTOConverter {
 
         userDTO.setMail(user.getMail());
 
-        userDTO.setPassword(user.getPassword());
+        if (user.getPassword() != null) {
+            userDTO.setPassword(user.getPassword());
+        }
 
         userDTO.setPhone(user.getPhone());
 
         userDTO.setPosition(user.getPosition());
-        
+
         if (user.getStatus() != null) {
             userDTO.setStatus(user.getStatus());
         }
-        
+
         if (user.getRole() != null) {
             userDTO.setRole(user.getRole());
         }

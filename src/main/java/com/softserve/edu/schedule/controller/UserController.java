@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +17,6 @@ import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.service.UserService;
-import com.softserve.edu.schedule.service.implementation.validators.UserValidator;
 
 /**
  * A controller class of user pages.
@@ -39,23 +36,6 @@ public class UserController implements ControllerConst.UserControllerConst,
      */
     @Autowired
     private UserService userService;
-
-    /**
-     * UserValidator example to provide form validation operations.
-     */
-    @Autowired
-    private UserValidator userValidator;
-
-    /**
-     * Initialize binder for user model.
-     *
-     * @param binder
-     *            a WebDataBinder example to initialize.
-     */
-    @InitBinder(value = { USER_UPDATE_ATTR , USER_UPDATE_POSITION_ATTR })
-    protected void initBinder(final WebDataBinder binder) {
-        binder.setValidator(userValidator);
-    }
 
     /**
      * Provides user model.
@@ -292,7 +272,7 @@ public class UserController implements ControllerConst.UserControllerConst,
                 userService.searchByPosition(user.getPosition()));
         return USERS_PAGE_URL;
     }
-    
+
     /**
      * Controls view for show profile of user.
      *
@@ -309,7 +289,7 @@ public class UserController implements ControllerConst.UserControllerConst,
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
         return USER_PROFILE_URL;
     }
-    
+
     /**
      * Controls processing of user update URL.
      *

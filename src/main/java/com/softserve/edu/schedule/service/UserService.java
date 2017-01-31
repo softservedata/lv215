@@ -50,17 +50,6 @@ public interface UserService {
     public void changeRole(final Long id, final UserRole role);
 
     /**
-     * Change field position at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param position
-     *            a position field in User entity.
-     */
-    public void changePosition(final Long id, final String position);
-
-    /**
      * Change field at user entity in the database.
      *
      * @param id

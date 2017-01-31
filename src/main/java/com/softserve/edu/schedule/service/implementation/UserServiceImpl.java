@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.schedule.aspect.Loggable;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
@@ -28,6 +29,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSub
  *
  * @since 1.8
  */
+@Loggable
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
@@ -90,23 +92,6 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Change field position at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param position
-     *            a position field in User entity.
-     */
-    @Override
-    @Transactional
-    public void changePosition(final Long id, final String position) {
-        User user = userDAO.getById(id);
-        user.setPosition(position);
-        userDAO.update(user);
-    }
-
-    /**
      * Change field at user entity in the database.
      *
      * @param userDTO
@@ -116,6 +101,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(final UserDTO userDTO) {
         User user = userDTOConverter.getEntity(userDTO);
+        user.setPassword(userDAO.getById(user.getId()).getPassword());
         user.setStatus(userDAO.getById(user.getId()).getStatus());
         user.setRole(userDAO.getById(user.getId()).getRole());
         userDAO.update(user);

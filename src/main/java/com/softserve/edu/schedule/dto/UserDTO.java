@@ -6,6 +6,7 @@ import java.util.Objects;
 
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
+import com.softserve.edu.schedule.service.implementation.validators.Validate;
 
 /**
  * A data transfer object for user entity.
@@ -16,6 +17,7 @@ import com.softserve.edu.schedule.entity.UserStatus;
  *
  * @since 1.8
  */
+@Validate
 public class UserDTO {
 
 	private Long id;

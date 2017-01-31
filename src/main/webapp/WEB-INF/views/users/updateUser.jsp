@@ -14,6 +14,7 @@
 					action="${pageContext.request.contextPath}/${UserController.SAVE_UPDATED_USER_MAPPING}${userFormUpdate.id}"
 					commandName="${UserController.USER_UPDATE_ATTR}" method="post">
 					<form:hidden path="id" />
+					<form:hidden path="password" />
 					<div class="form-group">
 						<label for="firstName"><spring:message
 								code="lbl.user.firstName" />:</label>
