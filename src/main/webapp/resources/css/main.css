@@ -159,6 +159,12 @@ textarea {
 	width: 95%;
 }
 
+.meetingid{
+	width:3%;
+}
+
+
 #logoutForm {
 	margin-top: 8px;
 }
+
