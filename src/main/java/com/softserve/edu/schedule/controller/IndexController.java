@@ -38,6 +38,6 @@ public class IndexController implements ControllerConst {
     @RequestMapping("/login")
     public String login() {
         return "login";
-    }
+    }    
 
 }

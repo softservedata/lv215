@@ -3,8 +3,6 @@ package com.softserve.edu.schedule.service.implementation;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -124,7 +122,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(final UserDTO userDTO) {
         User user = userDTOConverter.getEntity(userDTO);
-        user.setPassword(userDAO.getById(user.getId()).getPassword());
+        // user.setPassword(userDAO.getById(user.getId()).getPassword());
+        user.setPassword(encoder.encode(userDTO.getPassword()));
         user.setStatus(userDAO.getById(user.getId()).getStatus());
         user.setRole(userDAO.getById(user.getId()).getRole());
         userDAO.update(user);
@@ -265,17 +264,5 @@ public class UserServiceImpl implements UserService {
     public UserDTO loadUserByUsername(String userMail)
             throws UsernameNotFoundException {
         return userDTOConverter.getDTO(userDAO.findByMail(userMail));
-    }
-
-    @PostConstruct
-    public void postConstruct() {
-        if (userDAO.getById(1L) == null) {
-            User user = new User();
-            user.setId(1L);
-            user.setMail("admin@admin.com");
-            user.setRole(UserRole.ADMIN);
-            user.setPassword(encoder.encode("admin"));
-            userDAO.create(user);
-        }
     }
 }
