@@ -53,22 +53,17 @@
 			<form:input path="showFilter" type="hidden" value="true" />
 			<td></td>
 			<td>
-				<div class="form-group col-xs-10">
 					<spring:message code="lbl.subject.search" var="search" />
-					<form:input class="form-control input-sm" type="text" path="name"
-						placeholder="${search}" />
-				</div>
+					<form:input path="name"
+						placeholder=" ${search}" />
 			</td>
 			<td>
-				<div class="form-group col-xs-10">
 					<spring:message code="lbl.subject.search" var="search" />
-					<form:input class="form-control input-sm" type="text" path="description"
+					<form:input path="description"
 						placeholder="${search}" />
-				</div>
 			</td>
 			<td>
-				<div class="form-group">
-					<form:select class="form-control" path="userId" id="userId">
+					<form:select path="userId">
 						<option value="0"></option>
 						<c:forEach items="${users}" var="user">
 							<c:choose>
@@ -81,7 +76,6 @@
 							</c:choose>
 						</c:forEach>
 					</form:select>
-				</div>
 			</td>
 			<td class="text-center v-alighn">
 				<button type="submit" class="btn btn-link"
@@ -116,6 +110,8 @@
 			</tr>
 		</c:forEach>
 	</table>
+
+</div>
 <div class="row">
 	<div class="col-md-2">
 		<p><spring:message code="lbl.form.resPerPage"/></p>
@@ -147,7 +143,6 @@
 	<div class="col-md-10 text-center">	
 		<ul id="paginationList" class="pagination"></ul>	
 	</div>
-</div>
 </div>
 <script>
  $('#paginationList').twbsPagination({
