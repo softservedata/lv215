@@ -156,12 +156,12 @@
 					<form:select class="form-control" path="status" id="status">
 						<c:forEach items="${meetingStatuses}" var="status">
 							<c:choose>
-								<c:when test="${meetingForm.status eq status}">
-									<option value="${status.ordinal()}" selected="selected">${status}</option>
+								<c:when test="${meetingForm.status.ordinal() eq status.ordinal()}">
+									<option value="${status}" selected="selected">${status}</option>
 								</c:when>
 								<c:otherwise>
 									<c:if test="${status.ordinal() ne 2}">
-										<option value="${status.ordinal()}">${status}</option>
+										<option value="${status}">${status}</option>
 									</c:if>
 								</c:otherwise>
 							</c:choose>
