@@ -73,14 +73,12 @@ th {
 	height: 200%;
 }
 
-
 /* Set black background color, white text and some padding */
 /* footer {
 	background-color: #555;
 	color: white;
 	padding: 15px;
 } */
-
 @media screen and (max-width: 767px) {
 	.sidenav {
 		height: auto;
@@ -115,11 +113,11 @@ table>tbody>tr>.v-alighn {
 }
 
 textarea {
-	resize:vertical;
+	resize: vertical;
 }
 /* For meeetingJsp */
 .allInnerForms {
-	width:10%;
+	width: 10%;
 	padding-right: 0px;
 	padding-left: 1px;
 	mergin-left: 0px;
@@ -144,18 +142,29 @@ textarea {
 	mergin-left: 0px;
 	mergin-right: 0px;
 }
-.levelclass{
-	width:60px;
+
+.levelclass {
+	width: 60px;
 }
-.groupclass{
-	width:60px;
+
+.groupclass {
+	width: 60px;
 }
-.meetingsTable{
-	width:100%;
+
+.meetingsTable {
+	width: 100%;
 }
-.container{
-	width:95%;
+
+.container {
+	width: 95%;
 }
+
 .meetingid{
 	width:3%;
 }
+
+
+#logoutForm {
+	margin-top: 8px;
+}
+

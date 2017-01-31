@@ -6,13 +6,12 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<http use-expressions="true">
-		<intercept-url pattern="/admin*" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/admin/*" access="hasRole('ROLE_ADMIN')" />
+	<http auto-config="true">
+		<access-denied-handler error-page="/?accessDenied=true" />
+		<intercept-url pattern="/roomequipments*" access="hasRole('ROLE_ADMIN')" />
 		<form-login login-page="/" login-processing-url="/login"
-			authentication-failure-url="/?fail=true" />
-		<logout logout-url="/logout" logout-success-url="/" />
-		<csrf />
+			authentication-failure-url="/login?fail=true" />
+		<logout logout-success-url="/"/>		
 	</http>
 
 	<beans:bean id="encoder"
@@ -20,7 +19,7 @@
 		<beans:constructor-arg name="strength" value="10" />
 	</beans:bean>
 	<authentication-manager>
-		<authentication-provider user-service-ref="userDetailsService">
+		<authentication-provider user-service-ref="userService">
 			<password-encoder ref="encoder"></password-encoder>
 		</authentication-provider>
 	</authentication-manager>

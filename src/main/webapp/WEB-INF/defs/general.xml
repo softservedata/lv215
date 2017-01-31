@@ -18,6 +18,10 @@
 		<put-attribute name="title" value="Error" />
 		<put-attribute name="body" value="/WEB-INF/views/error.jsp" />
 	</definition>
+	<definition name="login" extends="common">
+		<put-attribute name="title" value="Login" />
+		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
+	</definition>
 
 	<definition extends="common" name="rooms/list">
 		<put-attribute name="title" value="Rooms" />
@@ -47,21 +51,21 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/registration.jsp" />
 	</definition>
-	<definition extends="common" name="users/users/edit">
-		<put-attribute name="title" value="Edit" />
-		<put-attribute name="body" value="/WEB-INF/views/users/edit.jsp" />
+ 	<definition extends="common" name="users/users/changePassword">
+		<put-attribute name="title" value="Change Password" />
+		<put-attribute name="body" value="/WEB-INF/views/users/changePassword.jsp" />
 	</definition>
-	<definition extends="common" name="users/users/edit/updateUser">
+	<definition extends="common" name="users/users/updateUser">
 		<put-attribute name="title" value="Update" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/updateUser.jsp" />
 	</definition>
-	<definition extends="common" name="users/users/edit/updateUserPosition">
-		<put-attribute name="title" value="Change position" />
+ 	<definition extends="common" name="users/users/profile">
+		<put-attribute name="title" value="Profile" />
 		<put-attribute name="body"
-			value="/WEB-INF/views/users/updateUserPosition.jsp" />
+			value="/WEB-INF/views/users/profile.jsp" />
 	</definition>
-	<definition extends="common" name="users/users/edit/changeRole">
+	<definition extends="common" name="users/users/changeRole">
 		<put-attribute name="title" value="Change role" />
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/changeRole.jsp" />

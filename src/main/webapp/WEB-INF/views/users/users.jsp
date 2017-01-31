@@ -4,26 +4,31 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ page import="com.softserve.edu.schedule.controller.UserController"%>
-<%@ page import="com.softserve.edu.schedule.controller.RegistrationController"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.RegistrationController"%>
 
 
-<h3 class="text-center"><spring:message code="lbl.user.title"/></h3>
+<h3 class="text-center">
+	<spring:message code="lbl.user.title" />
+</h3>
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
-			<th><spring:message code="lbl.user.name"/><a
+			<th></th>
+			<th><spring:message code="lbl.user.name" /><a
 				href="${pageContext.request.contextPath}${UserController.SORT_BY_LASTNAME_ASC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-up"></i></a> <a
 				href="${pageContext.request.contextPath}${UserController.SORT_BY_LASTNAME_DESC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-down"></i></a></th>
-			<th><spring:message code="lbl.user.mail"/></th>
-			<th><spring:message code="lbl.user.position"/><a
+			<th><spring:message code="lbl.user.mail" /></th>
+			<th><spring:message code="lbl.user.phone" /></th>
+			<th><spring:message code="lbl.user.position" /><a
 				href="${pageContext.request.contextPath}${UserController.SORT_BY_POSITION_ASC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-up"></i></a> <a
 				href="${pageContext.request.contextPath}${UserController.SORT_BY_POSITION_DESC_MAPPING}"><i
 					class="fa fa-arrow-circle-o-down"></i></a></th>
-			<th><spring:message code="lbl.user.role"/></th>
-			<th><spring:message code="lbl.user.group"/></th>
+			<th><spring:message code="lbl.user.role" /></th>
+			<th><spring:message code="lbl.user.group" /></th>
 			<th></th>
 			<th></th>
 			<th></th>
@@ -31,9 +36,9 @@
 				href="${pageContext.request.contextPath}/${RegistrationController.USER_REGIST_MAPPING_FOR_ADMIN}"><i
 					class="fa fa-plus"></i></a></th>
 		</tr>
-		
-<tr>
-			
+
+		<tr>
+			<td></td>
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}${UserController.SEARCH_BY_LASTNANE_MAPPING}"
 					modelAttribute="${UserController.SEARCH_MODEL_ATTR}">
@@ -42,6 +47,7 @@
 						<i class="fa fa-search"></i>
 					</button>
 				</form:form></td>
+			<td></td>
 			<td></td>
 			<td><form:form method="post"
 					action="${pageContext.request.contextPath}${UserController.SEARCH_BY_POSITION_MAPPING}"
@@ -56,22 +62,25 @@
 			<td></td>
 			<td></td>
 			<td></td>
+			<td></td>
 		</tr>
 		<c:forEach items="${users}" var="user">
 			<tr>
-				<td>${user.lastName}<a> </a>${user.firstName}</td>
+				<td></td>
+				<td><a href="${pageContext.request.contextPath}/${UserController.USER_PROFILE_MAPPING}${user.id}">${user.lastName} ${user.firstName}</a></td>
 				<td>${user.mail}</td>
+				<td>${user.phone}</td>
 				<td>${user.position}</td>
 				<td>${user.role}</td>
 				<td><c:forEach items="${user.groups}" var="group">
 						<p>${group.name}</p>
 					</c:forEach></td>
 				<td><a
-					href="${pageContext.request.contextPath}${UserController.DELETE_USER_MAPPING}${user.id}" 
-					 onclick="return confirm('The user can not be deleted if he is curated group. Are you sure you want to delete this user?');"><i
+					href="${pageContext.request.contextPath}${UserController.DELETE_USER_MAPPING}${user.id}"
+					onclick="return confirm('The user can not be deleted if he is curated group. Are you sure you want to delete this user?');"><i
 						class="fa fa-trash-o"></i></a></td>
 				<td><a
-					href="${pageContext.request.contextPath}${UserController.EDIT_USER_MAPPING}${user.id}">
+					href="${pageContext.request.contextPath}${UserController.CHANGE_ROLE_MAPPING}${user.id}">
 						<i class="fa fa-pencil-square-o"></i>
 				</a></td>
 				<td><c:if test="${user.status.ordinal() == 1}">
@@ -81,7 +90,7 @@
 						</a>
 					</c:if></td>
 				<td><c:if
-						test="${user.status.ordinal() == 2 or user.role.ordinal() == 0}">
+						test="${user.status.ordinal() == 2 or user.status.ordinal() == 0}">
 						<a
 							href="${pageContext.request.contextPath}${UserController.UNBAN_USER_MAPPING}${user.id}">
 							<i class="fa fa-check-circle-o"></i>

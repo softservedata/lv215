@@ -39,11 +39,12 @@ public interface ValidationMessages {
 
 	String DUPLICATE_MAIL = "vm.duplicateMail";
 
-	String WRONG_PHONE_NUMBER = "vm.wrongPhonNamber";
+	String INVALID_PHONE_NUMBER = "vm.wrongPhonNamber";
 
 	String INCORECT_PASSWORD = "vm.incorectPassword";
 
 	String INVALID_NAME = "vm.incorectName";
+	
 	String INVALID_LEVEL ="vm.invalidLevel";
 
 	String INVALID_MAIL = "vm.incorecMail";

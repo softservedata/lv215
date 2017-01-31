@@ -6,8 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.service.UserService;
-import com.softserve.edu.schedule.service.implementation.validators.UserValidator;
 
 /**
  * A controller class of user pages.
@@ -40,31 +38,6 @@ public class UserController implements ControllerConst.UserControllerConst,
     @Autowired
     private UserService userService;
 
-    /**
-     * UserValidator example to provide form validation operations.
-     */
-    @Autowired
-    private UserValidator userValidator;    
-    
-    /**
-     * Initialize binder for user model.
-     *
-     * @param binder
-     *            a WebDataBinder example to initialize.
-     */
-    @InitBinder(value = {USER_UPDATE_ATTR/*, USER_UPDATE_POSITION_ATTR*/})
-    protected void initBinder(final WebDataBinder binder) {
-        binder.setValidator(userValidator);
-    }
-    
-    
-//    String USER_UPDATE_ATTR = "userFormUpdate";
-//
-//    /**
-//     * User for update position model attribute name.
-//     */
-//    String USER_UPDATE_POSITION_ATTR = "userFormUpdatePosition";
-    
     /**
      * Provides user model.
      * 
@@ -100,26 +73,12 @@ public class UserController implements ControllerConst.UserControllerConst,
     @RequestMapping(DELETE_USER_MAPPING + "{id}")
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
-        
+
         if (userService.deleteById(id)) {
             return REDIRECT_USERS_PAGE;
         } else {
             return DELETE_USER_URL;
         }
-    }
-
-    /**
-     * Controls processing of user edit URL.
-     *
-     * @param id
-     *            an user id to edit user in database.
-     *
-     * @return users list page redirect URL
-     */
-    @RequestMapping(value = EDIT_USER_MAPPING + "{id}")
-    public String edit(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
-        return EDIT_PAGE_URL;
     }
 
     /**
@@ -131,7 +90,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      * @return users list page redirect URL
      */
     @RequestMapping(UPDATE_USER_MAPPING + "{id}")
-    public String getEdit(@PathVariable Long id, Model model) {
+    public String update(@PathVariable Long id, Model model) {
         model.addAttribute(USER_UPDATE_ATTR, userService.getById(id));
         return UPDATE_PAGE_URL;
     }
@@ -146,44 +105,13 @@ public class UserController implements ControllerConst.UserControllerConst,
      */
     @RequestMapping(value = SAVE_UPDATED_USER_MAPPING
             + "{id}", method = RequestMethod.POST)
-    public String updateUser(@ModelAttribute(USER_UPDATE_ATTR)@Valid UserDTO user, BindingResult br) {
-        if(br.hasErrors()){
+    public String updateUser(
+            @ModelAttribute(USER_UPDATE_ATTR) @Valid UserDTO user,
+            BindingResult br) {
+        if (br.hasErrors()) {
             return UPDATE_PAGE_URL;
         }
         userService.update(user);
-        return REDIRECT_USERS_PAGE;
-    }
-
-    /**
-     * Controls processing of user update position URL.
-     *
-     * @param id
-     *            an user id to update position of user in database.
-     *
-     * @return users list page redirect URL
-     */
-    @RequestMapping(UPDATE_POSITION_MAPPING + "{id}")
-    public String getEditPosition(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_UPDATE_POSITION_ATTR, userService.getById(id));
-        return UPDATE_POSITION_PAGE_URL;
-    }
-
-    /**
-     * Controls processing save updated position of user URL.
-     *
-     * @param id
-     *            an user id to update position of user in database.
-     *
-     * @return users list page redirect URL
-     */
-    @RequestMapping(value = SAVE_UPDATED_POSITION_MAPPING
-            + "{id}", method = RequestMethod.POST)
-    public String updateUserPosition(@PathVariable Long id,
-            @RequestParam /*@Valid*/ String position/*, BindingResult br*/) {
-/*        if(br.hasErrors()){
-            return UPDATE_POSITION_PAGE_URL;
-        }*/
-        userService.changePosition(id, position);
         return REDIRECT_USERS_PAGE;
     }
 
@@ -344,5 +272,59 @@ public class UserController implements ControllerConst.UserControllerConst,
         model.addAttribute(USERS_MODEL_ATTR,
                 userService.searchByPosition(user.getPosition()));
         return USERS_PAGE_URL;
+    }
+
+    /**
+     * Controls view for show profile of user.
+     *
+     * @param id
+     *            from user id in database.
+     *
+     * @param user
+     *            UserDTO example with required position.
+     * 
+     * @return users list page URL
+     */
+    @RequestMapping(USER_PROFILE_MAPPING + "{id}")
+    public String getProfile(@PathVariable Long id, Model model) {
+        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
+        return USER_PROFILE_URL;
+    }
+
+    /**
+     * Controls processing of user update URL.
+     *
+     * @param id
+     *            an user id to update user in database.
+     *
+     * @return users list page redirect URL
+     */
+    @RequestMapping(CHANGE_PASSWORD_MAPPING + "{id}")
+    public String changePassword(@PathVariable Long id, Model model) {
+        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
+        return CHANGE_PASSWORD_URL;
+    }
+
+    /**
+     * Controls processing of save updated user URL.
+     *
+     * @param id
+     *            an user id to update user in database.
+     *
+     * @return users list page redirect URL
+     */
+    @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING
+            + "{id}", method = RequestMethod.POST)
+    public String saveChangedPassword(
+            @ModelAttribute(USER_MODEL_ATTR) @Valid UserDTOForChangePassword user,
+            @RequestParam String password,
+            @RequestParam String firstNewPassword,
+            @RequestParam String secondNewPassword, BindingResult br) {
+        if (br.hasErrors()) {
+            return CHANGE_PASSWORD_URL;
+        }
+        userService.changePassword(user, password, firstNewPassword,
+                secondNewPassword);
+        return REDIRECT_USERS_PAGE;
     }
 }
