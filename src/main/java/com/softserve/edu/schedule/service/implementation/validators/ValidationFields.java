@@ -78,5 +78,9 @@ public interface ValidationFields {
 
     String SUBJECT = "subject";
     
+
+    String STATUS = "status";
+
     String FIRST_NEW_PASSWORD = "firstNewPassword";
+
 }

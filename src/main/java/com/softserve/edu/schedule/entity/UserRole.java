@@ -11,5 +11,5 @@ package com.softserve.edu.schedule.entity;
  * @since 1.8
  */
 public enum UserRole {
-    USER, MODERATOR, SUPERVISOR, ADMIN;
+    ROLE_USER, ROLE_MODERATOR, ROLE_SUPERVISOR, ROLE_ADMIN;
 }

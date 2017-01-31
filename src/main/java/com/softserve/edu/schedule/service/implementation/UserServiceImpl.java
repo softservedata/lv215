@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDTOConverter userDTOConverter;
-    
+
     @Autowired
     private UserDTOForChangePasswordConverter userDTOForPasswordConverter;
 
@@ -112,7 +112,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(final UserDTO userDTO) {
         User user = userDTOConverter.getEntity(userDTO);
-        user.setPassword(userDAO.getById(user.getId()).getPassword());
+        // user.setPassword(userDAO.getById(user.getId()).getPassword());
+        user.setPassword(encoder.encode(userDTO.getPassword()));
         user.setStatus(userDAO.getById(user.getId()).getStatus());
         user.setRole(userDAO.getById(user.getId()).getRole());
         userDAO.update(user);
@@ -255,18 +256,6 @@ public class UserServiceImpl implements UserService {
         return userDTOConverter.getDTO(userDAO.findByMail(userMail));
     }
 
-/*    @PostConstruct
-    public void postConstruct() {
-        if (userDAO.getById(1L) == null) {
-            User user = new User();
-            user.setId(1L);
-            user.setMail("admin@admin.com");
-            user.setRole(UserRole.ADMIN);
-            user.setPassword(encoder.encode("admin"));
-            userDAO.create(user);
-        }
-    }*/
-
     /**
      * Change password of user in the database.
      *
@@ -287,14 +276,15 @@ public class UserServiceImpl implements UserService {
      * @return a user DTO with given mail.
      */
     @Transactional
-    public void changePassword(UserDTOForChangePassword userDTO, String password,
-            String firstNewPassword, String secondNewPassword) {
+    public void changePassword(UserDTOForChangePassword userDTO,
+            String password, String firstNewPassword,
+            String secondNewPassword) {
 
         User user = userDTOForPasswordConverter.getEntity(userDTO);
 
         if (user.getPassword().equals(encoder.encode(password))) {
 
-           if (firstNewPassword.equals(secondNewPassword)) {
+            if (firstNewPassword.equals(secondNewPassword)) {
                 user.setPassword(encoder.encode(secondNewPassword));
                 user.setStatus(userDAO.getById(user.getId()).getStatus());
                 user.setRole(userDAO.getById(user.getId()).getRole());
@@ -302,4 +292,5 @@ public class UserServiceImpl implements UserService {
             }
         }
     }
+
 }
