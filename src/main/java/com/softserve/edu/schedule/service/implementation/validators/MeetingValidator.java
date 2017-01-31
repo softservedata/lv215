@@ -70,6 +70,7 @@ public class MeetingValidator
                 meetingDTO);
 
         boolean isValidMultiselectGroups = isValidMultiselectGroups(meetingDTO);
+        
         boolean isValidLevel = isValidLevel(meetingDTO);
 
         boolean isOriginMeeting = isOriginMeeting(meetingDTO);
@@ -80,7 +81,8 @@ public class MeetingValidator
                 context);
         return (isValidDescription && isValidDate && isValidStartTime
                 && isValidEndTime && isValidEndTimeToCompareStartTime
-                && isValidMultiselectGroups && isValidLevel && isOriginMeeting);
+                && isValidMultiselectGroups && 
+                isValidLevel && isOriginMeeting);
     }
 
     /**
@@ -90,6 +92,7 @@ public class MeetingValidator
      * 
      * @return true if description is valid
      */
+    
     private boolean isValidDescription(MeetingDTO meetingDTO) {
         return meetingDTO.getDescription()
                 .matches(ValidationCriteria.PATTERN_FOR_MEETING_DESCRIPTION);
@@ -123,11 +126,12 @@ public class MeetingValidator
     private boolean isValidMultiselectGroups(MeetingDTO meetingDTO) {
         return meetingDTO.getGroups().size() > ValidationCriteria.ZERO;
     }
-
     private boolean isValidLevel(MeetingDTO meetingDTO) {
-        return meetingDTO.getLevel() != null && meetingDTO.getLevel() > 0
-                && meetingDTO.getLevel() < 6;
+        return meetingDTO.getLevel().toString().matches(ValidationCriteria.PATTERN_FOR_MEETING_LEVEL);
+        //TODO
     }
+    
+    
 
     private boolean isOriginMeeting(MeetingDTO meetingDTO) {
         // TODO
@@ -152,11 +156,11 @@ public class MeetingValidator
     private void printErrorMessages(boolean isValidDescription,
             boolean isValidDate, boolean isValidStartTime,
             boolean isValidEndTime, boolean isValidEndTimeToCompareStartTime,
-            boolean isValidMultiselectGroups, boolean isValidLevel,
+            boolean isValidMultiselectGroups,boolean isValidLevel, 
             boolean isOriginMeeting, ConstraintValidatorContext context) {
         if (!isValidDescription) {
             errorMessage(ValidationFields.DESCRIPTION,
-                    ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD,
+                    ValidationMessages.INVALID_CHARACTERS,
                     context);
         }
         if (!isValidDate) {
@@ -165,28 +169,28 @@ public class MeetingValidator
         }
         if (!isValidStartTime) {
             errorMessage(ValidationFields.STARTTIME,
-                    ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD,
+                    ValidationMessages.INVALID_TIME,
                     context);
         }
         if (!isValidEndTime) {
             errorMessage(ValidationFields.ENDTIME,
-                    ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD,
+                    ValidationMessages.INVALID_TIME,
                     context);
         }
         if (!isValidEndTimeToCompareStartTime) {
             errorMessage(ValidationFields.ENDTIME,
-                    ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD,
+                    ValidationMessages.INVALID_ENDTIME_COMPARE_STARTTIME,
                     context);
         }
-
         if (!isValidMultiselectGroups) {
             errorMessage(ValidationFields.GROUPS,
-                    ValidationMessages.INVALID_SUBJECT_TUTOR_COUNT, context);
+                    ValidationMessages.EMPTY_FIELD, context);
         }
         if (!isValidLevel) {
-            errorMessage(ValidationFields.LEVEL,
-                    ValidationMessages.EMPTY_GROUP_LEVEL, context);
+        	 errorMessage(ValidationFields.LEVEL,
+        			 ValidationMessages.INVALID_LEVEL, context);
         }
+        
         if (!isOriginMeeting) {
             errorMessage(ValidationFields.SUBJECT,
                     ValidationMessages.DUPLICATE_MEETING, context);
