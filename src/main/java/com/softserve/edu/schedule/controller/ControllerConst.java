@@ -214,15 +214,15 @@ public interface ControllerConst {
         String CHANGE_ROLE_PAGE_URL = "users/users/changeRole";
 
         String DELETE_USER_URL = "users/users/delete";
-        
+
         String USER_PROFILE_MAPPING = "profile";
-                
+
         String USER_PROFILE_URL = "users/users/profile";
-        
+
         String CHANGE_PASSWORD_MAPPING = "changePassword";
-        
+
         String SAVE_CHANGED_PASSWORD_MAPPING = "changePassword/saveChangePassword";
-        
+
         String CHANGE_PASSWORD_URL = "users/users/changePassword";
     }
 
@@ -352,6 +352,16 @@ public interface ControllerConst {
          * Subject form model attribute name.
          */
         String SUBJECT_FORM_MODEL_ATTR = "subjectForm";
+
+        /**
+         * Filter model attribute name.
+         */
+        String FILTER_MODEL_ATTR = "subjectFilter";
+
+        /**
+         * Filter model attribute name.
+         */
+        String SUBJECT_PAGINATOR_MODEL_ATTR = "subjectPaginator";
 
         /**
          * Subjects model attribute name.

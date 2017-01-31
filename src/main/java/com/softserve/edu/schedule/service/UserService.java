@@ -6,6 +6,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
@@ -131,7 +132,7 @@ public interface UserService extends UserDetailsService {
     public boolean deleteById(final Long id);
 
     /**
-     * Find a user DTO in the database by mail.
+     * Find a user in the database by mail.
      *
      * @param userMail
      *            a user mail to find in the database.
@@ -139,5 +140,27 @@ public interface UserService extends UserDetailsService {
      * @return a user DTO with given mail.
      */
     public List<UserDTO> searchByMail(final String mail);
-    
+
+    /**
+     * Change password of user in the database.
+     *
+     * @param id
+     *            a user id to find in the database.
+     *
+     * @param password
+     *            a user password to verify if real owner of account want change
+     *            password.
+     * 
+     * @param firstNewPassword
+     *            a new password which user want save.
+     * 
+     * @param secondNewPassword
+     *            a new password which should be equal to firstNewPassword
+     *            field.
+     * 
+     * @return a user DTO with given mail.
+     */
+    public void changePassword(UserDTOForChangePassword userDTO, String password,
+            String firstNewPassword, String secondNewPassword);
+
 }

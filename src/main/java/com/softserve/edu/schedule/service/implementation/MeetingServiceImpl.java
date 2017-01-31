@@ -17,22 +17,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
-
 import com.softserve.edu.schedule.dto.MeetingDTO;
-import com.softserve.edu.schedule.dto.RoomDTO;
-import com.softserve.edu.schedule.dto.SubjectDTO;
-import com.softserve.edu.schedule.dto.UserDTO;
-import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
-
 import com.softserve.edu.schedule.entity.MeetingStatus;
-import com.softserve.edu.schedule.entity.Meeting_;
 import com.softserve.edu.schedule.service.MeetingService;
-
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
-
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
 
 /**
@@ -71,7 +62,13 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void create(final MeetingDTO meetingDTO) {
         meetingDao.create(meetingDTOConverter.getEntity(meetingDTO));
+    }
 
+    /* (non-Javadoc)
+     * @see com.softserve.edu.schedule.service.MeetingService#getStatusbyString(java.lang.String)
+     */
+    public MeetingStatus getStatusbyString(final String status) {
+        return meetingDao.getStatusbyString(status);
     }
 
     /*
@@ -137,7 +134,13 @@ public class MeetingServiceImpl implements MeetingService {
 
     }
 
-    // TODO
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#
+     * getMeetingPageWithFilter(com.softserve.edu.schedule.dto.filter.
+     * MeetingFilter, com.softserve.edu.schedule.dto.filter.Paginator)
+     */
     @Override
     @Transactional(readOnly = true)
     public List<MeetingDTO> getMeetingPageWithFilter(
@@ -172,224 +175,6 @@ public class MeetingServiceImpl implements MeetingService {
     @Transactional(readOnly = true)
     public List<MeetingDTO> search(final String field, final String pattern) {
         return meetingDao.search(field, pattern).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#searchByLevel(java.lang
-     * .Integer)
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByLevel(final MeetingDTO meetingDTO) {
-        return meetingDao
-                .search(Meeting_.level.getName(),
-                        meetingDTO.getLevel().toString())
-                .stream().map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#searchByStatus(com.
-     * softserve.edu.schedule.entity.MeetingStatus)
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByStatus(final MeetingDTO meetingDTO) {
-        return meetingDao.searchByStatus(meetingDTO).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#searchByDescription(
-     * java.lang.String)
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByDescription(final MeetingDTO meetingDTO) {
-        return meetingDao.searchByDescription(meetingDTO).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#searchBySubject(com.
-     * softserve.edu.schedule.entity.Subject)
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<MeetingDTO> searchBySubject(final SubjectDTO subjectDTO) {
-        return meetingDao.searchBySubject(subjectDTO).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#searchByOwner(com.
-     * softserve.edu.schedule.entity.User)
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByOwner(final UserDTO userDTO) {
-        return meetingDao.searchByOwner(userDTO).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#searchByRoom(com.
-     * softserve.edu.schedule.entity.Room)
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByRoom(final RoomDTO roomDTO) {
-        return meetingDao.searchByRoom(roomDTO).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#searchByDate(java.time.
-     * LocalDateTime)
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByDate(final LocalDate date) {
-        /*
-         * String pattern = "" + date.getMonthValue() + "." +
-         * date.getDayOfMonth() + "." + date.getYear();
-         */
-        return meetingDao.searchByDate(date).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#searchByUserGroup(com.
-     * softserve.edu.schedule.entity.UserGroup)
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByUserGroup(final UserGroupDTO userGroupDTO) {
-        return meetingDao.searchByUserGroup(userGroupDTO).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#searchByUserGroups(java
-     * .util.List)
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<MeetingDTO> searchByUserGroups(
-            final List<UserGroupDTO> userGroups) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#sortByDescription(com.
-     * softserve.edu.schedule.dao.Order)
-     */
-    @Override
-    public List<MeetingDTO> sortByDescription(final Order order) {
-        return meetingDao.sortByDescription(order).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#sortBySubject(com.
-     * softserve.edu.schedule.dao.Order)
-     */
-    @Override
-    public List<MeetingDTO> sortBySubject(final Order order) {
-        return meetingDao.sortBySubject(order).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#sortByOwner(com.
-     * softserve.edu.schedule.dao.Order)
-     */
-    @Override
-    public List<MeetingDTO> sortByOwner(final Order order) {
-        return meetingDao.sortByOwner(order).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#sortByRoom(com.
-     * softserve.edu.schedule.dao.Order)
-     */
-    @Override
-    public List<MeetingDTO> sortByRoom(final Order order) {
-        return meetingDao.sortByRoom(order).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#sortByLevel(com.
-     * softserve.edu.schedule.dao.Order)
-     */
-    @Override
-    public List<MeetingDTO> sortByLevel(final Order order) {
-        return meetingDao.sortByLevel(order).stream()
-                .map(e -> meetingDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#sortByStatus(com.
-     * softserve.edu.schedule.dao.Order)
-     */
-    @Override
-    public List<MeetingDTO> sortByStatus(final Order order) {
-        return meetingDao.sortByStatus(order).stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }

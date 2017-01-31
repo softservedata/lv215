@@ -22,7 +22,7 @@ import javax.validation.Payload;
 @Target(TYPE)
 @Retention(RUNTIME)
 @Constraint(validatedBy = {RoomValidator.class, SubjectValidator.class,
-        MeetingValidator.class, UserValidator.class, LocationValidator.class})
+        MeetingValidator.class, UserValidator.class, UserPasswordValidator.class, LocationValidator.class})
 public @interface Validate {
 
     String message() default "";
