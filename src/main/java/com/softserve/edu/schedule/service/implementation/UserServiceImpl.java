@@ -9,9 +9,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.schedule.aspect.Loggable;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
@@ -19,6 +21,7 @@ import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForChangePasswordConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSubjectDTOConverter;
 
 /**
@@ -30,6 +33,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSub
  *
  * @since 1.8
  */
+@Loggable
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
@@ -41,6 +45,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDTOConverter userDTOConverter;
+
+    @Autowired
+    private UserDTOForChangePasswordConverter userDTOForPasswordConverter;
 
     @Autowired
     private UserForSubjectDTOConverter userForSubjectDTOConverter;
@@ -92,23 +99,6 @@ public class UserServiceImpl implements UserService {
     public void changeRole(final Long id, final UserRole userRole) {
         User user = userDAO.getById(id);
         user.setRole(userRole);
-        userDAO.update(user);
-    }
-
-    /**
-     * Change field position at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param position
-     *            a position field in User entity.
-     */
-    @Override
-    @Transactional
-    public void changePosition(final Long id, final String position) {
-        User user = userDAO.getById(id);
-        user.setPosition(position);
         userDAO.update(user);
     }
 
@@ -265,4 +255,42 @@ public class UserServiceImpl implements UserService {
             throws UsernameNotFoundException {
         return userDTOConverter.getDTO(userDAO.findByMail(userMail));
     }
+
+    /**
+     * Change password of user in the database.
+     *
+     * @param id
+     *            a user id to find in the database.
+     *
+     * @param password
+     *            a user password to verify if real owner of account want change
+     *            password.
+     * 
+     * @param firstNewPassword
+     *            a new password which user want save.
+     * 
+     * @param secondNewPassword
+     *            a new password which should be equal to firstNewPassword
+     *            field.
+     * 
+     * @return a user DTO with given mail.
+     */
+    @Transactional
+    public void changePassword(UserDTOForChangePassword userDTO,
+            String password, String firstNewPassword,
+            String secondNewPassword) {
+
+        User user = userDTOForPasswordConverter.getEntity(userDTO);
+
+        if (user.getPassword().equals(encoder.encode(password))) {
+
+            if (firstNewPassword.equals(secondNewPassword)) {
+                user.setPassword(encoder.encode(secondNewPassword));
+                user.setStatus(userDAO.getById(user.getId()).getStatus());
+                user.setRole(userDAO.getById(user.getId()).getRole());
+                userDAO.update(user);
+            }
+        }
+    }
+
 }

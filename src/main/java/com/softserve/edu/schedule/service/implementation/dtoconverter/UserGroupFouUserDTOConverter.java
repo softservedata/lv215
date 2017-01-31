@@ -23,16 +23,14 @@ public class UserGroupFouUserDTOConverter {
      *            a user group from database.
      */
     public UserGroupForUserDTO getDTO(UserGroup userGroup) {
-        if (userGroup != null) {
-            UserGroupForUserDTO userGroupFUDTO = new UserGroupForUserDTO();
-            if (userGroup.getId() != null) {
-                userGroupFUDTO.setId(userGroup.getId());
-            }
-            if (userGroup.getName() != null) {
-                userGroupFUDTO.setName(userGroup.getName());
-            }
-            return userGroupFUDTO;
-        }
-        return null;
+
+        UserGroupForUserDTO userGroupFUDTO = new UserGroupForUserDTO();
+
+        userGroupFUDTO.setId(userGroup.getId());
+
+        userGroupFUDTO.setName(userGroup.getName());
+
+        return userGroupFUDTO;
+
     }
 }

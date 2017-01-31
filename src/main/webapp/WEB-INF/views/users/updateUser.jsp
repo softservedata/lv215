@@ -11,9 +11,10 @@
 				class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
 				<h3 class="text-center"><spring:message code="lbl.user.update"/></h3>
 				<form:form
-					action="${pageContext.request.contextPath}${UserController.SAVE_UPDATED_USER_MAPPING}${userFormUpdate.id}"
+					action="${pageContext.request.contextPath}/${UserController.SAVE_UPDATED_USER_MAPPING}${userFormUpdate.id}"
 					commandName="${UserController.USER_UPDATE_ATTR}" method="post">
 					<form:hidden path="id" />
+					<form:hidden path="password" />
 					<div class="form-group">
 						<label for="firstName"><spring:message
 								code="lbl.user.firstName" />:</label>
@@ -51,14 +52,6 @@
 						<form:input type="text" class="form-control" path="position"
 							value="${userFormUpdate.position}" required="true" />
 						<form:errors path="position" class="text-danger" />
-					</div>
-					<div class="form-group">
-						<label for="password"><spring:message
-								code="lbl.user.password" />:</label>
-						<spring:message code="lbl.user.password" var="nameForPlaceholder" />
-						<form:input type="password" class="form-control" path="password"
-							value="${userFormUpdate.password}" required="true" />
-						<form:errors path="password" class="text-danger" />
 					</div>
 					<div class="form-group text-center">
 						<input type="submit" class="btn btn-default"

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
+import com.softserve.edu.schedule.service.implementation.validators.Validate;
 
 /**
  * A data transfer object for user entity.
@@ -21,6 +22,7 @@ import com.softserve.edu.schedule.entity.UserStatus;
  *
  * @since 1.8
  */
+@Validate
 public class UserDTO implements UserDetails {
 
     /**
@@ -138,6 +140,11 @@ public class UserDTO implements UserDetails {
         }
         UserDTO user = (UserDTO) o;
         return Objects.equals(mail, user.mail);
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(mail);
     }
 
     @Override
