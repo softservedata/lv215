@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.softserve.edu.schedule.service.implementation.validators.LocationValidator;
-import com.softserve.edu.schedule.service.implementation.validators.ValidationFields;
 
 /**
  * A DTO class to transport location data.
@@ -16,7 +15,7 @@ import com.softserve.edu.schedule.service.implementation.validators.ValidationFi
  *
  * @since 1.8
  */
-@LocationValidator(name = ValidationFields.NAME, address = ValidationFields.ADDRESS)
+@LocationValidator
 public class LocationDTO {
 
 	/**

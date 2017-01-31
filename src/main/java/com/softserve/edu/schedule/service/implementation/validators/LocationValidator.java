@@ -35,7 +35,4 @@ public @interface LocationValidator {
 
 	Class<? extends Payload>[] payload() default {};
 
-	String name();
-
-	String address();
 }

@@ -28,17 +28,6 @@ import com.softserve.edu.schedule.service.LocationService;
 public class LocationValidatorImpl implements ConstraintValidator<LocationValidator, Object> {
 
 	/**
-	 * An input parameter name
-	 */
-	private String name;
-
-	/**
-	 * An input parameter address
-	 * 
-	 */
-	private String address;
-
-	/**
 	 * Messages source for internationalization purposes.
 	 */
 	@Autowired
@@ -60,9 +49,6 @@ public class LocationValidatorImpl implements ConstraintValidator<LocationValida
 	 */
 	@Override
 	public void initialize(LocationValidator constraintAnnotation) {
-		name = constraintAnnotation.name();
-		address = constraintAnnotation.address();
-
 	}
 
 	/**
@@ -145,13 +131,13 @@ public class LocationValidatorImpl implements ConstraintValidator<LocationValida
 	private void printErrorMessages(boolean validName, boolean validAddress, boolean noDuplicate,
 			ConstraintValidatorContext context) {
 		if (!validName) {
-			errorMessage(name, ValidationMessages.INVALID_LOCATION_NAME, context);
+			errorMessage(ValidationFields.NAME, ValidationMessages.INVALID_LOCATION_NAME, context);
 		}
 		if (!validAddress) {
-			errorMessage(address, ValidationMessages.INVALID_LOCATION_ADDRESS, context);
+			errorMessage(ValidationFields.ADDRESS, ValidationMessages.INVALID_LOCATION_ADDRESS, context);
 		}
 		if (!noDuplicate) {
-			errorMessage(name, ValidationMessages.DUPLICATE_LOCATION, context);
+			errorMessage(ValidationFields.NAME, ValidationMessages.DUPLICATE_LOCATION, context);
 		}
 	}
 
