@@ -66,14 +66,14 @@
 			<td class="text-center v-alighn">
 				<button type="submit" class="btn btn-link"
 					title="<spring:message code="lbl.room.applyFilter"/>">
-					<i class="fa fa-check-circle-o fa-lg"></i>
+					<i class="fa fa-search"></i>
 				</button>
 			</td>
 		</form:form>
 		<td class="text-center v-alighn"><a 
 			href="subjects?name=&description=&userId=0"
 			title="<spring:message code="lbl.room.resetFilter"/>"> <i
-				class="fa fa-ban fa-lg"></i>
+				class="fa fa-times fa-lg"></i>
 		</a></td>
 		</tr>
 		<c:forEach var="subject" items="${subjects}">
