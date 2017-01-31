@@ -16,6 +16,11 @@
 					action="${pageContext.request.contextPath}${UserController.SAVE_CHANGED_PASSWORD_MAPPING}${user.id}"
 					commandName="${UserController.USER_MODEL_ATTR}" method="post">
 					<form:hidden path="id" />
+					<form:hidden path="firstName" />
+					<form:hidden path="lastName" />
+					<form:hidden path="phone" />
+					<form:hidden path="mail" />
+					<form:hidden path="position" />
 					<div class="form-group">
 						<label for="password"><spring:message
 								code="lbl.user.password" />:</label>
@@ -28,7 +33,7 @@
 						<label for="password"><spring:message
 								code="lbl.user.newPassword" />:</label>
 						<spring:message code="lbl.user.password" var="nameForPlaceholder" />
-						<form:input type="password" class="form-control" path="password"
+						<form:input type="password" class="form-control" path="firstNewPassword"
 							 required="true" />
 						<form:errors path="password" class="text-danger" />
 					</div>
@@ -36,7 +41,7 @@
 						<label for="password"><spring:message
 								code="lbl.user.newPassword" />:</label>
 						<spring:message code="lbl.user.password"  var="nameForPlaceholder"/>
-						<form:input type="password" class="form-control" path="password"
+						<form:input type="password" class="form-control" path="secondNewPassword"
 							 required="true" />
 						<form:errors path="password" class="text-danger" />
 					</div>
