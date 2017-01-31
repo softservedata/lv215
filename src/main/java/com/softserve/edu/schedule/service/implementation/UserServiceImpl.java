@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.schedule.aspect.Loggable;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
@@ -32,6 +33,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSub
  *
  * @since 1.8
  */
+@Loggable
 @Service("userService")
 public class UserServiceImpl implements UserService {
 
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
      *            a userDTO for to storage new user in database.
      */
     @Override
-    @Transactional
+    @Transactional     
     public void create(final UserDTO userDTO) {
         userDTO.setPassword(encoder.encode(userDTO.getPassword()));
         userDAO.create(userDTOConverter.getEntity(userDTO));
@@ -94,23 +96,6 @@ public class UserServiceImpl implements UserService {
     public void changeRole(final Long id, final UserRole userRole) {
         User user = userDAO.getById(id);
         user.setRole(userRole);
-        userDAO.update(user);
-    }
-
-    /**
-     * Change field position at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param position
-     *            a position field in User entity.
-     */
-    @Override
-    @Transactional
-    public void changePosition(final Long id, final String position) {
-        User user = userDAO.getById(id);
-        user.setPosition(position);
         userDAO.update(user);
     }
 

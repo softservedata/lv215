@@ -52,17 +52,6 @@ public interface UserService extends UserDetailsService {
     public void changeRole(final Long id, final UserRole role);
 
     /**
-     * Change field position at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param position
-     *            a position field in User entity.
-     */
-    public void changePosition(final Long id, final String position);
-
-    /**
      * Change field at user entity in the database.
      *
      * @param id
@@ -150,4 +139,5 @@ public interface UserService extends UserDetailsService {
      * @return a user DTO with given mail.
      */
     public List<UserDTO> searchByMail(final String mail);
+    
 }
