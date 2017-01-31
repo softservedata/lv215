@@ -92,7 +92,7 @@
 		<property name="defaultEncoding" value="UTF-8" />
 	</bean>
 
-	<!-- <import resource="security.xml" /> -->
+	<import resource="security.xml" />
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${mail.host}" />

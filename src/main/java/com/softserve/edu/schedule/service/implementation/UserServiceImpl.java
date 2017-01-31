@@ -3,7 +3,11 @@ package com.softserve.edu.schedule.service.implementation;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -45,6 +49,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserForSubjectDTOConverter userForSubjectDTOConverter;
 
+    @Autowired
+    private BCryptPasswordEncoder encoder;
+
     /**
      * Save new user entity into the database.
      *
@@ -52,8 +59,9 @@ public class UserServiceImpl implements UserService {
      *            a userDTO for to storage new user in database.
      */
     @Override
-    @Transactional
-    public void create(final UserDTO userDTO) {      
+    @Transactional     
+    public void create(final UserDTO userDTO) {
+        userDTO.setPassword(encoder.encode(userDTO.getPassword()));
         userDAO.create(userDTOConverter.getEntity(userDTO));
     }
 
@@ -147,7 +155,7 @@ public class UserServiceImpl implements UserService {
                 .map(e -> userDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
-    
+
     /**
      * Get all users by position what was selected.
      *
@@ -176,7 +184,7 @@ public class UserServiceImpl implements UserService {
                 .map(e -> userDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
-    
+
     /**
      * Sort all users by last name.
      *
@@ -202,7 +210,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO getById(final Long id) {
         return userDTOConverter.getDTO(userDAO.getById(id));
     }
-    
+
     /**
      * Delete existed transfer object from the database by id.
      *
@@ -219,8 +227,8 @@ public class UserServiceImpl implements UserService {
         } else {
             return false;
         }
-    } 
-    
+    }
+
     /**
      * Find a user DTO in the database by mail.
      *
@@ -235,5 +243,24 @@ public class UserServiceImpl implements UserService {
         return userDAO.search(User_.mail.getName(), mail).stream()
                 .map(e -> userDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserDTO loadUserByUsername(String userMail)
+            throws UsernameNotFoundException {
+        return userDTOConverter.getDTO(userDAO.findByMail(userMail));
+    }
+
+    @PostConstruct
+    public void postConstruct() {
+        if (userDAO.getById(1L) == null) {
+            User user = new User();
+            user.setId(1L);
+            user.setMail("admin@admin.com");
+            user.setRole(UserRole.ADMIN);
+            user.setPassword(encoder.encode("admin"));
+            userDAO.create(user);
+        }
     }
 }

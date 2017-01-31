@@ -2,6 +2,8 @@ package com.softserve.edu.schedule.service;
 
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
@@ -17,7 +19,7 @@ import com.softserve.edu.schedule.entity.UserStatus;
  *
  * @since 1.8
  */
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     /**
      * Save new user entity into the database.
@@ -80,7 +82,7 @@ public interface UserService {
      * @return List of the user objects.
      */
     public List<UserDTO> searchByLastName(final String pattern);
-    
+
     /**
      * Get all users by position what was selected.
      *
@@ -100,7 +102,7 @@ public interface UserService {
      * @return List of the user objects.
      */
     public List<UserDTO> sortByLastName(final Order order);
-    
+
     /**
      * Sort all users by first name.
      *
@@ -127,7 +129,7 @@ public interface UserService {
      *            a user id to delete from database.
      */
     public boolean deleteById(final Long id);
-    
+
     /**
      * Find a user DTO in the database by mail.
      *
