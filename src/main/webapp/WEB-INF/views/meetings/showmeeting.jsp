@@ -32,6 +32,7 @@
 			</h3>
 			<form:form role="form" method="post" modelAttribute="meetingForm">
 				<form:input path="id" type="hidden" />
+				<form:input path="status" type="hidden" />
 
 
 				<div class="form-group">
