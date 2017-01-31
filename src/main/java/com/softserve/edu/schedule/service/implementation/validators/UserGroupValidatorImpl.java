@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import com.softserve.edu.schedule.aspect.PerfomanceLoggable;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.service.UserGroupService;
 
@@ -27,6 +28,7 @@ import com.softserve.edu.schedule.service.UserGroupService;
  *
  * @author Andrii Zhydenko
  */
+@PerfomanceLoggable
 public class UserGroupValidatorImpl implements ConstraintValidator<UserGroupValidator, Object> {
 
 	/**
