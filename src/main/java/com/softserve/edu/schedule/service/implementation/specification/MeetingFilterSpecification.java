@@ -65,14 +65,22 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         this.userGroupDAO = userGroupDAO;
     }
 
-    private void findByDescription() {
+    private void findById(){
+        if (meetingFilter.getId() != null) {
+            list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
+                    .equal(root.get(Meeting_.id),
+                            meetingFilter.getId()));
+        }
+    }
+    
+/*    private void findByDescription() {
         if (meetingFilter.getDescription() != null
                 && !meetingFilter.getDescription().equals("")) {
             list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
                     .like(root.get(Meeting_.description),
                             "%" + meetingFilter.getDescription() + "%"));
         }
-    }
+    }*/
 
     private void findBySubjectId() {
         if (meetingFilter.getSubjectId() != null
@@ -306,7 +314,7 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         root.join(Meeting_.groups, JoinType.LEFT);
         setSortingParameters(root, criteriaQuery, criteriaBuilder);
         if (meetingFilter != null) {
-            findByDescription();
+            findById();
             findBySubjectId();
             findByOwnerId();
             findByRoomId();

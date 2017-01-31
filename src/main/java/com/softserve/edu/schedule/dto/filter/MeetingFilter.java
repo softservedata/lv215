@@ -11,6 +11,8 @@ public class MeetingFilter {
 
     private String showFilter;
 
+    private Long id;
+
     private String description;
 
     private Long subjectId;
@@ -36,6 +38,20 @@ public class MeetingFilter {
     private int sortOrder;
 
     private int fieldForSorting;
+
+    /**
+     * @return
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * @param id
+     */
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     /**
      * @return the showFilter

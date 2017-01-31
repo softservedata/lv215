@@ -40,7 +40,7 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEdit
 
 @RequestMapping("/meetings")
 @Controller
-@SessionAttributes({"meetingFilter", "meetingPaginator"})
+@SessionAttributes({ "meetingFilter", "meetingPaginator" })
 public class MeetingController {
 
     @Autowired
@@ -78,9 +78,9 @@ public class MeetingController {
 
     @Autowired
     MeetingStatusEditor meetingStatusEditor;
+
     @InitBinder("meetingForm")
     protected void initBinder(WebDataBinder binder) {
-    	binder.registerCustomEditor(MeetingStatus.class,meetingStatusEditor);
         binder.registerCustomEditor(SubjectDTO.class, subjectDTOEditor);
         binder.registerCustomEditor(LocalDate.class, dateEditor);
         binder.registerCustomEditor(LocalTime.class, timeEditor);
@@ -128,7 +128,7 @@ public class MeetingController {
         model.addAttribute("meetingStatuses", MeetingStatus.values());
         return "meetings/list";
     }
-    
+
     /**
      * Creates new meetingDTO.
      * 
@@ -166,8 +166,6 @@ public class MeetingController {
         return "redirect:/meetings";
     }
 
- 
-
     /**
      * Deletes meeting by given id.
      * 
@@ -197,7 +195,7 @@ public class MeetingController {
         model.addAttribute("meetingStatuses", MeetingStatus.values());
         return "meetings/edit";
     }
-    
+
     /**
      * Deletes meeting by given id.
      * 
@@ -220,23 +218,9 @@ public class MeetingController {
         return "redirect:/meetings";
     }
 
-
-
     /**
-     * Edits meeting by given id.
      * 
-     * @param meetingDTO
-     * @return
-     */
-    @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
-    public String editStatus(@Valid @ModelAttribute("meeting") MeetingDTO meetingDTO) {
-        meetingService.changeMeetingStatus(meetingDTO.getId(),
-                meetingDTO.getStatus());
-        return "redirect:/meetings";
-    }
-
-    /**
-     * Edits meeting status by given id.
+     * Edits meeting status by given id.**
      * 
      * @param id
      * @param model
@@ -251,6 +235,20 @@ public class MeetingController {
         model.addAttribute("groups", userGroupService.getAll());
         model.addAttribute("meetingStatuses", MeetingStatus.values());
         return "meetings/editStatus";
+    }
+
+    /**
+     * Edits meeting by given id.
+     * 
+     * @param meetingDTO
+     * @return
+     */
+    @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
+    public String editStatus(
+            @Valid @ModelAttribute("meeting") MeetingDTO meetingDTO) {
+        meetingService.changeMeetingStatus(meetingDTO.getId(),
+                meetingDTO.getStatus());
+        return "redirect:/meetings";
     }
 
 }

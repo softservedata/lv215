@@ -12,6 +12,16 @@ package com.softserve.edu.schedule.entity;
  */
 public enum MeetingStatus {
 
-     APPROVED, DISAPPROVED, FINISHED, NOT_APPROVED;
+    APPROVED("ms.APPROVED"), DISAPPROVED("ms.DISAPPROVED"), 
+    FINISHED("ms.FINISHED"), NOT_APPROVED("ms.NOTAPPROVED");
+    private String messageCode;
+
+    private MeetingStatus(final String messageCode) {
+        this.messageCode = messageCode;
+    }
+
+    public String getMessageCode() {
+        return messageCode;
+    }
 
 }

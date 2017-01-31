@@ -158,15 +158,18 @@
 						<c:forEach items="${meetingStatuses}" var="status">
 							<c:choose>
 								<c:when test="${meetingForm.status eq status}">
-									<option value="${status}" selected="selected">${status}</option>
+									<option value="${status.ordinal()}" selected="selected">${status}</option>
 								</c:when>
 								<c:otherwise>
-									<option value="${status}">${status}</option>
+									<c:if test="${status.ordinal() ne 2}">
+										<option value="${status.ordinal()}">${status}</option>
+									</c:if>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
 					</form:select>
 					<form:errors path="status" class="text-danger" />
+
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
