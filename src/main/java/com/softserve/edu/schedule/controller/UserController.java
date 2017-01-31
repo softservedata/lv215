@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.service.UserService;
@@ -89,7 +90,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      * @return users list page redirect URL
      */
     @RequestMapping(UPDATE_USER_MAPPING + "{id}")
-    public String getEdit(@PathVariable Long id, Model model) {
+    public String update(@PathVariable Long id, Model model) {
         model.addAttribute(USER_UPDATE_ATTR, userService.getById(id));
         return UPDATE_PAGE_URL;
     }
@@ -315,12 +316,15 @@ public class UserController implements ControllerConst.UserControllerConst,
     @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String saveChangedPassword(
-            @ModelAttribute(USER_MODEL_ATTR) @Valid UserDTO user,
-            BindingResult br) {
+            @ModelAttribute(USER_MODEL_ATTR) @Valid UserDTOForChangePassword user,
+            @RequestParam String password,
+            @RequestParam String firstNewPassword,
+            @RequestParam String secondNewPassword, BindingResult br) {
         if (br.hasErrors()) {
-            return UPDATE_PAGE_URL;
+            return CHANGE_PASSWORD_URL;
         }
-        userService.update(user);
+        userService.changePassword(user, password, firstNewPassword,
+                secondNewPassword);
         return REDIRECT_USERS_PAGE;
     }
 }
