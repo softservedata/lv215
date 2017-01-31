@@ -98,4 +98,6 @@ public interface ValidationFields {
     String GROUPS = "groups";
 
     String SUBJECT = "subject";
+    
+    String STATUS = "status";
 }

@@ -53,6 +53,9 @@ public interface MeetingService {
      * @return Meeting transfer object
      */
     public MeetingDTO getById(final Long id);
+    
+    
+    public MeetingStatus getStatusbyString(final String status);
 
     /**
      * Read all meetings from DB.

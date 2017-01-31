@@ -73,6 +73,10 @@ public class MeetingServiceImpl implements MeetingService {
         meetingDao.create(meetingDTOConverter.getEntity(meetingDTO));
 
     }
+    
+    public MeetingStatus getStatusbyString(final String status){
+    	return meetingDao.getStatusbyString(status);
+    }
 
     /*
      * (non-Javadoc)

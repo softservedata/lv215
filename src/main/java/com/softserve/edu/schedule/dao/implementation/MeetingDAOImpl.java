@@ -500,5 +500,18 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
             return new ArrayList<>();
         }
     }
-
+    public MeetingStatus getStatusbyString(final String status) {
+    	if (status.equals("FINISHED")) {
+    		return MeetingStatus.FINISHED;
+    	}
+    	if (status.equals("APPROVED")) {
+    		return MeetingStatus.APPROVED;
+    	}
+    	if (status.equals("DISAPPROVED")) {
+    		return MeetingStatus.DISAPPROVED;
+    	}
+    	else {
+    		return MeetingStatus.NOT_APPROVED;
+    	}
+    }
 }

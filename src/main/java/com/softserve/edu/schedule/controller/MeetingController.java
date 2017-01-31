@@ -31,6 +31,7 @@ import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
+import com.softserve.edu.schedule.service.implementation.editor.MeetingStatusEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.SubjectDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.TimeEditor;
@@ -75,8 +76,11 @@ public class MeetingController {
     @Autowired
     private RoomDTOEditor roomDTOEditor;
 
+    @Autowired
+    MeetingStatusEditor meetingStatusEditor;
     @InitBinder("meetingForm")
     protected void initBinder(WebDataBinder binder) {
+    	binder.registerCustomEditor(MeetingStatus.class,meetingStatusEditor);
         binder.registerCustomEditor(SubjectDTO.class, subjectDTOEditor);
         binder.registerCustomEditor(LocalDate.class, dateEditor);
         binder.registerCustomEditor(LocalTime.class, timeEditor);
@@ -124,6 +128,22 @@ public class MeetingController {
         model.addAttribute("meetingStatuses", MeetingStatus.values());
         return "meetings/list";
     }
+    
+    /**
+     * Creates new meetingDTO.
+     * 
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/create", method = RequestMethod.GET)
+    public String createForm(Model model) {
+        model.addAttribute("meetingForm", new MeetingDTO());
+        model.addAttribute("subjects", subjectService.getAll());
+        model.addAttribute("owners", userService.getAll());
+        model.addAttribute("rooms", roomService.getAll());
+        model.addAttribute("groups", userGroupService.getAll());
+        return "meetings/create";
+    }
 
     /**
      * Creates new meetingDTO.
@@ -146,21 +166,7 @@ public class MeetingController {
         return "redirect:/meetings";
     }
 
-    /**
-     * Creates new meetingDTO.
-     * 
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/create", method = RequestMethod.GET)
-    public String createForm(Model model) {
-        model.addAttribute("meetingForm", new MeetingDTO());
-        model.addAttribute("subjects", subjectService.getAll());
-        model.addAttribute("owners", userService.getAll());
-        model.addAttribute("rooms", roomService.getAll());
-        model.addAttribute("groups", userGroupService.getAll());
-        return "meetings/create";
-    }
+ 
 
     /**
      * Deletes meeting by given id.
@@ -174,6 +180,24 @@ public class MeetingController {
         return "redirect:/meetings";
     }
 
+    /**
+     * Edits meeting by given id.
+     * 
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public String editForm(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("meetingForm", meetingService.getById(id));
+        model.addAttribute("subjects", subjectService.getAll());
+        model.addAttribute("owners", userService.getAll());
+        model.addAttribute("rooms", roomService.getAll());
+        model.addAttribute("groups", userGroupService.getAll());
+        model.addAttribute("meetingStatuses", MeetingStatus.values());
+        return "meetings/edit";
+    }
+    
     /**
      * Deletes meeting by given id.
      * 
@@ -196,23 +220,7 @@ public class MeetingController {
         return "redirect:/meetings";
     }
 
-    /**
-     * Edits meeting by given id.
-     * 
-     * @param id
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public String editForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("meetingForm", meetingService.getById(id));
-        model.addAttribute("subjects", subjectService.getAll());
-        model.addAttribute("owners", userService.getAll());
-        model.addAttribute("rooms", roomService.getAll());
-        model.addAttribute("groups", userGroupService.getAll());
-        model.addAttribute("meetingStatuses", MeetingStatus.values());
-        return "meetings/edit";
-    }
+
 
     /**
      * Edits meeting by given id.

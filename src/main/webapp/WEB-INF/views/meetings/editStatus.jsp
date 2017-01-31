@@ -30,6 +30,7 @@
 			<h3 class="text-center"><spring:message code="lbl.meeting.editstatus" /></h3>
 			<form:form role="form" method="post" modelAttribute="meetingForm">
 				<form:input path="id" type="hidden" />
+
 				<div class="form-group">
 					<label for="status"><spring:message code="lbl.meeting.changestatus" /></label>
 					<form:select class="form-control" path="status" id="status">
@@ -44,6 +45,7 @@
 							</c:choose>
 						</c:forEach>
 					</form:select>
+					<form:errors path="status" class="text-danger" />
 				</div>
 				
 				<div class="form-group text-center">
