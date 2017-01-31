@@ -18,11 +18,6 @@ package com.softserve.edu.schedule.dto.filter;
 public class SubjectFilter {
 
     /**
-     * Show filter parameter. If true filter will be shown.
-     */
-    private String showFilter;
-
-    /**
      * Subject name for filter rooms.
      */
     private String name;
@@ -46,21 +41,6 @@ public class SubjectFilter {
      * Order id for sorting filter result.
      */
     private int sortOrder;
-
-    /**
-     * @return the showFilter
-     */
-    public String getShowFilter() {
-        return showFilter;
-    }
-
-    /**
-     * @param showFilter
-     *            the showFilter to set
-     */
-    public void setShowFilter(String showFilter) {
-        this.showFilter = showFilter;
-    }
 
     /**
      * @return name

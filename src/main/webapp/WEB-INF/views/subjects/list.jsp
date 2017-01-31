@@ -28,42 +28,28 @@
 				title="<spring:message code="lbl.subject.sortDesc"/>"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th><spring:message code="lbl.subject.tutor" /> </th>
-			<th>				
-				<button class="btn btn-link" data-toggle="collapse"
-					data-target="#showfilter"
-					title="<spring:message code="lbl.room.showFilter"/>">
-					<i class="fa fa-filter fa-lg"></i>
-				</button></th>
-			<th><a
+			<th></th>
+			<th class="text-center v-alighn"><a
 				href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"
 				title="<spring:message code="lbl.subject.add"/>"><i
 					class="fa fa-plus fa-lg"></i></a></th>
 		</tr>
 		<tr>
-		<c:choose>
-			<c:when test="${subjectFilter.showFilter eq true}">
-				<tr class="collapse in" id="showfilter">
-			</c:when>
-			<c:otherwise>
-				<tr class="collapse" id="showfilter">
-			</c:otherwise>
-		</c:choose>
-		<form:form role="form" action="subjects" method="get"
+		<form:form action="subjects" 
 			modelAttribute="${SubjectController.FILTER_MODEL_ATTR}">
-			<form:input path="showFilter" type="hidden" value="true" />
 			<td></td>
 			<td>
 					<spring:message code="lbl.subject.search" var="search" />
-					<form:input path="name"
+					<form:input  class="form-control" path="name"
 						placeholder=" ${search}" />
 			</td>
 			<td>
 					<spring:message code="lbl.subject.search" var="search" />
-					<form:input path="description"
+					<form:input class="form-control" path="description"
 						placeholder="${search}" />
 			</td>
 			<td>
-					<form:select path="userId">
+					<form:select  class="form-control" path="userId">
 						<option value="0"></option>
 						<c:forEach items="${users}" var="user">
 							<c:choose>
@@ -84,8 +70,8 @@
 				</button>
 			</td>
 		</form:form>
-		<td class="text-center v-alighn"><a
-			href="subjects?showFilter=false&name=&description=&userId=0"
+		<td class="text-center v-alighn"><a 
+			href="subjects?name=&description=&userId=0"
 			title="<spring:message code="lbl.room.resetFilter"/>"> <i
 				class="fa fa-ban fa-lg"></i>
 		</a></td>
@@ -98,12 +84,12 @@
 				<td><c:forEach items="${subject.users}" var="user">
 						<p>${user.firstName}${user.lastName}</p>
 					</c:forEach></td>
-				<td><a
+				<td class="text-center v-alighn"><a
 					href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DELETE_MAPPING}${subject.id}"
 					title="<spring:message code="lbl.subject.delete"/>"
 					onclick="return confirm('<spring:message code="lbl.subject.deleteConfirm"/>')"><i
 						class="fa fa-trash-o fa-lg"></i></a></td>
-				<td><a
+				<td class="text-center v-alighn"><a
 					href="${pageContext.request.contextPath}${SubjectController.SUBJECT_EDIT_MAPPING}${subject.id}"
 					title="<spring:message code="lbl.subject.edit"/>"><i
 						class="fa fa-pencil-square-o fa-lg"></i></a></td>
