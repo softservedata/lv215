@@ -27,11 +27,11 @@
 	<div class="row">
 		<div
 			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
-			<h3 class="text-center">Edit Meeting status</h3>
+			<h3 class="text-center"><spring:message code="lbl.meeting.editstatus" /></h3>
 			<form:form role="form" method="post" modelAttribute="meetingForm">
 				<form:input path="id" type="hidden" />
 				<div class="form-group">
-					<label for="status">Change the status to</label>
+					<label for="status"><spring:message code="lbl.meeting.changestatus" /></label>
 					<form:select class="form-control" path="status" id="status">
 						<c:forEach items="${meetingStatuses}" var="status">
 							<c:choose>

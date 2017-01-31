@@ -3,7 +3,6 @@ package com.softserve.edu.schedule.dao.implementation;
 
 import java.util.List;
 
-import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
@@ -111,22 +110,18 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     @Override
     public List<Room> getByNameAndLocationId(final String roomName,
             final Long locationId) {
-        try {
-            CriteriaBuilder builder = getEm().getCriteriaBuilder();
-            CriteriaQuery<Room> cq = builder.createQuery(Room.class);
-            Root<Room> root = cq.from(Room.class);
-            root.fetch(Room_.location, JoinType.LEFT);
-            root.fetch(Room_.equipments, JoinType.LEFT);
-            Predicate predicate = builder.conjunction();
-            predicate = builder.and(predicate,
-                    builder.like(root.get(Room_.name), roomName));
-            predicate = builder.and(predicate,
-                    root.get(Room_.location).in(locationId));
-            cq.where(predicate);
-            return getEm().createQuery(cq).getResultList();
-        } catch (NoResultException e) {
-            return null;
-        }
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Room> cq = builder.createQuery(Room.class);
+        Root<Room> root = cq.from(Room.class);
+        root.fetch(Room_.location, JoinType.LEFT);
+        root.fetch(Room_.equipments, JoinType.LEFT);
+        Predicate predicate = builder.conjunction();
+        predicate = builder.and(predicate,
+                builder.like(root.get(Room_.name), roomName));
+        predicate = builder.and(predicate,
+                root.get(Room_.location).in(locationId));
+        cq.where(predicate);
+        return getEm().createQuery(cq).getResultList();
     }
 
     /**

@@ -154,10 +154,4 @@ public class RoomServiceImpl implements RoomService {
                 .stream().map(e -> roomDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
-
-    @Override
-    public Room getEntityById(final Long id) {
-        return roomDAO.getById(id);
-    }
-
 }

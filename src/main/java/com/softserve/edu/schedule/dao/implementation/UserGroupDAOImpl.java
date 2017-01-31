@@ -40,90 +40,92 @@ import com.softserve.edu.schedule.entity.User_;
  *
  */
 @Repository("userGroupDAO")
-public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGroupDAO {
+public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
+        implements UserGroupDAO {
 
-	/**
-	 * Constructor of UserGroupDAOImpl
-	 */
-	public UserGroupDAOImpl() {
-		super(UserGroup.class);
-	}
+    /**
+     * Constructor of UserGroupDAOImpl
+     */
+    public UserGroupDAOImpl() {
+        super(UserGroup.class);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getAll()
-	 */
-	/*
-	 * @Override
-	 * 
-	 * public List<UserGroup> getAll() { CriteriaBuilder builder =
-	 * getEm().getCriteriaBuilder(); CriteriaQuery<UserGroup> cq =
-	 * builder.createQuery(UserGroup.class); Root<UserGroup> root =
-	 * cq.from(UserGroup.class);
-	 * 
-	 * root.fetch(UserGroup_.curator, JoinType.LEFT);
-	 * root.fetch(UserGroup_.users, JoinType.LEFT); cq.distinct(true); return
-	 * getEm().createQuery(cq).getResultList(); }
-	 */
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getAll()
+     */
 
-	/*
-	 * (non-Javadoc)
-	 *
-	 * 
-	 * @see com.softserve.edu.schedule.dao.UserGroupDAO#sortByFields(java.lang.
-	 * String, com.softserve.edu.schedule.dao.Order)
-	 */
-	@Override
-	public List<UserGroup> sortByFields(final String field, final Order order) {
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-		Root<UserGroup> root = cq.from(UserGroup.class);
-		root.fetch(UserGroup_.curator, JoinType.LEFT);
-		root.fetch(UserGroup_.users, JoinType.LEFT);
-		cq.distinct(true);
-		if (order == Order.ASC) {
-			cq.orderBy(builder.asc(root.get(field)));
-		} else {
-			cq.orderBy(builder.desc(root.get(field)));
-		}
-		return getEm().createQuery(cq).getResultList();
-	}
+    @Override
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getById(java.
-	 * lang.Long)
-	 */
-	@Override
-	public UserGroup getById(Long id) {
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-		Root<UserGroup> root = cq.from(UserGroup.class);
-		root.fetch(UserGroup_.users, JoinType.LEFT);
-		cq.where(root.get(UserGroup_.id).in(id));
-		return getEm().createQuery(cq).getSingleResult();
-	}
+    public List<UserGroup> getAll() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+        Root<UserGroup> root = cq.from(UserGroup.class);
+        root.fetch(UserGroup_.curator, JoinType.LEFT);
+        root.fetch(UserGroup_.users, JoinType.LEFT);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.dao.UserGroupDAO#searchGroupsByCurators(java.
-	 * lang.String)
-	 */
-	@Override
-	public List<UserGroup> searchGroupsByCurators(String pattern) {
-		// TODO Auto-generated method stub
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-		Root<UserGroup> root = cq.from(UserGroup.class);
-		Join<UserGroup, User> joinUser = root.join(UserGroup_.users);
-		Predicate predicate = builder.like(joinUser.get(User_.lastName), SEARCH_MASK + pattern + SEARCH_MASK);
-		cq.where(predicate);
-		cq.distinct(true);
-		return getEm().createQuery(cq).getResultList();
-	}
+    /*
+     * (non-Javadoc)
+     *
+     * 
+     * @see com.softserve.edu.schedule.dao.UserGroupDAO#sortByFields(java.lang.
+     * String, com.softserve.edu.schedule.dao.Order)
+     */
+    @Override
+    public List<UserGroup> sortByFields(final String field, final Order order) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+        Root<UserGroup> root = cq.from(UserGroup.class);
+        root.fetch(UserGroup_.curator, JoinType.LEFT);
+        root.fetch(UserGroup_.users, JoinType.LEFT);
+        cq.distinct(true);
+        if (order == Order.ASC) {
+            cq.orderBy(builder.asc(root.get(field)));
+        } else {
+            cq.orderBy(builder.desc(root.get(field)));
+        }
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getById(java.
+     * lang.Long)
+     */
+    @Override
+    public UserGroup getById(Long id) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+        Root<UserGroup> root = cq.from(UserGroup.class);
+        root.fetch(UserGroup_.users, JoinType.LEFT);
+        cq.where(root.get(UserGroup_.id).in(id));
+        return getEm().createQuery(cq).getSingleResult();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.UserGroupDAO#searchGroupsByCurators(java.
+     * lang.String)
+     */
+    @Override
+    public List<UserGroup> searchGroupsByCurators(String pattern) {
+        // TODO Auto-generated method stub
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+        Root<UserGroup> root = cq.from(UserGroup.class);
+        Join<UserGroup, User> joinUser = root.join(UserGroup_.users);
+        Predicate predicate = builder.like(joinUser.get(User_.lastName),
+                SEARCH_MASK + pattern + SEARCH_MASK);
+        cq.where(predicate);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
 }

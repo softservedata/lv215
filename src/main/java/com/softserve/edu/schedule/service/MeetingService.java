@@ -267,14 +267,9 @@ public interface MeetingService {
 
 
     /**
-     * 
-     * Find all meetings in the DB by given date and roomId.
-=======
-    /*
      * Find all meetings in the DB by given date and roomId.
      * 
      * @author Petro Zelyonka
->>>>>>> 16056cdee5ab399e1bbba4433adbcce1ccc387bc
      * 
      * @param roomId room id for find meetings
      * 

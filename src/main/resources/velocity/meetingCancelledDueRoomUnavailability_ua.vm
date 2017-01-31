@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	</head>
+<body>
+	<body>
+		<h3>Шановний ${meeting.getOwnerFullName()},</h3>
+		<p> на жаль, одна з Ваших зустрічей була скасована по причині недоступності вибраної кімнати. Будь-ласка, змініть цю зустріч.</p>
+		<h4>Інформація про зустріч:</h4>
+		<table>
+			<tr>
+				<th>Тема:</th>
+				<td>${meeting.getSubjectName()}</td>
+			</tr>
+			<tr>
+				<th>Кімната:</th>
+				<td>${meeting.getRoomName()}</td>
+			</tr>
+			<tr>
+				<th>Дата:</th>
+				<td>${meeting.getDate()}</td>
+			</tr>
+			<tr>
+				<th>Початок:</th>
+				<td>${meeting.getStartTime()}</td>
+			</tr>
+			<tr>
+				<th>Кінець:</th>
+				<td>${meeting.getEndTime()}</td>
+			</tr>			
+		</table>		
+</body>
+</html>

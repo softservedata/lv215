@@ -3,9 +3,12 @@ package com.softserve.edu.schedule.controller;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -22,7 +25,6 @@ import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.MeetingStatus;
-import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.SubjectService;
@@ -45,9 +47,6 @@ public class MeetingController {
 
     @Autowired
     private SubjectService subjectService;
-
-    @Autowired
-    LocationService locationService;
 
     @Autowired
     private UserService userService;
@@ -133,7 +132,16 @@ public class MeetingController {
      * @return
      */
     @RequestMapping(value = "/create", method = RequestMethod.POST)
-    public String create(@ModelAttribute("meetingForm") MeetingDTO meetingDTO) {
+    public String create(
+            @Valid @ModelAttribute("meetingForm") MeetingDTO meetingDTO,
+            BindingResult br, Model model) {
+        if (br.hasErrors()) {
+            model.addAttribute("subjects", subjectService.getAll());
+            model.addAttribute("owners", userService.getAll());
+            model.addAttribute("rooms", roomService.getAll());
+            model.addAttribute("groups", userGroupService.getAll());
+            return "meetings/create";
+        }
         meetingService.create(meetingDTO);
         return "redirect:/meetings";
     }
@@ -173,7 +181,17 @@ public class MeetingController {
      * @return
      */
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-    public String edit(@ModelAttribute("meetingForm") MeetingDTO meetingDTO) {
+    public String edit(
+            @ModelAttribute("meetingForm") @Valid MeetingDTO meetingDTO,
+            BindingResult br, Model model) {
+        if (br.hasErrors()) {
+            model.addAttribute("subjects", subjectService.getAll());
+            model.addAttribute("owners", userService.getAll());
+            model.addAttribute("rooms", roomService.getAll());
+            model.addAttribute("groups", userGroupService.getAll());
+            model.addAttribute("meetingStatuses", MeetingStatus.values());
+            return "meetings/edit";
+        }
         meetingService.update(meetingDTO);
         return "redirect:/meetings";
     }
@@ -203,7 +221,7 @@ public class MeetingController {
      * @return
      */
     @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
-    public String editStatus(@ModelAttribute("meeting") MeetingDTO meetingDTO) {
+    public String editStatus(@Valid @ModelAttribute("meeting") MeetingDTO meetingDTO) {
         meetingService.changeMeetingStatus(meetingDTO.getId(),
                 meetingDTO.getStatus());
         return "redirect:/meetings";
