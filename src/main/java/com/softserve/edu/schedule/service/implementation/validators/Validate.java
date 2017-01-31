@@ -19,10 +19,10 @@ import javax.validation.Payload;
  *
  * @since 1.8
  */
-@Target({TYPE})
+@Target(TYPE)
 @Retention(RUNTIME)
 @Constraint(validatedBy = {RoomValidator.class, SubjectValidator.class,
-        MeetingValidator.class, UserValidator.class})
+        MeetingValidator.class, UserValidator.class, LocationValidator.class})
 public @interface Validate {
 
     String message() default "";

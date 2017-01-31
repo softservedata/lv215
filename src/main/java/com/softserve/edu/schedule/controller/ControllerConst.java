@@ -235,6 +235,10 @@ public interface ControllerConst {
      * @author Oleksandr Butyter
      */
     public interface LocationControllerConst {
+    	
+    	String FILTER_MODEL_ATTR = "locationFilter";
+    	
+    	String LOCATION_PAGINATOR_MODEL_ATTR = "locationPaginator";
         /**
          * Search model attribute name.
          */

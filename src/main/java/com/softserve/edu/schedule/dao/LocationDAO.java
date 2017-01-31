@@ -8,6 +8,8 @@ package com.softserve.edu.schedule.dao;
 
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.filter.LocationFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Location;
 
 /**
@@ -38,4 +40,7 @@ public interface LocationDAO extends CrudDAO<Location> {
 	 * @return list of locations which suit condition of search by field
 	 */
 	List<Location> getLocationsByField(final String field, final String pattern);
+
+	public List<Location> getLocationsPageWithFilter(final LocationFilter locationFilter,
+			final Paginator locationPaginator);
 }
