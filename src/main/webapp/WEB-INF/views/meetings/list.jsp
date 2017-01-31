@@ -117,10 +117,10 @@
 			<form:input path="showFilter" type="hidden" value="true" />
 
 			<!-- ID -->
-			<td><form:input class="input-number meetingid" 
-					type="number" path="id" placeholder="ID" step="1" /></td>
+			<td><form:input class="input-number meetingid" type="number"
+					path="id" placeholder="ID" step="1" /></td>
 
-					
+
 			<%-- <!-- description -->
 			<td style="width: 15%">
 				<div class="form-group">
@@ -215,7 +215,8 @@
 					<c:forEach items="${meetingStatuses}" var="status">
 						<c:choose>
 							<c:when test="${meetingFilter.status eq status.ordinal()}">
-								<option value="${status.ordinal()}" selected="selected" itemCode="messageCode">${status}</option>
+								<option value="${status.ordinal()}" selected="selected"
+									itemCode="messageCode">${status}</option>
 							</c:when>
 							<c:otherwise>
 								<option value="${status.ordinal()}">${status}</option>
@@ -240,7 +241,7 @@
 
 	<c:forEach var="meeting" items="${meetings}">
 		<tr>
-			<td>${meeting.id}</td>
+			<td><a href="meetings/${meeting.id}">${meeting.id}</a></td>
 			<%-- <td>${meeting.description}</td> --%>
 			<td>${meeting.subject.name}</td>
 			<td>${meeting.owner.lastName}${meeting.owner.firstName}</td>
@@ -254,8 +255,10 @@
 			<td>${meeting.level}</td>
 			<td>${meeting.status}</td>
 			<td><a
-				href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"><i
-					class="fa fa-trash-o fa-lg"></i></a></td>
+				href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"
+				onclick="return confirm('<spring:message code="lbl.room.deleteMeetingConfirm"/>');">
+					<i class="fa fa-trash-o fa-lg"></i>
+			</a></td>
 			<td><a
 				href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}"><i
 					class="fa fa-pencil-square-o fa-lg"></i></a></td>
