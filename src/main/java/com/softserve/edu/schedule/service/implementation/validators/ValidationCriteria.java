@@ -49,6 +49,11 @@ public interface ValidationCriteria {
 	 * though $ # end-of-string
 	 */
 	String CHARACTERS_FOR_PASSWORD = "\\A(?=\\S*[0-9])(?=\\S*[a-z])(?=\\S*[A-Z])(?=\\S*[@#$%^&+=])\\S{8,}\\z";
+	
+	/**
+     * Allowed characters for position expression.
+     */
+	String CHARACTERS_FOR_POSITION = "[а-яА-ЯёЁіІєЄїЇa-zA-Z\\s]{1,250}";
 
 	/**
 	 * Allowed characters for name expression.
@@ -78,7 +83,9 @@ public interface ValidationCriteria {
 	/**
 	 * Allowed characters for Meeting description expression.
 	 */
-	String PATTERN_FOR_MEETING_DESCRIPTION = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=\\.\\,\\s\\-]{1,1000}$";
+	String PATTERN_FOR_MEETING_DESCRIPTION = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&!+=\\.\\,\\s\\-]{0,1000}$";
 	
+	
+	String PATTERN_FOR_MEETING_LEVEL = "^[1-5]$"; 
 	
 }

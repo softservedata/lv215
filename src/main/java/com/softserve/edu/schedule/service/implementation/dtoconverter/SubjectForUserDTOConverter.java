@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 import com.softserve.edu.schedule.dto.SubjectForUserDTO;
 import com.softserve.edu.schedule.entity.Subject;
 
-
 /**
  * An class to provide SubjectForUserDTO from Subject entity.
  *
@@ -24,16 +23,14 @@ public class SubjectForUserDTOConverter {
      *            a subject from database.
      */
     public SubjectForUserDTO getDTO(Subject subject) {
-        if (subject != null) {
-            SubjectForUserDTO subjectFUDTO = new SubjectForUserDTO();
-            if (subject.getId() != null) {
-                subjectFUDTO.setId(subject.getId());
-            }
-            if (subject.getName() != null) {
-                subjectFUDTO.setName(subject.getName());
-            }
-            return subjectFUDTO;
-        }
-        return null;
+
+        SubjectForUserDTO subjectFUDTO = new SubjectForUserDTO();
+
+        subjectFUDTO.setId(subject.getId());
+
+        subjectFUDTO.setName(subject.getName());
+
+        return subjectFUDTO;
+
     }
 }

@@ -6,15 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.service.UserService;
-import com.softserve.edu.schedule.service.implementation.validators.UserValidator;
 
 
 /**
@@ -31,23 +28,6 @@ public class RegistrationController implements ControllerConst.RegistrationContr
 
     @Autowired
     private UserService userService;    
-    
-    /**
-     * UserValidator example to provide form validation operations.
-     */
-    @Autowired
-    private UserValidator userValidator;    
-    
-    /**
-     * Initialize binder for user model.
-     *
-     * @param binder
-     *            a WebDataBinder example to initialize.
-     */
-    @InitBinder(USER_REGIST_MODEL_ATTR)
-    protected void initBinder(final WebDataBinder binder) {
-        binder.setValidator(userValidator);
-    }
 
     /**
      * Controls view of user registration page.
