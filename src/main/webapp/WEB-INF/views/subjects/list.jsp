@@ -103,7 +103,7 @@
 		<p><spring:message code="lbl.form.resPerPage"/></p>
 		<c:choose>
 			<c:when test="${subjectPaginator.pageSize eq 5}">
-				<a class="btn btn-primary" href="subjects?pageSize=5&pageNumber=0">5</a>
+				<a class="btn btn-primary" href="#">5</a>
 			</c:when>
 			<c:otherwise>
 				<a class="btn btn-default" href="subjects?pageSize=5&pageNumber=0">5</a>
@@ -111,7 +111,7 @@
 		</c:choose>
 		<c:choose>
 			<c:when test="${subjectPaginator.pageSize eq 10}">
-				<a class="btn btn-primary" href="subjects?pageSize=10&pageNumber=0">10</a>
+				<a class="btn btn-primary" href="#">10</a>
 			</c:when>
 			<c:otherwise>
 				<a class="btn btn-default" href="subjects?pageSize=10&pageNumber=0">10</a>
@@ -119,7 +119,7 @@
 		</c:choose>
 		<c:choose>
 			<c:when test="${subjectPaginator.pageSize eq 20}">
-				<a class="btn btn-primary" href="subjects?pageSize=20&pageNumber=0">20</a>
+				<a class="btn btn-primary" href="#">20</a>
 			</c:when>
 			<c:otherwise>
 				<a class="btn btn-default" href="subjects?pageSize=20&pageNumber=0">20</a>
