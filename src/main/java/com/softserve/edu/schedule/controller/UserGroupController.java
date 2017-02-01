@@ -1,5 +1,7 @@
 package com.softserve.edu.schedule.controller;
 
+import java.util.Arrays;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
+import com.softserve.edu.schedule.entity.UserGroupLevel;
 import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
@@ -212,6 +215,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 		model.addAttribute(USERGROUP_MODEL_ATTR, new UserGroupDTO());
 		model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAll());
 		model.addAttribute(USERGROUP_ALL_USERS_ATTR, userService.getAll());
+		model.addAttribute(USERGROUP_LEVEL_ATTR, Arrays.asList(UserGroupLevel.values()));
 		return USERGROUP_CREATE_URL;
 	}
 
@@ -228,6 +232,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 		if (result.hasErrors()) {
 			model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAll());
 			model.addAttribute(USERGROUP_ALL_USERS_ATTR, userService.getAll());
+			model.addAttribute(USERGROUP_LEVEL_ATTR, Arrays.asList(UserGroupLevel.values()));
 			return USERGROUP_CREATE_URL;
 		} else {
 			userGroupService.create(userGroupService.addUserToGroup(userGroupDTO.getCurator(), userGroupDTO));
@@ -261,6 +266,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 		if (result.hasErrors()) {
 			model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAll());
 			model.addAttribute(USERGROUP_ALL_USERS_ATTR, userService.getAll());
+			model.addAttribute(USERGROUP_LEVEL_ATTR, Arrays.asList(UserGroupLevel.values()));
 			return USERGROUP_EDIT_URL;
 		} else {
 			userGroupService.addUserToGroup(userGroupDTO.getCurator(), userGroupDTO);
@@ -284,6 +290,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 		model.addAttribute(USERGROUP_MODEL_ATTR, userGroupService.getById(id));
 		model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAll());
 		model.addAttribute(USERGROUP_ALL_USERS_ATTR, userService.getAll());
+		model.addAttribute(USERGROUP_LEVEL_ATTR, Arrays.asList(UserGroupLevel.values()));
 		return USERGROUP_EDIT_URL;
 	}
 

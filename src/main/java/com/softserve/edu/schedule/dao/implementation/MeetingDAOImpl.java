@@ -34,7 +34,8 @@ import org.springframework.stereotype.Repository;
 import com.softserve.edu.schedule.dao.MeetingDAO;
 
 import com.softserve.edu.schedule.dao.UserGroupDAO;
-
+import com.softserve.edu.schedule.dto.MeetingDTO;
+import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Meeting;
@@ -42,7 +43,12 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.Room_;
-
+import com.softserve.edu.schedule.entity.Subject;
+import com.softserve.edu.schedule.entity.Subject_;
+import com.softserve.edu.schedule.entity.User;
+import com.softserve.edu.schedule.entity.UserGroup;
+import com.softserve.edu.schedule.entity.UserGroup_;
+import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.implementation.specification.MeetingFilterSpecification;
 
 /**
@@ -209,5 +215,34 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         } else {
             return MeetingStatus.NOT_APPROVED;
         }
+    }
+    
+    public List<Meeting> hasDublicate(final String subjectName, final String OwnerName, final String roomName) {
+
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        
+        Join<Meeting, Subject> joinSubject = root.join(Meeting_.subject);
+        Join<Meeting, User> joinOwner = root.join(Meeting_.owner);
+        Join<Meeting, Room> joinRoom = root.join(Meeting_.room);
+        Join<Meeting, UserGroup> joinGroup = root.join(Meeting_.groups);
+
+        Predicate predicateSubject = builder.like(joinSubject.get(Subject_.name),
+                SEARCH_MASK + subjectName + SEARCH_MASK);
+        
+        Predicate predicateOwner = builder.like(joinOwner.get(User_.lastName),
+                SEARCH_MASK + OwnerName + SEARCH_MASK);
+        
+        Predicate predicateRoom = builder.like(joinRoom.get(Room_.name),
+                SEARCH_MASK + roomName + SEARCH_MASK);
+        
+       //TODO by date
+        
+       Predicate predicateAll = builder.and(predicateSubject, predicateOwner, predicateRoom);  
+       
+        cq.where(predicateAll);
+        
+        return getEm().createQuery(cq).getResultList();
     }
 }

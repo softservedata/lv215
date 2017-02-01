@@ -1,6 +1,7 @@
 package com.softserve.edu.schedule.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -12,6 +13,7 @@ import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 
+@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
 @RequestMapping(ControllerConst.RoomEquipmentControllerConst.ROOM_EQUIPMENTS_URL)
 @Controller
 public class RoomEquipmentController

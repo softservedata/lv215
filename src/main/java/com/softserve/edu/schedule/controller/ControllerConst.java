@@ -235,10 +235,10 @@ public interface ControllerConst {
      * @author Oleksandr Butyter
      */
     public interface LocationControllerConst {
-    	
-    	String FILTER_MODEL_ATTR = "locationFilter";
-    	
-    	String LOCATION_PAGINATOR_MODEL_ATTR = "locationPaginator";
+
+        String FILTER_MODEL_ATTR = "locationFilter";
+
+        String LOCATION_PAGINATOR_MODEL_ATTR = "locationPaginator";
         /**
          * Search model attribute name.
          */
@@ -511,6 +511,11 @@ public interface ControllerConst {
          * All users attribute.
          */
         String USERGROUP_ALL_USERS_ATTR = "allUsers";
+
+        /**
+         * Levels attribute.
+         */
+        String USERGROUP_LEVEL_ATTR = "levels";
 
         /**
          * Mapping on a usergroups page
