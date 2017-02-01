@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDTOConverter userDTOConverter;
-    
+
     @Autowired
     private UserDTOForChangePasswordConverter userDTOForPasswordConverter;
 
@@ -117,6 +117,8 @@ public class UserServiceImpl implements UserService {
         user.setPassword(userDAO.getById(user.getId()).getPassword());
         user.setStatus(userDAO.getById(user.getId()).getStatus());
         user.setRole(userDAO.getById(user.getId()).getRole());
+        user.setSubjects(userDAO.getById(user.getId()).getSubjects());
+        user.setGroups(userDAO.getById(user.getId()).getGroups());
         userDAO.update(user);
     }
 
@@ -288,19 +290,27 @@ public class UserServiceImpl implements UserService {
      * 
      * @return a user DTO with given mail.
      */
-    public void changePassword(UserDTOForChangePassword userDTO, String password,
-            String firstNewPassword, String secondNewPassword) {
-
+    @Override
+    @Transactional
+    public void changePassword(UserDTOForChangePassword userDTO) {
         User user = userDTOForPasswordConverter.getEntity(userDTO);
+        user.setPassword(encoder.encode(userDTO.getSecondNewPassword()));
+        user.setStatus(userDAO.getById(user.getId()).getStatus());
+        user.setRole(userDAO.getById(user.getId()).getRole());
+        userDAO.update(user);
+    }
 
-        if (user.getPassword().equals(encoder.encode(password))) {
-
-           if (firstNewPassword.equals(secondNewPassword)) {
-                user.setPassword(encoder.encode(secondNewPassword));
-                user.setStatus(userDAO.getById(user.getId()).getStatus());
-                user.setRole(userDAO.getById(user.getId()).getRole());
-                userDAO.update(user);
-            }
-        }
+    /**
+     * Return a User object if found.
+     *
+     * @param id
+     *            of User transfer object
+     * @return User transfer object
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public UserDTOForChangePassword getByIdForPassword(final Long id) {
+        return userDTOForPasswordConverter
+                .getDTOForPassword(userDAO.getById(id));
     }
 }
