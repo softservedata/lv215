@@ -20,7 +20,7 @@ import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
-
+import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 
 /**
@@ -133,4 +133,6 @@ public interface MeetingService {
 	 */
 	public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId, LocalDate date);
 
+	
+	public List<MeetingDTO> hasDublicate(final String subjectName, final String OwnerName, final String roomName);
 }

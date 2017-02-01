@@ -66,4 +66,6 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
 
 	public MeetingStatus getStatusbyString(final String status);
 	
+	public List<Meeting> hasDublicate(final String subjectName, final String OwnerName, final String roomName);
+	
 }

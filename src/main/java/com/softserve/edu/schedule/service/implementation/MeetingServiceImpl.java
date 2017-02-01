@@ -21,6 +21,7 @@ import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
+import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
@@ -209,5 +210,9 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingDao.getMeetingsByRoomIDAndDate(roomId, date).stream()
                 .map(e -> meetingCompactDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
+    }
+    
+    public List<MeetingDTO> hasDublicate(final String subjectName, final String OwnerName, final String roomName) {
+        return null;
     }
 }
