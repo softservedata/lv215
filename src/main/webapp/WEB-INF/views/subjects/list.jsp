@@ -66,14 +66,14 @@
 			<td class="text-center v-alighn">
 				<button type="submit" class="btn btn-link"
 					title="<spring:message code="lbl.room.applyFilter"/>">
-					<i class="fa fa-check-circle-o fa-lg"></i>
+					<i class="fa fa-search"></i>
 				</button>
 			</td>
 		</form:form>
 		<td class="text-center v-alighn"><a 
 			href="subjects?name=&description=&userId=0"
 			title="<spring:message code="lbl.room.resetFilter"/>"> <i
-				class="fa fa-ban fa-lg"></i>
+				class="fa fa-times fa-lg"></i>
 		</a></td>
 		</tr>
 		<c:forEach var="subject" items="${subjects}">
@@ -103,7 +103,7 @@
 		<p><spring:message code="lbl.form.resPerPage"/></p>
 		<c:choose>
 			<c:when test="${subjectPaginator.pageSize eq 5}">
-				<a class="btn btn-primary" href="subjects?pageSize=5&pageNumber=0">5</a>
+				<a class="btn btn-primary" href="#">5</a>
 			</c:when>
 			<c:otherwise>
 				<a class="btn btn-default" href="subjects?pageSize=5&pageNumber=0">5</a>
@@ -111,7 +111,7 @@
 		</c:choose>
 		<c:choose>
 			<c:when test="${subjectPaginator.pageSize eq 10}">
-				<a class="btn btn-primary" href="subjects?pageSize=10&pageNumber=0">10</a>
+				<a class="btn btn-primary" href="#">10</a>
 			</c:when>
 			<c:otherwise>
 				<a class="btn btn-default" href="subjects?pageSize=10&pageNumber=0">10</a>
@@ -119,7 +119,7 @@
 		</c:choose>
 		<c:choose>
 			<c:when test="${subjectPaginator.pageSize eq 20}">
-				<a class="btn btn-primary" href="subjects?pageSize=20&pageNumber=0">20</a>
+				<a class="btn btn-primary" href="#">20</a>
 			</c:when>
 			<c:otherwise>
 				<a class="btn btn-default" href="subjects?pageSize=20&pageNumber=0">20</a>

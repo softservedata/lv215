@@ -8,7 +8,7 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+		<div class="col-lg-4 col-lg-offset-1 col-md-5 col-sm-6 panel panel-default">
 			<h3 class="text-center"><spring:message code="lbl.location.add" /></h3>
 			<form:form method="post"
 				modelAttribute="${LocationController.LOCATION_FORM_MODEL_ATTR}">
@@ -42,5 +42,27 @@
 				</div>
 			</form:form>
 		</div>
+		<div class="col-lg-6 col-md-7 col-sm-6 panel-map">
+		<div id="map"></div>
+		</div>
 	</div>
 </div>
+
+<script>
+      function initMap() {
+    	  var x = document.getElementById('coordinates').value;
+    	  var coord = x.split(",");
+        var uluru = {lat: coord[0], lng: coord[1]};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxvtL6fscPTAt98KLMFSqXooLpfABVUes&callback=initMap">
+    </script>
