@@ -52,7 +52,7 @@ public class SubjectValidator
      */
     @Override
     public void initialize(final Validate constraintAnnotation) {
-        
+
     }
 
     /**
@@ -67,7 +67,7 @@ public class SubjectValidator
      */
     @Override
     public boolean isValid(final SubjectDTO subjectDTO,
-            ConstraintValidatorContext context) {        
+            ConstraintValidatorContext context) {
         boolean validName = isValidName(subjectDTO);
         boolean validDescription = isValiDescription(subjectDTO);
         boolean validMultiselect = isValidMultiselect(subjectDTO);
@@ -111,7 +111,7 @@ public class SubjectValidator
      */
     private boolean isValiDescription(SubjectDTO subjectDTO) {
         return subjectDTO.getDescription()
-                .matches(ValidationCriteria.PATTERN_FOR_SUBJECT_NAME);
+                .matches(ValidationCriteria.PATTERN_FOR_SUBJECT_DESCRIPTION);
     }
 
     /**
@@ -123,7 +123,7 @@ public class SubjectValidator
      */
     private boolean isValidName(SubjectDTO subjectDTO) {
         return subjectDTO.getName()
-                .matches(ValidationCriteria.PATTERN_FOR_SUBJECT_DESCRIPTION);
+                .matches(ValidationCriteria.PATTERN_FOR_SUBJECT_NAME);
     }
 
     /**
@@ -160,12 +160,12 @@ public class SubjectValidator
         }
         if (!validDescription) {
             errorMessage(ValidationFields.DESCRIPTION,
-                    ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD,
+                    ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD_DESCRPIPTION,
                     context);
         }
         if (!validMultiselect) {
-            errorMessage(ValidationFields.USERS, ValidationMessages.INVALID_SUBJECT_TUTOR_COUNT,
-                    context);
+            errorMessage(ValidationFields.USERS,
+                    ValidationMessages.INVALID_SUBJECT_TUTOR_COUNT, context);
         }
         if (!noDuplicate) {
             errorMessage(ValidationFields.NAME,
