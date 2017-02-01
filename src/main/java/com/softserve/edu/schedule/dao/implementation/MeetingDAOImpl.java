@@ -17,6 +17,7 @@
 package com.softserve.edu.schedule.dao.implementation;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -204,10 +205,10 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     }
 
     public MeetingStatus getStatusbyString(final String status) {
-        if (status.contains("fin") || status.contains("FIN")  ) {
+        if (status.contains("fin") || status.contains("FIN")) {
             return MeetingStatus.FINISHED;
         }
-        if (status.contains("app") || status.contains("APP") ) {
+        if (status.contains("app") || status.contains("APP")) {
             return MeetingStatus.APPROVED;
         }
         if (status.contains("DIS") || status.contains("dis")) {
@@ -216,33 +217,40 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
             return MeetingStatus.NOT_APPROVED;
         }
     }
-    
-    public List<Meeting> hasDublicate(final String subjectName, final String OwnerName, final String roomName) {
+
+    public List<Meeting> dublicatesOfGivenFields(final String subjectName,
+            final String OwnerName, final String roomName,
+            final LocalDate localDate, final LocalTime localTime) {
 
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
-        
+
         Join<Meeting, Subject> joinSubject = root.join(Meeting_.subject);
         Join<Meeting, User> joinOwner = root.join(Meeting_.owner);
         Join<Meeting, Room> joinRoom = root.join(Meeting_.room);
         Join<Meeting, UserGroup> joinGroup = root.join(Meeting_.groups);
 
-        Predicate predicateSubject = builder.like(joinSubject.get(Subject_.name),
-                SEARCH_MASK + subjectName + SEARCH_MASK);
-        
+        Predicate predicateSubject = builder
+                .like(joinSubject.get(Subject_.name), subjectName);
+
         Predicate predicateOwner = builder.like(joinOwner.get(User_.lastName),
-                SEARCH_MASK + OwnerName + SEARCH_MASK);
-        
+                OwnerName);
+
         Predicate predicateRoom = builder.like(joinRoom.get(Room_.name),
-                SEARCH_MASK + roomName + SEARCH_MASK);
+                roomName);
+
+        Predicate predicateDate = root.get(Meeting_.date).in(localDate);
         
-       //TODO by date
+        Predicate predicateStartTime = root.get(Meeting_.startTime).in(localTime);
         
-       Predicate predicateAll = builder.and(predicateSubject, predicateOwner, predicateRoom);  
-       
+        // TODO by date
+
+        Predicate predicateAll = builder.and(predicateSubject, predicateOwner,
+                predicateRoom,predicateDate,predicateStartTime);
+
         cq.where(predicateAll);
-        
+
         return getEm().createQuery(cq).getResultList();
     }
 }
