@@ -65,22 +65,20 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         this.userGroupDAO = userGroupDAO;
     }
 
-    private void findById(){
+    private void findById() {
         if (meetingFilter.getId() != null) {
             list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
-                    .equal(root.get(Meeting_.id),
-                            meetingFilter.getId()));
+                    .equal(root.get(Meeting_.id), meetingFilter.getId()));
         }
     }
-    
-/*    private void findByDescription() {
-        if (meetingFilter.getDescription() != null
-                && !meetingFilter.getDescription().equals("")) {
-            list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
-                    .like(root.get(Meeting_.description),
-                            "%" + meetingFilter.getDescription() + "%"));
-        }
-    }*/
+
+    /*
+     * private void findByDescription() { if (meetingFilter.getDescription() !=
+     * null && !meetingFilter.getDescription().equals("")) { list.add((root,
+     * criteriaQuery, criteriaBuilder) -> criteriaBuilder
+     * .like(root.get(Meeting_.description), "%" +
+     * meetingFilter.getDescription() + "%")); } }
+     */
 
     private void findBySubjectId() {
         if (meetingFilter.getSubjectId() != null
@@ -147,27 +145,12 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
      * Add room capacity specification to specification list if filter contains
      * maxCapacity and(or) minCapacity parameters.
      */
-    private void findByMaxMinLevel() {
-        if (meetingFilter.getMaxLevel() != null
-                && meetingFilter.getMinLevel() != null
-                && meetingFilter.getMaxLevel() > 0
-                && meetingFilter.getMinLevel() > 0
+    private void findBylevel() {
+        if (meetingFilter.getLevel() != null && meetingFilter.getLevel() > 0
 
         ) {
             list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
-                    .between(root.get(Meeting_.level),
-                            meetingFilter.getMinLevel(),
-                            meetingFilter.getMaxLevel()));
-        } else if (meetingFilter.getMaxLevel() != null
-                && meetingFilter.getMaxLevel() > 0) {
-            list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
-                    .lessThan(root.get(Meeting_.level),
-                            meetingFilter.getMaxLevel()));
-        } else if (meetingFilter.getMinLevel() != null
-                && meetingFilter.getMinLevel() > 0) {
-            list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
-                    .greaterThan(root.get(Meeting_.level),
-                            meetingFilter.getMinLevel()));
+                    .equal(root.get(Meeting_.level), meetingFilter.getLevel()));
         }
     }
 
@@ -322,7 +305,7 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
             findByStartTime();
             findByEndTime();
             findByUserGroupDTOs();
-            findByMaxMinLevel();
+            findBylevel();
             findByStatus();
         }
         if (list.size() == 0) {

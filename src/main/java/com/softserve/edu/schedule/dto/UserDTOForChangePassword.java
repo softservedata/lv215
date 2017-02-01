@@ -16,6 +16,7 @@ public class UserDTOForChangePassword {
 
     private Long id;
     private String password;
+    private String oldPassword;
     private String firstNewPassword;
     private String secondNewPassword;
 
@@ -33,6 +34,14 @@ public class UserDTOForChangePassword {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 
     public String getFirstNewPassword() {

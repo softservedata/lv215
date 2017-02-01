@@ -21,6 +21,7 @@ import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
+import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
@@ -64,8 +65,12 @@ public class MeetingServiceImpl implements MeetingService {
         meetingDao.create(meetingDTOConverter.getEntity(meetingDTO));
     }
 
-    /* (non-Javadoc)
-     * @see com.softserve.edu.schedule.service.MeetingService#getStatusbyString(java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#getStatusbyString(java.
+     * lang.String)
      */
     public MeetingStatus getStatusbyString(final String status) {
         return meetingDao.getStatusbyString(status);
@@ -187,6 +192,7 @@ public class MeetingServiceImpl implements MeetingService {
      * .softserve.edu.schedule.entity.Meeting,
      * com.softserve.edu.schedule.entity.MeetingStatus)
      */
+
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
         meetingDao.changeMeetingStatus(id, meetingStatus);
@@ -208,6 +214,16 @@ public class MeetingServiceImpl implements MeetingService {
             LocalDate date) {
         return meetingDao.getMeetingsByRoomIDAndDate(roomId, date).stream()
                 .map(e -> meetingCompactDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
+    @Transactional(readOnly = true)
+    public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO) {
+        return meetingDao
+                .dublicatesOfGivenFields(meetingDTO.getSubject().getName().trim(),
+                        meetingDTO.getOwner().getLastName().trim(),
+                        meetingDTO.getRoom().getName().trim(),
+                        meetingDTO.getDate(),meetingDTO.getStartTime())
+                .stream().map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
 }
