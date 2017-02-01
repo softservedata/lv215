@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.softserve.edu.schedule.dao.LocationDAO;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.LocationDTO;
+import com.softserve.edu.schedule.dto.filter.LocationFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Location_;
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.LocationDTOConverter;
@@ -198,6 +200,13 @@ public class LocationServiceImpl implements LocationService {
 	@Transactional(readOnly = true)
 	public List<LocationDTO> getLocationsByName(String locationName) {
 		return locationDAO.getLocationsByField(Location_.name.getName(), locationName).stream()
+				.map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<LocationDTO> getLocationsPageWithFilter(LocationFilter locationFilter, Paginator locationPaginator) {
+		return locationDAO.getLocationsPageWithFilter(locationFilter, locationPaginator).stream()
 				.map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}
 

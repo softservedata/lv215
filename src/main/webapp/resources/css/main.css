@@ -135,6 +135,14 @@ textarea {
 	width: 100px;
 }
 
+#map {
+        height: 326px;
+        width: 100%;
+       }
+.panel-map {
+	margin-top: 50px;
+}
+
 .allInnerForms2 {
 	width: 120px;
 	padding-right: 0px;
