@@ -7,6 +7,9 @@
 package com.softserve.edu.schedule.service.implementation.validators;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -15,6 +18,8 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import com.softserve.edu.schedule.dto.MeetingDTO;
+import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.entity.MeetingStatus;
 
 /**
  * A class to provide validation logic.
@@ -70,19 +75,21 @@ public class MeetingValidator
                 meetingDTO);
 
         boolean isValidMultiselectGroups = isValidMultiselectGroups(meetingDTO);
-        
+
         boolean isValidLevel = isValidLevel(meetingDTO);
 
         boolean isOriginMeeting = isOriginMeeting(meetingDTO);
 
+        boolean isValidMeetingStatus = isValidMeetingStatus(meetingDTO);
+
         printErrorMessages(isValidDescription, isValidDate, isValidStartTime,
                 isValidEndTime, isValidEndTimeToCompareStartTime,
-                isValidMultiselectGroups, isValidLevel, isOriginMeeting,
-                context);
+                isValidMultiselectGroups, isValidLevel, isValidMeetingStatus,
+                isOriginMeeting, context);
         return (isValidDescription && isValidDate && isValidStartTime
                 && isValidEndTime && isValidEndTimeToCompareStartTime
-                && isValidMultiselectGroups && 
-                isValidLevel && isOriginMeeting);
+                && isValidMultiselectGroups && isValidLevel
+                && isValidMeetingStatus && isOriginMeeting);
     }
 
     /**
@@ -92,10 +99,11 @@ public class MeetingValidator
      * 
      * @return true if description is valid
      */
-    
+
     private boolean isValidDescription(MeetingDTO meetingDTO) {
-        return meetingDTO.getDescription()
-                .matches(ValidationCriteria.PATTERN_FOR_MEETING_DESCRIPTION);
+        return ((meetingDTO.getDescription() != null)
+                && (meetingDTO.getDescription().matches(
+                        ValidationCriteria.PATTERN_FOR_MEETING_DESCRIPTION)));
     }
 
     private boolean isValidDate(MeetingDTO meetingDTO) {
@@ -126,16 +134,41 @@ public class MeetingValidator
     private boolean isValidMultiselectGroups(MeetingDTO meetingDTO) {
         return meetingDTO.getGroups().size() > ValidationCriteria.ZERO;
     }
+
     private boolean isValidLevel(MeetingDTO meetingDTO) {
-        return meetingDTO.getLevel().toString().matches(ValidationCriteria.PATTERN_FOR_MEETING_LEVEL);
-        //TODO
+        if (meetingDTO.getLevel() == null) {
+            return false;
+        }
+        return meetingDTO.getLevel().toString()
+                .matches(ValidationCriteria.PATTERN_FOR_MEETING_LEVEL);
     }
-    
-    
+
+    private boolean isValidMeetingStatus(MeetingDTO meetingDTO) {
+        if (meetingDTO.getDate().isAfter(LocalDate.now())) {
+            return (meetingDTO.getStatus() != MeetingStatus.FINISHED);
+        }
+        if (meetingDTO.getDate().isBefore(LocalDate.now())) {
+            return (meetingDTO.getStatus() == MeetingStatus.FINISHED);
+        }
+        if (meetingDTO.getDate().isEqual(LocalDate.now())) {
+            if (meetingDTO.getEndTime().isBefore(LocalTime.now())) {
+                return (meetingDTO.getStatus() == MeetingStatus.FINISHED);
+            }
+            if (meetingDTO.getStartTime().isAfter(LocalTime.now())) {
+                return (meetingDTO.getStatus() != MeetingStatus.FINISHED);
+            }
+        }
+        return true;
+    }
 
     private boolean isOriginMeeting(MeetingDTO meetingDTO) {
         // TODO
-        return true;
+        // Add to this list meetingDTO's such, that have the same
+        //subject, room, owner, date, start time
+/*
+                return duplicates.isEmpty() || duplicates.stream()
+                        .anyMatch(s -> s.getId().equals(meetingDTO.getId()));
+*/        return true;
     }
 
     /**
@@ -156,12 +189,12 @@ public class MeetingValidator
     private void printErrorMessages(boolean isValidDescription,
             boolean isValidDate, boolean isValidStartTime,
             boolean isValidEndTime, boolean isValidEndTimeToCompareStartTime,
-            boolean isValidMultiselectGroups,boolean isValidLevel, 
-            boolean isOriginMeeting, ConstraintValidatorContext context) {
+            boolean isValidMultiselectGroups, boolean isValidLevel,
+            boolean isValidMeetingStatus, boolean isOriginMeeting,
+            ConstraintValidatorContext context) {
         if (!isValidDescription) {
             errorMessage(ValidationFields.DESCRIPTION,
-                    ValidationMessages.INVALID_CHARACTERS,
-                    context);
+                    ValidationMessages.INVALID_CHARACTERS, context);
         }
         if (!isValidDate) {
             errorMessage(ValidationFields.DATE, ValidationMessages.INVALID_DATE,
@@ -169,13 +202,11 @@ public class MeetingValidator
         }
         if (!isValidStartTime) {
             errorMessage(ValidationFields.STARTTIME,
-                    ValidationMessages.INVALID_TIME,
-                    context);
+                    ValidationMessages.INVALID_TIME, context);
         }
         if (!isValidEndTime) {
             errorMessage(ValidationFields.ENDTIME,
-                    ValidationMessages.INVALID_TIME,
-                    context);
+                    ValidationMessages.INVALID_TIME, context);
         }
         if (!isValidEndTimeToCompareStartTime) {
             errorMessage(ValidationFields.ENDTIME,
@@ -187,10 +218,14 @@ public class MeetingValidator
                     ValidationMessages.EMPTY_FIELD, context);
         }
         if (!isValidLevel) {
-        	 errorMessage(ValidationFields.LEVEL,
-        			 ValidationMessages.INVALID_LEVEL, context);
+            errorMessage(ValidationFields.LEVEL,
+                    ValidationMessages.INVALID_LEVEL, context);
         }
-        
+        if (!isValidMeetingStatus) {
+            errorMessage(ValidationFields.STATUS,
+                    ValidationMessages.INVALID_STATUS, context);
+        }
+
         if (!isOriginMeeting) {
             errorMessage(ValidationFields.SUBJECT,
                     ValidationMessages.DUPLICATE_MEETING, context);

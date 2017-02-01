@@ -2,19 +2,22 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 
 <div class="row">
-	<br>
-	<br>
-	<br>
+	<c:if test="${param.accessDenied eq true}">
+		<p class="text-danger">You do not have permission to access this page!</p>
+		<p class="text-danger">${sessionScope["SPRING_SECURITY_LAST_EXCEPTION"].message}</p>
+	</c:if>
+	<br> <br> <br>
 	<h1>
-		<spring:message code="lbl.index.greetings1"/><br>
-		<spring:message code="lbl.index.greetings2"/><br>
-		<spring:message code="lbl.index.greetings3"/><br>
+		<spring:message code="lbl.index.greetings1" />
+		<br>
+		<spring:message code="lbl.index.greetings2" />
+		<br>
+		<spring:message code="lbl.index.greetings3" />
+		<br>
 	</h1>
-	<br>
-	<br>
-	<br>
+	<br> <br> <br>	
 </div>

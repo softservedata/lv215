@@ -114,4 +114,7 @@ public interface ValidationMessages {
 	String NOT_EQUAL= "vm.notEqualToPrevious";
 	
 	String WRONG_PASSWORD= "vm.wronrPassword";
+
+	String INVALID_STATUS = "vm.ivdalidStatus";
+
 }

@@ -83,7 +83,7 @@ public interface ValidationCriteria {
 	/**
 	 * Allowed characters for Meeting description expression.
 	 */
-	String PATTERN_FOR_MEETING_DESCRIPTION = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&!+=\\.\\,\\s\\-]{0,1000}$";
+	String PATTERN_FOR_MEETING_DESCRIPTION = "^[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&!+=\\.\\,\\s\\-]{0,300}$";
 	
 	
 	String PATTERN_FOR_MEETING_LEVEL = "^[1-5]$"; 

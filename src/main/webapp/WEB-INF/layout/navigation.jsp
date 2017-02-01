@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <nav class="navbar navbar-inverse">
 	<div class="container-fluid">
@@ -24,9 +27,26 @@
 				<li><a href="${pageContext.request.contextPath}/roomequipments"><spring:message code="lbl.nav.roomequipments"/></a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
-				<li><a href="${pageContext.request.contextPath}/registration"><spring:message code="lbl.nav.signUp"/></a></li>
-				<li><a href="${pageContext.request.contextPath}/updateUser"><spring:message code="lbl.nav.myProfile"/></a></li>
-				<li><a href="#"><span class="glyphicon glyphicon-log-in"></span><spring:message code="lbl.nav.signIn"/></a></li>
+				<sec:authorize access="isAuthenticated()">
+					<li>
+						<a href="${pageContext.request.contextPath}/userDetails">
+							<sec:authentication property="principal.firstName"/> 
+							<sec:authentication property="principal.lastName"/>
+						</a>
+					</li>
+					<li>
+						<c:url var="logoutUrl" value="/logout"/>
+						<spring:message code="lbl.nav.logout" var="logoutText"/>
+					    <form id="logoutForm" action="${logoutUrl}" method="post">
+						    <input class="btn btn-link" type="submit" value="${logoutText}" />
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+					    </form>
+					</li>				
+				</sec:authorize>
+				<sec:authorize access="!isAuthenticated()">
+					<li><a href="${pageContext.request.contextPath}/registration"><spring:message code="lbl.nav.signUp"/></a></li>
+					<li><a href="${pageContext.request.contextPath}/login"><span class="glyphicon glyphicon-log-in"></span><spring:message code="lbl.nav.signIn"/></a></li>
+				</sec:authorize>
 				<li><a href="?lang=en">En</a></li>
 				<li><a href="?lang=ua">Ua</a></li>
 				<li><a href="?lang=ru">Ru</a></li>

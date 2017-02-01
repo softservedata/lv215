@@ -3,10 +3,11 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.softserve.edu.schedule.service.implementation.validators.UserGroupValidator;
-import com.softserve.edu.schedule.service.implementation.validators.ValidationFields;
+import com.softserve.edu.schedule.entity.UserGroupLevel;
+import com.softserve.edu.schedule.service.implementation.validators.Validate;
 
-@UserGroupValidator(min = 5, max = 20, id = ValidationFields.ID, name = ValidationFields.NAME, description = ValidationFields.DESCRIPTION, level = ValidationFields.LEVEL)
+//@UserGroupValidator(min = 5, max = 20, id = ValidationFields.ID, name = ValidationFields.NAME, description = ValidationFields.DESCRIPTION, level = ValidationFields.LEVEL)
+@Validate
 public class UserGroupDTO {
 
 	private Long id;
@@ -24,7 +25,7 @@ public class UserGroupDTO {
 	/**
 	 * Level of the group. The higher the value - the more important group.
 	 */
-	private Integer level;
+	private UserGroupLevel level;
 
 	/**
 	 * User group manager.
@@ -89,7 +90,7 @@ public class UserGroupDTO {
 	/**
 	 * @return the level
 	 */
-	public Integer getLevel() {
+	public UserGroupLevel getLevel() {
 		return level;
 	}
 
@@ -97,7 +98,7 @@ public class UserGroupDTO {
 	 * @param level
 	 *            the level to set
 	 */
-	public void setLevel(Integer level) {
+	public void setLevel(UserGroupLevel level) {
 		this.level = level;
 	}
 

@@ -10,6 +10,8 @@ import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.LocationDTO;
+import com.softserve.edu.schedule.dto.filter.LocationFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 
 /**
  * The service-level interface to handle operation with locations.
@@ -104,7 +106,7 @@ public interface LocationService {
 	 * @return list of sorted locations by name
 	 */
 	List<LocationDTO> sortByName(final Order order);
-	
+
 	/**
 	 * Method returns list of sorted locations by address.
 	 * 
@@ -115,7 +117,7 @@ public interface LocationService {
 	 * @return list of sorted locations by address
 	 */
 	List<LocationDTO> sortByAddress(final Order order);
-	
+
 	/**
 	 * Method returns list of locations which suit condition of search by name.
 	 * 
@@ -124,4 +126,8 @@ public interface LocationService {
 	 * @return list of locations which suit condition of search by name
 	 */
 	List<LocationDTO> getLocationsByName(final String locationName);
+
+	List<LocationDTO> getLocationsPageWithFilter(final LocationFilter locationFilter,
+			final Paginator locationPaginator);
+
 }

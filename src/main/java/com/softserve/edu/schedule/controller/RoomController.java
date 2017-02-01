@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -245,6 +246,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      * 
      * @return room update information page URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(value = ROOM_EDIT_MAPPING, method = RequestMethod.GET)
     public String updateForm(@PathVariable(PATH_VAR_ID) final Long id,
             final Model model) {
@@ -285,6 +287,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      * 
      * @return room create page URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(value = ROOM_CREATE_MAPPING, method = RequestMethod.GET)
     public String createForm(final Model model) {
         model.addAttribute(ROOM_MODEL_ATTR, new RoomDTO());
@@ -302,6 +305,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return rooms list page redirect URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(value = ROOM_DELETE_MAPPING)
     public String deleteRoom(@PathVariable final Long id) {
         roomService.deleteById(id);
