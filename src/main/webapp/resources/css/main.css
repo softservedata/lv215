@@ -116,31 +116,16 @@ textarea {
 	resize: vertical;
 }
 /* For meeetingJsp */
-.allInnerForms {
-	width: 10%;
-	padding-right: 0px;
-	padding-left: 1px;
-	mergin-left: 0px;
-	mergin-right: 0px;
-}
-
-.level {
-	padding-right: 0px;
-	padding-left: 1px;
-	mergin-left: 0px;
-	mergin-right: 0px;
-}
-
-
 #map {
-        height: 326px;
-        width: 100%;
-       }
+	height: 326px;
+	width: 100%;
+}
+
 .panel-map {
 	margin-top: 50px;
 }
 
-.allInnerForms2 {
+.class-date {
 	width: 120px;
 	padding-right: 0px;
 	padding-left: 1px;
@@ -152,10 +137,6 @@ textarea {
 	width: 45px;
 }
 
-.groupclass {
-	width: 50px;
-}
-
 .meetingsTable {
 	width: 100%;
 }
@@ -164,26 +145,14 @@ textarea {
 	width: 95%;
 }
 
-.classid{
-	width:70px;
+.classid {
+	width: 70px;
 }
-
 
 #logoutForm {
 	margin-top: 8px;
 }
-.classtime{
-	width:70px;
-}
-.meetinggroup{
-	width:70px;
-}
-.classdate{
-	width:120px;
-}
-.classroom{
-	width:80px;
-}
-.meetingroomclass{
-	width:30px;
+
+.classtime {
+	width: 70px;
 }
