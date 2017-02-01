@@ -427,6 +427,11 @@ public interface ControllerConst {
          * Subject field users.
          */
         String SUBJECT_PATH_USERS = "users";
+        
+        /**
+         * Subject field users.
+         */
+        String SUBJECT_PATH_USER_ID = "userId";
     }
 
     /**
