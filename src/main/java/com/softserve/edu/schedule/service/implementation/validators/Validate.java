@@ -21,14 +21,15 @@ import javax.validation.Payload;
  */
 @Target({ TYPE })
 @Retention(RUNTIME)
-@Constraint(validatedBy = { RoomValidator.class, SubjectValidator.class, MeetingValidator.class, UserValidator.class,
-		UserGroupValidator.class })
+@Constraint(validatedBy = { RoomValidator.class, SubjectValidator.class,
+        MeetingValidator.class, UserValidator.class,
+        UserPasswordValidator.class, UserGroupValidator.class })
 public @interface Validate {
 
-	String message() default "";
+    String message() default "";
 
-	Class<?>[] groups() default {};
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    Class<? extends Payload>[] payload() default {};
 
 }
