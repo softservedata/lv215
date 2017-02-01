@@ -38,9 +38,12 @@
 
 
 				<div class="form-group">
-					<label for="level"><spring:message code="lbl.group.level"/></label>
-					<form:input path="level" class="form-control" placeholder="Level" />
-					<form:errors path="level" class="text-danger" />
+					<label for="level"><spring:message code="lbl.group.level" /></label>
+					<form:select class="form-control" path="level" id="level">
+						<c:forEach items="${levels}" var="level">
+							<option>${level}</option>
+						</c:forEach>
+					</form:select>
 				</div>
 
 
