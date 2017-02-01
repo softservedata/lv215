@@ -29,6 +29,7 @@
 			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
 			<h3 class="text-center">
 				<spring:message code="lbl.meeting.edit" />
+
 			</h3>
 			<form:form role="form" method="post" modelAttribute="meetingForm">
 				<form:input path="id" type="hidden" />
@@ -107,6 +108,7 @@
 						placeholder="HH:MM" required="true" />
 					<br>
 					<form:errors path="endTime" class="text-danger" />
+					<p id="timevalidator"></p>
 				</div>
 				<div class="form-group">
 					<label for="groups"><spring:message
@@ -145,8 +147,10 @@
 					<label for="description"><spring:message
 							code="lbl.meeting.description" /></label>
 					<spring:message code="lbl.meeting.createDesc" var="descPH" />
-					<form:textarea class="form-control" path="description"
-						id="description" placeholder="${descPH}" />
+					<form:input class="form-control" path="description"
+						id="description" placeholder="${descPH}"
+						pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}"
+						title="Blah" />
 					<form:errors path="description" class="text-danger" />
 				</div>
 
@@ -156,7 +160,8 @@
 					<form:select class="form-control" path="status" id="status">
 						<c:forEach items="${meetingStatuses}" var="status">
 							<c:choose>
-								<c:when test="${meetingForm.status.ordinal() eq status.ordinal()}">
+								<c:when
+									test="${meetingForm.status.ordinal() eq status.ordinal()}">
 									<option value="${status}" selected="selected">${status}</option>
 								</c:when>
 								<c:otherwise>
@@ -171,9 +176,9 @@
 
 				</div>
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-default"
-						value="<spring:message code="lbl.form.save"/>"> <a
-						class="btn btn-default"
+					<input type="submit" class="btn btn-default" onclick="func()"
+						id="timeerror" value="<spring:message code="lbl.form.save"/>">
+					<a class="btn btn-default"
 						href="/schedule/meetings/edit/${meetingForm.id}"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
 						href="${pageContext.request.contextPath}/meetings"><spring:message
@@ -184,3 +189,12 @@
 		</div>
 	</div>
 </div>
+<script>
+	function func() {
+		var x = document.getElementById("startTime").value;
+		var y = document.getElementById("endTime").value;
+		if (x > y) {
+			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
+		}
+	}
+</script>

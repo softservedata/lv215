@@ -131,9 +131,6 @@ textarea {
 	mergin-right: 0px;
 }
 
-.allInnerForms1 {
-	width: 100px;
-}
 
 #map {
         height: 326px;
@@ -152,11 +149,11 @@ textarea {
 }
 
 .levelclass {
-	width: 60px;
+	width: 45px;
 }
 
 .groupclass {
-	width: 60px;
+	width: 50px;
 }
 
 .meetingsTable {
@@ -167,12 +164,26 @@ textarea {
 	width: 95%;
 }
 
-.meetingid{
-	width:3%;
+.classid{
+	width:70px;
 }
 
 
 #logoutForm {
 	margin-top: 8px;
 }
-
+.classtime{
+	width:70px;
+}
+.meetinggroup{
+	width:70px;
+}
+.classdate{
+	width:120px;
+}
+.classroom{
+	width:80px;
+}
+.meetingroomclass{
+	width:30px;
+}
