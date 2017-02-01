@@ -77,10 +77,9 @@ public class MeetingController {
 
     @Autowired
     private RoomDTOEditor roomDTOEditor;
-    
+
     @Autowired
     private MeetingDTOEditor meetingDTOEditor;
-    
 
     @Autowired
     MeetingStatusEditor meetingStatusEditor;
@@ -225,8 +224,9 @@ public class MeetingController {
         return "redirect:/meetings";
     }
 
-    
-    /** Shows selected meeting details.
+    /**
+     * Shows selected meeting details.
+     * 
      * @param id
      * @param model
      * @return
@@ -235,7 +235,7 @@ public class MeetingController {
     public String showMeeting(@PathVariable("id") final Long id,
             final Model model) {
         model.addAttribute("meetingForm", meetingService.getById(id));
-       
+
         return "meetings/showmeeting";
     }
 

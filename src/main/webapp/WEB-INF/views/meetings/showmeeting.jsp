@@ -47,55 +47,55 @@
 
 				</div>
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.description" /></b>
-					: ${meetingForm.description}
+					<b><spring:message code="lbl.meeting.description" /></b> :
+					${meetingForm.description}
 
 				</div>
 
 
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.subject" /></b>
-					: ${meetingForm.subject.name}
+					<b><spring:message code="lbl.meeting.subject" /></b> :
+					${meetingForm.subject.name}
 
 				</div>
 
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.owner" /></b>
-					: ${meetingForm.owner.lastName} ${meetingForm.owner.firstName}
+					<b><spring:message code="lbl.meeting.owner" /></b> : <a
+						href="${pageContext.request.contextPath}/profile${meetingForm.owner.id}">${meetingForm.owner.lastName}
+						${meetingForm.owner.firstName}</a>
 
 				</div>
 
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.room" /></b>
-					: ${meetingForm.room.name}
+					<b><spring:message code="lbl.meeting.room" /></b> : <a
+						href="${pageContext.request.contextPath}/rooms/${meetingForm.room.id}">${meetingForm.room.name}</a>
 				</div>
 
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.date" /></b>
-					: ${meetingForm.date}
+					<b><spring:message code="lbl.meeting.date" /></b> :
+					${meetingForm.date}
 				</div>
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.starttime" /></b>
-					: ${meetingForm.startTime}
+					<b><spring:message code="lbl.meeting.starttime" /></b> :
+					${meetingForm.startTime}
 				</div>
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.endtime" /></b>
-					: ${meetingForm.endTime}
+					<b><spring:message code="lbl.meeting.endtime" /></b> :
+					${meetingForm.endTime}
 				</div>
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.groups" /></b>
-					:
+					<b><spring:message code="lbl.meeting.groups" /></b> :
 					<c:forEach items="${meetingForm.groups}" var="group">
 						<li>${group.name}</li>
 					</c:forEach>
 				</div>
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.level" /></b>
-					: ${meetingForm.level}
+					<b><spring:message code="lbl.meeting.level" /></b> :
+					${meetingForm.level}
 				</div>
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.status" /></b>
-					: ${meetingForm.status}
+					<b><spring:message code="lbl.meeting.status" /></b> :
+					${meetingForm.status}
 				</div>
 			</form:form>
 		</div>

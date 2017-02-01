@@ -244,8 +244,8 @@
 			<td><a href="meetings/${meeting.id}">${meeting.id}</a></td>
 			<%-- <td>${meeting.description}</td> --%>
 			<td>${meeting.subject.name}</td>
-			<td>${meeting.owner.lastName}${meeting.owner.firstName}</td>
-			<td>${meeting.room.name}</td>
+			<td><a href="${pageContext.request.contextPath}/profile${meeting.owner.id}">${meeting.owner.lastName} ${meeting.owner.firstName}</a></td>
+			<td><a href="${pageContext.request.contextPath}/rooms/${meeting.room.id}">${meeting.room.name}</a></td>
 			<td>${meeting.date}</td>
 			<td>${meeting.startTime}</td>
 			<td>${meeting.endTime}</td>

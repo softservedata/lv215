@@ -165,11 +165,10 @@ public class MeetingValidator
         // TODO
         // Add to this list meetingDTO's such, that have the same
         //subject, room, owner, date, start time
-        /*List<MeetingDTO> duplicates = null;
-        List<MeetingDTO> duplicates = meetingService.
+/*
                 return duplicates.isEmpty() || duplicates.stream()
-                        .anyMatch(s -> s.getId().equals(meetingDTO.getId()));*/
-        return true;
+                        .anyMatch(s -> s.getId().equals(meetingDTO.getId()));
+*/        return true;
     }
 
     /**
