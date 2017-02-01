@@ -301,7 +301,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      */
     @RequestMapping(CHANGE_PASSWORD_MAPPING + "{id}")
     public String changePassword(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
+        model.addAttribute(USER_MODEL_ATTR, userService.getByIdForPassword(id));
         return CHANGE_PASSWORD_URL;
     }
 
@@ -316,15 +316,11 @@ public class UserController implements ControllerConst.UserControllerConst,
     @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String saveChangedPassword(
-            @ModelAttribute(USER_MODEL_ATTR) @Valid UserDTOForChangePassword user,
-            @RequestParam String password,
-            @RequestParam String firstNewPassword,
-            @RequestParam String secondNewPassword, BindingResult br) {
+            @ModelAttribute(USER_MODEL_ATTR) @Valid UserDTOForChangePassword user, BindingResult br) {
         if (br.hasErrors()) {
             return CHANGE_PASSWORD_URL;
         }
-        userService.changePassword(user, password, firstNewPassword,
-                secondNewPassword);
+        userService.changePassword(user);
         return REDIRECT_USERS_PAGE;
     }
 }

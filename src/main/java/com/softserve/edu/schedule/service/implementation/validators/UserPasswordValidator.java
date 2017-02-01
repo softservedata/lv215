@@ -7,8 +7,10 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
+import com.softserve.edu.schedule.service.UserService;
 
 /**
  * A validator class to check whatever user DTO data is correct.
@@ -28,6 +30,12 @@ public class UserPasswordValidator
      */
     @Autowired
     private ResourceBundleMessageSource messageSource;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private BCryptPasswordEncoder encoder;
 
     /**
      * Initializes the validator in preparation for calls. The constraint
@@ -57,8 +65,11 @@ public class UserPasswordValidator
 
         boolean isPasswordValid = isPasswordValid(userDTO);
         boolean isFirstNewPasswordValid = isFirstNewPasswordValid(userDTO);
-        printErrorMessages(isPasswordValid, isFirstNewPasswordValid, context);
-        return isPasswordValid && isFirstNewPasswordValid;
+        boolean isSecondNewPasswordValid = isSecondNewPasswordValid(userDTO);
+        printErrorMessages(isPasswordValid, isFirstNewPasswordValid,
+                isSecondNewPasswordValid, context);
+        return isPasswordValid && isFirstNewPasswordValid
+                && isSecondNewPasswordValid;
     }
 
     /**
@@ -71,8 +82,8 @@ public class UserPasswordValidator
      */
 
     private boolean isPasswordValid(UserDTOForChangePassword userDTO) {
-        return userDTO.getPassword()
-                .matches(ValidationCriteria.CHARACTERS_FOR_PASSWORD);
+        return encoder.matches(userDTO.getOldPassword(),
+                userService.getByIdForPassword(userDTO.getId()).getPassword());
     }
 
     /**
@@ -87,6 +98,19 @@ public class UserPasswordValidator
     private boolean isFirstNewPasswordValid(UserDTOForChangePassword userDTO) {
         return userDTO.getFirstNewPassword()
                 .matches(ValidationCriteria.CHARACTERS_FOR_PASSWORD);
+    }
+
+    /**
+     * Checks the given userDTO password contains only allowed characters.
+     * 
+     * @param userDTO
+     *            a UserDTO object to check password.
+     * 
+     * @return true if password is valid
+     */
+
+    private boolean isSecondNewPasswordValid(UserDTOForChangePassword userDTO) {
+        return userDTO.getSecondNewPassword().equals(userDTO.getFirstNewPassword());
     }
 
     /**
@@ -114,16 +138,22 @@ public class UserPasswordValidator
      */
     private void printErrorMessages(final boolean isPasswordValid,
             final boolean isFirstNewPasswordValid,
+            final boolean isSecondNewPasswordValid,
             final ConstraintValidatorContext context) {
 
         if (!isPasswordValid) {
-            errorMessage(ValidationFields.PASSWORD,
-                    ValidationMessages.INCORECT_PASSWORD, context);
+            errorMessage(ValidationFields.OLD_PASSWORD,
+                    ValidationMessages.WRONG_PASSWORD, context);
         }
 
         if (!isFirstNewPasswordValid) {
             errorMessage(ValidationFields.FIRST_NEW_PASSWORD,
                     ValidationMessages.INCORECT_PASSWORD, context);
+        }
+
+        if (!isSecondNewPasswordValid) {
+            errorMessage(ValidationFields.SECOND_NEW_PASSWORD,
+                    ValidationMessages.NOT_EQUAL, context);
         }
 
     }
