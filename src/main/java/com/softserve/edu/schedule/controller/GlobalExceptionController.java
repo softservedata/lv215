@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,6 +26,20 @@ public class GlobalExceptionController implements ControllerConst {
      */
     private Logger log = LoggerFactory
             .getLogger(GlobalExceptionController.class);
+    
+    /**
+     * Controls security exception handling.
+     *     
+     * @param ex
+     *            handled exception
+     * 
+     * @return start page URL
+     */
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public String accessDenied(Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return "redirect:/?accessDenied=true";
+    }
 
     /**
      * Controls global exception handling.

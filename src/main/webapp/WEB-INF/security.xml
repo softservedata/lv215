@@ -6,13 +6,11 @@
            http://www.springframework.org/schema/security
            http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<http auto-config="true">
-		<access-denied-handler error-page="/?accessDenied=true" />
-		<intercept-url pattern="/roomequipments*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')" />
+	<http auto-config="true">		
 		<form-login login-page="/" login-processing-url="/login"
 			authentication-failure-url="/login?fail=true" />
-		<logout logout-success-url="/"/>		
-	</http>
+		<logout logout-success-url="/" />
+	</http>	
 
 	<beans:bean id="encoder"
 		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
