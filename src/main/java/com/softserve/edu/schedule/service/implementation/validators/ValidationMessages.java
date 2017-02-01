@@ -73,6 +73,11 @@ public interface ValidationMessages {
 	 * Empty field or wrong characters.
 	 */
 	String INVALID_CHARACTERS_OR_EMPTY_FIELD = "vm.invalidCharactersOrEmptyField";
+	
+	   /**
+     * Empty field or wrong characters.
+     */
+	String INVALID_CHARACTERS_OR_EMPTY_FIELD_DESCRPIPTION = "vm.invalidCharactersOrEmptyFieldDescription"; 
 
 	/**
 	 * No tutors selected.

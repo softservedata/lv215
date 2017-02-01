@@ -37,6 +37,31 @@ import com.softserve.edu.schedule.entity.User;
 public class SubjectFilterSpecification implements Specification<Subject> {
 
     /**
+     * Constant for search method.
+     */
+    public static final String SEARCH_MASK = "%";
+
+    /**
+     * Constant for search method.
+     */
+    public static final String SEARCH_EMPTY = "";
+
+    /**
+     * Constant for sort method.
+     */
+    public static final int ZERO = 0;
+
+    /**
+     * Constant for sort method.
+     */
+    public static final int ONE = 1;
+
+    /**
+     * Constant for sort method.
+     */
+    public static final int TWO = 2;
+
+    /**
      * SubjectFilter example which provides parameters to build predicate.
      */
     private SubjectFilter filter;
@@ -72,23 +97,24 @@ public class SubjectFilterSpecification implements Specification<Subject> {
      * subject name parameter.
      */
     private void findByName() {
-        if (filter.getName() != null && !filter.getName().trim().equals("")) {
+        if (filter.getName() != null
+                && !filter.getName().trim().equals(SEARCH_EMPTY)) {
             list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
                     .like(root.get(Subject_.name),
-                            "%" + filter.getName() + "%"));
+                            SEARCH_MASK + filter.getName() + SEARCH_MASK));
         }
     }
 
     /**
-     * Add subject description specification to specification list if filter contains
-     * subject description parameter.
+     * Add subject description specification to specification list if filter
+     * contains subject description parameter.
      */
     private void findByDescription() {
         if (filter.getDescription() != null
-                && !filter.getDescription().trim().equals("")) {
+                && !filter.getDescription().trim().equals(SEARCH_EMPTY)) {
             list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
-                    .like(root.get(Subject_.description),
-                            "%" + filter.getDescription() + "%"));
+                    .like(root.get(Subject_.description), SEARCH_MASK
+                            + filter.getDescription() + SEARCH_MASK));
         }
     }
 
@@ -97,7 +123,7 @@ public class SubjectFilterSpecification implements Specification<Subject> {
      * user description parameter.
      */
     private void findByUserId() {
-        if (filter.getUserId() != null && filter.getUserId() > 0) {
+        if (filter.getUserId() != null && filter.getUserId() > ZERO) {
             User user = userDao.getById(filter.getUserId());
             list.add((root, criteriQuery, criteriaBuilder) -> criteriaBuilder
                     .isMember(user, root.get(Subject_.users)));
@@ -120,22 +146,22 @@ public class SubjectFilterSpecification implements Specification<Subject> {
     private void setSortingParameters(final Root<Subject> root,
             final CriteriaQuery<?> criteriaQuery,
             final CriteriaBuilder criteriaBuilder) {
-        if (filter.getSortOrder() == 1) {
-            if (filter.getSortByField() == 1) {
+        if (filter.getSortOrder() == ONE) {
+            if (filter.getSortByField() == ONE) {
                 criteriaQuery
                         .orderBy(criteriaBuilder.asc(root.get(Subject_.name)));
             }
-            if (filter.getSortByField() == 2) {
+            if (filter.getSortByField() == TWO) {
                 criteriaQuery.orderBy(
                         criteriaBuilder.asc(root.get(Subject_.description)));
             }
 
-        } else if (filter.getSortOrder() == 2) {
-            if (filter.getSortByField() == 1) {
+        } else if (filter.getSortOrder() == TWO) {
+            if (filter.getSortByField() == ONE) {
                 criteriaQuery
                         .orderBy(criteriaBuilder.desc(root.get(Subject_.name)));
             }
-            if (filter.getSortByField() == 2) {
+            if (filter.getSortByField() == TWO) {
                 criteriaQuery.orderBy(
                         criteriaBuilder.desc(root.get(Subject_.description)));
             }
@@ -156,22 +182,22 @@ public class SubjectFilterSpecification implements Specification<Subject> {
      * @param criteriaBuilder
      *            a criteria builder of predicate.
      * 
-     * @return a Predicate example to search subjects in database by given filter
-     *         parameters.
+     * @return a Predicate example to search subjects in database by given
+     *         filter parameters.
      */
     @Override
     public Predicate toPredicate(Root<Subject> root,
             CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
         root.join(Subject_.users, JoinType.LEFT);
         setSortingParameters(root, criteriaQuery, criteriaBuilder);
-            findByName();
-            findByDescription();
-            findByUserId();
-        if (list.size() == 0) {
+        findByName();
+        findByDescription();
+        findByUserId();
+        if (list.size() == ZERO) {
             return null;
         }
-        Specifications<Subject> spec = Specifications.where(list.get(0));
-        for (int i = 1; i < list.size(); i++) {
+        Specifications<Subject> spec = Specifications.where(list.get(ZERO));
+        for (int i = ONE; i < list.size(); i++) {
             spec = spec.and(list.get(i));
         }
         return spec.toPredicate(root, criteriaQuery, criteriaBuilder);
