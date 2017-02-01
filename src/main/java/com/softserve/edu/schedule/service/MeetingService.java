@@ -134,5 +134,5 @@ public interface MeetingService {
 	public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId, LocalDate date);
 
 	
-	public List<MeetingDTO> hasDublicate(final String subjectName, final String OwnerName, final String roomName);
+	public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO);
 }

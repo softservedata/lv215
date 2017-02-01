@@ -23,9 +23,7 @@ public class MeetingFilter {
 
     private List<UserGroupDTO> groups = new ArrayList<>();
 
-    private Integer maxLevel;
-
-    private Integer minLevel;
+    private Integer level;
 
     private LocalDate date;
 
@@ -38,6 +36,14 @@ public class MeetingFilter {
     private int sortOrder;
 
     private int fieldForSorting;
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
+    }
 
     /**
      * @return
@@ -96,20 +102,10 @@ public class MeetingFilter {
     }
 
     /**
-     * @return the maxLevel
-     */
-    public Integer getMaxLevel() {
-        return maxLevel;
-    }
-
-    /**
-     * @return the minLevel
-     */
-    public Integer getMinLevel() {
-        return minLevel;
-    }
-
-    /**
+     * 
+     * 
+     * /**
+     * 
      * @return the date
      */
     public LocalDate getDate() {
@@ -197,22 +193,6 @@ public class MeetingFilter {
      */
     public void setGroups(List<UserGroupDTO> groups) {
         this.groups = groups;
-    }
-
-    /**
-     * @param maxLevel
-     *            the maxLevel to set
-     */
-    public void setMaxLevel(Integer maxLevel) {
-        this.maxLevel = maxLevel;
-    }
-
-    /**
-     * @param minLevel
-     *            the minLevel to set
-     */
-    public void setMinLevel(Integer minLevel) {
-        this.minLevel = minLevel;
     }
 
     /**
