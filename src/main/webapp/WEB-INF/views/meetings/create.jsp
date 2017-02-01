@@ -119,8 +119,9 @@
 					<label for="description"><spring:message
 							code="lbl.meeting.description" /></label>
 					<spring:message code="lbl.meeting.createDesc" var="descPH" />
-					<form:textarea class="form-control" path="description"
-						id="description" placeholder="${descPH}" />
+					<form:input class="form-control" path="description"
+						id="description" placeholder="${descPH}" pattern = "[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}"
+						title="Blah" />
 					<form:errors path="description" class="text-danger" />
 				</div>
 				<div class="form-group text-center">
@@ -137,3 +138,13 @@
 		</div>
 	</div>
 </div>
+<script>
+var x = document.getElementById("startTime");
+var y = document.getElementById("endTime");
+console.log(x.value);
+
+
+
+
+
+</script>
