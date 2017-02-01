@@ -22,7 +22,7 @@ import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
-import com.softserve.edu.schedule.dto.filter.DateFilter;
+
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.MeetingStatus;
@@ -32,6 +32,7 @@ import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
+import com.softserve.edu.schedule.service.implementation.editor.MeetingDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.MeetingStatusEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.SubjectDTOEditor;
@@ -76,12 +77,17 @@ public class MeetingController {
 
     @Autowired
     private RoomDTOEditor roomDTOEditor;
+    
+    @Autowired
+    private MeetingDTOEditor meetingDTOEditor;
+    
 
     @Autowired
     MeetingStatusEditor meetingStatusEditor;
 
     @InitBinder("meetingForm")
     protected void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(MeetingDTO.class, meetingDTOEditor);
         binder.registerCustomEditor(SubjectDTO.class, subjectDTOEditor);
         binder.registerCustomEditor(LocalDate.class, dateEditor);
         binder.registerCustomEditor(LocalTime.class, timeEditor);
@@ -220,6 +226,11 @@ public class MeetingController {
     }
 
     
+    /** Shows selected meeting details.
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String showMeeting(@PathVariable("id") final Long id,
             final Model model) {
