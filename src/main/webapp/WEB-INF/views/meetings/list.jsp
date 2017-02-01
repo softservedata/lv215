@@ -18,7 +18,7 @@
 </h3>
 <table class="table table-hover meetingsTable">
 	<tr>
-		<th style="width: 3%"><spring:message code="lbl.meeting.id" /> <br></th>
+		<th class="meetingid"><spring:message code="lbl.meeting.id" /> <br></th>
 		<!-- <th style="width: 15%">Description <br> <a
 			href="meetings?fieldForSorting=0&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
@@ -60,20 +60,20 @@
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
 		</a></th>
-		<th><spring:message code="lbl.meeting.starttime" /><br> <!--  <a
+		<th><spring:message code="lbl.meeting.starttime" /><br> <a
 			href="meetings?fieldForSorting=5&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=5&sortOrder=1&pageNumber=0"
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
-		</a> --></th>
-		<th><spring:message code="lbl.meeting.endtime" /><br> <!--  <a
+		</a></th>
+		<th><spring:message code="lbl.meeting.endtime" /><br> <a
 			href="meetings?fieldForSorting=6&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=6&sortOrder=1&pageNumber=0"
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
-		</a> --></th>
+		</a></th>
 		<th class="allInnerForms1"><spring:message
 				code="lbl.meeting.groups" /></th>
 		<th><spring:message code="lbl.meeting.level" /> <br> <a
@@ -82,16 +82,14 @@
 		</a> <a href="meetings?fieldForSorting=7&sortOrder=1&pageNumber=0"
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
-		</a>
-		</th>
+		</a></th>
 		<th><spring:message code="lbl.meeting.status" /> <br> <a
 			href="meetings?fieldForSorting=8&sortOrder=0&pageNumber=0"
 			title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 		</a> <a href="meetings?fieldForSorting=8&sortOrder=1&pageNumber=0"
 			title="Sort Descending"> <i
 				class="fa fa-arrow-circle-o-down fa-lg"></i>
-		</a>
-		</th>
+		</a></th>
 		<!-- Filter button -->
 		<th class="text-center v-alighn">
 			<button class="btn btn-link" data-toggle="collapse"
@@ -119,12 +117,10 @@
 			<form:input path="showFilter" type="hidden" value="true" />
 
 			<!-- ID -->
-			<td style="width: 100%">
-				<div class="form-group">
-					<form:input class="form-control input-sm allInnerForms" type="text"
-						path="description" placeholder="ID" />
-				</div>
-			</td>
+			<td><form:input class="input-number meetingid" 
+					type="number" path="id" placeholder="ID" step="1" /></td>
+
+					
 			<%-- <!-- description -->
 			<td style="width: 15%">
 				<div class="form-group">
@@ -133,137 +129,100 @@
 				</div>
 			</td> --%>
 			<!-- subject -->
-			<td>
-				<div class="form-group allInnerForms1">
-					<form:select class="form-control" path="subjectId" id="subjectId">
-						<option value="0"></option>
-						<c:forEach items="${subjects}" var="subject">
-							<c:choose>
-								<c:when test="${meetingFilter.subjectId eq subject.id}">
-									<option value="${subject.id}" selected="selected">${subject.name}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${subject.id}">${subject.name}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-				</div>
-			</td>
+			<td><form:select class="form-control" path="subjectId"
+					id="subjectId">
+					<option value="0"></option>
+					<c:forEach items="${subjects}" var="subject">
+						<c:choose>
+							<c:when test="${meetingFilter.subjectId eq subject.id}">
+								<option value="${subject.id}" selected="selected">${subject.name}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${subject.id}">${subject.name}</option>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</form:select></td>
 			<!-- owner -->
-			<td>
-				<div class="form-group allInnerForms1">
-					<form:select class="form-control allInnerForms" path="ownerId"
-						id="ownerId">
-						<option value="0"></option>
-						<c:forEach items="${users}" var="owner">
-							<c:choose>
-								<c:when test="${meetingFilter.ownerId eq owner.id}">
-									<option value="${owner.id}" selected="selected">${owner.lastName}
-										${owner.firstName}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${owner.id}">${owner.lastName}
-										${owner.firstName}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-				</div>
-			</td>
+			<td><form:select class="form-control allInnerForms"
+					path="ownerId" id="ownerId">
+					<option value="0"></option>
+					<c:forEach items="${users}" var="owner">
+						<c:choose>
+							<c:when test="${meetingFilter.ownerId eq owner.id}">
+								<option value="${owner.id}" selected="selected">${owner.lastName}
+									${owner.firstName}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${owner.id}">${owner.lastName}
+									${owner.firstName}</option>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</form:select></td>
 			<!-- room -->
-			<td>
-				<div class="form-group allInnerForms1">
-					<form:select class="form-control allInnerForms" path="roomId"
-						id="roomId">
-						<option value="0"></option>
-						<c:forEach items="${rooms}" var="room">
-							<c:choose>
-								<c:when test="${meetingFilter.roomId eq room.id}">
-									<option value="${room.id}" selected="selected">${room.name}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${room.id}">${room.name}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-				</div>
-			</td>
+			<td><form:select class="form-control allInnerForms"
+					path="roomId" id="roomId">
+					<option value="0"></option>
+					<c:forEach items="${rooms}" var="room">
+						<c:choose>
+							<c:when test="${meetingFilter.roomId eq room.id}">
+								<option value="${room.id}" selected="selected">${room.name}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${room.id}">${room.name}</option>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</form:select></td>
 			<!-- date -->
-			<td>
-
-				<div class="form-group allInnerforms2 ">
-					<form:input class="form-control input-sm allInnerForms2"
-						type="date" path="date" placeholder="YYYY-MM-DD" />
-				</div>
-			</td>
+			<td><form:input class="form-control input-sm allInnerForms2"
+					type="date" path="date" placeholder="YYYY-MM-DD" /></td>
 			<!-- Start Time -->
-			<td>
-				<div class="form-group">
-
-
-					<form:input class="form-control input-sm allInnerForms" type="time"
-						path="startTime" id="startTime" placeholder="HH:MM" />
-				</div>
+			<td><form:input class="form-control input-sm allInnerForms"
+					type="time" path="startTime" id="startTime" placeholder="HH:MM" />
 			</td>
 			<!-- End Time -->
-			<td>
-				<div class="form-group">
-					<form:input class="form-control input-sm allInnerForms" type="time"
-						path="endTime" id="endTime" placeholder="HH:MM" />
-				</div>
-			</td>
+			<td><form:input class="form-control input-sm allInnerForms"
+					type="time" path="endTime" id="endTime" placeholder="HH:MM" /></td>
 			<!-- UserGroups -->
-			<td>
-
-				<div class="form-group allInnerForms1">
-					<form:select class="form-control " path="groups" id="groups"
-						multiple="multiple">
-						<c:forEach items="${userGroups}" var="userGroup">
-							<c:set var="found" value="false" />
-							<c:forEach items="${meetingFilter.groups}" var="groupsInFilter">
-								<c:if test="${!found}">
-									<c:if test="${groupsInFilter.id eq userGroup.id}">
-										<option value="${userGroup.id}" selected="selected">${userGroup.name}</option>
-										<c:set var="found" value="true" />
-									</c:if>
-								</c:if>
-							</c:forEach>
+			<td><form:select class="form-control " path="groups" id="groups"
+					multiple="multiple">
+					<c:forEach items="${userGroups}" var="userGroup">
+						<c:set var="found" value="false" />
+						<c:forEach items="${meetingFilter.groups}" var="groupsInFilter">
 							<c:if test="${!found}">
-								<option value="${userGroup.id}">${userGroup.name}</option>
+								<c:if test="${groupsInFilter.id eq userGroup.id}">
+									<option value="${userGroup.id}" selected="selected">${userGroup.name}</option>
+									<c:set var="found" value="true" />
+								</c:if>
 							</c:if>
 						</c:forEach>
-					</form:select>
-				</div>
-			</td>
+						<c:if test="${!found}">
+							<option value="${userGroup.id}">${userGroup.name}</option>
+						</c:if>
+					</c:forEach>
+				</form:select></td>
 			<!-- Level -->
-			<td class="levelclass">
-				<div class="form-group levelclass">
-					<form:input type="number" class="input-number levelclass"
-						path="minLevel" step="1" title="MIN" />
-					<form:input type="number" class="input-number levelclass"
-						path="maxLevel" step="1" title="MAX" />
-				</div>
-			</td>
+			<td class="levelclass"><form:input type="number"
+					class="input-number levelclass" path="minLevel" step="1"
+					title="MIN" /> <form:input type="number"
+					class="input-number levelclass" path="maxLevel" step="1"
+					title="MAX" /></td>
 			<!-- Status -->
-			<td>
-				<div class="form-group ">
-					<form:select class="form-control" path="status" id="status">
-						<option value="-1"></option>
-						<c:forEach items="${meetingStatuses}" var="status">
-							<c:choose>
-								<c:when test="${meetingFilter.status eq status.ordinal()}">
-									<option value="${status.ordinal()}" selected="selected">${status}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${status.ordinal()}">${status}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-				</div>
-			</td>
+			<td><form:select class="form-control" path="status" id="status">
+					<option value="-1"></option>
+					<c:forEach items="${meetingStatuses}" var="status">
+						<c:choose>
+							<c:when test="${meetingFilter.status eq status.ordinal()}">
+								<option value="${status.ordinal()}" selected="selected" itemCode="messageCode">${status}</option>
+							</c:when>
+							<c:otherwise>
+								<option value="${status.ordinal()}">${status}</option>
+							</c:otherwise>
+						</c:choose>
+					</c:forEach>
+				</form:select></td>
 
 			<td class="text-center v-alighn">
 				<button type="submit" class="btn btn-link"
@@ -273,7 +232,7 @@
 			</td>
 		</form:form>
 		<td class="text-center v-alighn"><a
-			href="meetings?showFilter=false&description=&subjectId=0&ownerId=0&roomId=0&date=&startTime=&endTime=&_groups=1&minLevel=&maxLevel=&status=-1"
+			href="meetings?showFilter=false&id=&subjectId=0&ownerId=0&roomId=0&date=&startTime=&endTime=&_groups=1&minLevel=&maxLevel=&status=-1"
 			title="resetFilter"> <i class="fa fa-ban fa-lg"></i>
 		</a></td>
 	</tr>
@@ -293,10 +252,7 @@
 					<p>${group.name}</p>
 				</c:forEach></td>
 			<td>${meeting.level}</td>
-			<td>${meeting.status}<a
-				href="${pageContext.request.contextPath}/meetings/editStatus/${meeting.id}"><i
-					class="fa fa-pencil-square-o"></i></a>
-			</td>
+			<td>${meeting.status}</td>
 			<td><a
 				href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"><i
 					class="fa fa-trash-o fa-lg"></i></a></td>

@@ -32,34 +32,16 @@ public interface ValidationFields {
      */
     String LOCATION = "location";
 
-    /**
-     * FirstName field.
-     */
     String FIRSTNAME = "firstName";
 
-    /**
-     * LastName field.
-     */
     String LASTNAME = "lastName";
 
-    /**
-     * Mail field.
-     */
     String MAIL = "mail";
 
-    /**
-     * Phone field.
-     */
     String PHONE = "phone";
 
-    /**
-     * Position field.
-     */
     String POSITION = "position";
 
-    /**
-     * Password field.
-     */
     String PASSWORD = "password";
 
     /**
@@ -72,9 +54,6 @@ public interface ValidationFields {
      */
     String LEVEL = "level";
 
-    /**
-     * Subject users field.
-     */
     String USERS = "users";
 
     /**
@@ -98,4 +77,10 @@ public interface ValidationFields {
     String GROUPS = "groups";
 
     String SUBJECT = "subject";
+    
+
+    String STATUS = "status";
+
+    String FIRST_NEW_PASSWORD = "firstNewPassword";
+
 }

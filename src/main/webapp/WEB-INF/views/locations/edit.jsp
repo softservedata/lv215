@@ -7,8 +7,8 @@
 	import="com.softserve.edu.schedule.controller.LocationController"%>
 
 <div class="container">
-	<div class="row">
-		<div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+	<div class="row ">
+		<div class="col-lg-4 col-lg-offset-1 col-md-5 col-sm-6 panel panel-default">
 			<h3 class="text-center"><spring:message code="lbl.location.edit" /></h3>
 			<form:form method="post"
 				modelAttribute="${LocationController.LOCATION_FORM_MODEL_ATTR}">
@@ -17,7 +17,7 @@
 					<label for="name"><spring:message code="lbl.location.name" /></label>
 					<spring:message code="lbl.location.namePlaceholder" var="namePlaceholder" />
 					<spring:message code="vm.invalidName" var="invalidName" />
-					<form:input class="form-control" path="name" placeholder="${namePlaceholder}"  pattern = "[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№',\.\s\-]{2,254}" title="${invalidName}" required = "true"/>
+					<form:input class="form-control" path="name" placeholder="${namePlaceholder}" pattern = "[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№',\.\s\-]{2,254}" title="${invalidName}" required = "true"/>
 					<form:errors path="name" style="color: red"/>
 				</div>
 				<div class="form-group">
@@ -25,13 +25,13 @@
 					<spring:message code="lbl.location.addressPlaceholder" var="addressPlaceholder" />
 					<spring:message code="vm.invalidAddress" var="invalidAddress" />
 					<form:input class="form-control" path="address"
-						placeholder="${addressPlaceholder}"  pattern = "[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№',\.\s\-]{10,254}" title="${invalidAddress}" required = "true"/>
+						placeholder="${addressPlaceholder}" pattern = "[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№',\.\s\-]{10,254}" title="${invalidAddress}" required = "true"/>
 						<form:errors path="address" style="color: red"/>
 				</div>
 				<div class="form-group">
 					<label for="coordinates"><spring:message code="lbl.location.coordinates" /></label>
 					<form:input class="form-control" path="coordinates"
-						placeholder="Coordinates" />
+						placeholder="Coordinates"/>
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
@@ -42,5 +42,29 @@
 				</div>
 			</form:form>
 		</div>
+		<div class="col-lg-6 col-md-7 col-sm-6 panel-map">
+		<div id="map"></div>
+		</div>
 	</div>
 </div>
+
+<script>
+      function initMap() {
+    	  var x = document.getElementById('coordinates').value;
+    	  var name = document.getElementById('name').value;
+    	  var coord = x.split(",");
+        var uluru = {lat: Number(coord[0]), lng: Number(coord[1])};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 17,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map,
+          title: name
+        });
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDxvtL6fscPTAt98KLMFSqXooLpfABVUes&callback=initMap">
+    </script>

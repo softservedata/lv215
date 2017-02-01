@@ -235,6 +235,10 @@ public interface ControllerConst {
 	 * @author Oleksandr Butyter
 	 */
 	public interface LocationControllerConst {
+
+		String FILTER_MODEL_ATTR = "locationFilter";
+
+		String LOCATION_PAGINATOR_MODEL_ATTR = "locationPaginator";
 		/**
 		 * Search model attribute name.
 		 */
@@ -335,19 +339,19 @@ public interface ControllerConst {
 	public interface SubjectControllerConst {
 
 		/**
-		 * Search model attribute name.
-		 */
-		String SEARCH_MODEL_ATTR = "search";
-
-		/**
-		 * Search model attribute tutor.
-		 */
-		String SEARCH_BY_TUTOR_MODEL_ATTR = "searchTutor";
-
-		/**
 		 * Subject form model attribute name.
 		 */
 		String SUBJECT_FORM_MODEL_ATTR = "subjectForm";
+
+		/**
+		 * Filter model attribute name.
+		 */
+		String FILTER_MODEL_ATTR = "subjectFilter";
+
+		/**
+		 * Filter model attribute name.
+		 */
+		String SUBJECT_PAGINATOR_MODEL_ATTR = "subjectPaginator";
 
 		/**
 		 * Subjects model attribute name.
@@ -385,41 +389,6 @@ public interface ControllerConst {
 		String SUBJECTS_MAPPING = "/subjects";
 
 		/**
-		 * Subjects sort by name (asc) mapping URL.
-		 */
-		String SUBJECTS_SORT_BY_NAME_ASC_MAPPING = "/subjects/sortbynameasc";
-
-		/**
-		 * Subjects sort by name (desc) mapping URL.
-		 */
-		String SUBJECTS_SORT_BY_NAME_DESC_MAPPING = "/subjects/sortbynamedesc";
-
-		/**
-		 * Subjects sort by description (asc) mapping URL.
-		 */
-		String SUBJECTS_SORT_BY_DESCRIPTION_ASC_MAPPING = "/subjects/sortbydescriptionasc";
-
-		/**
-		 * Subjects sort by description (desc) mapping URL.
-		 */
-		String SUBJECTS_SORT_BY_DESCRIPTION_DESC_MAPPING = "/subjects/sortbydescriptiondesc";
-
-		/**
-		 * Subjects search by name mapping URL.
-		 */
-		String SUBJECTS_SEARCH_BY_NAME_MAPPING = "/subjects/searchByName";
-
-		/**
-		 * Subjects search by description mapping URL.
-		 */
-		String SUBJECTS_SEARCH_BY_DESCRIPTION_MAPPING = "/subjects/searchByDescription";
-
-		/**
-		 * Subjects search by description mapping URL.
-		 */
-		String SUBJECTS_SEARCH_BY_TUTOR_MAPPING = "/subjects/searchByTutor";
-
-		/**
 		 * Delete subject mapping URL name.
 		 */
 		String SUBJECT_DELETE_MAPPING = "/subjects/delete/";
@@ -450,10 +419,13 @@ public interface ControllerConst {
 		String SUBJECT_PATH_DESCRIPTION = "description";
 
 		/**
-		 * Subject field description.
+		 * Subject field lastName.
 		 */
 		String SUBJECT_PATH_LASTNAME = "lastName";
 
+		/**
+		 * Subject field users.
+		 */
 		String SUBJECT_PATH_USERS = "users";
 	}
 

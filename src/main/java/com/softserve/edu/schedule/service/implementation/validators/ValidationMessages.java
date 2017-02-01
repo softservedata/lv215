@@ -109,4 +109,5 @@ public interface ValidationMessages {
 	
 	String DUPLICATE_MEETING = "vm.duplicateMeeting";
 	String INVALID_TIME = "vm.invalidTime";
+	String INVALID_STATUS = "vm.ivdalidStatus";
 }

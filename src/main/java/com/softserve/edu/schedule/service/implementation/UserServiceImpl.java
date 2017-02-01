@@ -3,8 +3,6 @@ package com.softserve.edu.schedule.service.implementation;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -15,6 +13,7 @@ import com.softserve.edu.schedule.aspect.Loggable;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
@@ -22,6 +21,7 @@ import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForChangePasswordConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSubjectDTOConverter;
 
 /**
@@ -47,6 +47,9 @@ public class UserServiceImpl implements UserService {
     private UserDTOConverter userDTOConverter;
 
     @Autowired
+    private UserDTOForChangePasswordConverter userDTOForPasswordConverter;
+
+    @Autowired
     private UserForSubjectDTOConverter userForSubjectDTOConverter;
 
     @Autowired
@@ -59,7 +62,7 @@ public class UserServiceImpl implements UserService {
      *            a userDTO for to storage new user in database.
      */
     @Override
-    @Transactional     
+    @Transactional
     public void create(final UserDTO userDTO) {
         userDTO.setPassword(encoder.encode(userDTO.getPassword()));
         userDAO.create(userDTOConverter.getEntity(userDTO));
@@ -109,7 +112,8 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(final UserDTO userDTO) {
         User user = userDTOConverter.getEntity(userDTO);
-        user.setPassword(userDAO.getById(user.getId()).getPassword());
+        // user.setPassword(userDAO.getById(user.getId()).getPassword());
+        user.setPassword(encoder.encode(userDTO.getPassword()));
         user.setStatus(userDAO.getById(user.getId()).getStatus());
         user.setRole(userDAO.getById(user.getId()).getRole());
         userDAO.update(user);
@@ -252,15 +256,41 @@ public class UserServiceImpl implements UserService {
         return userDTOConverter.getDTO(userDAO.findByMail(userMail));
     }
 
-    @PostConstruct
-    public void postConstruct() {
-        if (userDAO.getById(1L) == null) {
-            User user = new User();
-            user.setId(1L);
-            user.setMail("admin@admin.com");
-            user.setRole(UserRole.ADMIN);
-            user.setPassword(encoder.encode("admin"));
-            userDAO.create(user);
+    /**
+     * Change password of user in the database.
+     *
+     * @param id
+     *            a user id to find in the database.
+     *
+     * @param password
+     *            a user password to verify if real owner of account want change
+     *            password.
+     * 
+     * @param firstNewPassword
+     *            a new password which user want save.
+     * 
+     * @param secondNewPassword
+     *            a new password which should be equal to firstNewPassword
+     *            field.
+     * 
+     * @return a user DTO with given mail.
+     */
+    @Transactional
+    public void changePassword(UserDTOForChangePassword userDTO,
+            String password, String firstNewPassword,
+            String secondNewPassword) {
+
+        User user = userDTOForPasswordConverter.getEntity(userDTO);
+
+        if (user.getPassword().equals(encoder.encode(password))) {
+
+            if (firstNewPassword.equals(secondNewPassword)) {
+                user.setPassword(encoder.encode(secondNewPassword));
+                user.setStatus(userDAO.getById(user.getId()).getStatus());
+                user.setRole(userDAO.getById(user.getId()).getRole());
+                userDAO.update(user);
+            }
         }
     }
+
 }

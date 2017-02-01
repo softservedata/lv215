@@ -73,7 +73,7 @@ public class User {
      * User role in system.
      */
     @Enumerated
-    private UserRole role = UserRole.USER;
+    private UserRole role = UserRole.ROLE_USER;
 
     /**
      * List of subjects available for this user.
