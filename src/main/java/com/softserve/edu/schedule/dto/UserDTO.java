@@ -141,7 +141,7 @@ public class UserDTO implements UserDetails {
         UserDTO user = (UserDTO) o;
         return Objects.equals(mail, user.mail);
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hash(mail);
@@ -159,7 +159,7 @@ public class UserDTO implements UserDetails {
 
     @Override
     public String getUsername() {
-        return String.valueOf(getId());
+        return getMail();
     }
 
     @Override

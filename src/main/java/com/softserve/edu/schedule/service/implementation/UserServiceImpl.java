@@ -253,7 +253,11 @@ public class UserServiceImpl implements UserService {
     @Transactional(readOnly = true)
     public UserDTO loadUserByUsername(String userMail)
             throws UsernameNotFoundException {
-        return userDTOConverter.getDTO(userDAO.findByMail(userMail));
+        User user = userDAO.findByMail(userMail);
+        if (user == null){
+            throw new UsernameNotFoundException("User not found");
+        }
+        return userDTOConverter.getDTO(user);
     }
 
     /**
