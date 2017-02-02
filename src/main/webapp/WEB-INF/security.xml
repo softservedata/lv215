@@ -7,7 +7,7 @@
            http://www.springframework.org/schema/security/spring-security.xsd">
 
 	<http auto-config="true">
-<!-- 		<intercept-url pattern="/**" requires-channel="https" /> -->
+		<intercept-url pattern="/**" requires-channel="https" />
 		<form-login login-page="/" login-processing-url="/login"
 			authentication-failure-url="/login?fail=true" />
 		<logout logout-success-url="/" />
