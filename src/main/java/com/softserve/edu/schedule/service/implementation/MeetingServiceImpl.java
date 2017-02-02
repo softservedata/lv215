@@ -10,6 +10,7 @@
 package com.softserve.edu.schedule.service.implementation;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,10 @@ import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
+import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
+import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
 
@@ -44,6 +47,9 @@ public class MeetingServiceImpl implements MeetingService {
     private MeetingDAO meetingDao;
 
     @Autowired
+    private RoomService roomService;
+
+    @Autowired
     private MeetingDTOConverter meetingDTOConverter;
 
     /**
@@ -61,6 +67,7 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void create(final MeetingDTO meetingDTO) {
+        meetingDTO.setStatus(getMeetingStatusDuringCreation(meetingDTO));
         meetingDao.create(meetingDTOConverter.getEntity(meetingDTO));
     }
 
@@ -226,5 +233,16 @@ public class MeetingServiceImpl implements MeetingService {
                         meetingDTO.getDate(), meetingDTO.getStartTime())
                 .stream().map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
+    }
+
+    // @Override
+    public MeetingStatus getMeetingStatusDuringCreation(
+            final MeetingDTO meetingDTO) {
+        if (roomService.isFreeForPeriod(meetingDTO.getRoom().getId(),
+                meetingDTO.getDate(), meetingDTO.getStartTime(),
+                meetingDTO.getEndTime())) {
+            return MeetingStatus.APPROVED;
+        }
+        return MeetingStatus.NOT_APPROVED;
     }
 }

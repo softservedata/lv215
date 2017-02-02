@@ -163,10 +163,11 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         /*
          * New meeting must has status = NOT_APPROVE.
          */
-        meeting.setStatus(MeetingStatus.NOT_APPROVED);
+
         getEm().persist(meeting);
     }
 
+    
     /*
      * (non-Javadoc)
      * 
