@@ -8,6 +8,7 @@ package com.softserve.edu.schedule.service.implementation.validators;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -17,7 +18,10 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import com.softserve.edu.schedule.dto.MeetingDTO;
+import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.entity.MeetingStatus;
+import com.softserve.edu.schedule.service.MeetingService;
 
 /**
  * A class to provide validation logic.
@@ -36,6 +40,9 @@ public class MeetingValidator
      */
     @Autowired
     private ResourceBundleMessageSource messageSource;
+
+    @Autowired
+    MeetingService meetingService;
 
     /**
      * Initializes the validator in preparation for calls. The constraint
@@ -99,9 +106,9 @@ public class MeetingValidator
      */
 
     private boolean isValidDescription(MeetingDTO meetingDTO) {
-        return meetingDTO.getDescription() == null
-                || meetingDTO.getDescription().matches(
-                        ValidationCriteria.PATTERN_FOR_MEETING_DESCRIPTION);
+        return ((meetingDTO.getDescription() != null)
+                && (meetingDTO.getDescription().matches(
+                        ValidationCriteria.PATTERN_FOR_MEETING_DESCRIPTION)));
     }
 
     private boolean isValidDate(MeetingDTO meetingDTO) {
@@ -161,7 +168,11 @@ public class MeetingValidator
 
     private boolean isOriginMeeting(MeetingDTO meetingDTO) {
         // TODO
-        return true;
+        List<MeetingDTO> listOfDuplicates = meetingService
+                .DublicatesOfGivenDTO(meetingDTO);
+        return ((listOfDuplicates.isEmpty()) || listOfDuplicates.stream()
+                .anyMatch(s -> s.getId().equals(meetingDTO.getId())));
+
     }
 
     /**

@@ -37,4 +37,30 @@ public class UserDTOForChangePasswordConverter {
         return user;
 
     }
+
+    /**
+     * Convert given UserDTO object to User object
+     *
+     * @param userDTO
+     *            a userDTO object to convert.
+     *
+     * @return a User object or null if given @param userDTO is null.
+     */
+    public UserDTOForChangePassword getDTOForPassword(final User user) {
+
+        UserDTOForChangePassword userDTO = new UserDTOForChangePassword();
+
+        userDTO.setId(user.getId());
+        
+        userDTO.setPassword(user.getPassword());
+
+        userDTO.setOldPassword("");
+
+        userDTO.setFirstNewPassword("");
+
+        userDTO.setSecondNewPassword("");
+
+        return userDTO;
+
+    }
 }

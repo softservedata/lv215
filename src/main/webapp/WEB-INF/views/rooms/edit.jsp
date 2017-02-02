@@ -1,29 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page import="com.softserve.edu.schedule.controller.RoomController"%>
-
-<script type="text/javascript">
-	$(function() {
-		$("select[name=location]").chosen({
-			width : "100%"
-		});
-		$("select[name=equipments]").chosen({
-			width : "100%"
-		});
-	})
-</script>
 
 <div class="container">
 	<div class="row">
-		<div class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
-			<h3 class="text-center"><spring:message code="lbl.room.editRoom"/></h3>
+		<div
+			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+			<h3 class="text-center">
+				<spring:message code="lbl.room.editRoom" />
+			</h3>
 			<form:form role="form" method="post" modelAttribute="${RoomController.ROOM_MODEL_ATTR}">
 				<form:input path="id" type="hidden" />
 				<div class="form-group">
-					<label for="location"><spring:message code="lbl.room.location"/>:</label>
+					<label for="location">
+						<spring:message code="lbl.room.location" />
+						:
+					</label>
 					<form:select class="form-control" path="location" id="location">
 						<c:forEach items="${locations}" var="location">
 							<c:choose>
@@ -36,31 +30,38 @@
 							</c:choose>
 						</c:forEach>
 					</form:select>
-					<form:errors path="location" class="text-danger"/>
+					<form:errors path="location" class="text-danger" />
 				</div>
 				<div class="form-group">
-					<label for="name"><spring:message code="lbl.room.roomName"/>:</label>
-					<spring:message code="lbl.room.roomName" var="nameForPlaceholder"/>
+					<label for="name">
+						<spring:message code="lbl.room.roomName" />
+						:
+					</label>
+					<spring:message code="lbl.room.roomName" var="nameForPlaceholder" />
 					<spring:message code="vm.invalidName" var="invalidName" />
 					<form:input type="text" class="form-control" path="name" id="name"
-						placeholder="${nameForPlaceholder}" required="true" 
-						oninvalid="this.setCustomValidity('${invalidName}')" 
-						oninput="setCustomValidity('')" />
-					<form:errors path="name" class="text-danger"/>
+						placeholder="${nameForPlaceholder}" required="true"
+						oninvalid="this.setCustomValidity('${invalidName}')" oninput="setCustomValidity('')" />
+					<form:errors path="name" class="text-danger" />
 				</div>
 				<div class="form-group">
-					<label for="capacity"><spring:message code="lbl.room.roomCapacity"/>:</label>
+					<label for="capacity">
+						<spring:message code="lbl.room.roomCapacity" />
+						:
+					</label>
 					<spring:message code="vm.ivalidRoomCapacity" var="invalidCapacity" />
-					<spring:message code="lbl.room.roomCapacity" var="capacityForPlaceholder"/>
-					<form:input class="form-control" type="number" path="capacity"
-						id="capacity" min="1" max="50000" step="1" placeholder="${capacityForPlaceholder}" required="true"
-						oninvalid="this.setCustomValidity('${invalidCapacity}')" oninput="setCustomValidity('')"/>
-					<form:errors path="capacity" class="text-danger"/>
+					<spring:message code="lbl.room.roomCapacity" var="capacityForPlaceholder" />
+					<form:input class="form-control" type="number" path="capacity" id="capacity" min="1"
+						max="50000" step="1" placeholder="${capacityForPlaceholder}" required="true"
+						oninvalid="this.setCustomValidity('${invalidCapacity}')" oninput="setCustomValidity('')" />
+					<form:errors path="capacity" class="text-danger" />
 				</div>
 				<div class="form-group">
-					<label for="equipments"><spring:message code="lbl.room.roomEquipments"/>:</label>
-					<form:select class="form-control" path="equipments" id="equipments"
-						multiple="multiple">
+					<label for="equipments">
+						<spring:message code="lbl.room.roomEquipments" />
+						:
+					</label>
+					<form:select class="form-control" path="equipments" id="equipments" multiple="multiple">
 						<c:forEach items="${equipments}" var="equipment">
 							<c:set var="found" value="false" />
 							<c:forEach items="${room.equipments}" var="equipmentInRoom">
@@ -79,10 +80,25 @@
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default" value="<spring:message code="lbl.form.save"/>">
-					<a class="btn btn-default" href="/schedule/rooms/edit/${room.id}"><spring:message code="lbl.form.reset"/></a>
-					<a class="btn btn-default" href="${pageContext.request.contextPath}/rooms"><spring:message code="lbl.form.cancel"/></a>
-				</div>				
+					<a class="btn btn-default" href="/schedule/rooms/edit/${room.id}">
+						<spring:message code="lbl.form.reset" />
+					</a>
+					<a class="btn btn-default" href="${pageContext.request.contextPath}/rooms">
+						<spring:message code="lbl.form.cancel" />
+					</a>
+				</div>
 			</form:form>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(function() {
+		$("select[name=location]").chosen({
+			width : "100%"
+		});
+		$("select[name=equipments]").chosen({
+			width : "100%"
+		});
+	})
+</script>

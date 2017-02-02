@@ -17,6 +17,7 @@
 package com.softserve.edu.schedule.dao.implementation;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,9 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
-
 import com.softserve.edu.schedule.dao.UserGroupDAO;
-
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Meeting;
@@ -42,7 +41,10 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
 import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.Room_;
-
+import com.softserve.edu.schedule.entity.Subject;
+import com.softserve.edu.schedule.entity.Subject_;
+import com.softserve.edu.schedule.entity.User;
+import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.implementation.specification.MeetingFilterSpecification;
 
 /**
@@ -198,10 +200,10 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     }
 
     public MeetingStatus getStatusbyString(final String status) {
-        if (status.contains("fin") || status.contains("FIN")  ) {
+        if (status.contains("fin") || status.contains("FIN")) {
             return MeetingStatus.FINISHED;
         }
-        if (status.contains("app") || status.contains("APP") ) {
+        if (status.contains("app") || status.contains("APP")) {
             return MeetingStatus.APPROVED;
         }
         if (status.contains("DIS") || status.contains("dis")) {
@@ -209,5 +211,42 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         } else {
             return MeetingStatus.NOT_APPROVED;
         }
+    }
+
+    public List<Meeting> dublicatesOfGivenFields(final String subjectName,
+            final String OwnerName, final String roomName,
+            final LocalDate localDate, final LocalTime localTime) {
+
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+
+        Join<Meeting, Subject> joinSubject = root.join(Meeting_.subject);
+        Join<Meeting, User> joinOwner = root.join(Meeting_.owner);
+        Join<Meeting, Room> joinRoom = root.join(Meeting_.room);
+        root.join(Meeting_.groups);
+
+        Predicate predicateSubject = builder
+                .like(joinSubject.get(Subject_.name), subjectName);
+
+        Predicate predicateOwner = builder.like(joinOwner.get(User_.lastName),
+                OwnerName);
+
+        Predicate predicateRoom = builder.like(joinRoom.get(Room_.name),
+                roomName);
+
+        Predicate predicateDate = root.get(Meeting_.date).in(localDate);
+
+        Predicate predicateStartTime = root.get(Meeting_.startTime)
+                .in(localTime);
+
+        // TODO by date
+
+        Predicate predicateAll = builder.and(predicateSubject, predicateOwner,
+                predicateRoom, predicateDate, predicateStartTime);
+
+        cq.where(predicateAll);
+
+        return getEm().createQuery(cq).getResultList();
     }
 }

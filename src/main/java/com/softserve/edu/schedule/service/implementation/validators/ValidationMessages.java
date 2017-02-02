@@ -73,6 +73,11 @@ public interface ValidationMessages {
 	 * Empty field or wrong characters.
 	 */
 	String INVALID_CHARACTERS_OR_EMPTY_FIELD = "vm.invalidCharactersOrEmptyField";
+	
+	   /**
+     * Empty field or wrong characters.
+     */
+	String INVALID_CHARACTERS_OR_EMPTY_FIELD_DESCRPIPTION = "vm.invalidCharactersOrEmptyFieldDescription"; 
 
 	/**
 	 * No tutors selected.
@@ -108,6 +113,13 @@ public interface ValidationMessages {
 	String INVALID_MEETING_GROUPS_COUNT = "vm.invalidMeetingGroup";
 	
 	String DUPLICATE_MEETING = "vm.duplicateMeeting";
+	
 	String INVALID_TIME = "vm.invalidTime";
+	
+	String NOT_EQUAL= "vm.notEqualToPrevious";
+	
+	String WRONG_PASSWORD= "vm.wronrPassword";
+
 	String INVALID_STATUS = "vm.ivdalidStatus";
+
 }

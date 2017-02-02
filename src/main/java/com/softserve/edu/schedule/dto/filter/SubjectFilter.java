@@ -18,17 +18,17 @@ package com.softserve.edu.schedule.dto.filter;
 public class SubjectFilter {
 
     /**
-     * Subject name for filter rooms.
+     * Subject name for filter subjects.
      */
     private String name;
 
     /**
-     * Subject description for filter rooms.
+     * Subject description for filter subjects.
      */
     private String description;
 
     /**
-     * User id for filter rooms.
+     * User id for filter subjects.
      */
     private Long userId;
 

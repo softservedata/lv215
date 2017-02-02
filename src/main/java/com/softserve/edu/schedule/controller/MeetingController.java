@@ -22,6 +22,7 @@ import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
+
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.MeetingStatus;
@@ -31,6 +32,7 @@ import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
+import com.softserve.edu.schedule.service.implementation.editor.MeetingDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.MeetingStatusEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.SubjectDTOEditor;
@@ -77,10 +79,14 @@ public class MeetingController {
     private RoomDTOEditor roomDTOEditor;
 
     @Autowired
+    private MeetingDTOEditor meetingDTOEditor;
+
+    @Autowired
     MeetingStatusEditor meetingStatusEditor;
 
     @InitBinder("meetingForm")
     protected void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(MeetingDTO.class, meetingDTOEditor);
         binder.registerCustomEditor(SubjectDTO.class, subjectDTOEditor);
         binder.registerCustomEditor(LocalDate.class, dateEditor);
         binder.registerCustomEditor(LocalTime.class, timeEditor);
@@ -219,36 +225,18 @@ public class MeetingController {
     }
 
     /**
-     * 
-     * Edits meeting status by given id.**
+     * Shows selected meeting details.
      * 
      * @param id
      * @param model
      * @return
      */
-    @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.GET)
-    public String editStatusForm(@PathVariable("id") Long id, Model model) {
+    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    public String showMeeting(@PathVariable("id") final Long id,
+            final Model model) {
         model.addAttribute("meetingForm", meetingService.getById(id));
-        model.addAttribute("subjects", subjectService.getAll());
-        model.addAttribute("owners", userService.getAll());
-        model.addAttribute("rooms", roomService.getAll());
-        model.addAttribute("groups", userGroupService.getAll());
-        model.addAttribute("meetingStatuses", MeetingStatus.values());
-        return "meetings/editStatus";
-    }
 
-    /**
-     * Edits meeting by given id.
-     * 
-     * @param meetingDTO
-     * @return
-     */
-    @RequestMapping(value = "/editStatus/{id}", method = RequestMethod.POST)
-    public String editStatus(
-            @Valid @ModelAttribute("meeting") MeetingDTO meetingDTO) {
-        meetingService.changeMeetingStatus(meetingDTO.getId(),
-                meetingDTO.getStatus());
-        return "redirect:/meetings";
+        return "meetings/showmeeting";
     }
 
 }
