@@ -35,11 +35,11 @@ public class GlobalExceptionController implements ControllerConst {
      * 
      * @return start page URL
      */
-    @ExceptionHandler(value = AccessDeniedException.class)
+    /*@ExceptionHandler(value = AccessDeniedException.class)
     public String accessDenied(Exception ex) {
         log.warn(ex.getMessage(), ex);
         return "redirect:/?accessDenied=true";
-    }
+    }*/
 
     /**
      * Controls global exception handling.
