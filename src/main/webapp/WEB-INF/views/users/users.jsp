@@ -209,7 +209,7 @@
         visiblePages: 10,
         initiateStartPageClick: false,        
         onPageClick: function (event, page) {
-        	window.users = "users?pageNumber=" + (page-1);        	
+        	window.location = "users?pageNumber=" + (page-1);        	
         }
     });
 </script>
