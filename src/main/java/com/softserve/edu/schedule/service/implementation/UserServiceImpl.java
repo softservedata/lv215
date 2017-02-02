@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.aspect.Loggable;
+import com.softserve.edu.schedule.aspect.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
@@ -35,6 +36,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSub
  */
 @Loggable
 @Service("userService")
+@PerfomanceLoggable
 public class UserServiceImpl implements UserService {
 
     /**

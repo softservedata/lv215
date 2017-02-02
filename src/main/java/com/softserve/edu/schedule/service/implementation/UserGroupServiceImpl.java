@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.schedule.aspect.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
@@ -31,7 +32,8 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserGroupD
  *
  */
 @Transactional
-@Service("userGroupsService")
+@Service
+@PerfomanceLoggable
 public class UserGroupServiceImpl implements UserGroupService {
 	/**
 	 * Object of a dao class that is used to call CRUD operations

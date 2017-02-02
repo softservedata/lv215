@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.schedule.aspect.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
@@ -35,6 +36,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSub
  *
  */
 @Service
+@PerfomanceLoggable
 public class SubjectServiceImpl implements SubjectService {
 
     /**
