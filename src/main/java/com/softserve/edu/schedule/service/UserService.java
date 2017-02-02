@@ -8,6 +8,8 @@ import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 
@@ -170,5 +172,8 @@ public interface UserService extends UserDetailsService {
      * @return User transfer object
      */
     public UserDTOForChangePassword getByIdForPassword(final Long id);
+    
+    List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter,
+            final Paginator userPaginator);
 
 }

@@ -15,6 +15,8 @@ import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
@@ -304,6 +306,14 @@ public class UserServiceImpl implements UserService {
     public UserDTOForChangePassword getByIdForPassword(final Long id) {
         return userDTOForPasswordConverter
                 .getDTOForPassword(userDAO.getById(id));
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter,
+            final Paginator userPaginator){
+        return userDAO.getUsersPageWithFilter(userFilter, userPaginator).stream()
+                .map(e -> userDTOConverter.getDTO(e)).collect(Collectors.toList());
     }
 
 }
