@@ -138,61 +138,6 @@ public class LocationServiceImpl implements LocationService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.softserve.edu.schedule.service.LocationService#searchByName(java.lang
-	 * .String)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<LocationDTO> searchByName(final String pattern) {
-		return locationDAO.search(Location_.name.getName(), pattern).stream().map(e -> locationDTOConverter.getDTO(e))
-				.collect(Collectors.toList());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.LocationService#searchByAddress(java.
-	 * lang.String)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<LocationDTO> searchByAddress(final String pattern) {
-		return locationDAO.search(Location_.address.getName(), pattern).stream()
-				.map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.softserve.edu.schedule.service.LocationService#sortByName(com.
-	 * softserve.edu.schedule.dao.Order)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<LocationDTO> sortByName(final Order order) {
-		return locationDAO.sort(Location_.name.getName(), order).stream().map(e -> locationDTOConverter.getDTO(e))
-				.collect(Collectors.toList());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.LocationService#sortByAddress(com.
-	 * softserve.edu.schedule.dao.Order)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<LocationDTO> sortByAddress(final Order order) {
-		return locationDAO.sort(Location_.address.getName(), order).stream().map(e -> locationDTOConverter.getDTO(e))
-				.collect(Collectors.toList());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * com.softserve.edu.schedule.service.LocationService#getLocationsByName(
 	 * java.lang.String)
 	 */
@@ -203,6 +148,9 @@ public class LocationServiceImpl implements LocationService {
 				.map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
+	/* (non-Javadoc)
+	 * @see com.softserve.edu.schedule.service.LocationService#getLocationsPageWithFilter(com.softserve.edu.schedule.dto.filter.LocationFilter, com.softserve.edu.schedule.dto.filter.Paginator)
+	 */
 	@Override
 	@Transactional(readOnly = true)
 	public List<LocationDTO> getLocationsPageWithFilter(LocationFilter locationFilter, Paginator locationPaginator) {

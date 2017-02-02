@@ -43,16 +43,6 @@ public class LocationController implements ControllerConst.LocationControllerCon
 	@Autowired
 	private LocationService locationService;
 
-	// /**
-	// * Method provides model attribute for search.
-	// *
-	// * @return new LocationDTO object
-	// */
-	// @ModelAttribute(SEARCH_MODEL_ATTR)
-	// public LocationDTO getLocationDTO() {
-	// return new LocationDTO();
-	// }
-
 	@ModelAttribute(FILTER_MODEL_ATTR)
 	public LocationFilter getFilter() {
 		return new LocationFilter();
@@ -70,76 +60,6 @@ public class LocationController implements ControllerConst.LocationControllerCon
 		return LOCATIONS_LIST_URL;
 	}
 
-	// /**
-	// * Method controls view of locations list page.
-	// *
-	// * @param model
-	// * locations list page model
-	// * @return locations list page URL
-	// */
-	// @RequestMapping(LOCATIONS_MAPPING)
-	// public String showList(Model model) {
-	// model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
-	// return LOCATIONS_LIST_URL;
-	// }
-	//
-	// /**
-	// * Method provides sorting of location list by name in ascending order.
-	// *
-	// * @param model
-	// * locations list page model
-	// * @return locations list page URL
-	// */
-	// @RequestMapping(LOCATIONS_SORT_BY_NAME_ASC_MAPPING)
-	// public String sortByNameAsc(Model model) {
-	// model.addAttribute(LOCATIONS_MODEL_ATTR,
-	// locationService.sortByName(Order.ASC));
-	// return LOCATIONS_LIST_URL;
-	// }
-	//
-	// /**
-	// * Method provides sorting of location list by name in descending order.
-	// *
-	// * @param model
-	// * locations list page model
-	// * @return locations list page URL
-	// */
-	// @RequestMapping(LOCATIONS_SORT_BY_NAME_DESC_MAPPING)
-	// public String sortByNameDesc(Model model) {
-	// model.addAttribute(LOCATIONS_MODEL_ATTR,
-	// locationService.sortByName(Order.DESC));
-	// return LOCATIONS_LIST_URL;
-	// }
-	//
-	// /**
-	// * Method provides sorting of location list by address in ascending order.
-	// *
-	// * @param model
-	// * locations list page model
-	// * @return locations list page URL
-	// */
-	// @RequestMapping(LOCATIONS_SORT_BY_ADDRESS_ASC_MAPPING)
-	// public String sortByAddressAsc(Model model) {
-	// model.addAttribute(LOCATIONS_MODEL_ATTR,
-	// locationService.sortByAddress(Order.ASC));
-	// return LOCATIONS_LIST_URL;
-	// }
-	//
-	// /**
-	// * Method provides sorting of location list by address in descending
-	// order.
-	// *
-	// * @param model
-	// * locations list page model
-	// * @return locations list page URL
-	// */
-	// @RequestMapping(LOCATIONS_SORT_BY_ADDRESS_DESC_MAPPING)
-	// public String sortByAddressDesc(Model model) {
-	// model.addAttribute(LOCATIONS_MODEL_ATTR,
-	// locationService.sortByAddress(Order.DESC));
-	// return LOCATIONS_LIST_URL;
-	// }
-	//
 	 /**
 	 * Method provides sorting of location list by count of rooms in ascending
 	 * order.
@@ -243,39 +163,4 @@ public class LocationController implements ControllerConst.LocationControllerCon
 		return LOCATIONS_REDIRECT_URL;
 	}
 
-	// /**
-	// * Method provides searching location by name.
-	// *
-	// * @param location
-	// * search pattern model
-	// * @param model
-	// * locations list page model
-	// * @return locations list page URL
-	// */
-	// @RequestMapping(value = LOCATIONS_SEARCH_BY_NAME_MAPPING, method =
-	// RequestMethod.POST)
-	// public String searchByName(@ModelAttribute(SEARCH_MODEL_ATTR) LocationDTO
-	// location, Model model) {
-	// model.addAttribute(LOCATIONS_MODEL_ATTR,
-	// locationService.searchByName(location.getName()));
-	// return LOCATIONS_LIST_URL;
-	// }
-	//
-	// /**
-	// * Method provides searching location by address.
-	// *
-	// * @param location
-	// * search pattern model
-	// * @param model
-	// * locations list page model
-	// * @return locations list page URL
-	// */
-	// @RequestMapping(value = LOCATIONS_SEARCH_BY_ADDRESS_MAPPING, method =
-	// RequestMethod.POST)
-	// public String searchByAddress(@ModelAttribute(SEARCH_MODEL_ATTR)
-	// LocationDTO location, Model model) {
-	// model.addAttribute(LOCATIONS_MODEL_ATTR,
-	// locationService.searchByAddress(location.getAddress()));
-	// return LOCATIONS_LIST_URL;
-	// }
 }
