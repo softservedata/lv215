@@ -249,4 +249,25 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
         return getEm().createQuery(cq).getResultList();
     }
+
+    @Override
+    public List<Meeting> getUnfinishedPastMeetings() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.join(Meeting_.room, JoinType.LEFT);
+        root.join(Meeting_.subject, JoinType.LEFT);
+        root.join(Meeting_.owner, JoinType.LEFT);
+        root.join(Meeting_.groups, JoinType.LEFT);
+        Predicate predicate = builder.conjunction();
+        predicate = builder.and(predicate, builder.lessThan(
+                root.get(Meeting_.date), (LocalDate.now().plusDays(1))));
+        predicate = builder.and(predicate, builder
+                .lessThan(root.get(Meeting_.endTime), (LocalTime.now())));
+        predicate = builder.and(predicate, builder
+                .not(root.get(Meeting_.status).in(MeetingStatus.FINISHED)));
+        cq.where(predicate);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
 }

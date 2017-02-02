@@ -13,7 +13,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
-
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Meeting;
@@ -28,46 +27,50 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  */
 public interface MeetingDAO extends CrudDAO<Meeting> {
 
-	public List<Meeting> getMeetingPageWithFilter(final MeetingFilter meetingFilter, final Paginator meetingPaginator);
+    public List<Meeting> getMeetingPageWithFilter(
+            final MeetingFilter meetingFilter,
+            final Paginator meetingPaginator);
 
-	/**
-	 * Delete Meeting by id.
-	 * 
-	 * @param id
-	 *            id.
-	 */
-	public void deleteById(Long id);
+    /**
+     * Delete Meeting by id.
+     * 
+     * @param id
+     *            id.
+     */
+    public void deleteById(Long id);
 
-	/**
-	 * For the given Meeting id changes meeting status for given MeetingStatus.
-	 * 
-	 * @param id
-	 *            Id of the meeting.
-	 * @param meetingStatus
-	 *            New meeting status.
-	 */
-	public void changeMeetingStatus(final Long id, final MeetingStatus meetingStatus);
+    /**
+     * For the given Meeting id changes meeting status for given MeetingStatus.
+     * 
+     * @param id
+     *            Id of the meeting.
+     * @param meetingStatus
+     *            New meeting status.
+     */
+    public void changeMeetingStatus(final Long id,
+            final MeetingStatus meetingStatus);
 
+    /**
+     * Find all meetings in the DB by given date and roomId.
+     * 
+     * @author Petro Zelyonka
+     * 
+     * @param roomId
+     *            room id for find meetings
+     * @param date
+     *            date for find meetings
+     * 
+     * @return List of the Meeting objects.
+     */
+    public List<Meeting> getMeetingsByRoomIDAndDate(final Long roomId,
+            final LocalDate date);
 
+    public MeetingStatus getStatusbyString(final String status);
 
-	/**
-	 * Find all meetings in the DB by given date and roomId.
-	 * 
-	 * @author Petro Zelyonka
-	 * 
-	 * @param roomId
-	 *            room id for find meetings
-	 * @param date
-	 *            date for find meetings
-	 * 
-	 * @return List of the Meeting objects.
-	 */
-	public List<Meeting> getMeetingsByRoomIDAndDate(final Long roomId, final LocalDate date);
+    public List<Meeting> dublicatesOfGivenFields(final String subjectName,
+            final String OwnerName, final String roomName,
+            final LocalDate localDate, final LocalTime localTime);
 
+    public List<Meeting> getUnfinishedPastMeetings();
 
-	public MeetingStatus getStatusbyString(final String status);
-	
-	public List<Meeting> dublicatesOfGivenFields(final String subjectName, final String OwnerName, final String roomName,
-	        final LocalDate localDate, final LocalTime localTime);
-	
 }
