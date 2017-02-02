@@ -14,17 +14,17 @@
 		<tr>
 			<th>ID</th>
 			<th><spring:message code="lbl.subject.name" /> <a
-				href="subjects?sortByField=1&sortOrder=1&pageNumber=0"
+				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=1&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.subject.sortAsc"/>"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="subjects?sortByField=1&sortOrder=2&pageNumber=0"
+				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=1&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.subject.sortDesc"/>"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th><spring:message code="lbl.subject.description" /> <a
-				href="subjects?sortByField=2&sortOrder=1&pageNumber=0"
+				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=2&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.subject.sortAsc"/>"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="subjects?sortByField=2&sortOrder=2&pageNumber=0"
+				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=2&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.subject.sortDesc"/>"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th><spring:message code="lbl.subject.tutor" /> </th>
@@ -35,21 +35,21 @@
 					class="fa fa-plus fa-lg"></i></a></th>
 		</tr>
 		<tr>
-		<form:form action="subjects" 
+		<form:form action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}" 
 			modelAttribute="${SubjectController.FILTER_MODEL_ATTR}">
 			<td></td>
 			<td>
 					<spring:message code="lbl.subject.search" var="search" />
-					<form:input  class="form-control" path="name"
+					<form:input  class="form-control" path="${SubjectController.SUBJECT_PATH_NAME}"
 						placeholder=" ${search}" />
 			</td>
 			<td>
 					<spring:message code="lbl.subject.search" var="search" />
-					<form:input class="form-control" path="description"
+					<form:input class="form-control" path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"
 						placeholder="${search}" />
 			</td>
 			<td>
-					<form:select  class="form-control" path="userId">
+					<form:select  class="form-control" path="${SubjectController.SUBJECT_PATH_USER_ID}">
 						<option value="0"></option>
 						<c:forEach items="${users}" var="user">
 							<c:choose>
@@ -65,14 +65,14 @@
 			</td>
 			<td class="text-center v-alighn">
 				<button type="submit" class="btn btn-link"
-					title="<spring:message code="lbl.room.applyFilter"/>">
+					title="<spring:message code="lbl.form.applyFilter"/>">
 					<i class="fa fa-search"></i>
 				</button>
 			</td>
 		</form:form>
 		<td class="text-center v-alighn"><a 
-			href="subjects?name=&description=&userId=0"
-			title="<spring:message code="lbl.room.resetFilter"/>"> <i
+			href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?name=&description=&userId=0"
+			title="<spring:message code="lbl.form.resetFilter"/>"> <i
 				class="fa fa-times fa-lg"></i>
 		</a></td>
 		</tr>
@@ -106,7 +106,7 @@
 				<a class="btn btn-primary" href="#">5</a>
 			</c:when>
 			<c:otherwise>
-				<a class="btn btn-default" href="subjects?pageSize=5&pageNumber=0">5</a>
+				<a class="btn btn-default" href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?pageSize=5&pageNumber=0">5</a>
 			</c:otherwise>
 		</c:choose>
 		<c:choose>
@@ -114,7 +114,7 @@
 				<a class="btn btn-primary" href="#">10</a>
 			</c:when>
 			<c:otherwise>
-				<a class="btn btn-default" href="subjects?pageSize=10&pageNumber=0">10</a>
+				<a class="btn btn-default" href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?pageSize=10&pageNumber=0">10</a>
 			</c:otherwise>
 		</c:choose>
 		<c:choose>
@@ -122,7 +122,7 @@
 				<a class="btn btn-primary" href="#">20</a>
 			</c:when>
 			<c:otherwise>
-				<a class="btn btn-default" href="subjects?pageSize=20&pageNumber=0">20</a>
+				<a class="btn btn-default" href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?pageSize=20&pageNumber=0">20</a>
 			</c:otherwise>
 		</c:choose>	
 	</div>

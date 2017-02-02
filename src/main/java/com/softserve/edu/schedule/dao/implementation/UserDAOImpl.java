@@ -1,5 +1,6 @@
 package com.softserve.edu.schedule.dao.implementation;
 
+import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -33,10 +34,14 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
 
     @Override
     public User findByMail(String userMail) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<User> cq = builder.createQuery(User.class);
-        Root<User> root = cq.from(User.class);
-        cq.where(builder.like(root.get(User_.mail), userMail));
-        return getEm().createQuery(cq).getSingleResult();
+        try {
+            CriteriaBuilder builder = getEm().getCriteriaBuilder();
+            CriteriaQuery<User> cq = builder.createQuery(User.class);
+            Root<User> root = cq.from(User.class);
+            cq.where(builder.like(root.get(User_.mail), userMail));
+            return getEm().createQuery(cq).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

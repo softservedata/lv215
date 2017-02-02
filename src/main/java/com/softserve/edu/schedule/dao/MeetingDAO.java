@@ -10,6 +10,7 @@
 package com.softserve.edu.schedule.dao;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 
@@ -65,5 +66,8 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
 
 
 	public MeetingStatus getStatusbyString(final String status);
+	
+	public List<Meeting> dublicatesOfGivenFields(final String subjectName, final String OwnerName, final String roomName,
+	        final LocalDate localDate, final LocalTime localTime);
 	
 }

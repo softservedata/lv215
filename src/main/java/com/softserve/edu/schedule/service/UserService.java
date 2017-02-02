@@ -160,7 +160,15 @@ public interface UserService extends UserDetailsService {
      * 
      * @return a user DTO with given mail.
      */
-    public void changePassword(UserDTOForChangePassword userDTO, String password,
-            String firstNewPassword, String secondNewPassword);
+    public void changePassword(UserDTOForChangePassword userDTO);
+    
+    /**
+     * Return a User object if found.
+     *
+     * @param id
+     *            of User transfer object
+     * @return User transfer object
+     */
+    public UserDTOForChangePassword getByIdForPassword(final Long id);
 
 }

@@ -25,162 +25,78 @@
 </script>
 <div class="container">
 	<div class="row">
+		<div class="col-md-1">
+			<br> <a class="btn btn-default"
+				href="${pageContext.request.contextPath}/meetings"><spring:message
+					code="lbl.form.back" /></a>
+		</div>
+		<div class="col-md-11">
+			<h1 class="text-center">
+				<spring:message code="lbl.meeting.showmeeting" />
+			</h1>
+		</div>
+	</div>
+	<div class="row">
 		<div
 			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
-			<h3 class="text-center">
-				<spring:message code="lbl.meeting.edit" />
-			</h3>
 			<form:form role="form" method="post" modelAttribute="meetingForm">
 				<form:input path="id" type="hidden" />
-				<form:input path="status" type="hidden" />
+				<div class="form-group">
+					<spring:message code="lbl.meeting.id" />
+					: ${meetingForm.id}
+
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.description" /></b> :
+					${meetingForm.description}
+
+				</div>
 
 
 				<div class="form-group">
-					<label for="subject"><spring:message
-							code="lbl.meeting.subject" /></label>
-					<form:select class="form-control" path="subject" id="subject">
-						<c:forEach items="${subjects}" var="subject">
-							<c:choose>
-								<c:when test="${meetingForm.subject.id eq subject.id}">
-									<option value="${subject.id}" selected="selected">${subject.name}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${subject.id}">${subject.name}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-					<br>
-					<form:errors path="subject" class="text-danger" />
-				</div>
-				<div class="form-group">
-					<label for="owner"><spring:message code="lbl.meeting.owner" /></label>
-					<form:select class="form-control" path="owner" id="owner">
-						<c:forEach items="${owners}" var="owner">
-							<c:choose>
-								<c:when test="${meetingForm.owner.id eq owner.id}">
-									<option value="${owner.id}" selected="selected">${owner.lastName}
-										${owner.firstName}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${owner.id}">${owner.lastName}
-										${owner.firstName}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-				</div>
-				<div class="form-group">
-					<label for="room"><spring:message code="lbl.meeting.room" /></label>
-					<form:select class="form-control" path="room" id="room">
-						<c:forEach items="${rooms}" var="room">
-							<c:choose>
-								<c:when test="${meetingForm.room.id eq room.id}">
-									<option value="${room.id}" selected="selected">${room.name}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${room.id}">${room.name}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-				</div>
-				<div class="form-group">
-					<label for="date"><spring:message code="lbl.meeting.date" /></label>
-					<form:input type="date" path="date" id="date"
-						placeholder="YYYY-MM-DD" required="true" />
-					<br>
-					<form:errors path="date" class="text-danger" />
-				</div>
-				<div class="form-group">
-					<label for="startTime"><spring:message
-							code="lbl.meeting.starttime" /></label>
-					<form:input type="time" path="startTime" id="startTime"
-						placeholder="HH:MM" required="true" />
-					<br>
-					<form:errors path="startTime" class="text-danger" />
-				</div>
-				<div class="form-group">
-					<label for="endTime"> <spring:message
-							code="lbl.meeting.endtime" />
-					</label>
-					<form:input type="time" path="endTime" id="endTime"
-						placeholder="HH:MM" required="true" />
-					<br>
-					<form:errors path="endTime" class="text-danger" />
-				</div>
-				<div class="form-group">
-					<label for="groups"><spring:message
-							code="lbl.meeting.groups" /></label>
-					<form:select class="form-control" path="groups" id="groups"
-						multiple="multiple">
-						<c:forEach items="${groups}" var="group">
-							<c:set var="found" value="false" />
-							<c:forEach items="${meetingForm.groups}" var="groupsInMeeting">
-								<c:if test="${!found}">
-									<c:if test="${groupsInMeeting.id eq group.id}">
-										<option value="${group.id}" selected="selected">${group.name}</option>
-										<c:set var="found" value="true" />
-									</c:if>
-								</c:if>
-							</c:forEach>
-							<c:if test="${!found}">
-								<option value="${group.id}">${group.name}</option>
-							</c:if>
-						</c:forEach>
-					</form:select>
-					<br>
-					<form:errors path="groups" class="text-danger" />
-				</div>
-				<div class="form-group">
-					<label for="level"><spring:message code="lbl.meeting.level" /></label>
-					<spring:message code="lbl.meeting.levelinput" var="templevel" />
-					<form:input type="number" min="1" max="5" step="1"
-						class="form-control" path="level" id="level"
-						placeholder="${templevel}" required="true" />
-					<br>
-					<form:errors path="level" class="text-danger" />
+					<b><spring:message code="lbl.meeting.subject" /></b> :
+					${meetingForm.subject.name}
+
 				</div>
 
 				<div class="form-group">
-					<label for="description"><spring:message
-							code="lbl.meeting.description" /></label>
-					<spring:message code="lbl.meeting.createDesc" var="descPH" />
-					<form:textarea class="form-control" path="description"
-						id="description" placeholder="${descPH}" />
-					<form:errors path="description" class="text-danger" />
+					<b><spring:message code="lbl.meeting.owner" /></b> : <a
+						href="${pageContext.request.contextPath}/profile${meetingForm.owner.id}">${meetingForm.owner.lastName}
+						${meetingForm.owner.firstName}</a>
+
 				</div>
 
 				<div class="form-group">
-					<label for="status"><spring:message
-							code="lbl.meeting.changestatus" /></label>
-					<form:select class="form-control" path="status" id="status">
-						<c:forEach items="${meetingStatuses}" var="status">
-							<c:choose>
-								<c:when test="${meetingForm.status eq status}">
-									<option value="${status.ordinal()}" selected="selected">${status}</option>
-								</c:when>
-								<c:otherwise>
-									<c:if test="${status.ordinal() ne 2}">
-										<option value="${status.ordinal()}">${status}</option>
-									</c:if>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-					<form:errors path="status" class="text-danger" />
-
-				</div>
-				<div class="form-group text-center">
-					<input type="submit" class="btn btn-default"
-						value="<spring:message code="lbl.form.save"/>"> <a
-						class="btn btn-default"
-						href="/schedule/meetings/edit/${meetingForm.id}"><spring:message
-							code="lbl.form.reset" /></a> <a class="btn btn-default"
-						href="${pageContext.request.contextPath}/meetings"><spring:message
-							code="lbl.form.cancel" /></a>
+					<b><spring:message code="lbl.meeting.room" /></b> : <a
+						href="${pageContext.request.contextPath}/rooms/${meetingForm.room.id}">${meetingForm.room.name}</a>
 				</div>
 
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.date" /></b> :
+					${meetingForm.date}
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.starttime" /></b> :
+					${meetingForm.startTime}
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.endtime" /></b> :
+					${meetingForm.endTime}
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.groups" /></b> :
+					<c:forEach items="${meetingForm.groups}" var="group">
+						<li>${group.name}</li>
+					</c:forEach>
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.level" /></b> :
+					${meetingForm.level}
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.status" /></b> :
+					${meetingForm.status}
+				</div>
 			</form:form>
 		</div>
 	</div>

@@ -23,10 +23,10 @@
 				</div>
 				<div class="form-group">
 					<label for="${SubjectController.SUBJECT_PATH_DESCRIPTION}"><spring:message code="lbl.subject.description" /></label>
-					<spring:message code="vm.invalidCharactersOrEmptyField" var="description" />
+					<spring:message code="vm.invalidCharactersOrEmptyFieldDescription" var="description" />
 					<spring:message code="lbl.subject.createDesc" var="descPH" />
 					<form:textarea class="form-control" path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"
-						placeholder="${descPH}" required="true" pattern = "[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,1000}" title = "${description}"/>
+						placeholder="${descPH}" required="true" minlength="1" maxlength="1000"  title = "${description}"/>
 						<form:errors path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"/>
 				</div>
 				<div class="form-group">
