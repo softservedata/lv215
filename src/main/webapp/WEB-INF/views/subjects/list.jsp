@@ -65,14 +65,14 @@
 			</td>
 			<td class="text-center v-alighn">
 				<button type="submit" class="btn btn-link"
-					title="<spring:message code="lbl.form.applyFilter"/>">
+					title="<spring:message code="lbl.room.applyFilter"/>">
 					<i class="fa fa-search"></i>
 				</button>
 			</td>
 		</form:form>
 		<td class="text-center v-alighn"><a 
 			href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?name=&description=&userId=0"
-			title="<spring:message code="lbl.form.resetFilter"/>"> <i
+			title="<spring:message code="lbl.room.resetFilter"/>"> <i
 				class="fa fa-times fa-lg"></i>
 		</a></td>
 		</tr>
