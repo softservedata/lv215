@@ -21,6 +21,13 @@ public class PastMeetingStatusCorrector {
     @Transactional
     public void correctMeetingStatuses() {
         List<Meeting> pastMeetings = meetingDAO.getUnfinishedPastMeetings();
-        pastMeetings.forEach(e -> e.setStatus(MeetingStatus.FINISHED));
+        pastMeetings.forEach(e -> {
+            if (e.getStatus().equals(MeetingStatus.APPROVED)) {
+                e.setStatus(MeetingStatus.FINISHED);
+            } else {
+                meetingDAO.deleteById(e.getId());
+            }
+        });
+
     }
 }

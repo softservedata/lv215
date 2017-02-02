@@ -10,24 +10,23 @@
 package com.softserve.edu.schedule.service.implementation;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
-import com.softserve.edu.schedule.dto.MeetingCompactDTO;
-import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
-import com.softserve.edu.schedule.service.RoomService;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 
 /**
  * This is implementation of the interface for managing Meetings Service.
@@ -37,7 +36,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCom
  */
 
 @Transactional
-@Service("meetingService")
+@Service
 public class MeetingServiceImpl implements MeetingService {
 
     /**
@@ -45,9 +44,6 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Autowired
     private MeetingDAO meetingDao;
-
-    @Autowired
-    private RoomService roomService;
 
     @Autowired
     private MeetingDTOConverter meetingDTOConverter;
@@ -218,7 +214,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId,
             LocalDate date) {
-        return meetingDao.getMeetingsByRoomIDAndDate(roomId, date).stream()
+        return meetingDao.getMeetingsByRoomIdAndDate(roomId, date).stream()
                 .map(e -> meetingCompactDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -235,12 +231,15 @@ public class MeetingServiceImpl implements MeetingService {
                 .collect(Collectors.toList());
     }
 
-    // @Override
+    @Override
+    @Transactional(readOnly = true)
     public MeetingStatus getMeetingStatusDuringCreation(
             final MeetingDTO meetingDTO) {
-        if (roomService.isFreeForPeriod(meetingDTO.getRoom().getId(),
-                meetingDTO.getDate(), meetingDTO.getStartTime(),
-                meetingDTO.getEndTime())) {
+        if (meetingDao
+                .getApprovedMeetingsByRoomIdAndTime(
+                        meetingDTO.getRoom().getId(), meetingDTO.getDate(),
+                        meetingDTO.getStartTime(), meetingDTO.getEndTime())
+                .isEmpty()) {
             return MeetingStatus.APPROVED;
         }
         return MeetingStatus.NOT_APPROVED;

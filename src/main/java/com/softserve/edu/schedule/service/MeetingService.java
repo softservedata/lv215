@@ -136,4 +136,6 @@ public interface MeetingService {
             LocalDate date);
 
     public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO);
+
+    MeetingStatus getMeetingStatusDuringCreation(MeetingDTO meetingDTO);
 }

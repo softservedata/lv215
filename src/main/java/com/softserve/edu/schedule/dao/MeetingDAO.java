@@ -50,6 +50,12 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus);
 
+    public MeetingStatus getStatusbyString(final String status);
+
+    public List<Meeting> dublicatesOfGivenFields(final String subjectName,
+            final String OwnerName, final String roomName,
+            final LocalDate localDate, final LocalTime localTime);
+
     /**
      * Find all meetings in the DB by given date and roomId.
      * 
@@ -62,15 +68,37 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      * 
      * @return List of the Meeting objects.
      */
-    public List<Meeting> getMeetingsByRoomIDAndDate(final Long roomId,
+    public List<Meeting> getMeetingsByRoomIdAndDate(final Long roomId,
             final LocalDate date);
 
-    public MeetingStatus getStatusbyString(final String status);
-
-    public List<Meeting> dublicatesOfGivenFields(final String subjectName,
-            final String OwnerName, final String roomName,
-            final LocalDate localDate, final LocalTime localTime);
-
+    /**
+     * Find all meetings in the DB which date and time are in past and status
+     * not FINISHED.
+     * 
+     * @author Petro Zelyonka
+     * 
+     * @return List of the Meeting objects.
+     */
     public List<Meeting> getUnfinishedPastMeetings();
+
+    /**
+     * Find all approved meetings in the DB by given roomId, date, start and end
+     * time.
+     * 
+     * @author Petro Zelyonka
+     * 
+     * @param roomId
+     *            room id for find meetings
+     * @param date
+     *            date for find meetings
+     * @param startTime
+     *            start time for find meetings
+     * @param endTime
+     *            end time for find meetings
+     * 
+     * @return List of the Meeting objects.
+     */
+    public List<Meeting> getApprovedMeetingsByRoomIdAndTime(Long roomId,
+            LocalDate date, LocalTime startTime, LocalTime endTime);
 
 }
