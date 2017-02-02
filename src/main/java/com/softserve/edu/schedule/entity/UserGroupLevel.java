@@ -9,5 +9,5 @@ package com.softserve.edu.schedule.entity;
  *
  */
 public enum UserGroupLevel {
-	STUDENTS, TEACHERS, UNKNOWN;
+    STUDENTS, TEACHERS, UNKNOWN;
 }

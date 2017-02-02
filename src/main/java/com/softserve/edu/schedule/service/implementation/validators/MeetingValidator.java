@@ -18,8 +18,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
 import com.softserve.edu.schedule.dto.MeetingDTO;
-import com.softserve.edu.schedule.dto.RoomDTO;
-import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
 
