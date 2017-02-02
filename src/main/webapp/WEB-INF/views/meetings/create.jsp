@@ -89,7 +89,7 @@
 					<label for="groups"><spring:message
 							code="lbl.meeting.groups" /></label>
 					<form:select class="form-control" path="groups" id="groups"
-						multiple="multiple">
+						required="true" multiple="multiple">
 						<c:forEach items="${groups}" var="group">
 							<c:set var="found" value="false" />
 							<c:forEach items="${meetingForm.groups}" var="groupsInMeeting">
@@ -105,6 +105,7 @@
 							</c:if>
 						</c:forEach>
 					</form:select>
+
 					<form:errors path="groups" class="text-danger" />
 				</div>
 				<div class="form-group">
@@ -120,12 +121,13 @@
 							code="lbl.meeting.description" /></label>
 					<spring:message code="lbl.meeting.createDesc" var="descPH" />
 					<form:input class="form-control" path="description"
-						id="description" placeholder="${descPH}" pattern = "[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}"
+						id="description" placeholder="${descPH}"
+						pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}"
 						title="Blah" />
 					<form:errors path="description" class="text-danger" />
 				</div>
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-default"
+					<input type="submit" class="btn btn-default" onclick="func()"
 						value="<spring:message code="lbl.form.save"/>"> <a
 						class="btn btn-default" href="/schedule/meetings/create"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
@@ -139,12 +141,11 @@
 	</div>
 </div>
 <script>
-var x = document.getElementById("startTime");
-var y = document.getElementById("endTime");
-console.log(x.value);
-
-
-
-
-
+	function func() {
+		var x = document.getElementById("startTime").value;
+		var y = document.getElementById("endTime").value;
+		if (x > y) {
+			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
+		}
+	}
 </script>

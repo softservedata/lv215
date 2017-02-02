@@ -113,7 +113,7 @@
 				<div class="form-group">
 					<label for="groups"><spring:message
 							code="lbl.meeting.groups" /></label>
-					<form:select class="form-control" path="groups" id="groups"
+					<form:select class="form-control" path="groups" id="groups" required="true"
 						multiple="multiple">
 						<c:forEach items="${groups}" var="group">
 							<c:set var="found" value="false" />
@@ -131,6 +131,7 @@
 						</c:forEach>
 					</form:select>
 					<br>
+					
 					<form:errors path="groups" class="text-danger" />
 				</div>
 				<div class="form-group">
@@ -162,11 +163,13 @@
 							<c:choose>
 								<c:when
 									test="${meetingForm.status.ordinal() eq status.ordinal()}">
-									<option value="${status}" selected="selected">${status}</option>
+									<option value="${status}" selected="selected"><spring:message
+											code="${status.getMessageCode()}" /></option>
 								</c:when>
 								<c:otherwise>
 									<c:if test="${status.ordinal() ne 2}">
-										<option value="${status}">${status}</option>
+										<option value="${status}"><spring:message
+											code="${status.getMessageCode()}" /></option>
 									</c:if>
 								</c:otherwise>
 							</c:choose>
