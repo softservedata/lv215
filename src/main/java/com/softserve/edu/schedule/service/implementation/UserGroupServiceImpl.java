@@ -216,4 +216,16 @@ public class UserGroupServiceImpl implements UserGroupService {
 				.collect(Collectors.toList());
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.service.UserGroupService#getGroupsByLevel(java
+	 * .lang.Long)
+	 */
+	public List<UserGroupDTO> getGroupsByLevel(final Long levelId) {
+		return userGroupDAO.getGroupsByLevel(levelId).stream().map(e -> userGroupConverter.getDTO(e))
+				.collect(Collectors.toList());
+	}
+
 }

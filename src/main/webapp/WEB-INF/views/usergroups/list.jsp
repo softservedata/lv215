@@ -64,8 +64,9 @@
 		<c:forEach var="usergroup" items="${usergroups}">
 			<tr>
 				<td>${usergroup.name}</td>
-				<td>${usergroup.curator.lastName}
-					${usergroup.curator.firstName}</td>
+				<td><a
+					href="${pageContext.request.contextPath}/profile${usergroup.curator.id}">${usergroup.curator.lastName}
+						${usergroup.curator.firstName}</a></td>
 				<td>${usergroup.level}</td>
 				<td>${usergroup.users.size()}</td>
 

@@ -40,4 +40,12 @@ public interface UserGroupDAO extends CrudDAO<UserGroup> {
 	 * @return List of sorted groups
 	 */
 	public List<UserGroup> searchGroupsByCurators(final String pattern);
+
+	/**
+	 * Get list of groups by specified levelId
+	 * 
+	 * @param level
+	 * @return list of a groups with specified level
+	 */
+	public List<UserGroup> getGroupsByLevel(final Long levelId);
 }

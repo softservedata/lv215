@@ -137,4 +137,12 @@ public interface UserGroupService {
 	 * @return List of UserGroups
 	 */
 	public List<UserGroupDTO> searchGroupsByCurators(final String pattern);
+
+	/**
+	 * Get list of groups by specified levelId
+	 * 
+	 * @param level
+	 * @return list of a groups with specified level
+	 */
+	public List<UserGroupDTO> getGroupsByLevel(final Long levelId);
 }
