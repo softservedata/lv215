@@ -8,10 +8,10 @@
 	$(function() {
 		$("select[name=subjectId]").chosen({width : "100%"});
 		$("select[name=ownerId]").chosen({width : "100%"});
-		$("select[name=roomId]").chosen({width : "100%"});
-		$("select[name=groups]").chosen({width : "100%"});
+		$("select[name=roomId]").chosen({width : "80px"});
+		$("select[name=groups]").chosen({width : "100px"});
 		$("select[name=status]").chosen({
-			width : "100%"
+			width : "120px"
 		});
 	})
 </script>
