@@ -1,4 +1,4 @@
-/* Room 1.0 02/03/2017 */
+/* RoomEntityListener 1.0 02/03/2017 */
 package com.softserve.edu.schedule.entitylisteners;
 
 import java.time.LocalDate;

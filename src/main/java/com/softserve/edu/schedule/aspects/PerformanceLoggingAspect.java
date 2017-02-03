@@ -1,3 +1,4 @@
+/* PerformanceLoggingAspect 1.0 01/29/2017 */
 package com.softserve.edu.schedule.aspects;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -8,10 +9,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
+/**
+ * Performance logging aspect for checking performance of the application
+ * components.
+ * 
+ * @version 1.0 29 January 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
 @Component
 @Aspect
 public class PerformanceLoggingAspect {
 
+    /**
+     * Logger example to provide logging of performance.
+     */
     private Logger log = LoggerFactory
             .getLogger(PerformanceLoggingAspect.class);
 
