@@ -142,7 +142,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
             criteriaQuery.where(predicate);
         }
         criteriaQuery.distinct(true);
-        roomPaginator.setPagesCount(getCountOfRoomsWithPredicate(predicate));
+        roomPaginator.setPagesCount(getCountOfRoomsWithFilter(roomFilter));
         return getEm().createQuery(criteriaQuery)
                 .setFirstResult(roomPaginator.getOffset())
                 .setMaxResults(roomPaginator.getPageSize()).getResultList();
@@ -158,13 +158,16 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
      *         predicate.
      */
     @Override
-    public Integer getCountOfRoomsWithPredicate(Predicate predicate) {
+    public Long getCountOfRoomsWithFilter(RoomFilter roomFilter) {
         CriteriaBuilder qb = getEm().getCriteriaBuilder();
         CriteriaQuery<Long> cq = qb.createQuery(Long.class);
-        cq.select(qb.count(cq.from(Room.class)));
+        Root<Room> root = cq.from(Room.class);
+        cq.select(qb.countDistinct(root));
+        Predicate predicate = new RoomFilterSpecification(roomFilter,
+                roomEquipmentDAO).toPredicate(root, cq, qb);
         if (predicate != null) {
             cq.where(predicate);
         }
-        return Math.toIntExact(getEm().createQuery(cq).getSingleResult());
+        return getEm().createQuery(cq).getSingleResult();
     }
 }

@@ -3,8 +3,6 @@ package com.softserve.edu.schedule.dao;
 
 import java.util.List;
 
-import javax.persistence.criteria.Predicate;
-
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Room;
@@ -54,7 +52,7 @@ public interface RoomDAO extends CrudDAO<Room> {
     List<Room> getAllWithDetails();
 
     /**
-     * Count rooms entities in the database with specified predicate
+     * Count rooms entities in the database with specified filter
      *
      * @param predicate
      *            a predicate to apply.
@@ -62,6 +60,6 @@ public interface RoomDAO extends CrudDAO<Room> {
      * @return Count of the room entities in the database with specified
      *         predicate.
      */
-    Integer getCountOfRoomsWithPredicate(Predicate predicate);
+    Long getCountOfRoomsWithFilter(RoomFilter roomFilter);
 
 }
