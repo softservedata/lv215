@@ -82,8 +82,8 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
             criteriaQuery.where(predicate);
         }
         criteriaQuery.distinct(true);
-        subjectPaginator.setPagesCount(
-                getEm().createQuery(criteriaQuery).getResultList().size());
+        subjectPaginator
+                .setPagesCount(getEm().createQuery(criteriaQuery).getResultList().size());
         return getEm().createQuery(criteriaQuery)
                 .setFirstResult(subjectPaginator.getOffset())
                 .setMaxResults(subjectPaginator.getPageSize()).getResultList();

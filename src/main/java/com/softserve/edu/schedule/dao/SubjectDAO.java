@@ -8,6 +8,8 @@ package com.softserve.edu.schedule.dao;
 
 import java.util.List;
 
+import javax.persistence.criteria.Predicate;
+
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.entity.Subject;
