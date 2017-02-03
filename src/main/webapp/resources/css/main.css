@@ -73,12 +73,6 @@ th {
 	height: 200%;
 }
 
-/* Set black background color, white text and some padding */
-/* footer {
-	background-color: #555;
-	color: white;
-	padding: 15px;
-} */
 @media screen and (max-width: 767px) {
 	.sidenav {
 		height: auto;
@@ -155,4 +149,13 @@ textarea {
 
 .classtime {
 	width: 70px;
+}
+
+.input-number {
+	margin-left: 10px;
+	width: 60px;
+}
+
+.input-name {	
+	width: 130px;
 }

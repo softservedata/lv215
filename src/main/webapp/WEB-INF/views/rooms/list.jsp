@@ -66,85 +66,87 @@
 				</sec:authorize>
 			</th>
 		</tr>
-		<c:choose>
-			<c:when test="${roomFilter.showFilter eq true}">
-				<tr class="collapse in" id="showfilter">
-			</c:when>
-			<c:otherwise>
-				<tr class="collapse" id="showfilter">
-			</c:otherwise>
-		</c:choose>
-		<form:form role="form" action="rooms" method="get"
-			modelAttribute="${RoomController.FILTER_MODEL_ATTR}">
-			<form:input path="showFilter" type="hidden" value="true" />
-			<td>
-				<div class="form-group">
-					<form:select class="form-control" path="locationId" id="locationId">
-						<option value="0"></option>
-						<c:forEach items="${locations}" var="location">
-							<c:choose>
-								<c:when test="${roomFilter.locationId eq location.id}">
-									<option value="${location.id}" selected="selected">${location.name}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${location.id}">${location.name}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-				</div>
-			</td>
-			<td></td>
-			<td>
-				<div class="form-group col-xs-10">
-					<spring:message code="lbl.room.roomName" var="nameForPlaceholder" />
-					<form:input class="form-control input-sm" type="text" path="name"
-						placeholder="${nameForPlaceholder}" />
-				</div>
-			</td>
-			<td>
-				<div class="form-group">
-					<spring:message code="lbl.room.filterMinCapacity" var="filterMinCapacity" />
-					<form:input type="number" class="input-number" path="minCapacity" step="1" required="true"
-						title="${filterMinCapacity}" />
-					<spring:message code="lbl.room.filterMaxCapacity" var="filterMaxCapacity" />
-					<form:input type="number" class="input-number" path="maxCapacity" step="1" required="true"
-						title="${filterMaxCapacity}" />
-				</div>
-			</td>
-			<td>
-				<div class="form-group">
-					<form:select class="form-control" path="equipments" id="equipments" multiple="multiple">
-						<c:forEach items="${equipments}" var="equipment">
-							<c:set var="found" value="false" />
-							<c:forEach items="${roomFilter.equipments}" var="equipmentInFilter">
-								<c:if test="${!found}">
-									<c:if test="${equipmentInFilter.id eq equipment.id}">
-										<option value="${equipment.id}" selected="selected">${equipment.name}</option>
-										<c:set var="found" value="true" />
+		<tr>
+			<c:choose>
+				<c:when test="${roomFilter.showFilter eq true}">
+					<tr class="collapse in" id="showfilter">
+				</c:when>
+				<c:otherwise>
+					<tr class="collapse" id="showfilter">
+				</c:otherwise>
+			</c:choose>
+			<form:form role="form" action="rooms" method="get"
+				modelAttribute="${RoomController.FILTER_MODEL_ATTR}">
+				<form:input path="showFilter" type="hidden" value="true" />
+				<td>
+					<div class="form-group">
+						<form:select class="form-control" path="locationId" id="locationId">
+							<option value="0"></option>
+							<c:forEach items="${locations}" var="location">
+								<c:choose>
+									<c:when test="${roomFilter.locationId eq location.id}">
+										<option value="${location.id}" selected="selected">${location.name}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${location.id}">${location.name}</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</form:select>
+					</div>
+				</td>
+				<td></td>
+				<td>
+					<div class="form-group col-xs-10">
+						<spring:message code="lbl.room.roomName" var="nameForPlaceholder" />
+						<form:input class="form-control input-sm input-name" type="text" path="name"
+							placeholder="${nameForPlaceholder}" />
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<spring:message code="lbl.room.filterMinCapacity" var="filterMinCapacity" />
+						<form:input type="number" class="input-sm input-number" path="minCapacity" step="1"
+							required="true" title="${filterMinCapacity}" />
+						<spring:message code="lbl.room.filterMaxCapacity" var="filterMaxCapacity" />
+						<form:input type="number" class="input-sm input-number" path="maxCapacity" step="1"
+							required="true" title="${filterMaxCapacity}" />
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
+						<form:select class="form-control" path="equipments" id="equipments" multiple="multiple">
+							<c:forEach items="${equipments}" var="equipment">
+								<c:set var="found" value="false" />
+								<c:forEach items="${roomFilter.equipments}" var="equipmentInFilter">
+									<c:if test="${!found}">
+										<c:if test="${equipmentInFilter.id eq equipment.id}">
+											<option value="${equipment.id}" selected="selected">${equipment.name}</option>
+											<c:set var="found" value="true" />
+										</c:if>
 									</c:if>
+								</c:forEach>
+								<c:if test="${!found}">
+									<option value="${equipment.id}">${equipment.name}</option>
 								</c:if>
 							</c:forEach>
-							<c:if test="${!found}">
-								<option value="${equipment.id}">${equipment.name}</option>
-							</c:if>
-						</c:forEach>
-					</form:select>
-				</div>
-			</td>
+						</form:select>
+					</div>
+				</td>
+				<td class="text-center v-alighn">
+					<button type="submit" class="btn btn-link"
+						title="<spring:message code="lbl.room.applyFilter"/>">
+						<i class="fa fa-check-circle-o fa-lg"></i>
+					</button>
+				</td>
+			</form:form>
 			<td class="text-center v-alighn">
-				<button type="submit" class="btn btn-link" title="<spring:message code="lbl.room.applyFilter"/>">
-					<i class="fa fa-check-circle-o fa-lg"></i>
-				</button>
+				<a
+					href="rooms?showFilter=false&locationId=0&name=&minCapacity=0&maxCapacity=0&_equipments=1&pageNumber=0"
+					title="<spring:message code="lbl.room.resetFilter"/>">
+					<i class="fa fa-ban fa-lg"></i>
+				</a>
 			</td>
-		</form:form>
-		<td class="text-center v-alighn">
-			<a
-				href="rooms?showFilter=false&locationId=0&name=&minCapacity=0&maxCapacity=0&_equipments=1&pageNumber=0"
-				title="<spring:message code="lbl.room.resetFilter"/>">
-				<i class="fa fa-ban fa-lg"></i>
-			</a>
-		</td>
 		</tr>
 		<c:forEach items="${rooms}" var="room">
 			<tr>
@@ -218,10 +220,10 @@
 <script>
 $(function() {
 	$("select[name=locationId]").chosen({
-		width : "80%"
+		width : "160px"
 	});
 	$("select[name=equipments]").chosen({
-		width : "100%"
+		width : "150px"
 	});		
 })
 
@@ -229,6 +231,10 @@ $(function() {
         totalPages: ${roomPaginator.pagesCount + 1},
         startPage: ${roomPaginator.pageNumber + 1},
         visiblePages: 10,
+        first: '&lt;&lt;&lt;&lt;',
+        last: '&gt;&gt;&gt;&gt;',
+        prev: '&lt;&lt;',
+        next: '&gt;&gt;',
         initiateStartPageClick: false,        
         onPageClick: function (event, page) {
         	window.location = "rooms?pageNumber=" + (page-1);        	
