@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <script type="text/javascript">
@@ -25,17 +25,18 @@
 			<form:form method="post" modelAttribute="userGroupForm">
 				<form:hidden path="id" />
 
+				<spring:message code="lbl.group.title" var="title"/>
 				<div class="form-group">
-					<label for="Title"><spring:message code="lbl.group.title" /></label>
-					<form:input path="name" class="form-control" placeholder="Title" />
+					<label for="Title">${title}</label>
+					<form:input path="name" class="form-control" placeholder="${title}" />
 					<form:errors path="name" class="text-danger" />
 				</div>
 
+				<spring:message code="lbl.group.description" var="description"/>
 				<div class="form-group">
-					<label for="description"><spring:message
-							code="lbl.group.description" /></label>
+					<label for="description">${description}</label>
 					<form:input path="description" class="form-control"
-						placeholder="Description" />
+						placeholder="${description}" />
 					<form:errors path="description" class="text-danger" />
 				</div>
 
@@ -44,7 +45,8 @@
 					<label for="level"><spring:message code="lbl.group.level" /></label>
 					<form:select class="form-control" path="level" id="level">
 						<c:forEach items="${levels}" var="level">
-							<option>${level}</option>
+							<option value="${level}"><spring:message
+									code="lbl.group.${level.code}" /></option>
 						</c:forEach>
 					</form:select>
 				</div>
@@ -94,7 +96,6 @@
 						href="${pageContext.request.contextPath}/usergroups"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
-
 			</form:form>
 		</div>
 	</div>

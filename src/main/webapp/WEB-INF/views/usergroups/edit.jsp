@@ -25,17 +25,18 @@
 			<form:form method="post" modelAttribute="userGroupForm">
 				<form:hidden path="id" />
 
+				<spring:message code="lbl.group.title" var="title"/>
 				<div class="form-group">
-					<label for="Title"><spring:message code="lbl.group.title" /></label>
-					<form:input path="name" class="form-control" placeholder="Title" />
+					<label for="Title">${title}</label>
+					<form:input path="name" class="form-control" placeholder="${title}" />
 					<form:errors path="name" class="text-danger" />
 				</div>
 
+				<spring:message code="lbl.group.description" var="description"/>
 				<div class="form-group">
-					<label for="description"><spring:message
-							code="lbl.group.description" /></label>
+					<label for="description">${description}</label>
 					<form:input path="description" class="form-control"
-						placeholder="Description" />
+						placeholder="${description}" />
 					<form:errors path="description" class="text-danger" />
 				</div>
 
@@ -46,10 +47,12 @@
 						<c:forEach items="${levels}" var="groupLevel">
 							<c:choose>
 								<c:when test="${userGroupForm.level eq groupLevel}">
-									<option selected="selected">${groupLevel}</option>
+									<option selected="selected" value="${groupLevel}"><spring:message
+											code="lbl.group.${groupLevel.code}" /></option>
 								</c:when>
 								<c:otherwise>
-									<option>${groupLevel}</option>
+									<option value="${groupLevel}"><spring:message
+											code="lbl.group.${groupLevel.code}" /></option>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>

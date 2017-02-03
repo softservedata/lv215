@@ -22,7 +22,7 @@ public class UserGroupFilter {
 	/**
 	 * Field id to sort filter result.
 	 */
-	private int sortByField;
+	private int fieldForSorting;
 
 	/**
 	 * Order id to sort filter result.
@@ -74,15 +74,15 @@ public class UserGroupFilter {
 	 * 
 	 * @return sortByField value
 	 */
-	public int getSortByField() {
-		return sortByField;
+	public int getFieldForSorting() {
+		return fieldForSorting;
 	}
 
 	/**
 	 * SortByField setter
 	 */
-	public void setSortByField(int sortByField) {
-		this.sortByField = sortByField;
+	public void setFieldForSorting(int fieldForSorting) {
+		this.fieldForSorting = fieldForSorting;
 	}
 
 	/**

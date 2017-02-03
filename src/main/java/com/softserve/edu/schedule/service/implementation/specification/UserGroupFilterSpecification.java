@@ -9,17 +9,13 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 
+import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.filter.UserGroupFilter;
-import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
-import com.softserve.edu.schedule.service.UserGroupService;
-import com.softserve.edu.schedule.service.UserService;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
 
 public class UserGroupFilterSpecification implements Specification<UserGroup> {
 
@@ -29,25 +25,9 @@ public class UserGroupFilterSpecification implements Specification<UserGroup> {
 	private UserGroupFilter userGroupFilter;
 
 	/**
-	 * UserDAO example to provide database operations.
-	 */
-	private UserService userService;
-
-	/**
-	 * UserGroupDAO example to provide database operations.
-	 */
-	private UserGroupService userGroupService;
-
-	/**
 	 * List of userGroups specifications based on which the predicate is built.
 	 */
 	private List<Specification<UserGroup>> list = new ArrayList<>();
-
-	/**
-	 * UserDTO into entity converter
-	 */
-	@Autowired
-	private UserDTOConverter userConverter;
 
 	/**
 	 * Constructor of UserGroupFilterSpecification.
@@ -62,11 +42,8 @@ public class UserGroupFilterSpecification implements Specification<UserGroup> {
 	 * @param userGroupDAO
 	 *            userGroupDAO example to provide database operations.
 	 */
-	public UserGroupFilterSpecification(final UserGroupFilter filter, final UserService userService,
-			final UserGroupService userGroupService) {
-		this.userGroupFilter = filter;
-		this.userService = userService;
-		this.userGroupService = userGroupService;
+	public UserGroupFilterSpecification(final UserGroupFilter userGroupFilter) {
+		this.userGroupFilter = userGroupFilter;
 	}
 
 	/**
@@ -85,10 +62,9 @@ public class UserGroupFilterSpecification implements Specification<UserGroup> {
 	 * contains userGroup curator parameter.
 	 */
 	private void findByCuratorId() {
-		if (userGroupFilter.getCuratorId() != null && userGroupFilter.getCuratorId() > 0) {
-			User user = userConverter.getEntity(userService.getById(userGroupFilter.getCuratorId()));
-			list.add((root, criteriQuery, criteriaBuilder) -> criteriaBuilder.isMember(user,
-					root.get(UserGroup_.users)));
+		if (userGroupFilter.getCuratorId() != null && userGroupFilter.getCuratorId() >= 0) {
+			list.add((root, criteriaQuery, criteriaBuilder) -> root.get(UserGroup_.curator)
+					.in(userGroupFilter.getCuratorId()));
 		}
 	}
 
@@ -96,9 +72,8 @@ public class UserGroupFilterSpecification implements Specification<UserGroup> {
 	 * Add usergroup userGroup specification to specification list if filter
 	 * contains userGroup level parameter.
 	 */
-	// TODO
 	private void findByLevelId() {
-		if (userGroupFilter.getLevelId() != null && userGroupFilter.getLevelId() > 0) {
+		if (userGroupFilter.getLevelId() != null && userGroupFilter.getLevelId() >= 0) {
 			list.add((root, criteriaQuery, criteriaBuilder) -> root.get(UserGroup_.level)
 					.in(userGroupFilter.getLevelId()));
 		}
@@ -108,7 +83,7 @@ public class UserGroupFilterSpecification implements Specification<UserGroup> {
 	public Predicate toPredicate(Root<UserGroup> root, CriteriaQuery<?> criteriaQuery,
 			CriteriaBuilder criteriaBuilder) {
 		root.join(UserGroup_.users, JoinType.LEFT);
-		// setSortingParameters(root, criteriaQuery, criteriaBuilder);
+		setSortingParameters(root, criteriaQuery, criteriaBuilder);
 		if (userGroupFilter != null) {
 			findByLevelId();
 			findByCuratorId();
@@ -122,6 +97,22 @@ public class UserGroupFilterSpecification implements Specification<UserGroup> {
 			spec = spec.and(list.get(i));
 		}
 		return spec.toPredicate(root, criteriaQuery, criteriaBuilder);
+	}
+
+	private void setSortingParameters(final Root<UserGroup> root, final CriteriaQuery<?> criteriaQuery,
+			final CriteriaBuilder criteriaBuilder) {
+		if (userGroupFilter.getSortOrder() == Order.ASC.ordinal() && userGroupFilter.getFieldForSorting() == 1) {
+			criteriaQuery.orderBy(criteriaBuilder.asc(root.get(UserGroup_.name.getName())));
+		}
+		if (userGroupFilter.getSortOrder() == Order.DESC.ordinal() && userGroupFilter.getFieldForSorting() == 1) {
+			criteriaQuery.orderBy(criteriaBuilder.desc(root.get(UserGroup_.name.getName())));
+		}
+		if (userGroupFilter.getSortOrder() == Order.ASC.ordinal() && userGroupFilter.getFieldForSorting() == 3) {
+			criteriaQuery.orderBy(criteriaBuilder.asc(root.get(UserGroup_.level.getName())));
+		}
+		if (userGroupFilter.getSortOrder() == Order.DESC.ordinal() && userGroupFilter.getFieldForSorting() == 3) {
+			criteriaQuery.orderBy(criteriaBuilder.desc(root.get(UserGroup_.level.getName())));
+		}
 	}
 
 }

@@ -15,14 +15,19 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserGroupFilter;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.entity.User_;
+import com.softserve.edu.schedule.service.implementation.specification.UserGroupFilterSpecification;
 
 /**
  * A simple class to handle the database operation (CRUD).
@@ -31,16 +36,11 @@ import com.softserve.edu.schedule.entity.User_;
  * @author Zhydenko Andrii
  *
  */
-/**
- * @author Andrew
- *
- */
-/**
- * @author Andrew
- *
- */
 @Repository("userGroupDAO")
 public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGroupDAO {
+
+	@Autowired
+	UserDAO userDAO;
 
 	/**
 	 * Constructor of UserGroupDAOImpl
@@ -140,5 +140,22 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGrou
 		root.fetch(UserGroup_.users, JoinType.LEFT);
 		cq.where(root.get(UserGroup_.level).in(levelId));
 		return getEm().createQuery(cq).getResultList();
+	}
+
+	@Override
+	public List<UserGroup> getUserGroupPageWithFilter(UserGroupFilter userGroupFilter, Paginator userGroupPaginator) {
+		CriteriaBuilder builder = getEm().getCriteriaBuilder();
+		CriteriaQuery<UserGroup> criteriaQuery = builder.createQuery(UserGroup.class);
+		Root<UserGroup> root = criteriaQuery.from(UserGroup.class);
+
+		Predicate predicate = new UserGroupFilterSpecification(userGroupFilter).toPredicate(root, criteriaQuery,
+				builder);
+		if (predicate != null) {
+			criteriaQuery.where(predicate);
+		}
+		criteriaQuery.distinct(true);
+		userGroupPaginator.setPagesCount(getEm().createQuery(criteriaQuery).getResultList().size());
+		return getEm().createQuery(criteriaQuery).setFirstResult(userGroupPaginator.getOffset())
+				.setMaxResults(userGroupPaginator.getPageSize()).getResultList();
 	}
 }
