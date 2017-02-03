@@ -12,10 +12,6 @@ public class MeetingDTOEditor extends PropertyEditorSupport {
     @Autowired
     private MeetingService meetingService;
 
-    public MeetingDTOEditor(MeetingService meetingService) {
-        this.meetingService = meetingService;
-    }
-
     @Override
     public void setAsText(String text) throws IllegalArgumentException {
         setValue(meetingService.getById(Long.valueOf(text)));

@@ -9,12 +9,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.schedule.aspect.Loggable;
+import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
@@ -33,8 +35,8 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSub
  *
  * @since 1.8
  */
-@Loggable
 @Service("userService")
+@PerfomanceLoggable
 public class UserServiceImpl implements UserService {
 
     /**
@@ -256,7 +258,7 @@ public class UserServiceImpl implements UserService {
     public UserDTO loadUserByUsername(String userMail)
             throws UsernameNotFoundException {
         User user = userDAO.findByMail(userMail);
-        if (user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("User not found");
         }
         return userDTOConverter.getDTO(user);
@@ -304,6 +306,14 @@ public class UserServiceImpl implements UserService {
     public UserDTOForChangePassword getByIdForPassword(final Long id) {
         return userDTOForPasswordConverter
                 .getDTOForPassword(userDAO.getById(id));
+    }
+    
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter,
+            final Paginator userPaginator){
+        return userDAO.getUsersPageWithFilter(userFilter, userPaginator).stream()
+                .map(e -> userDTOConverter.getDTO(e)).collect(Collectors.toList());
     }
 
 }

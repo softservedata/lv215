@@ -1,14 +1,15 @@
-package com.softserve.edu.schedule.aspect;
+/* RoomEntityListener 1.0 02/03/2017 */
+package com.softserve.edu.schedule.entitylisteners;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
+import javax.persistence.PreRemove;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.entity.MeetingStatus;
@@ -16,12 +17,19 @@ import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
 import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingCanceledMailService;
 
-@Component
-@Aspect
-public class DeleteEventsAspect {
-
+/**
+ * An entity listener class for Room entity.
+ *
+ * @version 1.0 03 February 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
+public class RoomEntityListener {
+    
     /**
-     * RoomDTOConverter example to provide to DTO and from DTO conversion.
+     * MeetingCompactDTOConverter example to provide to DTO and from DTO conversion.
      */
     @Autowired
     private MeetingCompactDTOConverter meetingCompactDTOConverter;
@@ -32,7 +40,7 @@ public class DeleteEventsAspect {
      */
     @Autowired
     private MeetingCanceledMailService meetingCanceledMailService;
-
+    
     /**
      * Set to all meetings in room null value in field room, changed status of
      * all future meetings to NOT_APPROVED and send mail messages to their
@@ -42,8 +50,9 @@ public class DeleteEventsAspect {
      *            Room to proceed meetings
      * 
      */
-    @Before("execution(* com.softserve.edu.schedule.dao.implementation.RoomDAOImpl.delete(..)) && args(room,..)")
+    @PreRemove
     public void processingRoomBeforeDeletion(Room room) {
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         List<MeetingCompactDTO> meetingToAlert = new ArrayList<>();
         room.getMeetings().forEach(e -> {
             if (e.getDate().isAfter(LocalDate.now().minusDays(1))) {
@@ -56,4 +65,5 @@ public class DeleteEventsAspect {
                 e -> meetingCanceledMailService.sendInfoMessageRoomDeletion(e,
                         LocaleContextHolder.getLocale()));
     }
+    
 }

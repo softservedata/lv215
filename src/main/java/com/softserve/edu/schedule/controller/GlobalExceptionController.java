@@ -26,10 +26,10 @@ public class GlobalExceptionController implements ControllerConst {
      */
     private Logger log = LoggerFactory
             .getLogger(GlobalExceptionController.class);
-    
+
     /**
      * Controls security exception handling.
-     *     
+     * 
      * @param ex
      *            handled exception
      * 

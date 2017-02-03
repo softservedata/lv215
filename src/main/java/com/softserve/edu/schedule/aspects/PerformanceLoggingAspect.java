@@ -1,8 +1,7 @@
-package com.softserve.edu.schedule.aspect;
+/* PerformanceLoggingAspect 1.0 01/29/2017 */
+package com.softserve.edu.schedule.aspects;
 
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
@@ -10,12 +9,26 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StopWatch;
 
+/**
+ * Performance logging aspect for checking performance of the application
+ * components.
+ * 
+ * @version 1.0 29 January 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
 @Component
 @Aspect
-public class LoggingAspect {
+public class PerformanceLoggingAspect {
 
-    private Logger log = LoggerFactory.getLogger(LoggingAspect.class);
-    
+    /**
+     * Logger example to provide logging of performance.
+     */
+    private Logger log = LoggerFactory
+            .getLogger(PerformanceLoggingAspect.class);
+
     @Around("@within(PerfomanceLoggable) || @annotation(PerfomanceLoggable)")
     public Object logPerfomanceMethod(ProceedingJoinPoint joinPoint)
             throws Throwable {
@@ -43,13 +56,5 @@ public class LoggingAspect {
         logMessage.append(" ms");
         log.warn(logMessage.toString());
         return retVal;
-    }
-
-    @AfterThrowing(pointcut = "@within(Loggable) || @annotation(Loggable)",
-            throwing = "e")
-    public void logException(JoinPoint joinPoint, Throwable e) {
-        String methodFullName = joinPoint.getSignature().toString();
-        log.error("We have caught exception in method: " + methodFullName
-                + " the exception is: " + e.getMessage(), e);
     }
 }

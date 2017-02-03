@@ -12,7 +12,6 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.softserve.edu.schedule.aspect.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -30,7 +29,6 @@ import com.softserve.edu.schedule.service.implementation.specification.RoomFilte
  *
  * @since 1.8
  */
-@PerfomanceLoggable
 @Repository
 public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
@@ -144,10 +142,29 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
             criteriaQuery.where(predicate);
         }
         criteriaQuery.distinct(true);
-        roomPaginator.setPagesCount(
-                getEm().createQuery(criteriaQuery).getResultList().size());
+        roomPaginator.setPagesCount(getCountOfRoomsWithPredicate(predicate));
         return getEm().createQuery(criteriaQuery)
                 .setFirstResult(roomPaginator.getOffset())
                 .setMaxResults(roomPaginator.getPageSize()).getResultList();
+    }
+
+    /**
+     * Count rooms entities in the database with specified predicate
+     *
+     * @param predicate
+     *            a predicate to apply.
+     *
+     * @return Count of the room entities in the database with specified
+     *         predicate.
+     */
+    @Override
+    public Integer getCountOfRoomsWithPredicate(Predicate predicate) {
+        CriteriaBuilder qb = getEm().getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        cq.select(qb.count(cq.from(Room.class)));
+        if (predicate != null) {
+            cq.where(predicate);
+        }
+        return Math.toIntExact(getEm().createQuery(cq).getSingleResult());
     }
 }

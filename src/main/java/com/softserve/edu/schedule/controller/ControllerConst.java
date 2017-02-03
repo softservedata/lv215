@@ -224,6 +224,10 @@ public interface ControllerConst {
 		String SAVE_CHANGED_PASSWORD_MAPPING = "changePassword/saveChangePassword";
 
 		String CHANGE_PASSWORD_URL = "users/users/changePassword";
+
+		String FILTER_MODEL_ATTR = "userFilter";
+
+		String USER_PAGINATOR_MODEL_ATTR = "userPaginator";
 	}
 
 	/**
@@ -499,16 +503,6 @@ public interface ControllerConst {
 		String SEARCH_MODEL_ATTR = "search";
 
 		/**
-		 * Groups searching by name mapping.
-		 */
-		String USERGROUPS_SEARCH_BY_NAME_MAPPING = "/usergroups/searchByName";
-
-		/**
-		 * Groups searching by curator mapping.
-		 */
-		String USERGROUPS_SEARCH_BY_CURATOR_MAPPING = "/usergroups/searchByCurator";
-
-		/**
 		 * Curators attribute.
 		 */
 		String USERGROUP_CURATORS_ATTR = "curators";
@@ -537,11 +531,6 @@ public interface ControllerConst {
 		 * Path curator's lastname
 		 */
 		String USERGROUP_PATH_CURATOR_LASTNAME = "curator.lastName";
-
-		/**
-		 * Title of a name column
-		 */
-		String USERGROUP_NAME_TITLE = "name";
 	}
 
 	public interface RoomEquipmentControllerConst {
