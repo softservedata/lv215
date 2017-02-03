@@ -224,6 +224,10 @@ public interface ControllerConst {
         String SAVE_CHANGED_PASSWORD_MAPPING = "changePassword/saveChangePassword";
 
         String CHANGE_PASSWORD_URL = "users/users/changePassword";
+        
+        String FILTER_MODEL_ATTR = "userFilter";
+        
+        String USER_PAGINATOR_MODEL_ATTR = "userPaginator";
     }
 
     /**

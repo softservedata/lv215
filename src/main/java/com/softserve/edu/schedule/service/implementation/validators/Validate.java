@@ -24,6 +24,7 @@ import javax.validation.Payload;
 @Constraint(validatedBy = {RoomValidator.class, SubjectValidator.class,
         MeetingValidator.class, UserValidator.class, UserGroupValidator.class,
         LocationValidator.class, UserPasswordValidator.class})
+
 public @interface Validate {
 
     String message() default "";
