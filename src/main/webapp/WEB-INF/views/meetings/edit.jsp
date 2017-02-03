@@ -199,8 +199,6 @@
 		var y = document.getElementById("endTime").value;
 		console.log(typeof x);
 		var date = document.getElementById("date").value;
-		
-
 	if (x > y) {
 			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
 			return false;
