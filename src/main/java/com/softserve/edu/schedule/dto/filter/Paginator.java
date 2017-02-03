@@ -23,7 +23,7 @@ public class Paginator {
     /**
      * Field for storage current pages count.
      */
-    private int pagesCount;
+    private long pagesCount;
 
     /**
      * @return current page number
@@ -82,7 +82,7 @@ public class Paginator {
     /**
      * @return the pagesCount
      */
-    public int getPagesCount() {
+    public long getPagesCount() {
         return pagesCount;
     }
 
@@ -109,11 +109,14 @@ public class Paginator {
      * @param resultCount
      *            the total number of records in the current query result
      */
-    public void setPagesCount(int resultCount) {
+    public void setPagesCount(long resultCount) {
         if (resultCount % pageSize == 0) {
             this.pagesCount = resultCount / pageSize - 1;
         } else {
             this.pagesCount = resultCount / pageSize;
+        }
+        if (this.pageNumber > this.pagesCount) {
+            this.pageNumber = 0;
         }
     }
 }

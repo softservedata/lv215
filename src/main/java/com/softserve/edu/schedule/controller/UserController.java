@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.service.UserService;
@@ -29,6 +31,8 @@ import com.softserve.edu.schedule.service.UserService;
  * @since 1.8
  */
 @Controller
+@SessionAttributes({ControllerConst.UserControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.UserControllerConst.USER_PAGINATOR_MODEL_ATTR})
 public class UserController implements ControllerConst.UserControllerConst,
         ControllerConst.RegistrationControllerConst {
 
@@ -38,29 +42,29 @@ public class UserController implements ControllerConst.UserControllerConst,
     @Autowired
     private UserService userService;
 
-    /**
-     * Provides user model.
-     * 
-     * @return new UserDTO object.
-     */
-    @ModelAttribute(SEARCH_MODEL_ATTR)
-    public UserDTO getUserDTO() {
-        return new UserDTO();
-    }
+    // /**
+    // * Provides user model.
+    // *
+    // * @return new UserDTO object.
+    // */
+    // @ModelAttribute(SEARCH_MODEL_ATTR)
+    // public UserDTO getUserDTO() {
+    // return new UserDTO();
+    // }
 
-    /**
-     * Controls view of users list page.
-     *
-     * @param model
-     *            users list page view model.
-     * 
-     * @return users list page URL
-     */
-    @RequestMapping(USERS_MAPPING_FROM_HEADER)
-    public String allUserPage(Model model) {
-        model.addAttribute(USERS_MODEL_ATTR, userService.getAll());
-        return USERS_PAGE_URL;
-    }
+    // /**
+    // * Controls view of users list page.
+    // *
+    // * @param model
+    // * users list page view model.
+    // *
+    // * @return users list page URL
+    // */
+    // @RequestMapping(USERS_MAPPING_FROM_HEADER)
+    // public String allUserPage(Model model) {
+    // model.addAttribute(USERS_MODEL_ATTR, userService.getAll());
+    // return USERS_PAGE_URL;
+    // }
 
     /**
      * Controls processing of user delete URL.
@@ -103,8 +107,8 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING
-            + "{id}", method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING + "{id}",
+            method = RequestMethod.POST)
     public String updateUser(
             @ModelAttribute(USER_UPDATE_ATTR) @Valid UserDTO user,
             BindingResult br) {
@@ -168,111 +172,114 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING
-            + "{id}", method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING + "{id}",
+            method = RequestMethod.POST)
     public String changeRole(@PathVariable Long id,
             @RequestParam UserRole role) {
         userService.changeRole(id, role);
         return REDIRECT_USERS_PAGE;
     }
 
-    /**
-     * Controls view of users list page in ascending order by last name.
-     *
-     * @param model
-     *            users list page view model.
-     * 
-     * @return users list page URL
-     */
-    @RequestMapping(SORT_BY_LASTNAME_ASC_MAPPING)
-    public String sortByLastNameAsc(Model model) {
-        model.addAttribute(USERS_MODEL_ATTR,
-                userService.sortByLastName(Order.ASC));
-        return USERS_PAGE_URL;
-    }
+    // /**
+    // * Controls view of users list page in ascending order by last name.
+    // *
+    // * @param model
+    // * users list page view model.
+    // *
+    // * @return users list page URL
+    // */
+    // @RequestMapping(SORT_BY_LASTNAME_ASC_MAPPING)
+    // public String sortByLastNameAsc(Model model) {
+    // model.addAttribute(USERS_MODEL_ATTR,
+    // userService.sortByLastName(Order.ASC));
+    // return USERS_PAGE_URL;
+    // }
 
-    /**
-     * Controls view of users list page in descending order by last name.
-     *
-     * @param model
-     *            users list page view model.
-     * 
-     * @return users list page URL
-     */
-    @RequestMapping(SORT_BY_LASTNAME_DESC_MAPPING)
-    public String sortByLastNameDesc(Model model) {
-        model.addAttribute(USERS_MODEL_ATTR,
-                userService.sortByLastName(Order.DESC));
-        return USERS_PAGE_URL;
-    }
+    // /**
+    // * Controls view of users list page in descending order by last name.
+    // *
+    // * @param model
+    // * users list page view model.
+    // *
+    // * @return users list page URL
+    // */
+    // @RequestMapping(SORT_BY_LASTNAME_DESC_MAPPING)
+    // public String sortByLastNameDesc(Model model) {
+    // model.addAttribute(USERS_MODEL_ATTR,
+    // userService.sortByLastName(Order.DESC));
+    // return USERS_PAGE_URL;
+    // }
 
-    /**
-     * Controls view of users list page in ascending order by position.
-     *
-     * @param model
-     *            users list page view model.
-     * 
-     * @return users list page URL
-     */
-    @RequestMapping(SORT_BY_POSITION_ASC_MAPPING)
-    public String sortByPositionAsc(Model model) {
-        model.addAttribute(USERS_MODEL_ATTR,
-                userService.sortByPosition(Order.ASC));
-        return USERS_PAGE_URL;
-    }
+    // /**
+    // * Controls view of users list page in ascending order by position.
+    // *
+    // * @param model
+    // * users list page view model.
+    // *
+    // * @return users list page URL
+    // */
+    // @RequestMapping(SORT_BY_POSITION_ASC_MAPPING)
+    // public String sortByPositionAsc(Model model) {
+    // model.addAttribute(USERS_MODEL_ATTR,
+    // userService.sortByPosition(Order.ASC));
+    // return USERS_PAGE_URL;
+    // }
 
-    /**
-     * Controls view of users list page in descending order by position.
-     *
-     * @param model
-     *            users list page view model.
-     * 
-     * @return users list page URL
-     */
-    @RequestMapping(SORT_BY_POSITION_DESC_MAPPING)
-    public String sortByPositionDesc(Model model) {
-        model.addAttribute(USERS_MODEL_ATTR,
-                userService.sortByPosition(Order.DESC));
-        return USERS_PAGE_URL;
-    }
+    // /**
+    // * Controls view of users list page in descending order by position.
+    // *
+    // * @param model
+    // * users list page view model.
+    // *
+    // * @return users list page URL
+    // */
+    // @RequestMapping(SORT_BY_POSITION_DESC_MAPPING)
+    // public String sortByPositionDesc(Model model) {
+    // model.addAttribute(USERS_MODEL_ATTR,
+    // userService.sortByPosition(Order.DESC));
+    // return USERS_PAGE_URL;
+    // }
 
-    /**
-     * Controls view for search user by last name.
-     *
-     * @param model
-     *            users list page view model.
-     * 
-     * @param user
-     *            UserDTO example with required last name.
-     * 
-     * @return users list page URL
-     */
-    @RequestMapping(value = SEARCH_BY_LASTNANE_MAPPING, method = RequestMethod.POST)
-    public String searchByName(@ModelAttribute(SEARCH_MODEL_ATTR) UserDTO user,
-            Model model) {
-        model.addAttribute(USERS_MODEL_ATTR,
-                userService.searchByLastName(user.getLastName()));
-        return USERS_PAGE_URL;
-    }
+    // /**
+    // * Controls view for search user by last name.
+    // *
+    // * @param model
+    // * users list page view model.
+    // *
+    // * @param user
+    // * UserDTO example with required last name.
+    // *
+    // * @return users list page URL
+    // */
+    // @RequestMapping(value = SEARCH_BY_LASTNANE_MAPPING, method =
+    // RequestMethod.POST)
+    // public String searchByName(@ModelAttribute(SEARCH_MODEL_ATTR) UserDTO
+    // user,
+    // Model model) {
+    // model.addAttribute(USERS_MODEL_ATTR,
+    // userService.searchByLastName(user.getLastName()));
+    // return USERS_PAGE_URL;
+    // }
 
-    /**
-     * Controls view for search user by position.
-     *
-     * @param model
-     *            users list page view model.
-     * 
-     * @param user
-     *            UserDTO example with required position.
-     * 
-     * @return users list page URL
-     */
-    @RequestMapping(value = SEARCH_BY_POSITION_MAPPING, method = RequestMethod.POST)
-    public String searchByPosition(
-            @ModelAttribute(SEARCH_MODEL_ATTR) UserDTO user, Model model) {
-        model.addAttribute(USERS_MODEL_ATTR,
-                userService.searchByPosition(user.getPosition()));
-        return USERS_PAGE_URL;
-    }
+    // /**
+    // * Controls view for search user by position.
+    // *
+    // * @param model
+    // * users list page view model.
+    // *
+    // * @param user
+    // * UserDTO example with required position.
+    // *
+    // * @return users list page URL
+    // */
+    // @RequestMapping(value = SEARCH_BY_POSITION_MAPPING, method =
+    // RequestMethod.POST)
+    // public String searchByPosition(
+    // @ModelAttribute(SEARCH_MODEL_ATTR) UserDTO user, Model model) {
+    // model.addAttribute(USERS_MODEL_ATTR,
+    // userService.searchByPosition(user.getPosition()));
+    // return USERS_PAGE_URL;
+    // }
 
     /**
      * Controls view for show profile of user.
@@ -313,14 +320,34 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING
-            + "{id}", method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING + "{id}",
+            method = RequestMethod.POST)
     public String saveChangedPassword(
-            @ModelAttribute(USER_MODEL_ATTR) @Valid UserDTOForChangePassword user, BindingResult br) {
+            @ModelAttribute(USER_MODEL_ATTR) @Valid UserDTOForChangePassword user,
+            BindingResult br) {
         if (br.hasErrors()) {
             return CHANGE_PASSWORD_URL;
         }
         userService.changePassword(user);
         return REDIRECT_USERS_PAGE;
+    }
+
+    @ModelAttribute(FILTER_MODEL_ATTR)
+    public UserFilter getFilter() {
+        return new UserFilter();
+    }
+
+    @ModelAttribute(USER_PAGINATOR_MODEL_ATTR)
+    public Paginator getPaginator() {
+        return new Paginator();
+    }
+
+    @RequestMapping(USERS_MAPPING_FROM_HEADER)
+    public String showUserPage(final Model model,
+            @ModelAttribute(FILTER_MODEL_ATTR) final UserFilter filter,
+            @ModelAttribute(USER_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
+        model.addAttribute(USERS_MODEL_ATTR,
+                userService.getUsersPageWithFilter(filter, paginator));
+        return USERS_PAGE_URL;
     }
 }

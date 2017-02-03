@@ -26,4 +26,5 @@ public interface MailConstants {
      * Model name for meeting cancelled template.
      */
     String MEETING_MODEL_NAME = "meeting";
+    
 }
