@@ -6,9 +6,9 @@
 
 <script type="text/javascript">
 	$(function() {
-		$("select[name=subjectId]").chosen({width : "100%"});
-		$("select[name=ownerId]").chosen({width : "100%"});
-		$("select[name=roomId]").chosen({width : "80px"});
+		$("select[name=subjectId]").chosen({width : "100px"});
+		$("select[name=ownerId]").chosen({width : "150px"});
+		$("select[name=roomId]").chosen({width : "100px"});
 		$("select[name=groups]").chosen({width : "100px"});
 		$("select[name=status]").chosen({
 			width : "120px"

@@ -30,7 +30,7 @@
 			<h3 class="text-center">
 				<spring:message code="lbl.meeting.create" />
 			</h3>
-			<form:form role="form" method="post" modelAttribute="meetingForm">
+			<form:form role="form" method="post" modelAttribute="meetingForm"  onsubmit="return func()">
 				<form:input path="id" type="hidden" />
 
 
@@ -126,9 +126,15 @@
 						title="Blah" />
 					<form:errors path="description" class="text-danger" />
 				</div>
+				
+				
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-default" onclick="func()"
-						value="<spring:message code="lbl.form.save"/>"> <a
+					<input type="submit" class="btn btn-default" 
+						value="<spring:message code="lbl.form.save"/>">
+				
+				
+						
+						 <a
 						class="btn btn-default" href="/schedule/meetings/create"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
 						href="${pageContext.request.contextPath}/meetings"><spring:message
@@ -146,6 +152,8 @@
 		var y = document.getElementById("endTime").value;
 		if (x > y) {
 			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
+			return false;
 		}
+		return true;
 	}
 </script>

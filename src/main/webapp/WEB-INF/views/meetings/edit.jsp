@@ -31,7 +31,7 @@
 				<spring:message code="lbl.meeting.edit" />
 
 			</h3>
-			<form:form role="form" method="post" modelAttribute="meetingForm">
+			<form:form role="form" method="post" modelAttribute="meetingForm"  onsubmit="return func()" >
 				<form:input path="id" type="hidden" />
 
 
@@ -113,7 +113,8 @@
 				<div class="form-group">
 					<label for="groups"><spring:message
 							code="lbl.meeting.groups" /></label>
-					<form:select class="form-control" path="groups" id="groups" required="true"
+					<form:select class="form-control" path="groups" id="groups" required="true" oninvalid="this.setCustomValidity('${invalidName}')"
+						oninput="setCustomValidity('')"
 						multiple="multiple">
 						<c:forEach items="${groups}" var="group">
 							<c:set var="found" value="false" />
@@ -179,7 +180,7 @@
 
 				</div>
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-default" onclick="func()"
+					<input type="submit" class="btn btn-default"
 						id="timeerror" value="<spring:message code="lbl.form.save"/>">
 					<a class="btn btn-default"
 						href="/schedule/meetings/edit/${meetingForm.id}"><spring:message
@@ -196,8 +197,14 @@
 	function func() {
 		var x = document.getElementById("startTime").value;
 		var y = document.getElementById("endTime").value;
-		if (x > y) {
+		console.log(typeof x);
+		var date = document.getElementById("date").value;
+		
+
+	if (x > y) {
 			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
+			return false;
 		}
+		return true;
 	}
 </script>
