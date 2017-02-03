@@ -39,7 +39,7 @@ import com.softserve.edu.schedule.entity.User_;
  * @author Andrew
  *
  */
-@Repository("userGroupDAO")
+@Repository
 public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
         implements UserGroupDAO {
 

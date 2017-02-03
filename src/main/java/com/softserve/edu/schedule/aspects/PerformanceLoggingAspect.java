@@ -1,8 +1,6 @@
-package com.softserve.edu.schedule.aspect;
+package com.softserve.edu.schedule.aspects;
 
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.slf4j.Logger;
@@ -12,10 +10,11 @@ import org.springframework.util.StopWatch;
 
 @Component
 @Aspect
-public class LoggingAspect {
+public class PerformanceLoggingAspect {
 
-    private Logger log = LoggerFactory.getLogger(LoggingAspect.class);
-    
+    private Logger log = LoggerFactory
+            .getLogger(PerformanceLoggingAspect.class);
+
     @Around("@within(PerfomanceLoggable) || @annotation(PerfomanceLoggable)")
     public Object logPerfomanceMethod(ProceedingJoinPoint joinPoint)
             throws Throwable {
@@ -43,13 +42,5 @@ public class LoggingAspect {
         logMessage.append(" ms");
         log.warn(logMessage.toString());
         return retVal;
-    }
-
-    @AfterThrowing(pointcut = "@within(Loggable) || @annotation(Loggable)",
-            throwing = "e")
-    public void logException(JoinPoint joinPoint, Throwable e) {
-        String methodFullName = joinPoint.getSignature().toString();
-        log.error("We have caught exception in method: " + methodFullName
-                + " the exception is: " + e.getMessage(), e);
     }
 }

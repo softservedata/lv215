@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.entity.Meeting;
+import com.softserve.edu.schedule.entity.MeetingStatus;
 
 @Component
 public class PastMeetingStatusCorrector {
@@ -20,5 +21,13 @@ public class PastMeetingStatusCorrector {
     @Transactional
     public void correctMeetingStatuses() {
         List<Meeting> pastMeetings = meetingDAO.getUnfinishedPastMeetings();
+        pastMeetings.forEach(e -> {
+            if (e.getStatus().equals(MeetingStatus.APPROVED)) {
+                e.setStatus(MeetingStatus.FINISHED);
+            } else {
+                meetingDAO.deleteById(e.getId());
+            }
+        });
+
     }
 }

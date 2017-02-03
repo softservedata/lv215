@@ -5,7 +5,7 @@ import org.springframework.stereotype.Repository;
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.entity.RoomEquipment;
 
-@Repository("roomEquipmentDAO")
+@Repository
 public class RoomEquipmentDAOImpl extends CrudDAOImpl<RoomEquipment>
         implements RoomEquipmentDAO {
 
