@@ -9,5 +9,15 @@ package com.softserve.edu.schedule.entity;
  *
  */
 public enum UserGroupLevel {
-    STUDENTS, TEACHERS, UNKNOWN;
+	STUDENTS("stCode"), TEACHERS("tchCode"), UNKNOWN("unkCode");
+
+	private String code;
+
+	private UserGroupLevel(final String code) {
+		this.code = code;
+	}
+
+	public String getCode() {
+		return code;
+	}
 }
