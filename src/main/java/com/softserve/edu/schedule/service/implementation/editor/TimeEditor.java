@@ -1,4 +1,6 @@
+
 /* TimeEditor 1.0 01/17/2017 */
+
 package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
@@ -8,11 +10,12 @@ import java.time.format.DateTimeParseException;
 import org.springframework.stereotype.Service;
 
 /**
- * A class to provide conversion operations from form field time to LocalTime
- * type.
+ * A class to provide conversion operations from form field text time to the
+ * time.
  *
  * @version 1.0 17 January 2017
  *
+ * 
  * @author Petro Zelyonka
  *
  * @since 1.8

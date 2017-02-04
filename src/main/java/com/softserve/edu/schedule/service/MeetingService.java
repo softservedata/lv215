@@ -28,7 +28,6 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  * @version 1.0 12.12.2016
  * @author IT Academy
  */
-
 public interface MeetingService {
 
     /**
@@ -48,6 +47,13 @@ public interface MeetingService {
      */
     public MeetingDTO getById(final Long id);
 
+    /**
+     * Gives MeetingStatus by given String name.
+     * 
+     * @param status
+     *            name of status
+     * @return MeetingStatus object.
+     */
     public MeetingStatus getStatusbyString(final String status);
 
     /**
@@ -82,11 +88,20 @@ public interface MeetingService {
      */
     public void deleteById(final Long id);
 
+    /**
+     * Returns List of MeetingDTO by given filter and paginator for Room page.
+     * 
+     * @param meetingFilter
+     *            filter for meetings.
+     * @param roomPaginator
+     *            Roompaginator for meetings.
+     * @return List of MeetingDTO
+     */
     public List<MeetingDTO> getMeetingPageWithFilter(
             final MeetingFilter meetingFilter, final Paginator roomPaginator);
 
     /**
-     * Return a List of sorted Meeting transfer objects.
+     * Returns a List of sorted Meeting transfer objects.
      *
      * @param field
      *            for sort
@@ -138,15 +153,10 @@ public interface MeetingService {
             LocalDate date);
 
     /**
-     * During creation checks which status can be given to the meeting depends
-     * on room availability.
-     *
-     * @author Petro Zelyonka
-     *
+     * Returns MeetingStatus of meeting during process of Meeting creation.
+     * 
      * @param meetingDTO
-     *            given meeting DTO
-     *
-     * @return correct MeetingStatus
+     * @return MeetingStatus
      */
-    MeetingStatus getMeetingStatusDuringCreation(MeetingDTO meetingDTO);
+    MeetingStatus getMeetingStatusDuringCreation(final MeetingDTO meetingDTO);
 }

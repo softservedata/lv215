@@ -20,21 +20,51 @@ import com.softserve.edu.schedule.entity.Room;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.User;
 
+/**
+ * A class to provide conversion operations between MeetingDTO and Meeting
+ * entity.
+ *
+ * @version 1.0 17 January 2017
+ *
+ * @author Bohdan Melnyk
+ *
+ * @since 1.8
+ */
 @Service
 public class MeetingDTOConverter {
 
+    /**
+     * UserDAO example to provide database operations.
+     */
     @Autowired
     private UserDAO userDAO;
 
+    /**
+     * UserGroupDAO example to provide database operations.
+     */
     @Autowired
     private UserGroupDAO userGroupDAO;
 
+    /**
+     * SubjectDAO example to provide database operations.
+     */
     @Autowired
     private SubjectDAO subjectDAO;
 
+    /**
+     * RoomDAO example to provide database operations.
+     */
     @Autowired
     private RoomDAO roomDAO;
 
+    /**
+     * Convert given MeetingDTO object to Meeting entity.
+     * 
+     * @param meetingDTO
+     *            a MeetingDTO object to convert.
+     * 
+     * @return a Meeting object or null if given @param meetingDTO is null.
+     */
     public Meeting getEntity(final MeetingDTO meetingDTO) {
         if (meetingDTO != null) {
             Meeting meeting = new Meeting();
@@ -145,5 +175,4 @@ public class MeetingDTOConverter {
         }
         return null;
     }
-
 }

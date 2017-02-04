@@ -1,3 +1,6 @@
+/*
+ * Meeting filter specification class for sorting meetings fields.
+ */
 package com.softserve.edu.schedule.service.implementation.specification;
 
 import java.util.ArrayList;
@@ -27,6 +30,13 @@ import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.User_;
 
+/**
+ * This class provides the business logic of filtering data on the meeting list
+ * page.
+ * 
+ * @author Bohdan Melnyk
+ *
+ */
 public class MeetingFilterSpecification implements Specification<Meeting> {
 
     /**
@@ -59,12 +69,22 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
      */
     private List<Specification<Meeting>> list = new ArrayList<>();
 
+    /**
+     * Constructor of MeetingFilterSpecification class.
+     * 
+     * @param meetingFilter
+     * @param userGroupDAO
+     */
     public MeetingFilterSpecification(final MeetingFilter meetingFilter,
             final UserGroupDAO userGroupDAO) {
         this.meetingFilter = meetingFilter;
         this.userGroupDAO = userGroupDAO;
     }
 
+    /**
+     * Add Meeting id for meeting specifications to specification list if filter
+     * contains equipments parameter.
+     */
     private void findById() {
         if (meetingFilter.getId() != null) {
             list.add((root, criteriaQuery, criteriaBuilder) -> criteriaBuilder
@@ -80,6 +100,10 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
      * meetingFilter.getDescription() + "%")); } }
      */
 
+    /**
+     * Add Subjects id for meeting specifications to specification list if
+     * filter contains equipments parameter.
+     */
     private void findBySubjectId() {
         if (meetingFilter.getSubjectId() != null
                 && meetingFilter.getSubjectId() > 0) {
@@ -88,6 +112,10 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         }
     }
 
+    /**
+     * Add Rooms id for meeting specifications to specification list if filter
+     * contains equipments parameter.
+     */
     private void findByRoomId() {
         if (meetingFilter.getRoomId() != null
                 && meetingFilter.getRoomId() > 0) {
@@ -96,6 +124,10 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         }
     }
 
+    /**
+     * Add Onwer id for meeting specifications to specification list if filter
+     * contains equipments parameter.
+     */
     private void findByOwnerId() {
         if (meetingFilter.getOwnerId() != null
                 && meetingFilter.getOwnerId() > 0) {
@@ -104,6 +136,10 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         }
     }
 
+    /**
+     * Add Date for meeting specifications to specification list if filter
+     * contains equipments parameter.
+     */
     private void findByDate() {
         if (meetingFilter.getDate() != null) {
             list.add((root, criteriaQuery, criteriaBuilder) -> root
@@ -111,6 +147,10 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         }
     }
 
+    /**
+     * Add StartTime for meeting specifications to specification list if filter
+     * contains equipments parameter.
+     */
     private void findByStartTime() {
         if (meetingFilter.getStartTime() != null) {
             list.add((root, criteriaQuery, criteriaBuilder) -> root
@@ -118,6 +158,10 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         }
     }
 
+    /**
+     * Add EndTime for meeting specifications to specification list if filter
+     * contains equipments parameter.
+     */
     private void findByEndTime() {
         if (meetingFilter.getEndTime() != null) {
             list.add((root, criteriaQuery, criteriaBuilder) -> root
@@ -142,8 +186,8 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
     }
 
     /**
-     * Add room capacity specification to specification list if filter contains
-     * maxCapacity and(or) minCapacity parameters.
+     * Add Meeting level specification to specification list if filter contains
+     * equipments parameter.
      */
     private void findBylevel() {
         if (meetingFilter.getLevel() != null && meetingFilter.getLevel() > 0
@@ -154,6 +198,10 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         }
     }
 
+    /**
+     * Add Meeting status specification to specification list if filter contains
+     * equipments parameter.
+     */
     private void findByStatus() {
         if (meetingFilter.getStatus() >= 0) {
             list.add((root, criteriaQuery, criteriaBuilder) -> root
@@ -161,15 +209,30 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         }
     }
 
+    /**
+     * Add sorting order to predicate if filter contains sortByField and
+     * sortOrder parameters.
+     * 
+     * @param root
+     *            a root of predicate
+     * 
+     * @param criteriaQuery
+     *            a query to add sorting order.
+     * 
+     * @param criteriaBuilder
+     *            a criteria builder of predicate.
+     */
     private void setSortingParameters(final Root<Meeting> root,
             final CriteriaQuery<?> criteriaQuery,
             final CriteriaBuilder criteriaBuilder) {
+
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.DESCRIPTION
                         .ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.asc(root.get(Meeting_.description)));
         }
+
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter
                         .getFieldForSorting() == MeetingSortField.DESCRIPTION
@@ -183,6 +246,7 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
             criteriaQuery.orderBy(
                     criteriaBuilder.asc(subjectJoin.get(Subject_.name)));
         }
+
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter
                         .getFieldForSorting() == MeetingSortField.SUBJECT
@@ -196,40 +260,45 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
             criteriaQuery.orderBy(
                     criteriaBuilder.asc(ownerJoin.get(User_.firstName)));
         }
+
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter.getFieldForSorting() == MeetingSortField.OWNER
                         .ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.desc(ownerJoin.get(User_.firstName)));
         }
+
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.ROOM.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(roomJoin.get(Room_.name)));
         }
+
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter.getFieldForSorting() == MeetingSortField.ROOM
                         .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(roomJoin.get(Room_.name)));
         }
+
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.DATE.ordinal()) {
             criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Meeting_.date)));
         }
+
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter.getFieldForSorting() == MeetingSortField.DATE
                         .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.date)));
-
         }
+
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.STARTTIME.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.startTime)));
-
         }
+
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter
                         .getFieldForSorting() == MeetingSortField.STARTTIME
@@ -237,11 +306,13 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.endTime)));
         }
+
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.ENDTIME.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.endTime)));
         }
+
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter
                         .getFieldForSorting() == MeetingSortField.ENDTIME
@@ -249,22 +320,26 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.endTime)));
         }
+
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.LEVEL.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.level)));
         }
+
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter.getFieldForSorting() == MeetingSortField.LEVEL
                         .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.level)));
         }
+
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.STATUS.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.status)));
         }
+
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter.getFieldForSorting() == MeetingSortField.STATUS
                         .ordinal()) {
@@ -317,5 +392,4 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         }
         return spec.toPredicate(root, criteriaQuery, criteriaBuilder);
     }
-
 }

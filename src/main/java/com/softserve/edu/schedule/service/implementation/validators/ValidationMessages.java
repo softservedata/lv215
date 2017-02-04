@@ -37,16 +37,34 @@ public interface ValidationMessages {
      */
     String DUPLICATE_ROOM = "vm.duplicateRoom";
 
+    /**
+     * Duplicate mail.
+     */
     String DUPLICATE_MAIL = "vm.duplicateMail";
 
+    /**
+     * Invalid phone number.
+     */
     String INVALID_PHONE_NUMBER = "vm.wrongPhonNamber";
 
+    /**
+     * Incorrect password.
+     */
     String INCORECT_PASSWORD = "vm.incorectPassword";
 
+    /**
+     * Invalid name.
+     */
     String INVALID_NAME = "vm.incorectName";
 
+    /**
+     * Invalid level.
+     */
     String INVALID_LEVEL = "vm.invalidLevel";
 
+    /**
+     * Incorrect mail for user account.
+     */
     String INVALID_MAIL = "vm.incorecMail";
 
     /**
@@ -104,22 +122,44 @@ public interface ValidationMessages {
      */
     String DUPLICATE_LOCATION = "vm.dublicateLocation";
 
-    // For Meetings
-
+    /**
+     * Incorrect date of meeting.
+     */
     String INVALID_DATE = "vm.invalidDate";
 
+    /**
+     * Invalid endTime compares with startTime of the meeting.
+     */
     String INVALID_ENDTIME_COMPARE_STARTTIME = "vm.invalidEndTimeMustBeAfterStartTime";
 
+    /**
+     * Invalid groups count.
+     */
     String INVALID_MEETING_GROUPS_COUNT = "vm.invalidMeetingGroup";
 
+    /**
+     * Not unique meeting.
+     */
     String DUPLICATE_MEETING = "vm.duplicateMeeting";
 
+    /**
+     * Incorrect time of meeting.
+     */
     String INVALID_TIME = "vm.invalidTime";
 
+    /**
+     * Not equal to previous password.
+     */
     String NOT_EQUAL = "vm.notEqualToPrevious";
 
+    /**
+     * Invalid password.
+     */
     String WRONG_PASSWORD = "vm.wronrPassword";
 
+    /**
+     * Invalid meeting status
+     */
     String INVALID_STATUS = "vm.ivdalidStatus";
 
 }
