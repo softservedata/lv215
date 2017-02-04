@@ -156,6 +156,10 @@ textarea {
 	width: 60px;
 }
 
-.input-name {	
+.input-name {
 	width: 130px;
+}
+
+#calendar {
+	margin-top: 20px;
 }
