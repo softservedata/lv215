@@ -39,16 +39,15 @@ public interface ValidationCriteria {
             + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     /**
-     * Allowed characters for password expression in specific order.
-     *
-     * ^ # start-of-string (?=.*[0-9]) # a digit must occur at least once
+     * Allowed characters for password expression in specific order. ^ #
+     * start-of-string (?=.*[0-9]) # a digit must occur at least once
      * (?=.*[a-z]) # a lower case letter must occur at least once (?=.*[A-Z]) #
      * an upper case letter must occur at least once (?=.*[@#$%^&+=]) # a
      * special character must occur at least once (?=\S+$) # no whitespace
      * allowed in the entire string .{8,} # anything, at least eight places
      * though $ # end-of-string
      */
-    String CHARACTERS_FOR_PASSWORD = "\\A(?=\\S*[a-z])(?=\\S*[A-Z])\\S{8,}\\z";
+    String CHARACTERS_FOR_PASSWORD = "\\A(?=\\S*[a-z])(?=\\S*[A-Z])\\S{8,}\\z";// (?=\\S*[0-9])(?=\\S*[!@#$%^&*()+=])
 
     /**
      * Allowed characters for position expression.
@@ -89,5 +88,4 @@ public interface ValidationCriteria {
      * Allowed meeting level.
      */
     String PATTERN_FOR_MEETING_LEVEL = "^[1-5]$";
-
 }

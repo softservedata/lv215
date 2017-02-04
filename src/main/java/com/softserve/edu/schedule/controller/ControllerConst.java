@@ -231,114 +231,100 @@ public interface ControllerConst {
     }
 
     /**
-     * An interface to storage location controller model attributes and mappings
-     * URL.
-     *
-     * @version 1.0 20 January 2017
-     *
-     * @author Oleksandr Butyter
-     */
-    public interface LocationControllerConst {
+	 * An interface to storage location controller model attributes and mappings
+	 * URL.
+	 *
+	 * @version 1.0 20 January 2017
+	 *
+	 * @author Oleksandr Butyter
+	 */
+	public interface LocationControllerConst {
 
-        String FILTER_MODEL_ATTR = "locationFilter";
+		/**
+		 * Filter model attribute name.
+		 */
+		String FILTER_MODEL_ATTR = "locationFilter";
 
-        String LOCATION_PAGINATOR_MODEL_ATTR = "locationPaginator";
-        /**
-         * Search model attribute name.
-         */
-        String SEARCH_MODEL_ATTR = "search";
+		/**
+		 * Paginator model attribute name.
+		 */
+		String LOCATION_PAGINATOR_MODEL_ATTR = "locationPaginator";
 
-        /**
-         * Locations model attribute name.
-         */
-        String LOCATIONS_MODEL_ATTR = "locations";
+		/**
+		 * Locations model attribute name.
+		 */
+		String LOCATIONS_MODEL_ATTR = "locations";
 
-        /**
-         * Location form model attribute name.
-         */
-        String LOCATION_FORM_MODEL_ATTR = "locationForm";
+		/**
+		 * Location form model attribute name.
+		 */
+		String LOCATION_FORM_MODEL_ATTR = "locationForm";
 
-        /**
-         * Locations list URL.
-         */
-        String LOCATIONS_LIST_URL = "locations/list";
+		/**
+		 * Location map model attribute name.
+		 */
+		String LOCATION_MAP_MODEL_ATTR = "map";
+		
+		/**
+		 * Locations list URL.
+		 */
+		String LOCATIONS_LIST_URL = "locations/list";
 
-        /**
-         * Locations list redirect URL.
-         */
-        String LOCATIONS_REDIRECT_URL = "redirect:/locations";
+		/**
+		 * Locations list redirect URL.
+		 */
+		String LOCATIONS_REDIRECT_URL = "redirect:/locations";
 
-        /**
-         * Create new location URL.
-         */
-        String LOCATION_CREATE_URL = "locations/create";
+		/**
+		 * Create new location URL.
+		 */
+		String LOCATION_CREATE_URL = "locations/create";
 
-        /**
-         * Edit location information URL.
-         */
-        String LOCATION_EDIT_URL = "locations/edit";
+		/**
+		 * Edit location information URL.
+		 */
+		String LOCATION_EDIT_URL = "locations/edit";
 
-        /**
-         * Locations mapping URL.
-         */
-        String LOCATIONS_MAPPING = "/locations";
+		/**
+		 * Map location URL.
+		 */
+		String LOCATION_MAP_URL = "locations/map";
+		
+		/**
+		 * Locations mapping URL.
+		 */
+		String LOCATIONS_MAPPING = "/locations";
 
-        /**
-         * Locations sort by name (asc) mapping URL.
-         */
-        String LOCATIONS_SORT_BY_NAME_ASC_MAPPING = "/locations/sortbynameasc";
+		/**
+		 * Locations sort by count rooms (asc) mapping URL.
+		 */
+		String LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING = "/locations/sortbycountroomsasc";
 
-        /**
-         * Locations sort by name (desc) mapping URL.
-         */
-        String LOCATIONS_SORT_BY_NAME_DESC_MAPPING = "/locations/sortbynamedesc";
+		/**
+		 * Locations sort by count rooms (desc) mapping URL.
+		 */
+		String LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING = "/locations/sortbycountroomsdesc";
 
-        /**
-         * Locations sort by address (asc) mapping URL.
-         */
-        String LOCATIONS_SORT_BY_ADDRESS_ASC_MAPPING = "/locations/sortbyaddressasc";
+		/**
+		 * Delete location mapping URL name.
+		 */
+		String LOCATION_DELETE_MAPPING = "/locations/delete/";
 
-        /**
-         * Locations sort by address (desc) mapping URL.
-         */
-        String LOCATIONS_SORT_BY_ADDRESS_DESC_MAPPING = "/locations/sortbyaddressdesc";
+		/**
+		 * Create new location mapping URL name.
+		 */
+		String LOCATION_CREATE_MAPPING = "/locations/create";
 
-        /**
-         * Locations sort by count rooms (asc) mapping URL.
-         */
-        String LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING = "/locations/sortbycountroomsasc";
+		/**
+		 * Edit location information mapping URL name.
+		 */
+		String LOCATION_EDIT_MAPPING = "/locations/edit/";
 
-        /**
-         * Locations sort by count rooms (desc) mapping URL.
-         */
-        String LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING = "/locations/sortbycountroomsdesc";
-
-        /**
-         * Locations search by name mapping URL.
-         */
-        String LOCATIONS_SEARCH_BY_NAME_MAPPING = "/locations/searchByName";
-
-        /**
-         * Locations search by address mapping URL.
-         */
-        String LOCATIONS_SEARCH_BY_ADDRESS_MAPPING = "/locations/searchByAddress";
-
-        /**
-         * Delete location mapping URL name.
-         */
-        String LOCATION_DELETE_MAPPING = "/locations/delete/";
-
-        /**
-         * Create new location mapping URL name.
-         */
-        String LOCATION_CREATE_MAPPING = "/locations/create";
-
-        /**
-         * Edit location information mapping URL name.
-         */
-        String LOCATION_EDIT_MAPPING = "/locations/edit/";
-
-    }
+		/**
+		 * Map location mapping URL name.
+		 */
+		String LOCATION_MAP_MAPPING = "/locations/map/";
+	}
 
     public interface SubjectControllerConst {
 

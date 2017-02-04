@@ -1,4 +1,6 @@
+
 /* Validate 1.0 01/29/2017 */
+
 package com.softserve.edu.schedule.service.implementation.validators;
 
 import java.lang.annotation.ElementType;
@@ -19,6 +21,7 @@ import javax.validation.Payload;
  *
  * @since 1.8
  */
+
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {RoomValidator.class, SubjectValidator.class,

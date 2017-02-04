@@ -1,4 +1,5 @@
-/* DateEditor 1.0 01/17/2017 */
+
+/* Date editor class*/
 package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
@@ -8,12 +9,12 @@ import java.time.format.DateTimeParseException;
 import org.springframework.stereotype.Service;
 
 /**
- * A class to provide conversion operations from form field date to LocalDate
- * type.
+ * A class to provide conversion operations from form field text date to the
+ * date.
  *
  * @version 1.0 17 January 2017
  *
- * @author Petro Zelyonka
+ * @author Bohdan Melnyk
  *
  * @since 1.8
  */
@@ -31,6 +32,7 @@ public class DateEditor extends PropertyEditorSupport {
      */
     @Override
     public void setAsText(final String text) throws IllegalArgumentException {
+
         if (text != null && !text.isEmpty()) {
             try {
                 setValue(LocalDate.parse(text));

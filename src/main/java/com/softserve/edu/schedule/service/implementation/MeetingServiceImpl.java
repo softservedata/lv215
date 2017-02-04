@@ -22,12 +22,14 @@ import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.dto.MeetingDTO;
+import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForCalendarDTOConverter;
 
 /**
  * This is implementation of the interface for managing Meetings Service.
@@ -35,14 +37,13 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTO
  * @version 1.0 12.12.2016
  * @author IT Academy
  */
-
 @Transactional
 @Service
 @PerfomanceLoggable
 public class MeetingServiceImpl implements MeetingService {
 
     /**
-     * Field for meetingDAO.
+     * Field for MeetingDTOConverter.
      */
     @Autowired
     private MeetingDAO meetingDao;
@@ -52,6 +53,12 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Autowired
     private MeetingDTOConverter meetingDTOConverter;
+
+    /**
+     * Field for MeetingForCalendarDTOConverter.
+     */
+    @Autowired
+    private MeetingForCalendarDTOConverter meetingForCalendarDTOConverter;
 
     /**
      * Field for MeetingsForRoomDTOConverter.
@@ -118,7 +125,6 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingDao.getAll().stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
-
     }
 
     /*
@@ -143,7 +149,6 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void deleteById(final Long id) {
         meetingDao.deleteById(id);
-
     }
 
     /*
@@ -199,11 +204,18 @@ public class MeetingServiceImpl implements MeetingService {
      * .softserve.edu.schedule.entity.Meeting,
      * com.softserve.edu.schedule.entity.MeetingStatus)
      */
-
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
         meetingDao.changeMeetingStatus(id, meetingStatus);
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#DublicatesOfGivenDTO(
+     * com.softserve.edu.schedule.dto.MeetingDTO)
+     */
 
     @Transactional(readOnly = true)
     public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO) {
@@ -217,16 +229,18 @@ public class MeetingServiceImpl implements MeetingService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Find all meetings in the DB by given date and roomId.
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#
+     * getMeetingStatusDuringCreation(com.softserve.edu.schedule.dto.MeetingDTO)
+     * ======= /** Find all meetings in the DB by given date and roomId.
      *
      * @author Petro Zelyonka
      *
-     * @param roomId
-     *            room id for find meetings
+     * @param roomId room id for find meetings
      *
-     * @param date
-     *            date for find meetings
+     * @param date date for find meetings
      *
      * @return List of the MeetingCompactDTO objects.
      */
@@ -248,6 +262,7 @@ public class MeetingServiceImpl implements MeetingService {
      *            given meeting DTO
      *
      * @return correct MeetingStatus
+     * 
      */
     @Override
     @Transactional(readOnly = true)
@@ -261,5 +276,15 @@ public class MeetingServiceImpl implements MeetingService {
             return MeetingStatus.APPROVED;
         }
         return MeetingStatus.NOT_APPROVED;
+    }
+
+    @Override
+    public List<MeetingForCalendarDTO> getMeetingsInInterval(String start,
+            String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        return meetingDao.getMeetingsInInterval(startDate, endDate).stream()
+                .map(e -> meetingForCalendarDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
     }
 }

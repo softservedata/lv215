@@ -31,7 +31,8 @@
 				<spring:message code="lbl.meeting.edit" />
 
 			</h3>
-			<form:form role="form" method="post" modelAttribute="meetingForm">
+			<form:form role="form" method="post" modelAttribute="meetingForm"
+				onsubmit="return isValidForm()">
 				<form:input path="id" type="hidden" />
 
 
@@ -91,6 +92,7 @@
 						placeholder="YYYY-MM-DD" required="true" />
 					<br>
 					<form:errors path="date" class="text-danger" />
+					<p id="datevalidator"></p>
 				</div>
 				<div class="form-group">
 					<label for="startTime"><spring:message
@@ -108,13 +110,15 @@
 						placeholder="HH:MM" required="true" />
 					<br>
 					<form:errors path="endTime" class="text-danger" />
-					<p id="timevalidator"></p>
+					<p id="timevalidator" title="invalidName"></p>
 				</div>
 				<div class="form-group">
 					<label for="groups"><spring:message
 							code="lbl.meeting.groups" /></label>
-					<form:select class="form-control" path="groups" id="groups" required="true"
-						multiple="multiple">
+					<form:select class="form-control" path="groups" id="groups"
+						required="true"
+						oninvalid="this.setCustomValidity('${invalidName}')"
+						oninput="setCustomValidity('')" multiple="multiple">
 						<c:forEach items="${groups}" var="group">
 							<c:set var="found" value="false" />
 							<c:forEach items="${meetingForm.groups}" var="groupsInMeeting">
@@ -131,7 +135,7 @@
 						</c:forEach>
 					</form:select>
 					<br>
-					
+
 					<form:errors path="groups" class="text-danger" />
 				</div>
 				<div class="form-group">
@@ -169,7 +173,7 @@
 								<c:otherwise>
 									<c:if test="${status.ordinal() ne 2}">
 										<option value="${status}"><spring:message
-											code="${status.getMessageCode()}" /></option>
+												code="${status.getMessageCode()}" /></option>
 									</c:if>
 								</c:otherwise>
 							</c:choose>
@@ -179,9 +183,9 @@
 
 				</div>
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-default" onclick="func()"
-						id="timeerror" value="<spring:message code="lbl.form.save"/>">
-					<a class="btn btn-default"
+					<input type="submit" class="btn btn-default" id="timeerror"
+						value="<spring:message code="lbl.form.save"/>"> <a
+						class="btn btn-default"
 						href="/schedule/meetings/edit/${meetingForm.id}"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
 						href="${pageContext.request.contextPath}/meetings"><spring:message
@@ -193,11 +197,24 @@
 	</div>
 </div>
 <script>
-	function func() {
-		var x = document.getElementById("startTime").value;
-		var y = document.getElementById("endTime").value;
-		if (x > y) {
+	//Expect input as d/m/y
+	function isValidDate(s) {
+		var bits = s.split('/');
+		var d = new Date(bits[2], bits[1] - 1, bits[0]);
+		return d && (d.getMonth() + 1) == bits[1];
+	}
+	function isValidForm() {
+		var startTimeMeeting = document.getElementById("startTime").value;
+		var endTimeMeeting = document.getElementById("endTime").value;
+		if (startTimeMeeting > endTimeMeeting) {
 			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
+			return false;
 		}
+		// Valdating the date insert. It should has format: mm/dd/yyyy. If not, it not valid.
+		/* if (!(isValidDate(document.getElementById("date").value))) {
+			document.getElementById("datevalidator").innerHTML = "Invalid date. It should has format: dd/mm/yyyy.";
+			return false;
+		} */
+		return true;
 	}
 </script>

@@ -103,7 +103,13 @@ table>tbody>tr>.v-alighn {
 
 .panel-default {
 	background-color: rgba(255, 255, 255, 0.9);
-	margin-top: 50px;
+	margin-top: 60px;
+}
+
+#geo-error {
+	position: fixed; 
+	top: 55px; 
+	width: 90%; 
 }
 
 textarea {
@@ -116,7 +122,11 @@ textarea {
 }
 
 .panel-map {
-	margin-top: 50px;
+	margin-top: 60px;
+}
+
+.panel-exit {
+	margin-top: 60px;
 }
 
 .class-date {
@@ -156,6 +166,10 @@ textarea {
 	width: 60px;
 }
 
-.input-name {	
+.input-name {
 	width: 130px;
+}
+
+#calendar {
+	margin-top: 20px;
 }

@@ -7,7 +7,7 @@ import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.entity.Meeting;
 
 /**
- * A class to provide conversion operations between MeetingForMailDTO and
+ * A class to provide conversion operations between MeetingCompactDTO and
  * Meeting entity.
  *
  * @version 1.0 22 January 2017

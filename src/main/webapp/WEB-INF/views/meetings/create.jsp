@@ -30,7 +30,8 @@
 			<h3 class="text-center">
 				<spring:message code="lbl.meeting.create" />
 			</h3>
-			<form:form role="form" method="post" modelAttribute="meetingForm">
+			<form:form role="form" method="post" modelAttribute="meetingForm"
+				onsubmit="return isValidForm()">
 				<form:input path="id" type="hidden" />
 
 
@@ -65,9 +66,11 @@
 					<label for="date"><spring:message code="lbl.meeting.date" /></label>
 					<spring:message code="lbl.meeting.dates" var="datetemp" />
 					<form:input type="date" path="date" id="date"
-						placeholder="${datetemp}" required="true" />
+						placeholder="YYYY-MM-DD" required="true"
+						 />
 					<br>
 					<form:errors path="date" class="text-danger" />
+					<p id="datevalidator"></p>
 				</div>
 				<div class="form-group">
 					<label for="startTime"><spring:message
@@ -84,6 +87,7 @@
 						placeholder="HH:MM" required="true" />
 					<br>
 					<form:errors path="endTime" class="text-danger" />
+					<p id="timevalidator"></p>
 				</div>
 				<div class="form-group">
 					<label for="groups"><spring:message
@@ -105,7 +109,6 @@
 							</c:if>
 						</c:forEach>
 					</form:select>
-
 					<form:errors path="groups" class="text-danger" />
 				</div>
 				<div class="form-group">
@@ -126,8 +129,10 @@
 						title="Blah" />
 					<form:errors path="description" class="text-danger" />
 				</div>
+
+
 				<div class="form-group text-center">
-					<input type="submit" class="btn btn-default" onclick="func()"
+					<input type="submit" class="btn btn-default"
 						value="<spring:message code="lbl.form.save"/>"> <a
 						class="btn btn-default" href="/schedule/meetings/create"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
@@ -140,12 +145,27 @@
 		</div>
 	</div>
 </div>
+<!-- Validation   -->
 <script>
-	function func() {
-		var x = document.getElementById("startTime").value;
-		var y = document.getElementById("endTime").value;
-		if (x > y) {
+	//Expect input as d/m/y
+	function isValidDate(s) {
+		var bits = s.split('/');
+		var d = new Date(bits[2], bits[1] - 1, bits[0]);
+		return d && (d.getMonth() + 1) == bits[1];
+	}
+
+	function isValidForm() {
+		var startTimeMeeting = document.getElementById("startTime").value;
+		var endTimeMeeting = document.getElementById("endTime").value;
+		if (startTimeMeeting > endTimeMeeting) {
 			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
+			return false;
 		}
+		// Valdating the date insert. It should has format: mm/dd/yyyy. If not, it not valid.
+		/* if (!isValidDate(document.getElementById("date").value)) {
+			document.getElementById("datevalidator").innerHTML = "Invalid date. It should has format: dd/mm/yyyy.";
+			return false;
+		} */
+		return true;
 	}
 </script>
