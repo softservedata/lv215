@@ -1,4 +1,4 @@
-/* RoomValidator 1.0 01/29/2017 */
+/*AllPagesValidator 1.0 01/29/2017 */
 package com.softserve.edu.schedule.service.implementation.validators;
 
 import static java.lang.annotation.ElementType.TYPE;

@@ -28,7 +28,6 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  * @version 1.0 12.12.2016
  * @author IT Academy
  */
-
 public interface MeetingService {
 
     /**
@@ -48,6 +47,13 @@ public interface MeetingService {
      */
     public MeetingDTO getById(final Long id);
 
+    /**
+     * Gives MeetingStatus by given String name.
+     * 
+     * @param status
+     *            name of status
+     * @return MeetingStatus object.
+     */
     public MeetingStatus getStatusbyString(final String status);
 
     /**
@@ -82,11 +88,20 @@ public interface MeetingService {
      */
     public void deleteById(final Long id);
 
+    /**
+     * Returns List of MeetingDTO by given filter and paginator for Room page.
+     * 
+     * @param meetingFilter
+     *            filter for meetings.
+     * @param roomPaginator
+     *            Roompaginator for meetings.
+     * @return List of MeetingDTO
+     */
     public List<MeetingDTO> getMeetingPageWithFilter(
             final MeetingFilter meetingFilter, final Paginator roomPaginator);
 
     /**
-     * Return a List of sorted Meeting transfer objects.
+     * Returns a List of sorted Meeting transfer objects.
      *
      * @param field
      *            for sort
@@ -135,7 +150,19 @@ public interface MeetingService {
     public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId,
             LocalDate date);
 
+    /**
+     * Returns the List of MeetingDTO, that duplicates given MeetingDTO.
+     * 
+     * @param meetingDTO
+     * @return List of MeetingDTO
+     */
     public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO);
 
-    MeetingStatus getMeetingStatusDuringCreation(MeetingDTO meetingDTO);
+    /**
+     * Returns MeetingStatus of meeting during process of Meeting creation.
+     * 
+     * @param meetingDTO
+     * @return MeetingStatus
+     */
+    MeetingStatus getMeetingStatusDuringCreation(final MeetingDTO meetingDTO);
 }

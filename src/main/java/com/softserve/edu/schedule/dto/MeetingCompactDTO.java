@@ -13,7 +13,7 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  *
  * @version 1.0 22 January 2017
  *
- * @author Petro Zelyonka
+ * @author Bohdan Melnyk
  *
  * @since 1.8
  */
@@ -198,5 +198,4 @@ public class MeetingCompactDTO {
     public void setStatus(MeetingStatus status) {
         this.status = status;
     }
-
 }

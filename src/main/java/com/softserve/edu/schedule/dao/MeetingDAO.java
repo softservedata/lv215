@@ -27,6 +27,13 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  */
 public interface MeetingDAO extends CrudDAO<Meeting> {
 
+    /**
+     * Returns List of Meetings by given MeetingFilter and Paginator.
+     * 
+     * @param meetingFilter
+     * @param meetingPaginator
+     * @return List of Meetings
+     */
     public List<Meeting> getMeetingPageWithFilter(
             final MeetingFilter meetingFilter,
             final Paginator meetingPaginator);
@@ -50,8 +57,22 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus);
 
+    /**
+     * Gives MeetingStatus by given String name.
+     * 
+     * @param status
+     *            name of status
+     * @return MeetingStatus object.
+     */
     public MeetingStatus getStatusbyString(final String status);
 
+    /**
+     * Returns the List of MeetingDTO, that duplicates given Meetings fields.
+     * 
+     * @param Meetings
+     *            fields
+     * @return List of Meeting
+     */
     public List<Meeting> dublicatesOfGivenFields(final String subjectName,
             final String OwnerName, final String roomName,
             final LocalDate localDate, final LocalTime localTime);
@@ -98,7 +119,8 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      * 
      * @return List of the Meeting objects.
      */
-    public List<Meeting> getApprovedMeetingsByRoomIdAndTime(Long roomId,
-            LocalDate date, LocalTime startTime, LocalTime endTime);
+    public List<Meeting> getApprovedMeetingsByRoomIdAndTime(final Long roomId,
+            final LocalDate date, final LocalTime startTime,
+            final LocalTime endTime);
 
 }

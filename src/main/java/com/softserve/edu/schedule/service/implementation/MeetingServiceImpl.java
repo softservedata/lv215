@@ -35,18 +35,20 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTO
  * @version 1.0 12.12.2016
  * @author IT Academy
  */
-
 @Transactional
 @Service
 @PerfomanceLoggable
 public class MeetingServiceImpl implements MeetingService {
 
     /**
-     * Field for meetingDAO.
+     * Field for MeetingDTOConverter.
      */
     @Autowired
     private MeetingDAO meetingDao;
 
+    /**
+     * Field for MeetingDTOConverter.
+     */
     @Autowired
     private MeetingDTOConverter meetingDTOConverter;
 
@@ -115,7 +117,6 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingDao.getAll().stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
-
     }
 
     /*
@@ -140,7 +141,6 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void deleteById(final Long id) {
         meetingDao.deleteById(id);
-
     }
 
     /*
@@ -196,7 +196,6 @@ public class MeetingServiceImpl implements MeetingService {
      * .softserve.edu.schedule.entity.Meeting,
      * com.softserve.edu.schedule.entity.MeetingStatus)
      */
-
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
         meetingDao.changeMeetingStatus(id, meetingStatus);
@@ -221,6 +220,13 @@ public class MeetingServiceImpl implements MeetingService {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#DublicatesOfGivenDTO(
+     * com.softserve.edu.schedule.dto.MeetingDTO)
+     */
     @Transactional(readOnly = true)
     public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO) {
         return meetingDao
@@ -233,6 +239,12 @@ public class MeetingServiceImpl implements MeetingService {
                 .collect(Collectors.toList());
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#
+     * getMeetingStatusDuringCreation(com.softserve.edu.schedule.dto.MeetingDTO)
+     */
     @Override
     @Transactional(readOnly = true)
     public MeetingStatus getMeetingStatusDuringCreation(
