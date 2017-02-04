@@ -30,12 +30,12 @@ public class RoomEquipmentDTOEditor extends PropertyEditorSupport {
     /**
      * Provides a RoomEquipmentDTO example by given room equipment id in String
      * format.
-     * 
+     *
      * @param roomEquipmentId
      *            a room equipment id in String format
-     * 
+     *
      * @throws IllegalArgumentException
-     *             if @param roomEquipmentId is not String.
+     *             if roomEquipmentId is not String.
      */
     @Override
     public void setAsText(final String roomEquipmentId)

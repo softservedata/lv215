@@ -35,14 +35,14 @@ public class LocationDTOConverter {
     private RoomDAO roomDAO;
 
     /**
-     * Convert given LocationDTO object to Location object
-     * 
+     * Convert given LocationDTO object to Location object.
+     *
      * @param locationDTO
      *            a LocationDTO object to convert.
-     * 
-     * @return a Location object or null if given @param locationDTO is null.
+     *
+     * @return a Location object or null if given locationDTO is null.
      */
-    public Location getEntity(LocationDTO locationDTO) {
+    public Location getEntity(final LocationDTO locationDTO) {
         if (locationDTO != null) {
             Location location = new Location();
             location.setId(locationDTO.getId());
@@ -58,13 +58,13 @@ public class LocationDTOConverter {
 
     /**
      * Convert given Location object to LocationDTO object.
-     * 
+     *
      * @param location
      *            a Location object to convert.
-     * 
-     * @return a LocationDTO object or null if given @param location is null.
+     *
+     * @return a LocationDTO object or null if given location is null.
      */
-    public LocationDTO getDTO(Location location) {
+    public LocationDTO getDTO(final Location location) {
         if (location != null) {
             LocationDTO locationDTO = new LocationDTO();
             locationDTO.setId(location.getId());

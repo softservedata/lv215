@@ -23,6 +23,11 @@
 		<put-attribute name="body" value="/WEB-INF/views/login.jsp" />
 	</definition>
 
+	<definition name="calendar" extends="common">
+		<put-attribute name="title" value="Calendar" />
+		<put-attribute name="body" value="/WEB-INF/views/calendar/calendar.jsp" />
+	</definition>
+
 	<definition extends="common" name="rooms/list">
 		<put-attribute name="title" value="Rooms" />
 		<put-attribute name="body" value="/WEB-INF/views/rooms/list.jsp" />

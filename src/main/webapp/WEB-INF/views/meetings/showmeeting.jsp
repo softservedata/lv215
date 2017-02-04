@@ -95,7 +95,7 @@
 				</div>
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.status" /></b> :
-					${meetingForm.status}
+					<spring:message code="${meetingForm.status.getMessageCode()}" />
 				</div>
 			</form:form>
 		</div>

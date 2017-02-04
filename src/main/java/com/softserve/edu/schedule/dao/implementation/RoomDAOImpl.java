@@ -12,7 +12,6 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.softserve.edu.schedule.aspect.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -30,28 +29,15 @@ import com.softserve.edu.schedule.service.implementation.specification.RoomFilte
  *
  * @since 1.8
  */
-@PerfomanceLoggable
 @Repository
 public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
-
-    /**
-     * Deleting Room object from database. Don't touch this method -it has
-     * aspects attached.
-     *
-     * @param room
-     *            - Transfer object
-     */
-    @Override
-    public void delete(Room room) {
-        super.delete(room);
-    }
 
     /**
      * RoomEquipmentDAO example to provide database operations.
      *
      */
     @Autowired
-    RoomEquipmentDAO roomEquipmentDAO;
+    private RoomEquipmentDAO roomEquipmentDAO;
 
     /**
      * Default constructor to provide entity class for DAO.
@@ -69,7 +55,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
      * @return room with given id
      */
     @Override
-    public Room getById(Long id) {
+    public Room getById(final Long id) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Room> cq = builder.createQuery(Room.class);
         Root<Room> root = cq.from(Room.class);
@@ -101,10 +87,10 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
      *
      * @param roomName
      *            a room name to find in the database.
-     * 
+     *
      * @param locationId
      *            a location id to find room.
-     * 
+     *
      * @return List of rooms with given name and location Id.
      */
     @Override
@@ -125,7 +111,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     }
 
     /**
-     * Find all rooms entities in the database with applied filter
+     * Find all rooms entities in the database with applied filter.
      *
      * @param roomFilter
      *            a filter to apply.
@@ -144,10 +130,32 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
             criteriaQuery.where(predicate);
         }
         criteriaQuery.distinct(true);
-        roomPaginator.setPagesCount(
-                getEm().createQuery(criteriaQuery).getResultList().size());
+        roomPaginator.setPagesCount(getCountOfRoomsWithFilter(roomFilter));
         return getEm().createQuery(criteriaQuery)
                 .setFirstResult(roomPaginator.getOffset())
                 .setMaxResults(roomPaginator.getPageSize()).getResultList();
+    }
+
+    /**
+     * Count rooms entities in the database with specified predicate.
+     *
+     * @param roomFilter
+     *            a filter to apply.
+     *
+     * @return Count of the room entities in the database with specified
+     *         predicate.
+     */
+    @Override
+    public Long getCountOfRoomsWithFilter(final RoomFilter roomFilter) {
+        CriteriaBuilder qb = getEm().getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        Root<Room> root = cq.from(Room.class);
+        cq.select(qb.countDistinct(root));
+        Predicate predicate = new RoomFilterSpecification(roomFilter,
+                roomEquipmentDAO).toPredicate(root, cq, qb);
+        if (predicate != null) {
+            cq.where(predicate);
+        }
+        return getEm().createQuery(cq).getSingleResult();
     }
 }

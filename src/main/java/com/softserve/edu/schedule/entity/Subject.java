@@ -99,7 +99,7 @@ public class Subject {
      * @param id
      *            the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -107,7 +107,7 @@ public class Subject {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -115,7 +115,7 @@ public class Subject {
      * @param description
      *            the description to set
      */
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -123,7 +123,7 @@ public class Subject {
      * @param users
      *            the users to set
      */
-    public void setUsers(List<User> users) {
+    public void setUsers(final List<User> users) {
         this.users = users;
     }
 
@@ -131,7 +131,7 @@ public class Subject {
      * @param meetings
      *            the meetings to set
      */
-    public void setMeetings(List<Meeting> meetings) {
+    public void setMeetings(final List<Meeting> meetings) {
         this.meetings = meetings;
     }
 }

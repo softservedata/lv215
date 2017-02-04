@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.RoomEquipmentDAO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
@@ -15,7 +16,8 @@ import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomEquipmentDTOConverter;
 
 @Transactional
-@Service("roomEquipmentService")
+@Service
+@PerfomanceLoggable
 public class RoomEquipmentServiceImpl implements RoomEquipmentService {
 
     @Autowired

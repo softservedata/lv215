@@ -20,7 +20,7 @@ public class DateFilter {
     private LocalDate date;
 
     /**
-     * Constructor of DateFilter
+     * Constructor of DateFilter.
      */
     public DateFilter() {
         this.date = LocalDate.now();
@@ -37,7 +37,7 @@ public class DateFilter {
      * @param date
      *            the date to set
      */
-    public void setDate(LocalDate date) {
+    public void setDate(final LocalDate date) {
         this.date = date;
     }
 }

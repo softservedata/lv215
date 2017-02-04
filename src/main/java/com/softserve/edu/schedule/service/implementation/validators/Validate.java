@@ -1,8 +1,10 @@
-/* RoomValidator 1.0 01/29/2017 */
+
+/* Validate 1.0 01/29/2017 */
+
 package com.softserve.edu.schedule.service.implementation.validators;
 
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.RetentionPolicy;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -12,23 +14,41 @@ import javax.validation.Payload;
 
 /**
  * The validator annotation for checking input data.
- * 
+ *
  * @version 1.0 29 January 2017
  *
  * @author Petro Zelyonka
  *
  * @since 1.8
  */
-@Target({ TYPE })
-@Retention(RUNTIME)
-@Constraint(validatedBy = { RoomValidator.class, SubjectValidator.class, MeetingValidator.class, UserValidator.class,
-		UserGroupValidator.class, LocationValidator.class })
+
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+@Constraint(validatedBy = {RoomValidator.class, SubjectValidator.class,
+        MeetingValidator.class, UserValidator.class, UserGroupValidator.class,
+        LocationValidator.class, UserPasswordValidator.class})
+
 public @interface Validate {
 
-	String message() default "";
+    /**
+     * Validation message.
+     *
+     * @return message text
+     */
+    String message() default "";
 
-	Class<?>[] groups() default {};
+    /**
+     * Validation groups.
+     *
+     * @return validation groups
+     */
+    Class<?>[] groups() default {};
 
-	Class<? extends Payload>[] payload() default {};
+    /**
+     * Validation payload.
+     *
+     * @return validation payload
+     */
+    Class<? extends Payload>[] payload() default {};
 
 }

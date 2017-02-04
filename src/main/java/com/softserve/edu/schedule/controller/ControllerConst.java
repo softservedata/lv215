@@ -13,17 +13,17 @@ package com.softserve.edu.schedule.controller;
 public interface ControllerConst {
 
     /**
-     * Application root URL
+     * Application root URL.
      */
     String ROOT_URL = "/";
 
     /**
-     * Index page URL
+     * Index page URL.
      */
     String INDEX_URL = "index";
 
     /**
-     * Error handling page URL
+     * Error handling page URL.
      */
     String ERROR_PAGE_URL = "error";
 
@@ -224,6 +224,10 @@ public interface ControllerConst {
         String SAVE_CHANGED_PASSWORD_MAPPING = "changePassword/saveChangePassword";
 
         String CHANGE_PASSWORD_URL = "users/users/changePassword";
+
+        String FILTER_MODEL_ATTR = "userFilter";
+
+        String USER_PAGINATOR_MODEL_ATTR = "userPaginator";
     }
 
     /**
@@ -413,7 +417,7 @@ public interface ControllerConst {
          * Subject field users.
          */
         String SUBJECT_PATH_USERS = "users";
-        
+
         /**
          * Subject field users.
          */
@@ -428,6 +432,12 @@ public interface ControllerConst {
      */
 
     public interface UserGroupControllerConst {
+
+        /**
+         * Filter attribute for groups.
+         */
+        String FILTER_MODEL_ATTR = "usergroupFilter";
+
         /**
          * UserGroup model attribute name.
          */
@@ -479,16 +489,6 @@ public interface ControllerConst {
         String SEARCH_MODEL_ATTR = "search";
 
         /**
-         * Groups searching by name mapping.
-         */
-        String USERGROUPS_SEARCH_BY_NAME_MAPPING = "/usergroups/searchByName";
-
-        /**
-         * Groups searching by curator mapping.
-         */
-        String USERGROUPS_SEARCH_BY_CURATOR_MAPPING = "/usergroups/searchByCurator";
-
-        /**
          * Curators attribute.
          */
         String USERGROUP_CURATORS_ATTR = "curators";
@@ -504,17 +504,17 @@ public interface ControllerConst {
         String USERGROUP_LEVEL_ATTR = "levels";
 
         /**
-         * Mapping on a usergroups page
+         * Mapping on a usergroups page.
          */
         String USERGROUP_MAPPING = "/usergroups";
 
         /**
-         * Path name
+         * Path name.
          */
         String USERGROUP_PATH_NAME = "name";
 
         /**
-         * Path curator's lastname
+         * Path curator's last name.
          */
         String USERGROUP_PATH_CURATOR_LASTNAME = "curator.lastName";
     }

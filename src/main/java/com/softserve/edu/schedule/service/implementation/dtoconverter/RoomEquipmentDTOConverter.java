@@ -20,15 +20,15 @@ import com.softserve.edu.schedule.entity.RoomEquipment;
 public class RoomEquipmentDTOConverter {
 
     /**
-     * Convert given RoomEquipmentDTO object to RoomEquipment object
-     * 
+     * Convert given RoomEquipmentDTO object to RoomEquipment object.
+     *
      * @param roomEquipmentDTO
      *            a RoomEquipmentDTO object to convert.
-     * 
+     *
      * @return a RoomEquipment object or null if given @param roomEquipmentDTO
      *         is null.
      */
-    public RoomEquipment getEntity(RoomEquipmentDTO roomEquipmentDTO) {
+    public RoomEquipment getEntity(final RoomEquipmentDTO roomEquipmentDTO) {
         if (roomEquipmentDTO != null) {
             RoomEquipment roomEquipment = new RoomEquipment();
             roomEquipment.setId(roomEquipmentDTO.getId());
@@ -40,14 +40,13 @@ public class RoomEquipmentDTOConverter {
 
     /**
      * Convert given RoomEquipment object to RoomEquipmentDTO object.
-     * 
+     *
      * @param roomEquipment
      *            a roomEquipment object to convert.
-     * 
-     * @return a RoomEquipmentDTO object or null if given @param roomEquipment
-     *         is null.
+     *
+     * @return a RoomEquipmentDTO object or null if given roomEquipment is null.
      */
-    public RoomEquipmentDTO getDTO(RoomEquipment roomEquipment) {
+    public RoomEquipmentDTO getDTO(final RoomEquipment roomEquipment) {
         if (roomEquipment != null) {
             RoomEquipmentDTO roomEquipmentDTO = new RoomEquipmentDTO();
             roomEquipmentDTO.setId(roomEquipment.getId());

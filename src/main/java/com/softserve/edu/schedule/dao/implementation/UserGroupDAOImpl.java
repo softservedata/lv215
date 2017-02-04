@@ -15,14 +15,19 @@ import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserGroupFilter;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.entity.User_;
+import com.softserve.edu.schedule.service.implementation.specification.UserGroupFilterSpecification;
 
 /**
  * A simple class to handle the database operation (CRUD).
@@ -31,101 +36,126 @@ import com.softserve.edu.schedule.entity.User_;
  * @author Zhydenko Andrii
  *
  */
-/**
- * @author Andrew
- *
- */
-/**
- * @author Andrew
- *
- */
 @Repository("userGroupDAO")
-public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup>
-        implements UserGroupDAO {
+public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGroupDAO {
 
-    /**
-     * Constructor of UserGroupDAOImpl
-     */
-    public UserGroupDAOImpl() {
-        super(UserGroup.class);
-    }
+	@Autowired
+	UserDAO userDAO;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getAll()
-     */
+	/**
+	 * Constructor of UserGroupDAOImpl
+	 */
+	public UserGroupDAOImpl() {
+		super(UserGroup.class);
+	}
 
-    @Override
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getAll()
+	 */
 
-    public List<UserGroup> getAll() {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-        Root<UserGroup> root = cq.from(UserGroup.class);
-        root.fetch(UserGroup_.curator, JoinType.LEFT);
-        root.fetch(UserGroup_.users, JoinType.LEFT);
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
-    }
+	@Override
 
-    /*
-     * (non-Javadoc)
-     *
-     * 
-     * @see com.softserve.edu.schedule.dao.UserGroupDAO#sortByFields(java.lang.
-     * String, com.softserve.edu.schedule.dao.Order)
-     */
-    @Override
-    public List<UserGroup> sortByFields(final String field, final Order order) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-        Root<UserGroup> root = cq.from(UserGroup.class);
-        root.fetch(UserGroup_.curator, JoinType.LEFT);
-        root.fetch(UserGroup_.users, JoinType.LEFT);
-        cq.distinct(true);
-        if (order == Order.ASC) {
-            cq.orderBy(builder.asc(root.get(field)));
-        } else {
-            cq.orderBy(builder.desc(root.get(field)));
-        }
-        return getEm().createQuery(cq).getResultList();
-    }
+	public List<UserGroup> getAll() {
+		CriteriaBuilder builder = getEm().getCriteriaBuilder();
+		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+		Root<UserGroup> root = cq.from(UserGroup.class);
+		root.fetch(UserGroup_.curator, JoinType.LEFT);
+		root.fetch(UserGroup_.users, JoinType.LEFT);
+		cq.distinct(true);
+		return getEm().createQuery(cq).getResultList();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getById(java.
-     * lang.Long)
-     */
-    @Override
-    public UserGroup getById(Long id) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-        Root<UserGroup> root = cq.from(UserGroup.class);
-        root.fetch(UserGroup_.users, JoinType.LEFT);
-        cq.where(root.get(UserGroup_.id).in(id));
-        return getEm().createQuery(cq).getSingleResult();
-    }
+	/*
+	 * (non-Javadoc)
+	 *
+	 * 
+	 * @see com.softserve.edu.schedule.dao.UserGroupDAO#sortByFields(java.lang.
+	 * String, com.softserve.edu.schedule.dao.Order)
+	 */
+	@Override
+	public List<UserGroup> sortByFields(final String field, final Order order) {
+		CriteriaBuilder builder = getEm().getCriteriaBuilder();
+		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+		Root<UserGroup> root = cq.from(UserGroup.class);
+		root.fetch(UserGroup_.curator, JoinType.LEFT);
+		root.fetch(UserGroup_.users, JoinType.LEFT);
+		cq.distinct(true);
+		if (order == Order.ASC) {
+			cq.orderBy(builder.asc(root.get(field)));
+		} else {
+			cq.orderBy(builder.desc(root.get(field)));
+		}
+		return getEm().createQuery(cq).getResultList();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.UserGroupDAO#searchGroupsByCurators(java.
-     * lang.String)
-     */
-    @Override
-    public List<UserGroup> searchGroupsByCurators(String pattern) {
-        // TODO Auto-generated method stub
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-        Root<UserGroup> root = cq.from(UserGroup.class);
-        Join<UserGroup, User> joinUser = root.join(UserGroup_.users);
-        Predicate predicate = builder.like(joinUser.get(User_.lastName),
-                SEARCH_MASK + pattern + SEARCH_MASK);
-        cq.where(predicate);
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getById(java.
+	 * lang.Long)
+	 */
+	@Override
+	public UserGroup getById(Long id) {
+		CriteriaBuilder builder = getEm().getCriteriaBuilder();
+		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+		Root<UserGroup> root = cq.from(UserGroup.class);
+		root.fetch(UserGroup_.users, JoinType.LEFT);
+		cq.where(root.get(UserGroup_.id).in(id));
+		return getEm().createQuery(cq).getSingleResult();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.dao.UserGroupDAO#searchGroupsByCurators(java.
+	 * lang.String)
+	 */
+	@Override
+	public List<UserGroup> searchGroupsByCurators(String pattern) {
+		CriteriaBuilder builder = getEm().getCriteriaBuilder();
+		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+		Root<UserGroup> root = cq.from(UserGroup.class);
+		Join<UserGroup, User> joinUser = root.join(UserGroup_.users);
+		Predicate predicate = builder.like(joinUser.get(User_.lastName), SEARCH_MASK + pattern + SEARCH_MASK);
+		cq.where(predicate);
+		cq.distinct(true);
+		return getEm().createQuery(cq).getResultList();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.dao.UserGroupDAO#getGroupsByLevel(java.lang.
+	 * Long)
+	 */
+	public List<UserGroup> getGroupsByLevel(final Long levelId) {
+		CriteriaBuilder builder = getEm().getCriteriaBuilder();
+		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+		Root<UserGroup> root = cq.from(UserGroup.class);
+		root.fetch(UserGroup_.users, JoinType.LEFT);
+		cq.where(root.get(UserGroup_.level).in(levelId));
+		return getEm().createQuery(cq).getResultList();
+	}
+
+	@Override
+	public List<UserGroup> getUserGroupPageWithFilter(UserGroupFilter userGroupFilter, Paginator userGroupPaginator) {
+		CriteriaBuilder builder = getEm().getCriteriaBuilder();
+		CriteriaQuery<UserGroup> criteriaQuery = builder.createQuery(UserGroup.class);
+		Root<UserGroup> root = criteriaQuery.from(UserGroup.class);
+
+		Predicate predicate = new UserGroupFilterSpecification(userGroupFilter).toPredicate(root, criteriaQuery,
+				builder);
+		if (predicate != null) {
+			criteriaQuery.where(predicate);
+		}
+		criteriaQuery.distinct(true);
+		userGroupPaginator.setPagesCount(getEm().createQuery(criteriaQuery).getResultList().size());
+		return getEm().createQuery(criteriaQuery).setFirstResult(userGroupPaginator.getOffset())
+				.setMaxResults(userGroupPaginator.getPageSize()).getResultList();
+	}
 }

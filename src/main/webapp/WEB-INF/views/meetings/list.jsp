@@ -6,12 +6,12 @@
 
 <script type="text/javascript">
 	$(function() {
-		$("select[name=subjectId]").chosen({width : "100%"});
-		$("select[name=ownerId]").chosen({width : "100%"});
-		$("select[name=roomId]").chosen({width : "100%"});
-		$("select[name=groups]").chosen({width : "100%"});
+		$("select[name=subjectId]").chosen({width : "100px"});
+		$("select[name=ownerId]").chosen({width : "150px"});
+		$("select[name=roomId]").chosen({width : "100px"});
+		$("select[name=groups]").chosen({width : "100px"});
 		$("select[name=status]").chosen({
-			width : "100%"
+			width : "120px"
 		});
 	})
 </script>
@@ -94,7 +94,7 @@
 
 			<form:form role="form" action="meetings" method="get"
 				modelAttribute="meetingFilter">
-				<form:input path="showFilter" type="hidden" value="true" />
+				
 
 				<!-- ID -->
 				<spring:message code="lbl.meeting.id" var="meetingid" />
@@ -183,10 +183,12 @@
 						<c:forEach items="${meetingStatuses}" var="status">
 							<c:choose>
 								<c:when test="${meetingFilter.status eq status.ordinal()}">
-									<option value="${status.ordinal()}" selected="selected">${status}</option>
+									<option value="${status.ordinal()}" selected="selected"><spring:message
+											code="${status.getMessageCode()}" /></option>
 								</c:when>
 								<c:otherwise>
-									<option value="${status.ordinal()}">${status}</option>
+									<option value="${status.ordinal()}"><spring:message
+											code="${status.getMessageCode()}" /></option>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -200,7 +202,7 @@
 				</td>
 			</form:form>
 			<td class="text-center v-alighn"><a
-				href="meetings?showFilter=false&id=&subjectId=0&ownerId=0&roomId=0&date=&startTime=&endTime=&_groups=1&level=&status=-1"
+				href="meetings?id=&subjectId=0&ownerId=0&roomId=0&date=&startTime=&endTime=&_groups=1&level=&status=-1"
 				title="resetFilter"> <i class="fa fa-times fa-lg"></i>
 			</a></td>
 		</tr>
@@ -223,7 +225,8 @@
 						<p>${group.name}</p>
 					</c:forEach></td>
 				<td>${meeting.level}</td>
-				<td>${meeting.status}</td>
+				<td><spring:message code="${meeting.status.getMessageCode()}" />
+				</td>
 				<td><a
 					href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"
 					onclick="return confirm('<spring:message code="lbl.room.deleteMeetingConfirm"/>');">
