@@ -1,3 +1,4 @@
+/* Meeting filter class. */
 package com.softserve.edu.schedule.dto.filter;
 
 import java.time.LocalDate;
@@ -7,40 +8,95 @@ import java.util.List;
 
 import com.softserve.edu.schedule.dto.UserGroupDTO;
 
+/**
+ * A DTO class to storage and transport filter data.
+ *
+ * @version 1.0 17 January 2017
+ *
+ * @author Bohdan Melnyk.
+ *
+ * @since 1.8
+ */
 public class MeetingFilter {
 
-    private String showFilter;
-
+    /**
+     * Meeting id for filter meetings.
+     */
     private Long id;
 
+    /**
+     * Meeting description for filter meetings.
+     */
     private String description;
 
+    /**
+     * Meeting subjectId for filter meetings.
+     */
     private Long subjectId;
 
+    /**
+     * Meeting ownerId for filter meetings.
+     */
     private Long ownerId;
 
+    /**
+     * Meeting roomId for filter meetings.
+     */
     private Long roomId;
 
+    /**
+     * Meeting List<UserGroupDTO> groups for filter meetings.
+     */
     private List<UserGroupDTO> groups = new ArrayList<>();
 
+    /**
+     * Meeting level for filter meetings.
+     */
     private Integer level;
 
+    /**
+     * Meeting date for filter meetings.
+     */
     private LocalDate date;
 
+    /**
+     * Meeting startTime for filter meetings.
+     */
     private LocalTime startTime;
 
+    /**
+     * Meeting endTime for filter meetings.
+     */
     private LocalTime endTime;
 
+    /**
+     * Meeting status for filter meetings. The value must be -1, to show empty
+     * field in filter menu.
+     */
     private int status = -1;
 
+    /**
+     * Sort Order for filter meetings.
+     */
     private int sortOrder;
 
+    /**
+     * Field for Sorting for filter meetings.
+     */
     private int fieldForSorting;
 
+    /**
+     * @return level
+     */
     public Integer getLevel() {
         return level;
     }
 
+    /**
+     * Set Level.
+     * 
+     * @param level
+     */
     public void setLevel(Integer level) {
         this.level = level;
     }
@@ -57,13 +113,6 @@ public class MeetingFilter {
      */
     public void setId(Long id) {
         this.id = id;
-    }
-
-    /**
-     * @return the showFilter
-     */
-    public String getShowFilter() {
-        return showFilter;
     }
 
     /**
@@ -145,14 +194,6 @@ public class MeetingFilter {
      */
     public int getFieldForSorting() {
         return fieldForSorting;
-    }
-
-    /**
-     * @param showFilter
-     *            the showFilter to set
-     */
-    public void setShowFilter(String showFilter) {
-        this.showFilter = showFilter;
     }
 
     /**

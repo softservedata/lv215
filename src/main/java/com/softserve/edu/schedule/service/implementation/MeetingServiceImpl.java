@@ -35,14 +35,13 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTO
  * @version 1.0 12.12.2016
  * @author IT Academy
  */
-
 @Transactional
 @Service
 @PerfomanceLoggable
 public class MeetingServiceImpl implements MeetingService {
 
     /**
-     * Field for meetingDAO.
+     * Field for MeetingDTOConverter.
      */
     @Autowired
     private MeetingDAO meetingDao;
@@ -118,7 +117,6 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingDao.getAll().stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
-
     }
 
     /*
@@ -143,7 +141,6 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void deleteById(final Long id) {
         meetingDao.deleteById(id);
-
     }
 
     /*
@@ -199,11 +196,18 @@ public class MeetingServiceImpl implements MeetingService {
      * .softserve.edu.schedule.entity.Meeting,
      * com.softserve.edu.schedule.entity.MeetingStatus)
      */
-
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
         meetingDao.changeMeetingStatus(id, meetingStatus);
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#DublicatesOfGivenDTO(
+     * com.softserve.edu.schedule.dto.MeetingDTO)
+     */
 
     @Transactional(readOnly = true)
     public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO) {
@@ -217,16 +221,18 @@ public class MeetingServiceImpl implements MeetingService {
                 .collect(Collectors.toList());
     }
 
-    /**
-     * Find all meetings in the DB by given date and roomId.
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#
+     * getMeetingStatusDuringCreation(com.softserve.edu.schedule.dto.MeetingDTO)
+     * ======= /** Find all meetings in the DB by given date and roomId.
      *
      * @author Petro Zelyonka
      *
-     * @param roomId
-     *            room id for find meetings
+     * @param roomId room id for find meetings
      *
-     * @param date
-     *            date for find meetings
+     * @param date date for find meetings
      *
      * @return List of the MeetingCompactDTO objects.
      */
@@ -247,7 +253,8 @@ public class MeetingServiceImpl implements MeetingService {
      * @param meetingDTO
      *            given meeting DTO
      *
-     * @return correct MeetingStatus
+     * @return correct MeetingStatus >>>>>>>
+     *         d11c436cda17c9bf3f6ebe584643ca2acad7a94d
      */
     @Override
     @Transactional(readOnly = true)

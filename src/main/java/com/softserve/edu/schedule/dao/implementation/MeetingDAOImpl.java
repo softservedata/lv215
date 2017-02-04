@@ -55,6 +55,7 @@ import com.softserve.edu.schedule.service.implementation.specification.MeetingFi
  */
 @Repository
 public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
+
     /**
      * Overridden default constructor to provide entity class for DAO.
      * 
@@ -63,9 +64,20 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         super(Meeting.class);
     }
 
+    /**
+     * UserGroupDAO example for further business logic.
+     */
     @Autowired
     UserGroupDAO userGroupDAO;
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#getMeetingPageWithFilter(com.
+     * softserve.edu.schedule.dto.filter.MeetingFilter,
+     * com.softserve.edu.schedule.dto.filter.Paginator)
+     */
     @Override
     public List<Meeting> getMeetingPageWithFilter(
             final MeetingFilter meetingFilter,
@@ -96,7 +108,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * lang.Long)
      */
     @Override
-    public Meeting getById(Long id) {
+    public Meeting getById(final Long id) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
@@ -160,10 +172,6 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      */
     @Override
     public void create(Meeting meeting) {
-        /*
-         * New meeting must has status = NOT_APPROVE.
-         */
-
         getEm().persist(meeting);
     }
 
@@ -181,6 +189,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         }
     }
 
+    /* (non-Javadoc)
+     * @see com.softserve.edu.schedule.dao.MeetingDAO#dublicatesOfGivenFields(java.lang.String, java.lang.String, java.lang.String, java.time.LocalDate, java.time.LocalTime)
+     */
     public List<Meeting> dublicatesOfGivenFields(final String subjectName,
             final String OwnerName, final String roomName,
             final LocalDate localDate, final LocalTime localTime) {
@@ -207,8 +218,6 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
         Predicate predicateStartTime = root.get(Meeting_.startTime)
                 .in(localTime);
-
-        // TODO by date
 
         Predicate predicateAll = builder.and(predicateSubject, predicateOwner,
                 predicateRoom, predicateDate, predicateStartTime);
