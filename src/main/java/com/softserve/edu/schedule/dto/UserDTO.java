@@ -3,12 +3,16 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.EntityListeners;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
+import com.softserve.edu.schedule.entitylisteners.UserRegistEntityListener;
 import com.softserve.edu.schedule.service.implementation.validators.Validate;
 
 /**

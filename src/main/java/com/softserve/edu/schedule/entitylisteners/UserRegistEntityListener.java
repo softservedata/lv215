@@ -4,18 +4,12 @@ import javax.persistence.PrePersist;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.service.implementation.mailsenders.RegistrationMailServise;
 
 public class UserRegistEntityListener {
-
-    /**
-     * MeetingCompactDTOConverter example to provide to DTO and from DTO
-     * conversion.
-     */
-//    @Autowired
-//    private UserDTOConverter userDTOConverter;
 
     /**
      * MeetingCanceledMailService example to provide send mail to user
@@ -32,8 +26,9 @@ public class UserRegistEntityListener {
      * 
      */
     @PrePersist
-    public void processingBeforUserRegistration(UserDTO userDTO) {
+    public void processingBeforUserRegistration(User user) {
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         registrationMailService.sendInfoMessageRegistration(
-                userDTO, LocaleContextHolder.getLocale());
+                user, LocaleContextHolder.getLocale());
     }
 }

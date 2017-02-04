@@ -12,11 +12,13 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
-import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.entity.User;
 
+@Component
 public class RegistrationMailServise implements MailConstants {
     /**
      * JavaMailSender example to provide mail sending.
@@ -50,17 +52,17 @@ public class RegistrationMailServise implements MailConstants {
      *            a DTO object which contains mail message parameters.
      */
     @Async
-    public void sendInfoMessageRegistration(final UserDTO userDTO,
+    public void sendInfoMessageRegistration(final User user,
             Locale locale) {
 
         Context ctx = new Context(locale);
-        ctx.setVariable(USER_MODEL_NAME, userDTO);
+        ctx.setVariable(USER_MODEL_NAME, user);
 
         try {
             MimeMessage mimeMessage = this.mailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true,
                     DEFAULT_MESSAGE_ENCODING);
-            message.setTo(new InternetAddress(userDTO.getMail()));
+            message.setTo(new InternetAddress(user.getMail()));
             message.setFrom(new InternetAddress(fromAddress));
             message.setSubject(messageSource.getMessage(
                     REGISTRATION_MESSAGE_SUBJECT, new String[0], locale));
