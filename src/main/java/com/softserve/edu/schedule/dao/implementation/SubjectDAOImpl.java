@@ -83,9 +83,32 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         }
         criteriaQuery.distinct(true);
         subjectPaginator
-                .setPagesCount(getEm().createQuery(criteriaQuery).getResultList().size());
+                .setPagesCount(getCountOfSubjectsWithFilter(subjectFilter));
         return getEm().createQuery(criteriaQuery)
                 .setFirstResult(subjectPaginator.getOffset())
                 .setMaxResults(subjectPaginator.getPageSize()).getResultList();
+    }
+
+    /**
+     * Count subjects entities in the database with specified filter
+     *
+     * @param predicate
+     *            a predicate to apply.
+     *
+     * @return Count of the subject entities in the database with specified
+     *         predicate.
+     */
+    @Override
+    public Long getCountOfSubjectsWithFilter(SubjectFilter subjectFilter) {
+        CriteriaBuilder cb = getEm().getCriteriaBuilder();
+        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+        Root<Subject> root = cq.from(Subject.class);
+        cq.select(cb.countDistinct(root));
+        Predicate predicate = new SubjectFilterSpecification(subjectFilter,
+                userDao).toPredicate(root, cq, cb);
+        if (predicate != null) {
+            cq.where(predicate);
+        }
+        return getEm().createQuery(cq).getSingleResult();
     }
 }
