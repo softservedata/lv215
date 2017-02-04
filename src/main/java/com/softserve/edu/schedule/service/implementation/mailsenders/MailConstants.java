@@ -31,6 +31,11 @@ public interface MailConstants {
      * Meeting cancelled message template for EN locale location.
      */
     String MEETING_CANCELLED_TEMPLATE = "meetingCancelledDueRoomUnavailability";
+    
+    /**
+     * Meeting cancelled message template for EN locale location.
+     */
+    String MEETING_CANCELLED_BY_SUBJECT_TEMPLATE = "meetingCanceledDueSubjectDelete";
 
     /**
      * Model name for meeting cancelled template.

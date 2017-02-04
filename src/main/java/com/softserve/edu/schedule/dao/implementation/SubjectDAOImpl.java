@@ -21,6 +21,7 @@ import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.SubjectFilter;
+import com.softserve.edu.schedule.entity.Meeting_;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.service.implementation.specification.SubjectFilterSpecification;
@@ -59,6 +60,21 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
         root.fetch(Subject_.users, JoinType.LEFT);
         cq.where(builder.like(root.get(Subject_.name), subjectName));
         return getEm().createQuery(cq).getResultList();
+    }
+
+    /**
+     * Return a searched Subject.
+     *
+     * @return searched Subject
+     */
+    @Override
+    public Subject getSubjectsWithMeetingDetailsById(final Long id) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
+        Root<Subject> root = cq.from(Subject.class);
+        root.join(Subject_.meetings, JoinType.LEFT).join(Meeting_.owner, JoinType.LEFT);
+        cq.where(builder.equal(root.get(Subject_.id), id));
+        return getEm().createQuery(cq).getSingleResult();
     }
 
     /**

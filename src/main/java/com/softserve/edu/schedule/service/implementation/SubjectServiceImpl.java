@@ -6,7 +6,6 @@
  */
 package com.softserve.edu.schedule.service.implementation;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,7 +20,6 @@ import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.SubjectFilter;
-import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.SubjectDTOConverter;
@@ -144,13 +142,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional
     public void deleteById(Long id) {
-        Subject subject = subjectDao.getById(id);
-        subject.getMeetings().forEach(m -> {
-            if (m.getDate().isAfter(LocalDate.now().minusDays(1))) {
-                m.setStatus(MeetingStatus.NOT_APPROVED);
-            }
-            m.setSubject(null);
-        });
+        Subject subject = subjectDao.getSubjectsWithMeetingDetailsById(id);
         subjectDao.delete(subject);
     }
 
