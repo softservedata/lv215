@@ -35,6 +35,31 @@ import com.softserve.edu.schedule.entity.Room_;
 public class RoomFilterSpecification implements Specification<Room> {
 
     /**
+     * Sort field location.
+     */
+    private static final int SORT_BY_LOCATION = 1;
+
+    /**
+     * Sort field room name.
+     */
+    private static final int SORT_BY_NAME = 2;
+
+    /**
+     * Sort field room capacity.
+     */
+    private static final int SORT_BY_CAPACITY = 3;
+
+    /**
+     * Sort order ascending.
+     */
+    private static final int SORT_ASC = 1;
+
+    /**
+     * Sort order descending.
+     */
+    private static final int SORT_DESC = 2;
+
+    /**
      * RoomFilter example which provides parameters to build predicate.
      */
     private RoomFilter filter;
@@ -56,11 +81,11 @@ public class RoomFilterSpecification implements Specification<Room> {
 
     /**
      * Constructor of RoomFilterSpecification.
-     * 
+     *
      * @param filter
      *            RoomFilter example which provides parameters to build
      *            predicate.
-     * 
+     *
      * @param roomEquipmentDAO
      *            RoomEquipmentDAO example to provide database operations.
      */
@@ -131,42 +156,42 @@ public class RoomFilterSpecification implements Specification<Room> {
     /**
      * Add sorting order to predicate if filter contains sortByField and
      * sortOrder parameters.
-     * 
+     *
      * @param root
      *            a root of predicate
-     * 
+     *
      * @param criteriaQuery
      *            a query to add sorting order.
-     * 
+     *
      * @param criteriaBuilder
      *            a criteria builder of predicate.
      */
     private void setSortingParameters(final Root<Room> root,
             final CriteriaQuery<?> criteriaQuery,
             final CriteriaBuilder criteriaBuilder) {
-        if (filter.getSortOrder() == 1) {
-            if (filter.getSortByField() == 1) {
+        if (filter.getSortOrder() == SORT_ASC) {
+            if (filter.getSortByField() == SORT_BY_LOCATION) {
                 criteriaQuery.orderBy(
                         criteriaBuilder.asc(locationJoin.get(Location_.name)));
             }
-            if (filter.getSortByField() == 2) {
+            if (filter.getSortByField() == SORT_BY_NAME) {
                 criteriaQuery
                         .orderBy(criteriaBuilder.asc(root.get(Room_.name)));
             }
-            if (filter.getSortByField() == 3) {
+            if (filter.getSortByField() == SORT_BY_CAPACITY) {
                 criteriaQuery
                         .orderBy(criteriaBuilder.asc(root.get(Room_.capacity)));
             }
-        } else if (filter.getSortOrder() == 2) {
-            if (filter.getSortByField() == 1) {
+        } else if (filter.getSortOrder() == SORT_DESC) {
+            if (filter.getSortByField() == SORT_BY_LOCATION) {
                 criteriaQuery.orderBy(
                         criteriaBuilder.desc(locationJoin.get(Location_.name)));
             }
-            if (filter.getSortByField() == 2) {
+            if (filter.getSortByField() == SORT_BY_NAME) {
                 criteriaQuery
                         .orderBy(criteriaBuilder.desc(root.get(Room_.name)));
             }
-            if (filter.getSortByField() == 3) {
+            if (filter.getSortByField() == SORT_BY_CAPACITY) {
                 criteriaQuery.orderBy(
                         criteriaBuilder.desc(root.get(Room_.capacity)));
             }
@@ -177,22 +202,23 @@ public class RoomFilterSpecification implements Specification<Room> {
 
     /**
      * Build predicate based on given RoomFilter parameters.
-     * 
+     *
      * @param root
      *            a root of predicate
-     * 
+     *
      * @param criteriaQuery
      *            a query of predicate.
-     * 
+     *
      * @param criteriaBuilder
      *            a criteria builder of predicate.
-     * 
+     *
      * @return a Predicate example to search rooms in database by given filter
      *         parameters.
      */
     @Override
-    public Predicate toPredicate(Root<Room> root,
-            CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(final Root<Room> root,
+            final CriteriaQuery<?> criteriaQuery,
+            final CriteriaBuilder criteriaBuilder) {
         locationJoin = root.join(Room_.location, JoinType.LEFT);
         root.join(Room_.equipments, JoinType.LEFT);
         setSortingParameters(root, criteriaQuery, criteriaBuilder);
@@ -202,8 +228,9 @@ public class RoomFilterSpecification implements Specification<Room> {
             findByMaxMinCapacity();
             findByEquipmentIds();
         }
-        if (list.size() == 0)
+        if (list.size() == 0) {
             return null;
+        }
         Specifications<Room> spec = Specifications.where(list.get(0));
         for (int i = 1; i < list.size(); i++) {
             spec = spec.and(list.get(i));

@@ -12,9 +12,12 @@ import java.util.List;
  * A simple DAO interface to handle the database operation required to
  * manipulate read functions.
  *
- * @version 1.0 04 Jan 2016
- * @author Ped'ko Volodymyr
+ * @param <E>
+ *            Entity class
  *
+ * @version 1.0 04 Jan 2016
+ *
+ * @author Ped'ko Volodymyr
  */
 public interface ReadDAO<E> {
 
@@ -25,7 +28,7 @@ public interface ReadDAO<E> {
      *            of Transfer object
      * @return Transfer object object
      */
-    E getById(final Long id);
+    E getById(Long id);
 
     /**
      * Return a List of Transfer objects.
@@ -37,14 +40,26 @@ public interface ReadDAO<E> {
     /**
      * Return a List of searched Transfer objects.
      *
+     * @param field
+     *            field name to search
+     *
+     * @param pattern
+     *            pattern to search
+     *
      * @return List of searched Transfer objects
      */
-    List<E> search(final String field, final String pattern);
+    List<E> search(String field, String pattern);
 
     /**
      * Return a List of sorted Transfer objects.
      *
+     * @param field
+     *            field name to sort
+     *
+     * @param order
+     *            sort order
+     *
      * @return List of sorted Transfer objects
      */
-    List<E> sort(final String field, final Order order);
+    List<E> sort(String field, Order order);
 }

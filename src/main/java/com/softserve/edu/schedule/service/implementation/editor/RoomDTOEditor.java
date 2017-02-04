@@ -24,16 +24,16 @@ public class RoomDTOEditor extends PropertyEditorSupport {
      * RoomService example to provide search DTO operations.
      */
     @Autowired
-    private RoomService roomService;    
+    private RoomService roomService;
 
     /**
      * Provides a RoomDTO example by given room id in String format.
-     * 
+     *
      * @param roomId
      *            a room id in String format
-     * 
+     *
      * @throws IllegalArgumentException
-     *             if @param roomId is not String.
+     *             if roomId is not String.
      */
     @Override
     public void setAsText(final String roomId) throws IllegalArgumentException {

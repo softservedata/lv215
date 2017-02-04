@@ -15,6 +15,8 @@ import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
@@ -251,17 +253,6 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public UserDTO loadUserByUsername(String userMail)
-            throws UsernameNotFoundException {
-        User user = userDAO.findByMail(userMail);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return userDTOConverter.getDTO(user);
-    }
-
     /**
      * Change password of user in the database.
      *
@@ -304,6 +295,38 @@ public class UserServiceImpl implements UserService {
     public UserDTOForChangePassword getByIdForPassword(final Long id) {
         return userDTOForPasswordConverter
                 .getDTOForPassword(userDAO.getById(id));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter,
+            final Paginator userPaginator) {
+        return userDAO.getUsersPageWithFilter(userFilter, userPaginator)
+                .stream().map(e -> userDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Locates the user based on the user e-mail.
+     *
+     * @param userMail
+     *            e-mail address identifying the user whose data is required.
+     *
+     * @return a fully populated user record
+     *
+     * @throws UsernameNotFoundException
+     *             if the user could not be found or the user has no
+     *             GrantedAuthority
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public UserDTO loadUserByUsername(final String userMail)
+            throws UsernameNotFoundException {
+        User user = userDAO.findByMail(userMail);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return userDTOConverter.getDTO(user);
     }
 
 }

@@ -1,5 +1,9 @@
 package com.softserve.edu.schedule.dao;
 
+import java.util.List;
+
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.User;
 
 public interface UserDAO extends CrudDAO<User> {
@@ -10,8 +14,21 @@ public interface UserDAO extends CrudDAO<User> {
      * @param id
      *            a user id to delete from database.
      */
-    public void deleteById(final Long id);
+    void deleteById(Long id);
 
-    public User findByMail(String userMail);
+    /**
+     * Find all meetings in the DB by given date and roomId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param userMail
+     *            user mail to find user in database
+     *
+     * @return User object with given mail or null if not finded.
+     */
+    User findByMail(String userMail);
+
+    List<User> getUsersPageWithFilter(UserFilter userFilter,
+            Paginator userPaginator);
 
 }

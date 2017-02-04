@@ -1,3 +1,4 @@
+
 /* Date editor class*/
 package com.softserve.edu.schedule.service.implementation.editor;
 
@@ -20,20 +21,26 @@ import org.springframework.stereotype.Service;
 @Service
 public class DateEditor extends PropertyEditorSupport {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.beans.PropertyEditorSupport#setAsText(java.lang.String)
+    /**
+     * Provides a LocalDate value by given date in String format.
+     *
+     * @param text
+     *            date id in String format
+     *
+     * @throws IllegalArgumentException
+     *             if text can not be converted to date
      */
     @Override
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(final String text) throws IllegalArgumentException {
+
         if (text != null && !text.isEmpty()) {
             try {
                 setValue(LocalDate.parse(text));
             } catch (DateTimeParseException e) {
                 setValue(null);
             }
-        } else
+        } else {
             setValue(null);
+        }
     }
 }

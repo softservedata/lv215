@@ -25,20 +25,19 @@ public class LocationDTOEditor extends PropertyEditorSupport {
      * LocationService example to provide search DTO operations.
      */
     @Autowired
-    private LocationService locationService;    
+    private LocationService locationService;
 
     /**
      * Provides a LocationDTO example by given location id in String format.
-     * 
-     * @param locationId
+     *
+     * @param text
      *            a location id in String format
-     * 
+     *
      * @throws IllegalArgumentException
-     *             if @param locationId is not String.
+     *             if text is not String.
      */
     @Override
-
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(final String text) throws IllegalArgumentException {
         setValue(locationService.getById(Long.valueOf(text)));
     }
 }

@@ -108,7 +108,7 @@ public interface ValidationFields {
     String SUBJECT = "subject";
 
     /**
-     * Status of the meeting.
+     * Status of the meeting. Status of meeting.
      */
     String STATUS = "status";
 

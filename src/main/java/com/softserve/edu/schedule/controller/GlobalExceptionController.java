@@ -29,14 +29,14 @@ public class GlobalExceptionController implements ControllerConst {
 
     /**
      * Controls security exception handling.
-     * 
+     *
      * @param ex
      *            handled exception
-     * 
+     *
      * @return start page URL
      */
     @ExceptionHandler(value = AccessDeniedException.class)
-    public String accessDenied(Exception ex) {
+    public String accessDenied(final Exception ex) {
         log.warn(ex.getMessage(), ex);
         return "redirect:/?accessDenied=true";
     }
@@ -46,15 +46,15 @@ public class GlobalExceptionController implements ControllerConst {
      *
      * @param model
      *            errors page view model.
-     * 
+     *
      * @param ex
      *            handled exception
-     * 
+     *
      * @return errors page URL
      */
     @ExceptionHandler(Exception.class)
     @RequestMapping(ROOT_URL)
-    public String showErrorPage(final Model model, Exception ex) {
+    public String showErrorPage(final Model model, final Exception ex) {
         log.error(ex.getMessage(), ex);
         model.addAttribute(EXCEPTION_MODEL_ATTR, ex);
         System.out.println(ex.getClass());

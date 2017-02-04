@@ -229,14 +229,14 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
     /**
      * Find all meetings in the DB by given date and roomId.
-     * 
+     *
      * @author Petro Zelyonka
-     * 
+     *
      * @param roomId
      *            room id for find meetings
      * @param date
      *            date for find meetings
-     * 
+     *
      * @return List of the Meeting objects.
      */
     @Override
@@ -267,9 +267,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     /**
      * Find all meetings in the DB which date and time are in past and status
      * not FINISHED.
-     * 
+     *
      * @author Petro Zelyonka
-     * 
+     *
      * @return List of the Meeting objects.
      */
     @Override
@@ -292,9 +292,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     /**
      * Find all approved meetings in the DB by given roomId, date, start and end
      * time.
-     * 
+     *
      * @author Petro Zelyonka
-     * 
+     *
      * @param roomId
      *            room id for find meetings
      * @param date
@@ -303,7 +303,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      *            start time for find meetings
      * @param endTime
      *            end time for find meetings
-     * 
+     *
      * @return List of the Meeting objects.
      */
     @Override

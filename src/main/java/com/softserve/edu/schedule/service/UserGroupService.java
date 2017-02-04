@@ -11,6 +11,8 @@ import java.util.List;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserGroupFilter;
 
 /**
  * A simple service interface to handle the operation required to manipulate a
@@ -137,4 +139,24 @@ public interface UserGroupService {
 	 * @return List of UserGroups
 	 */
 	public List<UserGroupDTO> searchGroupsByCurators(final String pattern);
+
+	/**
+	 * Get list of groups by specified levelId
+	 * 
+	 * @param level
+	 * @return list of a groups with specified level
+	 */
+	public List<UserGroupDTO> getGroupsByLevel(final Long levelId);
+
+	/**
+	 * Get page with filtered groups
+	 * 
+	 * @param userGroupFilter
+	 *            UserGroup filter
+	 * @param userGroupPaginator
+	 *            Paginator for UserGroup
+	 * @return List of a filtered groups
+	 */
+	public List<UserGroupDTO> getUserGroupPageWithFilter(final UserGroupFilter userGroupFilter,
+			final Paginator userGroupPaginator);
 }
