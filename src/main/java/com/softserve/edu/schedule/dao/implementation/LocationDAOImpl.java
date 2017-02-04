@@ -67,6 +67,9 @@ public class LocationDAOImpl extends CrudDAOImpl<Location> implements LocationDA
 		return getEm().createQuery(cq).getResultList();
 	}
 
+	/* (non-Javadoc)
+	 * @see com.softserve.edu.schedule.dao.LocationDAO#getLocationsPageWithFilter(com.softserve.edu.schedule.dto.filter.LocationFilter, com.softserve.edu.schedule.dto.filter.Paginator)
+	 */
 	@Override
 	public List<Location> getLocationsPageWithFilter(LocationFilter locationFilter, Paginator locationPaginator) {
 		CriteriaBuilder builder = getEm().getCriteriaBuilder();
