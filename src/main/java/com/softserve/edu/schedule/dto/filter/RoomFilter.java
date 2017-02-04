@@ -25,7 +25,7 @@ public class RoomFilter {
     /**
      * Location id for filter rooms.
      */
-    private int LocationId;
+    private int locationId;
 
     /**
      * Room name for filter rooms.
@@ -68,7 +68,7 @@ public class RoomFilter {
      * @return the locationId
      */
     public int getLocationId() {
-        return LocationId;
+        return locationId;
     }
 
     /**
@@ -117,7 +117,7 @@ public class RoomFilter {
      * @param showFilter
      *            the showFilter to set
      */
-    public void setShowFilter(String showFilter) {
+    public void setShowFilter(final String showFilter) {
         this.showFilter = showFilter;
     }
 
@@ -126,7 +126,7 @@ public class RoomFilter {
      *            the locationId to set
      */
     public void setLocationId(final int locationId) {
-        LocationId = locationId;
+        this.locationId = locationId;
     }
 
     /**

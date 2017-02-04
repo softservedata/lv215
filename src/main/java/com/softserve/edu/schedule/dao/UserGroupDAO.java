@@ -8,6 +8,8 @@ package com.softserve.edu.schedule.dao;
 
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserGroupFilter;
 import com.softserve.edu.schedule.entity.UserGroup;
 
 /**
@@ -40,4 +42,23 @@ public interface UserGroupDAO extends CrudDAO<UserGroup> {
 	 * @return List of sorted groups
 	 */
 	public List<UserGroup> searchGroupsByCurators(final String pattern);
+
+	/**
+	 * Get list of groups by specified levelId
+	 * 
+	 * @param level
+	 * @return list of a groups with specified level
+	 */
+	public List<UserGroup> getGroupsByLevel(final Long levelId);
+
+	/**
+	 * Get page with filtered groups
+	 * 
+	 * @param userGroupFilter
+	 *            UserGroup filter
+	 * @param userGroupPaginator
+	 *            Paginator for UserGroup
+	 * @return List of a filtered groups
+	 */
+	public List<UserGroup> getUserGroupPageWithFilter(UserGroupFilter userGroupFilter, Paginator userGroupPaginator);
 }

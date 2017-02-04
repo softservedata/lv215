@@ -6,9 +6,9 @@
 
 <script type="text/javascript">
 	$(function() {
-		$("select[name=subjectId]").chosen({width : "100%"});
-		$("select[name=ownerId]").chosen({width : "100%"});
-		$("select[name=roomId]").chosen({width : "80px"});
+		$("select[name=subjectId]").chosen({width : "100px"});
+		$("select[name=ownerId]").chosen({width : "150px"});
+		$("select[name=roomId]").chosen({width : "100px"});
 		$("select[name=groups]").chosen({width : "100px"});
 		$("select[name=status]").chosen({
 			width : "120px"
@@ -94,7 +94,7 @@
 
 			<form:form role="form" action="meetings" method="get"
 				modelAttribute="meetingFilter">
-				<form:input path="showFilter" type="hidden" value="true" />
+				
 
 				<!-- ID -->
 				<spring:message code="lbl.meeting.id" var="meetingid" />
@@ -202,7 +202,7 @@
 				</td>
 			</form:form>
 			<td class="text-center v-alighn"><a
-				href="meetings?showFilter=false&id=&subjectId=0&ownerId=0&roomId=0&date=&startTime=&endTime=&_groups=1&level=&status=-1"
+				href="meetings?id=&subjectId=0&ownerId=0&roomId=0&date=&startTime=&endTime=&_groups=1&level=&status=-1"
 				title="resetFilter"> <i class="fa fa-times fa-lg"></i>
 			</a></td>
 		</tr>

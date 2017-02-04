@@ -190,9 +190,9 @@ public class SubjectFilterSpecification implements Specification<Subject> {
             CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
         root.join(Subject_.users, JoinType.LEFT);
         setSortingParameters(root, criteriaQuery, criteriaBuilder);
-        findByName();
-        findByDescription();
-        findByUserId();
+            findByName();
+            findByDescription();
+            findByUserId();
         if (list.size() == ZERO) {
             return null;
         }

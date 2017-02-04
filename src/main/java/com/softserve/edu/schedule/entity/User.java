@@ -178,7 +178,7 @@ public class User {
      * @param id
      *            the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -186,7 +186,7 @@ public class User {
      * @param firstName
      *            the firstName to set
      */
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -194,7 +194,7 @@ public class User {
      * @param lastName
      *            the lastName to set
      */
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
 
@@ -202,7 +202,7 @@ public class User {
      * @param mail
      *            the mail to set
      */
-    public void setMail(String mail) {
+    public void setMail(final String mail) {
         this.mail = mail;
     }
 
@@ -210,7 +210,7 @@ public class User {
      * @param password
      *            the password to set
      */
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -218,7 +218,7 @@ public class User {
      * @param phone
      *            the phone to set
      */
-    public void setPhone(String phone) {
+    public void setPhone(final String phone) {
         this.phone = phone;
     }
 
@@ -226,7 +226,7 @@ public class User {
      * @param position
      *            the position to set
      */
-    public void setPosition(String position) {
+    public void setPosition(final String position) {
         this.position = position;
     }
 
@@ -234,7 +234,7 @@ public class User {
      * @param status
      *            the status to set
      */
-    public void setStatus(UserStatus status) {
+    public void setStatus(final UserStatus status) {
         this.status = status;
     }
 
@@ -242,7 +242,7 @@ public class User {
      * @param role
      *            the role to set
      */
-    public void setRole(UserRole role) {
+    public void setRole(final UserRole role) {
         this.role = role;
     }
 
@@ -250,7 +250,7 @@ public class User {
      * @param subjects
      *            the subjects to set
      */
-    public void setSubjects(List<Subject> subjects) {
+    public void setSubjects(final List<Subject> subjects) {
         this.subjects = subjects;
     }
 
@@ -258,7 +258,7 @@ public class User {
      * @param groups
      *            the groups to set
      */
-    public void setGroups(List<UserGroup> groups) {
+    public void setGroups(final List<UserGroup> groups) {
         this.groups = groups;
-    } 
+    }
 }

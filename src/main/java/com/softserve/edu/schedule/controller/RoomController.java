@@ -129,7 +129,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
 
     /**
      * Provides room model.
-     * 
+     *
      * @return new RoomDTO object.
      */
     @ModelAttribute(ROOM_MODEL_ATTR)
@@ -139,7 +139,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
 
     /**
      * Provides room filter.
-     * 
+     *
      * @return new RoomFilter object.
      */
     @ModelAttribute(FILTER_MODEL_ATTR)
@@ -149,7 +149,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
 
     /**
      * Provides pagination object for rooms list page.
-     * 
+     *
      * @return new Paginator object.
      */
     @ModelAttribute(ROOM_PAGINATOR_MODEL_ATTR)
@@ -159,7 +159,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
 
     /**
      * Provides date filter for filtering meetings.
-     * 
+     *
      * @return new RoomFilter object.
      */
     @ModelAttribute(DATE_FILTER_MODEL_ATTR)
@@ -172,10 +172,13 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @param model
      *            rooms list page view model.
-     * 
+     *
      * @param filter
      *            rooms list page view filter.
-     * 
+     *
+     * @param paginator
+     *            rooms list paginator.
+     *
      * @return rooms list page URL
      */
     @RequestMapping(method = RequestMethod.GET)
@@ -197,10 +200,13 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @param id
      *            room id to show details.
-     * 
+     *
      * @param model
      *            room details show page view model.
-     * 
+     *
+     * @param dateFilter
+     *            date filter for page
+     *
      * @return room show detail page URL
      */
     @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.GET)
@@ -219,12 +225,18 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      * @param roomDTO
      *            an RoomDTO example which is built based on form data.
      *
+     * @param br
+     *            binding result to check validation errors
+     *
+     * @param model
+     *            room update information page view model.
+     *
      * @return rooms list page redirect URL
      */
     @RequestMapping(value = ROOM_EDIT_MAPPING, method = RequestMethod.POST)
     public String update(
             @ModelAttribute(ROOM_MODEL_ATTR) @Valid final RoomDTO roomDTO,
-            BindingResult br, Model model) {
+            final BindingResult br, final Model model) {
         if (br.hasErrors()) {
             model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
             model.addAttribute(EQUIPMENTS_MODEL_ATTR,
@@ -240,10 +252,10 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @param id
      *            room id to update information.
-     * 
+     *
      * @param model
      *            room update information page view model.
-     * 
+     *
      * @return room update information page URL
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
@@ -263,12 +275,18 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      * @param roomDTO
      *            an RoomDTO example which is built based on form data.
      *
+     * @param br
+     *            binding result to check validation errors
+     *
+     * @param model
+     *            room create page view model.
+     *
      * @return rooms list page redirect URL
      */
     @RequestMapping(value = ROOM_CREATE_MAPPING, method = RequestMethod.POST)
     public String create(
             @ModelAttribute(ROOM_MODEL_ATTR) @Valid final RoomDTO roomDTO,
-            BindingResult br, Model model) {
+            final BindingResult br, final Model model) {
         if (br.hasErrors()) {
             model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
             model.addAttribute(EQUIPMENTS_MODEL_ATTR,
@@ -281,10 +299,10 @@ public class RoomController implements ControllerConst.RoomControllerConst {
 
     /**
      * Controls view of room create page.
-     * 
+     *
      * @param model
      *            room create page view model.
-     * 
+     *
      * @return room create page URL
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")

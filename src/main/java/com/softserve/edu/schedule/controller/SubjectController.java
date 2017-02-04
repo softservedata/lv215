@@ -9,6 +9,7 @@ package com.softserve.edu.schedule.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -119,6 +120,7 @@ public class SubjectController
      *            subjects create page model
      * @return subjects create page URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(SUBJECT_CREATE_MAPPING)
     public String createForm(final Model model) {
         model.addAttribute(SUBJECT_FORM_MODEL_ATTR, new SubjectDTO());
@@ -154,6 +156,7 @@ public class SubjectController
      *            subjects edit page model
      * @return subjects edit page URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(SUBJECT_EDIT_MAPPING + "{id}")
     public String editForm(@PathVariable final Long id, final Model model) {
         model.addAttribute(SUBJECT_FORM_MODEL_ATTR, subjectService.getById(id));
@@ -190,6 +193,7 @@ public class SubjectController
      *            id subject to delete
      * @return subjects list page URL (redirect)
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(SUBJECT_DELETE_MAPPING + "{id}")
     public String delete(@PathVariable final Long id) {
         subjectService.deleteById(id);

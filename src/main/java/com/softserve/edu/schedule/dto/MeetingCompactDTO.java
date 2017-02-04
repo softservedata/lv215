@@ -13,7 +13,7 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  *
  * @version 1.0 22 January 2017
  *
- * @author Petro Zelyonka
+ * @author Bohdan Melnyk
  *
  * @since 1.8
  */
@@ -131,7 +131,7 @@ public class MeetingCompactDTO {
      * @param subjectName
      *            the subjectName to set
      */
-    public void setSubjectName(String subjectName) {
+    public void setSubjectName(final String subjectName) {
         this.subjectName = subjectName;
     }
 
@@ -139,7 +139,7 @@ public class MeetingCompactDTO {
      * @param roomName
      *            the roomName to set
      */
-    public void setRoomName(String roomName) {
+    public void setRoomName(final String roomName) {
         this.roomName = roomName;
     }
 
@@ -147,7 +147,7 @@ public class MeetingCompactDTO {
      * @param date
      *            the date to set
      */
-    public void setDate(LocalDate date) {
+    public void setDate(final LocalDate date) {
         this.date = date;
     }
 
@@ -155,7 +155,7 @@ public class MeetingCompactDTO {
      * @param startTime
      *            the startTime to set
      */
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(final LocalTime startTime) {
         this.startTime = startTime;
     }
 
@@ -163,7 +163,7 @@ public class MeetingCompactDTO {
      * @param endTime
      *            the endTime to set
      */
-    public void setEndTime(LocalTime endTime) {
+    public void setEndTime(final LocalTime endTime) {
         this.endTime = endTime;
     }
 
@@ -171,7 +171,7 @@ public class MeetingCompactDTO {
      * @param ownerFullName
      *            the ownerFullName to set
      */
-    public void setOwnerFullName(String ownerFullName) {
+    public void setOwnerFullName(final String ownerFullName) {
         this.ownerFullName = ownerFullName;
     }
 
@@ -179,7 +179,7 @@ public class MeetingCompactDTO {
      * @param groupsNames
      *            the groupsNames to set
      */
-    public void setGroupsNames(List<String> groupsNames) {
+    public void setGroupsNames(final List<String> groupsNames) {
         this.groupsNames = groupsNames;
     }
 
@@ -187,7 +187,7 @@ public class MeetingCompactDTO {
      * @param ownerMail
      *            the ownerMail to set
      */
-    public void setOwnerMail(String ownerMail) {
+    public void setOwnerMail(final String ownerMail) {
         this.ownerMail = ownerMail;
     }
 
@@ -195,8 +195,7 @@ public class MeetingCompactDTO {
      * @param status
      *            the status to set
      */
-    public void setStatus(MeetingStatus status) {
+    public void setStatus(final MeetingStatus status) {
         this.status = status;
     }
-
 }

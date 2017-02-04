@@ -40,4 +40,15 @@ public interface SubjectDAO extends CrudDAO<Subject> {
     public List<Subject> getSubjectsPageWithFilter(
             final SubjectFilter subjectFilter,
             final Paginator subjectPaginator);
+    
+    /**
+     * Count subjects entities in the database with specified filter
+     *
+     * @param predicate
+     *            a predicate to apply.
+     *
+     * @return Count of the subject entities in the database with specified
+     *         predicate.
+     */
+    Long getCountOfSubjectsWithFilter(SubjectFilter subjectFilter);
 }

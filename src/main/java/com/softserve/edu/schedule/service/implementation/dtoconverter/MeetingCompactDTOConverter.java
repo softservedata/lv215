@@ -7,7 +7,7 @@ import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.entity.Meeting;
 
 /**
- * A class to provide conversion operations between MeetingForMailDTO and
+ * A class to provide conversion operations between MeetingCompactDTO and
  * Meeting entity.
  *
  * @version 1.0 22 January 2017
@@ -21,12 +21,11 @@ public class MeetingCompactDTOConverter {
 
     /**
      * Convert given Meeting object to MeetingForMailDTO object.
-     * 
+     *
      * @param meeting
      *            a Meeting object to convert.
-     * 
-     * @return a MeetingsForRoomDTO object or null if given @param meeting is
-     *         null.
+     *
+     * @return a MeetingsForRoomDTO object or null if given meeting is null.
      */
     public MeetingCompactDTO getDTO(final Meeting meeting) {
         if (meeting != null) {

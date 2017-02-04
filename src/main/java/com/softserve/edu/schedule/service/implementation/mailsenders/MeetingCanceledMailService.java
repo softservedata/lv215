@@ -51,7 +51,7 @@ public class MeetingCanceledMailService implements MailConstants {
     private SpringTemplateEngine templateEngine;
 
     /**
-     * Field for import from message attribute from mail.properties
+     * Field for import from message attribute from mail.properties.
      */
     @Value(DEFAULT_MESSAGE_FROM_ADDRESS)
     private String fromAddress;
@@ -59,13 +59,16 @@ public class MeetingCanceledMailService implements MailConstants {
     /**
      * Send mail notifications to the meetings owners if meeting is cancelled
      * because of room delete.
-     * 
+     *
      * @param meetingCompactDTO
      *            a DTO object which contains mail message parameters.
+     *
+     * @param locale
+     *            current locale.
      */
-     @Async
+    @Async
     public void sendInfoMessageRoomDeletion(
-            final MeetingCompactDTO meetingCompactDTO, Locale locale) {
+            final MeetingCompactDTO meetingCompactDTO, final Locale locale) {
 
         Context ctx = new Context(locale);
         ctx.setVariable(MEETING_MODEL_NAME, meetingCompactDTO);

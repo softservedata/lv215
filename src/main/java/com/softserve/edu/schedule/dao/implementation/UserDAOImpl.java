@@ -38,8 +38,18 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
         delete(getById(id));
     }
 
+    /**
+     * Find all meetings in the DB by given date and roomId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param userMail
+     *            user mail to find user in database
+     *
+     * @return User object with given mail or null if not finded.
+     */
     @Override
-    public User findByMail(String userMail) {
+    public User findByMail(final String userMail) {
         try {
             CriteriaBuilder builder = getEm().getCriteriaBuilder();
             CriteriaQuery<User> cq = builder.createQuery(User.class);
@@ -50,18 +60,22 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
             return null;
         }
     }
-    
+
     @Override
-    public List<User> getUsersPageWithFilter(UserFilter userFilter, Paginator userPaginator) {
+    public List<User> getUsersPageWithFilter(UserFilter userFilter,
+            Paginator userPaginator) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
         Root<User> root = criteriaQuery.from(User.class);
-        Predicate predicate = new UserFilterSpecification(userFilter).toPredicate(root, criteriaQuery, builder);
+        Predicate predicate = new UserFilterSpecification(userFilter)
+                .toPredicate(root, criteriaQuery, builder);
         if (predicate != null) {
             criteriaQuery.where(predicate);
         }
-        userPaginator.setPagesCount(getEm().createQuery(criteriaQuery).getResultList().size());
-        return getEm().createQuery(criteriaQuery).setFirstResult(userPaginator.getOffset())
+        userPaginator.setPagesCount(
+                getEm().createQuery(criteriaQuery).getResultList().size());
+        return getEm().createQuery(criteriaQuery)
+                .setFirstResult(userPaginator.getOffset())
                 .setMaxResults(userPaginator.getPageSize()).getResultList();
     }
 }
