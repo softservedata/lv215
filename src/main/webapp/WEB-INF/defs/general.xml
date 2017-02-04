@@ -91,6 +91,10 @@
 		<put-attribute name="title" value="Edit location" />
 		<put-attribute name="body" value="/WEB-INF/views/locations/edit.jsp" />
 	</definition>
+	<definition extends="common" name="locations/map">
+		<put-attribute name="title" value="Location on map" />
+		<put-attribute name="body" value="/WEB-INF/views/locations/map.jsp" />
+	</definition>
 	<definition extends="common" name="subjects/list">
 		<put-attribute name="title" value="Subjects" />
 		<put-attribute name="body" value="/WEB-INF/views/subjects/list.jsp" />

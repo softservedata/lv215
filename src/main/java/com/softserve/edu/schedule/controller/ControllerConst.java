@@ -257,6 +257,11 @@ public interface ControllerConst {
 		String LOCATION_FORM_MODEL_ATTR = "locationForm";
 
 		/**
+		 * Location map model attribute name.
+		 */
+		String LOCATION_MAP_MODEL_ATTR = "map";
+		
+		/**
 		 * Locations list URL.
 		 */
 		String LOCATIONS_LIST_URL = "locations/list";
@@ -276,6 +281,11 @@ public interface ControllerConst {
 		 */
 		String LOCATION_EDIT_URL = "locations/edit";
 
+		/**
+		 * Map location URL.
+		 */
+		String LOCATION_MAP_URL = "locations/map";
+		
 		/**
 		 * Locations mapping URL.
 		 */
@@ -306,6 +316,10 @@ public interface ControllerConst {
 		 */
 		String LOCATION_EDIT_MAPPING = "/locations/edit/";
 
+		/**
+		 * Map location mapping URL name.
+		 */
+		String LOCATION_MAP_MAPPING = "/locations/map/";
 	}
 
     public interface SubjectControllerConst {

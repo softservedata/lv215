@@ -162,5 +162,18 @@ public class LocationController implements ControllerConst.LocationControllerCon
 		locationService.update(location);
 		return LOCATIONS_REDIRECT_URL;
 	}
+	
+	/**
+	 * Method shows location on map
+	 * 
+	 * @param model
+	 *            locations map page model
+	 * @return locations map page URL
+	 */
+	@RequestMapping(LOCATION_MAP_MAPPING + "{id}")
+	public String showMap(@PathVariable Long id, Model model) {
+		model.addAttribute(LOCATION_MAP_MODEL_ATTR, locationService.getById(id));
+		return LOCATION_MAP_URL;
+	}
 
 }

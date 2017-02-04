@@ -16,7 +16,6 @@
 <spring:url value="/resources/bootstrap-3.3.7/js/bootstrap.min.js" var="bootStrapJS" />
 <spring:url value="/resources/esimakin-twbs-pagination-1.3.1/jquery.twbsPagination.min.js"
 	var="paginationJS" />
-
 <link href="${favico}" rel="shortcut icon">
 <link rel="stylesheet" href="${bootStrapCSS}">
 <link rel="stylesheet" href="${chosenCSS}" />

@@ -42,7 +42,8 @@
 		</tr>
 
 		<tr>
-			<form:form action="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}"
+			<form:form
+				action="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}"
 				modelAttribute="${LocationController.FILTER_MODEL_ATTR}">
 				<td><spring:message code="lbl.location.search" var="search" />
 					<form:input class="form-control" path="name"
@@ -71,8 +72,10 @@
 			<tr>
 				<td>${location.name}</td>
 				<td>${location.address}</td>
-				<td><spring:message code="lbl.location.map" /> <i
-					class="fa fa-map-o"></i></td>
+				<td><a
+					href="${pageContext.request.contextPath}${LocationController.LOCATION_MAP_MAPPING}${location.id}">
+						<spring:message code="lbl.location.map" /> <i class="fa fa-map-o"></i>
+				</a></td>
 				<td><div class="tooltip3">${location.rooms.size()}
 						<c:if test="${location.rooms.size() != 0}">
 							<span class="tooltiptext3"> <c:forEach
