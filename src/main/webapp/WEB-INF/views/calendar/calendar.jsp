@@ -17,7 +17,10 @@
 				left : 'prev,next,today',
 				center : 'title',
 				right : 'month,agendaWeek,agendaDay,listWeek'
-			}
+			},
+			nowIndicator: true,
+			navLinks: true,
+			events: '${pageContext.request.contextPath}/meetings/rest'
 
 		})
 

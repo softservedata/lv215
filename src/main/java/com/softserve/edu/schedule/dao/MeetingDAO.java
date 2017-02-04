@@ -118,7 +118,8 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *
      * @return List of the Meeting objects.
      */
-    public List<Meeting> getApprovedMeetingsByRoomIdAndTime(final Long roomId,
-            final LocalDate date, final LocalTime startTime,
-            final LocalTime endTime);
+    List<Meeting> getApprovedMeetingsByRoomIdAndTime(Long roomId,
+            LocalDate date, LocalTime startTime, LocalTime endTime);
+
+    List<Meeting> getMeetingsInInterval(LocalDate startDate, LocalDate endDate);
 }

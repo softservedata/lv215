@@ -17,6 +17,7 @@ import java.util.List;
 import com.softserve.edu.schedule.dao.Order;
 
 import com.softserve.edu.schedule.dto.MeetingDTO;
+import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
@@ -159,4 +160,7 @@ public interface MeetingService {
      * @return MeetingStatus
      */
     MeetingStatus getMeetingStatusDuringCreation(final MeetingDTO meetingDTO);
+
+    List<MeetingForCalendarDTO> getMeetingsInInterval(String start,
+            String end);
 }
