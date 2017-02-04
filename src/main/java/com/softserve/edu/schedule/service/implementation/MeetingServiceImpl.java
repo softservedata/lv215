@@ -31,7 +31,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTO
 
 /**
  * This is implementation of the interface for managing Meetings Service.
- * 
+ *
  * @version 1.0 12.12.2016
  * @author IT Academy
  */
@@ -47,6 +47,9 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     private MeetingDAO meetingDao;
 
+    /**
+     * Field for MeetingDTOConverter.
+     */
     @Autowired
     private MeetingDTOConverter meetingDTOConverter;
 
@@ -202,25 +205,6 @@ public class MeetingServiceImpl implements MeetingService {
         meetingDao.changeMeetingStatus(id, meetingStatus);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * <<<<<<< HEAD
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#
-     * getMeetingsByRoomIDAndDate(java.lang.Long, java.time.LocalDate) =======
-     * 
-     * @return List of the MeetingCompactDTO objects. >>>>>>>
-     * 16056cdee5ab399e1bbba4433adbcce1ccc387bc
-     */
-    @Override
-    public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId,
-            LocalDate date) {
-        return meetingDao.getMeetingsByRoomIdAndDate(roomId, date).stream()
-                .map(e -> meetingCompactDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
     @Transactional(readOnly = true)
     public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO) {
         return meetingDao
@@ -233,6 +217,38 @@ public class MeetingServiceImpl implements MeetingService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Find all meetings in the DB by given date and roomId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     *
+     * @param date
+     *            date for find meetings
+     *
+     * @return List of the MeetingCompactDTO objects.
+     */
+    @Override
+    public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(final Long roomId,
+            final LocalDate date) {
+        return meetingDao.getMeetingsByRoomIdAndDate(roomId, date).stream()
+                .map(e -> meetingCompactDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * During creation checks which status can be given to the meeting depends
+     * on room availability.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param meetingDTO
+     *            given meeting DTO
+     *
+     * @return correct MeetingStatus
+     */
     @Override
     @Transactional(readOnly = true)
     public MeetingStatus getMeetingStatusDuringCreation(

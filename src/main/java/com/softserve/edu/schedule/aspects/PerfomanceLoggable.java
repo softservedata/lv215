@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 /**
  * Performance logging annotation for checking performance of the application
  * components.
- * 
+ *
  * @version 1.0 29 January 2017
  *
  * @author Petro Zelyonka

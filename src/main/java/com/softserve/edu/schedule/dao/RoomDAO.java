@@ -23,39 +23,41 @@ public interface RoomDAO extends CrudDAO<Room> {
      *
      * @param roomName
      *            a room name to find in the database.
-     * 
+     *
      * @param locationId
      *            a location id to find room.
-     * 
+     *
      * @return List of rooms with given name and location Id.
      */
-    List<Room> getByNameAndLocationId(final String roomName,
-            final Long locationId);
+    List<Room> getByNameAndLocationId(String roomName, Long locationId);
 
     /**
-     * Find all rooms entities in the database with applied filter
-     * 
+     * Find all rooms entities in the database with applied filter.
+     *
      * @param roomFilter
      *            a filter to apply.
-     * 
+     *
+     * @param roomPaginator
+     *            paginator to provide paging information
+     *
      * @return List of the room objects.
      */
-    List<Room> getRoomsPageWithFilter(final RoomFilter roomFilter,
-            final Paginator roomPaginator);
+    List<Room> getRoomsPageWithFilter(RoomFilter roomFilter,
+            Paginator roomPaginator);
 
     /**
      * Find all rooms entities in the database with location and equipment
      * details.
-     * 
+     *
      * @return List of the room objects.
      */
     List<Room> getAllWithDetails();
 
     /**
-     * Count rooms entities in the database with specified filter
+     * Count rooms entities in the database with specified filter.
      *
-     * @param predicate
-     *            a predicate to apply.
+     * @param roomFilter
+     *            a filter to apply.
      *
      * @return Count of the room entities in the database with specified
      *         predicate.

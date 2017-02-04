@@ -13,7 +13,7 @@ import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 
 /**
- * PastMeetingStatusCorrector task to correct past meetings statuses
+ * PastMeetingStatusCorrector task to correct past meetings statuses.
  *
  * @version 1.0 03 February 2017
  *
@@ -31,8 +31,8 @@ public class PastMeetingStatusCorrector {
     private MeetingDAO meetingDAO;
 
     /**
-     * Scheduling task to correct past meetings statuses
-     * 
+     * Scheduling task to correct past meetings statuses.
+     *
      */
     @Scheduled(cron = "0 0 * * * *")
     @Transactional

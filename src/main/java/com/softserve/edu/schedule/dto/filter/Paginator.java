@@ -13,13 +13,20 @@ package com.softserve.edu.schedule.dto.filter;
 public class Paginator {
 
     /**
+     * Default page size.
+     */
+    private static final int DEFAULT_PAGE_SIZE = 10;
+
+    /**
      * Field for storage current page number.
      */
     private int pageNumber;
+
     /**
      * Field for storage current number of records per page.
      */
-    private int pageSize = 10;
+    private int pageSize = DEFAULT_PAGE_SIZE;
+
     /**
      * Field for storage current pages count.
      */
@@ -48,7 +55,7 @@ public class Paginator {
     }
 
     /**
-     * Switch to the next page
+     * Switch to the next page.
      */
     public void next() {
         if (hasNext()) {
@@ -57,7 +64,7 @@ public class Paginator {
     }
 
     /**
-     * Switch to the previous page
+     * Switch to the previous page.
      */
     public void previous() {
         if (hasPrevious()) {
@@ -90,7 +97,7 @@ public class Paginator {
      * @param pageNumber
      *            the pageNumber to set
      */
-    public void setPageNumber(int pageNumber) {
+    public void setPageNumber(final int pageNumber) {
         this.pageNumber = pageNumber;
     }
 
@@ -98,18 +105,18 @@ public class Paginator {
      * @param pageSize
      *            the pageSize to set
      */
-    public void setPageSize(int pageSize) {
+    public void setPageSize(final int pageSize) {
         this.pageSize = pageSize;
     }
 
     /**
      * Calculate and set count of pages based on number of records in current
      * query result and current pageSize.
-     * 
+     *
      * @param resultCount
      *            the total number of records in the current query result
      */
-    public void setPagesCount(long resultCount) {
+    public void setPagesCount(final long resultCount) {
         if (resultCount % pageSize == 0) {
             this.pagesCount = resultCount / pageSize - 1;
         } else {

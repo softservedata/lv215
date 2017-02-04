@@ -11,5 +11,9 @@ package com.softserve.edu.schedule.entity;
  * @since 1.8
  */
 public enum UserStatus {
+
+    /**
+     * User status values.
+     */
     NEW_USER, ACTIVE, BLOCKED;
 }

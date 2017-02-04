@@ -28,161 +28,163 @@ import javax.persistence.ManyToOne;
 @Entity
 public class UserGroup {
 
-	/**
-	 * Id for database.
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    /**
+     * Id for database.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	/**
-	 * User group name.
-	 */
-	private String name;
+    /**
+     * User group name.
+     */
+    private String name;
 
-	/**
-	 * User group description.
-	 */
-	@Lob
-	private String description;
+    /**
+     * User group description.
+     */
+    @Lob
+    private String description;
 
-	/**
-	 * Level of the group. The higher the value - the more important group.
-	 */
-	@Enumerated
-	private UserGroupLevel level;
+    /**
+     * Level of the group. The higher the value - the more important group.
+     */
+    @Enumerated
+    private UserGroupLevel level;
 
-	/**
-	 * User group manager.
-	 */
-	@ManyToOne(fetch = FetchType.LAZY)
-	private User curator;
+    /**
+     * User group manager.
+     */
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User curator;
 
-	/**
-	 * List of users in this group.
-	 */
-	@ManyToMany(fetch = FetchType.LAZY, targetEntity = User.class)
-	@JoinTable(name = "usergroup_user", joinColumns = { @JoinColumn(name = "groups_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "users_id") })
-	private List<User> users = new ArrayList<>();
+    /**
+     * List of users in this group.
+     */
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = User.class)
+    @JoinTable(name = "usergroup_user",
+            joinColumns = {@JoinColumn(name = "groups_id")},
+            inverseJoinColumns = {@JoinColumn(name = "users_id")})
+    private List<User> users = new ArrayList<>();
 
-	/**
-	 * List of meetings of this group.
-	 */
-	@ManyToMany(fetch = FetchType.LAZY, targetEntity = Meeting.class)
-	@JoinTable(name = "usergroup_meeting", joinColumns = { @JoinColumn(name = "groups_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "meetings_id") })
-	private List<Meeting> meetings = new ArrayList<>();
+    /**
+     * List of meetings of this group.
+     */
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Meeting.class)
+    @JoinTable(name = "usergroup_meeting",
+            joinColumns = {@JoinColumn(name = "groups_id")},
+            inverseJoinColumns = {@JoinColumn(name = "meetings_id")})
+    private List<Meeting> meetings = new ArrayList<>();
 
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
 
-	/**
-	 * @return the name
-	 */
-	public String getName() {
-		return name;
-	}
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
 
-	/**
-	 * @return the description
-	 */
-	public String getDescription() {
-		return description;
-	}
+    /**
+     * @return the description
+     */
+    public String getDescription() {
+        return description;
+    }
 
-	/**
-	 * @return the level
-	 */
-	public UserGroupLevel getLevel() {
-		return level;
-	}
+    /**
+     * @return the level
+     */
+    public UserGroupLevel getLevel() {
+        return level;
+    }
 
-	/**
-	 * @return the curator
-	 */
-	public User getCurator() {
-		return curator;
-	}
+    /**
+     * @return the curator
+     */
+    public User getCurator() {
+        return curator;
+    }
 
-	/**
-	 * @return the users
-	 */
-	public List<User> getUsers() {
-		if (users == null) {
-			return new ArrayList<>();
-		}
-		return users;
-	}
+    /**
+     * @return the users
+     */
+    public List<User> getUsers() {
+        if (users == null) {
+            return new ArrayList<>();
+        }
+        return users;
+    }
 
-	/**
-	 * @return the meetings
-	 */
-	public List<Meeting> getMeetings() {
-		if (meetings == null) {
-			return new ArrayList<>();
-		}
-		return meetings;
-	}
+    /**
+     * @return the meetings
+     */
+    public List<Meeting> getMeetings() {
+        if (meetings == null) {
+            return new ArrayList<>();
+        }
+        return meetings;
+    }
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
+    /**
+     * @param id
+     *            the id to set
+     */
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-	/**
-	 * @param name
-	 *            the name to set
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
+    /**
+     * @param name
+     *            the name to set
+     */
+    public void setName(final String name) {
+        this.name = name;
+    }
 
-	/**
-	 * @param description
-	 *            the description to set
-	 */
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    /**
+     * @param description
+     *            the description to set
+     */
+    public void setDescription(final String description) {
+        this.description = description;
+    }
 
-	/**
-	 * @param level
-	 *            the level to set
-	 */
-	public void setLevel(UserGroupLevel level) {
-		this.level = level;
-	}
+    /**
+     * @param level
+     *            the level to set
+     */
+    public void setLevel(final UserGroupLevel level) {
+        this.level = level;
+    }
 
-	/**
-	 * @param curator
-	 *            the curator to set
-	 */
-	public void setCurator(User curator) {
-		this.curator = curator;
-	}
+    /**
+     * @param curator
+     *            the curator to set
+     */
+    public void setCurator(final User curator) {
+        this.curator = curator;
+    }
 
-	/**
-	 * @param users
-	 *            the users to set
-	 */
-	public void setUsers(List<User> users) {
-		this.users = users;
-	}
+    /**
+     * @param users
+     *            the users to set
+     */
+    public void setUsers(final List<User> users) {
+        this.users = users;
+    }
 
-	/**
-	 * @param meetings
-	 *            the meetings to set
-	 */
-	public void setMeetings(List<Meeting> meetings) {
-		this.meetings = meetings;
-	}
+    /**
+     * @param meetings
+     *            the meetings to set
+     */
+    public void setMeetings(final List<Meeting> meetings) {
+        this.meetings = meetings;
+    }
 
 }

@@ -32,16 +32,34 @@ public interface ValidationFields {
      */
     String LOCATION = "location";
 
+    /**
+     * First name.
+     */
     String FIRSTNAME = "firstName";
 
+    /**
+     * Last name.
+     */
     String LASTNAME = "lastName";
 
+    /**
+     * Mail.
+     */
     String MAIL = "mail";
 
+    /**
+     * Phone.
+     */
     String PHONE = "phone";
 
+    /**
+     * Position.
+     */
     String POSITION = "position";
 
+    /**
+     * Password.
+     */
     String PASSWORD = "password";
 
     /**
@@ -54,6 +72,9 @@ public interface ValidationFields {
      */
     String LEVEL = "level";
 
+    /**
+     * Group users.
+     */
     String USERS = "users";
 
     /**
@@ -74,16 +95,34 @@ public interface ValidationFields {
      */
     String ENDTIME = "endTime";
 
+    /**
+     * User groups.
+     */
     String GROUPS = "groups";
 
+    /**
+     * Subject of meeting.
+     */
     String SUBJECT = "subject";
-    
+
+    /**
+     * Status of meeting.
+     */
     String STATUS = "status";
 
+    /**
+     * First new password.
+     */
     String FIRST_NEW_PASSWORD = "firstNewPassword";
-    
+
+    /**
+     * Second new password.
+     */
     String SECOND_NEW_PASSWORD = "secondNewPassword";
-    
+
+    /**
+     * Old password.
+     */
     String OLD_PASSWORD = "oldPassword";
 
 }

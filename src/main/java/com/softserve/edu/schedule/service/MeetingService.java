@@ -119,23 +119,34 @@ public interface MeetingService {
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus);
 
-    /**
-     * Find all meetings in the DB by given date and roomId.
-     * 
-     * @author Petro Zelyonka
-     * 
-     * @param roomId
-     *            room id for find meetings
-     * 
-     * @param date
-     *            date for find meetings
-     * 
-     * @return List of the MeetingCompactDTO objects.
-     */
-    public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId,
-            LocalDate date);
-
     public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO);
 
+    /**
+     * Find all meetings in the DB by given date and roomId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     *
+     * @param date
+     *            date for find meetings
+     *
+     * @return List of the MeetingCompactDTO objects.
+     */
+    List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId,
+            LocalDate date);
+
+    /**
+     * During creation checks which status can be given to the meeting depends
+     * on room availability.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param meetingDTO
+     *            given meeting DTO
+     *
+     * @return correct MeetingStatus
+     */
     MeetingStatus getMeetingStatusDuringCreation(MeetingDTO meetingDTO);
 }

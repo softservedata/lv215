@@ -218,10 +218,6 @@
 </div>
 
 <script>
-function resetPagesOnFilter(){
-    $('#filterForm').attr('action', $('#filterForm').attr('formaction')+'&pageNumber=0');
-    }
-
 $(function() {
 	$("select[name=locationId]").chosen({
 		width : "160px"

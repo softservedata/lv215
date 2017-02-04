@@ -21,12 +21,11 @@ public class MeetingCompactDTOConverter {
 
     /**
      * Convert given Meeting object to MeetingForMailDTO object.
-     * 
+     *
      * @param meeting
      *            a Meeting object to convert.
-     * 
-     * @return a MeetingsForRoomDTO object or null if given @param meeting is
-     *         null.
+     *
+     * @return a MeetingsForRoomDTO object or null if given meeting is null.
      */
     public MeetingCompactDTO getDTO(final Meeting meeting) {
         if (meeting != null) {

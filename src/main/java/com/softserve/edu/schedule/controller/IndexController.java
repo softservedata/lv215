@@ -22,22 +22,22 @@ public class IndexController implements ControllerConst {
      *
      * @param model
      *            start page view model.
-     * 
+     *
      * @return start page URL
      */
     @RequestMapping(ROOT_URL)
-    public String showIndex(Model model) {
+    public String showIndex(final Model model) {
         return INDEX_URL;
     }
 
     /**
      * Controls view of login page.
-     * 
+     *
      * @return login page URL
      */
     @RequestMapping("/login")
     public String login() {
         return "login";
-    }    
+    }
 
 }

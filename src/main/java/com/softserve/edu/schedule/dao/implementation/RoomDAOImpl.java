@@ -33,23 +33,11 @@ import com.softserve.edu.schedule.service.implementation.specification.RoomFilte
 public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
 
     /**
-     * Deleting Room object from database. Don't touch this method -it has
-     * aspects attached.
-     *
-     * @param room
-     *            - Transfer object
-     */
-    @Override
-    public void delete(Room room) {
-        super.delete(room);
-    }
-
-    /**
      * RoomEquipmentDAO example to provide database operations.
      *
      */
     @Autowired
-    RoomEquipmentDAO roomEquipmentDAO;
+    private RoomEquipmentDAO roomEquipmentDAO;
 
     /**
      * Default constructor to provide entity class for DAO.
@@ -67,7 +55,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
      * @return room with given id
      */
     @Override
-    public Room getById(Long id) {
+    public Room getById(final Long id) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Room> cq = builder.createQuery(Room.class);
         Root<Room> root = cq.from(Room.class);
@@ -99,10 +87,10 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
      *
      * @param roomName
      *            a room name to find in the database.
-     * 
+     *
      * @param locationId
      *            a location id to find room.
-     * 
+     *
      * @return List of rooms with given name and location Id.
      */
     @Override
@@ -123,7 +111,7 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     }
 
     /**
-     * Find all rooms entities in the database with applied filter
+     * Find all rooms entities in the database with applied filter.
      *
      * @param roomFilter
      *            a filter to apply.
@@ -149,16 +137,16 @@ public class RoomDAOImpl extends CrudDAOImpl<Room> implements RoomDAO {
     }
 
     /**
-     * Count rooms entities in the database with specified predicate
+     * Count rooms entities in the database with specified predicate.
      *
-     * @param predicate
-     *            a predicate to apply.
+     * @param roomFilter
+     *            a filter to apply.
      *
      * @return Count of the room entities in the database with specified
      *         predicate.
      */
     @Override
-    public Long getCountOfRoomsWithFilter(RoomFilter roomFilter) {
+    public Long getCountOfRoomsWithFilter(final RoomFilter roomFilter) {
         CriteriaBuilder qb = getEm().getCriteriaBuilder();
         CriteriaQuery<Long> cq = qb.createQuery(Long.class);
         Root<Room> root = cq.from(Room.class);

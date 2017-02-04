@@ -9,15 +9,33 @@ package com.softserve.edu.schedule.entity;
  *
  */
 public enum UserGroupLevel {
-	STUDENTS("stCode"), TEACHERS("tchCode"), UNKNOWN("unkCode");
 
-	private String code;
+    /**
+     * User group level values.
+     */
+    STUDENTS("stCode"), TEACHERS("tchCode"), UNKNOWN("unkCode");
 
-	private UserGroupLevel(final String code) {
-		this.code = code;
-	}
+    /**
+     * User group level message code for localization purposes.
+     */
+    private String code;
 
-	public String getCode() {
-		return code;
-	}
+    /**
+     * User group level constructor.
+     *
+     * @param code
+     *            message code
+     */
+    UserGroupLevel(final String code) {
+        this.code = code;
+    }
+
+    /**
+     * Message code getter.
+     *
+     * @return message code
+     */
+    public String getCode() {
+        return code;
+    }
 }
