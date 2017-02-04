@@ -21,6 +21,7 @@ import javax.validation.Payload;
  *
  * @since 1.8
  */
+
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {RoomValidator.class, SubjectValidator.class,
