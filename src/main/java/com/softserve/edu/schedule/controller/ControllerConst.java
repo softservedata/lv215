@@ -232,104 +232,103 @@ public interface ControllerConst {
         String USER_DETAILS_MAPPING = "/userDetails";
         
         String USER_DETAILS_URL = "/userDetails";
-        
     }
 
     /**
-	 * An interface to storage location controller model attributes and mappings
-	 * URL.
-	 *
-	 * @version 1.0 20 January 2017
-	 *
-	 * @author Oleksandr Butyter
-	 */
-	public interface LocationControllerConst {
+     * An interface to storage location controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Oleksandr Butyter
+     */
+    public interface LocationControllerConst {
 
-		/**
-		 * Filter model attribute name.
-		 */
-		String FILTER_MODEL_ATTR = "locationFilter";
+        /**
+         * Filter model attribute name.
+         */
+        String FILTER_MODEL_ATTR = "locationFilter";
 
-		/**
-		 * Paginator model attribute name.
-		 */
-		String LOCATION_PAGINATOR_MODEL_ATTR = "locationPaginator";
+        /**
+         * Paginator model attribute name.
+         */
+        String LOCATION_PAGINATOR_MODEL_ATTR = "locationPaginator";
 
-		/**
-		 * Locations model attribute name.
-		 */
-		String LOCATIONS_MODEL_ATTR = "locations";
+        /**
+         * Locations model attribute name.
+         */
+        String LOCATIONS_MODEL_ATTR = "locations";
 
-		/**
-		 * Location form model attribute name.
-		 */
-		String LOCATION_FORM_MODEL_ATTR = "locationForm";
+        /**
+         * Location form model attribute name.
+         */
+        String LOCATION_FORM_MODEL_ATTR = "locationForm";
 
-		/**
-		 * Location map model attribute name.
-		 */
-		String LOCATION_MAP_MODEL_ATTR = "map";
-		
-		/**
-		 * Locations list URL.
-		 */
-		String LOCATIONS_LIST_URL = "locations/list";
+        /**
+         * Location map model attribute name.
+         */
+        String LOCATION_MAP_MODEL_ATTR = "map";
 
-		/**
-		 * Locations list redirect URL.
-		 */
-		String LOCATIONS_REDIRECT_URL = "redirect:/locations";
+        /**
+         * Locations list URL.
+         */
+        String LOCATIONS_LIST_URL = "locations/list";
 
-		/**
-		 * Create new location URL.
-		 */
-		String LOCATION_CREATE_URL = "locations/create";
+        /**
+         * Locations list redirect URL.
+         */
+        String LOCATIONS_REDIRECT_URL = "redirect:/locations";
 
-		/**
-		 * Edit location information URL.
-		 */
-		String LOCATION_EDIT_URL = "locations/edit";
+        /**
+         * Create new location URL.
+         */
+        String LOCATION_CREATE_URL = "locations/create";
 
-		/**
-		 * Map location URL.
-		 */
-		String LOCATION_MAP_URL = "locations/map";
-		
-		/**
-		 * Locations mapping URL.
-		 */
-		String LOCATIONS_MAPPING = "/locations";
+        /**
+         * Edit location information URL.
+         */
+        String LOCATION_EDIT_URL = "locations/edit";
 
-		/**
-		 * Locations sort by count rooms (asc) mapping URL.
-		 */
-		String LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING = "/locations/sortbycountroomsasc";
+        /**
+         * Map location URL.
+         */
+        String LOCATION_MAP_URL = "locations/map";
 
-		/**
-		 * Locations sort by count rooms (desc) mapping URL.
-		 */
-		String LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING = "/locations/sortbycountroomsdesc";
+        /**
+         * Locations mapping URL.
+         */
+        String LOCATIONS_MAPPING = "/locations";
 
-		/**
-		 * Delete location mapping URL name.
-		 */
-		String LOCATION_DELETE_MAPPING = "/locations/delete/";
+        /**
+         * Locations sort by count rooms (asc) mapping URL.
+         */
+        String LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING = "/locations/sortbycountroomsasc";
 
-		/**
-		 * Create new location mapping URL name.
-		 */
-		String LOCATION_CREATE_MAPPING = "/locations/create";
+        /**
+         * Locations sort by count rooms (desc) mapping URL.
+         */
+        String LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING = "/locations/sortbycountroomsdesc";
 
-		/**
-		 * Edit location information mapping URL name.
-		 */
-		String LOCATION_EDIT_MAPPING = "/locations/edit/";
+        /**
+         * Delete location mapping URL name.
+         */
+        String LOCATION_DELETE_MAPPING = "/locations/delete/";
 
-		/**
-		 * Map location mapping URL name.
-		 */
-		String LOCATION_MAP_MAPPING = "/locations/map/";
-	}
+        /**
+         * Create new location mapping URL name.
+         */
+        String LOCATION_CREATE_MAPPING = "/locations/create";
+
+        /**
+         * Edit location information mapping URL name.
+         */
+        String LOCATION_EDIT_MAPPING = "/locations/edit/";
+
+        /**
+         * Map location mapping URL name.
+         */
+        String LOCATION_MAP_MAPPING = "/locations/map/";
+    }
 
     public interface SubjectControllerConst {
 
@@ -439,7 +438,7 @@ public interface ControllerConst {
     public interface UserGroupControllerConst {
 
         /**
-         * Filter attribute for groups.
+         * Filter attribute for groups
          */
         String FILTER_MODEL_ATTR = "usergroupFilter";
 
@@ -499,6 +498,11 @@ public interface ControllerConst {
         String USERGROUP_CURATORS_ATTR = "curators";
 
         /**
+         * Curator attribute.
+         */
+        String USERGROUP_CURATOR_ATTR = "curator";
+
+        /**
          * All users attribute.
          */
         String USERGROUP_ALL_USERS_ATTR = "allUsers";
@@ -509,19 +513,39 @@ public interface ControllerConst {
         String USERGROUP_LEVEL_ATTR = "levels";
 
         /**
-         * Mapping on a usergroups page.
+         * Mapping on a usergroups page
          */
         String USERGROUP_MAPPING = "/usergroups";
 
         /**
-         * Path name.
+         * Path name
          */
         String USERGROUP_PATH_NAME = "name";
 
         /**
-         * Path curator's last name.
+         * Path curator's lastname
          */
         String USERGROUP_PATH_CURATOR_LASTNAME = "curator.lastName";
+
+        /**
+         * UserGroup details mapping URL name.
+         */
+        String USERGROUP_SHOW_MAPPING = "/{id}";
+
+        /**
+         * Path variable for usergroup id.
+         */
+        String PATH_VAR_ID = "id";
+
+        /**
+         * Show group details URL name.
+         */
+        String USERGROUP_SHOW_URL = "usergroups/show";
+
+        /**
+         * Group members attribute.
+         */
+        String USERGROUP_GROUP_MEMBERS = "groupMembers";
     }
 
     public interface RoomEquipmentControllerConst {

@@ -9,7 +9,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.service.implementation.mailsenders.RegistrationMailServise;
 
-public class UserRegistEntityListener {
+public class UserEntityListener {
 
     /**
      * MeetingCanceledMailService example to provide send mail to user
