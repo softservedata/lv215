@@ -15,5 +15,29 @@ public enum UserRole {
     /**
      * User role values.
      */
-    ROLE_USER, ROLE_MODERATOR, ROLE_SUPERVISOR, ROLE_ADMIN;
+    ROLE_USER("simpleUser"), ROLE_MODERATOR("moderator"), ROLE_SUPERVISOR("supervisor"), ROLE_ADMIN("admin");
+
+    /**
+     * User role message code for localization purposes.
+     */
+    private String role;
+
+    /**
+     * User group level constructor.
+     *
+     * @param code
+     *            message code
+     */
+    UserRole(final String role) {
+        this.role = role;
+    }
+
+    /**
+     * Message code getter.
+     *
+     * @return message code
+     */
+    public String getRole() {
+        return role;
+    }
 }

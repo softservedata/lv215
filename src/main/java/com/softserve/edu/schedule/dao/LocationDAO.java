@@ -41,6 +41,15 @@ public interface LocationDAO extends CrudDAO<Location> {
 	 */
 	List<Location> getLocationsByField(final String field, final String pattern);
 
+	/**
+     * Method returns list of locations which suit filter condition.
+     * 
+     * @param locationFilter
+     *            filter to apply.
+     * @param locationPaginator
+     *            locationPaginator to set
+     * @return list of locations which suit filter condition
+     */
 	public List<Location> getLocationsPageWithFilter(final LocationFilter locationFilter,
 			final Paginator locationPaginator);
 }

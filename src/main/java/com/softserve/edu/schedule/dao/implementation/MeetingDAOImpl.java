@@ -189,8 +189,13 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         }
     }
 
-    /* (non-Javadoc)
-     * @see com.softserve.edu.schedule.dao.MeetingDAO#dublicatesOfGivenFields(java.lang.String, java.lang.String, java.lang.String, java.time.LocalDate, java.time.LocalTime)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#dublicatesOfGivenFields(java.
+     * lang.String, java.lang.String, java.lang.String, java.time.LocalDate,
+     * java.time.LocalTime)
      */
     public List<Meeting> dublicatesOfGivenFields(final String subjectName,
             final String OwnerName, final String roomName,
@@ -336,6 +341,23 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         Predicate timePredicate = builder.or(timePredicate1, timePredicate2);
         basePredicate = builder.and(basePredicate, timePredicate);
         cq.where(basePredicate);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Meeting> getMeetingsInInterval(LocalDate startDate,
+            LocalDate endDate) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.join(Meeting_.subject);
+        root.join(Meeting_.owner);
+        root.join(Meeting_.room);
+        root.join(Meeting_.groups);
+        Predicate predicate = builder.between(root.get(Meeting_.date),
+                startDate, endDate);
+        cq.where(predicate);
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
