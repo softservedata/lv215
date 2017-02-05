@@ -105,6 +105,7 @@ public class UserGroupFilterSpecification implements Specification<UserGroup> {
         return spec.toPredicate(root, criteriaQuery, criteriaBuilder);
     }
 
+    @SuppressWarnings("rawtypes")
     private void setSortingParameters(final Root<UserGroup> root,
             final CriteriaQuery<?> criteriaQuery,
             final CriteriaBuilder criteriaBuilder) {
