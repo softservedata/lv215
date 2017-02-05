@@ -47,7 +47,7 @@ public class RoomServiceImpl implements RoomService {
     /**
      * Save new room entity into the database.
      *
-     * @param room
+     * @param roomDTO
      *            a new room DTO to storage in database.
      */
     @Override
@@ -85,10 +85,10 @@ public class RoomServiceImpl implements RoomService {
      *
      * @param roomName
      *            a room name to find in the database.
-     * 
+     *
      * @param location
      *            a location to find room.
-     * 
+     *
      * @return list of rooms DTO with given name and location.
      */
     @Override
@@ -114,7 +114,7 @@ public class RoomServiceImpl implements RoomService {
 
     /**
      * Find all rooms entities in the database.
-     * 
+     *
      * @return List of the room DTO objects.
      */
     @Override
@@ -127,7 +127,7 @@ public class RoomServiceImpl implements RoomService {
     /**
      * Find all rooms entities in the database with location and equipment
      * details.
-     * 
+     *
      * @return List of the room DTO objects.
      */
     @Override
@@ -139,11 +139,11 @@ public class RoomServiceImpl implements RoomService {
     }
 
     /**
-     * Find all rooms entities in the database with applied filter
-     * 
+     * Find all rooms entities in the database with applied filter.
+     *
      * @param roomFilter
      *            a filter to apply.
-     * 
+     *
      * @return List of the room DTO objects.
      */
     @Override

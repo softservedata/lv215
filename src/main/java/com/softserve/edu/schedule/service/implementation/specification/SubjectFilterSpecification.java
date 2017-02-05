@@ -186,8 +186,9 @@ public class SubjectFilterSpecification implements Specification<Subject> {
      *         filter parameters.
      */
     @Override
-    public Predicate toPredicate(Root<Subject> root,
-            CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+    public Predicate toPredicate(final Root<Subject> root,
+            final CriteriaQuery<?> criteriaQuery,
+            final CriteriaBuilder criteriaBuilder) {
         root.join(Subject_.users, JoinType.LEFT);
         setSortingParameters(root, criteriaQuery, criteriaBuilder);
         findByName();

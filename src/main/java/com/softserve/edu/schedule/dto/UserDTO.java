@@ -3,7 +3,6 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,8 +25,8 @@ import com.softserve.edu.schedule.service.implementation.validators.Validate;
 public class UserDTO implements UserDetails {
 
     /**
-    * 
-    */
+     * Serial version UID for serialization.
+     */
     private static final long serialVersionUID = -2904288046344286004L;
 
     private Long id;
@@ -74,6 +73,12 @@ public class UserDTO implements UserDetails {
         this.mail = mail;
     }
 
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * @return the password
+     */
+    @Override
     public String getPassword() {
         return password;
     }
@@ -130,23 +135,11 @@ public class UserDTO implements UserDetails {
         this.subjects = subjects;
     }
 
-    @Override
-    public boolean equals(Object o) {
-
-        if (o == this)
-            return true;
-        if (!(o instanceof UserDTO)) {
-            return false;
-        }
-        UserDTO user = (UserDTO) o;
-        return Objects.equals(mail, user.mail);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(mail);
-    }
-
+    /**
+     * Returns the authorities granted to the user.
+     *
+     * @return the authorities, sorted by natural key
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority sga = new SimpleGrantedAuthority(
@@ -157,26 +150,57 @@ public class UserDTO implements UserDetails {
         return roles;
     }
 
+    /**
+     * Returns the username used to authenticate the user. .
+     *
+     * @return the username
+     */
     @Override
     public String getUsername() {
         return getMail();
     }
 
+    /**
+     * Indicates whether the user's account has expired. An expired account
+     * cannot be authenticated.
+     *
+     * @return true if the user's account is valid (ie non-expired), false if no
+     *         longer valid (ie expired)
+     */
     @Override
     public boolean isAccountNonExpired() {
         return true;
     }
 
+    /**
+     * Indicates whether the user is locked or unlocked. A locked user cannot be
+     * authenticated.
+     *
+     * @return true if the user is not locked, false otherwise
+     */
     @Override
     public boolean isAccountNonLocked() {
         return getStatus().equals(UserStatus.ACTIVE);
     }
 
+    /**
+     * Indicates whether the user's credentials (password) has expired. Expired
+     * credentials prevent authentication.
+     *
+     * @return true if the user's credentials are valid (ie non-expired), false
+     *         if no longer valid (ie expired)
+     */
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
 
+    /**
+     * Indicates whether the user is enabled or disabled. A disabled user cannot
+     * be authenticated.
+     *
+     * @return true if the user is enabled, false otherwise
+     */
     @Override
     public boolean isEnabled() {
         return getStatus().equals(UserStatus.ACTIVE);

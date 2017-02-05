@@ -89,7 +89,7 @@ public class Location {
      * @param id
      *            the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -97,7 +97,7 @@ public class Location {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -105,7 +105,7 @@ public class Location {
      * @param address
      *            the address to set
      */
-    public void setAddress(String address) {
+    public void setAddress(final String address) {
         this.address = address;
     }
 
@@ -113,7 +113,7 @@ public class Location {
      * @param coordinates
      *            the coordinates to set
      */
-    public void setCoordinates(String coordinates) {
+    public void setCoordinates(final String coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -121,7 +121,7 @@ public class Location {
      * @param rooms
      *            the rooms to set
      */
-    public void setRooms(List<Room> rooms) {
+    public void setRooms(final List<Room> rooms) {
         this.rooms = rooms;
     }
 }

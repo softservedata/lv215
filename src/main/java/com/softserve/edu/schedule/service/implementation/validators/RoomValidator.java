@@ -1,4 +1,4 @@
-/* RoomValidatorImpl 1.0 01/29/2017 */
+/* RoomValidator 1.0 01/29/2017 */
 package com.softserve.edu.schedule.service.implementation.validators;
 
 import java.util.List;
@@ -21,8 +21,7 @@ import com.softserve.edu.schedule.service.RoomService;
  *
  * @since 1.8
  */
-public class RoomValidator
-        implements ConstraintValidator<Validate, RoomDTO> {
+public class RoomValidator implements ConstraintValidator<Validate, RoomDTO> {
 
     /**
      * Messages source for internationalization purposes.
@@ -60,7 +59,7 @@ public class RoomValidator
      */
     @Override
     public boolean isValid(final RoomDTO roomDTO,
-            final ConstraintValidatorContext context) {        
+            final ConstraintValidatorContext context) {
         boolean isNameValid = isNameValid(roomDTO);
         boolean isCapacityValid = isCapacityValid(roomDTO);
         boolean hasNoDuplicates = hasNoDuplicates(roomDTO);
@@ -72,10 +71,10 @@ public class RoomValidator
     /**
      * Checks the rooms in the database with the same name and location as given
      * roomDTO parameter.
-     * 
+     *
      * @param roomDTO
      *            a RoomDTO object to check duplicates.
-     * 
+     *
      * @return true if there are no duplicates
      */
     private boolean hasNoDuplicates(final RoomDTO roomDTO) {
@@ -87,10 +86,10 @@ public class RoomValidator
 
     /**
      * Checks the given roomDTO name contains only allowed characters.
-     * 
+     *
      * @param roomDTO
      *            a RoomDTO object to check name.
-     * 
+     *
      * @return true if name is valid
      */
     private boolean isNameValid(final RoomDTO roomDTO) {
@@ -101,10 +100,10 @@ public class RoomValidator
     /**
      * Checks the given roomDTO capacity is greater than 0 and less than maximum
      * allowed capacity.
-     * 
+     *
      * @param roomDTO
      *            a RoomDTO object to check capacity.
-     * 
+     *
      * @return true if capacity is valid
      */
     private boolean isCapacityValid(final RoomDTO roomDTO) {
@@ -114,10 +113,13 @@ public class RoomValidator
 
     /**
      * Method localizes message.
-     * 
+     *
      * @param field
+     *            message field
      * @param message
+     *            message text
      * @param context
+     *            validator context
      */
     private void errorMessage(final String field, final String message,
             final ConstraintValidatorContext context) {
@@ -129,11 +131,15 @@ public class RoomValidator
 
     /**
      * Method sets error messages if some verification fails.
-     * 
+     *
      * @param isNameValid
+     *            true if room name is valid
      * @param isCapacityValid
+     *            true if room capacity is valid
      * @param hasNoDuplicates
+     *            true if there are no duplicates of room in this locstion
      * @param context
+     *            validator context
      */
     private void printErrorMessages(final boolean isNameValid,
             final boolean isCapacityValid, final boolean hasNoDuplicates,

@@ -14,11 +14,21 @@ public interface UserDAO extends CrudDAO<User> {
      * @param id
      *            a user id to delete from database.
      */
-    public void deleteById(final Long id);
+    void deleteById(Long id);
 
-    public User findByMail(String userMail);
-    
-    public List<User> getUsersPageWithFilter(final UserFilter userFilter,
-            final Paginator userPaginator);
+    /**
+     * Find all meetings in the DB by given date and roomId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param userMail
+     *            user mail to find user in database
+     *
+     * @return User object with given mail or null if not finded.
+     */
+    User findByMail(String userMail);
+
+    List<User> getUsersPageWithFilter(UserFilter userFilter,
+            Paginator userPaginator);
 
 }

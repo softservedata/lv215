@@ -36,12 +36,12 @@ public class RoomDTOConverter {
     private RoomEquipmentDAO roomEquipmentDAO;
 
     /**
-     * Convert given RoomDTO object to Room object
-     * 
+     * Convert given RoomDTO object to Room object.
+     *
      * @param roomDTO
      *            a RoomDTO object to convert.
-     * 
-     * @return a Room object or null if given @param roomDTO is null.
+     *
+     * @return a Room object or null if given roomDTO is null.
      */
     public Room getEntity(final RoomDTO roomDTO) {
         if (roomDTO != null) {
@@ -62,11 +62,11 @@ public class RoomDTOConverter {
 
     /**
      * Convert given Room object to RoomDTO object.
-     * 
+     *
      * @param room
      *            a Room object to convert.
-     * 
-     * @return a RoomDTO object or null if given @param room is null.
+     *
+     * @return a RoomDTO object or null if given room is null.
      */
     public RoomDTO getDTO(final Room room) {
         if (room != null) {

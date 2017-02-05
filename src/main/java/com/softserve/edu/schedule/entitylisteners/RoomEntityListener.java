@@ -27,9 +27,10 @@ import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingCanc
  * @since 1.8
  */
 public class RoomEntityListener {
-    
+
     /**
-     * MeetingCompactDTOConverter example to provide to DTO and from DTO conversion.
+     * MeetingCompactDTOConverter example to provide to DTO and from DTO
+     * conversion.
      */
     @Autowired
     private MeetingCompactDTOConverter meetingCompactDTOConverter;
@@ -40,18 +41,18 @@ public class RoomEntityListener {
      */
     @Autowired
     private MeetingCanceledMailService meetingCanceledMailService;
-    
+
     /**
      * Set to all meetings in room null value in field room, changed status of
      * all future meetings to NOT_APPROVED and send mail messages to their
      * owners.
-     * 
+     *
      * @param room
      *            Room to proceed meetings
-     * 
+     *
      */
     @PreRemove
-    public void processingRoomBeforeDeletion(Room room) {
+    public void processingRoomBeforeDeletion(final Room room) {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         List<MeetingCompactDTO> meetingToAlert = new ArrayList<>();
         room.getMeetings().forEach(e -> {
@@ -65,5 +66,5 @@ public class RoomEntityListener {
                 e -> meetingCanceledMailService.sendInfoMessageRoomDeletion(e,
                         LocaleContextHolder.getLocale()));
     }
-    
+
 }

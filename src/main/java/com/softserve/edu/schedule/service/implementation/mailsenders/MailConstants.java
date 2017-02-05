@@ -1,5 +1,15 @@
+/* ControllerConst 1.0 01/29/2017 */
 package com.softserve.edu.schedule.service.implementation.mailsenders;
 
+/**
+ * An interface to storage mail senders attributes.
+ *
+ * @version 1.0 29 January 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
 public interface MailConstants {
 
     /**
@@ -23,8 +33,19 @@ public interface MailConstants {
     String MEETING_CANCELLED_TEMPLATE = "meetingCancelledDueRoomUnavailability";
     
     /**
+     * Meeting cancelled message template for EN locale location.
+     */
+    String MEETING_CANCELLED_BY_SUBJECT_TEMPLATE = "meetingCanceledDueSubjectDelete";
+
+    /**
      * Model name for meeting cancelled template.
      */
     String MEETING_MODEL_NAME = "meeting";
+    
+    String USER_MODEL_NAME = "user";
+    
+    String REGISTRATION_MESSAGE_SUBJECT = "userRegistrated.messageSubject";
+    
+    String USER_REGISTRATED_TEMPLATE = "userRegistrated";
     
 }

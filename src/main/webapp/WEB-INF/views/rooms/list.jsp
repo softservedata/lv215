@@ -75,7 +75,7 @@
 					<tr class="collapse" id="showfilter">
 				</c:otherwise>
 			</c:choose>
-			<form:form role="form" action="rooms" method="get"
+			<form:form role="form" id="filterForm" action="rooms" method="get"
 				modelAttribute="${RoomController.FILTER_MODEL_ATTR}">
 				<form:input path="showFilter" type="hidden" value="true" />
 				<td>
@@ -227,8 +227,8 @@ $(function() {
 	});		
 })
 
- $('#paginationList').twbsPagination({
-        totalPages: ${roomPaginator.pagesCount + 1},
+ $('#paginationList').twbsPagination({	 	
+	 	totalPages: ${roomPaginator.pagesCount + 1},
         startPage: ${roomPaginator.pageNumber + 1},
         visiblePages: 10,
         first: '&lt;&lt;&lt;&lt;',

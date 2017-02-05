@@ -23,9 +23,9 @@ import com.softserve.edu.schedule.entity.Subject;
 public interface SubjectDAO extends CrudDAO<Subject> {
 
     /**
-     * Return a searched Subject.
+     * Return a searched Subjects.
      *
-     * @return searched Subject
+     * @return searched Subjects
      */
     public List<Subject> getSubjectByName(final String subjectName);
 
@@ -40,4 +40,22 @@ public interface SubjectDAO extends CrudDAO<Subject> {
     public List<Subject> getSubjectsPageWithFilter(
             final SubjectFilter subjectFilter,
             final Paginator subjectPaginator);
+    
+    /**
+     * Count subjects entities in the database with specified filter
+     *
+     * @param predicate
+     *            a predicate to apply.
+     *
+     * @return Count of the subject entities in the database with specified
+     *         predicate.
+     */
+    Long getCountOfSubjectsWithFilter(final SubjectFilter subjectFilter);
+    
+    /**
+     * Return a searched Subject.
+     *
+     * @return searched Subject
+     */
+    public Subject getSubjectsWithMeetingDetailsById(final Long id);
 }

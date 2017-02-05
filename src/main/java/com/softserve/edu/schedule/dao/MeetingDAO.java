@@ -27,6 +27,13 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  */
 public interface MeetingDAO extends CrudDAO<Meeting> {
 
+    /**
+     * Returns List of Meetings by given MeetingFilter and Paginator.
+     * 
+     * @param meetingFilter
+     * @param meetingPaginator
+     * @return List of Meetings
+     */
     public List<Meeting> getMeetingPageWithFilter(
             final MeetingFilter meetingFilter,
             final Paginator meetingPaginator);
@@ -50,43 +57,56 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus);
 
+    /**
+     * Gives MeetingStatus by given String name.
+     * 
+     * @param status
+     *            name of status
+     * @return MeetingStatus object.
+     */
     public MeetingStatus getStatusbyString(final String status);
 
+    /**
+     * Returns the List of MeetingDTO, that duplicates given Meetings fields.
+     * 
+     * @param Meetings
+     *            fields
+     * @return List of Meeting
+     */
     public List<Meeting> dublicatesOfGivenFields(final String subjectName,
             final String OwnerName, final String roomName,
             final LocalDate localDate, final LocalTime localTime);
 
     /**
      * Find all meetings in the DB by given date and roomId.
-     * 
+     *
      * @author Petro Zelyonka
-     * 
+     *
      * @param roomId
      *            room id for find meetings
      * @param date
      *            date for find meetings
-     * 
+     *
      * @return List of the Meeting objects.
      */
-    public List<Meeting> getMeetingsByRoomIdAndDate(final Long roomId,
-            final LocalDate date);
+    List<Meeting> getMeetingsByRoomIdAndDate(Long roomId, LocalDate date);
 
     /**
      * Find all meetings in the DB which date and time are in past and status
      * not FINISHED.
-     * 
+     *
      * @author Petro Zelyonka
-     * 
+     *
      * @return List of the Meeting objects.
      */
-    public List<Meeting> getUnfinishedPastMeetings();
+    List<Meeting> getUnfinishedPastMeetings();
 
     /**
      * Find all approved meetings in the DB by given roomId, date, start and end
      * time.
-     * 
+     *
      * @author Petro Zelyonka
-     * 
+     *
      * @param roomId
      *            room id for find meetings
      * @param date
@@ -95,10 +115,11 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *            start time for find meetings
      * @param endTime
      *            end time for find meetings
-     * 
+     *
      * @return List of the Meeting objects.
      */
-    public List<Meeting> getApprovedMeetingsByRoomIdAndTime(Long roomId,
+    List<Meeting> getApprovedMeetingsByRoomIdAndTime(Long roomId,
             LocalDate date, LocalTime startTime, LocalTime endTime);
 
+    List<Meeting> getMeetingsInInterval(LocalDate startDate, LocalDate endDate);
 }

@@ -12,7 +12,7 @@ import org.springframework.util.StopWatch;
 /**
  * Performance logging aspect for checking performance of the application
  * components.
- * 
+ *
  * @version 1.0 29 January 2017
  *
  * @author Petro Zelyonka
@@ -29,8 +29,19 @@ public class PerformanceLoggingAspect {
     private Logger log = LoggerFactory
             .getLogger(PerformanceLoggingAspect.class);
 
+    /**
+     * Log target method time of execution.
+     *
+     * @param joinPoint
+     *            target method join point
+     *
+     * @return result of target method proceeding
+     *
+     * @throws Throwable
+     *             if target method proceed finished with exception/
+     */
     @Around("@within(PerfomanceLoggable) || @annotation(PerfomanceLoggable)")
-    public Object logPerfomanceMethod(ProceedingJoinPoint joinPoint)
+    public Object logPerfomanceMethod(final ProceedingJoinPoint joinPoint)
             throws Throwable {
 
         StopWatch stopWatch = new StopWatch();

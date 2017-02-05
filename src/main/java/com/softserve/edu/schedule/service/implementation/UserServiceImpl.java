@@ -253,17 +253,6 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public UserDTO loadUserByUsername(String userMail)
-            throws UsernameNotFoundException {
-        User user = userDAO.findByMail(userMail);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found");
-        }
-        return userDTOConverter.getDTO(user);
-    }
-
     /**
      * Change password of user in the database.
      *
@@ -307,13 +296,37 @@ public class UserServiceImpl implements UserService {
         return userDTOForPasswordConverter
                 .getDTOForPassword(userDAO.getById(id));
     }
-    
+
     @Override
     @Transactional(readOnly = true)
     public List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter,
-            final Paginator userPaginator){
-        return userDAO.getUsersPageWithFilter(userFilter, userPaginator).stream()
-                .map(e -> userDTOConverter.getDTO(e)).collect(Collectors.toList());
+            final Paginator userPaginator) {
+        return userDAO.getUsersPageWithFilter(userFilter, userPaginator)
+                .stream().map(e -> userDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Locates the user based on the user e-mail.
+     *
+     * @param userMail
+     *            e-mail address identifying the user whose data is required.
+     *
+     * @return a fully populated user record
+     *
+     * @throws UsernameNotFoundException
+     *             if the user could not be found or the user has no
+     *             GrantedAuthority
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public UserDTO loadUserByUsername(final String userMail)
+            throws UsernameNotFoundException {
+        User user = userDAO.findByMail(userMail);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        return userDTOConverter.getDTO(user);
     }
 
 }

@@ -17,6 +17,7 @@ import java.util.List;
 import com.softserve.edu.schedule.dao.Order;
 
 import com.softserve.edu.schedule.dto.MeetingDTO;
+import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
@@ -28,7 +29,6 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  * @version 1.0 12.12.2016
  * @author IT Academy
  */
-
 public interface MeetingService {
 
     /**
@@ -48,6 +48,13 @@ public interface MeetingService {
      */
     public MeetingDTO getById(final Long id);
 
+    /**
+     * Gives MeetingStatus by given String name.
+     * 
+     * @param status
+     *            name of status
+     * @return MeetingStatus object.
+     */
     public MeetingStatus getStatusbyString(final String status);
 
     /**
@@ -82,11 +89,20 @@ public interface MeetingService {
      */
     public void deleteById(final Long id);
 
+    /**
+     * Returns List of MeetingDTO by given filter and paginator for Room page.
+     * 
+     * @param meetingFilter
+     *            filter for meetings.
+     * @param roomPaginator
+     *            Roompaginator for meetings.
+     * @return List of MeetingDTO
+     */
     public List<MeetingDTO> getMeetingPageWithFilter(
             final MeetingFilter meetingFilter, final Paginator roomPaginator);
 
     /**
-     * Return a List of sorted Meeting transfer objects.
+     * Returns a List of sorted Meeting transfer objects.
      *
      * @param field
      *            for sort
@@ -119,23 +135,32 @@ public interface MeetingService {
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus);
 
-    /**
-     * Find all meetings in the DB by given date and roomId.
-     * 
-     * @author Petro Zelyonka
-     * 
-     * @param roomId
-     *            room id for find meetings
-     * 
-     * @param date
-     *            date for find meetings
-     * 
-     * @return List of the MeetingCompactDTO objects.
-     */
-    public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId,
-            LocalDate date);
-
     public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO);
 
-    MeetingStatus getMeetingStatusDuringCreation(MeetingDTO meetingDTO);
+    /**
+     * Find all meetings in the DB by given date and roomId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     *
+     * @param date
+     *            date for find meetings
+     *
+     * @return List of the MeetingCompactDTO objects.
+     */
+    List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId,
+            LocalDate date);
+
+    /**
+     * Returns MeetingStatus of meeting during process of Meeting creation.
+     * 
+     * @param meetingDTO
+     * @return MeetingStatus
+     */
+    MeetingStatus getMeetingStatusDuringCreation(final MeetingDTO meetingDTO);
+
+    List<MeetingForCalendarDTO> getMeetingsInInterval(String start,
+            String end);
 }
