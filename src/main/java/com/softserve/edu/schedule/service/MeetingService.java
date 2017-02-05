@@ -161,6 +161,9 @@ public interface MeetingService {
      */
     MeetingStatus getMeetingStatusDuringCreation(final MeetingDTO meetingDTO);
 
-    List<MeetingForCalendarDTO> getMeetingsInInterval(String start,
-            String end);
+    List<MeetingForCalendarDTO> getMeetingsInInterval(String start, String end);
+
+    List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(Long roomId,
+            String start, String end);
+
 }
