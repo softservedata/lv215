@@ -83,55 +83,6 @@
 				class="fa fa-times fa-lg"></i>
 		</a></td>
 	</tr>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		<%-- <tr>
-			<td></td>
-			<td><form:form method="post"
-					action="${pageContext.request.contextPath}${UserController.SEARCH_BY_LASTNANE_MAPPING}"
-					modelAttribute="${UserController.SEARCH_MODEL_ATTR}">
-					<form:input path="lastName" placeholder=" Search..." />
-					<button type="submit" title="Search by lastName">
-						<i class="fa fa-search"></i>
-					</button>
-				</form:form></td>
-			<td></td>
-			<td></td>
-			<td><form:form method="post"
-					action="${pageContext.request.contextPath}${UserController.SEARCH_BY_POSITION_MAPPING}"
-					modelAttribute="${UserController.SEARCH_MODEL_ATTR}">
-					<form:input path="position" placeholder=" Search..." />
-					<button type="submit" title="Search by position">
-						<i class="fa fa-search"></i>
-					</button>
-				</form:form></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr> --%>
 		<c:forEach items="${users}" var="user">
 			<tr>
 				<td></td>
@@ -141,7 +92,7 @@
 				<td>${user.mail}</td>
 				<td>${user.phone}</td>
 				<td>${user.position}</td>
-				<td>${user.role}</td>
+				<td><spring:message code="lbl.user.${user.role.getRole()}" /></td>
 				<td><c:forEach items="${user.groups}" var="group">
 						<p>${group.name}</p>
 					</c:forEach></td>

@@ -42,30 +42,6 @@ public class UserController implements ControllerConst.UserControllerConst,
     @Autowired
     private UserService userService;
 
-    // /**
-    // * Provides user model.
-    // *
-    // * @return new UserDTO object.
-    // */
-    // @ModelAttribute(SEARCH_MODEL_ATTR)
-    // public UserDTO getUserDTO() {
-    // return new UserDTO();
-    // }
-
-    // /**
-    // * Controls view of users list page.
-    // *
-    // * @param model
-    // * users list page view model.
-    // *
-    // * @return users list page URL
-    // */
-    // @RequestMapping(USERS_MAPPING_FROM_HEADER)
-    // public String allUserPage(Model model) {
-    // model.addAttribute(USERS_MODEL_ATTR, userService.getAll());
-    // return USERS_PAGE_URL;
-    // }
-
     /**
      * Controls processing of user delete URL.
      *
@@ -179,107 +155,6 @@ public class UserController implements ControllerConst.UserControllerConst,
         userService.changeRole(id, role);
         return REDIRECT_USERS_PAGE;
     }
-
-    // /**
-    // * Controls view of users list page in ascending order by last name.
-    // *
-    // * @param model
-    // * users list page view model.
-    // *
-    // * @return users list page URL
-    // */
-    // @RequestMapping(SORT_BY_LASTNAME_ASC_MAPPING)
-    // public String sortByLastNameAsc(Model model) {
-    // model.addAttribute(USERS_MODEL_ATTR,
-    // userService.sortByLastName(Order.ASC));
-    // return USERS_PAGE_URL;
-    // }
-
-    // /**
-    // * Controls view of users list page in descending order by last name.
-    // *
-    // * @param model
-    // * users list page view model.
-    // *
-    // * @return users list page URL
-    // */
-    // @RequestMapping(SORT_BY_LASTNAME_DESC_MAPPING)
-    // public String sortByLastNameDesc(Model model) {
-    // model.addAttribute(USERS_MODEL_ATTR,
-    // userService.sortByLastName(Order.DESC));
-    // return USERS_PAGE_URL;
-    // }
-
-    // /**
-    // * Controls view of users list page in ascending order by position.
-    // *
-    // * @param model
-    // * users list page view model.
-    // *
-    // * @return users list page URL
-    // */
-    // @RequestMapping(SORT_BY_POSITION_ASC_MAPPING)
-    // public String sortByPositionAsc(Model model) {
-    // model.addAttribute(USERS_MODEL_ATTR,
-    // userService.sortByPosition(Order.ASC));
-    // return USERS_PAGE_URL;
-    // }
-
-    // /**
-    // * Controls view of users list page in descending order by position.
-    // *
-    // * @param model
-    // * users list page view model.
-    // *
-    // * @return users list page URL
-    // */
-    // @RequestMapping(SORT_BY_POSITION_DESC_MAPPING)
-    // public String sortByPositionDesc(Model model) {
-    // model.addAttribute(USERS_MODEL_ATTR,
-    // userService.sortByPosition(Order.DESC));
-    // return USERS_PAGE_URL;
-    // }
-
-    // /**
-    // * Controls view for search user by last name.
-    // *
-    // * @param model
-    // * users list page view model.
-    // *
-    // * @param user
-    // * UserDTO example with required last name.
-    // *
-    // * @return users list page URL
-    // */
-    // @RequestMapping(value = SEARCH_BY_LASTNANE_MAPPING, method =
-    // RequestMethod.POST)
-    // public String searchByName(@ModelAttribute(SEARCH_MODEL_ATTR) UserDTO
-    // user,
-    // Model model) {
-    // model.addAttribute(USERS_MODEL_ATTR,
-    // userService.searchByLastName(user.getLastName()));
-    // return USERS_PAGE_URL;
-    // }
-
-    // /**
-    // * Controls view for search user by position.
-    // *
-    // * @param model
-    // * users list page view model.
-    // *
-    // * @param user
-    // * UserDTO example with required position.
-    // *
-    // * @return users list page URL
-    // */
-    // @RequestMapping(value = SEARCH_BY_POSITION_MAPPING, method =
-    // RequestMethod.POST)
-    // public String searchByPosition(
-    // @ModelAttribute(SEARCH_MODEL_ATTR) UserDTO user, Model model) {
-    // model.addAttribute(USERS_MODEL_ATTR,
-    // userService.searchByPosition(user.getPosition()));
-    // return USERS_PAGE_URL;
-    // }
 
     /**
      * Controls view for show profile of user.

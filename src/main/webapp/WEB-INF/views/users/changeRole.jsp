@@ -19,7 +19,7 @@
 					<div class="form-group">
 						<form:select class="form-control" path="role">
 							<c:forEach var="role" items="${roles}">
-								<option value="${role}">${role.name()}</option>
+								<option value="${role}"><spring:message code="lbl.user.${role.getRole()}" /></option>
 							</c:forEach>
 						</form:select>
 					</div>

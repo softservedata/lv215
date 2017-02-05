@@ -41,5 +41,11 @@ public interface MailConstants {
      * Model name for meeting cancelled template.
      */
     String MEETING_MODEL_NAME = "meeting";
-
+    
+    String USER_MODEL_NAME = "user";
+    
+    String REGISTRATION_MESSAGE_SUBJECT = "userRegistrated.messageSubject";
+    
+    String USER_REGISTRATED_TEMPLATE = "userRegistrated";
+    
 }
