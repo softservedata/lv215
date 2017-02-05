@@ -25,7 +25,8 @@
 
 	<definition name="calendar" extends="common">
 		<put-attribute name="title" value="Calendar" />
-		<put-attribute name="body" value="/WEB-INF/views/calendar/calendar.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/calendar/calendar.jsp" />
 	</definition>
 
 	<definition extends="common" name="rooms/list">
@@ -75,10 +76,13 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/changeRole.jsp" />
 	</definition>
-
 	<definition extends="common" name="users/users/delete">
 		<put-attribute name="title" value="Can't delete" />
 		<put-attribute name="body" value="/WEB-INF/views/users/curator.jsp" />
+	</definition>
+	<definition extends="common" name="/userDetails">
+		<put-attribute name="title" value="You detatils" />
+		<put-attribute name="body" value="/WEB-INF/views/users/userDetails.jsp" />
 	</definition>
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->

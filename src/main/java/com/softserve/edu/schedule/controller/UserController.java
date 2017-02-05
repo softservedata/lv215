@@ -1,8 +1,12 @@
 package com.softserve.edu.schedule.controller;
 
+import java.security.Principal;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +21,7 @@ import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
+import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.service.UserService;
@@ -50,6 +55,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @RequestMapping(DELETE_USER_MAPPING + "{id}")
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
@@ -103,6 +109,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(BAN_USER_MAPPING + "{id}")
     public String bunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.BLOCKED;
@@ -118,6 +125,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(UNBAN_USER_MAPPING + "{id}")
     public String unBunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.ACTIVE;
@@ -133,6 +141,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
     @RequestMapping(CHANGE_ROLE_MAPPING + "{id}")
     public String changeRole(@PathVariable Long id, Model model) {
         model.addAttribute(USER_ROLE_ATTR, UserRole.values());
@@ -171,6 +180,24 @@ public class UserController implements ControllerConst.UserControllerConst,
     public String getProfile(@PathVariable Long id, Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
         return USER_PROFILE_URL;
+    }
+    
+    /**
+     * Controls view for show profile of user.
+     *
+     * @param id
+     *            from user id in database.
+     *
+     * @param user
+     *            UserDTO example with required position.
+     * 
+     * @return users list page URL
+     */
+    @RequestMapping(USER_DETAILS_MAPPING)
+    public String getUserDetails(Model model, Principal principal) {
+        UserDTO activeUser = (UserDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute(USER_MODEL_ATTR, userService.getById(activeUser.getId()));
+        return USER_DETAILS_URL;// String USER_DETAILS_URL = "/userDetails";
     }
 
     /**

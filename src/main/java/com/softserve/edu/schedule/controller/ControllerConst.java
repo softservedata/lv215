@@ -228,6 +228,11 @@ public interface ControllerConst {
         String FILTER_MODEL_ATTR = "userFilter";
 
         String USER_PAGINATOR_MODEL_ATTR = "userPaginator";
+        
+        String USER_DETAILS_MAPPING = "/userDetails";
+        
+        String USER_DETAILS_URL = "/userDetails";
+        
     }
 
     /**

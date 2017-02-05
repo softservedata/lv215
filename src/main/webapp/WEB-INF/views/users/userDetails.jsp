@@ -25,20 +25,30 @@
 								code="lbl.user.lastName" />:</label>
 						<b>${user.lastName}</b>
 					</div>
-					<div class="form-group"><sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+					<div class="form-group">
 						<label for="mail"><spring:message code="lbl.user.mail" />:</label>
-						<b>${user.mail}</b></sec:authorize>
+						<b>${user.mail}</b>
 					</div>
-					<div class="form-group"><sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+					<div class="form-group">
 						<label for="phone"><spring:message code="lbl.user.phone" />:</label>
-						<b>${user.phone}</b></sec:authorize>
+						<b>${user.phone}</b>
 					</div>
 					<div class="form-group">
 						<label for="position"><spring:message
 								code="lbl.user.position" />:</label>
 						<b>${user.position}</b>
+					</div>
+ 					<div class="form-group">
+						<a class="form-control"
+							href="${pageContext.request.contextPath}/${UserController.UPDATE_USER_MAPPING}${user.id}">
+							<spring:message code="lbl.user.update" />
+						</a>
+					</div>
+					<div class="form-group">
+						<a class="form-control"
+							href="${pageContext.request.contextPath}/${UserController.CHANGE_PASSWORD_MAPPING}${user.id}">
+							<spring:message code="lbl.user.changePassword" />
+						</a>
 					</div>
 				</form:form>
 			</div>
