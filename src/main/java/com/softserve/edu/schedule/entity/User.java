@@ -15,7 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-import com.softserve.edu.schedule.entitylisteners.UserRegistEntityListener;
+import com.softserve.edu.schedule.entitylisteners.UserEntityListener;
 
 /**
  * An entity class for users.
@@ -27,7 +27,7 @@ import com.softserve.edu.schedule.entitylisteners.UserRegistEntityListener;
  * @since 1.8
  */
 @Entity
-@EntityListeners(UserRegistEntityListener.class)
+@EntityListeners(UserEntityListener.class)
 public class User {
 
     /**

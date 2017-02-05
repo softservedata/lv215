@@ -71,22 +71,22 @@ public class MeetingForCalendarDTOConverter {
     private String getMeetingTitle(Meeting meeting) {
         StringBuffer title = new StringBuffer();
         if (meeting.getSubject() != null) {
-            title.append(meeting.getSubject());
-            title.append(" ");
+            title.append(meeting.getSubject().getName());
+            title.append("\n");
         }
         if (meeting.getRoom() != null) {
             title.append(meeting.getRoom().getName());
-            title.append(" ");
+            title.append("\n");
         }
         if (meeting.getOwner() != null) {
             title.append(meeting.getOwner().getFirstName());
             title.append(" ");
             title.append(meeting.getOwner().getLastName());
-            title.append(" ");
+            title.append("\n");
         }
         meeting.getGroups().forEach(e -> {
             title.append(e.getName());
-            title.append(" ");
+            title.append("\n");
         });
 
         return title.toString();
