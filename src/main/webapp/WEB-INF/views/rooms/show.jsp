@@ -7,9 +7,9 @@
 	<div class="row">
 		<div class="col-md-1">
 			<br>
-			<a class="btn btn-default" href="${pageContext.request.contextPath}/rooms">
+			<button class="btn btn-default" onclick="window.history.back()">
 				<spring:message code="lbl.form.back" />
-			</a>
+			</button>
 		</div>
 		<div class="col-md-11">
 			<h1 class="text-center">

@@ -121,8 +121,12 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     List<Meeting> getApprovedMeetingsByRoomIdAndTime(Long roomId,
             LocalDate date, LocalTime startTime, LocalTime endTime);
 
+    // not used at that time. delete before final build
     List<Meeting> getMeetingsInInterval(LocalDate startDate, LocalDate endDate);
 
     List<Meeting> getMeetingsInIntervalByRoomId(Long roomId,
+            LocalDate startDate, LocalDate endDate);
+
+    List<Meeting> getMeetingsInIntervalByUserId(Long userId,
             LocalDate startDate, LocalDate endDate);
 }

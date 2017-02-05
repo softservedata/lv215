@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,6 +20,7 @@ public class MeetingRESTController {
     @Autowired
     MeetingService meetingService;
 
+    // not used at that time. delete before final build
     @RequestMapping(value = "/meetings/rest", method = RequestMethod.GET)
     public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInInterval(
             @RequestParam("start") String start,
@@ -40,6 +42,22 @@ public class MeetingRESTController {
             @RequestParam("roomId") Long roomId) {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByRoomId(roomId, start, end);
+        if (meetings.isEmpty()) {
+            return new ResponseEntity<List<MeetingForCalendarDTO>>(
+                    HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
+                HttpStatus.OK);
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @RequestMapping(value = "/meetings/restByUser", method = RequestMethod.GET)
+    public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByUserId(
+            @RequestParam("start") String start,
+            @RequestParam("end") String end,
+            @RequestParam("userId") String userId) {
+        List<MeetingForCalendarDTO> meetings = meetingService
+                .getMeetingsInIntervalByUserId(userId, start, end);
         if (meetings.isEmpty()) {
             return new ResponseEntity<List<MeetingForCalendarDTO>>(
                     HttpStatus.NO_CONTENT);
