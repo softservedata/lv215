@@ -123,6 +123,11 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/usergroups/create.jsp" />
 	</definition>
+	
+	<definition extends="common" name="usergroups/show">
+		<put-attribute name="title" value="Group details" />
+		<put-attribute name="body" value="/WEB-INF/views/usergroups/show.jsp" />
+	</definition>
 
 	<definition extends="common" name="usergroups/edit">
 		<put-attribute name="title" value="Edit Group" />

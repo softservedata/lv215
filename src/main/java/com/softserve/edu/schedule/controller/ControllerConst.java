@@ -508,6 +508,11 @@ public interface ControllerConst {
 		String USERGROUP_CURATORS_ATTR = "curators";
 
 		/**
+		 * Curator attribute.
+		 */
+		String USERGROUP_CURATOR_ATTR = "curator";
+
+		/**
 		 * All users attribute.
 		 */
 		String USERGROUP_ALL_USERS_ATTR = "allUsers";
@@ -531,6 +536,23 @@ public interface ControllerConst {
 		 * Path curator's lastname
 		 */
 		String USERGROUP_PATH_CURATOR_LASTNAME = "curator.lastName";
+
+		/**
+		 * UserGroup details mapping URL name.
+		 */
+		String USERGROUP_SHOW_MAPPING = "/{id}";
+
+		/**
+		 * Path variable for usergroup id.
+		 */
+		String PATH_VAR_ID = "id";
+
+		/**
+		 * Show group details URL name.
+		 */
+		String USERGROUP_SHOW_URL = "usergroups/show";
+
+		String USERGROUP_GROUP_MEMBERS = "groupMembers";
 	}
 
 	public interface RoomEquipmentControllerConst {
