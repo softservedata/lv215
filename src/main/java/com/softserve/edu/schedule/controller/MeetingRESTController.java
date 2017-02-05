@@ -32,4 +32,19 @@ public class MeetingRESTController {
         return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
                 HttpStatus.OK);
     }
+
+    @RequestMapping(value = "/meetings/restByRoom", method = RequestMethod.GET)
+    public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByRoomId(
+            @RequestParam("start") String start,
+            @RequestParam("end") String end,
+            @RequestParam("roomId") Long roomId) {
+        List<MeetingForCalendarDTO> meetings = meetingService
+                .getMeetingsInIntervalByRoomId(roomId, start, end);
+        if (meetings.isEmpty()) {
+            return new ResponseEntity<List<MeetingForCalendarDTO>>(
+                    HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
+                HttpStatus.OK);
+    }
 }

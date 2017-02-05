@@ -287,4 +287,15 @@ public class MeetingServiceImpl implements MeetingService {
                 .map(e -> meetingForCalendarDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(
+            Long roomId, String start, String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        return meetingDao
+                .getMeetingsInIntervalByRoomId(roomId, startDate, endDate)
+                .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
 }

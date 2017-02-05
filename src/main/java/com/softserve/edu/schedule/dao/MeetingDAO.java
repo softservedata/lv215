@@ -122,4 +122,7 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
             LocalDate date, LocalTime startTime, LocalTime endTime);
 
     List<Meeting> getMeetingsInInterval(LocalDate startDate, LocalDate endDate);
+
+    List<Meeting> getMeetingsInIntervalByRoomId(Long roomId,
+            LocalDate startDate, LocalDate endDate);
 }

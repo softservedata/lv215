@@ -105,21 +105,21 @@
 
 		<c:forEach var="usergroup" items="${usergroups}">
 			<tr>
-				<td>${usergroup.name}</td>
+				<td><a
+					href="${pageContext.request.contextPath}/usergroups/${usergroup.id}">${usergroup.name}</a></td>
 				<td><a
 					href="${pageContext.request.contextPath}/profile${usergroup.curator.id}">${usergroup.curator.lastName}
 						${usergroup.curator.firstName}</a></td>
 				<td><spring:message code="lbl.group.${usergroup.level.code}" /></td>
 				<td>${usergroup.users.size()}</td>
 
-				<td><c:if test="${usergroup.users.size() <= 1}">
-						<a
-							href="${pageContext.request.contextPath}/usergroups/delete/${usergroup.id}"><i
-							class="fa fa-trash-o"></i></a>
-					</c:if></td>
+				<td><a
+					href="${pageContext.request.contextPath}/usergroups/delete/${usergroup.id}"><i
+						class="fa fa-trash-o fa-lg"></i></a></td>
+
 				<td><a
 					href="${pageContext.request.contextPath}/usergroups/edit/${usergroup.id}"><i
-						class="fa fa-pencil-square-o"></i></a></td>
+						class="fa fa-pencil-square-o fa-lg"></i></a></td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -164,8 +164,8 @@
 </div>
 <script>
 $('#paginationList').twbsPagination({
-    totalPages: ${userGroupPaginator.pagesCount + 1},
-    startPage: ${userGroupPaginator.pageNumber + 1},
+    totalPages: ${usergroupPaginator.pagesCount + 1},
+    startPage: ${usergroupPaginator.pageNumber + 1},
     visiblePages: 10,
     first: '&lt;&lt;&lt;&lt;',
     last: '&gt;&gt;&gt;&gt;',
