@@ -161,6 +161,13 @@ public interface MeetingService {
      */
     MeetingStatus getMeetingStatusDuringCreation(final MeetingDTO meetingDTO);
 
-    List<MeetingForCalendarDTO> getMeetingsInInterval(String start,
-            String end);
+    // not used at that time. delete before final build
+    List<MeetingForCalendarDTO> getMeetingsInInterval(String start, String end);
+
+    List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(Long roomId,
+            String start, String end);
+
+    List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(String userId,
+            String start, String end);
+
 }

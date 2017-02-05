@@ -278,6 +278,7 @@ public class MeetingServiceImpl implements MeetingService {
         return MeetingStatus.NOT_APPROVED;
     }
 
+    // not used at that time. delete before final build
     @Override
     public List<MeetingForCalendarDTO> getMeetingsInInterval(String start,
             String end) {
@@ -285,6 +286,29 @@ public class MeetingServiceImpl implements MeetingService {
         LocalDate endDate = LocalDate.parse(end);
         return meetingDao.getMeetingsInInterval(startDate, endDate).stream()
                 .map(e -> meetingForCalendarDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(
+            Long roomId, String start, String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        return meetingDao
+                .getMeetingsInIntervalByRoomId(roomId, startDate, endDate)
+                .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(
+            String userId, String start, String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        Long id = Long.parseLong(userId);
+        return meetingDao
+                .getMeetingsInIntervalByUserId(id, startDate, endDate)
+                .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
 }

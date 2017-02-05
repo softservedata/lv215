@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -26,9 +25,11 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-1">
-			<br> <a class="btn btn-default"
-				href="${pageContext.request.contextPath}/meetings"><spring:message
-					code="lbl.form.back" /></a>
+			<br>
+			<button class="btn btn-default" onclick="window.history.back()">
+				<spring:message code="lbl.form.back" />
+			</button>
+
 		</div>
 		<div class="col-md-11">
 			<h1 class="text-center">
@@ -47,41 +48,36 @@
 
 				</div>
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.description" /></b> :
-					${meetingForm.description}
+					<b><spring:message code="lbl.meeting.description" /></b> : ${meetingForm.description}
 
 				</div>
 
 
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.subject" /></b> :
-					${meetingForm.subject.name}
+					<b><spring:message code="lbl.meeting.subject" /></b> : ${meetingForm.subject.name}
 
 				</div>
 
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.owner" /></b> : <a
-						href="${pageContext.request.contextPath}/profile${meetingForm.owner.id}">${meetingForm.owner.lastName}
+					<b><spring:message code="lbl.meeting.owner" /></b> :
+					<a href="${pageContext.request.contextPath}/profile${meetingForm.owner.id}">${meetingForm.owner.lastName}
 						${meetingForm.owner.firstName}</a>
 
 				</div>
 
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.room" /></b> : <a
-						href="${pageContext.request.contextPath}/rooms/${meetingForm.room.id}">${meetingForm.room.name}</a>
+					<b><spring:message code="lbl.meeting.room" /></b> :
+					<a href="${pageContext.request.contextPath}/rooms/${meetingForm.room.id}">${meetingForm.room.name}</a>
 				</div>
 
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.date" /></b> :
-					${meetingForm.date}
+					<b><spring:message code="lbl.meeting.date" /></b> : ${meetingForm.date}
 				</div>
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.starttime" /></b> :
-					${meetingForm.startTime}
+					<b><spring:message code="lbl.meeting.starttime" /></b> : ${meetingForm.startTime}
 				</div>
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.endtime" /></b> :
-					${meetingForm.endTime}
+					<b><spring:message code="lbl.meeting.endtime" /></b> : ${meetingForm.endTime}
 				</div>
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.groups" /></b> :
@@ -90,8 +86,7 @@
 					</c:forEach>
 				</div>
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.level" /></b> :
-					${meetingForm.level}
+					<b><spring:message code="lbl.meeting.level" /></b> : ${meetingForm.level}
 				</div>
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.status" /></b> :

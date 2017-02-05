@@ -16,11 +16,13 @@
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
 			<ul class="nav navbar-nav">
-				<li>
-					<a href="${pageContext.request.contextPath}/calendar">
-						<spring:message code="lbl.nav.calendar" />
-					</a>
-				</li>
+				<sec:authorize access="isAuthenticated()">
+					<li>
+						<a href="${pageContext.request.contextPath}/calendar">
+							<spring:message code="lbl.nav.calendar" />
+						</a>
+					</li>
+				</sec:authorize>
 				<li>
 					<a href="${pageContext.request.contextPath}/meetings">
 						<spring:message code="lbl.nav.meetings" />
