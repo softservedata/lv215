@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
@@ -34,6 +35,7 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEdit
  */
 @Controller
 @RequestMapping("/usergroups")
+@SessionAttributes({ "usergroupFilter", "usergroupPaginator" })
 public class UserGroupController implements ControllerConst.UserGroupControllerConst {
 
 	/**
@@ -118,6 +120,26 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 		model.addAttribute("usergroupPaginator", paginator);
 		model.addAttribute("levels", Arrays.asList(UserGroupLevel.values()));
 		return USERGROUP_LIST_URL;
+	}
+
+	/**
+	 * Controller method to show group details page.
+	 *
+	 * @param id
+	 *            group id to show details.
+	 * 
+	 * @param model
+	 *            group details show page view model.
+	 * 
+	 * @return group details page URL
+	 */
+	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
+	public String showGroup(@PathVariable("id") final Long id, final Model model) {
+		model.addAttribute(USERGROUP_MODEL_ATTR, userGroupService.getById(id));
+		model.addAttribute(USERGROUP_CURATOR_ATTR, userGroupService.getById(id).getCurator());
+		model.addAttribute(USERGROUP_GROUP_MEMBERS, userGroupService.getById(id));
+
+		return USERGROUP_SHOW_URL;
 	}
 
 	/**

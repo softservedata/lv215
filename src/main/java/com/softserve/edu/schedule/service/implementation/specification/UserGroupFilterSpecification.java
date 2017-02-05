@@ -1,6 +1,7 @@
 package com.softserve.edu.schedule.service.implementation.specification;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -113,6 +114,13 @@ public class UserGroupFilterSpecification implements Specification<UserGroup> {
 		if (userGroupFilter.getSortOrder() == Order.DESC.ordinal() && userGroupFilter.getFieldForSorting() == 3) {
 			criteriaQuery.orderBy(criteriaBuilder.desc(root.get(UserGroup_.level.getName())));
 		}
+		if (userGroupFilter.getSortOrder() == Order.ASC.ordinal() && userGroupFilter.getFieldForSorting() == 4) {
+			criteriaQuery.orderBy(criteriaBuilder.asc(criteriaBuilder.size(root.<Collection>get("users"))));
+		}
+		if (userGroupFilter.getSortOrder() == Order.DESC.ordinal() && userGroupFilter.getFieldForSorting() == 4) {
+			criteriaQuery.orderBy(criteriaBuilder.desc(criteriaBuilder.size(root.<Collection>get("users"))));
+		}
+
 	}
 
 }
