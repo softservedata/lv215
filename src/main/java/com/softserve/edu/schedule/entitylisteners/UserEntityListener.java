@@ -25,7 +25,7 @@ public class UserEntityListener {
      *            User just registed.
      * 
      */
-//    @PrePersist
+    @PrePersist
     public void processingBeforUserRegistration(User user) {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         registrationMailService.sendInfoMessageRegistration(
