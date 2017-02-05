@@ -141,7 +141,7 @@ public class SubjectServiceImpl implements SubjectService {
      */
     @Override
     @Transactional
-    public void deleteById(Long id) {
+    public void deleteById(final Long id) {
         Subject subject = subjectDao.getSubjectsWithMeetingDetailsById(id);
         subjectDao.delete(subject);
     }
@@ -158,7 +158,8 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional(readOnly = true)
     public List<SubjectDTO> getSubjectsPageWithFilter(
-            SubjectFilter subjectFilter, Paginator subjectPaginator) {
+            final SubjectFilter subjectFilter,
+            final Paginator subjectPaginator) {
         return subjectDao
                 .getSubjectsPageWithFilter(subjectFilter, subjectPaginator)
                 .stream().map(s -> subjectDTOConverter.getDTO(s))

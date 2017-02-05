@@ -50,7 +50,7 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      * @return Count of the subject entities in the database with specified
      *         predicate.
      */
-    Long getCountOfSubjectsWithFilter(SubjectFilter subjectFilter);
+    Long getCountOfSubjectsWithFilter(final SubjectFilter subjectFilter);
     
     /**
      * Return a searched Subject.
