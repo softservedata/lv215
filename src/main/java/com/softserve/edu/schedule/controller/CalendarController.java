@@ -1,6 +1,7 @@
 /* CalendarController 1.0 02/04/2017 */
 package com.softserve.edu.schedule.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ public class CalendarController implements ControllerConst {
      *
      * @return calendar page URL
      */
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping("/calendar")
     public String showIndex(final Model model) {
         return "calendar";
