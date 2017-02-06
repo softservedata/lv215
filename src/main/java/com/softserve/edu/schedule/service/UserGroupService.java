@@ -8,7 +8,6 @@ package com.softserve.edu.schedule.service;
 
 import java.util.List;
 
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -73,46 +72,6 @@ public interface UserGroupService {
 	void delete(final UserGroupDTO userGroupDTO);
 
 	/**
-	 * Returns a List of sorted UserGroup transfer objects.
-	 *
-	 * @param field
-	 *            for sort
-	 * @param order
-	 *            - ASC or DESC
-	 * @return List of sorted UserGroup transfer objects
-	 */
-	List<UserGroupDTO> sort(final String field, final Order order);
-
-	/**
-	 * Returns a List of searched UserGroup transfer objects.
-	 *
-	 * @param field
-	 *            for search
-	 * @param pattern
-	 *            - input string
-	 * @return List of sorted UserGroup transfer objects
-	 */
-	List<UserGroupDTO> search(final String field, final String pattern);
-
-	/**
-	 * Method returns list of sorted locations by count of groups.
-	 * 
-	 * @return list of sorted groups by count of members
-	 */
-	List<UserGroupDTO> sortByCountMembers(final Order order);
-
-	/**
-	 * Method returns list of sorted usergroups.
-	 * 
-	 * @param field
-	 *            field for sort
-	 * @param order
-	 *            ASC or DESC
-	 * @return list of sorted usergroups
-	 */
-	List<UserGroupDTO> sortByFields(final String field, final Order order);
-
-	/**
 	 * Adding user to a list of users in a group
 	 * 
 	 * @param user
@@ -121,32 +80,6 @@ public interface UserGroupService {
 	 *            Group where we need to add a user
 	 */
 	public UserGroupDTO addUserToGroup(final UserDTO userDTO, final UserGroupDTO userGroupDTO);
-
-	/**
-	 * Method for searching groups by name pattern
-	 * 
-	 * @param pattern
-	 *            a patter to search
-	 * @return List of UserGroups
-	 */
-	public List<UserGroupDTO> searchByName(final String pattern);
-
-	/**
-	 * Method for searching groups by curator pattern
-	 * 
-	 * @param pattern
-	 *            a patter to search
-	 * @return List of UserGroups
-	 */
-	public List<UserGroupDTO> searchGroupsByCurators(final String pattern);
-
-	/**
-	 * Get list of groups by specified levelId
-	 * 
-	 * @param level
-	 * @return list of a groups with specified level
-	 */
-	public List<UserGroupDTO> getGroupsByLevel(final Long levelId);
 
 	/**
 	 * Get page with filtered groups
