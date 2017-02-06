@@ -58,12 +58,6 @@
 
 				</div>
 
-				<div class="col-md-1">
-					<a class="btn btn-default"
-						href="${pageContext.request.contextPath}/usergroups"><spring:message
-							code="lbl.form.back" /></a>
-				</div>
-
 			</form:form>
 		</div>
 	</div>
