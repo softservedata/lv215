@@ -52,4 +52,16 @@ public interface LocationDAO extends CrudDAO<Location> {
      */
 	public List<Location> getLocationsPageWithFilter(final LocationFilter locationFilter,
 			final Paginator locationPaginator);
+	
+	 /**
+     * Count locations entities in the database with specified filter
+     *
+     * @param predicate
+     *            a predicate to apply.
+     *
+     * @return Count of the location entities in the database with specified
+     *         predicate.
+     */
+    Long getCountOfLocationsWithFilter(final LocationFilter locationFilter);
 }
+

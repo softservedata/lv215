@@ -82,4 +82,23 @@ public interface MailConstants {
 	 * UserGroup deleted message template for EN locale.
 	 */
 	String USERFROUP_DELETED_TEMPLATE = "userGroupDeleted";
+	
+	 /**
+     * Location delete message subject.
+     */
+    String LOCATION_DELETE_MESSAGE = "locationDelete.messageSubject";
+	
+	/**
+     * Location delete message template for EN locale location.
+     */
+    String LOCATION_DELETE_TEMPLATE = "infoLocationDelete";
+	 /**
+     * Model name for moderator location delete message template.
+     */
+    String MODERATOR_MODEL_NAME = "moderator";
+    /**
+     * Model name for location delete message template.
+     */
+    String LOCATION_MODEL_NAME = "location";
+
 }
