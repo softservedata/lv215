@@ -33,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
+import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -45,6 +46,8 @@ import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.User_;
+import com.softserve.edu.schedule.entity.UserGroup;
+import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.service.implementation.specification.MeetingFilterSpecification;
 
 /**
@@ -69,6 +72,12 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      */
     @Autowired
     UserGroupDAO userGroupDAO;
+
+    /**
+     * UserDAO example for further business logic.
+     */
+    @Autowired
+    UserDAO userDAO;
 
     /*
      * (non-Javadoc)
@@ -345,6 +354,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
+    // not used at that time. delete before final build
     @Override
     public List<Meeting> getMeetingsInInterval(LocalDate startDate,
             LocalDate endDate) {
@@ -361,4 +371,51 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
+
+    @Override
+    public List<Meeting> getMeetingsInIntervalByRoomId(Long roomId,
+            LocalDate startDate, LocalDate endDate) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.join(Meeting_.subject);
+        root.join(Meeting_.owner);
+        Join<Meeting, Room> roomJoin = root.join(Meeting_.room);
+        root.join(Meeting_.groups);
+        Predicate predicate = builder.conjunction();
+        predicate = builder.and(predicate,
+                builder.between(root.get(Meeting_.date), startDate, endDate));
+        predicate = builder.and(predicate, roomJoin.get(Room_.id).in(roomId));
+        cq.where(predicate);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    @Override
+    public List<Meeting> getMeetingsInIntervalByUserId(Long userId,
+            LocalDate startDate, LocalDate endDate) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.join(Meeting_.subject);
+        root.join(Meeting_.owner);
+        root.join(Meeting_.room);
+        Join<Meeting, UserGroup> joinGroups = root.join(Meeting_.groups);
+        Predicate basePredicate = builder.conjunction();
+        basePredicate = builder.and(basePredicate,
+                builder.between(root.get(Meeting_.date), startDate, endDate));
+        User user = userDAO.getById(userId);
+        Predicate userPredicate = builder.disjunction();
+        userPredicate = builder.or(userPredicate,
+                root.get(Meeting_.owner).in(userId));
+        userPredicate = builder.or(userPredicate,
+                builder.isMember(user, joinGroups.get(UserGroup_.users)));
+        userPredicate = builder.or(userPredicate,
+                joinGroups.get(UserGroup_.curator).in(userId));        
+        basePredicate = builder.and(basePredicate, userPredicate);
+        cq.where(basePredicate);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
+
 }
