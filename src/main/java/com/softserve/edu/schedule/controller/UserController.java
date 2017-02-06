@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
@@ -35,8 +36,8 @@ import com.softserve.edu.schedule.service.UserService;
  * @since 1.8
  */
 @Controller
-@SessionAttributes({ControllerConst.UserControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.UserControllerConst.USER_PAGINATOR_MODEL_ATTR})
+@SessionAttributes({ ControllerConst.UserControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.UserControllerConst.USER_PAGINATOR_MODEL_ATTR })
 public class UserController implements ControllerConst.UserControllerConst,
         ControllerConst.RegistrationControllerConst {
 
@@ -88,8 +89,8 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING + "{id}",
-            method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING
+            + "{id}", method = RequestMethod.POST)
     public String updateUser(
             @ModelAttribute(USER_UPDATE_ATTR) @Valid UserDTO user,
             BindingResult br) {
@@ -156,8 +157,8 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING + "{id}",
-            method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING
+            + "{id}", method = RequestMethod.POST)
     public String changeRole(@PathVariable Long id,
             @RequestParam UserRole role) {
         userService.changeRole(id, role);
@@ -180,7 +181,7 @@ public class UserController implements ControllerConst.UserControllerConst,
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
         return USER_PROFILE_URL;
     }
-    
+
     /**
      * Controls view for show profile of user.
      *
@@ -194,8 +195,10 @@ public class UserController implements ControllerConst.UserControllerConst,
      */
     @RequestMapping(USER_DETAILS_MAPPING)
     public String getUserDetails(Model model, Principal principal) {
-        UserDTO activeUser = (UserDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute(USER_MODEL_ATTR, userService.getById(activeUser.getId()));
+        UserDTO activeUser = (UserDTO) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        model.addAttribute(USER_MODEL_ATTR,
+                userService.getById(activeUser.getId()));
         return USER_DETAILS_URL;
     }
 
@@ -221,8 +224,8 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING + "{id}",
-            method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING
+            + "{id}", method = RequestMethod.POST)
     public String saveChangedPassword(
             @ModelAttribute(USER_MODEL_ATTR) @Valid UserDTOForChangePassword user,
             BindingResult br) {
@@ -250,5 +253,12 @@ public class UserController implements ControllerConst.UserControllerConst,
         model.addAttribute(USERS_MODEL_ATTR,
                 userService.getUsersPageWithFilter(filter, paginator));
         return USERS_PAGE_URL;
+    }
+
+    @RequestMapping(value = "/saveImage", method = RequestMethod.POST)
+    public String saveImage(@ModelAttribute(USER_MODEL_ATTR) UserDTO user,
+            Principal principal, @RequestParam MultipartFile image) {
+        userService.saveImage(principal, image);
+        return REDIRECT_USER_DETAILS_URL;
     }
 }

@@ -3,9 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ page import="com.softserve.edu.schedule.controller.UserController"%>
 <body>
+	${user.pathImage}
+	<img src=""<c:url value='MyFote.png'/>" width = "120" height = "120"  >
 	<div class="container">
 		<div class="row">
 			<div
@@ -13,17 +16,26 @@
 				<h3 class="text-center">
 					<spring:message code="lbl.user.profile" />
 				</h3>
+<%-- "<c:url value='${user.pathImage}'/>" --%>
+
+
+				<img src=""<c:url value='MyFote.png'/>" width = "120" height = "120"  >
+				<form:form commandName="${UserController.USER_MODEL_ATTR}"
+					action="${pageContext.request.contextPath}/saveImage?${_csrf.parameterName}=${_csrf.token}"
+					method="post" enctype="multipart/form-data">
+					<input type="file" name="image">
+					<button>save image</button>
+				</form:form>
+
 				<form:form commandName="${UserController.USER_MODEL_ATTR}">
 					<form:hidden path="id" />
 					<div class="form-group">
 						<label for="firstName"><spring:message
-								code="lbl.user.firstName" />:</label>
-						<b>${user.firstName}</b>
+								code="lbl.user.firstName" />:</label> <b>${user.firstName}</b>
 					</div>
 					<div class="form-group">
 						<label for="lastName"><spring:message
-								code="lbl.user.lastName" />:</label>
-						<b>${user.lastName}</b>
+								code="lbl.user.lastName" />:</label> <b>${user.lastName}</b>
 					</div>
 					<div class="form-group">
 						<label for="mail"><spring:message code="lbl.user.mail" />:</label>
@@ -35,10 +47,9 @@
 					</div>
 					<div class="form-group">
 						<label for="position"><spring:message
-								code="lbl.user.position" />:</label>
-						<b>${user.position}</b>
+								code="lbl.user.position" />:</label> <b>${user.position}</b>
 					</div>
- 					<div class="form-group">
+					<div class="form-group">
 						<a class="form-control"
 							href="${pageContext.request.contextPath}/${UserController.UPDATE_USER_MAPPING}${user.id}">
 							<spring:message code="lbl.user.update" />

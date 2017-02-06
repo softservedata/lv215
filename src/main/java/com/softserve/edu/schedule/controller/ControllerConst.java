@@ -232,6 +232,8 @@ public interface ControllerConst {
         String USER_DETAILS_MAPPING = "/userDetails";
         
         String USER_DETAILS_URL = "/userDetails";
+        
+        String REDIRECT_USER_DETAILS_URL = "redirect:/userDetails";
     }
 
     /**

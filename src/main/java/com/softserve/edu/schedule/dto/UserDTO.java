@@ -35,6 +35,7 @@ public class UserDTO implements UserDetails {
     private String mail;
     private String password;
     private String phone;
+    private String pathImage;
     private String position;
     private UserStatus status;
     private UserRole role;
@@ -133,6 +134,14 @@ public class UserDTO implements UserDetails {
 
     public void setSubjects(List<SubjectForUserDTO> subjects) {
         this.subjects = subjects;
+    }
+
+    public String getPathImage() {
+        return pathImage;
+    }
+
+    public void setPathImage(String pathImage) {
+        this.pathImage = pathImage;
     }
 
     /**
