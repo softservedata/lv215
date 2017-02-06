@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <script type="text/javascript">
 	$(function() {
@@ -160,27 +162,28 @@
 				</div>
 
 				<div class="form-group">
-					<label for="status"><spring:message
-							code="lbl.meeting.changestatus" /></label>
-					<form:select class="form-control" path="status" id="status">
-						<c:forEach items="${meetingStatuses}" var="status">
-							<c:choose>
-								<c:when
-									test="${meetingForm.status.ordinal() eq status.ordinal()}">
-									<option value="${status}" selected="selected"><spring:message
-											code="${status.getMessageCode()}" /></option>
-								</c:when>
-								<c:otherwise>
-									<c:if test="${status.ordinal() ne 2}">
-										<option value="${status}"><spring:message
+					<%-- <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')"> --%>
+						<label for="status"><spring:message
+								code="lbl.meeting.changestatus" /></label>
+						<form:select class="form-control" path="status" id="status">
+							<c:forEach items="${meetingStatuses}" var="status">
+								<c:choose>
+									<c:when
+										test="${meetingForm.status.ordinal() eq status.ordinal()}">
+										<option value="${status}" selected="selected"><spring:message
 												code="${status.getMessageCode()}" /></option>
-									</c:if>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-					<form:errors path="status" class="text-danger" />
-
+									</c:when>
+									<c:otherwise>
+										<c:if test="${status.ordinal() ne 2}">
+											<option value="${status}"><spring:message
+													code="${status.getMessageCode()}" /></option>
+										</c:if>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</form:select>
+						<form:errors path="status" class="text-danger" />
+				<%-- 	</sec:authorize> --%>
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default" id="timeerror"
@@ -191,7 +194,6 @@
 						href="${pageContext.request.contextPath}/meetings"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
-
 			</form:form>
 		</div>
 	</div>

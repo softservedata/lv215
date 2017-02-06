@@ -3,13 +3,16 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+
 
 <script type="text/javascript">
 	$(function() {
 		$("select[name=subjectId]").chosen({width : "100px"});
 		$("select[name=ownerId]").chosen({width : "150px"});
 		$("select[name=roomId]").chosen({width : "100px"});
-		$("select[name=groups]").chosen({width : "100px"});
+		$("select[name=groups]").chosen({width : "90px"});
 		$("select[name=status]").chosen({
 			width : "120px"
 		});
@@ -21,8 +24,10 @@
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
-			<th><spring:message code="lbl.meeting.id" /> <br></th>
-
+			<sec:authorize
+				access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
+				<th><spring:message code="lbl.meeting.id" /> <br></th>
+			</sec:authorize>
 			<th style="width: 120px"><spring:message
 					code="lbl.meeting.subject" /> <br> <a
 				href="meetings?fieldForSorting=1&sortOrder=0&pageNumber=0"
@@ -69,6 +74,9 @@
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a></th>
 			<th><spring:message code="lbl.meeting.groups" /></th>
+			
+			<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
 			<th><spring:message code="lbl.meeting.level" /> <br> <a
 				href="meetings?fieldForSorting=7&sortOrder=0&pageNumber=0"
 				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
@@ -76,6 +84,8 @@
 				title="Sort Descending"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a></th>
+			</sec:authorize>
+			
 			<th><spring:message code="lbl.meeting.status" /> <br> <a
 				href="meetings?fieldForSorting=8&sortOrder=0&pageNumber=0"
 				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
@@ -84,9 +94,11 @@
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a></th>
 			<th></th>
-			<th class="text-center v-alighn"><a
-				href="${pageContext.request.contextPath}/meetings/create"><i
-					class="fa fa-plus fa-lg"></i></a></th>
+			<th class="text-center v-alighn"><sec:authorize
+					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
+					<a href="${pageContext.request.contextPath}/meetings/create"><i
+						class="fa fa-plus fa-lg"></i></a>
+				</sec:authorize></th>
 		</tr>
 
 		<tr>
@@ -94,13 +106,15 @@
 
 			<form:form role="form" action="meetings" method="get"
 				modelAttribute="meetingFilter">
-				
+
 
 				<!-- ID -->
-				<spring:message code="lbl.meeting.id" var="meetingid" />
-				<td><form:input type="number" path="id"
-						placeholder="${meetingid}" class="classid" step="1" /></td>
-
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
+					<spring:message code="lbl.meeting.id" var="meetingid" />
+					<td><form:input type="number" path="id"
+							placeholder="${meetingid}" class="classid" step="1" /></td>
+				</sec:authorize>
 
 				<!-- subject -->
 				<td><form:select path="subjectId" id="subjectId"
@@ -175,8 +189,13 @@
 						</c:forEach>
 					</form:select></td>
 				<!-- Level -->
+				
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
 				<td class="levelclass"><form:input type="number"
 						class="input-number levelclass" path="level" step="1" title="MIN" /></td>
+				</sec:authorize>		
+						
 				<!-- Status -->
 				<td><form:select class="form-control" path="status" id="status">
 						<option value="-1"></option>
@@ -210,7 +229,10 @@
 
 		<c:forEach var="meeting" items="${meetings}">
 			<tr>
-				<td><a href="meetings/${meeting.id}">${meeting.id}</a></td>
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
+					<td><a href="meetings/${meeting.id}">${meeting.id}</a></td>
+				</sec:authorize>
 
 				<td>${meeting.subject.name}</td>
 				<td><a
@@ -222,19 +244,31 @@
 				<td>${meeting.startTime}</td>
 				<td>${meeting.endTime}</td>
 				<td><c:forEach items="${meeting.groups}" var="group">
-						<p>${group.name}</p>
+						<p><a
+							href="${pageContext.request.contextPath}/usergroups/${group.id}">${group.name}</a></p>
 					</c:forEach></td>
+				
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
 				<td>${meeting.level}</td>
+					</sec:authorize>
+				
 				<td><spring:message code="${meeting.status.getMessageCode()}" />
 				</td>
-				<td><a
-					href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"
-					onclick="return confirm('<spring:message code="lbl.room.deleteMeetingConfirm"/>');">
-						<i class="fa fa-trash-o fa-lg"></i>
-				</a></td>
-				<td><a
-					href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}"><i
-						class="fa fa-pencil-square-o fa-lg"></i></a></td>
+				<td><sec:authorize
+						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+						<a
+							href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"
+							onclick="return confirm('<spring:message code="lbl.room.deleteMeetingConfirm"/>');">
+							<i class="fa fa-trash-o fa-lg"></i>
+						</a>
+					</sec:authorize></td>
+				<td><sec:authorize
+						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+						<a
+							href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}"><i
+							class="fa fa-pencil-square-o fa-lg"></i></a>
+					</sec:authorize></td>
 			</tr>
 		</c:forEach>
 	</table>

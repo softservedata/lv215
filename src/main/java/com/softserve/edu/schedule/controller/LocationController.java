@@ -9,6 +9,7 @@ package com.softserve.edu.schedule.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -60,37 +61,34 @@ public class LocationController implements ControllerConst.LocationControllerCon
 		return LOCATIONS_LIST_URL;
 	}
 
-	 /**
+	/**
 	 * Method provides sorting of location list by count of rooms in ascending
 	 * order.
 	 *
 	 * @param model
-	 * locations list page model
+	 *            locations list page model
 	 * @return locations list page URL
 	 */
-	 @RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING)
-	 public String sortByCountRoomsAsc(Model model) {
-	 model.addAttribute(LOCATIONS_MODEL_ATTR,
-	 locationService.sortByCountRooms(Order.ASC));
-	 return LOCATIONS_LIST_URL;
-	 }
-	
-	 /**
-	 * Method provides sorting of location list by count of rooms in
-	 descending
+	@RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING)
+	public String sortByCountRoomsAsc(Model model) {
+		model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.sortByCountRooms(Order.ASC));
+		return LOCATIONS_LIST_URL;
+	}
+
+	/**
+	 * Method provides sorting of location list by count of rooms in descending
 	 * order.
 	 *
 	 * @param model
-	 * locations list page model
+	 *            locations list page model
 	 * @return locations list page URL
 	 */
-	 @RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING)
-	 public String sortByCountRoomsDesc(Model model) {
-	 model.addAttribute(LOCATIONS_MODEL_ATTR,
-	 locationService.sortByCountRooms(Order.DESC));
-	 return LOCATIONS_LIST_URL;
-	
-	 }
+	@RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING)
+	public String sortByCountRoomsDesc(Model model) {
+		model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.sortByCountRooms(Order.DESC));
+		return LOCATIONS_LIST_URL;
+
+	}
 
 	/**
 	 * Method provides deleting location by id.
@@ -99,6 +97,7 @@ public class LocationController implements ControllerConst.LocationControllerCon
 	 *            id location to delete
 	 * @return locations list page URL (redirect)
 	 */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
 	@RequestMapping(LOCATION_DELETE_MAPPING + "{id}")
 	public String delete(@PathVariable Long id) {
 		locationService.deleteById(id);
@@ -112,6 +111,7 @@ public class LocationController implements ControllerConst.LocationControllerCon
 	 *            locations create page model
 	 * @return locations create page URL
 	 */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
 	@RequestMapping(LOCATION_CREATE_MAPPING)
 	public String createForm(Model model) {
 		model.addAttribute(LOCATION_FORM_MODEL_ATTR, new LocationDTO());
@@ -141,6 +141,7 @@ public class LocationController implements ControllerConst.LocationControllerCon
 	 *            locations edit page model
 	 * @return locations edit page URL
 	 */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
 	@RequestMapping(LOCATION_EDIT_MAPPING + "{id}")
 	public String updateForm(@PathVariable Long id, Model model) {
 		model.addAttribute(LOCATION_FORM_MODEL_ATTR, locationService.getById(id));
@@ -162,7 +163,7 @@ public class LocationController implements ControllerConst.LocationControllerCon
 		locationService.update(location);
 		return LOCATIONS_REDIRECT_URL;
 	}
-	
+
 	/**
 	 * Method shows location on map
 	 * 
