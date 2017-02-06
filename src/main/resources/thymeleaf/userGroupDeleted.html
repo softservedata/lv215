@@ -14,11 +14,13 @@
 			<th th:text="#{lbl.group.name}"></th>
 			<td th:text="${usergroup.getName()}"></td>
 		</tr>
-		
+
 		<tr>
 			<th th:text="#{lbl.group.curator}"></th>
 			<td th:text="${usergroup.getCurator().getFirstName()}"></td>
 			<td th:text="${usergroup.getCurator().getLastName()}"></td>
+		</tr>
+		<tr>
 			<th th:text="#{lbl.group.contactCurator}"></th>
 			<td th:text="${usergroup.getCurator().getMail()}"></td>
 			<td th:text="${usergroup.getCurator().getPhone()}"></td>

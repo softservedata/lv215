@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -133,6 +134,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 * 
 	 * @return group details page URL
 	 */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String showGroup(@PathVariable("id") final Long id, final Model model) {
 		model.addAttribute(USERGROUP_MODEL_ATTR, userGroupService.getById(id));
@@ -149,6 +151,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 *            Container for an attributes
 	 * @return URL of a page with a form for creation a new group
 	 */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
 	@RequestMapping(USERGROUP_CREATE_MAPPING)
 	public String createForm(final Model model) {
 		model.addAttribute(USERGROUP_MODEL_ATTR, new UserGroupDTO());
@@ -186,6 +189,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 *            A UserGroup that will be deleted
 	 * @return URL of a page that shows all UserGroups
 	 */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
 	@RequestMapping(USERGROUP_DELETE_MAPPING)
 	public String delete(@PathVariable final Long id) {
 		userGroupService.delete(userGroupService.getById(id));
@@ -224,6 +228,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 *            Container for an attributes
 	 * @return URL of a page that shows edit form
 	 */
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
 	@RequestMapping(value = USERGROUP_EDIT_MAPPING, method = RequestMethod.GET)
 	public String updateForm(@PathVariable("id") final Long id, final Model model) {
 		model.addAttribute(USERGROUP_MODEL_ATTR, userGroupService.getById(id));

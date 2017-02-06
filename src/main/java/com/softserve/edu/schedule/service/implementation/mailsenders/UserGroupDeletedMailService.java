@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
@@ -62,7 +63,7 @@ public class UserGroupDeletedMailService implements MailConstants {
 	 * @param locale
 	 *            current locale.
 	 */
-	// @Async
+	@Async
 	public void sendInfoMessageGroupDelete(final UserGroup userGroup, final Locale locale) {
 		Context ctx = new Context(locale);
 		ctx.setVariable(USERGROUP_MODEL_NAME, userGroup);
