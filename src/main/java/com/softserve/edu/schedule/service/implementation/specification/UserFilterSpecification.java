@@ -57,15 +57,15 @@ public class UserFilterSpecification implements Specification<User> {
             }
         } else if (filter.getSortOrder() == 2) {
             if (filter.getSortByField() == 1) {
-                criteriaQuery.orderBy(
-                        criteriaBuilder.desc(root.get(User_.lastName)));
+                criteriaQuery
+                        .orderBy(criteriaBuilder.desc(root.get(User_.lastName)));
             }
             if (filter.getSortByField() == 2) {
-                criteriaQuery.orderBy(
-                        criteriaBuilder.desc(root.get(User_.position)));
+                criteriaQuery
+                        .orderBy(criteriaBuilder.desc(root.get(User_.position)));
             }
         } else {
-            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(User_.id)));
+            criteriaQuery.orderBy(criteriaBuilder.asc(root.get(User_.lastName)));
         }
     }
 

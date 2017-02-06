@@ -56,10 +56,6 @@
 						class="fa fa-plus"></i></a>
 				</sec:authorize></th>
 		</tr>
-
-
-
-
 		<tr>
 			<td></td>
 			<form:form action="${pageContext.request.contextPath}/users"

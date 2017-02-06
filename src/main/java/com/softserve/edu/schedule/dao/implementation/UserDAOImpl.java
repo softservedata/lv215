@@ -72,10 +72,32 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
         if (predicate != null) {
             criteriaQuery.where(predicate);
         }
-        userPaginator.setPagesCount(
-                getEm().createQuery(criteriaQuery).getResultList().size());
+        userPaginator.setPagesCount(getCountOfUsersWithFilter(userFilter));
         return getEm().createQuery(criteriaQuery)
                 .setFirstResult(userPaginator.getOffset())
                 .setMaxResults(userPaginator.getPageSize()).getResultList();
+    }
+
+    /**
+     * Count users entities in the database with specified predicate.
+     *
+     * @param userFilter
+     *            a filter to apply.
+     *
+     * @return Count of the user entities in the database with specified
+     *         predicate.
+     */
+    @Override
+    public Long getCountOfUsersWithFilter(final UserFilter userFilter) {
+        CriteriaBuilder qb = getEm().getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        Root<User> root = cq.from(User.class);
+        cq.select(qb.countDistinct(root));
+        Predicate predicate = new UserFilterSpecification(userFilter)
+                .toPredicate(root, cq, qb);
+        if (predicate != null) {
+            cq.where(predicate);
+        }
+        return getEm().createQuery(cq).getSingleResult();
     }
 }

@@ -30,5 +30,7 @@ public interface UserDAO extends CrudDAO<User> {
 
     List<User> getUsersPageWithFilter(UserFilter userFilter,
             Paginator userPaginator);
+    
+    Long getCountOfUsersWithFilter(final UserFilter userFilter);
 
 }

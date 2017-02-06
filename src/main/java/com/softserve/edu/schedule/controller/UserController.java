@@ -21,7 +21,6 @@ import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
-import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.service.UserService;
@@ -197,7 +196,7 @@ public class UserController implements ControllerConst.UserControllerConst,
     public String getUserDetails(Model model, Principal principal) {
         UserDTO activeUser = (UserDTO)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute(USER_MODEL_ATTR, userService.getById(activeUser.getId()));
-        return USER_DETAILS_URL;// String USER_DETAILS_URL = "/userDetails";
+        return USER_DETAILS_URL;
     }
 
     /**
