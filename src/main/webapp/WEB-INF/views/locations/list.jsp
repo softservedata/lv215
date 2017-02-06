@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ page
 	import="com.softserve.edu.schedule.controller.LocationController"%>
 <h3 class="text-center">
@@ -35,10 +37,13 @@
 				title="<spring:message code="lbl.location.sortDesc" />"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th></th>
-			<th><a
-				href="${pageContext.request.contextPath}${LocationController.LOCATION_CREATE_MAPPING}"
-				title="<spring:message code="lbl.location.add" />"><i
-					class="fa fa-plus fa-lg"></i></a></th>
+			<th><sec:authorize
+					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<a
+						href="${pageContext.request.contextPath}${LocationController.LOCATION_CREATE_MAPPING}"
+						title="<spring:message code="lbl.location.add" />"><i
+						class="fa fa-plus fa-lg"></i></a>
+				</sec:authorize></th>
 		</tr>
 
 		<tr>
@@ -87,16 +92,22 @@
 					</div></td>
 				<td class="text-center v-alighn"><c:if
 						test="${location.rooms.size() == 0}">
-						<a
-							href="${pageContext.request.contextPath}${LocationController.LOCATION_DELETE_MAPPING}${location.id}"
-							onclick="return confirm('<spring:message code="lbl.location.deleteConfirm" />')"
-							title="<spring:message code="lbl.location.delete" />"><i
-							class="fa fa-trash-o fa-lg"></i></a>
+						<sec:authorize
+							access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+							<a
+								href="${pageContext.request.contextPath}${LocationController.LOCATION_DELETE_MAPPING}${location.id}"
+								onclick="return confirm('<spring:message code="lbl.location.deleteConfirm" />')"
+								title="<spring:message code="lbl.location.delete" />"><i
+								class="fa fa-trash-o fa-lg"></i></a>
+						</sec:authorize>
 					</c:if></td>
-				<td><a
-					href="${pageContext.request.contextPath}${LocationController.LOCATION_EDIT_MAPPING}${location.id}"
-					title="<spring:message code="lbl.location.edit" />"><i
-						class="fa fa-pencil-square-o fa-lg"></i></a></td>
+				<td><sec:authorize
+						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+						<a
+							href="${pageContext.request.contextPath}${LocationController.LOCATION_EDIT_MAPPING}${location.id}"
+							title="<spring:message code="lbl.location.edit" />"><i
+							class="fa fa-pencil-square-o fa-lg"></i></a>
+					</sec:authorize></td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -143,6 +154,10 @@
         totalPages: ${locationPaginator.pagesCount + 1},
         startPage: ${locationPaginator.pageNumber + 1},
         visiblePages: 10,
+        first: '&lt;&lt;',
+        last: '&gt;&gt;',
+        prev: '&lt;',
+        next: '&gt;',
         initiateStartPageClick: false,        
         onPageClick: function (event, page) {
         	window.location = "locations?pageNumber=" + (page-1);        	
