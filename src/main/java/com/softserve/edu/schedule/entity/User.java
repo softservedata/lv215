@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+
+import com.softserve.edu.schedule.entitylisteners.UserEntityListener;
 
 /**
  * An entity class for users.
@@ -24,6 +27,7 @@ import javax.persistence.ManyToMany;
  * @since 1.8
  */
 @Entity
+@EntityListeners(UserEntityListener.class)
 public class User {
 
     /**

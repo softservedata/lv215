@@ -84,7 +84,7 @@ public class SubjectValidator
      * @param SubjectDTO
      * @return true if no duplicate in subjects list
      */
-    private boolean isOriginName(SubjectDTO subjectDTO) {
+    private boolean isOriginName(final SubjectDTO subjectDTO) {
         List<SubjectDTO> duplicates = subjectService
                 .getSubjectByName(subjectDTO.getName().trim());
         return duplicates.isEmpty() || duplicates.stream()
@@ -98,7 +98,7 @@ public class SubjectValidator
      * 
      * @return true if users are selected
      */
-    private boolean isValidMultiselect(SubjectDTO subjectDTO) {
+    private boolean isValidMultiselect(final SubjectDTO subjectDTO) {
         return subjectDTO.getUsers().size() > ValidationCriteria.ZERO;
     }
 
@@ -109,7 +109,7 @@ public class SubjectValidator
      * 
      * @return true if description is valid
      */
-    private boolean isValiDescription(SubjectDTO subjectDTO) {
+    private boolean isValiDescription(final SubjectDTO subjectDTO) {
         return subjectDTO.getDescription()
                 .matches(ValidationCriteria.PATTERN_FOR_SUBJECT_DESCRIPTION);
     }
@@ -121,7 +121,7 @@ public class SubjectValidator
      * 
      * @return true if name is valid
      */
-    private boolean isValidName(SubjectDTO subjectDTO) {
+    private boolean isValidName(final SubjectDTO subjectDTO) {
         return subjectDTO.getName()
                 .matches(ValidationCriteria.PATTERN_FOR_SUBJECT_NAME);
     }
@@ -133,8 +133,8 @@ public class SubjectValidator
      * @param message
      * @param context
      */
-    private void errorMessage(String field, String message,
-            ConstraintValidatorContext context) {
+    private void errorMessage(final String field, final String message,
+            final ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(messageSource.getMessage(
                 message, new String[0], LocaleContextHolder.getLocale()))
@@ -150,9 +150,9 @@ public class SubjectValidator
      * @param noDuplicate
      * @param context
      */
-    private void printErrorMessages(boolean validName, boolean validDescription,
-            boolean validMultiselect, boolean noDuplicate,
-            ConstraintValidatorContext context) {
+    private void printErrorMessages(final boolean validName,
+            final boolean validDescription, final boolean validMultiselect,
+            final boolean noDuplicate, ConstraintValidatorContext context) {
         if (!validName) {
             errorMessage(ValidationFields.NAME,
                     ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD,

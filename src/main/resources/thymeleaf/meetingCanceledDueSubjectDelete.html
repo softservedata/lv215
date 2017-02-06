@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h3
+		th:text="#{mailSender.userAccost(${meeting.getOwner().getFirstName()})}">Dear
+		user</h3>
+	<p th:text="#{meetingCanceled.messageBody}"></p>
+	<h4 th:text="#{lbl.meeting.details}"></h4>
+	<table>
+		<tr>
+			<th th:text="#{lbl.meeting.date}"></th>
+			<td th:text="${meeting.getDate()}"></td>
+		</tr>
+		<tr>
+			<th th:text="#{lbl.meeting.startTime}"></th>
+			<td th:text="${meeting.getStartTime()}"></td>
+		</tr>
+		<tr>
+			<th th:text="#{lbl.meeting.endTime}"></th>
+			<td th:text="${meeting.getEndTime()}"></td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -6,6 +6,7 @@ import java.time.LocalTime;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -141,6 +142,7 @@ public class MeetingController {
      * @param model
      * @return
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public String createForm(Model model) {
         model.addAttribute("meetingForm", new MeetingDTO());
@@ -178,6 +180,7 @@ public class MeetingController {
      * @param id
      * @return
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String delete(@PathVariable Long id) {
         meetingService.deleteById(id);
@@ -191,6 +194,7 @@ public class MeetingController {
      * @param model
      * @return
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String editForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("meetingForm", meetingService.getById(id));
@@ -231,6 +235,7 @@ public class MeetingController {
      * @param model
      * @return
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR','ROLE_USER', 'ROLE_MODERATOR')")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String showMeeting(@PathVariable("id") final Long id,
             final Model model) {

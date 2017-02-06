@@ -21,6 +21,7 @@ import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.SubjectFilter;
+import com.softserve.edu.schedule.entity.Meeting_;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.service.implementation.specification.SubjectFilterSpecification;
@@ -62,6 +63,22 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
     }
 
     /**
+     * Return a searched Subject.
+     *
+     * @return searched Subject
+     */
+    @Override
+    public Subject getSubjectsWithMeetingDetailsById(final Long id) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Subject> cq = builder.createQuery(Subject.class);
+        Root<Subject> root = cq.from(Subject.class);
+        root.fetch(Subject_.meetings, JoinType.LEFT).fetch(Meeting_.owner,
+                JoinType.LEFT);
+        cq.where(builder.equal(root.get(Subject_.id), id));
+        return getEm().createQuery(cq).getSingleResult();
+    }
+
+    /**
      * Find all subjects entities in the database with applied filter
      * 
      * @param subjectFilter
@@ -70,8 +87,9 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
      * @return List of the subject objects.
      */
     @Override
-    public List<Subject> getSubjectsPageWithFilter(SubjectFilter subjectFilter,
-            Paginator subjectPaginator) {
+    public List<Subject> getSubjectsPageWithFilter(
+            final SubjectFilter subjectFilter,
+            final Paginator subjectPaginator) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Subject> criteriaQuery = builder
                 .createQuery(Subject.class);
@@ -99,7 +117,7 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
      *         predicate.
      */
     @Override
-    public Long getCountOfSubjectsWithFilter(SubjectFilter subjectFilter) {
+    public Long getCountOfSubjectsWithFilter(final SubjectFilter subjectFilter) {
         CriteriaBuilder cb = getEm().getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
         Root<Subject> root = cq.from(Subject.class);

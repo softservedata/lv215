@@ -53,7 +53,7 @@ public class SubjectFilter {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -68,7 +68,7 @@ public class SubjectFilter {
      * @param description
      *            the description to set
      */
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -83,7 +83,7 @@ public class SubjectFilter {
      * @param userId
      *            the userId to set
      */
-    public void setUserId(Long userId) {
+    public void setUserId(final Long userId) {
         this.userId = userId;
     }
 
@@ -98,7 +98,7 @@ public class SubjectFilter {
      * @param sortByField
      *            the sortByField to set
      */
-    public void setSortByField(int sortByField) {
+    public void setSortByField(final int sortByField) {
         this.sortByField = sortByField;
     }
 
@@ -113,7 +113,7 @@ public class SubjectFilter {
      * @param sortOrder
      *            the sortOrder to set
      */
-    public void setSortOrder(int sortOrder) {
+    public void setSortOrder(final int sortOrder) {
         this.sortOrder = sortOrder;
     }
 
