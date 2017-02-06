@@ -116,14 +116,10 @@ public class MeetingCanceledMailService implements MailConstants {
             message.setFrom(new InternetAddress(fromAddress));
             message.setSubject(messageSource.getMessage(
                     MEETING_CANCELLED_MESSAGE_SUBJECT, new String[0], locale));
-            System.out.println("1");
             String htmlContent = this.templateEngine
                     .process(MEETING_CANCELLED_BY_SUBJECT_TEMPLATE, ctx);
-            System.out.println("2");
             message.setText(htmlContent, true);
-            System.out.println("3");
             this.mailSender.send(mimeMessage);
-            System.out.println("4");
         } catch (MessagingException e) {
             e.printStackTrace();
         }

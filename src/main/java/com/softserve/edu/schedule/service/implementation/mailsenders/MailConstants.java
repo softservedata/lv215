@@ -12,40 +12,93 @@ package com.softserve.edu.schedule.service.implementation.mailsenders;
  */
 public interface MailConstants {
 
-    /**
-     * Meeting cancelled message subject.
-     */
-    String MEETING_CANCELLED_MESSAGE_SUBJECT = "meetingCanceled.messageSubject";
+	/**
+	 * Meeting cancelled message subject.
+	 */
+	String MEETING_CANCELLED_MESSAGE_SUBJECT = "meetingCanceled.messageSubject";
 
-    /**
-     * Default message from attribute.
-     */
-    String DEFAULT_MESSAGE_FROM_ADDRESS = "${mail.from}";
+	/**
+	 * Meeting cancelled message subject.
+	 */
+	String MEETING_CANCELLED_MESSAGE_GROUP = "meetingCanceled.messageGroup";
 
-    /**
-     * Default velocity template encoding.
-     */
-    String DEFAULT_MESSAGE_ENCODING = "UTF-8";
+	/**
+	 * Default message from attribute.
+	 */
+	String DEFAULT_MESSAGE_FROM_ADDRESS = "${mail.from}";
 
-    /**
-     * Meeting cancelled message template for EN locale location.
-     */
-    String MEETING_CANCELLED_TEMPLATE = "meetingCancelledDueRoomUnavailability";
-    
-    /**
-     * Meeting cancelled message template for EN locale location.
-     */
-    String MEETING_CANCELLED_BY_SUBJECT_TEMPLATE = "meetingCanceledDueSubjectDelete";
+	/**
+	 * Default velocity template encoding.
+	 */
+	String DEFAULT_MESSAGE_ENCODING = "UTF-8";
 
-    /**
-     * Model name for meeting cancelled template.
+	/**
+	 * Meeting cancelled message template for EN locale location.
+	 */
+	String MEETING_CANCELLED_TEMPLATE = "meetingCancelledDueRoomUnavailability";
+
+	/**
+	 * Meeting cancelled message template for EN locale location.
+	 */
+	String MEETING_CANCELLED_BY_SUBJECT_TEMPLATE = "meetingCanceledDueSubjectDelete";
+
+	/**
+	 * Meeting cancelled message template for EN locale location.
+	 */
+	String MEETING_CANCELLED_BY_GROUP_TEMPLATE = "meetingCanceledDueGroupDelete";
+
+	/**
+	 * Model name for meeting cancelled template.
+	 */
+	String MEETING_MODEL_NAME = "meeting";
+
+	String USER_MODEL_NAME = "user";
+
+	String REGISTRATION_MESSAGE_SUBJECT = "userRegistrated.messageSubject";
+
+	String USER_REGISTRATED_TEMPLATE = "userRegistrated";
+
+	/**
+	 * Name of a usergroup model.
+	 */
+	String USERGROUP_MODEL_NAME = "usergroup";
+
+	/**
+	 * Name of a group user.
+	 */
+	String USERGROUP_USER = "groupUser";
+
+	/**
+	 * Name of a group curator.
+	 */
+	String USERGROUP_CURATOR = "groupCurator";
+
+	/**
+	 * UserGroup deleted message.
+	 */
+	String USERGROUP_DELETED_MESSAGE = "groupDeleted.messageUserGroup";
+
+	/**
+	 * UserGroup deleted message template for EN locale.
+	 */
+	String USERFROUP_DELETED_TEMPLATE = "userGroupDeleted";
+	
+	 /**
+     * Location delete message subject.
      */
-    String MEETING_MODEL_NAME = "meeting";
-    
-    String USER_MODEL_NAME = "user";
-    
-    String REGISTRATION_MESSAGE_SUBJECT = "userRegistrated.messageSubject";
-    
-    String USER_REGISTRATED_TEMPLATE = "userRegistrated";
-    
+    String LOCATION_DELETE_MESSAGE = "locationDelete.messageSubject";
+	
+	/**
+     * Location delete message template for EN locale location.
+     */
+    String LOCATION_DELETE_TEMPLATE = "infoLocationDelete";
+	 /**
+     * Model name for moderator location delete message template.
+     */
+    String MODERATOR_MODEL_NAME = "moderator";
+    /**
+     * Model name for location delete message template.
+     */
+    String LOCATION_MODEL_NAME = "location";
+
 }

@@ -79,9 +79,25 @@ public class LocationDAOImpl extends CrudDAOImpl<Location> implements LocationDA
 		if (predicate != null) {
 			criteriaQuery.where(predicate);
 		}
-		locationPaginator.setPagesCount(getEm().createQuery(criteriaQuery).getResultList().size());
+		locationPaginator.setPagesCount(getCountOfLocationsWithFilter(locationFilter));
 		return getEm().createQuery(criteriaQuery).setFirstResult(locationPaginator.getOffset())
 				.setMaxResults(locationPaginator.getPageSize()).getResultList();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.softserve.edu.schedule.dao.LocationDAO#getCountOfLocationsWithFilter(com.softserve.edu.schedule.dto.filter.LocationFilter)
+	 */
+	@Override
+	public Long getCountOfLocationsWithFilter(LocationFilter locationFilter) {
+		 CriteriaBuilder cb = getEm().getCriteriaBuilder();
+	        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+	        Root<Location> root = cq.from(Location.class);
+	        cq.select(cb.countDistinct(root));
+	        Predicate predicate = new LocationFilterSpecification(locationFilter).toPredicate(root, cq, cb);
+	        if (predicate != null) {
+	            cq.where(predicate);
+	        }
+	        return getEm().createQuery(cq).getSingleResult();
 	}
 
 }
