@@ -7,6 +7,29 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page
 	import="com.softserve.edu.schedule.controller.LocationController"%>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel"><spring:message code="lbl.form.deleteTitle" /></h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					<spring:message code="lbl.location.deleteConfirm" />
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-primary btn-ok"><spring:message code="lbl.form.delete" /></a>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.form.cancel" /></button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <h3 class="text-center">
 	<spring:message code="lbl.location.title" />
 </h3>
@@ -95,8 +118,8 @@
 						<sec:authorize
 							access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 							<a
-								href="${pageContext.request.contextPath}${LocationController.LOCATION_DELETE_MAPPING}${location.id}"
-								onclick="return confirm('<spring:message code="lbl.location.deleteConfirm" />')"
+								data-href="${pageContext.request.contextPath}${LocationController.LOCATION_DELETE_MAPPING}${location.id}"
+								data-toggle="modal" data-target="#confirm-delete"
 								title="<spring:message code="lbl.location.delete" />"><i
 								class="fa fa-trash-o fa-lg"></i></a>
 						</sec:authorize>
@@ -150,6 +173,10 @@
 	</div>
 </div>
 <script>
+$('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
+
  $('#paginationList').twbsPagination({
         totalPages: ${locationPaginator.pagesCount + 1},
         startPage: ${locationPaginator.pageNumber + 1},

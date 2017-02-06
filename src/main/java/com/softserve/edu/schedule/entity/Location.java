@@ -5,21 +5,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.softserve.edu.schedule.entitylisteners.LocationEntityListner;
 
 /**
  * An entity class for locations.
  *
  * @version 1.0 25 December 2016
  *
- * @author Petro Zelyonka
+ * @author Oleksandr Butyter
  *
  * @since 1.8
  */
 @Entity
+@EntityListeners(LocationEntityListner.class)
 public class Location {
 
     /**

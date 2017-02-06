@@ -16,6 +16,10 @@ public interface MailConstants {
      * Meeting cancelled message subject.
      */
     String MEETING_CANCELLED_MESSAGE_SUBJECT = "meetingCanceled.messageSubject";
+    /**
+     * Location delete message subject.
+     */
+    String LOCATION_DELETE_MESSAGE = "locationDelete.messageSubject";
 
     /**
      * Default message from attribute.
@@ -38,9 +42,21 @@ public interface MailConstants {
     String MEETING_CANCELLED_BY_SUBJECT_TEMPLATE = "meetingCanceledDueSubjectDelete";
 
     /**
+     * Location delete message template for EN locale location.
+     */
+    String LOCATION_DELETE_TEMPLATE = "infoLocationDelete";
+    /**
      * Model name for meeting cancelled template.
      */
     String MEETING_MODEL_NAME = "meeting";
+    /**
+     * Model name for moderator location delete message template.
+     */
+    String MODERATOR_MODEL_NAME = "moderator";
+    /**
+     * Model name for location delete message template.
+     */
+    String LOCATION_MODEL_NAME = "location";
     
     String USER_MODEL_NAME = "user";
     
