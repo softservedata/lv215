@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h3 th:text="#{mailSender.userAccost(${groupUser.getFirstName()})}">Dear
+		user</h3>
+	<p th:text="#{groupDeleted.messageBody}"></p>
+
+	<h4 th:text="#{lbl.group.details}"></h4>
+	<table>
+		<tr>
+			<th th:text="#{lbl.group.name}"></th>
+			<td th:text="${usergroup.getName()}"></td>
+		</tr>
+		
+		<tr>
+			<th th:text="#{lbl.group.curator}"></th>
+			<td th:text="${usergroup.getCurator().getFirstName()}"></td>
+			<td th:text="${usergroup.getCurator().getLastName()}"></td>
+			<th th:text="#{lbl.group.contactCurator}"></th>
+			<td th:text="${usergroup.getCurator().getMail()}"></td>
+			<td th:text="${usergroup.getCurator().getPhone()}"></td>
+		</tr>
+	</table>
+</body>
+</html>
