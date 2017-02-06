@@ -14,52 +14,53 @@ import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.User;
+import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.implementation.specification.UserFilterSpecification;
 
 @Repository
 public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
 
-    /**
-     * Constructor for UserDAOImpl class.
-     */
-    public UserDAOImpl() {
-        super(User.class);
-    }
+	/**
+	 * Constructor for UserDAOImpl class.
+	 */
+	public UserDAOImpl() {
+		super(User.class);
+	}
 
-    /**
-     * Delete existed user entity from the database by id.
-     *
-     * @param id
-     *            a user id to delete from database.
-     */
-    @Override
-    public void deleteById(final Long id) {
-        delete(getById(id));
-    }
+	/**
+	 * Delete existed user entity from the database by id.
+	 *
+	 * @param id
+	 *            a user id to delete from database.
+	 */
+	@Override
+	public void deleteById(final Long id) {
+		delete(getById(id));
+	}
 
-    /**
-     * Find all meetings in the DB by given date and roomId.
-     *
-     * @author Petro Zelyonka
-     *
-     * @param userMail
-     *            user mail to find user in database
-     *
-     * @return User object with given mail or null if not finded.
-     */
-    @Override
-    public User findByMail(final String userMail) {
-        try {
-            CriteriaBuilder builder = getEm().getCriteriaBuilder();
-            CriteriaQuery<User> cq = builder.createQuery(User.class);
-            Root<User> root = cq.from(User.class);
-            cq.where(builder.like(root.get(User_.mail), userMail));
-            return getEm().createQuery(cq).getSingleResult();
-        } catch (NoResultException e) {
-            return null;
-        }
-    }
+	/**
+	 * Find all meetings in the DB by given date and roomId.
+	 *
+	 * @author Petro Zelyonka
+	 *
+	 * @param userMail
+	 *            user mail to find user in database
+	 *
+	 * @return User object with given mail or null if not finded.
+	 */
+	@Override
+	public User findByMail(final String userMail) {
+		try {
+			CriteriaBuilder builder = getEm().getCriteriaBuilder();
+			CriteriaQuery<User> cq = builder.createQuery(User.class);
+			Root<User> root = cq.from(User.class);
+			cq.where(builder.like(root.get(User_.mail), userMail));
+			return getEm().createQuery(cq).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
 
     @Override
     public List<User> getUsersPageWithFilter(UserFilter userFilter,
@@ -99,5 +100,19 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
             cq.where(predicate);
         }
         return getEm().createQuery(cq).getSingleResult();
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.dao.UserDAO#getModerators()
+     */
+    @Override
+    public List<User> getModerators() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<User> cq = builder.createQuery(User.class);
+        Root<User> root = cq.from(User.class);
+        cq.where(builder.equal(root.get(User_.role), UserRole.ROLE_MODERATOR.ordinal()));
+        return getEm().createQuery(cq).getResultList();
     }
 }

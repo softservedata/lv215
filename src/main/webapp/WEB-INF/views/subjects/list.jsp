@@ -1,12 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
-<%@ page
-	import="com.softserve.edu.schedule.controller.SubjectController"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ page import="com.softserve.edu.schedule.controller.SubjectController"%>
 
 <h3 class="text-center">
 	<spring:message code="lbl.subject.title" />
@@ -15,59 +12,74 @@
 	<table class="table table-hover">
 		<tr>
 			<th>ID</th>
-			<th><spring:message code="lbl.subject.name" /> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=1&sortOrder=1&pageNumber=0"
-				title="<spring:message code="lbl.subject.sortAsc"/>"><i
-					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=1&sortOrder=2&pageNumber=0"
-				title="<spring:message code="lbl.subject.sortDesc"/>"><i
-					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
-			<th><spring:message code="lbl.subject.description" /> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=2&sortOrder=1&pageNumber=0"
-				title="<spring:message code="lbl.subject.sortAsc"/>"><i
-					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=2&sortOrder=2&pageNumber=0"
-				title="<spring:message code="lbl.subject.sortDesc"/>"><i
-					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
-			<th><spring:message code="lbl.subject.tutor" /></th>
+			<th>
+				<spring:message code="lbl.subject.name" />
+				<a
+					href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=1&sortOrder=1&pageNumber=0"
+					title="<spring:message code="lbl.subject.sortAsc"/>">
+					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				</a>
+				<a
+					href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=1&sortOrder=2&pageNumber=0"
+					title="<spring:message code="lbl.subject.sortDesc"/>">
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
+			</th>
+			<th>
+				<spring:message code="lbl.subject.description" />
+				<a
+					href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=2&sortOrder=1&pageNumber=0"
+					title="<spring:message code="lbl.subject.sortAsc"/>">
+					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				</a>
+				<a
+					href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?sortByField=2&sortOrder=2&pageNumber=0"
+					title="<spring:message code="lbl.subject.sortDesc"/>">
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
+			</th>
+			<th>
+				<spring:message code="lbl.subject.tutor" />
+			</th>
 			<th></th>
-			<th class="text-center v-alighn"><sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
-					<a
-						href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"
-						title="<spring:message code="lbl.subject.add"/>"><i
-						class="fa fa-plus fa-lg"></i></a>
-				</sec:authorize></th>
+			<th class="text-center v-alighn">
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<a href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"
+						title="<spring:message code="lbl.subject.add"/>">
+						<i class="fa fa-plus fa-lg"></i>
+					</a>
+				</sec:authorize>
+			</th>
 		</tr>
 		<tr>
-			<form:form
-				action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}"
+			<form:form action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}"
 				modelAttribute="${SubjectController.FILTER_MODEL_ATTR}">
 				<td></td>
-				<td><spring:message code="lbl.subject.search" var="search" />
-					<form:input class="form-control"
-						path="${SubjectController.SUBJECT_PATH_NAME}"
-						placeholder=" ${search}" /></td>
-				<td><spring:message code="lbl.subject.search" var="search" />
-					<form:input class="form-control"
-						path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"
-						placeholder="${search}" /></td>
-				<td><form:select class="form-control"
-						path="${SubjectController.SUBJECT_PATH_USER_ID}">
+				<td>
+					<spring:message code="lbl.subject.search" var="search" />
+					<form:input class="form-control" path="${SubjectController.SUBJECT_PATH_NAME}"
+						placeholder=" ${search}" />
+				</td>
+				<td>
+					<spring:message code="lbl.subject.search" var="search" />
+					<form:input class="form-control" path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"
+						placeholder="${search}" />
+				</td>
+				<td>
+					<form:select class="form-control" path="${SubjectController.SUBJECT_PATH_USER_ID}">
 						<option value="0"></option>
 						<c:forEach items="${users}" var="user">
 							<c:choose>
 								<c:when test="${subjectFilter.userId eq user.id}">
-									<option value="${user.id}" selected="selected">${user.firstName}
-										${user.lastName}</option>
+									<option value="${user.id}" selected="selected">${user.firstName}${user.lastName}</option>
 								</c:when>
 								<c:otherwise>
-									<option value="${user.id}">${user.firstName}
-										${user.lastName}</option>
+									<option value="${user.id}">${user.firstName}${user.lastName}</option>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-					</form:select></td>
+					</form:select>
+				</td>
 				<td class="text-center v-alighn">
 					<button type="submit" class="btn btn-link"
 						title="<spring:message code="lbl.room.applyFilter"/>">
@@ -75,35 +87,43 @@
 					</button>
 				</td>
 			</form:form>
-			<td class="text-center v-alighn"><a
-				href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?name=&description=&userId=0"
-				title="<spring:message code="lbl.room.resetFilter"/>"> <i
-					class="fa fa-times fa-lg"></i>
-			</a></td>
+			<td class="text-center v-alighn">
+				<a
+					href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}?name=&description=&userId=0"
+					title="<spring:message code="lbl.room.resetFilter"/>">
+					<i class="fa fa-times fa-lg"></i>
+				</a>
+			</td>
 		</tr>
 		<c:forEach var="subject" items="${subjects}">
 			<tr>
 				<td>${subject.id}</td>
 				<td>${subject.name}</td>
 				<td>${subject.description}</td>
-				<td><c:forEach items="${subject.users}" var="user">
+				<td>
+					<c:forEach items="${subject.users}" var="user">
 						<p>${user.firstName}${user.lastName}</p>
-					</c:forEach></td>
-				<td class="text-center v-alighn"><sec:authorize
-						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					</c:forEach>
+				</td>
+				<td class="text-center v-alighn">
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 						<a
 							href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DELETE_MAPPING}${subject.id}"
 							title="<spring:message code="lbl.subject.delete"/>"
-							onclick="return confirm('<spring:message code="lbl.subject.deleteConfirm"/>')"><i
-							class="fa fa-trash-o fa-lg"></i></a>
-					</sec:authorize></td>
-				<td class="text-center v-alighn"><sec:authorize
-						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+							onclick="return confirm('<spring:message code="lbl.subject.deleteConfirm"/>')">
+							<i class="fa fa-trash-o fa-lg"></i>
+						</a>
+					</sec:authorize>
+				</td>
+				<td class="text-center v-alighn">
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 						<a
 							href="${pageContext.request.contextPath}${SubjectController.SUBJECT_EDIT_MAPPING}${subject.id}"
-							title="<spring:message code="lbl.subject.edit"/>"><i
-							class="fa fa-pencil-square-o fa-lg"></i></a>
-					</sec:authorize></td>
+							title="<spring:message code="lbl.subject.edit"/>">
+							<i class="fa fa-pencil-square-o fa-lg"></i>
+						</a>
+					</sec:authorize>
+				</td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -151,6 +171,10 @@
         totalPages: ${subjectPaginator.pagesCount + 1},
         startPage: ${subjectPaginator.pageNumber + 1},
         visiblePages: 10,
+        first: '<spring:message code="lbl.pager.first"/>',
+        last: '<spring:message code="lbl.pager.last"/>',
+        prev: '<spring:message code="lbl.pager.previous"/>',
+        next: '<spring:message code="lbl.pager.next"/>',
         initiateStartPageClick: false,        
         onPageClick: function (event, page) {
         	window.location = "subjects?pageNumber=" + (page-1);        	

@@ -64,22 +64,22 @@
 						class="form-control" path="lastName" placeholder=" ${search}" />
 				</td>
 				<td><sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
-				</sec:authorize></td>
+						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+					</sec:authorize></td>
 				<td><sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
-				</sec:authorize></td>
+						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+					</sec:authorize></td>
 				<td><spring:message code="lbl.user.search" var="search" /> <form:input
 						class="form-control" path="position" placeholder=" ${search}" />
 				</td>
 				<td><sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')"></sec:authorize></td>
+						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')"></sec:authorize></td>
 				<td><sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')"></sec:authorize></td>
+						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')"></sec:authorize></td>
 				<td><sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')"></sec:authorize></td>
+						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')"></sec:authorize></td>
 				<td><sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')"></sec:authorize></td>
+						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')"></sec:authorize></td>
 				<td class="text-center v-alighn">
 					<button type="submit" class="btn btn-link"
 						title="<spring:message code="lbl.room.applyFilter"/>">
@@ -104,7 +104,8 @@
 				<td><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">${user.phone}</sec:authorize></td>
 				<td>${user.position}</td>
-				<td><spring:message code="lbl.user.${user.role.getRole()}" /></td>
+				<td><spring:message code="lbl.user.${user.role.getRole()}" />
+				</td>
 				<td><c:forEach items="${user.groups}" var="group">
 						<p>${group.name}</p>
 					</c:forEach></td>
@@ -186,6 +187,10 @@
         totalPages: ${userPaginator.pagesCount + 1},
         startPage: ${userPaginator.pageNumber + 1},
         visiblePages: 10,
+        first: '<spring:message code="lbl.pager.first"/>',
+        last: '<spring:message code="lbl.pager.last"/>',
+        prev: '<spring:message code="lbl.pager.previous"/>',
+        next: '<spring:message code="lbl.pager.next"/>',
         initiateStartPageClick: false,        
         onPageClick: function (event, page) {
         	window.location = "users?pageNumber=" + (page-1);        	
