@@ -390,6 +390,25 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
+    
+    @Override
+    public List<Meeting> getMeetingsInIntervalBySubjectId(Long subjectId,
+            LocalDate startDate, LocalDate endDate) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        Join<Meeting, Subject> subjectJoin = root.join(Meeting_.subject);
+        root.join(Meeting_.owner);
+        root.join(Meeting_.room);
+        root.join(Meeting_.groups);
+        Predicate predicate = builder.conjunction();
+        predicate = builder.and(predicate,
+                builder.between(root.get(Meeting_.date), startDate, endDate));
+        predicate = builder.and(predicate, subjectJoin.get(Subject_.id).in(subjectId));
+        cq.where(predicate);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
 
     @Override
     public List<Meeting> getMeetingsInIntervalByUserId(Long userId,

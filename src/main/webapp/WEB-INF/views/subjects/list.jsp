@@ -121,7 +121,7 @@
 		<c:forEach var="subject" items="${subjects}">
 			<tr>
 				<td>${subject.id}</td>
-				<td>${subject.name}</td>
+				<td><a href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING_SHOW}${subject.id}">${subject.name}</a></td>
 				<td>${subject.description}</td>
 				<td>
 					<c:forEach items="${subject.users}" var="user">
