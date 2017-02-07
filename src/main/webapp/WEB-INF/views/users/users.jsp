@@ -1,10 +1,13 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ page import="com.softserve.edu.schedule.controller.UserController"%>
-<%@ page import="com.softserve.edu.schedule.controller.RegistrationController"%>
-
+<%@ page
+	import="com.softserve.edu.schedule.controller.RegistrationController"%>
 
 <h3 class="text-center">
 	<spring:message code="lbl.user.title" />
@@ -13,82 +16,75 @@
 	<table class="table table-hover">
 		<tr>
 			<th></th>
-			<th>
-				<spring:message code="lbl.user.name" />
-				<%-- <a
-				href="${pageContext.request.contextPath}${UserController.SORT_BY_LASTNAME_ASC_MAPPING}"><i
-					class="fa fa-arrow-circle-o-up"></i></a> <a
-				href="${pageContext.request.contextPath}${UserController.SORT_BY_LASTNAME_DESC_MAPPING}"><i
-					class="fa fa-arrow-circle-o-down"></i></a> --%>
-				<a href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=1&pageNumber=0"
-					title="<spring:message code="lbl.user.sortAsc" />">
-					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a>
-				<a href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=2&pageNumber=0"
-					title="<spring:message code="lbl.user.sortDesc" />">
-					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-				</a>
-			</th>
-			<th>
-				<spring:message code="lbl.user.mail" />
-			</th>
-			<th>
-				<spring:message code="lbl.user.phone" />
-			</th>
-			<th>
-				<spring:message code="lbl.user.position" />
-				<%-- <a
-				href="${pageContext.request.contextPath}${UserController.SORT_BY_POSITION_ASC_MAPPING}"><i
-					class="fa fa-arrow-circle-o-up"></i></a> <a
-				href="${pageContext.request.contextPath}${UserController.SORT_BY_POSITION_DESC_MAPPING}"><i
-					class="fa fa-arrow-circle-o-down"></i></a> --%>
-				<a href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=1&pageNumber=0"
-					title="<spring:message code="lbl.user.sortAsc" />">
-					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a>
-				<a href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=2&pageNumber=0"
-					title="<spring:message code="lbl.user.sortDesc" />">
-					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-				</a>
-			</th>
-			<th>
-				<spring:message code="lbl.user.role" />
-			</th>
-			<th>
-				<spring:message code="lbl.user.group" />
-			</th>
-			<th></th>
-			<th></th>
-			<th></th>
-			<th>
+			<th><spring:message code="lbl.user.name" /> <a
+				href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=1&pageNumber=0"
+				title="<spring:message code="lbl.user.sortAsc" />"><i
+					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
+				href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=2&pageNumber=0"
+				title="<spring:message code="lbl.user.sortDesc" />"><i
+					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
+			<sec:authorize
+				access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+				<th><spring:message code="lbl.user.mail" /></th>
+			</sec:authorize>
+			<sec:authorize
+				access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+				<th><spring:message code="lbl.user.phone" /></th>
+			</sec:authorize>
+			<th><spring:message code="lbl.user.position" /> <a
+				href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=1&pageNumber=0"
+				title="<spring:message code="lbl.user.sortAsc" />"><i
+					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
+				href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=2&pageNumber=0"
+				title="<spring:message code="lbl.user.sortDesc" />"><i
+					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
+			<th><spring:message code="lbl.user.role" /></th>
+			<th><spring:message code="lbl.user.group" /></th>
+			<sec:authorize
+				access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')"><th></th></sec:authorize>
+							<sec:authorize
+				access="hasAnyRole('ROLE_ADMIN')"><th></th></sec:authorize>
+			<sec:authorize
+				access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')"><th></th></sec:authorize>
+			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')"><th><sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 				<a
-					href="${pageContext.request.contextPath}/${RegistrationController.USER_REGIST_MAPPING_FOR_ADMIN}">
-					<i class="fa fa-plus"></i>
-				</a>
-			</th>
+					href="${pageContext.request.contextPath}/${RegistrationController.USER_REGIST_MAPPING_FOR_ADMIN}"><i
+						class="fa fa-plus"></i></a>
+			</sec:authorize></th></sec:authorize>
 		</tr>
-
-
-
-
 		<tr>
 			<td></td>
 			<form:form action="${pageContext.request.contextPath}/users"
 				modelAttribute="${UserController.FILTER_MODEL_ATTR}">
-				<td>
-					<spring:message code="lbl.user.search" var="search" />
-					<form:input class="form-control" path="lastName" placeholder=" ${search}" />
+				<td><spring:message code="lbl.user.search" var="search" /> <form:input
+						class="form-control" path="lastName" placeholder=" ${search}" />
 				</td>
-				<td></td>
-				<td></td>
-				<td>
-					<spring:message code="lbl.user.search" var="search" />
-					<form:input class="form-control" path="position" placeholder=" ${search}" />
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+					<td></td>
+				</sec:authorize>
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+					<td></td>
+				</sec:authorize>
+				<td><spring:message code="lbl.user.search" var="search" /> <form:input
+						class="form-control" path="position" placeholder=" ${search}" />
 				</td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN')">
+					<td></td>
+				</sec:authorize>
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<td></td>
+				</sec:authorize>
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')"><td></td>
+				</sec:authorize>
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<td></td>
+				</sec:authorize>
 				<td class="text-center v-alighn">
 					<button type="submit" class="btn btn-link"
 						title="<spring:message code="lbl.room.applyFilter"/>">
@@ -96,56 +92,62 @@
 					</button>
 				</td>
 			</form:form>
-			<td class="v-alighn">
-				<a href="${pageContext.request.contextPath}/users?lastName=&position="
-					title="<spring:message code="lbl.room.resetFilter"/>">
-					<i class="fa fa-times fa-lg"></i>
-				</a>
-			</td>
+			<td class="v-alighn"><a
+				href="${pageContext.request.contextPath}/users?lastName=&position="
+				title="<spring:message code="lbl.room.resetFilter"/>"> <i
+					class="fa fa-times fa-lg"></i>
+			</a></td>
 		</tr>
 		<c:forEach items="${users}" var="user">
 			<tr>
 				<td></td>
-				<td>
-					<a href="${pageContext.request.contextPath}/${UserController.USER_PROFILE_MAPPING}${user.id}">${user.lastName}
-						${user.firstName}</a>
-				</td>
-				<td>${user.mail}</td>
-				<td>${user.phone}</td>
+				<td><a
+					href="${pageContext.request.contextPath}/${UserController.USER_PROFILE_MAPPING}${user.id}">${user.lastName}
+						${user.firstName}</a></td>
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+					<td>${user.mail}</td>
+				</sec:authorize>
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+					<td>${user.phone}</td>
+				</sec:authorize>
 				<td>${user.position}</td>
-				<td>
-					<spring:message code="lbl.user.${user.role.getRole()}" />
+				<td><spring:message code="lbl.user.${user.role.getRole()}" />
 				</td>
-				<td>
-					<c:forEach items="${user.groups}" var="group">
+				<td><c:forEach items="${user.groups}" var="group">
 						<p>${group.name}</p>
-					</c:forEach>
-				</td>
-				<td>
-					<a href="${pageContext.request.contextPath}${UserController.DELETE_USER_MAPPING}${user.id}"
-						onclick="return confirm('The user can not be deleted if he is curated group. Are you sure you want to delete this user?');">
-						<i class="fa fa-trash-o"></i>
-					</a>
-				</td>
-				<td>
-					<a href="${pageContext.request.contextPath}${UserController.CHANGE_ROLE_MAPPING}${user.id}">
-						<i class="fa fa-pencil-square-o"></i>
-					</a>
-				</td>
-				<td>
-					<c:if test="${user.status.ordinal() == 1}">
-						<a href="${pageContext.request.contextPath}${UserController.BAN_USER_MAPPING}${user.id}">
-							<i class="fa fa-ban"></i>
-						</a>
-					</c:if>
-				</td>
-				<td>
-					<c:if test="${user.status.ordinal() == 2 or user.status.ordinal() == 0}">
-						<a href="${pageContext.request.contextPath}${UserController.UNBAN_USER_MAPPING}${user.id}">
-							<i class="fa fa-check-circle-o"></i>
-						</a>
-					</c:if>
-				</td>
+					</c:forEach></td>
+				<!-- <td>	</td> -->
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+					<td><a
+						href="${pageContext.request.contextPath}${UserController.DELETE_USER_MAPPING}${user.id}"
+						onclick="return confirm('The user can not be deleted if he is curated group. Are you sure you want to delete this user?');"><i
+							class="fa fa-trash-o"></i></a></td>
+				</sec:authorize>
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<td><a
+						href="${pageContext.request.contextPath}${UserController.CHANGE_ROLE_MAPPING}${user.id}">
+							<i class="fa fa-pencil-square-o"></i>
+					</a></td>
+				</sec:authorize>
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<td><c:if test="${user.status.ordinal() == 1}">
+							<a
+								href="${pageContext.request.contextPath}${UserController.BAN_USER_MAPPING}${user.id}">
+								<i class="fa fa-ban"></i>
+							</a>
+						</c:if></td>
+				</sec:authorize>
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<td><c:if
+							test="${user.status.ordinal() == 2 or user.status.ordinal() == 0}">
+							<a
+								href="${pageContext.request.contextPath}${UserController.UNBAN_USER_MAPPING}${user.id}">
+								<i class="fa fa-check-circle-o"></i>
+							</a>
+						</c:if></td>
+				</sec:authorize>
 			</tr>
 		</c:forEach>
 	</table>

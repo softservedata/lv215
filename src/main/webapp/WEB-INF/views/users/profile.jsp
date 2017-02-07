@@ -1,8 +1,9 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page import="com.softserve.edu.schedule.controller.UserController"%>
 <body>
 	<div class="container">
@@ -17,37 +18,27 @@
 					<div class="form-group">
 						<label for="firstName"><spring:message
 								code="lbl.user.firstName" />:</label>
-						<h4>${user.firstName}</h4>
+						<b>${user.firstName}</b>
 					</div>
 					<div class="form-group">
 						<label for="lastName"><spring:message
 								code="lbl.user.lastName" />:</label>
-						<h4>${user.lastName}</h4>
+						<b>${user.lastName}</b>
 					</div>
-					<div class="form-group">
+					<div class="form-group"><sec:authorize
+					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
 						<label for="mail"><spring:message code="lbl.user.mail" />:</label>
-						<h4>${user.mail}</h4>
+						<b>${user.mail}</b></sec:authorize>
 					</div>
-					<div class="form-group">
+					<div class="form-group"><sec:authorize
+					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
 						<label for="phone"><spring:message code="lbl.user.phone" />:</label>
-						<h4>${user.phone}</h4>
+						<b>${user.phone}</b></sec:authorize>
 					</div>
 					<div class="form-group">
 						<label for="position"><spring:message
 								code="lbl.user.position" />:</label>
-						<h4>${user.position}</h4>
-					</div>
-					<div class="form-group">
-						<a class="form-control"
-							href="${pageContext.request.contextPath}/${UserController.UPDATE_USER_MAPPING}${user.id}">
-							<spring:message code="lbl.user.update" />
-						</a>
-					</div>
-					<div class="form-group">
-						<a class="form-control"
-							href="${pageContext.request.contextPath}/${UserController.CHANGE_PASSWORD_MAPPING}${user.id}">
-							<spring:message code="lbl.user.changePassword" />
-						</a>
+						<b>${user.position}</b>
 					</div>
 				</form:form>
 			</div>
