@@ -340,11 +340,11 @@ public class UserServiceImpl implements UserService {
 
         User user = userDAO.findByMail(principal.getName());
 
-        String path = System.getProperty("catalina.home") + "/resources/"
+        String path = System.getProperty("catalina.home") + "/images/"
                 + user.getMail() + "/"
                 + multipartFile.getOriginalFilename();
 
-        user.setPathImage("/resources/" + user.getMail() + "/"
+        user.setPathImage("/images/" + user.getMail() + "/"
                 + multipartFile.getOriginalFilename());
 
         File file = new File(path);

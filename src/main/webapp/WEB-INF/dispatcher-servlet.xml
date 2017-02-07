@@ -51,6 +51,7 @@
 		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</bean>
 
+	<mvc:resources mapping="/images/**" location="file:${catalina.home}/images/" cache-period="3600"/>
 	<mvc:resources mapping="/resources/**" location="/resources/"
 		cache-period="3600" />
 
@@ -73,8 +74,6 @@
 			class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
 			<property name="paramName" value="lang" />
 		</bean>
-	</mvc:interceptors>
-
-	<mvc:resources mapping="/resources/**" location="file:${catalina.home}/resources/" />
+	</mvc:interceptors>	
 
 </beans>	

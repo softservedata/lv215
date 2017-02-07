@@ -85,18 +85,18 @@ public class User {
      * List of subjects available for this user.
      */
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Subject.class)
-    @JoinTable(name = "subject_user", joinColumns = {
-            @JoinColumn(name = "users_id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "subjects_id") })
+    @JoinTable(name = "subject_user",
+            joinColumns = {@JoinColumn(name = "users_id")},
+            inverseJoinColumns = {@JoinColumn(name = "subjects_id")})
     private List<Subject> subjects = new ArrayList<>();
 
     /**
      * List of groups this user participates.
      */
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = UserGroup.class)
-    @JoinTable(name = "usergroup_user", joinColumns = {
-            @JoinColumn(name = "users_id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "groups_id") })
+    @JoinTable(name = "usergroup_user",
+            joinColumns = {@JoinColumn(name = "users_id")},
+            inverseJoinColumns = {@JoinColumn(name = "groups_id")})
     private List<UserGroup> groups = new ArrayList<>();
 
     /**
