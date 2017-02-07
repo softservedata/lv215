@@ -13,6 +13,7 @@ public class User_ {
     public static volatile SingularAttribute<User, String> password;
     public static volatile SingularAttribute<User, String> phone;
     public static volatile SingularAttribute<User, String> position;
+    public static volatile SingularAttribute<User, String> pathImage;
     public static volatile SingularAttribute<User, UserStatus> status;
     public static volatile SingularAttribute<User, UserRole> role;
     public static volatile ListAttribute<User, Subject> subjects;
