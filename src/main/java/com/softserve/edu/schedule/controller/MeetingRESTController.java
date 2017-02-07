@@ -80,4 +80,20 @@ public class MeetingRESTController {
         return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
                 HttpStatus.OK);
     }
+    
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
+    @RequestMapping("/meetings/restByAnyUser")
+    public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByAnyUserId(
+            @RequestParam("start") String start,
+            @RequestParam("end") String end,
+            @RequestParam("userId") String userId) {
+        List<MeetingForCalendarDTO> meetings = meetingService
+                .getMeetingsInIntervalByAnyUserId(userId, start, end);
+        if (meetings.isEmpty()) {
+            return new ResponseEntity<List<MeetingForCalendarDTO>>(
+                    HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
+                HttpStatus.OK);
+    }
 }

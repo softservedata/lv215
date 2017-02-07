@@ -173,4 +173,8 @@ public interface MeetingService {
     List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(String userId,
             String start, String end);
 
+    List<MeetingForCalendarDTO> getMeetingsInIntervalByAnyUserId(String userId,
+            String start, String end);
+
+
 }
