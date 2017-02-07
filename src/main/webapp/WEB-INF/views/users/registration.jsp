@@ -23,7 +23,7 @@
 						<spring:message code="vm.incorectName" var="incorectName" />
 						<form:input type="text" class="form-control" path="firstName"
 							placeholder="${nameForPlaceholder}"
-							pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z]{2,25}" title="${incorectName}"
+							pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z\\'\\-]{2,25}" title="${incorectName}"
 							required="true" />
 						<form:errors path="firstName" class="text-danger" />
 					</div>
@@ -34,7 +34,7 @@
 						<spring:message code="vm.incorectName" var="incorectName" />
 						<form:input type="text" class="form-control" path="lastName"
 							placeholder="${nameForPlaceholder}"
-							pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z]{2,25}" title="${incorectName}"
+							pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z\\'\\-]{2,25}" title="${incorectName}"
 							required="true" />
 						<form:errors path="lastName" class="text-danger" />
 					</div>

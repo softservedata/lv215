@@ -234,6 +234,10 @@ public interface ControllerConst {
         String USER_DETAILS_URL = "/userDetails";
         
         String REDIRECT_USER_DETAILS_URL = "redirect:/userDetails";
+        
+        String USER_MEETINGS_MAPPING = "showMeetings";
+        
+        String USER_MEETINGS_URL = "/showMeetings";
     }
 
     /**
