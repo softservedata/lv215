@@ -542,6 +542,27 @@ public interface ControllerConst {
 		 * Group members attribute.
 		 */
 		String USERGROUP_GROUP_MEMBERS = "groupMembers";
+
+		/**
+		 * Minimum description length
+		 */
+		int MIN_GROUP_DESCRIPTION_LENGTH = 15;
+
+		/**
+		 * Maximum description length
+		 */
+		int MAX_GROUP_DESCRIPTION_LENGTH = 100;
+
+		/**
+		 * Minimum group name length
+		 */
+		int MIN_GROUP_NAME_LENGTH = 5;
+
+		/**
+		 * Maximum group name length
+		 */
+		int MAX_GROUP_NAME_LENGTH = 20;
+
 	}
 
 	public interface RoomEquipmentControllerConst {
