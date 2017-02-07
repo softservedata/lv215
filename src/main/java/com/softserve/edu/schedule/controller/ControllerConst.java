@@ -357,6 +357,11 @@ public interface ControllerConst {
          * Subjects model attribute name.
          */
         String SUBJECTS_MODEL_ATTR = "subjects";
+        
+        /**
+         * Subject model attribute name.
+         */
+        String SUBJECT_MODEL_ATTR = "subject";
 
         /**
          * Users model attribute name.
@@ -379,15 +384,25 @@ public interface ControllerConst {
         String SUBJECT_CREATE_URL = "subjects/create";
 
         /**
-         * Edit location information URL.
+         * Edit subject information URL.
          */
         String SUBJECTS_EDIT_URL = "subjects/edit";
+        
+        /**
+         * Show subject information URL.
+         */
+        String SUBJECTS_SHOW_URL = "subjects/show";
 
         /**
          * Subjects mapping URL.
          */
         String SUBJECTS_MAPPING = "/subjects";
 
+        /**
+         * Subjects mapping URL.
+         */
+        String SUBJECTS_MAPPING_SHOW = "/subjects/";
+        
         /**
          * Delete subject mapping URL name.
          */
