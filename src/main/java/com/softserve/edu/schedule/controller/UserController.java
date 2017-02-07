@@ -262,4 +262,10 @@ public class UserController implements ControllerConst.UserControllerConst,
         userService.saveImage(principal, image);
         return REDIRECT_USER_DETAILS_URL;
     }
+    
+    @RequestMapping(USER_MEETINGS_MAPPING + "{id}")
+    public String showMeetings(@PathVariable Long id, final Model model) {
+        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
+        return USER_MEETINGS_URL;
+    }
 }
