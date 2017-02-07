@@ -228,6 +228,16 @@ public interface ControllerConst {
 		String FILTER_MODEL_ATTR = "userFilter";
 
 		String USER_PAGINATOR_MODEL_ATTR = "userPaginator";
+
+		String USER_DETAILS_MAPPING = "/userDetails";
+
+		String USER_DETAILS_URL = "/userDetails";
+
+		String REDIRECT_USER_DETAILS_URL = "redirect:/userDetails";
+
+		String USER_MEETINGS_MAPPING = "showMeetings";
+
+		String USER_MEETINGS_URL = "/showMeetings";
 	}
 
 	/**
@@ -349,6 +359,11 @@ public interface ControllerConst {
 		String SUBJECTS_MODEL_ATTR = "subjects";
 
 		/**
+		 * Subject model attribute name.
+		 */
+		String SUBJECT_MODEL_ATTR = "subject";
+
+		/**
 		 * Users model attribute name.
 		 */
 		String USERS_MODEL_ATTR = "users";
@@ -369,14 +384,24 @@ public interface ControllerConst {
 		String SUBJECT_CREATE_URL = "subjects/create";
 
 		/**
-		 * Edit location information URL.
+		 * Edit subject information URL.
 		 */
 		String SUBJECTS_EDIT_URL = "subjects/edit";
+
+		/**
+		 * Show subject information URL.
+		 */
+		String SUBJECTS_SHOW_URL = "subjects/show";
 
 		/**
 		 * Subjects mapping URL.
 		 */
 		String SUBJECTS_MAPPING = "/subjects";
+
+		/**
+		 * Subjects mapping URL.
+		 */
+		String SUBJECTS_MAPPING_SHOW = "/subjects/";
 
 		/**
 		 * Delete subject mapping URL name.

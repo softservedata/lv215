@@ -30,5 +30,14 @@ public interface UserDAO extends CrudDAO<User> {
 
     List<User> getUsersPageWithFilter(UserFilter userFilter,
             Paginator userPaginator);
+    
+    Long getCountOfUsersWithFilter(final UserFilter userFilter);
+    
+    /**
+     * Method returns lists of users which have role - moderator
+     * 
+     * @return lists of users which have role - moderator
+     */
+    List<User> getModerators();
 
 }

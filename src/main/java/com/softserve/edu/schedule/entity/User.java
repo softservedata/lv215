@@ -67,6 +67,8 @@ public class User {
      */
     private String position;
 
+    private String pathImage;
+
     /**
      * User status in system.
      */
@@ -261,4 +263,13 @@ public class User {
     public void setGroups(final List<UserGroup> groups) {
         this.groups = groups;
     }
+
+    public String getPathImage() {
+        return pathImage;
+    }
+
+    public void setPathImage(String pathImage) {
+        this.pathImage = pathImage;
+    }
+
 }

@@ -25,7 +25,7 @@ public interface ValidationCriteria {
     /**
      * Allowed characters for name expression.
      */
-    String CHARACTERS_FOR_USERNAME = "[а-яА-ЯёЁіІєЄїЇa-zA-Z]{2,25}";
+    String CHARACTERS_FOR_USERNAME = "[а-яА-ЯёЁіІєЄїЇa-zA-Z\\'\\-]{2,25}";
 
     /**
      * Allowed only digits expression in specific order.

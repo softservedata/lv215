@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.controller;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.service.UserService;
-
 
 /**
  * A controller class of registration pages.
@@ -24,10 +24,11 @@ import com.softserve.edu.schedule.service.UserService;
  * @since 1.8
  */
 @Controller
-public class RegistrationController implements ControllerConst.RegistrationControllerConst {
+public class RegistrationController
+        implements ControllerConst.RegistrationControllerConst {
 
     @Autowired
-    private UserService userService;    
+    private UserService userService;
 
     /**
      * Controls view of user registration page.
@@ -37,11 +38,24 @@ public class RegistrationController implements ControllerConst.RegistrationContr
      *
      * @return start page URL
      */
-    @RequestMapping(value = {USER_REGIST_MAPPING_FROM_STARTPAGE,
-           USER_REGIST_MAPPING_FOR_ADMIN })
+    @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE)
     public String newUserPage(Model model) {
-        model.addAttribute(USER_REGIST_MODEL_ATTR,
-                new UserDTO());
+        model.addAttribute(USER_REGIST_MODEL_ATTR, new UserDTO());
+        return USER_REGIST_URL;
+    }
+
+    /**
+     * Controls view of user registration page.
+     *
+     * @param model
+     *            user registration page view model.
+     *
+     * @return start page URL
+     */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN)
+    public String newUserPageForAdmin(Model model) {
+        model.addAttribute(USER_REGIST_MODEL_ATTR, new UserDTO());
         return USER_REGIST_URL;
     }
 
@@ -53,11 +67,11 @@ public class RegistrationController implements ControllerConst.RegistrationContr
      *
      * @return start page URL
      */
-    @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE
-            , method = RequestMethod.POST)
+    @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE, method = RequestMethod.POST)
     public String newUserFromStartPage(
-            @ModelAttribute(USER_REGIST_MODEL_ATTR)@Valid final UserDTO userDTO, BindingResult br) {
-        if(br.hasErrors()){
+            @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
+            BindingResult br) {
+        if (br.hasErrors()) {
             return USER_REGIST_URL;
         }
         userService.create(userDTO);
@@ -72,11 +86,11 @@ public class RegistrationController implements ControllerConst.RegistrationContr
      *
      * @return users page URL
      */
-    @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN
-            , method = RequestMethod.POST)
+    @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN, method = RequestMethod.POST)
     public String newUserForAdmin(
-            @ModelAttribute(USER_REGIST_MODEL_ATTR)@Valid final UserDTO userDTO, BindingResult br) {
-        if(br.hasErrors()){
+            @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
+            BindingResult br) {
+        if (br.hasErrors()) {
             return USER_REGIST_URL;
         }
         userService.create(userDTO);

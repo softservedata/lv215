@@ -1,8 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 
 <script type="text/javascript">
@@ -16,134 +18,133 @@
 		});
 	})
 </script>
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<spring:message code="lbl.form.deleteTitle" />
+				</h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					<spring:message code="lbl.room.deleteMeetingConfirm" />
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-primary btn-ok"><spring:message
+						code="lbl.form.delete" /></a>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					<spring:message code="lbl.form.cancel" />
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
 <h3 class="text-center">
 	<spring:message code="lbl.meeting.all" />
 </h3>
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
-			<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
-				<th>
-					<spring:message code="lbl.meeting.id" />
-					<br>
-				</th>
-			</sec:authorize>
-			<th style="width: 120px">
-				<spring:message code="lbl.meeting.subject" />
-				<br>
-				<a href="meetings?fieldForSorting=1&sortOrder=0&pageNumber=0" title="Sort Ascending">
-					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a>
-				<a href="meetings?fieldForSorting=1&sortOrder=1&pageNumber=0" title="Sort Descending">
-					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-				</a>
-			</th>
-			<th style="width: 120px">
-				<spring:message code="lbl.meeting.owner" />
-				<br>
-				<a href="meetings?fieldForSorting=2&sortOrder=0&pageNumber=0" title="Sort Ascending">
-					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a>
-				<a href="meetings?fieldForSorting=2&sortOrder=1&pageNumber=0" title="Sort Descending">
-					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-				</a>
-			</th>
+			<th><spring:message code="lbl.meeting.id" /> <br></th>
+			<th style="width: 120px"><spring:message
+					code="lbl.meeting.subject" /> <br> <a
+				href="meetings?fieldForSorting=1&sortOrder=0&pageNumber=0"
+				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+			</a> <a href="meetings?fieldForSorting=1&sortOrder=1&pageNumber=0"
+				title="Sort Descending"> <i
+					class="fa fa-arrow-circle-o-down fa-lg"></i>
+			</a></th>
+			<th style="width: 120px"><spring:message
+					code="lbl.meeting.owner" /> <br> <a
+				href="meetings?fieldForSorting=2&sortOrder=0&pageNumber=0"
+				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+			</a> <a href="meetings?fieldForSorting=2&sortOrder=1&pageNumber=0"
+				title="Sort Descending"> <i
+					class="fa fa-arrow-circle-o-down fa-lg"></i>
+			</a></th>
 
-			<th>
-				<spring:message code="lbl.meeting.room" />
-				<br>
-				<a href="meetings?fieldForSorting=3&sortOrder=0&pageNumber=0" title="Sort Ascending">
-					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a>
-				<a href="meetings?fieldForSorting=3&sortOrder=1&pageNumber=0" title="Sort Descending">
-					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-				</a>
-			</th>
-			<th>
-				<spring:message code="lbl.meeting.date" />
-				<br>
-				<a href="meetings?fieldForSorting=4&sortOrder=0&pageNumber=0" title="Sort Ascending">
-					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a>
-				<a href="meetings?fieldForSorting=4&sortOrder=1&pageNumber=0" title="Sort Descending">
-					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-				</a>
-			</th>
-			<th>
-				<spring:message code="lbl.meeting.starttime" />
-				<br>
-				<a href="meetings?fieldForSorting=5&sortOrder=0&pageNumber=0" title="Sort Ascending">
-					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a>
-				<a href="meetings?fieldForSorting=5&sortOrder=1&pageNumber=0" title="Sort Descending">
-					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-				</a>
-			</th>
-			<th>
-				<spring:message code="lbl.meeting.endtime" />
-				<br>
-				<a href="meetings?fieldForSorting=6&sortOrder=0&pageNumber=0" title="Sort Ascending">
-					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a>
-				<a href="meetings?fieldForSorting=6&sortOrder=1&pageNumber=0" title="Sort Descending">
-					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-				</a>
-			</th>
-			<th>
-				<spring:message code="lbl.meeting.groups" />
-			</th>
+			<th><spring:message code="lbl.meeting.room" /> <br> <a
+				href="meetings?fieldForSorting=3&sortOrder=0&pageNumber=0"
+				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+			</a> <a href="meetings?fieldForSorting=3&sortOrder=1&pageNumber=0"
+				title="Sort Descending"> <i
+					class="fa fa-arrow-circle-o-down fa-lg"></i>
+			</a></th>
+			<th><spring:message code="lbl.meeting.date" /> <br> <a
+				href="meetings?fieldForSorting=4&sortOrder=0&pageNumber=0"
+				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+			</a> <a href="meetings?fieldForSorting=4&sortOrder=1&pageNumber=0"
+				title="Sort Descending"> <i
+					class="fa fa-arrow-circle-o-down fa-lg"></i>
+			</a></th>
+			<th><spring:message code="lbl.meeting.starttime" /> <br> <a
+				href="meetings?fieldForSorting=5&sortOrder=0&pageNumber=0"
+				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+			</a> <a href="meetings?fieldForSorting=5&sortOrder=1&pageNumber=0"
+				title="Sort Descending"> <i
+					class="fa fa-arrow-circle-o-down fa-lg"></i>
+			</a></th>
+			<th><spring:message code="lbl.meeting.endtime" /> <br> <a
+				href="meetings?fieldForSorting=6&sortOrder=0&pageNumber=0"
+				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+			</a> <a href="meetings?fieldForSorting=6&sortOrder=1&pageNumber=0"
+				title="Sort Descending"> <i
+					class="fa fa-arrow-circle-o-down fa-lg"></i>
+			</a></th>
+			<th><spring:message code="lbl.meeting.groups" /></th>
 
-			<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
-				<th>
-					<spring:message code="lbl.meeting.level" />
-					<br>
-					<a href="meetings?fieldForSorting=7&sortOrder=0&pageNumber=0" title="Sort Ascending">
-						<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-					</a>
-					<a href="meetings?fieldForSorting=7&sortOrder=1&pageNumber=0" title="Sort Descending">
-						<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-					</a>
-				</th>
+			<sec:authorize
+				access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
+				<th><spring:message code="lbl.meeting.level" /> <br> <a
+					href="meetings?fieldForSorting=7&sortOrder=0&pageNumber=0"
+					title="Sort Ascending"> <i
+						class="fa fa-arrow-circle-o-up fa-lg"></i>
+				</a> <a href="meetings?fieldForSorting=7&sortOrder=1&pageNumber=0"
+					title="Sort Descending"> <i
+						class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a></th>
 			</sec:authorize>
 
-			<th>
-				<spring:message code="lbl.meeting.status" />
-				<br>
-				<a href="meetings?fieldForSorting=8&sortOrder=0&pageNumber=0" title="Sort Ascending">
-					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a>
-				<a href="meetings?fieldForSorting=8&sortOrder=1&pageNumber=0" title="Sort Descending">
-					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-				</a>
-			</th>
+			<th><spring:message code="lbl.meeting.status" /> <br> <a
+				href="meetings?fieldForSorting=8&sortOrder=0&pageNumber=0"
+				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+			</a> <a href="meetings?fieldForSorting=8&sortOrder=1&pageNumber=0"
+				title="Sort Descending"> <i
+					class="fa fa-arrow-circle-o-down fa-lg"></i>
+			</a></th>
 			<th></th>
-			<th class="text-center v-alighn">
-				<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
-					<a href="${pageContext.request.contextPath}/meetings/create">
-						<i class="fa fa-plus fa-lg"></i>
+			<th class="text-center v-alighn"><sec:authorize
+					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
+					<a href="${pageContext.request.contextPath}/meetings/create"> <i
+						class="fa fa-plus fa-lg"></i>
 					</a>
-				</sec:authorize>
-			</th>
+				</sec:authorize></th>
 		</tr>
 
 		<tr>
 			<!-- Filter form -->
 
-			<form:form role="form" action="meetings" method="get" modelAttribute="meetingFilter">
+			<form:form role="form" action="meetings" method="get"
+				modelAttribute="meetingFilter">
 
 
 				<!-- ID -->
-				<sec:authorize
-					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
-					<spring:message code="lbl.meeting.id" var="meetingid" />
-					<td>
-						<form:input type="number" path="id" placeholder="${meetingid}" class="classid" step="1" />
-					</td>
-				</sec:authorize>
+
+				<spring:message code="lbl.meeting.id" var="meetingid" />
+				<td><form:input type="number" path="id"
+						placeholder="${meetingid}" class="classid" step="1" /></td>
 
 				<!-- subject -->
-				<td>
-					<form:select path="subjectId" id="subjectId" class="form-control">
+				<td><form:select path="subjectId" id="subjectId"
+						class="form-control">
 						<option value="0"></option>
 						<c:forEach items="${subjects}" var="subject">
 							<c:choose>
@@ -155,11 +156,10 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-					</form:select>
-				</td>
+					</form:select></td>
 				<!-- owner -->
-				<td>
-					<form:select class="form-control" path="ownerId" id="ownerId">
+				<td><form:select class="form-control" path="ownerId"
+						id="ownerId">
 						<option value="0"></option>
 						<c:forEach items="${users}" var="owner">
 							<c:choose>
@@ -172,11 +172,9 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-					</form:select>
-				</td>
+					</form:select></td>
 				<!-- room -->
-				<td>
-					<form:select path="roomId" id="roomId">
+				<td><form:select path="roomId" id="roomId">
 						<option value="0"></option>
 						<c:forEach items="${rooms}" var="room">
 							<c:choose>
@@ -188,23 +186,18 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-					</form:select>
-				</td>
+					</form:select></td>
 				<!-- date -->
-				<td>
-					<form:input class=" input-sm class-date" type="date" path="date" placeholder="YYYY-MM-DD" />
-				</td>
+				<td><form:input class=" input-sm class-date" type="date"
+						path="date" placeholder="YYYY-MM-DD" /></td>
 				<!-- Start Time -->
-				<td>
-					<form:input class="classtime" type="time" path="startTime" id="startTime" placeholder="HH:MM" />
-				</td>
+				<td><form:input class="classtime" type="time" path="startTime"
+						id="startTime" placeholder="HH:MM" /></td>
 				<!-- End Time -->
-				<td>
-					<form:input class="classtime" type="time" path="endTime" id="endTime" placeholder="HH:MM" />
-				</td>
+				<td><form:input class="classtime" type="time" path="endTime"
+						id="endTime" placeholder="HH:MM" /></td>
 				<!-- UserGroups -->
-				<td>
-					<form:select path="groups" id="groups" multiple="multiple">
+				<td><form:select path="groups" id="groups" multiple="multiple">
 						<c:forEach items="${userGroups}" var="userGroup">
 							<c:set var="found" value="false" />
 							<c:forEach items="${meetingFilter.groups}" var="groupsInFilter">
@@ -219,20 +212,18 @@
 								<option value="${userGroup.id}">${userGroup.name}</option>
 							</c:if>
 						</c:forEach>
-					</form:select>
-				</td>
+					</form:select></td>
 				<!-- Level -->
 
 				<sec:authorize
 					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
-					<td class="levelclass">
-						<form:input type="number" class="input-number levelclass" path="level" step="1" title="MIN" />
+					<td class="levelclass"><form:input type="number"
+							class="input-number levelclass" path="level" step="1" title="MIN" />
 					</td>
 				</sec:authorize>
 
 				<!-- Status -->
-				<td>
-					<form:select class="form-control" path="status" id="status">
+				<td><form:select class="form-control" path="status" id="status">
 						<option value="-1"></option>
 						<c:forEach items="${meetingStatuses}" var="status">
 							<c:choose>
@@ -246,8 +237,7 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-					</form:select>
-				</td>
+					</form:select></td>
 
 				<td class="text-center v-alighn">
 					<button type="submit" class="btn btn-link"
@@ -256,67 +246,78 @@
 					</button>
 				</td>
 			</form:form>
-			<td class="text-center v-alighn">
-				<a
-					href="meetings?id=&subjectId=0&ownerId=0&roomId=0&date=&startTime=&endTime=&_groups=1&level=&status=-1"
-					title="resetFilter">
-					<i class="fa fa-times fa-lg"></i>
-				</a>
-			</td>
+			<td class="text-center v-alighn"><a
+				href="meetings?id=&subjectId=0&ownerId=0&roomId=0&date=&startTime=&endTime=&_groups=1&level=&status=-1"
+				title="resetFilter"> <i class="fa fa-times fa-lg"></i>
+			</a></td>
 		</tr>
 		<!-- End Filter form -->
 
 		<c:forEach var="meeting" items="${meetings}">
 			<tr>
-				<sec:authorize
-					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
-					<td>
-						<a href="meetings/${meeting.id}">${meeting.id}</a>
-					</td>
-				</sec:authorize>
+				<td><a href="meetings/${meeting.id}">${meeting.id}</a></td>
 
-				<td>${meeting.subject.name}</td>
-				<td>
-					<a href="${pageContext.request.contextPath}/profile${meeting.owner.id}">${meeting.owner.lastName}
-						${meeting.owner.firstName}</a>
-				</td>
-				<td>
-					<a href="${pageContext.request.contextPath}/rooms/${meeting.room.id}">${meeting.room.name}</a>
+				<td><a
+					href="${pageContext.request.contextPath}/subjects/${meeting.subject.id}">${meeting.subject.name}</a></td>
+				<td><a
+					href="${pageContext.request.contextPath}/profile${meeting.owner.id}">${meeting.owner.lastName}
+						${meeting.owner.firstName}</a></td>
+				<td><a
+					href="${pageContext.request.contextPath}/rooms/${meeting.room.id}">${meeting.room.name}</a>
 				</td>
 				<td>${meeting.date}</td>
 				<td>${meeting.startTime}</td>
 				<td>${meeting.endTime}</td>
-				<td>
-					<c:forEach items="${meeting.groups}" var="group">
+				<td><c:forEach items="${meeting.groups}" var="group">
 						<p>
-							<a href="${pageContext.request.contextPath}/usergroups/${group.id}">${group.name}</a>
+							<a
+								href="${pageContext.request.contextPath}/usergroups/${group.id}">${group.name}</a>
 						</p>
-					</c:forEach>
-				</td>
+					</c:forEach></td>
 
 				<sec:authorize
 					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
 					<td>${meeting.level}</td>
 				</sec:authorize>
 
-				<td>
-					<spring:message code="${meeting.status.getMessageCode()}" />
+				<td><spring:message code="${meeting.status.getMessageCode()}" />
 				</td>
-				<td>
-					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
-						<a href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"
-							onclick="return confirm('<spring:message code="lbl.room.deleteMeetingConfirm"/>');">
-							<i class="fa fa-trash-o fa-lg"></i>
+				<td><sec:authorize
+						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
+						<a
+							data-href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"
+							data-toggle="modal" data-target="#confirm-delete"
+							title="<spring:message code="lbl.meeting.delete" />"> <i
+							class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</sec:authorize>
-				</td>
-				<td>
-					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
-						<a href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}">
+					
+					 <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+						<sec:authentication property="principal.id" var="principarid" />
+						<c:if test="${principarid eq  meeting.owner.id}">
+							<a
+								data-href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"
+								data-toggle="modal" data-target="#confirm-delete"
+								title="<spring:message code="lbl.meeting.delete" />"> <i
+								class="fa fa-trash-o fa-lg"></i>
+							</a>
+						</c:if>
+					</sec:authorize></td>
+				<td><sec:authorize
+						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
+						<a
+							href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}">
 							<i class="fa fa-pencil-square-o fa-lg"></i>
 						</a>
-					</sec:authorize>
-				</td>
+					</sec:authorize> <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+						<sec:authentication property="principal.id" var="principarid" />
+						<c:if test="${principarid eq  meeting.owner.id}">
+							<a
+								href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}">
+								<i class="fa fa-pencil-square-o fa-lg"></i>
+							</a>
+						</c:if>
+					</sec:authorize></td>
 			</tr>
 		</c:forEach>
 	</table>
@@ -356,6 +357,13 @@
 	</div>
 </div>
 <script>
+
+/* Notification when deleting meeting.  */
+ $('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
+
+
  $('#paginationList').twbsPagination({
         totalPages: ${meetingPaginator.pagesCount + 1},
         startPage: ${meetingPaginator.pageNumber + 1},
@@ -370,3 +378,5 @@
         }
     });
 </script>
+
+

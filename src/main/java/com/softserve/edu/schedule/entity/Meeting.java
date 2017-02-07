@@ -23,11 +23,12 @@ import javax.persistence.ManyToOne;
  *
  * @version 1.0 25 December 2016
  *
- * @author Petro Zelyonka
+ * @author Bohdan Melnyk
  *
  * @since 1.8
  */
 @Entity
+
 public class Meeting {
 
     /**

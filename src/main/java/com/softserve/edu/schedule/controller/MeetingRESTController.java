@@ -41,11 +41,11 @@ public class MeetingRESTController {
 		return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/meetings/restByGroup", method = RequestMethod.GET)
-	public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByGroupId(
+	@RequestMapping(value = "/meetings/restBySubject", method = RequestMethod.GET)
+	public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalBySubjectId(
 			@RequestParam("start") String start, @RequestParam("end") String end,
-			@RequestParam("groupId") Long groupId) {
-		List<MeetingForCalendarDTO> meetings = meetingService.getMeetingsInIntervalByGroupId(groupId, start, end);
+			@RequestParam("subjectId") Long subjectId) {
+		List<MeetingForCalendarDTO> meetings = meetingService.getMeetingsInIntervalBySubjectId(subjectId, start, end);
 		if (meetings.isEmpty()) {
 			return new ResponseEntity<List<MeetingForCalendarDTO>>(HttpStatus.NO_CONTENT);
 		}
@@ -58,6 +58,29 @@ public class MeetingRESTController {
 			@RequestParam("start") String start, @RequestParam("end") String end,
 			@RequestParam("userId") String userId) {
 		List<MeetingForCalendarDTO> meetings = meetingService.getMeetingsInIntervalByUserId(userId, start, end);
+		if (meetings.isEmpty()) {
+			return new ResponseEntity<List<MeetingForCalendarDTO>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings, HttpStatus.OK);
+	}
+
+	@PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
+	@RequestMapping("/meetings/restByAnyUser")
+	public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByAnyUserId(
+			@RequestParam("start") String start, @RequestParam("end") String end,
+			@RequestParam("userId") String userId) {
+		List<MeetingForCalendarDTO> meetings = meetingService.getMeetingsInIntervalByAnyUserId(userId, start, end);
+		if (meetings.isEmpty()) {
+			return new ResponseEntity<List<MeetingForCalendarDTO>>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/meetings/restByGroup", method = RequestMethod.GET)
+	public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByGroupId(
+			@RequestParam("start") String start, @RequestParam("end") String end,
+			@RequestParam("groupId") Long groupId) {
+		List<MeetingForCalendarDTO> meetings = meetingService.getMeetingsInIntervalByGroupId(groupId, start, end);
 		if (meetings.isEmpty()) {
 			return new ResponseEntity<List<MeetingForCalendarDTO>>(HttpStatus.NO_CONTENT);
 		}

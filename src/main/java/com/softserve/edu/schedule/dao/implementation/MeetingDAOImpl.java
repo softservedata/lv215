@@ -103,9 +103,29 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 			criteriaQuery.where(predicate);
 		}
 		criteriaQuery.distinct(true);
-		meetingPaginator.setPagesCount(getEm().createQuery(criteriaQuery).getResultList().size());
+		meetingPaginator.setPagesCount(getCountOfMeetingsWithFilter(meetingFilter));
 		return getEm().createQuery(criteriaQuery).setFirstResult(meetingPaginator.getOffset())
 				.setMaxResults(meetingPaginator.getPageSize()).getResultList();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.dao.MeetingDAO#getCountOfMeetingsWithFilter(
+	 * com.softserve.edu.schedule.dto.filter.MeetingFilter)
+	 */
+	@Override
+	public Long getCountOfMeetingsWithFilter(final MeetingFilter meetingFilter) {
+		CriteriaBuilder qb = getEm().getCriteriaBuilder();
+		CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+		Root<Meeting> root = cq.from(Meeting.class);
+		cq.select(qb.countDistinct(root));
+		Predicate predicate = new MeetingFilterSpecification(meetingFilter, userGroupDAO).toPredicate(root, cq, qb);
+		if (predicate != null) {
+			cq.where(predicate);
+		}
+		return getEm().createQuery(cq).getSingleResult();
 	}
 
 	/*
@@ -359,6 +379,23 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 		Predicate predicate = builder.conjunction();
 		predicate = builder.and(predicate, builder.between(root.get(Meeting_.date), startDate, endDate));
 		predicate = builder.and(predicate, roomJoin.get(Room_.id).in(roomId));
+		cq.where(predicate);
+		cq.distinct(true);
+		return getEm().createQuery(cq).getResultList();
+	}
+
+	@Override
+	public List<Meeting> getMeetingsInIntervalBySubjectId(Long subjectId, LocalDate startDate, LocalDate endDate) {
+		CriteriaBuilder builder = getEm().getCriteriaBuilder();
+		CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+		Root<Meeting> root = cq.from(Meeting.class);
+		Join<Meeting, Subject> subjectJoin = root.join(Meeting_.subject);
+		root.join(Meeting_.owner);
+		root.join(Meeting_.room);
+		root.join(Meeting_.groups);
+		Predicate predicate = builder.conjunction();
+		predicate = builder.and(predicate, builder.between(root.get(Meeting_.date), startDate, endDate));
+		predicate = builder.and(predicate, subjectJoin.get(Subject_.id).in(subjectId));
 		cq.where(predicate);
 		cq.distinct(true);
 		return getEm().createQuery(cq).getResultList();

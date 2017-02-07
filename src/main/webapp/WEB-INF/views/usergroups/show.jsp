@@ -7,7 +7,7 @@
 <div class="container">
 	<div class="row">
 		<div
-			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+			class="col-lg-4 col-lg-offset-1 col-md-5 col-sm-6 panel panel-default">
 			<h1 class="text-center">
 				<spring:message code="lbl.group.showgroup" />
 			</h1>
@@ -60,39 +60,39 @@
 			</div>
 
 		</div>
+
+	<div class="col-lg-6 col-md-7 col-sm-6 panel-map">
+		<div id='calendar' style="margin-top: 0px"></div>
 	</div>
 
-	<div class="row">
-		<h1 class="text-center">
-			<spring:message code="lbl.group.plannedMeetings" />
-		</h1>
-		<div
-			class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2"
-			id='calendar'></div>
 	</div>
 </div>
 
 <script>
-$(document).ready(function() {
-	$('#calendar').fullCalendar({
-		defaultView : 'agendaWeek',
-		locale : '<spring:message code="label.localeCalendar"/>',
-		header : {
-			left : 'prev,next,today',
-			center : 'title',
-			right : 'month,agendaWeek,agendaDay,listWeek'
-		},
-		nowIndicator : true,
-		navLinks : true,
-		events : {
-			url : '${pageContext.request.contextPath}/meetings/restByGroup',
-			type : 'GET',
-			data : {
-				groupId : '${userGroupForm.id}'
-			}
-		}
+	$(document)
+			.ready(
+					function() {
+						$('#calendar')
+								.fullCalendar(
+										{
+											defaultView : 'agendaWeek',
+											locale : '<spring:message code="label.localeCalendar"/>',
+											header : {
+												left : 'prev,next,today',
+												center : 'title',
+												right : 'month,agendaWeek,agendaDay,listWeek'
+											},
+											nowIndicator : true,
+											navLinks : true,
+											events : {
+												url : '${pageContext.request.contextPath}/meetings/restByGroup',
+												type : 'GET',
+												data : {
+													groupId : '${userGroupForm.id}'
+												}
+											}
 
-	})
+										})
 
-});
+					});
 </script>
