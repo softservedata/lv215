@@ -9,6 +9,28 @@
 <%@ page
 	import="com.softserve.edu.schedule.controller.RegistrationController"%>
 
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel"><spring:message code="lbl.form.deleteTitle" /></h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					<spring:message code="lbl.user.deleteConfirm" />
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-primary btn-ok"><spring:message code="lbl.form.delete" /></a>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.form.cancel" /></button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <h3 class="text-center">
 	<spring:message code="lbl.user.title" />
 </h3>
@@ -40,17 +62,22 @@
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<th><spring:message code="lbl.user.role" /></th>
 			<th><spring:message code="lbl.user.group" /></th>
-			<sec:authorize
-				access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')"><th></th></sec:authorize>
-							<sec:authorize
-				access="hasAnyRole('ROLE_ADMIN')"><th></th></sec:authorize>
-			<sec:authorize
-				access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')"><th></th></sec:authorize>
-			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')"><th><sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-				<a
-					href="${pageContext.request.contextPath}/${RegistrationController.USER_REGIST_MAPPING_FOR_ADMIN}"><i
-						class="fa fa-plus"></i></a>
-			</sec:authorize></th></sec:authorize>
+			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+				<th></th>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+				<th></th>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+				<th></th>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+				<th><sec:authorize access="hasAnyRole('ROLE_ADMIN')">
+						<a
+							href="${pageContext.request.contextPath}/${RegistrationController.USER_REGIST_MAPPING_FOR_ADMIN}"><i
+							class="fa fa-plus"></i></a>
+					</sec:authorize></th>
+			</sec:authorize>
 		</tr>
 		<tr>
 			<td></td>
@@ -70,19 +97,16 @@
 				<td><spring:message code="lbl.user.search" var="search" /> <form:input
 						class="form-control" path="position" placeholder=" ${search}" />
 				</td>
-				<sec:authorize
-					access="hasAnyRole('ROLE_ADMIN')">
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 					<td></td>
 				</sec:authorize>
-				<sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 					<td></td>
 				</sec:authorize>
-				<sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')"><td></td>
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<td></td>
 				</sec:authorize>
-				<sec:authorize
-					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 					<td></td>
 				</sec:authorize>
 				<td class="text-center v-alighn">
@@ -120,19 +144,20 @@
 					</c:forEach></td>
 				<!-- <td>	</td> -->
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
-					<td><a
-						href="${pageContext.request.contextPath}${UserController.DELETE_USER_MAPPING}${user.id}"
-						onclick="return confirm('The user can not be deleted if he is curated group. Are you sure you want to delete this user?');"><i
-							class="fa fa-trash-o"></i></a></td>
+					<td class="text-center v-alighn"><a
+						data-href="${pageContext.request.contextPath}${UserController.DELETE_USER_MAPPING}${user.id}"
+						data-toggle="modal" data-target="#confirm-delete"
+						title="<spring:message code="lbl.user.delete" />"><i
+						class="fa fa-trash-o"></i></a></td>
 				</sec:authorize>
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
-					<td><a
+					<td class="text-center v-alighn"><a
 						href="${pageContext.request.contextPath}${UserController.CHANGE_ROLE_MAPPING}${user.id}">
 							<i class="fa fa-pencil-square-o"></i>
 					</a></td>
 				</sec:authorize>
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
-					<td><c:if test="${user.status.ordinal() == 1}">
+					<td class="text-center v-alighn"><c:if test="${user.status.ordinal() == 1}">
 							<a
 								href="${pageContext.request.contextPath}${UserController.BAN_USER_MAPPING}${user.id}">
 								<i class="fa fa-ban"></i>
@@ -140,7 +165,7 @@
 						</c:if></td>
 				</sec:authorize>
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
-					<td><c:if
+					<td class="text-center v-alighn"><c:if
 							test="${user.status.ordinal() == 2 or user.status.ordinal() == 0}">
 							<a
 								href="${pageContext.request.contextPath}${UserController.UNBAN_USER_MAPPING}${user.id}">
@@ -190,6 +215,10 @@
 	</div>
 </div>
 <script>
+$('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
+
  $('#paginationList').twbsPagination({
         totalPages: ${userPaginator.pagesCount + 1},
         startPage: ${userPaginator.pageNumber + 1},
