@@ -1,8 +1,10 @@
 package com.softserve.edu.schedule.service;
 
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.UserDTO;
@@ -175,5 +177,7 @@ public interface UserService extends UserDetailsService {
     
     List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter,
             final Paginator userPaginator);
+    
+    void saveImage(Principal principal, MultipartFile multipartFile);
 
 }
