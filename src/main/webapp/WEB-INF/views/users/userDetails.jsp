@@ -7,8 +7,6 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page import="com.softserve.edu.schedule.controller.UserController"%>
 <body>
-	${user.pathImage}
-	<img src=""<c:url value='MyFote.png'/>" width = "120" height = "120"  >
 	<div class="container">
 		<div class="row">
 			<div
@@ -16,10 +14,8 @@
 				<h3 class="text-center">
 					<spring:message code="lbl.user.profile" />
 				</h3>
-<%-- "<c:url value='${user.pathImage}'/>" --%>
-
-
-				<img src=""<c:url value='MyFote.png'/>" width = "120" height = "120"  >
+				<%-- "<c:url value='${user.pathImage}'/>" --%>
+				<img src="${user.pathImage}" width="120" height="120">
 				<form:form commandName="${UserController.USER_MODEL_ATTR}"
 					action="${pageContext.request.contextPath}/saveImage?${_csrf.parameterName}=${_csrf.token}"
 					method="post" enctype="multipart/form-data">
