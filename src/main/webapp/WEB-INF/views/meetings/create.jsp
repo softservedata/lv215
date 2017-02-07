@@ -59,25 +59,24 @@
 							</c:forEach>
 						</form:select>
 					</sec:authorize>
-					
 
 					<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<label for="owner"><spring:message
 								code="lbl.meeting.owner" /></label>
 						<sec:authentication property="principal.id" var="principarid" />
-							
-						<p>
-						<c:forEach items="${owners}" var="owner">
-							<c:choose>
-								<c:when test="${owner.id eq principarid}">
-									<option value="${owner.id}" selected="selected">${owner.lastName}
-										${owner.firstName}</option>
-								</c:when>
-							</c:choose>
-						</c:forEach>					
-						</p>
 
+						<form:select class="form-control" path="owner" id="owner">
+							<c:forEach items="${owners}" var="owner">
+								<c:choose>
+									<c:when test="${owner.id eq principarid}">
+										<option value="${owner.id}" selected="selected">${owner.lastName}
+											${owner.firstName}</option>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+						</form:select>
 					</sec:authorize>
+					
 				</div>
 				<div class="form-group">
 					<label for="room"><spring:message code="lbl.meeting.room" /></label>
