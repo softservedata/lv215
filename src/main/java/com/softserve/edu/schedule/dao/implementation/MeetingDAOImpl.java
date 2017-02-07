@@ -37,7 +37,6 @@ import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
-import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
@@ -46,11 +45,10 @@ import com.softserve.edu.schedule.entity.Room_;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
+import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.implementation.specification.MeetingFilterSpecification;
-import com.softserve.edu.schedule.service.implementation.specification.RoomFilterSpecification;
 
 /**
  * This class implements the MeetingsDAO. It also implements ReadDAO interface.
