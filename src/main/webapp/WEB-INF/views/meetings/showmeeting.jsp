@@ -40,69 +40,70 @@
 		</div>
 	</div>
 	<div class="row">
-			<div
-				class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
-				<form:form role="form" method="post" modelAttribute="meetingForm">
-					<form:input path="id" type="hidden" />
-					<div class="form-group">
-						<spring:message code="lbl.meeting.id" />
-						: ${meetingForm.id}
+		<div
+			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+			<form:form role="form" method="post" modelAttribute="meetingForm">
+				<form:input path="id" type="hidden" />
+				<div class="form-group">
+					<spring:message code="lbl.meeting.id" />
+					: ${meetingForm.id}
 
-					</div>
-					<div class="form-group">
-						<b><spring:message code="lbl.meeting.description" /></b> :
-						${meetingForm.description}
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.description" /></b> :
+					${meetingForm.description}
 
-					</div>
+				</div>
 
 
-					<div class="form-group">
-						<b><spring:message code="lbl.meeting.subject" /></b> :
-						${meetingForm.subject.name}
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.subject" /></b> : <a
+						href="${pageContext.request.contextPath}/subjects/${meetingForm.subject.id}">${meetingForm.subject.name}</a>
 
-					</div>
 
-					<div class="form-group">
-						<b><spring:message code="lbl.meeting.owner" /></b> : <a
-							href="${pageContext.request.contextPath}/profile${meetingForm.owner.id}">${meetingForm.owner.lastName}
-							${meetingForm.owner.firstName}</a>
+				</div>
 
-					</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.owner" /></b> : <a
+						href="${pageContext.request.contextPath}/profile${meetingForm.owner.id}">${meetingForm.owner.lastName}
+						${meetingForm.owner.firstName}</a>
 
-					<div class="form-group">
-						<b><spring:message code="lbl.meeting.room" /></b> : <a
-							href="${pageContext.request.contextPath}/rooms/${meetingForm.room.id}">${meetingForm.room.name}</a>
-					</div>
+				</div>
 
-					<div class="form-group">
-						<b><spring:message code="lbl.meeting.date" /></b> :
-						${meetingForm.date}
-					</div>
-					<div class="form-group">
-						<b><spring:message code="lbl.meeting.starttime" /></b> :
-						${meetingForm.startTime}
-					</div>
-					<div class="form-group">
-						<b><spring:message code="lbl.meeting.endtime" /></b> :
-						${meetingForm.endTime}
-					</div>
-					<div class="form-group">
-						<b><spring:message code="lbl.meeting.groups" /></b> :
-						<c:forEach items="${meetingForm.groups}" var="group">
-							<li><a
-								href="${pageContext.request.contextPath}/usergroups/${group.id}">${group.name}</a>
-							</li>
-						</c:forEach>
-					</div>
-					<div class="form-group">
-						<b><spring:message code="lbl.meeting.level" /></b> :
-						${meetingForm.level}
-					</div>
-					<div class="form-group">
-						<b><spring:message code="lbl.meeting.status" /></b> :
-						<spring:message code="${meetingForm.status.getMessageCode()}" />
-					</div>
-				</form:form>
-			</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.room" /></b> : <a
+						href="${pageContext.request.contextPath}/rooms/${meetingForm.room.id}">${meetingForm.room.name}</a>
+				</div>
+
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.date" /></b> :
+					${meetingForm.date}
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.starttime" /></b> :
+					${meetingForm.startTime}
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.endtime" /></b> :
+					${meetingForm.endTime}
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.groups" /></b> :
+					<c:forEach items="${meetingForm.groups}" var="group">
+						<li><a
+							href="${pageContext.request.contextPath}/usergroups/${group.id}">${group.name}</a>
+						</li>
+					</c:forEach>
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.level" /></b> :
+					${meetingForm.level}
+				</div>
+				<div class="form-group">
+					<b><spring:message code="lbl.meeting.status" /></b> :
+					<spring:message code="${meetingForm.status.getMessageCode()}" />
+				</div>
+			</form:form>
+		</div>
 	</div>
 </div>
