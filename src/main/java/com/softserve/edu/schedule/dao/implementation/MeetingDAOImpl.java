@@ -37,6 +37,7 @@ import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
@@ -49,6 +50,7 @@ import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.service.implementation.specification.MeetingFilterSpecification;
+import com.softserve.edu.schedule.service.implementation.specification.RoomFilterSpecification;
 
 /**
  * This class implements the MeetingsDAO. It also implements ReadDAO interface.
@@ -102,11 +104,32 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
             criteriaQuery.where(predicate);
         }
         criteriaQuery.distinct(true);
-        meetingPaginator.setPagesCount(
-                getEm().createQuery(criteriaQuery).getResultList().size());
+        meetingPaginator.setPagesCount(getCountOfMeetingsWithFilter(meetingFilter));
         return getEm().createQuery(criteriaQuery)
                 .setFirstResult(meetingPaginator.getOffset())
                 .setMaxResults(meetingPaginator.getPageSize()).getResultList();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingDAO#getCountOfMeetingsWithFilter(
+     * com.softserve.edu.schedule.dto.filter.MeetingFilter)
+     */
+    @Override
+    public Long getCountOfMeetingsWithFilter(
+            final MeetingFilter meetingFilter) {
+        CriteriaBuilder qb = getEm().getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        cq.select(qb.countDistinct(root));
+        Predicate predicate = new MeetingFilterSpecification(meetingFilter,
+                userGroupDAO).toPredicate(root, cq, qb);
+        if (predicate != null) {
+            cq.where(predicate);
+        }
+        return getEm().createQuery(cq).getSingleResult();
     }
 
     /*
@@ -430,7 +453,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         userPredicate = builder.or(userPredicate,
                 builder.isMember(user, joinGroups.get(UserGroup_.users)));
         userPredicate = builder.or(userPredicate,
-                joinGroups.get(UserGroup_.curator).in(userId));        
+                joinGroups.get(UserGroup_.curator).in(userId));
         basePredicate = builder.and(basePredicate, userPredicate);
         cq.where(basePredicate);
         cq.distinct(true);

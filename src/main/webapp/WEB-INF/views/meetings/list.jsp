@@ -22,12 +22,10 @@
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
-			<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
 				<th>
 					<spring:message code="lbl.meeting.id" />
 					<br>
 				</th>
-			</sec:authorize>
 			<th style="width: 120px">
 				<spring:message code="lbl.meeting.subject" />
 				<br>
@@ -133,13 +131,11 @@
 
 
 				<!-- ID -->
-				<sec:authorize
-					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
+			
 					<spring:message code="lbl.meeting.id" var="meetingid" />
 					<td>
 						<form:input type="number" path="id" placeholder="${meetingid}" class="classid" step="1" />
 					</td>
-				</sec:authorize>
 
 				<!-- subject -->
 				<td>
@@ -268,12 +264,9 @@
 
 		<c:forEach var="meeting" items="${meetings}">
 			<tr>
-				<sec:authorize
-					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
 					<td>
 						<a href="meetings/${meeting.id}">${meeting.id}</a>
 					</td>
-				</sec:authorize>
 
 				<td>${meeting.subject.name}</td>
 				<td>
@@ -303,18 +296,37 @@
 					<spring:message code="${meeting.status.getMessageCode()}" />
 				</td>
 				<td>
-					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
 						<a href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"
 							onclick="return confirm('<spring:message code="lbl.room.deleteMeetingConfirm"/>');">
 							<i class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</sec:authorize>
+					
+					<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+					<sec:authentication property="principal.id" var="principarid" />
+					<c:if test="${principarid eq  meeting.owner.id}"> 
+						<a href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}">
+							<i class="fa fa-trash-o fa-lg"></i>
+						</a>
+						</c:if>
+					</sec:authorize>
 				</td>
 				<td>
-					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+				
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
+				<a href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}">
+							<i class="fa fa-pencil-square-o fa-lg"></i>
+						</a>
+					</sec:authorize>
+					
+					<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+					<sec:authentication property="principal.id" var="principarid" />
+					<c:if test="${principarid eq  meeting.owner.id}"> 
 						<a href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}">
 							<i class="fa fa-pencil-square-o fa-lg"></i>
 						</a>
+						</c:if>
 					</sec:authorize>
 				</td>
 			</tr>
@@ -370,3 +382,5 @@
         }
     });
 </script>
+
+

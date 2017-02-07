@@ -141,7 +141,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_SUPERVISOR')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(CHANGE_ROLE_MAPPING + "{id}")
     public String changeRole(@PathVariable Long id, Model model) {
         model.addAttribute(USER_ROLE_ATTR, UserRole.values());
@@ -176,6 +176,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      * 
      * @return users list page URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
     @RequestMapping(USER_PROFILE_MAPPING + "{id}")
     public String getProfile(@PathVariable Long id, Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
