@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ page
 	import="com.softserve.edu.schedule.controller.UserGroupController"%>
 
@@ -40,9 +42,11 @@
 
 			<th></th>
 
-			<th><a
-				href="${pageContext.request.contextPath}/usergroups/create"><i
-					class="fa fa-plus fa-lg"></i></a></th>
+			<th><sec:authorize
+					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
+					<a href="${pageContext.request.contextPath}/usergroups/create"><i
+						class="fa fa-plus fa-lg"></i></a>
+				</sec:authorize></th>
 		</tr>
 
 		<!-- FILTER -->
@@ -95,7 +99,7 @@
 				</td>
 			</form:form>
 			<td class="v-alighn"><a
-				href="${pageContext.request.contextPath}/usergroups?name=&curator=&levelId="
+				href="${pageContext.request.contextPath}/usergroups?name=&curatorId=&levelId="
 				title="<spring:message code="lbl.room.resetFilter"/>"> <i
 					class="fa fa-times fa-lg"></i>
 			</a></td>
@@ -113,13 +117,20 @@
 				<td><spring:message code="lbl.group.${usergroup.level.code}" /></td>
 				<td>${usergroup.users.size()}</td>
 
-				<td><a
-					href="${pageContext.request.contextPath}/usergroups/delete/${usergroup.id}"><i
-						class="fa fa-trash-o fa-lg"></i></a></td>
+				<td><sec:authorize
+						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+						<a
+							href="${pageContext.request.contextPath}/usergroups/delete/${usergroup.id}"
+							onclick="return confirm('<spring:message code="lbl.group.deleteGroupConfirm"/>');"><i
+							class="fa fa-trash-o fa-lg"></i></a>
+					</sec:authorize></td>
 
-				<td><a
-					href="${pageContext.request.contextPath}/usergroups/edit/${usergroup.id}"><i
-						class="fa fa-pencil-square-o fa-lg"></i></a></td>
+				<td><sec:authorize
+						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+						<a
+							href="${pageContext.request.contextPath}/usergroups/edit/${usergroup.id}"><i
+							class="fa fa-pencil-square-o fa-lg"></i></a>
+					</sec:authorize></td>
 			</tr>
 		</c:forEach>
 	</table>

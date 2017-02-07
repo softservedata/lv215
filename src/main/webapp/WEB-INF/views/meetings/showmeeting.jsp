@@ -40,8 +40,6 @@
 		</div>
 	</div>
 	<div class="row">
-		<sec:authorize
-			access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
 			<div
 				class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
 				<form:form role="form" method="post" modelAttribute="meetingForm">
@@ -106,6 +104,5 @@
 					</div>
 				</form:form>
 			</div>
-		</sec:authorize>
 	</div>
 </div>

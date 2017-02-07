@@ -10,7 +10,6 @@ import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Join;
 import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
@@ -18,15 +17,12 @@ import javax.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserGroupFilter;
-import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
-import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.implementation.specification.UserGroupFilterSpecification;
 
 /**
@@ -69,29 +65,6 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGrou
 
 	/*
 	 * (non-Javadoc)
-	 *
-	 * 
-	 * @see com.softserve.edu.schedule.dao.UserGroupDAO#sortByFields(java.lang.
-	 * String, com.softserve.edu.schedule.dao.Order)
-	 */
-	@Override
-	public List<UserGroup> sortByFields(final String field, final Order order) {
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-		Root<UserGroup> root = cq.from(UserGroup.class);
-		root.fetch(UserGroup_.curator, JoinType.LEFT);
-		root.fetch(UserGroup_.users, JoinType.LEFT);
-		cq.distinct(true);
-		if (order == Order.ASC) {
-			cq.orderBy(builder.asc(root.get(field)));
-		} else {
-			cq.orderBy(builder.desc(root.get(field)));
-		}
-		return getEm().createQuery(cq).getResultList();
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * 
 	 * @see
 	 * com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getById(java.
@@ -105,25 +78,6 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGrou
 		root.fetch(UserGroup_.users, JoinType.LEFT);
 		cq.where(root.get(UserGroup_.id).in(id));
 		return getEm().createQuery(cq).getSingleResult();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.dao.UserGroupDAO#searchGroupsByCurators(java.
-	 * lang.String)
-	 */
-	@Override
-	public List<UserGroup> searchGroupsByCurators(String pattern) {
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
-		Root<UserGroup> root = cq.from(UserGroup.class);
-		Join<UserGroup, User> joinUser = root.join(UserGroup_.users);
-		Predicate predicate = builder.like(joinUser.get(User_.lastName), SEARCH_MASK + pattern + SEARCH_MASK);
-		cq.where(predicate);
-		cq.distinct(true);
-		return getEm().createQuery(cq).getResultList();
 	}
 
 	/*

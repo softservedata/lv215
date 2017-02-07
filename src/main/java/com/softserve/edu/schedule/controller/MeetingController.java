@@ -235,7 +235,6 @@ public class MeetingController {
      * @param model
      * @return
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR','ROLE_USER', 'ROLE_MODERATOR')")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String showMeeting(@PathVariable("id") final Long id,
             final Model model) {

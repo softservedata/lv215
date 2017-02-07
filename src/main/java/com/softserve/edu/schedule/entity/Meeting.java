@@ -31,7 +31,7 @@ import com.softserve.edu.schedule.entitylisteners.SubjectEntityListner;
  * @since 1.8
  */
 @Entity
-@EntityListeners(MeetingEntityListner.class)
+
 public class Meeting {
 
     /**
