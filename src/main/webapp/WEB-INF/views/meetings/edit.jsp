@@ -20,9 +20,9 @@
 		$("select[name=groups]").chosen({
 			width : "100%"
 		});
-		$("select[name=status]").chosen({
+/* 		$("select[name=status]").chosen({
 			width : "100%"
-		});
+		}); */
 	})
 </script>
 <div class="container">
@@ -162,7 +162,8 @@
 				</div>
 
 				<div class="form-group">
-					<%-- <sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')"> --%>
+				
+					 <sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 						<label for="status"><spring:message
 								code="lbl.meeting.changestatus" /></label>
 						<form:select class="form-control" path="status" id="status">
@@ -183,7 +184,15 @@
 							</c:forEach>
 						</form:select>
 						<form:errors path="status" class="text-danger" />
-				<%-- 	</sec:authorize> --%>
+				 	</sec:authorize>
+				 	
+				 <sec:authorize access="!hasAnyRole('ROLE_ADMIN')">
+				 <label for="status"><spring:message
+								code="lbl.meeting.status" />:</label>
+						<spring:message code="${meetingForm.status.getMessageCode()}" />.
+				 </sec:authorize>
+				
+				
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default" id="timeerror"
