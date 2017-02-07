@@ -69,6 +69,8 @@ public class UserDTOConverter {
         }
 
         user.setPhone(userDTO.getPhone());
+        
+        user.setPathImage(userDTO.getPathImage());
 
         user.setPosition(userDTO.getPosition());
 
@@ -115,6 +117,8 @@ public class UserDTOConverter {
         }
 
         userDTO.setPhone(user.getPhone());
+        
+        userDTO.setPathImage(user.getPathImage());
 
         userDTO.setPosition(user.getPosition());
 

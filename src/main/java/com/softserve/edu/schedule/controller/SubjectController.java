@@ -139,7 +139,7 @@ public class SubjectController
     @RequestMapping(value = SUBJECT_CREATE_MAPPING, method = RequestMethod.POST)
     public String create(
             @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
-            final BindingResult result,final  Model model) {
+            final BindingResult result, final Model model) {
         if (result.hasErrors()) {
             model.addAttribute(USERS_MODEL_ATTR,
                     subjectService.getAllUserForSubjectDTO());
@@ -176,7 +176,7 @@ public class SubjectController
             + "{id}", method = RequestMethod.POST)
     public String edit(
             @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
-            final BindingResult result,final Model model) {
+            final BindingResult result, final Model model) {
         if (result.hasErrors()) {
             model.addAttribute(USERS_MODEL_ATTR,
                     subjectService.getAllUserForSubjectDTO());
@@ -198,5 +198,11 @@ public class SubjectController
     public String delete(@PathVariable final Long id) {
         subjectService.deleteById(id);
         return SUBJECTS_REDIRECT_URL;
+    }
+
+    @RequestMapping(SUBJECTS_MAPPING_SHOW + "{id}")
+    public String showSubjectDetails(@PathVariable final Long id, final Model model) {
+        model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
+        return SUBJECTS_SHOW_URL;
     }
 }

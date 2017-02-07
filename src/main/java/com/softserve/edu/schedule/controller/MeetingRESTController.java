@@ -49,6 +49,21 @@ public class MeetingRESTController {
         return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
                 HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "/meetings/restBySubject", method = RequestMethod.GET)
+    public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalBySubjectId(
+            @RequestParam("start") String start,
+            @RequestParam("end") String end,
+            @RequestParam("subjectId") Long subjectId) {
+        List<MeetingForCalendarDTO> meetings = meetingService
+                .getMeetingsInIntervalBySubjectId(subjectId, start, end);
+        if (meetings.isEmpty()) {
+            return new ResponseEntity<List<MeetingForCalendarDTO>>(
+                    HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
+                HttpStatus.OK);
+    }
 
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/meetings/restByUser", method = RequestMethod.GET)

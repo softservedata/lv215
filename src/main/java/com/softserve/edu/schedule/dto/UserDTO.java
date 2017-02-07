@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -35,6 +36,7 @@ public class UserDTO implements UserDetails {
     private String mail;
     private String password;
     private String phone;
+    private String pathImage;
     private String position;
     private UserStatus status;
     private UserRole role;
@@ -73,11 +75,6 @@ public class UserDTO implements UserDetails {
         this.mail = mail;
     }
 
-    /**
-     * Returns the password used to authenticate the user.
-     *
-     * @return the password
-     */
     @Override
     public String getPassword() {
         return password;
@@ -135,6 +132,14 @@ public class UserDTO implements UserDetails {
         this.subjects = subjects;
     }
 
+    public String getPathImage() {
+        return pathImage;
+    }
+
+    public void setPathImage(String pathImage) {
+        this.pathImage = pathImage;
+    }
+
     /**
      * Returns the authorities granted to the user.
      *
@@ -142,10 +147,8 @@ public class UserDTO implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority sga = new SimpleGrantedAuthority(
-                getRole().name());
-        List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>(
-                1);
+        SimpleGrantedAuthority sga = new SimpleGrantedAuthority(getRole().name());
+        List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>(1);
         roles.add(sga);
         return roles;
     }
@@ -204,5 +207,30 @@ public class UserDTO implements UserDetails {
     @Override
     public boolean isEnabled() {
         return getStatus().equals(UserStatus.ACTIVE);
+    }
+
+    /**
+     * Check if users are equal by email(if it's the same person)
+     */
+    @Override
+    public boolean equals(Object o) {
+
+        if (o == this)
+            return true;
+        if (!(o instanceof UserDTO)) {
+            return false;
+        }
+        UserDTO user = (UserDTO) o;
+        return Objects.equals(mail, user.mail);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.lang.Object#hashCode()
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(mail);
     }
 }

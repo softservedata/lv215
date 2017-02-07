@@ -39,6 +39,17 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
             final Paginator meetingPaginator);
 
     /**
+     * Count meeting entities in the database with specified predicate.
+     *
+     * @param meetingFilter
+     *            a filter to apply.
+     *
+     * @return Count of the meeting entities in the database with specified
+     *         predicate.
+     */
+    public Long getCountOfMeetingsWithFilter(final MeetingFilter meetingFilter);
+    
+    /**
      * Delete Meeting by id.
      * 
      * @param id
@@ -125,6 +136,9 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     List<Meeting> getMeetingsInInterval(LocalDate startDate, LocalDate endDate);
 
     List<Meeting> getMeetingsInIntervalByRoomId(Long roomId,
+            LocalDate startDate, LocalDate endDate);
+    
+    List<Meeting> getMeetingsInIntervalBySubjectId(Long subjectId,
             LocalDate startDate, LocalDate endDate);
 
     List<Meeting> getMeetingsInIntervalByUserId(Long userId,
