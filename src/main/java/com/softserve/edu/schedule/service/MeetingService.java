@@ -166,6 +166,9 @@ public interface MeetingService {
 
     List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(Long roomId,
             String start, String end);
+    
+    List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(Long subjectId,
+            String start, String end);
 
     List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(String userId,
             String start, String end);

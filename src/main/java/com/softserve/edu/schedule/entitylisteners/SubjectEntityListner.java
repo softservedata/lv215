@@ -57,9 +57,7 @@ public class SubjectEntityListner {
                 meetingsToChange.add(m);
             }
             m.setSubject(null);
-            System.out.println("Yo in");
         });
-        System.out.println("Yo out");
         meetingsToChange.forEach(
                 m -> meetingCanceledMailService.sendInfoMessageSubjectDelete(m,
                         LocaleContextHolder.getLocale()));

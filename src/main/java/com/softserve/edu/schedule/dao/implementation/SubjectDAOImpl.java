@@ -117,7 +117,8 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
      *         predicate.
      */
     @Override
-    public Long getCountOfSubjectsWithFilter(final SubjectFilter subjectFilter) {
+    public Long getCountOfSubjectsWithFilter(
+            final SubjectFilter subjectFilter) {
         CriteriaBuilder cb = getEm().getCriteriaBuilder();
         CriteriaQuery<Long> cq = cb.createQuery(Long.class);
         Root<Subject> root = cq.from(Subject.class);
