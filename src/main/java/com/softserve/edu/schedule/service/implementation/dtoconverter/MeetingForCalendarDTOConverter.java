@@ -71,7 +71,7 @@ public class MeetingForCalendarDTOConverter {
 
             meetingForCalendarDTO.setStart(
                     getFullTime(meeting.getDate(), meeting.getStartTime()));
-            meetingForCalendarDTO.setStart(
+            meetingForCalendarDTO.setEnd(
                     getFullTime(meeting.getDate(), meeting.getEndTime()));
 
             meetingForCalendarDTO

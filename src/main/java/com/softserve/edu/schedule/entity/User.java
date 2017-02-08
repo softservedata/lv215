@@ -11,9 +11,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 import com.softserve.edu.schedule.entitylisteners.UserEntityListener;
 
@@ -28,6 +30,9 @@ import com.softserve.edu.schedule.entitylisteners.UserEntityListener;
  */
 @Entity
 @EntityListeners(UserEntityListener.class)
+@Table(indexes = {@Index(columnList = "firstName"),
+        @Index(columnList = "lastName"), @Index(columnList = "mail"),
+        @Index(columnList = "phone"), @Index(columnList = "position")})
 public class User {
 
     /**
