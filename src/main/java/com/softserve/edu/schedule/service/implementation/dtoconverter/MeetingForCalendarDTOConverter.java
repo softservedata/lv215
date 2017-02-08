@@ -37,12 +37,12 @@ public class MeetingForCalendarDTOConverter {
     /**
      * Color value for not approved meetings in calendar.
      */
-    private static final String NOTAPPROVED_MEETING_COLOR = "grey";
+    private static final String NOTAPPROVED_MEETING_COLOR = "DarkOrange";
 
     /**
      * Color value for finished meetings in calendar.
      */
-    private static final String FINISHED_MEETING_COLOR = "yellow";
+    private static final String FINISHED_MEETING_COLOR = "grey";
 
     /**
      * Empty string with single space character.
