@@ -100,14 +100,6 @@
 													subjectId : '${subject.id}'
 												}
 											}
-
 										})
-
 					});
 </script>
-
-
-
-
-
-

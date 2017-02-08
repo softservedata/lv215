@@ -5,6 +5,33 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page import="com.softserve.edu.schedule.controller.RoomController"%>
 
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<spring:message code="lbl.form.deleteTitle" />
+				</h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					<spring:message code="lbl.room.deleteRoomConfirm" />
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-primary btn-ok">
+					<spring:message code="lbl.form.delete" />
+				</a>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					<spring:message code="lbl.form.cancel" />
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <h3 class="text-center">
 	<spring:message code="lbl.room.title" />
 </h3>
@@ -152,8 +179,8 @@
 			<tr>
 				<td>${room.location.name}</td>
 				<td>${room.location.address}</td>
-				<td>					
-					<a href="rooms/${room.id}">${room.name}</a>					
+				<td>
+					<a href="rooms/${room.id}">${room.name}</a>
 				</td>
 				<td>${room.capacity}</td>
 				<td>
@@ -165,8 +192,8 @@
 				</td>
 				<td class="text-center v-alighn">
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
-						<a href="rooms/delete/${room.id}" title="<spring:message code="lbl.room.deleteRoom"/>"
-							onclick="return confirm('<spring:message code="lbl.room.deleteRoomConfirm"/>');">
+						<a data-href="rooms/delete/${room.id}" data-toggle="modal" data-target="#confirm-delete"
+							title="<spring:message code="lbl.room.deleteRoom"/>">
 							<i class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</sec:authorize>
@@ -218,6 +245,10 @@
 </div>
 
 <script>
+$('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
+
 $(function() {
 	$("select[name=locationId]").chosen({
 		width : "160px"

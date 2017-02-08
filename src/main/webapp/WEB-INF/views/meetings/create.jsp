@@ -158,7 +158,7 @@
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
 						value="<spring:message code="lbl.form.save"/>"> <a
-						class="btn btn-default" href=""${pageContext.request.contextPath}${MeetingController.MEETING_CREATE_URL}"><spring:message
+						class="btn btn-default" href="${pageContext.request.contextPath}${MeetingController.MEETING_CREATE_URL}"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
 						href="${pageContext.request.contextPath}/${MeetingController.MEETINGS_MODEL_ATTR}"><spring:message
 							code="lbl.form.cancel" /></a>

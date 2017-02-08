@@ -119,8 +119,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(final UserDTO userDTO) {
         User user = userDTOConverter.getEntity(userDTO);
-        // user.setPassword(userDAO.getById(user.getId()).getPassword());
-        user.setPassword(encoder.encode(userDTO.getPassword()));
+        user.setPassword(userDTO.getPassword());
         user.setStatus(userDAO.getById(user.getId()).getStatus());
         user.setRole(userDAO.getById(user.getId()).getRole());
         user.setSubjects(userDAO.getById(user.getId()).getSubjects());
