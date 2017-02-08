@@ -19,7 +19,7 @@
 		class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit">
 		<h3>
 			<a class="align-right"
-				href="${pageContext.request.contextPath}/${UserController.USER_PROFILE_MAPPING}${user.id}"> <i
+				onclick="window.history.back()"> <i
 				class="fa fa-table fa-lg"></i>
 			</a>
 		</h3>
