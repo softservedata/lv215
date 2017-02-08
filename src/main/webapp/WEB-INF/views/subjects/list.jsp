@@ -5,6 +5,29 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page import="com.softserve.edu.schedule.controller.SubjectController"%>
 
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel"><spring:message code="lbl.form.deleteTitle" /></h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					<spring:message code="lbl.subject.deleteConfirm" />
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-primary btn-ok"><spring:message code="lbl.form.delete" /></a>
+				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.form.cancel" /></button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <h3 class="text-center">
 	<spring:message code="lbl.subject.title" />
 </h3>
@@ -43,7 +66,7 @@
 			</th>
 			<th></th>
 			<th class="text-center v-alighn">
-				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
 					<a href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"
 						title="<spring:message code="lbl.subject.add"/>">
 						<i class="fa fa-plus fa-lg"></i>
@@ -67,14 +90,15 @@
 				</td>
 				<td>
 					<form:select class="form-control" path="${SubjectController.SUBJECT_PATH_USER_ID}">
-						<option value="0"></option>
+					<spring:message code="lbl.subject.selectTutor" var="tutor" />
+						<option value="0">${tutor}</option>
 						<c:forEach items="${users}" var="user">
 							<c:choose>
 								<c:when test="${subjectFilter.userId eq user.id}">
-									<option value="${user.id}" selected="selected">${user.firstName}${user.lastName}</option>
+									<option value="${user.id}" selected="selected">${user.firstName} ${user.lastName}</option>
 								</c:when>
 								<c:otherwise>
-									<option value="${user.id}">${user.firstName}${user.lastName}</option>
+									<option value="${user.id}">${user.firstName} ${user.lastName}</option>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -98,25 +122,25 @@
 		<c:forEach var="subject" items="${subjects}">
 			<tr>
 				<td>${subject.id}</td>
-				<td>${subject.name}</td>
+				<td><a href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING_SHOW}${subject.id}">${subject.name}</a></td>
 				<td>${subject.description}</td>
 				<td>
 					<c:forEach items="${subject.users}" var="user">
-						<p>${user.firstName}${user.lastName}</p>
+						<p>${user.firstName} ${user.lastName}</p>
 					</c:forEach>
 				</td>
 				<td class="text-center v-alighn">
-					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
 						<a
-							href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DELETE_MAPPING}${subject.id}"
+							data-href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DELETE_MAPPING}${subject.id}"
 							title="<spring:message code="lbl.subject.delete"/>"
-							onclick="return confirm('<spring:message code="lbl.subject.deleteConfirm"/>')">
+							data-toggle="modal" data-target="#confirm-delete">
 							<i class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</sec:authorize>
 				</td>
 				<td class="text-center v-alighn">
-					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
 						<a
 							href="${pageContext.request.contextPath}${SubjectController.SUBJECT_EDIT_MAPPING}${subject.id}"
 							title="<spring:message code="lbl.subject.edit"/>">
@@ -167,6 +191,10 @@
 	</div>
 </div>
 <script>
+$('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
+
  $('#paginationList').twbsPagination({
         totalPages: ${subjectPaginator.pagesCount + 1},
         startPage: ${subjectPaginator.pageNumber + 1},

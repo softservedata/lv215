@@ -3,7 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.MeetingController"%>
 <script type="text/javascript">
 	$(function() {
 		$("select[name=subject]").chosen({
@@ -30,7 +33,7 @@
 			<h3 class="text-center">
 				<spring:message code="lbl.meeting.create" />
 			</h3>
-			<form:form role="form" method="post" modelAttribute="meetingForm"
+			<form:form role="form" method="post" modelAttribute="${MeetingController.MEETING_MODEL_ATTR}"
 				onsubmit="return isValidForm()">
 				<form:input path="id" type="hidden" />
 
@@ -46,13 +49,35 @@
 					<form:errors path="subject" class="text-danger" />
 				</div>
 				<div class="form-group">
-					<label for="owner"><spring:message code="lbl.meeting.owner" /></label>
-					<form:select class="form-control" path="owner" id="owner">
-						<c:forEach items="${owners}" var="owner">
-							<option value="${owner.id}">${owner.lastName}
-								${owner.firstName}</option>
-						</c:forEach>
-					</form:select>
+
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+						<label for="owner"><spring:message
+								code="lbl.meeting.owner" /></label>
+						<form:select class="form-control" path="owner" id="owner">
+							<c:forEach items="${owners}" var="owner">
+								<option value="${owner.id}">${owner.lastName}
+									${owner.firstName}</option>
+							</c:forEach>
+						</form:select>
+					</sec:authorize>
+
+					<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+						<label for="owner"><spring:message
+								code="lbl.meeting.owner" /></label>
+						<sec:authentication property="principal.id" var="principarid" />
+
+						<form:select class="form-control" path="owner" id="owner">
+							<c:forEach items="${owners}" var="owner">
+								<c:choose>
+									<c:when test="${owner.id eq principarid}">
+										<option value="${owner.id}" selected="selected">${owner.lastName}
+											${owner.firstName}</option>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+						</form:select>
+					</sec:authorize>
+					
 				</div>
 				<div class="form-group">
 					<label for="room"><spring:message code="lbl.meeting.room" /></label>
@@ -66,8 +91,7 @@
 					<label for="date"><spring:message code="lbl.meeting.date" /></label>
 					<spring:message code="lbl.meeting.dates" var="datetemp" />
 					<form:input type="date" path="date" id="date"
-						placeholder="YYYY-MM-DD" required="true"
-						 />
+						placeholder="YYYY-MM-DD" required="true" />
 					<br>
 					<form:errors path="date" class="text-danger" />
 					<p id="datevalidator"></p>
@@ -134,9 +158,9 @@
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
 						value="<spring:message code="lbl.form.save"/>"> <a
-						class="btn btn-default" href="/schedule/meetings/create"><spring:message
+						class="btn btn-default" href=""${pageContext.request.contextPath}${MeetingController.MEETING_CREATE_URL}"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
-						href="${pageContext.request.contextPath}/meetings"><spring:message
+						href="${pageContext.request.contextPath}/${MeetingController.MEETINGS_MODEL_ATTR}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
 

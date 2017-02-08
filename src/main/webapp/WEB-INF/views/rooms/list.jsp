@@ -152,10 +152,8 @@
 			<tr>
 				<td>${room.location.name}</td>
 				<td>${room.location.address}</td>
-				<td>
-					<sec:authorize access="hasAnyRole('ROLE_ADMIN','ROLE_USER', 'ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
-					<a href="rooms/${room.id}">${room.name}</a>
-					</sec:authorize>
+				<td>					
+					<a href="rooms/${room.id}">${room.name}</a>					
 				</td>
 				<td>${room.capacity}</td>
 				<td>

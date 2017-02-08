@@ -49,9 +49,9 @@ public class IndexController implements ControllerConst {
 	 */
 	@RequestMapping(ROOT_URL)
 	public String showIndex(final Model model) {
-		model.addAttribute("local", locationService.getAll());
-		model.addAttribute("sub", subjectService.getAll());
-		model.addAttribute("gro", userGroupService.getAll());
+		model.addAttribute("locationI", locationService.getAll());
+		model.addAttribute("subjectI", subjectService.getAll());
+		model.addAttribute("groupI", userGroupService.getAll());
 		return INDEX_URL;
 	}
 

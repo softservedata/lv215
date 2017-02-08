@@ -26,11 +26,11 @@ import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingCanc
  *
  * @version 1.0 03 February 2017
  *
- * @author Ped'ko Volodymyr
+ * @author Bodhan Melnyk
  *
  * @since 1.8
  */
-public class SubjectEntityListner {
+public class MeetingEntityListener {
 
     /**
      * MeetingCanceledMailService example to provide send mail to user
@@ -40,8 +40,8 @@ public class SubjectEntityListner {
     private MeetingCanceledMailService meetingCanceledMailService;
 
     /**
-     * Set to all meetings for subject null value, change status of all future
-     * meetings to NOT_APPROVED and send mail messages to their owners.
+     * If the the Meetings is deleted MeetingOwer should receive email
+     * notification.
      *
      * @param subject
      *            subject to proceed meetings
@@ -57,7 +57,9 @@ public class SubjectEntityListner {
                 meetingsToChange.add(m);
             }
             m.setSubject(null);
+            System.out.println("Yo in");
         });
+        System.out.println("Yo out");
         meetingsToChange.forEach(
                 m -> meetingCanceledMailService.sendInfoMessageSubjectDelete(m,
                         LocaleContextHolder.getLocale()));

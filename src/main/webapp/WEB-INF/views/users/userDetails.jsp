@@ -14,6 +14,15 @@
 				<h3 class="text-center">
 					<spring:message code="lbl.user.profile" />
 				</h3>
+				<%-- "<c:url value='${user.pathImage}'/>" --%>
+				<img src="${user.pathImage}" width="120" height="120">
+				<form:form commandName="${UserController.USER_MODEL_ATTR}"
+					action="${pageContext.request.contextPath}/saveImage?${_csrf.parameterName}=${_csrf.token}"
+					method="post" enctype="multipart/form-data">
+					<input type="file" name="image">
+					<button>save image</button>
+				</form:form>
+
 				<form:form commandName="${UserController.USER_MODEL_ATTR}">
 					<form:hidden path="id" />
 					<div class="form-group">
@@ -25,18 +34,12 @@
 								code="lbl.user.lastName" />:</label> <b>${user.lastName}</b>
 					</div>
 					<div class="form-group">
-						<sec:authorize
-							access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
-							<label for="mail"><spring:message code="lbl.user.mail" />:</label>
-							<b>${user.mail}</b>
-						</sec:authorize>
+						<label for="mail"><spring:message code="lbl.user.mail" />:</label>
+						<b>${user.mail}</b>
 					</div>
 					<div class="form-group">
-						<sec:authorize
-							access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
-							<label for="phone"><spring:message code="lbl.user.phone" />:</label>
-							<b>${user.phone}</b>
-						</sec:authorize>
+						<label for="phone"><spring:message code="lbl.user.phone" />:</label>
+						<b>${user.phone}</b>
 					</div>
 					<div class="form-group">
 						<label for="position"><spring:message
@@ -44,21 +47,18 @@
 					</div>
 					<div class="form-group">
 						<a class="form-control"
-							href="${pageContext.request.contextPath}/${UserController.USER_MEETINGS_MAPPING}${user.id}">
-							<spring:message code="lbl.user.showMitings" />
+							href="${pageContext.request.contextPath}/${UserController.UPDATE_USER_MAPPING}${user.id}">
+							<spring:message code="lbl.user.update" />
+						</a>
+					</div>
+					<div class="form-group">
+						<a class="form-control"
+							href="${pageContext.request.contextPath}/${UserController.CHANGE_PASSWORD_MAPPING}${user.id}">
+							<spring:message code="lbl.user.changePassword" />
 						</a>
 					</div>
 				</form:form>
 			</div>
-		</div>
-		<div class="text-center v-alighn"
-			class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit">
-			<h3>
-				<a class="align-right"
-					href="${pageContext.request.contextPath}/users">
-					<i class="fa fa-table fa-lg"></i>
-				</a>
-			</h3>
 		</div>
 	</div>
 </body>
