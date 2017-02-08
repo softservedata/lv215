@@ -21,6 +21,7 @@
 <spring:url value="/resources/fullcalendar-3.1.0/lib/moment.min.js" var="momentJS" />
 <spring:url value="/resources/fullcalendar-3.1.0/locale/ru.js" var="fullCalendarRuJS" />
 <spring:url value="/resources/fullcalendar-3.1.0/locale/uk.js" var="fullCalendarUaJS" />
+
 <link href="${favico}" rel="shortcut icon">
 <link rel="stylesheet" href="${bootStrapCSS}">
 <link rel="stylesheet" href="${chosenCSS}" />
@@ -35,6 +36,7 @@
 <script type="text/javascript" src="${fullCalendarJS}"></script>
 <script type="text/javascript" src="${fullCalendarRuJS}"></script>
 <script type="text/javascript" src="${fullCalendarUaJS}"></script>
+
 <title><tiles:getAsString name="title" /></title>
 </head>
 <body>
