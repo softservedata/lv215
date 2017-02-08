@@ -5,7 +5,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-
+<%@ page
+	import="com.softserve.edu.schedule.controller.MeetingController"%>
+	
 <script type="text/javascript">
 	$(function() {
 		$("select[name=subject]").chosen({
@@ -20,9 +22,9 @@
 		$("select[name=groups]").chosen({
 			width : "100%"
 		});
-		/* 		$("select[name=status]").chosen({
+		 		$("select[name=status]").chosen({
 		 width : "100%"
-		 }); */
+		 }); 
 	})
 </script>
 <div class="container">
@@ -159,9 +161,9 @@
 						</c:forEach>
 					</form:select>
 					<br>
-
 					<form:errors path="groups" class="text-danger" />
 				</div>
+				
 				<div class="form-group">
 					<label for="level"><spring:message code="lbl.meeting.level" /></label>
 					<spring:message code="lbl.meeting.levelinput" var="templevel" />
@@ -184,7 +186,6 @@
 				</div>
 
 				<div class="form-group">
-
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 						<label for="status"><spring:message
 								code="lbl.meeting.changestatus" /></label>
@@ -230,9 +231,9 @@
 					<input type="submit" class="btn btn-default" id="timeerror"
 						value="<spring:message code="lbl.form.save"/>"> <a
 						class="btn btn-default"
-						href="/schedule/meetings/edit/${meetingForm.id}"><spring:message
+						href="${pageContext.request.contextPath}/${MeetingController.MEETING_EDIT_URL}/${meetingForm.id}"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
-						href="${pageContext.request.contextPath}/meetings"><spring:message
+						href="${pageContext.request.contextPath}/${MeetingController.MEETINGS_MODEL_ATTR}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
 			</form:form>
