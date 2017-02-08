@@ -52,18 +52,16 @@ public class MeetingEntityListener {
      */
     @PreRemove
     public void processingBeforeMeetingDeletion(final Meeting meeting) {
-        System.out.println("In Listener");
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         deleteMeetingMailService.sendInfoMessageAboutMeetingDeletetion(meeting,
                 LocaleContextHolder.getLocale());
-        System.out.println("Afted deleting in listener");
     }
-    @PrePersist
+   /* @PrePersist
     public void processingBeforeMeetingStatusChanging(final Meeting meeting) {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         meetingChangeStatusMailService.sendInfoMessageAboutMeetingStatusChanging(meeting,  LocaleContextHolder.getLocale());
         
-    }
+    }*/
     
     
     

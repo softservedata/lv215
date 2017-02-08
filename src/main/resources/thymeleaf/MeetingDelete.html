@@ -10,8 +10,8 @@
 	<p th:text="#{meetingDeleted.messageBody}"></p>
 
 	<h4 th:text="#{lbl.meeting.details}"></h4>
-	<table>
-		<tr>
+	 <table>
+		 <tr>
 			<th th:text="#{lbl.meeting.id}"></th>
 			<td th:text="${meeting.getId()}"></td>
 		</tr>
@@ -19,15 +19,15 @@
 			<th th:text="#{lbl.meeting.subject}"></th>
 			<td th:text="${meeting.getSubject().getName()}"></td>
 		</tr>
-		<tr>
+		 <tr>
 			<th th:text="#{lbl.meeting.room}"></th>
 			<td th:text="${meeting.getRoom().getName()}"></td>
 		</tr>
 		<tr>
 			<th th:text="#{lbl.meeting.owner}"></th>
 			<td th:text="${meeting.getOwner().getFirstName()}"></td>
-			<td th:text="${usergroup.getOwner().getLastName()}"></td>
-		</tr>
+			<td th:text="${meeting.getOwner().getLastName()}"></td>
+		</tr> 
 		<tr>
 			<th th:text="#{lbl.meeting.date}"></th>
 			<td th:text="${meeting.getDate()}"></td>
@@ -48,6 +48,7 @@
 			<th th:text="#{lbl.meeting.status}"></th>
 			<td th:text="${meeting.getStatus()}"></td>
 		</tr>
-	</table>
+	</table> 
+	<h3 th:text="#{lbl.meeting.endofmail}"></h3>
 </body>
 </html>

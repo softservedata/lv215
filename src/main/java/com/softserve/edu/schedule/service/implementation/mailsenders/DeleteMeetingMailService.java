@@ -68,50 +68,42 @@ public class DeleteMeetingMailService implements MailConstants {
     @Async
     public void sendInfoMessageAboutMeetingDeletetion(final Meeting meeting,
             final Locale locale) {
-        
-        System.out.println("Starts mail sender");
-        
         Context ctx = new Context(locale);
         ctx.setVariable(MEETING_MODEL_NAME, meeting);
 
         List<User> curators = new ArrayList<User>();
         User owner = meeting.getOwner();
         curators.add(owner);
-        
+
         for (UserGroup userGroup : meeting.getGroups()) {
             User userTemp = userGroup.getCurator();
             if (userTemp != owner) {
-                curators.add(userGroup.getCurator());
+                curators.add(userTemp);
             }
         }
 
         for (User member : curators) {
+            System.out.println(member.getLastName());
+        } 
+        System.out.println("Blah");
+        for (User member : curators) {
+            System.out.println(member.getLastName());
             ctx.setVariable(MEETING_GROUP_CURATOR, member);
 
-            
             try {
-                
-                System.out.println("In try block");
-                
-                
                 MimeMessage mimeMessage = this.mailSender.createMimeMessage();
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage,
                         true, DEFAULT_MESSAGE_ENCODING);
-                
-                System.out.println("Before sending");
-                
+
                 message.setTo(member.getMail());
                 message.setFrom(new InternetAddress(fromAddress));
                 message.setSubject(messageSource.getMessage(
                         MEETING_DELETED_MESSAGE, new String[0], locale));
-                
+
                 String htmlContent = this.templateEngine
                         .process(MEETING_DELETED_TEMPLATE, ctx);
                 message.setText(htmlContent, true);
                 this.mailSender.send(mimeMessage);
-                
-                System.out.println("After sending");
-                
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
