@@ -5,7 +5,7 @@
 <tiles-definitions>
 
 	<definition name="common" template="/WEB-INF/layout/classic.jsp">
-		<put-attribute name="title" value="Schedule" />
+		<put-attribute name="title" value="UniSchedule" />
 		<put-attribute name="footer" value="/WEB-INF/layout/footer.jsp" />
 		<put-attribute name="header" value="/WEB-INF/layout/header.jsp" />
 		<put-attribute name="navigation" value="/WEB-INF/layout/navigation.jsp" />
