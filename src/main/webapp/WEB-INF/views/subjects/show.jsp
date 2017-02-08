@@ -4,6 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page import="com.softserve.edu.schedule.controller.SubjectController"%>
+<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <div class="container">
 	<div class="row ">
@@ -13,7 +15,7 @@
 			<h3>
 				<a class="align-right"
 					href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}"
-					title="<spring:message code="lbl.location.title" />"> <i
+					title="<spring:message code="lbl.subject.title" />"> <i
 					class="fa fa-table fa-lg"></i>
 				</a>
 			</h3>
@@ -46,7 +48,12 @@
 				</h4>
 				<ul>
 					<c:forEach items="${subject.users}" var="user">
-						<li>${user.firstName} ${user.lastName}</li>
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')">
+						<li><a href="${pageContext.request.contextPath}/${UserController.USER_MEETINGS_MAPPING}${user.id}">${user.firstName} ${user.lastName}</a></li>
+					</sec:authorize>
+					<sec:authorize access="!hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')">
+						<li>${user.firstName} ${user.lastName}</li>	
+					</sec:authorize>	
 					</c:forEach>
 				</ul>
 			</div>

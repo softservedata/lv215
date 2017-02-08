@@ -66,7 +66,7 @@
 			</th>
 			<th></th>
 			<th class="text-center v-alighn">
-				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
 					<a href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"
 						title="<spring:message code="lbl.subject.add"/>">
 						<i class="fa fa-plus fa-lg"></i>
@@ -126,11 +126,11 @@
 				<td>${subject.description}</td>
 				<td>
 					<c:forEach items="${subject.users}" var="user">
-						<p>${user.firstName}${user.lastName}</p>
+						<p>${user.firstName} ${user.lastName}</p>
 					</c:forEach>
 				</td>
 				<td class="text-center v-alighn">
-					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
 						<a
 							data-href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DELETE_MAPPING}${subject.id}"
 							title="<spring:message code="lbl.subject.delete"/>"
@@ -140,7 +140,7 @@
 					</sec:authorize>
 				</td>
 				<td class="text-center v-alighn">
-					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
 						<a
 							href="${pageContext.request.contextPath}${SubjectController.SUBJECT_EDIT_MAPPING}${subject.id}"
 							title="<spring:message code="lbl.subject.edit"/>">
