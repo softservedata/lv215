@@ -18,10 +18,8 @@ package com.softserve.edu.schedule.dao.implementation;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -55,6 +53,10 @@ import com.softserve.edu.schedule.service.implementation.specification.MeetingFi
  * 
  * @version 1.0 12.12.2016
  * @author IT Academy
+ */
+/**
+ * @author Andrew
+ *
  */
 @Repository
 public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
@@ -102,7 +104,8 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
             criteriaQuery.where(predicate);
         }
         criteriaQuery.distinct(true);
-        meetingPaginator.setPagesCount(getCountOfMeetingsWithFilter(meetingFilter));
+        meetingPaginator
+                .setPagesCount(getCountOfMeetingsWithFilter(meetingFilter));
         return getEm().createQuery(criteriaQuery)
                 .setFirstResult(meetingPaginator.getOffset())
                 .setMaxResults(meetingPaginator.getPageSize()).getResultList();
@@ -263,43 +266,6 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     }
 
     /**
-     * Find all meetings in the DB by given date and roomId.
-     *
-     * @author Petro Zelyonka
-     *
-     * @param roomId
-     *            room id for find meetings
-     * @param date
-     *            date for find meetings
-     *
-     * @return List of the Meeting objects.
-     */
-    @Override
-    public List<Meeting> getMeetingsByRoomIdAndDate(final Long roomId,
-            final LocalDate date) {
-        try {
-            CriteriaBuilder builder = getEm().getCriteriaBuilder();
-            CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-            Root<Meeting> root = cq.from(Meeting.class);
-            Join<Meeting, Room> roomJoin = root.join(Meeting_.room,
-                    JoinType.LEFT);
-            root.join(Meeting_.subject, JoinType.LEFT);
-            root.join(Meeting_.owner, JoinType.LEFT);
-            root.join(Meeting_.groups, JoinType.LEFT);
-            Predicate predicate = builder.conjunction();
-            predicate = builder.and(predicate,
-                    roomJoin.get(Room_.id).in(roomId));
-            predicate = builder.and(predicate,
-                    root.get(Meeting_.date).in(date));
-            cq.where(predicate);
-            cq.distinct(true);
-            return getEm().createQuery(cq).getResultList();
-        } catch (NoResultException e) {
-            return new ArrayList<>();
-        }
-    }
-
-    /**
      * Find all meetings in the DB which date and time are in past and status
      * not FINISHED.
      *
@@ -375,27 +341,25 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
-    // not used at that time. delete before final build
+    /**
+     * Find all meetings in the DB by given roomId, startDate and endDate.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     * 
+     * @param startDate
+     *            start date for find meetings
+     * 
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
+     */
     @Override
-    public List<Meeting> getMeetingsInInterval(LocalDate startDate,
-            LocalDate endDate) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
-        root.join(Meeting_.subject);
-        root.join(Meeting_.owner);
-        root.join(Meeting_.room);
-        root.join(Meeting_.groups);
-        Predicate predicate = builder.between(root.get(Meeting_.date),
-                startDate, endDate);
-        cq.where(predicate);
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    @Override
-    public List<Meeting> getMeetingsInIntervalByRoomId(Long roomId,
-            LocalDate startDate, LocalDate endDate) {
+    public List<Meeting> getMeetingsInIntervalByRoomId(final Long roomId,
+            final LocalDate startDate, final LocalDate endDate) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
@@ -411,10 +375,26 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
-    
+
+    /**
+     * Find all meetings in the DB by given subjectId, startDate and endDate.
+     *
+     * @author Volodymyr Pedko
+     *
+     * @param subjectId
+     *            subject id for find meetings
+     * 
+     * @param startDate
+     *            start date for find meetings
+     * 
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
+     */
     @Override
-    public List<Meeting> getMeetingsInIntervalBySubjectId(Long subjectId,
-            LocalDate startDate, LocalDate endDate) {
+    public List<Meeting> getMeetingsInIntervalBySubjectId(final Long subjectId,
+            final LocalDate startDate, final LocalDate endDate) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
@@ -425,15 +405,32 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         Predicate predicate = builder.conjunction();
         predicate = builder.and(predicate,
                 builder.between(root.get(Meeting_.date), startDate, endDate));
-        predicate = builder.and(predicate, subjectJoin.get(Subject_.id).in(subjectId));
+        predicate = builder.and(predicate,
+                subjectJoin.get(Subject_.id).in(subjectId));
         cq.where(predicate);
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
 
+    /**
+     * Find all meetings in the DB by given userId, startDate and endDate.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param userId
+     *            user id for find meetings
+     * 
+     * @param startDate
+     *            start date for find meetings
+     * 
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
+     */
     @Override
-    public List<Meeting> getMeetingsInIntervalByUserId(Long userId,
-            LocalDate startDate, LocalDate endDate) {
+    public List<Meeting> getMeetingsInIntervalByUserId(final Long userId,
+            final LocalDate startDate, final LocalDate endDate) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
@@ -458,4 +455,38 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
+    /**
+     * Method that's used to get all meetings in specified interval for
+     * specified group.
+     * 
+     * @author Andriy Zhydenko
+     * 
+     * @param groupId
+     *            id of a group to find
+     * @param start
+     *            start time of meetings
+     * @param end
+     *            end time of meetings
+     * @return list of meetings that will be held for specified group in
+     *         specified time limits
+     */
+    @Override
+    public List<Meeting> getMeetingsInIntervalByGroupId(final Long groupId,
+            final LocalDate startDate, final LocalDate endDate) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        Join<Meeting, UserGroup> groupJoin = root.join(Meeting_.groups);
+        root.join(Meeting_.owner);
+        root.join(Meeting_.room);
+        root.join(Meeting_.subject);
+        Predicate predicate = builder.conjunction();
+        predicate = builder.and(predicate,
+                builder.between(root.get(Meeting_.date), startDate, endDate));
+        predicate = builder.and(predicate,
+                groupJoin.get(UserGroup_.id).in(groupId));
+        cq.where(predicate);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
 }

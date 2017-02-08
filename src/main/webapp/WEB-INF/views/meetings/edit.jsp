@@ -5,7 +5,9 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-
+<%@ page
+	import="com.softserve.edu.schedule.controller.MeetingController"%>
+	
 <script type="text/javascript">
 	$(function() {
 		$("select[name=subject]").chosen({
@@ -20,9 +22,9 @@
 		$("select[name=groups]").chosen({
 			width : "100%"
 		});
-		/* 		$("select[name=status]").chosen({
+		 		$("select[name=status]").chosen({
 		 width : "100%"
-		 }); */
+		 }); 
 	})
 </script>
 <div class="container">
@@ -76,12 +78,11 @@
 						</form:select>
 					</sec:authorize>
 
-					<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+						<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<label for="owner"><spring:message
 								code="lbl.meeting.owner" /></label>
 						<sec:authentication property="principal.id" var="principarid" />
-
-						<p>
+						<form:select class="form-control" path="owner" id="owner">
 							<c:forEach items="${owners}" var="owner">
 								<c:choose>
 									<c:when test="${owner.id eq principarid}">
@@ -90,9 +91,9 @@
 									</c:when>
 								</c:choose>
 							</c:forEach>
-						</p>
-
+						</form:select>
 					</sec:authorize>
+
 
 
 				</div>
@@ -160,9 +161,9 @@
 						</c:forEach>
 					</form:select>
 					<br>
-
 					<form:errors path="groups" class="text-danger" />
 				</div>
+				
 				<div class="form-group">
 					<label for="level"><spring:message code="lbl.meeting.level" /></label>
 					<spring:message code="lbl.meeting.levelinput" var="templevel" />
@@ -185,7 +186,6 @@
 				</div>
 
 				<div class="form-group">
-
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 						<label for="status"><spring:message
 								code="lbl.meeting.changestatus" /></label>
@@ -209,21 +209,31 @@
 						<form:errors path="status" class="text-danger" />
 					</sec:authorize>
 
-					<sec:authorize access="!hasAnyRole('ROLE_ADMIN')">
+						<sec:authorize access="!hasAnyRole('ROLE_ADMIN')">
 						<label for="status"><spring:message
-								code="lbl.meeting.status" />:</label>
-						<spring:message code="${meetingForm.status.getMessageCode()}" />.
-				 </sec:authorize>
-
+								code="lbl.meeting.changestatus" /></label>
+						<form:select class="form-control" path="status" id="status">
+							<c:forEach items="${meetingStatuses}" var="status">
+								<c:choose>
+									<c:when
+										test="${meetingForm.status.ordinal() eq status.ordinal()}">
+										<option value="${status}" selected="selected"><spring:message
+												code="${status.getMessageCode()}" /></option>
+									</c:when>
+								</c:choose>
+							</c:forEach>
+						</form:select>
+						<form:errors path="status" class="text-danger" />
+					</sec:authorize>
 
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default" id="timeerror"
 						value="<spring:message code="lbl.form.save"/>"> <a
 						class="btn btn-default"
-						href="/schedule/meetings/edit/${meetingForm.id}"><spring:message
+						href="${pageContext.request.contextPath}/${MeetingController.MEETING_EDIT_URL}/${meetingForm.id}"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
-						href="${pageContext.request.contextPath}/meetings"><spring:message
+						href="${pageContext.request.contextPath}/${MeetingController.MEETINGS_MODEL_ATTR}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
 			</form:form>

@@ -34,9 +34,8 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      * @param meetingPaginator
      * @return List of Meetings
      */
-    public List<Meeting> getMeetingPageWithFilter(
-            final MeetingFilter meetingFilter,
-            final Paginator meetingPaginator);
+    List<Meeting> getMeetingPageWithFilter(MeetingFilter meetingFilter,
+            Paginator meetingPaginator);
 
     /**
      * Count meeting entities in the database with specified predicate.
@@ -47,15 +46,15 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      * @return Count of the meeting entities in the database with specified
      *         predicate.
      */
-    public Long getCountOfMeetingsWithFilter(final MeetingFilter meetingFilter);
-    
+    Long getCountOfMeetingsWithFilter(MeetingFilter meetingFilter);
+
     /**
      * Delete Meeting by id.
      * 
      * @param id
      *            id.
      */
-    public void deleteById(Long id);
+    void deleteById(Long id);
 
     /**
      * For the given Meeting id changes meeting status for given MeetingStatus.
@@ -65,8 +64,7 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      * @param meetingStatus
      *            New meeting status.
      */
-    public void changeMeetingStatus(final Long id,
-            final MeetingStatus meetingStatus);
+    void changeMeetingStatus(Long id, MeetingStatus meetingStatus);
 
     /**
      * Gives MeetingStatus by given String name.
@@ -75,7 +73,7 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *            name of status
      * @return MeetingStatus object.
      */
-    public MeetingStatus getStatusbyString(final String status);
+    MeetingStatus getStatusbyString(String status);
 
     /**
      * Returns the List of MeetingDTO, that duplicates given Meetings fields.
@@ -84,23 +82,8 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *            fields
      * @return List of Meeting
      */
-    public List<Meeting> dublicatesOfGivenFields(final String subjectName,
-            final String OwnerName, final String roomName,
-            final LocalDate localDate, final LocalTime localTime);
-
-    /**
-     * Find all meetings in the DB by given date and roomId.
-     *
-     * @author Petro Zelyonka
-     *
-     * @param roomId
-     *            room id for find meetings
-     * @param date
-     *            date for find meetings
-     *
-     * @return List of the Meeting objects.
-     */
-    List<Meeting> getMeetingsByRoomIdAndDate(Long roomId, LocalDate date);
+    List<Meeting> dublicatesOfGivenFields(String subjectName, String OwnerName,
+            String roomName, LocalDate localDate, LocalTime localTime);
 
     /**
      * Find all meetings in the DB which date and time are in past and status
@@ -132,15 +115,79 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     List<Meeting> getApprovedMeetingsByRoomIdAndTime(Long roomId,
             LocalDate date, LocalTime startTime, LocalTime endTime);
 
-    // not used at that time. delete before final build
-    List<Meeting> getMeetingsInInterval(LocalDate startDate, LocalDate endDate);
-
+    /**
+     * Find all meetings in the DB by given roomId, startDate and endDate.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     * 
+     * @param startDate
+     *            start date for find meetings
+     * 
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
+     */
     List<Meeting> getMeetingsInIntervalByRoomId(Long roomId,
             LocalDate startDate, LocalDate endDate);
-    
+
+    /**
+     * Find all meetings in the DB by given userId, startDate and endDate.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param userId
+     *            user id for find meetings
+     * 
+     * @param startDate
+     *            start date for find meetings
+     * 
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
+     */
+    List<Meeting> getMeetingsInIntervalByUserId(Long userId,
+            LocalDate startDate, LocalDate endDate);
+
+    /**
+     * Find all meetings in the DB by given subjectId, startDate and endDate.
+     *
+     * @author Volodymyr Pedko
+     *
+     * @param subjectId
+     *            subject id for find meetings
+     * 
+     * @param startDate
+     *            start date for find meetings
+     * 
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
+     */
     List<Meeting> getMeetingsInIntervalBySubjectId(Long subjectId,
             LocalDate startDate, LocalDate endDate);
 
-    List<Meeting> getMeetingsInIntervalByUserId(Long userId,
+    /**
+     * Method that's used to get all meetings in specified interval for
+     * specified group.
+     * 
+     * @author Andriy Zhydenko
+     * 
+     * @param groupId
+     *            id of a group to find
+     * @param start
+     *            start time of meetings
+     * @param end
+     *            end time of meetings
+     * @return list of meetings that will be held for specified group in
+     *         specified time limits
+     */
+    List<Meeting> getMeetingsInIntervalByGroupId(Long groupId,
             LocalDate startDate, LocalDate endDate);
+
 }

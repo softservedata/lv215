@@ -20,14 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForCalendarDTOConverter;
 
@@ -59,12 +57,6 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Autowired
     private MeetingForCalendarDTOConverter meetingForCalendarDTOConverter;
-
-    /**
-     * Field for MeetingsForRoomDTOConverter.
-     */
-    @Autowired
-    private MeetingCompactDTOConverter meetingCompactDTOConverter;
 
     /*
      * (non-Javadoc)
@@ -229,29 +221,6 @@ public class MeetingServiceImpl implements MeetingService {
                 .collect(Collectors.toList());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#
-     * getMeetingStatusDuringCreation(com.softserve.edu.schedule.dto.MeetingDTO)
-     * ======= /** Find all meetings in the DB by given date and roomId.
-     *
-     * @author Petro Zelyonka
-     *
-     * @param roomId room id for find meetings
-     *
-     * @param date date for find meetings
-     *
-     * @return List of the MeetingCompactDTO objects.
-     */
-    @Override
-    public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(final Long roomId,
-            final LocalDate date) {
-        return meetingDao.getMeetingsByRoomIdAndDate(roomId, date).stream()
-                .map(e -> meetingCompactDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
     /**
      * During creation checks which status can be given to the meeting depends
      * on room availability.
@@ -278,20 +247,51 @@ public class MeetingServiceImpl implements MeetingService {
         return MeetingStatus.NOT_APPROVED;
     }
 
-    // not used at that time. delete before final build
+    /**
+     * Method that's used to get all meetings in specified interval for
+     * specified group.
+     * 
+     * @author Andriy Zhydenko
+     * 
+     * @param groupId
+     *            id of a group to find
+     * @param start
+     *            start date of meetings
+     * @param end
+     *            end date of meetings
+     * @return list of meetings that will be held for specified group in
+     *         specified time limits
+     */
     @Override
-    public List<MeetingForCalendarDTO> getMeetingsInInterval(String start,
-            String end) {
+    public List<MeetingForCalendarDTO> getMeetingsInIntervalByGroupId(
+            final Long groupId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
-        return meetingDao.getMeetingsInInterval(startDate, endDate).stream()
-                .map(e -> meetingForCalendarDTOConverter.getDTO(e))
+        return meetingDao
+                .getMeetingsInIntervalByGroupId(groupId, startDate, endDate)
+                .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Find all meetings in the DB by given date interval and roomId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     *
+     * @param start
+     *            start date for find meetings
+     * 
+     * @param end
+     *            end date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
+     */
     @Override
     public List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(
-            Long roomId, String start, String end) {
+            final Long roomId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
         return meetingDao
@@ -299,7 +299,23 @@ public class MeetingServiceImpl implements MeetingService {
                 .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
-    
+
+    /**
+     * Find all meetings in the DB by given date interval and subjectId.
+     *
+     * @author Volodymyr Pedko
+     *
+     * @param subjectId
+     *            subject id for find meetings
+     *
+     * @param start
+     *            start date for find meetings
+     * 
+     * @param end
+     *            end date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
+     */
     @Override
     public List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(
             Long subjectId, String start, String end) {
@@ -311,26 +327,29 @@ public class MeetingServiceImpl implements MeetingService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Find all meetings in the DB by given date interval and userId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param userId
+     *            user id for find meetings
+     *
+     * @param start
+     *            end date for find meetings
+     * 
+     * @param end
+     *            start date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
+     */
     @Override
     public List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(
             String userId, String start, String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
         Long id = Long.parseLong(userId);
-        return meetingDao
-                .getMeetingsInIntervalByUserId(id, startDate, endDate)
-                .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-    
-    @Override
-    public List<MeetingForCalendarDTO> getMeetingsInIntervalByAnyUserId(
-            String userId, String start, String end) {
-        LocalDate startDate = LocalDate.parse(start);
-        LocalDate endDate = LocalDate.parse(end);
-        Long id = Long.parseLong(userId);
-        return meetingDao
-                .getMeetingsInIntervalByUserId(id, startDate, endDate)
+        return meetingDao.getMeetingsInIntervalByUserId(id, startDate, endDate)
                 .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }

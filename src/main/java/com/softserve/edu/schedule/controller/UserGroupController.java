@@ -134,7 +134,7 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 * 
 	 * @return group details page URL
 	 */
-	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
 	public String showGroup(@PathVariable("id") final Long id, final Model model) {
 		model.addAttribute(USERGROUP_MODEL_ATTR, userGroupService.getById(id));

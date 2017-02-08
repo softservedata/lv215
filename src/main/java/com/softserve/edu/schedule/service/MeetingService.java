@@ -10,17 +10,13 @@
 
 package com.softserve.edu.schedule.service;
 
-import java.time.LocalDate;
-
 import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
-
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
-import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 
 /**
@@ -37,7 +33,7 @@ public interface MeetingService {
      * @param meeting
      *            - Meeting object
      */
-    public void create(final MeetingDTO meetingDTO);
+    void create(MeetingDTO meetingDTO);
 
     /**
      * Return a Meeting object if found.
@@ -46,7 +42,7 @@ public interface MeetingService {
      *            of Meeting transfer object
      * @return Meeting transfer object
      */
-    public MeetingDTO getById(final Long id);
+    MeetingDTO getById(Long id);
 
     /**
      * Gives MeetingStatus by given String name.
@@ -55,14 +51,14 @@ public interface MeetingService {
      *            name of status
      * @return MeetingStatus object.
      */
-    public MeetingStatus getStatusbyString(final String status);
+    MeetingStatus getStatusbyString(String status);
 
     /**
      * Read all meetings from DB.
      * 
      * @return List<Meeting> our meetings.
      */
-    public List<MeetingDTO> getAll();
+    List<MeetingDTO> getAll();
 
     /**
      * Update (replace) existence meeting in DB. If such meeting no exist in DB,
@@ -71,7 +67,7 @@ public interface MeetingService {
      * @param meeting
      *            our meeting.
      */
-    public void update(final MeetingDTO meetingDTO);
+    void update(MeetingDTO meetingDTO);
 
     /**
      * Delete meeting from DB.
@@ -79,7 +75,7 @@ public interface MeetingService {
      * @param meeting
      *            our meeting.
      */
-    public void delete(final MeetingDTO meetingDTO);
+    void delete(MeetingDTO meetingDTO);
 
     /**
      * Delete meeting from DB by given id.
@@ -87,7 +83,7 @@ public interface MeetingService {
      * @param id
      *            our id of meeting.
      */
-    public void deleteById(final Long id);
+    void deleteById(Long id);
 
     /**
      * Returns List of MeetingDTO by given filter and paginator for Room page.
@@ -98,8 +94,8 @@ public interface MeetingService {
      *            Roompaginator for meetings.
      * @return List of MeetingDTO
      */
-    public List<MeetingDTO> getMeetingPageWithFilter(
-            final MeetingFilter meetingFilter, final Paginator roomPaginator);
+    List<MeetingDTO> getMeetingPageWithFilter(MeetingFilter meetingFilter,
+            Paginator roomPaginator);
 
     /**
      * Returns a List of sorted Meeting transfer objects.
@@ -110,7 +106,7 @@ public interface MeetingService {
      *            - ASC or DESC
      * @return List of sorted Subject transfer objects
      */
-    public List<MeetingDTO> sort(final String field, final Order order);
+    List<MeetingDTO> sort(String field, Order order);
 
     /**
      * Return a List of searched Meeting transfer objects.
@@ -121,7 +117,7 @@ public interface MeetingService {
      *            - input string
      * @return List of sorted Subject transfer objects
      */
-    public List<MeetingDTO> search(final String field, final String pattern);
+    List<MeetingDTO> search(String field, String pattern);
 
     /**
      * Change existing status of the meeting to given new meeting status.
@@ -132,49 +128,97 @@ public interface MeetingService {
      * @param meetingStatus
      *            New meeting status.
      */
-    public void changeMeetingStatus(final Long id,
-            final MeetingStatus meetingStatus);
+    void changeMeetingStatus(Long id, MeetingStatus meetingStatus);
 
-    public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO);
+    List<MeetingDTO> DublicatesOfGivenDTO(MeetingDTO meetingDTO);
 
     /**
-     * Find all meetings in the DB by given date and roomId.
+     * During creation checks which status can be given to the meeting depends
+     * on room availability.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param meetingDTO
+     *            given meeting DTO
+     *
+     * @return correct MeetingStatus
+     * 
+     */
+    MeetingStatus getMeetingStatusDuringCreation(MeetingDTO meetingDTO);
+
+    /**
+     * Find all meetings in the DB by given date interval and roomId.
      *
      * @author Petro Zelyonka
      *
      * @param roomId
      *            room id for find meetings
      *
-     * @param date
-     *            date for find meetings
-     *
-     * @return List of the MeetingCompactDTO objects.
-     */
-    List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(Long roomId,
-            LocalDate date);
-
-    /**
-     * Returns MeetingStatus of meeting during process of Meeting creation.
+     * @param start
+     *            start date for find meetings
      * 
-     * @param meetingDTO
-     * @return MeetingStatus
+     * @param end
+     *            end date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
      */
-    MeetingStatus getMeetingStatusDuringCreation(final MeetingDTO meetingDTO);
-
-    // not used at that time. delete before final build
-    List<MeetingForCalendarDTO> getMeetingsInInterval(String start, String end);
-
     List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(Long roomId,
             String start, String end);
-    
-    List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(Long subjectId,
-            String start, String end);
 
+    /**
+     * Find all meetings in the DB by given date interval and userId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param userId
+     *            user id for find meetings
+     *
+     * @param start
+     *            end date for find meetings
+     * 
+     * @param end
+     *            start date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
+     */
     List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(String userId,
             String start, String end);
 
-    List<MeetingForCalendarDTO> getMeetingsInIntervalByAnyUserId(String userId,
+    /**
+     * Method that's used to get all meetings in specified interval for
+     * specified group.
+     * 
+     * @author Andriy Zhydenko
+     * 
+     * @param groupId
+     *            id of a group to find
+     * @param start
+     *            start date of meetings
+     * @param end
+     *            end date of meetings
+     * @return list of meetings that will be held for specified group in
+     *         specified time limits
+     */
+    List<MeetingForCalendarDTO> getMeetingsInIntervalByGroupId(Long groupId,
             String start, String end);
 
+    /**
+     * Find all meetings in the DB by given date interval and subjectId.
+     *
+     * @author Volodymyr Pedko
+     *
+     * @param subjectId
+     *            subject id for find meetings
+     *
+     * @param start
+     *            start date for find meetings
+     * 
+     * @param end
+     *            end date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
+     */
+    List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(Long subjectId,
+            String start, String end);
 
 }
