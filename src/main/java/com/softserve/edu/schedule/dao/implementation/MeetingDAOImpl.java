@@ -379,7 +379,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     /**
      * Find all meetings in the DB by given subjectId, startDate and endDate.
      *
-     * @author Volodymyr Pedko
+     * @author Volodymyr Ped'ko
      *
      * @param subjectId
      *            subject id for find meetings

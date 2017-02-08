@@ -200,6 +200,17 @@ public class SubjectController
         return SUBJECTS_REDIRECT_URL;
     }
 
+    /**
+     * Controls view of room details show page.
+     *
+     * @param id
+     *            subject id to show details.
+     *
+     * @param model
+     *            subject details show page view model.
+     *
+     * @return subject show detail page URL
+     */
     @RequestMapping(SUBJECTS_MAPPING_SHOW + "{id}")
     public String showSubjectDetails(@PathVariable final Long id, final Model model) {
         model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));

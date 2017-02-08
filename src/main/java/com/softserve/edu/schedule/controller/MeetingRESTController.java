@@ -98,7 +98,7 @@ public class MeetingRESTController {
      * Provide ResponseEntity with list of MeetingForCalendarDTO instances by
      * given date interval and subjectId.
      * 
-     * @author Volodymyr Pedko
+     * @author Volodymyr Ped'ko
      * 
      * @param subjectId
      *            subject id for find meetings
