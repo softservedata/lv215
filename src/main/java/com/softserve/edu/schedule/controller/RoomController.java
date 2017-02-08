@@ -23,7 +23,6 @@ import com.softserve.edu.schedule.dto.filter.DateFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.service.LocationService;
-import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
@@ -56,12 +55,6 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      */
     @Autowired
     private LocationService locationService;
-
-    /**
-     * MeetingService example to provide meetings list to the model.
-     */
-    @Autowired
-    private MeetingService meetingService;
 
     /**
      * RoomEquipmentService example to provide room equipments list to the
@@ -214,8 +207,6 @@ public class RoomController implements ControllerConst.RoomControllerConst {
             final Model model,
             @ModelAttribute(DATE_FILTER_MODEL_ATTR) @Valid final DateFilter dateFilter) {
         model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
-        model.addAttribute(MEETINGS_MODEL_ATTR, meetingService
-                .getMeetingsByRoomIDAndDate(id, dateFilter.getDate()));
         return ROOM_SHOW_URL;
     }
 
