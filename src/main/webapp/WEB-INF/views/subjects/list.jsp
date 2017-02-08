@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page import="com.softserve.edu.schedule.controller.SubjectController"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -123,7 +123,9 @@
 			<tr>
 				<td>${subject.id}</td>
 				<td><a href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING_SHOW}${subject.id}">${subject.name}</a></td>
-				<td>${subject.description}</td>
+				<c:set var="string" value="${subject.description}"/>
+				<c:set var="string2" value="${fn:substring(string, 0, 25)}..." />
+				<td>${string2}</td>
 				<td>
 					<c:forEach items="${subject.users}" var="user">
 						<p>${user.firstName} ${user.lastName}</p>
