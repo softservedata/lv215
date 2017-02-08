@@ -6,6 +6,8 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <script type="text/javascript">
+<%@ page
+import="com.softserve.edu.schedule.controller.MeetingController"%>
 	$(function() {
 		$("select[name=subject]").chosen({
 			width : "100%"
@@ -58,21 +60,21 @@
 
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.subject" /></b> : <a
-						href="${pageContext.request.contextPath}/subjects/${meetingForm.subject.id}">${meetingForm.subject.name}</a>
+						href="${pageContext.request.contextPath}/${MeetingController.SUBJECTS_MODEL_ATTR}/${meetingForm.subject.id}">${meetingForm.subject.name}</a>
 
 
 				</div>
 
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.owner" /></b> : <a
-						href="${pageContext.request.contextPath}/profile${meetingForm.owner.id}">${meetingForm.owner.lastName}
+						href="${pageContext.request.contextPath}/${MeetingController.PROFILE_MAPPING}${meetingForm.owner.id}">${meetingForm.owner.lastName}
 						${meetingForm.owner.firstName}</a>
 
 				</div>
 
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.room" /></b> : <a
-						href="${pageContext.request.contextPath}/rooms/${meetingForm.room.id}">${meetingForm.room.name}</a>
+						href="${pageContext.request.contextPath}/${MeetingController.ROOMS_MODEL_ATTR}/${meetingForm.room.id}">${meetingForm.room.name}</a>
 				</div>
 
 				<div class="form-group">
@@ -91,7 +93,7 @@
 					<b><spring:message code="lbl.meeting.groups" /></b> :
 					<c:forEach items="${meetingForm.groups}" var="group">
 						<li><a
-							href="${pageContext.request.contextPath}/usergroups/${group.id}">${group.name}</a>
+							href="${pageContext.request.contextPath}/${MeetingController.USERGROUPS_MAPPING}/${group.id}">${group.name}</a>
 						</li>
 					</c:forEach>
 				</div>

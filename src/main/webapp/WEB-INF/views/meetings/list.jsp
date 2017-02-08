@@ -5,7 +5,8 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-
+<%@ page
+	import="com.softserve.edu.schedule.controller.MeetingController"%>
 
 <script type="text/javascript">
 	$(function() {
@@ -123,7 +124,8 @@
 			<th></th>
 			<th class="text-center v-alighn"><sec:authorize
 					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
-					<a href="${pageContext.request.contextPath}/meetings/create"> <i
+					<a href="${pageContext.request.contextPath}/meetings/create"
+						title="<spring:message code="lbl.meeting.create" />"> <i
 						class="fa fa-plus fa-lg"></i>
 					</a>
 				</sec:authorize></th>
@@ -131,16 +133,14 @@
 
 		<tr>
 			<!-- Filter form -->
-
 			<form:form role="form" action="meetings" method="get"
 				modelAttribute="meetingFilter">
 
 
 				<!-- ID -->
-
 				<spring:message code="lbl.meeting.id" var="meetingid" />
 				<td><form:input type="number" path="id"
-						placeholder="${meetingid}" class="classid" step="1" /></td>
+						placeholder="${meetingid}" class="classid" step="1" min="1" /></td>
 
 				<!-- subject -->
 				<td><form:select path="subjectId" id="subjectId"
@@ -157,6 +157,7 @@
 							</c:choose>
 						</c:forEach>
 					</form:select></td>
+
 				<!-- owner -->
 				<td><form:select class="form-control" path="ownerId"
 						id="ownerId">
@@ -173,6 +174,7 @@
 							</c:choose>
 						</c:forEach>
 					</form:select></td>
+
 				<!-- room -->
 				<td><form:select path="roomId" id="roomId">
 						<option value="0"></option>
@@ -187,6 +189,7 @@
 							</c:choose>
 						</c:forEach>
 					</form:select></td>
+
 				<!-- date -->
 				<td><form:input class=" input-sm class-date" type="date"
 						path="date" placeholder="YYYY-MM-DD" /></td>
@@ -196,6 +199,7 @@
 				<!-- End Time -->
 				<td><form:input class="classtime" type="time" path="endTime"
 						id="endTime" placeholder="HH:MM" /></td>
+
 				<!-- UserGroups -->
 				<td><form:select path="groups" id="groups" multiple="multiple">
 						<c:forEach items="${userGroups}" var="userGroup">
@@ -213,13 +217,13 @@
 							</c:if>
 						</c:forEach>
 					</form:select></td>
-				<!-- Level -->
 
+				<!-- Level -->
 				<sec:authorize
 					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
 					<td class="levelclass"><form:input type="number"
-							class="input-number levelclass" path="level" step="1" title="MIN" />
-					</td>
+							class="input-number levelclass" path="level" min="1" max="5"
+							step="1" /></td>
 				</sec:authorize>
 
 				<!-- Status -->
@@ -248,22 +252,25 @@
 			</form:form>
 			<td class="text-center v-alighn"><a
 				href="meetings?id=&subjectId=0&ownerId=0&roomId=0&date=&startTime=&endTime=&_groups=1&level=&status=-1"
-				title="resetFilter"> <i class="fa fa-times fa-lg"></i>
+				title="<spring:message code="lbl.room.resetFilter"/>"> <i
+					class="fa fa-times fa-lg"></i>
 			</a></td>
 		</tr>
 		<!-- End Filter form -->
 
 		<c:forEach var="meeting" items="${meetings}">
 			<tr>
-				<td><a href="meetings/${meeting.id}">${meeting.id}</a></td>
+				<td><a
+					href="${MeetingController.MEETINGS_MODEL_ATTR}/${meeting.id}"
+					title="<spring:message code="lbl.meeting.details" />">${meeting.id}</a></td>
 
 				<td><a
-					href="${pageContext.request.contextPath}/subjects/${meeting.subject.id}">${meeting.subject.name}</a></td>
+					href="${pageContext.request.contextPath}/${MeetingController.SUBJECTS_MODEL_ATTR}/${meeting.subject.id}">${meeting.subject.name}</a></td>
 				<td><a
-					href="${pageContext.request.contextPath}/profile${meeting.owner.id}">${meeting.owner.lastName}
+					href="${pageContext.request.contextPath}/${MeetingController.PROFILE_MAPPING}${meeting.owner.id}">${meeting.owner.lastName}
 						${meeting.owner.firstName}</a></td>
 				<td><a
-					href="${pageContext.request.contextPath}/rooms/${meeting.room.id}">${meeting.room.name}</a>
+					href="${pageContext.request.contextPath}/${MeetingController.ROOMS_MODEL_ATTR}/${meeting.room.id}">${meeting.room.name}</a>
 				</td>
 				<td>${meeting.date}</td>
 				<td>${meeting.startTime}</td>
@@ -271,7 +278,7 @@
 				<td><c:forEach items="${meeting.groups}" var="group">
 						<p>
 							<a
-								href="${pageContext.request.contextPath}/usergroups/${group.id}">${group.name}</a>
+								href="${pageContext.request.contextPath}/${MeetingController.USERGROUPS_MAPPING}/${group.id}">${group.name}</a>
 						</p>
 					</c:forEach></td>
 
@@ -285,18 +292,16 @@
 				<td><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
 						<a
-							data-href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"
+							data-href="${pageContext.request.contextPath}/${MeetingController.DELETE_MAPPING}/${meeting.id}"
 							data-toggle="modal" data-target="#confirm-delete"
 							title="<spring:message code="lbl.meeting.delete" />"> <i
 							class="fa fa-trash-o fa-lg"></i>
 						</a>
-					</sec:authorize>
-					
-					 <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+					</sec:authorize> <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<sec:authentication property="principal.id" var="principarid" />
 						<c:if test="${principarid eq  meeting.owner.id}">
 							<a
-								data-href="${pageContext.request.contextPath}/meetings/delete/${meeting.id}"
+								data-href="${pageContext.request.contextPath}/${MeetingController.DELETE_MAPPING}/${meeting.id}"
 								data-toggle="modal" data-target="#confirm-delete"
 								title="<spring:message code="lbl.meeting.delete" />"> <i
 								class="fa fa-trash-o fa-lg"></i>
@@ -306,15 +311,17 @@
 				<td><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
 						<a
-							href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}">
-							<i class="fa fa-pencil-square-o fa-lg"></i>
+							href="${pageContext.request.contextPath}/${MeetingController.MEETING_EDIT_URL}/${meeting.id}"
+							title="<spring:message code="lbl.meeting.edit" />"> <i
+							class="fa fa-pencil-square-o fa-lg"></i>
 						</a>
 					</sec:authorize> <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<sec:authentication property="principal.id" var="principarid" />
 						<c:if test="${principarid eq  meeting.owner.id}">
 							<a
-								href="${pageContext.request.contextPath}/meetings/edit/${meeting.id}">
-								<i class="fa fa-pencil-square-o fa-lg"></i>
+								href="${pageContext.request.contextPath}/${MeetingController.MEETING_EDIT_URL}/${meeting.id}"
+								title="<spring:message code="lbl.meeting.edit" />"> <i
+								class="fa fa-pencil-square-o fa-lg"></i>
 							</a>
 						</c:if>
 					</sec:authorize></td>
@@ -356,13 +363,12 @@
 		<ul id="paginationList" class="pagination"></ul>
 	</div>
 </div>
-<script>
 
+<script>
 /* Notification when deleting meeting.  */
  $('#confirm-delete').on('show.bs.modal', function(e) {
     $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 });
-
 
  $('#paginationList').twbsPagination({
         totalPages: ${meetingPaginator.pagesCount + 1},
