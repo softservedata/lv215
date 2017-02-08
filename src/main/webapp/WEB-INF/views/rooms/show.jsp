@@ -5,14 +5,25 @@
 
 <div class="container">
 	<div class="row">
-		<h3 class="col-lg-1 col-lg-offset-1 col-md-1 col-md-offset-1 col-sm-1 col-sm-offset-1">
-			<button class="btn btn-default" onclick="window.history.back()">
-				<spring:message code="lbl.form.back" />
-			</button>
-		</h3>
+		<div class="button-back-container">
+			<h3>
+				<a class="align-left" href="#" onclick="window.history.back()"
+					title="<spring:message code="lbl.form.back" />">
+					<i class="fa fa-arrow-left fa-lg"></i>
+				</a>
+			</h3>
+		</div>
+		<div class="col-lg-1 col-lg-offset-9 col-md-1 col-sm-1 col-xs-1 panel-exit zero-margin-top">
+			<h3>
+				<a class="align-right" href="${pageContext.request.contextPath}/rooms"
+					title="<spring:message code="lbl.room.title" />">
+					<i class="fa fa-table fa-lg"></i>
+				</a>
+			</h3>
+		</div>
 	</div>
 	<div class="row">
-		<div class="col-lg-4 col-lg-offset-1 col-md-5 col-sm-6 panel panel-default">
+		<div class="col-lg-4 col-lg-offset-1 col-md-5 col-sm-6 panel panel-default zero-margin-top">
 			<h3 class="text-center">
 				<spring:message code="lbl.room.roomDetails" />
 			</h3>
@@ -21,10 +32,11 @@
 				: ${room.name}
 			</h4>
 			<h4>
-				<spring:message code="lbl.room.location" />
-				: ${room.location.name}
+				<a href="${pageContext.request.contextPath}/locations/map/${room.location.id}">
+					<spring:message code="lbl.room.location" />
+					: ${room.location.name}
+				</a>
 			</h4>
-			<p>${room.location.address}</p>
 			<h4>
 				<spring:message code="lbl.room.roomCapacity" />
 				: ${room.capacity}
@@ -39,7 +51,7 @@
 				</c:forEach>
 			</ul>
 		</div>
-		<div class="col-lg-6 col-md-7 col-sm-6 panel-map">
+		<div class="col-lg-6 col-md-7 col-sm-6 panel-map zero-margin-top">
 			<div id='calendar'></div>
 		</div>
 	</div>
