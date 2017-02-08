@@ -15,7 +15,7 @@
 					<spring:message code="lbl.user.profile" />
 				</h3>
 				<%-- "<c:url value='${user.pathImage}'/>" --%>
-				<img src="${user.pathImage}" width="120" height="120">
+				<img src="MyFote.png" width="120" height="120">
 				<form:form commandName="${UserController.USER_MODEL_ATTR}"
 					action="${pageContext.request.contextPath}/saveImage?${_csrf.parameterName}=${_csrf.token}"
 					method="post" enctype="multipart/form-data">
