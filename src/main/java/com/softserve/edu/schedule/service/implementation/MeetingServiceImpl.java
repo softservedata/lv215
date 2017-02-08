@@ -20,14 +20,12 @@ import org.springframework.transaction.annotation.Transactional;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForCalendarDTOConverter;
 
@@ -37,283 +35,322 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingFor
  * @version 1.0 12.12.2016
  * @author IT Academy
  */
-/**
- * @author Andrew
- *
- */
 @Transactional
 @Service
 @PerfomanceLoggable
 public class MeetingServiceImpl implements MeetingService {
 
-	/**
-	 * Field for MeetingDTOConverter.
-	 */
-	@Autowired
-	private MeetingDAO meetingDao;
+    /**
+     * Field for MeetingDTOConverter.
+     */
+    @Autowired
+    private MeetingDAO meetingDao;
 
-	/**
-	 * Field for MeetingDTOConverter.
-	 */
-	@Autowired
-	private MeetingDTOConverter meetingDTOConverter;
+    /**
+     * Field for MeetingDTOConverter.
+     */
+    @Autowired
+    private MeetingDTOConverter meetingDTOConverter;
 
-	/**
-	 * Field for MeetingForCalendarDTOConverter.
-	 */
-	@Autowired
-	private MeetingForCalendarDTOConverter meetingForCalendarDTOConverter;
+    /**
+     * Field for MeetingForCalendarDTOConverter.
+     */
+    @Autowired
+    private MeetingForCalendarDTOConverter meetingForCalendarDTOConverter;
 
-	/**
-	 * Field for MeetingsForRoomDTOConverter.
-	 */
-	@Autowired
-	private MeetingCompactDTOConverter meetingCompactDTOConverter;
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#create(com.softserve.
+     * edu.schedule.entity.Meeting)
+     */
+    @Override
+    public void create(final MeetingDTO meetingDTO) {
+        meetingDTO.setStatus(getMeetingStatusDuringCreation(meetingDTO));
+        meetingDao.create(meetingDTOConverter.getEntity(meetingDTO));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.MeetingService#create(com.softserve.
-	 * edu.schedule.entity.Meeting)
-	 */
-	@Override
-	public void create(final MeetingDTO meetingDTO) {
-		meetingDTO.setStatus(getMeetingStatusDuringCreation(meetingDTO));
-		meetingDao.create(meetingDTOConverter.getEntity(meetingDTO));
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#getStatusbyString(java.
+     * lang.String)
+     */
+    public MeetingStatus getStatusbyString(final String status) {
+        return meetingDao.getStatusbyString(status);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.MeetingService#getStatusbyString(java.
-	 * lang.String)
-	 */
-	public MeetingStatus getStatusbyString(final String status) {
-		return meetingDao.getStatusbyString(status);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#update(com.softserve.
+     * edu.schedule.entity.Meeting)
+     */
+    @Override
+    public void update(final MeetingDTO meetingDTO) {
+        meetingDao.update(meetingDTOConverter.getEntity(meetingDTO));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.MeetingService#update(com.softserve.
-	 * edu.schedule.entity.Meeting)
-	 */
-	@Override
-	public void update(final MeetingDTO meetingDTO) {
-		meetingDao.update(meetingDTOConverter.getEntity(meetingDTO));
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#getById(java.lang.Long)
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public MeetingDTO getById(final Long id) {
+        return meetingDTOConverter.getDTO(meetingDao.getById(id));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.MeetingService#getById(java.lang.Long)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public MeetingDTO getById(final Long id) {
-		return meetingDTOConverter.getDTO(meetingDao.getById(id));
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#getAll()
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<MeetingDTO> getAll() {
+        return meetingDao.getAll().stream()
+                .map(e -> meetingDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.softserve.edu.schedule.service.MeetingService#getAll()
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<MeetingDTO> getAll() {
-		return meetingDao.getAll().stream().map(e -> meetingDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#delete(com.softserve.
+     * edu.schedule.entity.Meeting)
+     */
+    @Override
+    public void delete(final MeetingDTO meetingDTO) {
+        meetingDao.delete(meetingDTOConverter.getEntity(meetingDTO));
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.MeetingService#delete(com.softserve.
-	 * edu.schedule.entity.Meeting)
-	 */
-	@Override
-	public void delete(final MeetingDTO meetingDTO) {
-		meetingDao.delete(meetingDTOConverter.getEntity(meetingDTO));
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#deleteById(java.lang.
+     * Long)
+     */
+    @Override
+    public void deleteById(final Long id) {
+        meetingDao.deleteById(id);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.MeetingService#deleteById(java.lang.
-	 * Long)
-	 */
-	@Override
-	public void deleteById(final Long id) {
-		meetingDao.deleteById(id);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#
+     * getMeetingPageWithFilter(com.softserve.edu.schedule.dto.filter.
+     * MeetingFilter, com.softserve.edu.schedule.dto.filter.Paginator)
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<MeetingDTO> getMeetingPageWithFilter(
+            final MeetingFilter meetingFilter,
+            final Paginator meetingPaginator) {
+        return meetingDao
+                .getMeetingPageWithFilter(meetingFilter, meetingPaginator)
+                .stream().map(e -> meetingDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.softserve.edu.schedule.service.MeetingService#
-	 * getMeetingPageWithFilter(com.softserve.edu.schedule.dto.filter.
-	 * MeetingFilter, com.softserve.edu.schedule.dto.filter.Paginator)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<MeetingDTO> getMeetingPageWithFilter(final MeetingFilter meetingFilter,
-			final Paginator meetingPaginator) {
-		return meetingDao.getMeetingPageWithFilter(meetingFilter, meetingPaginator).stream()
-				.map(e -> meetingDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#sort(java.lang.String,
+     * com.softserve.edu.schedule.dao.Order)
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<MeetingDTO> sort(final String field, final Order order) {
+        return null;// meetingDao.sort(field, order);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.MeetingService#sort(java.lang.String,
-	 * com.softserve.edu.schedule.dao.Order)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<MeetingDTO> sort(final String field, final Order order) {
-		return null;// meetingDao.sort(field, order);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingService#search(java.lang.
+     * String, java.lang.String)
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<MeetingDTO> search(final String field, final String pattern) {
+        return meetingDao.search(field, pattern).stream()
+                .map(e -> meetingDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.softserve.edu.schedule.service.MeetingService#search(java.lang.
-	 * String, java.lang.String)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<MeetingDTO> search(final String field, final String pattern) {
-		return meetingDao.search(field, pattern).stream().map(e -> meetingDTOConverter.getDTO(e))
-				.collect(Collectors.toList());
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#updateMeetingStatus(com
+     * .softserve.edu.schedule.entity.Meeting,
+     * com.softserve.edu.schedule.entity.MeetingStatus)
+     */
+    public void changeMeetingStatus(final Long id,
+            final MeetingStatus meetingStatus) {
+        meetingDao.changeMeetingStatus(id, meetingStatus);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.MeetingService#updateMeetingStatus(com
-	 * .softserve.edu.schedule.entity.Meeting,
-	 * com.softserve.edu.schedule.entity.MeetingStatus)
-	 */
-	public void changeMeetingStatus(final Long id, final MeetingStatus meetingStatus) {
-		meetingDao.changeMeetingStatus(id, meetingStatus);
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#DublicatesOfGivenDTO(
+     * com.softserve.edu.schedule.dto.MeetingDTO)
+     */
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.MeetingService#DublicatesOfGivenDTO(
-	 * com.softserve.edu.schedule.dto.MeetingDTO)
-	 */
+    @Transactional(readOnly = true)
+    public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO) {
+        return meetingDao
+                .dublicatesOfGivenFields(
+                        meetingDTO.getSubject().getName().trim(),
+                        meetingDTO.getOwner().getLastName().trim(),
+                        meetingDTO.getRoom().getName().trim(),
+                        meetingDTO.getDate(), meetingDTO.getStartTime())
+                .stream().map(e -> meetingDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
 
-	@Transactional(readOnly = true)
-	public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO) {
-		return meetingDao
-				.dublicatesOfGivenFields(meetingDTO.getSubject().getName().trim(),
-						meetingDTO.getOwner().getLastName().trim(), meetingDTO.getRoom().getName().trim(),
-						meetingDTO.getDate(), meetingDTO.getStartTime())
-				.stream().map(e -> meetingDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
+    /**
+     * During creation checks which status can be given to the meeting depends
+     * on room availability.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param meetingDTO
+     *            given meeting DTO
+     *
+     * @return correct MeetingStatus
+     * 
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public MeetingStatus getMeetingStatusDuringCreation(
+            final MeetingDTO meetingDTO) {
+        if (meetingDao
+                .getApprovedMeetingsByRoomIdAndTime(
+                        meetingDTO.getRoom().getId(), meetingDTO.getDate(),
+                        meetingDTO.getStartTime(), meetingDTO.getEndTime())
+                .isEmpty()) {
+            return MeetingStatus.APPROVED;
+        }
+        return MeetingStatus.NOT_APPROVED;
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.softserve.edu.schedule.service.MeetingService#
-	 * getMeetingStatusDuringCreation(com.softserve.edu.schedule.dto.MeetingDTO)
-	 * ======= /** Find all meetings in the DB by given date and roomId.
-	 *
-	 * @author Petro Zelyonka
-	 *
-	 * @param roomId room id for find meetings
-	 *
-	 * @param date date for find meetings
-	 *
-	 * @return List of the MeetingCompactDTO objects.
-	 */
-	@Override
-	public List<MeetingCompactDTO> getMeetingsByRoomIDAndDate(final Long roomId, final LocalDate date) {
-		return meetingDao.getMeetingsByRoomIdAndDate(roomId, date).stream()
-				.map(e -> meetingCompactDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
+    /**
+     * Method that's used to get all meetings in specified interval for
+     * specified group.
+     * 
+     * @author Andriy Zhydenko
+     * 
+     * @param groupId
+     *            id of a group to find
+     * @param start
+     *            start date of meetings
+     * @param end
+     *            end date of meetings
+     * @return list of meetings that will be held for specified group in
+     *         specified time limits
+     */
+    @Override
+    public List<MeetingForCalendarDTO> getMeetingsInIntervalByGroupId(
+            final Long groupId, final String start, final String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        return meetingDao
+                .getMeetingsInIntervalByGroupId(groupId, startDate, endDate)
+                .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
 
-	/**
-	 * During creation checks which status can be given to the meeting depends
-	 * on room availability.
-	 *
-	 * @author Petro Zelyonka
-	 *
-	 * @param meetingDTO
-	 *            given meeting DTO
-	 *
-	 * @return correct MeetingStatus
-	 * 
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public MeetingStatus getMeetingStatusDuringCreation(final MeetingDTO meetingDTO) {
-		if (meetingDao.getApprovedMeetingsByRoomIdAndTime(meetingDTO.getRoom().getId(), meetingDTO.getDate(),
-				meetingDTO.getStartTime(), meetingDTO.getEndTime()).isEmpty()) {
-			return MeetingStatus.APPROVED;
-		}
-		return MeetingStatus.NOT_APPROVED;
-	}
+    /**
+     * Find all meetings in the DB by given date interval and roomId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     *
+     * @param start
+     *            start date for find meetings
+     * 
+     * @param end
+     *            end date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
+     */
+    @Override
+    public List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(
+            final Long roomId, final String start, final String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        return meetingDao
+                .getMeetingsInIntervalByRoomId(roomId, startDate, endDate)
+                .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
 
-	// not used at that time. delete before final build
-	@Override
-	public List<MeetingForCalendarDTO> getMeetingsInInterval(String start, String end) {
-		LocalDate startDate = LocalDate.parse(start);
-		LocalDate endDate = LocalDate.parse(end);
-		return meetingDao.getMeetingsInInterval(startDate, endDate).stream()
-				.map(e -> meetingForCalendarDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
+    /**
+     * Find all meetings in the DB by given date interval and subjectId.
+     *
+     * @author Volodymyr Pedko
+     *
+     * @param subjectId
+     *            subject id for find meetings
+     *
+     * @param start
+     *            start date for find meetings
+     * 
+     * @param end
+     *            end date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
+     */
+    @Override
+    public List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(
+            Long subjectId, String start, String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        return meetingDao
+                .getMeetingsInIntervalBySubjectId(subjectId, startDate, endDate)
+                .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
 
-	@Override
-	public List<MeetingForCalendarDTO> getMeetingsInIntervalByGroupId(Long groupId, String start, String end) {
-		LocalDate startDate = LocalDate.parse(start);
-		LocalDate endDate = LocalDate.parse(end);
-		return meetingDao.getMeetingsInIntervalByGroupId(groupId, startDate, endDate).stream()
-				.map(e -> meetingForCalendarDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
-
-	@Override
-	public List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(Long roomId, String start, String end) {
-		LocalDate startDate = LocalDate.parse(start);
-		LocalDate endDate = LocalDate.parse(end);
-		return meetingDao.getMeetingsInIntervalByRoomId(roomId, startDate, endDate).stream()
-				.map(e -> meetingForCalendarDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
-
-	@Override
-	public List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(Long subjectId, String start, String end) {
-		LocalDate startDate = LocalDate.parse(start);
-		LocalDate endDate = LocalDate.parse(end);
-		return meetingDao.getMeetingsInIntervalBySubjectId(subjectId, startDate, endDate).stream()
-				.map(e -> meetingForCalendarDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
-
-	@Override
-	public List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(String userId, String start, String end) {
-		LocalDate startDate = LocalDate.parse(start);
-		LocalDate endDate = LocalDate.parse(end);
-		Long id = Long.parseLong(userId);
-		return meetingDao.getMeetingsInIntervalByUserId(id, startDate, endDate).stream()
-				.map(e -> meetingForCalendarDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
-
-	@Override
-	public List<MeetingForCalendarDTO> getMeetingsInIntervalByAnyUserId(String userId, String start, String end) {
-		LocalDate startDate = LocalDate.parse(start);
-		LocalDate endDate = LocalDate.parse(end);
-		Long id = Long.parseLong(userId);
-		return meetingDao.getMeetingsInIntervalByUserId(id, startDate, endDate).stream()
-				.map(e -> meetingForCalendarDTOConverter.getDTO(e)).collect(Collectors.toList());
-	}
+    /**
+     * Find all meetings in the DB by given date interval and userId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param userId
+     *            user id for find meetings
+     *
+     * @param start
+     *            end date for find meetings
+     * 
+     * @param end
+     *            start date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
+     */
+    @Override
+    public List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(
+            String userId, String start, String end) {
+        LocalDate startDate = LocalDate.parse(start);
+        LocalDate endDate = LocalDate.parse(end);
+        Long id = Long.parseLong(userId);
+        return meetingDao.getMeetingsInIntervalByUserId(id, startDate, endDate)
+                .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
 }

@@ -1,17 +1,36 @@
+/* MeetingForCalendarDTO 1.0 02/04/2017 */
 package com.softserve.edu.schedule.dto;
 
 public class MeetingForCalendarDTO {
 
+    /**
+     * Id of meeting in calendar.
+     */
     private String id;
 
+    /**
+     * Title of meeting in calendar.
+     */
     private String title;
 
+    /**
+     * Start time of meeting in calendar.
+     */
     private String start;
 
+    /**
+     * End time of meeting in calendar.
+     */
     private String end;
 
+    /**
+     * URL of meeting in calendar.
+     */
     private String url;
 
+    /**
+     * Color of meeting in calendar.
+     */
     private String color;
 
     /**
