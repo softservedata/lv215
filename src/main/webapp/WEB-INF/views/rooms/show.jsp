@@ -5,44 +5,42 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-md-1">
-			<br>
-			<button class="btn btn-default" onclick="window.history.back()">
-				<spring:message code="lbl.form.back" />
-			</button>
+		<div class="button-back-container">
+			<h3>
+				<a class="align-left" href="#" onclick="window.history.back()"
+					title="<spring:message code="lbl.form.back" />">
+					<i class="fa fa-arrow-left fa-lg"></i>
+				</a>
+			</h3>
 		</div>
-		<div class="col-md-11">
-			<h1 class="text-center">
-				<spring:message code="lbl.room.roomDetails" />
-			</h1>
+		<div class="col-lg-1 col-lg-offset-9 col-md-1 col-sm-1 col-xs-1 panel-exit zero-margin-top">
+			<h3>
+				<a class="align-right" href="${pageContext.request.contextPath}/rooms"
+					title="<spring:message code="lbl.room.title" />">
+					<i class="fa fa-table fa-lg"></i>
+				</a>
+			</h3>
 		</div>
 	</div>
-	<div class="row panel panel-default">
-		<div class="col-md-3">
+	<div class="row">
+		<div class="col-lg-4 col-lg-offset-1 col-md-5 col-sm-6 panel panel-default zero-margin-top">
+			<h3 class="text-center">
+				<spring:message code="lbl.room.roomDetails" />
+			</h3>
 			<h4>
 				<spring:message code="lbl.room.roomName" />
-				:
+				: ${room.name}
 			</h4>
-			<p>${room.name}</p>
-		</div>
-		<div class="col-md-3">
 			<h4>
-				<spring:message code="lbl.room.location" />
-				:
+				<a href="${pageContext.request.contextPath}/locations/map/${room.location.id}">
+					<spring:message code="lbl.room.location" />
+					: ${room.location.name}
+				</a>
 			</h4>
-			<p>
-				<b>${room.location.name}</b>
-			</p>
-			<p>${room.location.address}</p>
-		</div>
-		<div class="col-md-3">
 			<h4>
 				<spring:message code="lbl.room.roomCapacity" />
-				:
+				: ${room.capacity}
 			</h4>
-			<p>${room.capacity}</p>
-		</div>
-		<div class="col-md-3">
 			<h4>
 				<spring:message code="lbl.room.roomEquipments" />
 				:
@@ -53,13 +51,9 @@
 				</c:forEach>
 			</ul>
 		</div>
-	</div>
-	<div class="row">
-		<h1 class="text-center">
-			<spring:message code="lbl.room.plannedMeetings" />
-		</h1>
-		<div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2"
-			id='calendar'></div>
+		<div class="col-lg-6 col-md-7 col-sm-6 panel-map zero-margin-top">
+			<div id='calendar'></div>
+		</div>
 	</div>
 </div>
 

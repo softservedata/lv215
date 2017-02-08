@@ -9,6 +9,8 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import javax.persistence.OneToMany;
 
 import com.softserve.edu.schedule.entitylisteners.LocationEntityListner;
@@ -24,6 +26,7 @@ import com.softserve.edu.schedule.entitylisteners.LocationEntityListner;
  */
 @Entity
 @EntityListeners(LocationEntityListner.class)
+@Table(indexes = {@Index(columnList = "name"), @Index(columnList = "address")})
 public class Location {
 
     /**

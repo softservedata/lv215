@@ -10,11 +10,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.softserve.edu.schedule.entitylisteners.RoomEntityListener;
 
@@ -29,6 +31,7 @@ import com.softserve.edu.schedule.entitylisteners.RoomEntityListener;
  */
 @Entity
 @EntityListeners(RoomEntityListener.class)
+@Table(indexes = {@Index(columnList = "name")})
 public class Room {
 
     /**

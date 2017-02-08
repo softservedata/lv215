@@ -107,9 +107,9 @@ table>tbody>tr>.v-alighn {
 }
 
 #geo-error {
-	position: fixed; 
-	top: 55px; 
-	width: 90%; 
+	position: fixed;
+	top: 55px;
+	width: 90%;
 }
 
 textarea {
@@ -174,7 +174,18 @@ textarea {
 	margin-top: 20px;
 }
 
+
 .chosen-category-row {
 	margin-top: 20px;
+}
+
+
+.button-back-container {
+	padding-left: 160px;
+	float: left;
+}
+
+.zero-margin-top {
+	margin-top: 0;
 }
 
