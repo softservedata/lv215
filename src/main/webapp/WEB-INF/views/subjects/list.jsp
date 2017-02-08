@@ -66,7 +66,7 @@
 			</th>
 			<th></th>
 			<th class="text-center v-alighn">
-				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
 					<a href="${pageContext.request.contextPath}${SubjectController.SUBJECT_CREATE_MAPPING}"
 						title="<spring:message code="lbl.subject.add"/>">
 						<i class="fa fa-plus fa-lg"></i>
@@ -90,14 +90,15 @@
 				</td>
 				<td>
 					<form:select class="form-control" path="${SubjectController.SUBJECT_PATH_USER_ID}">
-						<option value="0"></option>
+					<spring:message code="lbl.subject.selectTutor" var="tutor" />
+						<option value="0">${tutor}</option>
 						<c:forEach items="${users}" var="user">
 							<c:choose>
 								<c:when test="${subjectFilter.userId eq user.id}">
-									<option value="${user.id}" selected="selected">${user.firstName}${user.lastName}</option>
+									<option value="${user.id}" selected="selected">${user.firstName} ${user.lastName}</option>
 								</c:when>
 								<c:otherwise>
-									<option value="${user.id}">${user.firstName}${user.lastName}</option>
+									<option value="${user.id}">${user.firstName} ${user.lastName}</option>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -125,11 +126,11 @@
 				<td>${subject.description}</td>
 				<td>
 					<c:forEach items="${subject.users}" var="user">
-						<p>${user.firstName}${user.lastName}</p>
+						<p>${user.firstName} ${user.lastName}</p>
 					</c:forEach>
 				</td>
 				<td class="text-center v-alighn">
-					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
 						<a
 							data-href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DELETE_MAPPING}${subject.id}"
 							title="<spring:message code="lbl.subject.delete"/>"
@@ -139,7 +140,7 @@
 					</sec:authorize>
 				</td>
 				<td class="text-center v-alighn">
-					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
 						<a
 							href="${pageContext.request.contextPath}${SubjectController.SUBJECT_EDIT_MAPPING}${subject.id}"
 							title="<spring:message code="lbl.subject.edit"/>">
