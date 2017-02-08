@@ -57,10 +57,6 @@ public class GlobalExceptionController implements ControllerConst {
     public String showErrorPage(final Model model, final Exception ex) {
         log.error(ex.getMessage(), ex);
         model.addAttribute(EXCEPTION_MODEL_ATTR, ex);
-        System.out.println(ex.getClass());
-        System.out.println(ex.getMessage());
-        System.out.println(ex.getCause());
-        System.out.println(ex.toString());
         return ERROR_PAGE_URL;
     }
 
