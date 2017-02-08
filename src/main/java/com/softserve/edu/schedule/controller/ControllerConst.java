@@ -228,15 +228,15 @@ public interface ControllerConst {
         String FILTER_MODEL_ATTR = "userFilter";
 
         String USER_PAGINATOR_MODEL_ATTR = "userPaginator";
-        
+
         String USER_DETAILS_MAPPING = "/userDetails";
-        
+
         String USER_DETAILS_URL = "/userDetails";
-        
+
         String REDIRECT_USER_DETAILS_URL = "redirect:/userDetails";
-        
+
         String USER_MEETINGS_MAPPING = "showMeetings";
-        
+
         String USER_MEETINGS_URL = "/showMeetings";
     }
 
@@ -357,7 +357,7 @@ public interface ControllerConst {
          * Subjects model attribute name.
          */
         String SUBJECTS_MODEL_ATTR = "subjects";
-        
+
         /**
          * Subject model attribute name.
          */
@@ -387,7 +387,7 @@ public interface ControllerConst {
          * Edit subject information URL.
          */
         String SUBJECTS_EDIT_URL = "subjects/edit";
-        
+
         /**
          * Show subject information URL.
          */
@@ -402,7 +402,7 @@ public interface ControllerConst {
          * Subjects mapping URL.
          */
         String SUBJECTS_MAPPING_SHOW = "/subjects/";
-        
+
         /**
          * Delete subject mapping URL name.
          */
@@ -567,6 +567,27 @@ public interface ControllerConst {
          * Group members attribute.
          */
         String USERGROUP_GROUP_MEMBERS = "groupMembers";
+
+        /**
+         * Minimum description length
+         */
+        int MIN_GROUP_DESCRIPTION_LENGTH = 15;
+
+        /**
+         * Maximum description length
+         */
+        int MAX_GROUP_DESCRIPTION_LENGTH = 100;
+
+        /**
+         * Minimum group name length
+         */
+        int MIN_GROUP_NAME_LENGTH = 5;
+
+        /**
+         * Maximum group name length
+         */
+        int MAX_GROUP_NAME_LENGTH = 20;
+
     }
 
     public interface RoomEquipmentControllerConst {
@@ -596,5 +617,131 @@ public interface ControllerConst {
         String ROOM_EQUIPMENTS_SORT_ASC = "/sortbynameasc";
 
         String ROOM_EQUIPMENTS_SORT_DESC = "/sortbynamedesc";
+    }
+
+    public interface MeetingControllerConst {
+
+        /**
+         * Meetings section URL name.
+         */
+        String MEETINGS_URL = "/meetings";
+
+        /**
+         * Filter attribute for meetings
+         */
+        String FILTER_MODEL_ATTR = "meetingFilter";
+
+        /**
+         * Meeting model attribute name.
+         */
+        String MEETING_MODEL_ATTR = "meetingForm";
+
+        /**
+         * Paginator model attribute name.
+         */
+        String MEETING_PAGINATOR_MODEL_ATTR = "meetingPaginator";
+
+        /**
+         * Meetings model attribute name.
+         */
+        String MEETINGS_MODEL_ATTR = "meetings";
+
+        /**
+         * Users model attribute name.
+         */
+        String USERS_MODEL_ATTR = "users";
+
+        /**
+         * Owners model attribute name.
+         */
+        String OWNERS_MODEL_ATTR = "owners";
+
+        /**
+         * Subjects model attribute name.
+         */
+        String SUBJECTS_MODEL_ATTR = "subjects";
+
+        /**
+         * Rooms model attribute name.
+         */
+        String ROOMS_MODEL_ATTR = "rooms";
+
+        /**
+         * Groups model attribute name.
+         */
+        String GROUPS_MODEL_ATTR = "groups";
+
+        /**
+         * UserGroups model attribute name.
+         */
+        String USERGROUPS_MODEL_ATTR = "userGroups";
+
+        /**
+         * MeetingStatuses model attribute name.
+         */
+        String MEETINGSTATUSES_MODEL_ATTR = "meetingStatuses";
+
+        /**
+         * Meetings create mapping name.
+         */
+        String MEETING_CREATE_MAPPING = "/create";
+
+        /**
+         * Meeting delete mapping name.
+         */
+        String MEETING_DELETE_MAPPING = "/delete/{id}";
+
+        /**
+         * Meeting create url name.
+         */
+        String MEETING_CREATE_URL = "meetings/create";
+
+        /**
+         * Meeting edit url name.
+         */
+        String MEETING_EDIT_URL = "meetings/edit";
+
+        /**
+         * Meeting edit mapping name.
+         */
+        String MEETING_EDIT_MAPPING = "/edit/{id}";
+
+        /**
+         * Meeting redirect url name.
+         */
+        String MEETING_REDIRECT_URL = "redirect:/meetings";
+
+        /**
+         * Meeting list url name.
+         */
+        String MEETING_LIST_URL = "meetings/list";
+
+        /**
+         * Id path.
+         */
+        String ID_URL = "id";
+
+        /**
+         * Meetings Id path.
+         */
+        String MEETINGID_URL = "/{id}";
+
+        /**
+         * Meeting showmeeting mapping name.
+         */
+        String MEETING_SHOWMEETING_MAPPING = "meetings/showmeeting";
+        /**
+         * User profile mapping name.
+         */
+        String PROFILE_MAPPING = "profile";
+        
+        /** usergroups model attribute name.
+        */
+       String USERGROUPS_MAPPING = "usergroups";
+       
+       /** meeting delete url  name.
+        */
+       String DELETE_MAPPING = "meetings/delete";
+       
     }
 }

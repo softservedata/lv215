@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.UserGroupController"%>
 
 <script type="text/javascript">
 	$(function() {
@@ -13,6 +15,33 @@
 			width : "100%"
 		});
 	})
+
+	function validateForm() {
+		document.getElementById("nameErrorMsg").innerHTML = "";
+		document.getElementById("descriptionErrorMsg").innerHTML = "";
+
+		var isValid = true;
+		
+		var description = document.getElementById("description");
+		var name = document.getElementById("name");
+		
+		if(name.value.length < "${UserGroupController.MIN_GROUP_NAME_LENGTH}") {
+			document.getElementById("nameErrorMsg").innerHTML = '<spring:message code="lbl.group.shortName"/>';
+			isValid = false;
+		}
+		if(name.value.length > "${UserGroupController.MAX_GROUP_NAME_LENGTH}") {
+			document.getElementById("nameErrorMsg").innerHTML = '<spring:message code="lbl.group.longName"/>';
+			isValid = false;
+		}
+		if (description.value.length < "${UserGroupController.MIN_GROUP_DESCRIPTION_LENGTH}") {
+			document.getElementById("descriptionErrorMsg").innerHTML = '<spring:message code="lbl.group.shortDescription"/>';
+			isValid = false;
+		} else if (description.value.length > "${UserGroupController.MAX_GROUP_DESCRIPTION_LENGTH}") {
+			document.getElementById("descriptionErrorMsg").innerHTML = '<spring:message code="lbl.group.longDescription"/>';
+			isValid = false;
+		}
+		return isValid;
+	}
 </script>
 <div class="container">
 	<div class="row">
@@ -22,22 +51,25 @@
 			<h3 class="text-center">
 				<spring:message code="lbl.group.edit" />
 			</h3>
-			<form:form method="post" modelAttribute="userGroupForm">
+			<form:form method="post" modelAttribute="userGroupForm"
+				onsubmit="return validateForm(this);">
 				<form:hidden path="id" />
 
-				<spring:message code="lbl.group.title" var="title"/>
+				<spring:message code="lbl.group.title" var="title" />
 				<div class="form-group">
 					<label for="Title">${title}</label>
-					<form:input path="name" class="form-control" placeholder="${title}" />
+					<form:input path="name" class="form-control" placeholder="${title}" id="name"/>
 					<form:errors path="name" class="text-danger" />
+					<p class="text-danger" id="nameErrorMsg"></p>
 				</div>
 
-				<spring:message code="lbl.group.description" var="description"/>
+				<spring:message code="lbl.group.description" var="description" />
 				<div class="form-group">
 					<label for="description">${description}</label>
 					<form:input path="description" class="form-control"
-						placeholder="${description}" />
+						placeholder="${description}" id="description"/>
 					<form:errors path="description" class="text-danger" />
+					<p class="text-danger" id="descriptionErrorMsg"></p>
 				</div>
 
 

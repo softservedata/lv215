@@ -178,10 +178,10 @@ $('#paginationList').twbsPagination({
     totalPages: ${usergroupPaginator.pagesCount + 1},
     startPage: ${usergroupPaginator.pageNumber + 1},
     visiblePages: 10,
-    first: '&lt;&lt;&lt;&lt;',
-    last: '&gt;&gt;&gt;&gt;',
-    prev: '&lt;&lt;',
-    next: '&gt;&gt;',
+    first: '<spring:message code="lbl.pager.first"/>',
+    last: '<spring:message code="lbl.pager.last"/>',
+    prev: '<spring:message code="lbl.pager.previous"/>',
+    next: '<spring:message code="lbl.pager.next"/>',
     initiateStartPageClick: false,        
     onPageClick: function (event, page) {
     	window.location = "usergroups?pageNumber=" + (page-1);        	

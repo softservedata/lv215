@@ -5,7 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-
+<%@ page
+	import="com.softserve.edu.schedule.controller.MeetingController"%>
 <script type="text/javascript">
 	$(function() {
 		$("select[name=subject]").chosen({
@@ -32,7 +33,7 @@
 			<h3 class="text-center">
 				<spring:message code="lbl.meeting.create" />
 			</h3>
-			<form:form role="form" method="post" modelAttribute="meetingForm"
+			<form:form role="form" method="post" modelAttribute="${MeetingController.MEETING_MODEL_ATTR}"
 				onsubmit="return isValidForm()">
 				<form:input path="id" type="hidden" />
 
@@ -157,9 +158,9 @@
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
 						value="<spring:message code="lbl.form.save"/>"> <a
-						class="btn btn-default" href="/schedule/meetings/create"><spring:message
+						class="btn btn-default" href=""${pageContext.request.contextPath}${MeetingController.MEETING_CREATE_URL}"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
-						href="${pageContext.request.contextPath}/meetings"><spring:message
+						href="${pageContext.request.contextPath}/${MeetingController.MEETINGS_MODEL_ATTR}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
 
