@@ -43,7 +43,7 @@
 											nowIndicator : true,
 											navLinks : true,
 											events : {
-												url : '${pageContext.request.contextPath}/meetings/restByAnyUser',
+												url : '${pageContext.request.contextPath}/meetings/restByUser',
 												type : 'GET',
 												data : {
 													userId : '${user.id}'
