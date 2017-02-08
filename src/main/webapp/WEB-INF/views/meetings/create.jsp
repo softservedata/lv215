@@ -12,9 +12,9 @@
 		$("select[name=subject]").chosen({
 			width : "100%"
 		});
-		$("select[name=owner]").chosen({
+		 $("select[name=owner]").chosen({
 			width : "100%"
-		});
+		}); 
 		$("select[name=room]").chosen({
 			width : "100%"
 		});
@@ -66,7 +66,7 @@
 								code="lbl.meeting.owner" /></label>
 						<sec:authentication property="principal.id" var="principarid" />
 
-						<form:select class="form-control" path="owner" id="owner">
+						<form:select class="form-control" path="owner" id="owner" readonly="true">
 							<c:forEach items="${owners}" var="owner">
 								<c:choose>
 									<c:when test="${owner.id eq principarid}">

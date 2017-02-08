@@ -1,5 +1,6 @@
 package com.softserve.edu.schedule.service.implementation.mailsenders;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
+import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 
@@ -25,10 +27,10 @@ import com.softserve.edu.schedule.entity.UserGroup;
  *
  * @version 1.0 04 February 2017
  *
- * @author Andrii Zhydenko
+ * @author Bohdan Melnyk
  */
 @Component
-public class UserGroupDeletedMailService implements MailConstants {
+public class DeleteMeetingMailService implements MailConstants {
 
     /**
      * JavaMailSender example to provide mail sending.
@@ -64,28 +66,52 @@ public class UserGroupDeletedMailService implements MailConstants {
      *            current locale.
      */
     @Async
-    public void sendInfoMessageGroupDelete(final UserGroup userGroup,
+    public void sendInfoMessageAboutMeetingDeletetion(final Meeting meeting,
             final Locale locale) {
+        
+        System.out.println("Starts mail sender");
+        
         Context ctx = new Context(locale);
-        ctx.setVariable(USERGROUP_MODEL_NAME, userGroup);
+        ctx.setVariable(MEETING_MODEL_NAME, meeting);
 
-        List<User> groupMembers = userGroup.getUsers();
+        List<User> curators = new ArrayList<User>();
+        User owner = meeting.getOwner();
+        curators.add(owner);
+        
+        for (UserGroup userGroup : meeting.getGroups()) {
+            User userTemp = userGroup.getCurator();
+            if (userTemp != owner) {
+                curators.add(userGroup.getCurator());
+            }
+        }
 
-        for (User member : groupMembers) {
-            ctx.setVariable(USERGROUP_USER, member);
+        for (User member : curators) {
+            ctx.setVariable(MEETING_GROUP_CURATOR, member);
 
+            
             try {
+                
+                System.out.println("In try block");
+                
+                
                 MimeMessage mimeMessage = this.mailSender.createMimeMessage();
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage,
                         true, DEFAULT_MESSAGE_ENCODING);
+                
+                System.out.println("Before sending");
+                
                 message.setTo(member.getMail());
                 message.setFrom(new InternetAddress(fromAddress));
                 message.setSubject(messageSource.getMessage(
-                        USERGROUP_DELETED_MESSAGE, new String[0], locale));
+                        MEETING_DELETED_MESSAGE, new String[0], locale));
+                
                 String htmlContent = this.templateEngine
-                        .process(USERFROUP_DELETED_TEMPLATE, ctx);
+                        .process(MEETING_DELETED_TEMPLATE, ctx);
                 message.setText(htmlContent, true);
                 this.mailSender.send(mimeMessage);
+                
+                System.out.println("After sending");
+                
             } catch (MessagingException e) {
                 e.printStackTrace();
             }
