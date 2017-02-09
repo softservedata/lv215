@@ -93,7 +93,7 @@ public class RoomValidator implements ConstraintValidator<Validate, RoomDTO> {
      * @return true if name is valid
      */
     private boolean isNameValid(final RoomDTO roomDTO) {
-        return roomDTO.getName()
+        return roomDTO.getName().trim()
                 .matches(ValidationCriteria.PATTERN_FOR_ROOM_NAME);
     }
 
@@ -107,7 +107,7 @@ public class RoomValidator implements ConstraintValidator<Validate, RoomDTO> {
      * @return true if capacity is valid
      */
     private boolean isCapacityValid(final RoomDTO roomDTO) {
-        return roomDTO.getCapacity() > 0
+        return roomDTO.getCapacity() != null && roomDTO.getCapacity() > 0
                 && roomDTO.getCapacity() < ValidationCriteria.MAX_ROOM_CAPACITY;
     }
 
