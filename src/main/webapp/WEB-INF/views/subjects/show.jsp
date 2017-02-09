@@ -7,9 +7,16 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <div class="container">
-	<div class="row ">
-		<div class="col-lg-1 col-lg-offset-10 col-md-1 col-sm-1 col-xs-1 panel-exit"
-			style="margin-top: 0;">
+	<div class="row " style="padding-left: 160px;">
+		<div style="float: left;">
+			<h3>
+				<a class="align-left" href="#" onclick="window.history.back()"
+					title="<spring:message code="lbl.form.back" />">
+					<i class="fa fa-arrow-left fa-lg"></i>
+				</a>
+			</h3>
+		</div>
+		<div class="col-lg-1 col-lg-offset-9 col-md-1 col-sm-1 col-xs-1 panel-exit" style="margin-top: 0;">
 			<h3>
 				<a class="align-right"
 					href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}"
@@ -90,14 +97,6 @@
 													subjectId : '${subject.id}'
 												}
 											}
-
 										})
-
 					});
 </script>
-
-
-
-
-
-
