@@ -92,13 +92,7 @@
 	</div>
 </div>
 
-<script type="text/javascript">
-	$(function() {
-		$("select[name=location]").chosen({
-			width : "100%"
-		});
-		$("select[name=equipments]").chosen({
-			width : "100%"
-		});
-	})
+<spring:url value="/resources/js/rooms/create.js" var="roomsCreateJS" />
+<script type="text/javascript" src="${roomsCreateJS}">
+	
 </script>

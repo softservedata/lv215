@@ -57,27 +57,10 @@
 	</div>
 </div>
 
-<script>
-	$(document).ready(function() {
-		$('#calendar').fullCalendar({
-			defaultView : 'agendaWeek',
-			locale : '<spring:message code="label.localeCalendar"/>',
-			header : {
-				left : 'prev,next,today',
-				center : 'title',
-				right : 'month,agendaWeek,agendaDay,listWeek'
-			},
-			nowIndicator : true,
-			navLinks : true,
-			events : {
-				url : '${pageContext.request.contextPath}/meetings/restByRoom',
-				type : 'GET',
-				data : {
-					roomId : '${room.id}'
-				}
-			}
-
-		})
-
-	});
+<span id="roomsRestURL" hidden="true">${pageContext.request.contextPath}/meetings/restByRoom</span>
+<span id="roomId" hidden="true">${room.id}</span>
+<span id="language" hidden="true"><spring:message code="label.localeCalendar" /></span>
+<spring:url value="/resources/js/rooms/show.js" var="roomsShowJS" />
+<script type="text/javascript" src="${roomsShowJS}">
+	
 </script>
