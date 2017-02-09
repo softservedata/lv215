@@ -47,6 +47,15 @@ public class UserController implements ControllerConst.UserControllerConst,
     @Autowired
     private UserService userService;
 
+    @ModelAttribute(FILTER_MODEL_ATTR)
+    public UserFilter getFilter() {
+        return new UserFilter();
+    }
+
+    @ModelAttribute(USER_PAGINATOR_MODEL_ATTR)
+    public Paginator getPaginator() {
+        return new Paginator();
+    }
     /**
      * Controls processing of user delete URL.
      *
@@ -235,16 +244,6 @@ public class UserController implements ControllerConst.UserControllerConst,
         }
         userService.changePassword(user);
         return REDIRECT_USERS_PAGE;
-    }
-
-    @ModelAttribute(FILTER_MODEL_ATTR)
-    public UserFilter getFilter() {
-        return new UserFilter();
-    }
-
-    @ModelAttribute(USER_PAGINATOR_MODEL_ATTR)
-    public Paginator getPaginator() {
-        return new Paginator();
     }
 
     @RequestMapping(USERS_MAPPING_FROM_HEADER)

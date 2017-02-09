@@ -39,16 +39,14 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
 		delete(getById(id));
 	}
 
-	/**
-	 * Find all meetings in the DB by given date and roomId.
-	 *
-	 * @author Petro Zelyonka
-	 *
-	 * @param userMail
-	 *            user mail to find user in database
-	 *
-	 * @return User object with given mail or null if not finded.
-	 */
+    /**
+     * Find user in the DB by given mail.
+     *
+     * @param userMail
+     *            user mail to find user in database
+     *
+     * @return User object with given mail or null if not finded.
+     */
 	@Override
 	public User findByMail(final String userMail) {
 		try {
@@ -62,6 +60,14 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
 		}
 	}
 
+    /**
+     * Find all user entities in the database with applied filter
+     * 
+     * @param userFilter
+     *            a filter to apply.
+     * 
+     * @return List of the user objects.
+     */
     @Override
     public List<User> getUsersPageWithFilter(UserFilter userFilter,
             Paginator userPaginator) {
@@ -78,9 +84,9 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
                 .setFirstResult(userPaginator.getOffset())
                 .setMaxResults(userPaginator.getPageSize()).getResultList();
     }
-
+    
     /**
-     * Count users entities in the database with specified predicate.
+     * Count user entities in the database with specified filter
      *
      * @param userFilter
      *            a filter to apply.
@@ -102,10 +108,10 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
         return getEm().createQuery(cq).getSingleResult();
     }
     
-    /*
-     * (non-Javadoc)
+    /**
+     * Method returns lists of users which have role - moderator
      * 
-     * @see com.softserve.edu.schedule.dao.UserDAO#getModerators()
+     * @return lists of users which have role - moderator
      */
     @Override
     public List<User> getModerators() {

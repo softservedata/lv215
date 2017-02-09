@@ -17,9 +17,7 @@ public interface UserDAO extends CrudDAO<User> {
     void deleteById(Long id);
 
     /**
-     * Find all meetings in the DB by given date and roomId.
-     *
-     * @author Petro Zelyonka
+     * Find user in the DB by given mail.
      *
      * @param userMail
      *            user mail to find user in database
@@ -28,9 +26,26 @@ public interface UserDAO extends CrudDAO<User> {
      */
     User findByMail(String userMail);
 
+    /**
+     * Find all user entities in the database with applied filter
+     * 
+     * @param userFilter
+     *            a filter to apply.
+     * 
+     * @return List of the user objects.
+     */
     List<User> getUsersPageWithFilter(UserFilter userFilter,
             Paginator userPaginator);
     
+    /**
+     * Count user entities in the database with specified filter
+     *
+     * @param userFilter
+     *            a filter to apply.
+     *
+     * @return Count of the user entities in the database with specified
+     *         predicate.
+     */
     Long getCountOfUsersWithFilter(final UserFilter userFilter);
     
     /**

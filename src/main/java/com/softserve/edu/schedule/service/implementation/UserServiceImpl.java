@@ -15,11 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
-import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.User;
@@ -29,7 +27,6 @@ import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForChangePasswordConverter;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSubjectDTOConverter;
 
 /**
  * An interface to provide service operations with User entity.
@@ -50,22 +47,29 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
 
+    /**
+     * UserDAOConverter example to provide conversion.
+     */
     @Autowired
     private UserDTOConverter userDTOConverter;
 
+    /**
+     * UserDAOForChangePassword example to provide conversion.
+     */
     @Autowired
     private UserDTOForChangePasswordConverter userDTOForPasswordConverter;
+    
 
-    @Autowired
-    private UserForSubjectDTOConverter userForSubjectDTOConverter;
-
+    /**
+     * BCryptPasswordEncoder example to provide encoder for password.
+     */
     @Autowired
     private BCryptPasswordEncoder encoder;
 
     /**
      * Save new user entity into the database.
      *
-     * @param user
+     * @param userDTO
      *            a userDTO for to storage new user in database.
      */
     @Override
@@ -120,6 +124,7 @@ public class UserServiceImpl implements UserService {
     public void update(final UserDTO userDTO) {
         User user = userDTOConverter.getEntity(userDTO);
         user.setPassword(userDTO.getPassword());
+        user.setPathImage(userDAO.getById(user.getId()).getPathImage());
         user.setStatus(userDAO.getById(user.getId()).getStatus());
         user.setRole(userDAO.getById(user.getId()).getRole());
         user.setSubjects(userDAO.getById(user.getId()).getSubjects());
@@ -140,78 +145,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Get all users.
-     *
-     * @return List of the userDTO objects for SubjectDTO.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserForSubjectDTO> getAllForSubject() {
-        return userDAO.getAll().stream()
-                .map(u -> userForSubjectDTOConverter.getDTO(u))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Get all users by last name what was selected.
-     *
-     * @param position
-     *            a value of name field in database.
-     *
-     * @return List of the userDTO objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserDTO> searchByLastName(final String pattern) {
-        return userDAO.search(User_.lastName.getName(), pattern).stream()
-                .map(e -> userDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Get all users by position what was selected.
-     *
-     * @param position
-     *            a value of position field in database.
-     *
-     * @return List of the userDTO objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserDTO> searchByPosition(final String pattern) {
-        return userDAO.search(User_.position.getName(), pattern).stream()
-                .map(e -> userDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Sort all users by last name.
-     *
-     * @return List of the userDTO objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserDTO> sortByLastName(final Order order) {
-        return userDAO.sort(User_.lastName.getName(), order).stream()
-                .map(e -> userDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Sort all users by last name.
-     *
-     * @return List of the userDTO objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserDTO> sortByPosition(final Order order) {
-        return userDAO.sort(User_.position.getName(), order).stream()
-                .map(e -> userDTOConverter.getDTO(e))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Return a User object if found.
+     * Return a UserDTO object if found.
      *
      * @param id
      *            of User transfer object
@@ -224,7 +158,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Delete existed transfer object from the database by id.
+     * Delete existed object from the database by id.
      *
      * @param id
      *            a user id to delete from database.
@@ -242,12 +176,12 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Find a user DTO in the database by mail.
+     * Find a userDTO in the database by mail.
      *
-     * @param userMail
+     * @param user mail
      *            a user mail to find in the database.
      * 
-     * @return a user DTO with given mail.
+     * @return list userDTO with given mail.
      */
     @Override
     @Transactional(readOnly = true)
@@ -260,39 +194,26 @@ public class UserServiceImpl implements UserService {
     /**
      * Change password of user in the database.
      *
-     * @param id
-     *            a user id to find in the database.
-     *
-     * @param password
-     *            a user password to verify if real owner of account want change
-     *            password.
-     * 
-     * @param firstNewPassword
-     *            a new password which user want save.
-     * 
-     * @param secondNewPassword
-     *            a new password which should be equal to firstNewPassword
-     *            field.
-     * 
-     * @return a user DTO with given mail.
+     * @param userDTO
+     *            a UserDTOForChangePassword example to change password in the database.
      */
     @Override
     @Transactional
     public void changePassword(UserDTOForChangePassword userDTO) {
-
         User user = userDTOForPasswordConverter.getEntity(userDTO);
         user.setPassword(encoder.encode(userDTO.getSecondNewPassword()));
+        user.setPathImage(userDAO.getById(user.getId()).getPathImage());
         user.setStatus(userDAO.getById(user.getId()).getStatus());
         user.setRole(userDAO.getById(user.getId()).getRole());
         userDAO.update(user);
     }
-
+    
     /**
-     * Return a User object if found.
+     * Return a UserDTOForChangePassword object if found.
      *
      * @param id
      *            of User transfer object
-     * @return User transfer object
+     * @return UserDTOForChangePassword transfer object
      */
     @Override
     @Transactional(readOnly = true)
@@ -301,6 +222,15 @@ public class UserServiceImpl implements UserService {
                 .getDTOForPassword(userDAO.getById(id));
     }
 
+    /**
+     * Find all user entities in the database with applied filter
+     * 
+     * @param userFilter
+     *            a filter to apply.
+     * @param userPaginator
+     *            the userPaginator to set
+     * @return List of the user DTO objects.
+     */
     @Override
     @Transactional(readOnly = true)
     public List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter,
@@ -332,7 +262,15 @@ public class UserServiceImpl implements UserService {
         }
         return userDTOConverter.getDTO(user);
     }
-
+    
+   /**
+    * Save image in database in the.
+    * 
+    * @param principal
+    *            a authorized userDTO.
+    * @param multipartFile
+    *            the picture.
+    */
     @Override
     @Transactional
     public void saveImage(Principal principal, MultipartFile multipartFile) {
@@ -370,5 +308,4 @@ public class UserServiceImpl implements UserService {
         }
         userDAO.update(user);
     }
-
 }

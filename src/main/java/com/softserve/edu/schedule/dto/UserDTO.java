@@ -209,9 +209,6 @@ public class UserDTO implements UserDetails {
         return getStatus().equals(UserStatus.ACTIVE);
     }
 
-    /**
-     * Check if users are equal by email(if it's the same person)
-     */
     @Override
     public boolean equals(Object o) {
 
@@ -224,11 +221,6 @@ public class UserDTO implements UserDetails {
         return Objects.equals(mail, user.mail);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         return Objects.hash(mail);
