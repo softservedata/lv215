@@ -4,6 +4,7 @@ $(function() {
 	});
 })
 $(document).ready(function() {
+	$(".chosen-category").val('0').trigger('chosen:updated');
 	$('#calendar').fullCalendar({
 		defaultView : 'agendaWeek',
 		locale : $("#language").text(),
