@@ -12,6 +12,7 @@ import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
+import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 
@@ -180,4 +181,10 @@ public interface UserService extends UserDetailsService {
     
     void saveImage(Principal principal, MultipartFile multipartFile);
 
+    /**
+     * Method returns lists of users which have status - active
+     * 
+     * @return lists of users which have status - active
+     */
+    List<UserDTO> getAllActiveUsers();
 }

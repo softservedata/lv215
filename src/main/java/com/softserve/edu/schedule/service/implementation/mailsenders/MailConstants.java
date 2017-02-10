@@ -69,6 +69,17 @@ public interface MailConstants {
 	String USERGROUP_USER = "groupUser";
 
 	/**
+     * Name of a meeting curator.
+     */
+    String MEETING_GROUP_CURATOR = "meetingCurator";
+	
+	
+	/**
+     * Name of a meeting owner.
+     */
+    String MEETING_OWNER = "owner";
+    
+	/**
 	 * Name of a group curator.
 	 */
 	String USERGROUP_CURATOR = "groupCurator";
@@ -78,11 +89,33 @@ public interface MailConstants {
 	 */
 	String USERGROUP_DELETED_MESSAGE = "groupDeleted.messageUserGroup";
 
+	   /**
+     * Meeting deleted message.
+     */
+    String MEETING_DELETED_MESSAGE = "meetingDeleted.messageMeetingOwnerAndCurators";
+
+    /**
+     * Meeting changed status (from APPROVED to DISAPPROVED or NOT_APPROVED) message.
+     */
+    String MEETING_CHANGEDSTATUS_MESSAGE = "meetingChangedStatus.messageToMeetingOwnerAndCurators";
+    
+	
 	/**
 	 * UserGroup deleted message template for EN locale.
 	 */
 	String USERFROUP_DELETED_TEMPLATE = "userGroupDeleted";
 	
+	   /**
+     * Meeting deleted message template for locale.
+     */
+    String MEETING_DELETED_TEMPLATE = "MeetingDelete";
+
+    /**
+     * Meeting changed status message template for locale.
+     */
+    String MEETING_CHANGESTATUS_TEMPLATE = "MeetingChangedStatusInfo";
+
+    
 	 /**
      * Location delete message subject.
      */
