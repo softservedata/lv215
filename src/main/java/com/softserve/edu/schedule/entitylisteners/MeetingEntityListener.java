@@ -35,13 +35,7 @@ public class MeetingEntityListener {
      */
     @Autowired
     private DeleteMeetingMailService deleteMeetingMailService;
-    
-    /**
-     * MeetingStatusChangeMailService example to provide send mail to user
-     * operations.
-     */
-    @Autowired
-    private MeetingChangeStatusMailService meetingChangeStatusMailService;
+
 
     /**
      * Send mail messages to owner of the meeting, to userGroup curator
@@ -56,13 +50,4 @@ public class MeetingEntityListener {
         deleteMeetingMailService.sendInfoMessageAboutMeetingDeletetion(meeting,
                 LocaleContextHolder.getLocale());
     }
-   /* @PrePersist
-    public void processingBeforeMeetingStatusChanging(final Meeting meeting) {
-        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-        meetingChangeStatusMailService.sendInfoMessageAboutMeetingStatusChanging(meeting,  LocaleContextHolder.getLocale());
-        
-    }*/
-    
-    
-    
 }

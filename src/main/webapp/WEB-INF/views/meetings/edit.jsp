@@ -181,7 +181,7 @@
 					<form:input class="form-control" path="description"
 						id="description" placeholder="${descPH}"
 						pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}"
-						title="Blah" />
+						/>
 					<form:errors path="description" class="text-danger" />
 				</div>
 

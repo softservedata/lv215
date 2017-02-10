@@ -130,6 +130,13 @@ public interface MeetingService {
      */
     void changeMeetingStatus(Long id, MeetingStatus meetingStatus);
 
+    /**
+     * Finds Dublicates meeting (converted to meetingDTO) from DB by the given
+     * meetingDTO
+     * 
+     * @param meetingDTO
+     * @return
+     */
     List<MeetingDTO> DublicatesOfGivenDTO(MeetingDTO meetingDTO);
 
     /**
@@ -221,4 +228,10 @@ public interface MeetingService {
     List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(Long subjectId,
             String start, String end);
 
+    /** Sends mail to MeetingOwner and UserGroupsCurators if the meeting 
+     * status was changed from APPROVED to DISAPPROVED or NOT_APPROVED.
+     * @param id
+     *          Id of changed meeting. We need it for confirmation.
+     */
+    void sendMailIfStatusChanged(final MeetingDTO meetingDTO);
 }

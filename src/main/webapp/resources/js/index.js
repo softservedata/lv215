@@ -4,6 +4,7 @@ $(function() {
 	});
 })
 $(document).ready(function() {
+	$('#calendar').fullCalendar('destroy');
 	$('#calendar').fullCalendar({
 		defaultView : 'agendaWeek',
 		locale : $("#language").text(),

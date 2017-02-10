@@ -74,7 +74,7 @@ public class MeetingChangeStatusMailService implements MailConstants {
         List<User> curators = new ArrayList<User>();
         User owner = meeting.getOwner();
         curators.add(owner);
-        
+
         for (UserGroup userGroup : meeting.getGroups()) {
             User userTemp = userGroup.getCurator();
             if (userTemp != owner) {
@@ -92,10 +92,10 @@ public class MeetingChangeStatusMailService implements MailConstants {
                 message.setTo(member.getMail());
                 message.setFrom(new InternetAddress(fromAddress));
                 message.setSubject(messageSource.getMessage(
-                        MEETING_DELETED_MESSAGE, new String[0], locale));
-                
+                        MEETING_CHANGEDSTATUS_MESSAGE, new String[0], locale));
+                System.out.println("HI THERE22!!!");
                 String htmlContent = this.templateEngine
-                        .process(MEETING_DELETED_TEMPLATE, ctx);
+                        .process(MEETING_CHANGESTATUS_TEMPLATE, ctx);
                 message.setText(htmlContent, true);
                 this.mailSender.send(mimeMessage);
             } catch (MessagingException e) {

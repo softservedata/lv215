@@ -94,6 +94,11 @@ public interface MailConstants {
      */
     String MEETING_DELETED_MESSAGE = "meetingDeleted.messageMeetingOwnerAndCurators";
 
+    /**
+     * Meeting changed status (from APPROVED to DISAPPROVED or NOT_APPROVED) message.
+     */
+    String MEETING_CHANGEDSTATUS_MESSAGE = "meetingChangedStatus.messageToMeetingOwnerAndCurators";
+    
 	
 	/**
 	 * UserGroup deleted message template for EN locale.
@@ -101,11 +106,16 @@ public interface MailConstants {
 	String USERFROUP_DELETED_TEMPLATE = "userGroupDeleted";
 	
 	   /**
-     * UserGroup deleted message template for EN locale.
+     * Meeting deleted message template for locale.
      */
     String MEETING_DELETED_TEMPLATE = "MeetingDelete";
 
-	
+    /**
+     * Meeting changed status message template for locale.
+     */
+    String MEETING_CHANGESTATUS_TEMPLATE = "MeetingChangedStatusInfo";
+
+    
 	 /**
      * Location delete message subject.
      */

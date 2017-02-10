@@ -320,8 +320,6 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
                 roomJoin.get(Room_.id).in(roomId));
         basePredicate = builder.and(basePredicate,
                 root.get(Meeting_.date).in(date));
-        basePredicate = builder.and(basePredicate, builder
-                .lessThan(root.get(Meeting_.endTime), (LocalTime.now())));
         basePredicate = builder.and(basePredicate,
                 root.get(Meeting_.status).in(MeetingStatus.APPROVED));
         Predicate timePredicate1 = builder.conjunction();
