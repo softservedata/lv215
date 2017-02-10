@@ -28,7 +28,6 @@ import javax.persistence.ManyToOne;
  * @since 1.8
  */
 @Entity
-
 public class Meeting {
 
     /**
