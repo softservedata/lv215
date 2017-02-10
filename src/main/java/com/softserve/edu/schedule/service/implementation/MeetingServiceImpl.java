@@ -303,7 +303,7 @@ public class MeetingServiceImpl implements MeetingService {
     /**
      * Find all meetings in the DB by given date interval and subjectId.
      *
-     * @author Volodymyr Pedko
+     * @author Volodymyr Ped'ko
      *
      * @param subjectId
      *            subject id for find meetings
