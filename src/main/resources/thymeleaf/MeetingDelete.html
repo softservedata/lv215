@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h3
+		th:text="#{mailSender.userAccost(${meetingCurator.getFirstName()})}">Dear
+		user</h3>
+	<p th:text="#{meetingDeleted.messageBody}"></p>
+
+	<h4 th:text="#{lbl.meeting.details}"></h4>
+	 <table>
+		 <tr>
+			<th th:text="#{lbl.meeting.id}"></th>
+			<td th:text="${meeting.getId()}"></td>
+		</tr>
+		<tr>
+			<th th:text="#{lbl.meeting.subject}"></th>
+			<td th:text="${meeting.getSubject().getName()}"></td>
+		</tr>
+		 <tr>
+			<th th:text="#{lbl.meeting.room}"></th>
+			<td th:text="${meeting.getRoom().getName()}"></td>
+		</tr>
+		<tr>
+			<th th:text="#{lbl.meeting.owner}"></th>
+			<td th:text="${meeting.getOwner().getFirstName()}"></td>
+			<td th:text="${meeting.getOwner().getLastName()}"></td>
+		</tr> 
+		<tr>
+			<th th:text="#{lbl.meeting.date}"></th>
+			<td th:text="${meeting.getDate()}"></td>
+		</tr>
+		<tr>
+			<th th:text="#{lbl.meeting.starttime}"></th>
+			<td th:text="${meeting.getStartTime()}"></td>
+		</tr>
+		<tr>
+			<th th:text="#{lbl.meeting.endtime}"></th>
+			<td th:text="${meeting.getEndTime()}"></td>
+		</tr>
+		<tr>
+			<th th:text="#{lbl.meeting.level}"></th>
+			<td th:text="${meeting.getLevel()}"></td>
+		</tr>
+		<tr>
+			<th th:text="#{lbl.meeting.status}"></th>
+			<td th:text="${meeting.getStatus()}"></td>
+		</tr>
+	</table> 
+	<h2 th:text="#{lbl.meeting.endofmail}"></h2>
+</body>
+</html>

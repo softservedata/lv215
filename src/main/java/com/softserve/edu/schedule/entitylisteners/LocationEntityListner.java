@@ -38,7 +38,7 @@ public class LocationEntityListner {
 	private UserDAO userDAO;
 
 	/**
-	 * Method sends mail to moderators in order to inform thhem about deleting
+	 * Method sends mail to moderators in order to inform them about deleting
 	 * location.
 	 * 
 	 * @param location

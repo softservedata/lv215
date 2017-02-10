@@ -340,8 +340,7 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.findByMail(principal.getName());
 
         String path = System.getProperty("catalina.home") + "/images/"
-                + user.getMail() + "/"
-                + multipartFile.getOriginalFilename();
+                + user.getMail() + "/" + multipartFile.getOriginalFilename();
 
         user.setPathImage("/images/" + user.getMail() + "/"
                 + multipartFile.getOriginalFilename());
@@ -371,4 +370,14 @@ public class UserServiceImpl implements UserService {
         userDAO.update(user);
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.UserService#getAllActiveUsers()
+     */
+    @Transactional(readOnly = true)
+    public List<UserDTO> getAllActiveUsers() {
+        return userDAO.getAllActiveUsers().stream().map(e -> userDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
+    }
 }

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -18,6 +19,8 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+import com.softserve.edu.schedule.entitylisteners.MeetingEntityListener;
+
 /**
  * An entity class for meetings.
  *
@@ -28,6 +31,7 @@ import javax.persistence.ManyToOne;
  * @since 1.8
  */
 @Entity
+@EntityListeners(MeetingEntityListener.class)
 public class Meeting {
 
     /**

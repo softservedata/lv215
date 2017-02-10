@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,7 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForCalendarDTOConverter;
+import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingChangeStatusMailService;
 
 /**
  * This is implementation of the interface for managing Meetings Service.
@@ -57,6 +59,13 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Autowired
     private MeetingForCalendarDTOConverter meetingForCalendarDTOConverter;
+
+    /**
+     * MeetingStatusChangeMailService example to provide send mail to user
+     * operations.
+     */
+    @Autowired
+    private MeetingChangeStatusMailService meetingChangeStatusMailService;
 
     /*
      * (non-Javadoc)
@@ -91,7 +100,31 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void update(final MeetingDTO meetingDTO) {
+        sendMailIfStatusChanged(meetingDTO);
         meetingDao.update(meetingDTOConverter.getEntity(meetingDTO));
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.MeetingService#sendMailIfStatusChanged
+     * (java.lang.Long)
+     */
+    @Override
+    public void sendMailIfStatusChanged(final MeetingDTO meetingDTO) {
+
+        if ((meetingDao.getById(meetingDTO.getId())
+                .getStatus() == MeetingStatus.APPROVED)
+                && ((meetingDTO.getStatus() == MeetingStatus.DISAPPROVED)
+                        || (meetingDTO
+                                .getStatus() == MeetingStatus.NOT_APPROVED))) {
+            meetingChangeStatusMailService
+                    .sendInfoMessageAboutMeetingStatusChanging(
+                            meetingDao.getById(meetingDTO.getId()),
+                            LocaleContextHolder.getLocale());
+        }
+
     }
 
     /*
