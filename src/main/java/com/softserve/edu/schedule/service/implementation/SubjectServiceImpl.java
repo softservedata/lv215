@@ -128,7 +128,7 @@ public class SubjectServiceImpl implements SubjectService {
     @Override
     @Transactional(readOnly = true)
     public List<UserForSubjectDTO> getAllUserForSubjectDTO() {
-        return userDao.getAll().stream()
+        return userDao.getAllActiveUsers().stream()
                 .map(u -> userForSubjectDTOconverter.getDTO(u))
                 .collect(Collectors.toList());
     }
