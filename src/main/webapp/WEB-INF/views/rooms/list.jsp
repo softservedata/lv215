@@ -242,31 +242,14 @@
 	</div>
 </div>
 
+<span id="firstLabel" hidden="true"><spring:message code="lbl.pager.first" /></span>
+<span id="lastLabel" hidden="true"><spring:message code="lbl.pager.last" /></span>
+<span id="previousLabel" hidden="true"><spring:message code="lbl.pager.previous" /></span>
+<span id="nextLabel" hidden="true"><spring:message code="lbl.pager.next" /></span>
+<spring:url value="/resources/js/rooms/list.js" var="roomsListJS" />
 <script>
-$('#confirm-delete').on('show.bs.modal', function(e) {
-    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-});
-
-$(function() {
-	$("select[name=locationId]").chosen({
-		width : "160px"
-	});
-	$("select[name=equipments]").chosen({
-		width : "150px"
-	});		
-})
-
- $('#paginationList').twbsPagination({	 	
-	 	totalPages: ${roomPaginator.pagesCount + 1},
-        startPage: ${roomPaginator.pageNumber + 1},
-        visiblePages: 10,
-        first: '<spring:message code="lbl.pager.first"/>',
-        last: '<spring:message code="lbl.pager.last"/>',
-        prev: '<spring:message code="lbl.pager.previous"/>',
-        next: '<spring:message code="lbl.pager.next"/>',
-        initiateStartPageClick: false,        
-        onPageClick: function (event, page) {
-        	window.location = "rooms?pageNumber=" + (page-1);        	
-        }
-    });
+	var totalPages = ${roomPaginator.pagesCount + 1}
+	var startPage = ${roomPaginator.pageNumber + 1}
+</script>
+<script type="text/javascript" src="${roomsListJS}">	
 </script>
