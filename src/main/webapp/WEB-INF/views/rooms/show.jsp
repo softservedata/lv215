@@ -15,7 +15,7 @@
 		</div>
 		<div class="col-lg-1 col-lg-offset-9 col-md-1 col-sm-1 col-xs-1 panel-exit zero-margin-top">
 			<h3>
-				<a class="align-right" href="${pageContext.request.contextPath}/roomsXXX"
+				<a class="align-right" href="${pageContext.request.contextPath}/rooms"
 					title="<spring:message code="lbl.room.title" />">
 					<i class="fa fa-table fa-lg"></i>
 				</a>

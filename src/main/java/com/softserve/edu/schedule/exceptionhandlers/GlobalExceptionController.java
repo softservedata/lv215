@@ -1,5 +1,5 @@
 /* GlobalExceptionController 1.0 01/29/2017 */
-package com.softserve.edu.schedule.controller;
+package com.softserve.edu.schedule.exceptionhandlers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.softserve.edu.schedule.controller.ControllerConst;
 
 /**
  * A controller class for global exception handling.
@@ -52,7 +54,7 @@ public class GlobalExceptionController implements ControllerConst {
      *
      * @return errors page URL
      */
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(value = Exception.class)
     @RequestMapping(ROOT_URL)
     public String showErrorPage(final Model model, final Exception ex) {
         log.error(ex.getMessage(), ex);

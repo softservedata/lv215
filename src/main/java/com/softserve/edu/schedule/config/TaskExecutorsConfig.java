@@ -14,6 +14,8 @@ import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+import com.softserve.edu.schedule.exceptionhandlers.AsyncExceptionHandler;
+
 /**
  * Configuration of async and scheduled tasks executors of application.
  *
@@ -53,11 +55,11 @@ public class TaskExecutorsConfig
      * exception is thrown during an asynchronous method execution with void
      * return type.
      *
-     * @return null. Not implemented yet.
+     * @return an AsyncExceptionHandler instance.
      */
     @Override
     public AsyncUncaughtExceptionHandler getAsyncUncaughtExceptionHandler() {
-        return null;
+        return new AsyncExceptionHandler();
     }
 
     /**
