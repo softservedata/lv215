@@ -4,7 +4,7 @@ $(function() {
 	});
 })
 $(document).ready(function() {
-	$('#calendar').fullCalendar('destroy');
+	$(".chosen-category").val('0').trigger('chosen:updated');
 	$('#calendar').fullCalendar({
 		defaultView : 'agendaWeek',
 		locale : $("#language").text(),
