@@ -41,6 +41,9 @@ public class UserGroupServiceImpl implements UserGroupService {
 	@Autowired
 	private UserGroupDAO userGroupDAO;
 
+	/**
+	 * 
+	 */
 	@Autowired
 	private UserGroupDTOConverter userGroupDTOConverter;
 

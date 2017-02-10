@@ -1,5 +1,5 @@
 /*
- * UserGroupValidatorImpl.java
+* UserGroupValidatorImpl.java
  * 1.0
  * 28 Jan 2017
  * Andrii Zhydenko

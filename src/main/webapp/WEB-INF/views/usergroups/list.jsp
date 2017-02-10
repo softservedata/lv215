@@ -1,12 +1,39 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page language="java" contentType="text/html; charset=utf-8"
+	pageEncoding="utf-8"%>
+<%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page
 	import="com.softserve.edu.schedule.controller.UserGroupController"%>
+
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<spring:message code="lbl.form.deleteTitle" />
+				</h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					<spring:message code="lbl.group.deleteConfirm" />
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-primary btn-ok"><spring:message
+						code="lbl.form.delete" /></a>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					<spring:message code="lbl.form.cancel" />
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <h3 class="text-center">
 	<spring:message code="lbl.group.title" />
@@ -118,18 +145,36 @@
 				<td>${usergroup.users.size()}</td>
 
 				<td><sec:authorize
-						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 						<a
-							href="${pageContext.request.contextPath}/usergroups/delete/${usergroup.id}"
-							onclick="return confirm('<spring:message code="lbl.group.deleteGroupConfirm"/>');"><i
+							data-href="${pageContext.request.contextPath}${UserGroupController.USERGROUPS_DELETE_MAPPING}${usergroup.id}"
+							data-toggle="modal" data-target="#confirm-delete"
+							title="<spring:message code="lbl.group.delete" />"><i
 							class="fa fa-trash-o fa-lg"></i></a>
+					</sec:authorize> <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+						<sec:authentication property="principal.id" var="principarid" />
+						<c:if test="${principalid eq  usergroup.curator.id}">
+							<a
+								data-href="${pageContext.request.contextPath}${UserGroupController.USERGROUPS_DELETE_MAPPING}${usergroup.id}"
+								data-toggle="modal" data-target="#confirm-delete"
+								title="<spring:message code="lbl.group.delete" />"> <i
+								class="fa fa-trash-o fa-lg"></i>
+							</a>
+						</c:if>
 					</sec:authorize></td>
 
 				<td><sec:authorize
-						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
 						<a
 							href="${pageContext.request.contextPath}/usergroups/edit/${usergroup.id}"><i
 							class="fa fa-pencil-square-o fa-lg"></i></a>
+					</sec:authorize> <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+						<sec:authentication property="principal.id" var="principalid" />
+						<c:if test="${principalid eq usergroup.curator.id}">
+							<a
+								href="${pageContext.request.contextPath}/usergroups/edit/${usergroup.id}"><i
+								class="fa fa-pencil-square-o fa-lg"></i></a>
+						</c:if>
 					</sec:authorize></td>
 			</tr>
 		</c:forEach>
@@ -174,6 +219,10 @@
 	</div>
 </div>
 <script>
+$('#confirm-delete').on('show.bs.modal', function(e) {
+    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+});
+
 $('#paginationList').twbsPagination({
     totalPages: ${usergroupPaginator.pagesCount + 1},
     startPage: ${usergroupPaginator.pageNumber + 1},

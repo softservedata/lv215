@@ -76,6 +76,18 @@ public class MeetingRESTController {
 		return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings, HttpStatus.OK);
 	}
 
+	/**
+	 * REST method that returns meetings for a calendar in specified interval
+	 * and by group id.
+	 * 
+	 * @param start
+	 *            Meeting start time.
+	 * @param end
+	 *            Meeting end time.
+	 * @param groupId
+	 *            Meeting group id.
+	 * @return response entity of meetings
+	 */
 	@RequestMapping(value = "/meetings/restByGroup", method = RequestMethod.GET)
 	public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByGroupId(
 			@RequestParam("start") String start, @RequestParam("end") String end,

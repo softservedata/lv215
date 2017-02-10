@@ -52,7 +52,6 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGrou
 	 */
 
 	@Override
-
 	public List<UserGroup> getAll() {
 		CriteriaBuilder builder = getEm().getCriteriaBuilder();
 		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
@@ -96,6 +95,14 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGrou
 		return getEm().createQuery(cq).getResultList();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.dao.UserGroupDAO#getUserGroupPageWithFilter(
+	 * com.softserve.edu.schedule.dto.filter.UserGroupFilter,
+	 * com.softserve.edu.schedule.dto.filter.Paginator)
+	 */
 	@Override
 	public List<UserGroup> getUserGroupPageWithFilter(UserGroupFilter userGroupFilter, Paginator userGroupPaginator) {
 		CriteriaBuilder builder = getEm().getCriteriaBuilder();

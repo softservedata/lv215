@@ -459,9 +459,14 @@ public interface ControllerConst {
 	public interface UserGroupControllerConst {
 
 		/**
-		 * Filter attribute for groups
+		 * Filter attribute for groups.
 		 */
 		String FILTER_MODEL_ATTR = "usergroupFilter";
+
+		/**
+		 * Paginator attribute for groups.
+		 */
+		String USERGROUP_PAGINATOR_MODEL_ATTR = "usergroupPaginator";
 
 		/**
 		 * UserGroup model attribute name.
@@ -482,6 +487,11 @@ public interface ControllerConst {
 		 * UserGroup delete mapping name.
 		 */
 		String USERGROUP_DELETE_MAPPING = "/delete/{id}";
+
+		/**
+		 * UserGroups delete mapping name.
+		 */
+		String USERGROUPS_DELETE_MAPPING = "/usergroups/delete/";
 
 		/**
 		 * UserGroup create url name.
