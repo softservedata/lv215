@@ -1,4 +1,4 @@
-package com.softserve.edu.schedule.service.implementation.mailsenders;
+package com.softserve.edu.schedule.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
+import com.softserve.edu.schedule.service.implementation.mailsenders.MailConstants;
 
 /**
  * Provides mail notifications of group members when group has been deleted
@@ -30,7 +31,7 @@ import com.softserve.edu.schedule.entity.UserGroup;
  * @author Bohdan Melnyk
  */
 @Component
-public class DeleteMeetingMailService implements MailConstants {
+public class MeetingChangeStatusMailService implements MailConstants {
 
     /**
      * JavaMailSender example to provide mail sending.
@@ -66,7 +67,7 @@ public class DeleteMeetingMailService implements MailConstants {
      *            current locale.
      */
     @Async
-    public void sendInfoMessageAboutMeetingDeletetion(final Meeting meeting,
+    public void sendInfoMessageAboutMeetingStatusChanging(final Meeting meeting,
             final Locale locale) {
         Context ctx = new Context(locale);
         ctx.setVariable(MEETING_MODEL_NAME, meeting);
@@ -78,30 +79,24 @@ public class DeleteMeetingMailService implements MailConstants {
         for (UserGroup userGroup : meeting.getGroups()) {
             User userTemp = userGroup.getCurator();
             if (userTemp != owner) {
-                curators.add(userTemp);
+                curators.add(userGroup.getCurator());
             }
         }
 
         for (User member : curators) {
-            System.out.println(member.getLastName());
-        } 
-        System.out.println("Blah");
-        for (User member : curators) {
-            System.out.println(member.getLastName());
             ctx.setVariable(MEETING_GROUP_CURATOR, member);
 
             try {
                 MimeMessage mimeMessage = this.mailSender.createMimeMessage();
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage,
                         true, DEFAULT_MESSAGE_ENCODING);
-
                 message.setTo(member.getMail());
                 message.setFrom(new InternetAddress(fromAddress));
                 message.setSubject(messageSource.getMessage(
-                        MEETING_DELETED_MESSAGE, new String[0], locale));
-
+                        MEETING_CHANGEDSTATUS_MESSAGE, new String[0], locale));
+                System.out.println("HI THERE22!!!");
                 String htmlContent = this.templateEngine
-                        .process(MEETING_DELETED_TEMPLATE, ctx);
+                        .process(MEETING_CHANGESTATUS_TEMPLATE, ctx);
                 message.setText(htmlContent, true);
                 this.mailSender.send(mimeMessage);
             } catch (MessagingException e) {

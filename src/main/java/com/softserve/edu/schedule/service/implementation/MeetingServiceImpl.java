@@ -29,7 +29,6 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForCalendarDTOConverter;
-import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingChangeStatusMailService;
 
 /**
  * This is implementation of the interface for managing Meetings Service.

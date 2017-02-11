@@ -189,3 +189,13 @@ textarea {
 	margin-top: 0;
 }
 
+.float-calendar-details {
+	float: left;
+}
+
+.padding-calendar-details {
+	padding-left: 160px;
+}
+.zero-margin-top #calendar {
+	margin-top: 0;
+}
