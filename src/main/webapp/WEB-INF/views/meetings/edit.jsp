@@ -211,7 +211,7 @@
 
 						<sec:authorize access="!hasAnyRole('ROLE_ADMIN')">
 						<label for="status"><spring:message
-								code="lbl.meeting.changestatus" /></label>
+								code="lbl.meeting.status" /></label>
 						<form:select class="form-control" path="status" id="status">
 							<c:forEach items="${meetingStatuses}" var="status">
 								<c:choose>

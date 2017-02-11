@@ -81,13 +81,7 @@ public class DeleteMeetingMailService implements MailConstants {
                 curators.add(userTemp);
             }
         }
-
         for (User member : curators) {
-            System.out.println(member.getLastName());
-        } 
-        System.out.println("Blah");
-        for (User member : curators) {
-            System.out.println(member.getLastName());
             ctx.setVariable(MEETING_GROUP_CURATOR, member);
 
             try {
