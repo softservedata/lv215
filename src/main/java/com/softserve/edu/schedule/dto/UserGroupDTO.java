@@ -10,6 +10,9 @@ import com.softserve.edu.schedule.service.implementation.validators.Validate;
 @Validate
 public class UserGroupDTO {
 
+	/**
+	 * User group id.
+	 */
 	private Long id;
 
 	/**
@@ -43,7 +46,7 @@ public class UserGroupDTO {
 	private List<MeetingDTO> meetings = new ArrayList<>();
 
 	/**
-	 * @return the id
+	 * @return the id.
 	 */
 	public Long getId() {
 		return id;

@@ -18,7 +18,7 @@
 				<h3>${userGroupForm.name}</h3>
 			</div>
 
-			<div class="form-group">
+			<div class="form-group" style="word-wrap: break-word;">
 				<b><spring:message code="lbl.group.description" /></b> :
 				${userGroupForm.description}
 			</div>
@@ -61,9 +61,9 @@
 
 		</div>
 
-	<div class="col-lg-6 col-md-7 col-sm-6 panel-map">
-		<div id='calendar' style="margin-top: 0px"></div>
-	</div>
+		<div class="col-lg-6 col-md-7 col-sm-6 panel-map">
+			<div id='calendar' style="margin-top: 0px"></div>
+		</div>
 
 	</div>
 </div>
@@ -91,8 +91,6 @@
 													groupId : '${userGroupForm.id}'
 												}
 											}
-
 										})
-
 					});
 </script>
