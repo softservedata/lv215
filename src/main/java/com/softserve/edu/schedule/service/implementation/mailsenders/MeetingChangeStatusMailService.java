@@ -93,7 +93,6 @@ public class MeetingChangeStatusMailService implements MailConstants {
                 message.setFrom(new InternetAddress(fromAddress));
                 message.setSubject(messageSource.getMessage(
                         MEETING_CHANGEDSTATUS_MESSAGE, new String[0], locale));
-                System.out.println("HI THERE22!!!");
                 String htmlContent = this.templateEngine
                         .process(MEETING_CHANGESTATUS_TEMPLATE, ctx);
                 message.setText(htmlContent, true);
