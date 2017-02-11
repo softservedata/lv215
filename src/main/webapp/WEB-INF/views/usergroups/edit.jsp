@@ -95,7 +95,7 @@
 				<label for="users"><spring:message code="lbl.group.members" /></label>
 				<form:select class="form-control" path="users" id="users"
 					multiple="multiple">
-					<c:forEach items="${users}" var="user">
+					<c:forEach items="${allUsers}" var="user">
 						<c:set var="found" value="false" />
 						<c:forEach items="${userGroupForm.users}" var="userInGroup">
 							<c:if test="${!found}">
