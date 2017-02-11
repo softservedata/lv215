@@ -1,6 +1,7 @@
 package com.softserve.edu.schedule.controller;
 
 import java.util.Arrays;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -31,12 +32,13 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEdit
 /**
  * Controller class for a UserGroup
  * 
- * @author Andrew
+ * @author Andrew Zhidenko
  *
  */
 @Controller
-@RequestMapping("/usergroups")
-@SessionAttributes({ "usergroupFilter", "usergroupPaginator" })
+@RequestMapping(ControllerConst.UserGroupControllerConst.USERGROUP_MAPPING)
+@SessionAttributes({ ControllerConst.UserGroupControllerConst.FILTER_MODEL_ATTR,
+		ControllerConst.UserGroupControllerConst.USERGROUP_PAGINATOR_MODEL_ATTR })
 public class UserGroupController implements ControllerConst.UserGroupControllerConst {
 
 	/**
@@ -74,10 +76,10 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	}
 
 	/**
-	 * Binder for userGroup model.
+	 * Binder filter for a userGroup model.
 	 * 
 	 * @param binder
-	 *            WebDataBinder object
+	 *            Binder to register editors.
 	 */
 	@InitBinder(USERGROUP_MODEL_ATTR)
 	protected void initBinder(final WebDataBinder binder) {
@@ -86,18 +88,29 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 		binder.registerCustomEditor(UserGroupDTO.class, userGroupDTOEditor);
 	}
 
-	@InitBinder("usergroupFilter")
+	/**
+	 * Binder filter for a userGroupFilter
+	 * 
+	 * @param binder
+	 *            Binder to register editors.
+	 */
+	@InitBinder(FILTER_MODEL_ATTR)
 	protected void initBinderFilter(final WebDataBinder binder) {
 		binder.registerCustomEditor(UserDTO.class, userDTOEditor);
 		binder.registerCustomEditor(Integer.class, null, new CustomNumberEditor(Integer.class, true));
 	}
 
-	@ModelAttribute("usergroupFilter")
+	/**
+	 * UserGroup
+	 * 
+	 * @return
+	 */
+	@ModelAttribute(FILTER_MODEL_ATTR)
 	public UserGroupFilter getFilter() {
 		return new UserGroupFilter();
 	}
 
-	@ModelAttribute("usergroupPaginator")
+	@ModelAttribute(USERGROUP_PAGINATOR_MODEL_ATTR)
 	public Paginator getPaginator() {
 		return new Paginator();
 	}
@@ -111,15 +124,16 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 */
 	@RequestMapping()
 	public String showGroupsPage(final Model model,
-			@ModelAttribute("usergroupFilter") final UserGroupFilter userGroupFilter,
-			@ModelAttribute("usergroupPaginator") final Paginator paginator) {
+			@ModelAttribute(FILTER_MODEL_ATTR) final UserGroupFilter userGroupFilter,
+			@ModelAttribute(USERGROUP_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
+		List<UserDTO> activeUsers = userService.getAllActiveUsers();
+
 		model.addAttribute(USERGROUPS_MODEL_ATTR,
 				userGroupService.getUserGroupPageWithFilter(userGroupFilter, paginator));
-		// model.addAttribute(USERGROUPS_MODEL_ATTR, userGroupService.getAll());
-		model.addAttribute("curators", userService.getAll());
-		model.addAttribute("usergroupFilter", userGroupFilter);
-		model.addAttribute("usergroupPaginator", paginator);
-		model.addAttribute("levels", Arrays.asList(UserGroupLevel.values()));
+		model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAllManagers(activeUsers));
+		model.addAttribute(FILTER_MODEL_ATTR, userGroupFilter);
+		model.addAttribute(USERGROUP_PAGINATOR_MODEL_ATTR, paginator);
+		model.addAttribute(USERGROUP_LEVEL_ATTR, Arrays.asList(UserGroupLevel.values()));
 		return USERGROUP_LIST_URL;
 	}
 
@@ -135,8 +149,8 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 * @return group details page URL
 	 */
 	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/{id}", method = RequestMethod.GET)
-	public String showGroup(@PathVariable("id") final Long id, final Model model) {
+	@RequestMapping(value = USERGROUP_SHOW_MAPPING, method = RequestMethod.GET)
+	public String showGroup(@PathVariable(PATH_VAR_ID) final Long id, final Model model) {
 		model.addAttribute(USERGROUP_MODEL_ATTR, userGroupService.getById(id));
 		model.addAttribute(USERGROUP_CURATOR_ATTR, userGroupService.getById(id).getCurator());
 		model.addAttribute(USERGROUP_GROUP_MEMBERS, userGroupService.getById(id));
@@ -154,9 +168,11 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
 	@RequestMapping(USERGROUP_CREATE_MAPPING)
 	public String createForm(final Model model) {
+		List<UserDTO> activeUsers = userService.getAllActiveUsers();
+
 		model.addAttribute(USERGROUP_MODEL_ATTR, new UserGroupDTO());
-		model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAll());
-		model.addAttribute(USERGROUP_ALL_USERS_ATTR, userService.getAll());
+		model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAllManagers(activeUsers));
+		model.addAttribute(USERGROUP_ALL_USERS_ATTR, activeUsers);
 		model.addAttribute(USERGROUP_LEVEL_ATTR, Arrays.asList(UserGroupLevel.values()));
 		return USERGROUP_CREATE_URL;
 	}
@@ -171,9 +187,10 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	@RequestMapping(value = USERGROUP_CREATE_MAPPING, method = RequestMethod.POST)
 	public String create(@ModelAttribute(USERGROUP_MODEL_ATTR) @Valid UserGroupDTO userGroupDTO, BindingResult result,
 			Model model) {
+		List<UserDTO> activeUsers = userService.getAllActiveUsers();
 		if (result.hasErrors()) {
-			model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAll());
-			model.addAttribute(USERGROUP_ALL_USERS_ATTR, userService.getAll());
+			model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAllManagers(activeUsers));
+			model.addAttribute(USERGROUP_ALL_USERS_ATTR, activeUsers);
 			model.addAttribute(USERGROUP_LEVEL_ATTR, Arrays.asList(UserGroupLevel.values()));
 			return USERGROUP_CREATE_URL;
 		} else {
@@ -206,9 +223,11 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	@RequestMapping(value = USERGROUP_EDIT_MAPPING, method = RequestMethod.POST)
 	public String update(@ModelAttribute(USERGROUP_MODEL_ATTR) @Valid final UserGroupDTO userGroupDTO,
 			BindingResult result, Model model) {
+		List<UserDTO> activeUsers = userService.getAllActiveUsers();
+
 		if (result.hasErrors()) {
-			model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAll());
-			model.addAttribute(USERGROUP_ALL_USERS_ATTR, userService.getAll());
+			model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAllManagers(activeUsers));
+			model.addAttribute(USERGROUP_ALL_USERS_ATTR, activeUsers);
 			model.addAttribute(USERGROUP_LEVEL_ATTR, Arrays.asList(UserGroupLevel.values()));
 			return USERGROUP_EDIT_URL;
 		} else {
@@ -230,10 +249,12 @@ public class UserGroupController implements ControllerConst.UserGroupControllerC
 	 */
 	@PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
 	@RequestMapping(value = USERGROUP_EDIT_MAPPING, method = RequestMethod.GET)
-	public String updateForm(@PathVariable("id") final Long id, final Model model) {
+	public String updateForm(@PathVariable(PATH_VAR_ID) final Long id, final Model model) {
+		List<UserDTO> activeUsers = userService.getAllActiveUsers();
+
 		model.addAttribute(USERGROUP_MODEL_ATTR, userGroupService.getById(id));
-		model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAll());
-		model.addAttribute(USERGROUP_ALL_USERS_ATTR, userService.getAll());
+		model.addAttribute(USERGROUP_CURATORS_ATTR, userService.getAllManagers(activeUsers));
+		model.addAttribute(USERGROUP_ALL_USERS_ATTR, activeUsers);
 		model.addAttribute(USERGROUP_LEVEL_ATTR, Arrays.asList(UserGroupLevel.values()));
 		return USERGROUP_EDIT_URL;
 	}
