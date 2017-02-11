@@ -6,7 +6,6 @@
  */
 package com.softserve.edu.schedule.entitylisteners;
 
-import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,9 +13,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.softserve.edu.schedule.entity.Meeting;
-
 import com.softserve.edu.schedule.service.implementation.mailsenders.DeleteMeetingMailService;
-import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingChangeStatusMailService;
 
 /**
  * An entity listener class for Subject entity.
@@ -35,7 +32,6 @@ public class MeetingEntityListener {
      */
     @Autowired
     private DeleteMeetingMailService deleteMeetingMailService;
-
 
     /**
      * Send mail messages to owner of the meeting, to userGroup curator

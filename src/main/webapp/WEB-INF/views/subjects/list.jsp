@@ -192,11 +192,8 @@
 		<ul id="paginationList" class="pagination"></ul>
 	</div>
 </div>
+<spring:url value="/resources/js/subjects/list.js" var="subjectsListJS" />
 <script>
-$('#confirm-delete').on('show.bs.modal', function(e) {
-    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-});
-
  $('#paginationList').twbsPagination({
         totalPages: ${subjectPaginator.pagesCount + 1},
         startPage: ${subjectPaginator.pageNumber + 1},
@@ -210,4 +207,6 @@ $('#confirm-delete').on('show.bs.modal', function(e) {
         	window.location = "subjects?pageNumber=" + (page-1);        	
         }
     });
+</script>
+<script type="text/javascript" src="${subjectsListJS}">	
 </script>

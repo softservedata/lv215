@@ -12,7 +12,6 @@ import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
-import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 
@@ -166,7 +165,7 @@ public interface UserService extends UserDetailsService {
      * @return a user DTO with given mail.
      */
     public void changePassword(UserDTOForChangePassword userDTO);
-    
+
     /**
      * Return a User object if found.
      *
@@ -175,10 +174,10 @@ public interface UserService extends UserDetailsService {
      * @return User transfer object
      */
     public UserDTOForChangePassword getByIdForPassword(final Long id);
-    
+
     List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter,
             final Paginator userPaginator);
-    
+
     void saveImage(Principal principal, MultipartFile multipartFile);
 
     /**
