@@ -6,10 +6,6 @@
  */
 package com.softserve.edu.schedule.entitylisteners;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.persistence.PreRemove;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +13,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.softserve.edu.schedule.entity.Meeting;
-import com.softserve.edu.schedule.entity.MeetingStatus;
-import com.softserve.edu.schedule.entity.Subject;
-import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingCanceledMailService;
+import com.softserve.edu.schedule.service.implementation.mailsenders.DeleteMeetingMailService;
 
 /**
  * An entity listener class for Subject entity.
@@ -37,31 +31,19 @@ public class MeetingEntityListener {
      * operations.
      */
     @Autowired
-    private MeetingCanceledMailService meetingCanceledMailService;
+    private DeleteMeetingMailService deleteMeetingMailService;
 
     /**
-     * If the the Meetings is deleted MeetingOwer should receive email
-     * notification.
-     *
-     * @param subject
-     *            subject to proceed meetings
-     *
+     * Send mail messages to owner of the meeting, to userGroup curator
+     * 
+     * @param meeting
+     *            meeting that will be deleted.
+     * 
      */
     @PreRemove
-    public void processingRoomBeforeDeletion(final Subject subject) {
+    public void processingBeforeMeetingDeletion(final Meeting meeting) {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-        List<Meeting> meetingsToChange = new ArrayList<>();
-        subject.getMeetings().forEach(m -> {
-            if (m.getDate().isAfter(LocalDate.now().minusDays(1))) {
-                m.setStatus(MeetingStatus.NOT_APPROVED);
-                meetingsToChange.add(m);
-            }
-            m.setSubject(null);
-            System.out.println("Yo in");
-        });
-        System.out.println("Yo out");
-        meetingsToChange.forEach(
-                m -> meetingCanceledMailService.sendInfoMessageSubjectDelete(m,
-                        LocaleContextHolder.getLocale()));
+        deleteMeetingMailService.sendInfoMessageAboutMeetingDeletetion(meeting,
+                LocaleContextHolder.getLocale());
     }
 }

@@ -75,7 +75,7 @@ public class MeetingForCalendarDTOConverter {
                     getFullTime(meeting.getDate(), meeting.getEndTime()));
 
             meetingForCalendarDTO
-                    .setUrl("/schedule/meetings/" + meeting.getId().toString());
+                    .setUrl("meetings/" + meeting.getId().toString());
             meetingForCalendarDTO
                     .setColor(getMeetingColor(meeting.getStatus()));
 

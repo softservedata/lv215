@@ -181,7 +181,7 @@
 					<form:input class="form-control" path="description"
 						id="description" placeholder="${descPH}"
 						pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}"
-						title="Blah" />
+						/>
 					<form:errors path="description" class="text-danger" />
 				</div>
 
@@ -211,7 +211,7 @@
 
 						<sec:authorize access="!hasAnyRole('ROLE_ADMIN')">
 						<label for="status"><spring:message
-								code="lbl.meeting.changestatus" /></label>
+								code="lbl.meeting.status" /></label>
 						<form:select class="form-control" path="status" id="status">
 							<c:forEach items="${meetingStatuses}" var="status">
 								<c:choose>

@@ -123,17 +123,17 @@ public interface ConfigConstants {
     /**
      * Data source connection pool initial size.
      */
-    int DATA_SOURCE_CON_POOL_INIT_SIZE = 10;
+    int DATA_SOURCE_CON_POOL_INIT_SIZE = 5;
 
     /**
      * Data source connection pool maximum connections.
      */
-    int DATA_SOURCE_CON_POOL_MAX_SIZE = 100;
+    int DATA_SOURCE_CON_POOL_MAX_SIZE = 10;
 
     /**
      * Data source connection pool maximum idle connections.
      */
-    int DATA_SOURCE_CON_POOL_MAX_IDLE = 20;
+    int DATA_SOURCE_CON_POOL_MAX_IDLE = 10;
 
     /**
      * Entity package location.

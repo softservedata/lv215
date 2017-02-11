@@ -6,43 +6,6 @@
 <%@ page
 	import="com.softserve.edu.schedule.controller.UserGroupController"%>
 
-<script type="text/javascript">
-	$(function() {
-		$("select[name=users]").chosen({
-			width : "100%"
-		});
-		$("select[name=curators]").chosen({
-			width : "100%"
-		});
-	})
-	
-	function validateForm() {
-		document.getElementById("nameErrorMsg").innerHTML = "";
-		document.getElementById("descriptionErrorMsg").innerHTML = "";
-
-		var isValid = true;
-		
-		var description = document.getElementById("description");
-		var name = document.getElementById("name");
-		
-		if(name.value.length < "${UserGroupController.MIN_GROUP_NAME_LENGTH}") {
-			document.getElementById("nameErrorMsg").innerHTML = '<spring:message code="lbl.group.shortName"/>';
-			isValid = false;
-		}
-		if(name.value.length > "${UserGroupController.MAX_GROUP_NAME_LENGTH}") {
-			document.getElementById("nameErrorMsg").innerHTML = '<spring:message code="lbl.group.longName"/>';
-			isValid = false;
-		}
-		if (description.value.length < "${UserGroupController.MIN_GROUP_DESCRIPTION_LENGTH}") {
-			document.getElementById("descriptionErrorMsg").innerHTML = '<spring:message code="lbl.group.shortDescription"/>';
-			isValid = false;
-		} else if (description.value.length > "${UserGroupController.MAX_GROUP_DESCRIPTION_LENGTH}") {
-			document.getElementById("descriptionErrorMsg").innerHTML = '<spring:message code="lbl.group.longDescription"/>';
-			isValid = false;
-		}
-		return isValid;
-	}
-</script>
 <div class="container">
 	<div class="row">
 		<div
@@ -92,7 +55,7 @@
 						<c:choose>
 							<c:when test="${userGroupForm.curator.id eq curator.id}">
 								<option value="${curator.id}" selected="selected">${curator.lastName}
-									${user.firstName}</option>
+									${curator.firstName}</option>
 							</c:when>
 							<c:otherwise>
 								<option value="${curator.id}">${curator.lastName}
@@ -127,10 +90,48 @@
 					<input type="submit" class="btn btn-default"
 						value="<spring:message code="lbl.form.save"/>"> <a
 						class="btn btn-default"
-						href="${pageContext.request.contextPath}/usergroups"><spring:message
+						href="${pageContext.request.contextPath}${UserGroupController.USERGROUP_MAPPING}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
 			</form:form>
 		</div>
 	</div>
 </div>
+
+<script type="text/javascript">
+	$(function() {
+		$("select[name=users]").chosen({
+			width : "100%"
+		});
+		$("select[name=curators]").chosen({
+			width : "100%"
+		});
+	})
+
+	function validateForm() {
+		document.getElementById("nameErrorMsg").innerHTML = "";
+		document.getElementById("descriptionErrorMsg").innerHTML = "";
+
+		var isValid = true;
+
+		var description = document.getElementById("description");
+		var name = document.getElementById("name");
+
+		if (name.value.length < "${UserGroupController.MIN_GROUP_NAME_LENGTH}") {
+			document.getElementById("nameErrorMsg").innerHTML = '<spring:message code="lbl.group.shortName"/>';
+			isValid = false;
+		}
+		if (name.value.length > "${UserGroupController.MAX_GROUP_NAME_LENGTH}") {
+			document.getElementById("nameErrorMsg").innerHTML = '<spring:message code="lbl.group.longName"/>';
+			isValid = false;
+		}
+		if (description.value.length < "${UserGroupController.MIN_GROUP_DESCRIPTION_LENGTH}") {
+			document.getElementById("descriptionErrorMsg").innerHTML = '<spring:message code="lbl.group.shortDescription"/>';
+			isValid = false;
+		} else if (description.value.length > "${UserGroupController.MAX_GROUP_DESCRIPTION_LENGTH}") {
+			document.getElementById("descriptionErrorMsg").innerHTML = '<spring:message code="lbl.group.longDescription"/>';
+			isValid = false;
+		}
+		return isValid;
+	}
+</script>

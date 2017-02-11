@@ -65,7 +65,7 @@ public class PerformanceLoggingAspect {
         logMessage.append(" execution time: ");
         logMessage.append(stopWatch.getTotalTimeMillis());
         logMessage.append(" ms");
-        log.warn(logMessage.toString());
+        log.info(logMessage.toString());
         return retVal;
     }
 }

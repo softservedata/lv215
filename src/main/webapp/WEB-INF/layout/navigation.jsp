@@ -14,7 +14,7 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<a class="navbar-brand" href="${pageContext.request.contextPath}">
+			<a class="navbar-brand" href="${pageContext.request.contextPath}/">
 				<span class="glyphicon glyphicon-calendar"></span> UniSchedule
 			</a>
 		</div>
