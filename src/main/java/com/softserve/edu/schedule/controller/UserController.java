@@ -36,8 +36,8 @@ import com.softserve.edu.schedule.service.UserService;
  * @since 1.8
  */
 @Controller
-@SessionAttributes({ ControllerConst.UserControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.UserControllerConst.USER_PAGINATOR_MODEL_ATTR })
+@SessionAttributes({ControllerConst.UserControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.UserControllerConst.USER_PAGINATOR_MODEL_ATTR})
 public class UserController implements ControllerConst.UserControllerConst,
         ControllerConst.RegistrationControllerConst {
 
@@ -89,8 +89,8 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING
-            + "{id}", method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING + "{id}",
+            method = RequestMethod.POST)
     public String updateUser(
             @ModelAttribute(USER_UPDATE_ATTR) @Valid UserDTO user,
             BindingResult br) {
@@ -157,8 +157,8 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING
-            + "{id}", method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING + "{id}",
+            method = RequestMethod.POST)
     public String changeRole(@PathVariable Long id,
             @RequestParam UserRole role) {
         userService.changeRole(id, role);
@@ -225,8 +225,8 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING
-            + "{id}", method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING + "{id}",
+            method = RequestMethod.POST)
     public String saveChangedPassword(
             @ModelAttribute(USER_MODEL_ATTR) @Valid UserDTOForChangePassword user,
             BindingResult br) {
@@ -262,7 +262,7 @@ public class UserController implements ControllerConst.UserControllerConst,
         userService.saveImage(principal, image);
         return REDIRECT_USER_DETAILS_URL;
     }
-    
+
     @RequestMapping(USER_MEETINGS_MAPPING + "{id}")
     public String showMeetings(@PathVariable Long id, final Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));

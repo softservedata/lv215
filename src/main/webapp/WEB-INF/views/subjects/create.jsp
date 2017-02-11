@@ -61,3 +61,7 @@
 		</div>
 	</div>
 </div>
+<spring:url value="/resources/js/subjects/create.js" var="subjectsCreateJS" />
+<script type="text/javascript" src="${subjectsCreateJS}">
+	
+</script>

@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.service.implementation;
 import java.io.File;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -363,6 +364,25 @@ public class UserServiceImpl implements UserService {
 	@Transactional(readOnly = true)
 	public List<UserDTO> getAllActiveUsers() {
 		return userDAO.getAllActiveUsers().stream().map(e -> userDTOConverter.getDTO(e)).collect(Collectors.toList());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.service.UserService#getAllManagers(java.util.
+	 * List)
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO) {
+		List<UserDTO> listUserDTOForMeetingOwners = new ArrayList<UserDTO>();
+		for (UserDTO userTEMP : listUserDTO) {
+			if (userTEMP.getRole() != UserRole.ROLE_USER) {
+				listUserDTOForMeetingOwners.add(userTEMP);
+			}
+		}
+		return listUserDTOForMeetingOwners;
 	}
 
 }
