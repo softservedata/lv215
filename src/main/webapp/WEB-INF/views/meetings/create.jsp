@@ -33,23 +33,27 @@
 			<h3 class="text-center">
 				<spring:message code="lbl.meeting.create" />
 			</h3>
-			<form:form role="form" method="post" modelAttribute="${MeetingController.MEETING_MODEL_ATTR}"
+			<form:form role="form" method="post"
+				modelAttribute="${MeetingController.MEETING_MODEL_ATTR}"
 				onsubmit="return isValidForm()">
 				<form:input path="id" type="hidden" />
 
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
+					<div class="form-group">
+						<label for="subject"><spring:message
+								code="lbl.meeting.subject" /></label>
+						<form:select class="form-control" path="subject" id="subject">
+							<c:forEach items="${subjects}" var="subject">
+								<option value="${subject.id}">${subject.name}</option>
+							</c:forEach>
+						</form:select>
+						<form:errors path="subject" class="text-danger" />
+					</div>
+				</sec:authorize>
+
 
 				<div class="form-group">
-					<label for="subject"><spring:message
-							code="lbl.meeting.subject" /></label>
-					<form:select class="form-control" path="subject" id="subject">
-						<c:forEach items="${subjects}" var="subject">
-							<option value="${subject.id}">${subject.name}</option>
-						</c:forEach>
-					</form:select>
-					<form:errors path="subject" class="text-danger" />
-				</div>
-				<div class="form-group">
-
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 						<label for="owner"><spring:message
 								code="lbl.meeting.owner" /></label>
@@ -66,7 +70,8 @@
 								code="lbl.meeting.owner" /></label>
 						<sec:authentication property="principal.id" var="principarid" />
 
-						<form:select class="form-control" path="owner" id="owner">
+						<form:select class="form-control" path="owner" id="owner"
+							readonly="true">
 							<c:forEach items="${owners}" var="owner">
 								<c:choose>
 									<c:when test="${owner.id eq principarid}">
@@ -77,7 +82,7 @@
 							</c:forEach>
 						</form:select>
 					</sec:authorize>
-					
+
 				</div>
 				<div class="form-group">
 					<label for="room"><spring:message code="lbl.meeting.room" /></label>
@@ -150,7 +155,7 @@
 					<form:input class="form-control" path="description"
 						id="description" placeholder="${descPH}"
 						pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}"
-						title="Blah" />
+						/>
 					<form:errors path="description" class="text-danger" />
 				</div>
 
@@ -158,7 +163,8 @@
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
 						value="<spring:message code="lbl.form.save"/>"> <a
-						class="btn btn-default" href="${pageContext.request.contextPath}${MeetingController.MEETING_CREATE_URL}"><spring:message
+						class="btn btn-default"
+						href="${pageContext.request.contextPath}${MeetingController.MEETING_CREATE_URL}"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
 						href="${pageContext.request.contextPath}/${MeetingController.MEETINGS_MODEL_ATTR}"><spring:message
 							code="lbl.form.cancel" /></a>

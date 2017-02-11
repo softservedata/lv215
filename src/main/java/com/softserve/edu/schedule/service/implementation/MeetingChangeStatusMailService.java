@@ -1,5 +1,6 @@
-package com.softserve.edu.schedule.service.implementation.mailsenders;
+package com.softserve.edu.schedule.service.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -17,18 +18,20 @@ import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
+import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
+import com.softserve.edu.schedule.service.implementation.mailsenders.MailConstants;
 
 /**
  * Provides mail notifications of group members when group has been deleted
  *
  * @version 1.0 04 February 2017
  *
- * @author Andrii Zhydenko
+ * @author Bohdan Melnyk
  */
 @Component
-public class UserGroupDeletedMailService implements MailConstants {
+public class MeetingChangeStatusMailService implements MailConstants {
 
     /**
      * JavaMailSender example to provide mail sending.
@@ -64,15 +67,24 @@ public class UserGroupDeletedMailService implements MailConstants {
      *            current locale.
      */
     @Async
-    public void sendInfoMessageGroupDelete(final UserGroup userGroup,
+    public void sendInfoMessageAboutMeetingStatusChanging(final Meeting meeting,
             final Locale locale) {
         Context ctx = new Context(locale);
-        ctx.setVariable(USERGROUP_MODEL_NAME, userGroup);
+        ctx.setVariable(MEETING_MODEL_NAME, meeting);
 
-        List<User> groupMembers = userGroup.getUsers();
+        List<User> curators = new ArrayList<User>();
+        User owner = meeting.getOwner();
+        curators.add(owner);
 
-        for (User member : groupMembers) {
-            ctx.setVariable(USERGROUP_USER, member);
+        for (UserGroup userGroup : meeting.getGroups()) {
+            User userTemp = userGroup.getCurator();
+            if (userTemp != owner) {
+                curators.add(userGroup.getCurator());
+            }
+        }
+
+        for (User member : curators) {
+            ctx.setVariable(MEETING_GROUP_CURATOR, member);
 
             try {
                 MimeMessage mimeMessage = this.mailSender.createMimeMessage();
@@ -81,9 +93,10 @@ public class UserGroupDeletedMailService implements MailConstants {
                 message.setTo(member.getMail());
                 message.setFrom(new InternetAddress(fromAddress));
                 message.setSubject(messageSource.getMessage(
-                        USERGROUP_DELETED_MESSAGE, new String[0], locale));
+                        MEETING_CHANGEDSTATUS_MESSAGE, new String[0], locale));
+                System.out.println("HI THERE22!!!");
                 String htmlContent = this.templateEngine
-                        .process(USERFROUP_DELETED_TEMPLATE, ctx);
+                        .process(MEETING_CHANGESTATUS_TEMPLATE, ctx);
                 message.setText(htmlContent, true);
                 this.mailSender.send(mimeMessage);
             } catch (MessagingException e) {
