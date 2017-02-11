@@ -187,4 +187,12 @@ public interface UserService extends UserDetailsService {
      * @return lists of users which have status - active
      */
     List<UserDTO> getAllActiveUsers();
+
+    /** Get all users, that can manage groups, meetings, etc. 
+     * @param listUserDTO
+     * @return
+     *         List<UserDTO>
+     */
+    List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO);
 }
+

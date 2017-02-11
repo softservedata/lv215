@@ -28,6 +28,8 @@
 			<td th:text="${meeting.getOwner().getFirstName()}"></td>
 			<td th:text="${meeting.getOwner().getLastName()}"></td>
 		</tr>
+
+
 		<tr>
 			<th th:text="#{lbl.meeting.date}"></th>
 			<td th:text="${meeting.getDate()}"></td>
@@ -44,12 +46,11 @@
 		<tr>
 			<th th:text="#{lbl.meeting.groups}"></th>
 			<td>
-				<ul data-th-each="groupName : ${meeting.getGroups()}">
-					<li data-th-text="${groupName}"></li>
+				<ul data-th-each="group : ${meeting.getGroups()}">
+					<li data-th-text="${group.getName()}"></li>
 				</ul>
 			</td>
 		</tr>
-
 
 		<tr>
 			<th th:text="#{lbl.meeting.level}"></th>

@@ -124,7 +124,7 @@
 			<th></th>
 			<th class="text-center v-alighn"><sec:authorize
 					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
-					<a href="${pageContext.request.contextPath}/meetings/create"
+					<a href="${pageContext.request.contextPath}/${MeetingController.MEETING_CREATE_URL}"
 						title="<spring:message code="lbl.meeting.create" />"> <i
 						class="fa fa-plus fa-lg"></i>
 					</a>
@@ -169,7 +169,7 @@
 										${owner.firstName}</option>
 								</c:when>
 								<c:otherwise>
-									<option value="${owner.id}">${owner.lastName}${owner.firstName}</option>
+									<option value="${owner.id}">${owner.lastName} ${owner.firstName}</option>
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
@@ -267,7 +267,7 @@
 				<td><a
 					href="${pageContext.request.contextPath}/${MeetingController.SUBJECTS_MODEL_ATTR}/${meeting.subject.id}">${meeting.subject.name}</a></td>
 				<td><a
-					href="${pageContext.request.contextPath}/${MeetingController.PROFILE_MAPPING}${meeting.owner.id}">${meeting.owner.lastName}
+					href="${pageContext.request.contextPath}/${MeetingController.PROFILE_MAPPING}/${meeting.owner.id}">${meeting.owner.lastName}
 						${meeting.owner.firstName}</a></td>
 				<td><a
 					href="${pageContext.request.contextPath}/${MeetingController.ROOMS_MODEL_ATTR}/${meeting.room.id}">${meeting.room.name}</a>
