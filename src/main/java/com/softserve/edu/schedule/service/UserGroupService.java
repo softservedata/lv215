@@ -92,4 +92,13 @@ public interface UserGroupService {
 	 */
 	public List<UserGroupDTO> getUserGroupPageWithFilter(final UserGroupFilter userGroupFilter,
 			final Paginator userGroupPaginator);
+
+	/**
+	 * Returns list with searched by name groups.
+	 *
+	 * @param userGroupName
+	 *            Name of a group to search
+	 * @return list with searched by name groups
+	 */
+	public List<UserGroupDTO> getUserGroupsByName(final String userGroupName);
 }

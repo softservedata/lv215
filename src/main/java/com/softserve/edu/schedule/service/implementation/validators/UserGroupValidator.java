@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.service.UserGroupService;
 
@@ -84,22 +85,10 @@ public class UserGroupValidator implements ConstraintValidator<Validate, UserGro
 	 * @return boolean value to figure out if our name is unique
 	 */
 	public boolean hasUniqueName(final Long groupId, final String groupName) {
-		groups = userGroupService.getAll();
-
-		if (groupId != null) {
-			for (UserGroupDTO group : groups) {
-				if (group.getName().equals(groupName) && (group.getId() != groupId)) {
-					return false;
-				}
-			}
-		} else {
-			for (UserGroupDTO group : groups) {
-				if (group.getName().equals(groupName)) {
-					return false;
-				}
-			}
-		}
-		return true;
+        groups = userGroupService
+                .getUserGroupsByName(groupName.trim());
+        return groups.isEmpty() || groups.stream()
+                .anyMatch(s -> s.getId().equals(groupId));
 	}
 
 	/**

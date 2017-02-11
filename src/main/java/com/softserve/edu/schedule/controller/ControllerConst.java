@@ -171,7 +171,7 @@ public interface ControllerConst {
 
 		String DELETE_USER_MAPPING = "/users/delete/";
 
-		String UPDATE_USER_MAPPING = "update";
+		String UPDATE_USER_MAPPING = "update/";
 
 		String SAVE_UPDATED_USER_MAPPING = "update/saveUpdatedUser/";
 
@@ -215,13 +215,13 @@ public interface ControllerConst {
 
 		String DELETE_USER_URL = "users/users/delete";
 
-		String USER_PROFILE_MAPPING = "profile";
+		String USER_PROFILE_MAPPING = "profile/";
 
 		String USER_PROFILE_URL = "users/users/profile";
 
-		String CHANGE_PASSWORD_MAPPING = "changePassword";
+		String CHANGE_PASSWORD_MAPPING = "changePassword/";
 
-		String SAVE_CHANGED_PASSWORD_MAPPING = "changePassword/saveChangePassword";
+		String SAVE_CHANGED_PASSWORD_MAPPING = "changePassword/saveChangePassword/";
 
 		String CHANGE_PASSWORD_URL = "users/users/changePassword";
 
@@ -235,7 +235,7 @@ public interface ControllerConst {
 
 		String REDIRECT_USER_DETAILS_URL = "redirect:/userDetails";
 
-		String USER_MEETINGS_MAPPING = "showMeetings";
+		String USER_MEETINGS_MAPPING = "showMeetings/";
 
 		String USER_MEETINGS_URL = "/showMeetings";
 	}
@@ -455,7 +455,6 @@ public interface ControllerConst {
 	 * @author Andrew
 	 *
 	 */
-
 	public interface UserGroupControllerConst {
 
 		/**
@@ -598,6 +597,10 @@ public interface ControllerConst {
 		 */
 		int MAX_GROUP_NAME_LENGTH = 20;
 
+		/**
+		 * Mapping to a profile from usergroups list
+		 */
+		String USERGROUP_USER_PROFILE_MAPPING = "/profile/";
 	}
 
 	public interface RoomEquipmentControllerConst {
@@ -627,5 +630,133 @@ public interface ControllerConst {
 		String ROOM_EQUIPMENTS_SORT_ASC = "/sortbynameasc";
 
 		String ROOM_EQUIPMENTS_SORT_DESC = "/sortbynamedesc";
+	}
+
+	public interface MeetingControllerConst {
+
+		/**
+		 * Meetings section URL name.
+		 */
+		String MEETINGS_URL = "/meetings";
+
+		/**
+		 * Filter attribute for meetings
+		 */
+		String FILTER_MODEL_ATTR = "meetingFilter";
+
+		/**
+		 * Meeting model attribute name.
+		 */
+		String MEETING_MODEL_ATTR = "meetingForm";
+
+		/**
+		 * Paginator model attribute name.
+		 */
+		String MEETING_PAGINATOR_MODEL_ATTR = "meetingPaginator";
+
+		/**
+		 * Meetings model attribute name.
+		 */
+		String MEETINGS_MODEL_ATTR = "meetings";
+
+		/**
+		 * Users model attribute name.
+		 */
+		String USERS_MODEL_ATTR = "users";
+
+		/**
+		 * Owners model attribute name.
+		 */
+		String OWNERS_MODEL_ATTR = "owners";
+
+		/**
+		 * Subjects model attribute name.
+		 */
+		String SUBJECTS_MODEL_ATTR = "subjects";
+
+		/**
+		 * Rooms model attribute name.
+		 */
+		String ROOMS_MODEL_ATTR = "rooms";
+
+		/**
+		 * Groups model attribute name.
+		 */
+		String GROUPS_MODEL_ATTR = "groups";
+
+		/**
+		 * UserGroups model attribute name.
+		 */
+		String USERGROUPS_MODEL_ATTR = "userGroups";
+
+		/**
+		 * MeetingStatuses model attribute name.
+		 */
+		String MEETINGSTATUSES_MODEL_ATTR = "meetingStatuses";
+
+		/**
+		 * Meetings create mapping name.
+		 */
+		String MEETING_CREATE_MAPPING = "/create";
+
+		/**
+		 * Meeting delete mapping name.
+		 */
+		String MEETING_DELETE_MAPPING = "/delete/{id}";
+
+		/**
+		 * Meeting create url name.
+		 */
+		String MEETING_CREATE_URL = "meetings/create";
+
+		/**
+		 * Meeting edit url name.
+		 */
+		String MEETING_EDIT_URL = "meetings/edit";
+
+		/**
+		 * Meeting edit mapping name.
+		 */
+		String MEETING_EDIT_MAPPING = "/edit/{id}";
+
+		/**
+		 * Meeting redirect url name.
+		 */
+		String MEETING_REDIRECT_URL = "redirect:/meetings";
+
+		/**
+		 * Meeting list url name.
+		 */
+		String MEETING_LIST_URL = "meetings/list";
+
+		/**
+		 * Id path.
+		 */
+		String ID_URL = "id";
+
+		/**
+		 * Meetings Id path.
+		 */
+		String MEETINGID_URL = "/{id}";
+
+		/**
+		 * Meeting showmeeting mapping name.
+		 */
+		String MEETING_SHOWMEETING_MAPPING = "meetings/showmeeting";
+		/**
+		 * User profile mapping name.
+		 */
+		String PROFILE_MAPPING = "profile";
+
+		/**
+		 * usergroups model attribute name.
+		 */
+		String USERGROUPS_MAPPING = "/usergroups";
+
+		/**
+		 * meeting delete url name.
+		 */
+		String DELETE_MAPPING = "meetings/delete";
+
 	}
 }

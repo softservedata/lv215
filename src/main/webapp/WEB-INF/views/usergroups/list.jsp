@@ -139,7 +139,7 @@
 				<td><a
 					href="${pageContext.request.contextPath}/usergroups/${usergroup.id}">${usergroup.name}</a></td>
 				<td><a
-					href="${pageContext.request.contextPath}/profile${usergroup.curator.id}">${usergroup.curator.lastName}
+					href="${pageContext.request.contextPath}${UserGroupController.USERGROUP_USER_PROFILE_MAPPING}${usergroup.curator.id}">${usergroup.curator.lastName}
 						${usergroup.curator.firstName}</a></td>
 				<td><spring:message code="lbl.group.${usergroup.level.code}" /></td>
 				<td>${usergroup.users.size()}</td>
@@ -218,6 +218,7 @@
 		<ul id="paginationList" class="pagination"></ul>
 	</div>
 </div>
+
 <script>
 $('#confirm-delete').on('show.bs.modal', function(e) {
     $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));

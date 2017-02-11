@@ -91,8 +91,6 @@
 													groupId : '${userGroupForm.id}'
 												}
 											}
-
 										})
-
 					});
 </script>

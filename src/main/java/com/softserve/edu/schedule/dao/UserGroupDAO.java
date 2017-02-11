@@ -32,4 +32,13 @@ public interface UserGroupDAO extends CrudDAO<UserGroup> {
 	 * @return List of a filtered groups
 	 */
 	public List<UserGroup> getUserGroupPageWithFilter(UserGroupFilter userGroupFilter, Paginator userGroupPaginator);
+
+	/**
+	 * Returns list with searched by name groups.
+	 *
+	 * @param groupName
+	 *            Name of a group to search
+	 * @return list with searched by name groups
+	 */
+	public List<UserGroup> getGroupsByName(final String groupName);
 }

@@ -119,4 +119,20 @@ public class UserGroupDAOImpl extends CrudDAOImpl<UserGroup> implements UserGrou
 		return getEm().createQuery(criteriaQuery).setFirstResult(userGroupPaginator.getOffset())
 				.setMaxResults(userGroupPaginator.getPageSize()).getResultList();
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.dao.UserGroupDAO#getGroupsByName(java.lang.
+	 * String)
+	 */
+	@Override
+	public List<UserGroup> getGroupsByName(final String groupName) {
+		CriteriaBuilder builder = getEm().getCriteriaBuilder();
+		CriteriaQuery<UserGroup> cq = builder.createQuery(UserGroup.class);
+		Root<UserGroup> root = cq.from(UserGroup.class);
+		cq.where(builder.like(root.get(UserGroup_.name), groupName));
+		return getEm().createQuery(cq).getResultList();
+	}
 }

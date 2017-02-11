@@ -45,4 +45,5 @@ public interface UserDAO extends CrudDAO<User> {
 	 * @return lists of users which have status - active
 	 */
 	List<User> getAllActiveUsers();
+
 }

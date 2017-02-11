@@ -5,6 +5,33 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page import="com.softserve.edu.schedule.controller.RoomController"%>
 
+<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">
+					<spring:message code="lbl.form.deleteTitle" />
+				</h4>
+			</div>
+			<div class="modal-body">
+				<p>
+					<spring:message code="lbl.room.deleteRoomConfirm" />
+				</p>
+			</div>
+			<div class="modal-footer">
+				<a class="btn btn-primary btn-ok">
+					<spring:message code="lbl.form.delete" />
+				</a>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					<spring:message code="lbl.form.cancel" />
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 <h3 class="text-center">
 	<spring:message code="lbl.room.title" />
 </h3>
@@ -13,26 +40,23 @@
 	<table class="table table-hover">
 		<tr>
 			<th class="v-alighn">
-				<spring:message code="lbl.room.location" />
-				<a href="rooms?sortByField=1&sortOrder=1&pageNumber=0"
-					title="<spring:message code="lbl.room.sortAsc"/>">
-					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a>
-				<a href="rooms?sortByField=1&sortOrder=2&pageNumber=0"
-					title="<spring:message code="lbl.room.sortDesc"/>">
-					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-				</a>
-			</th>
-			<th class="v-alighn">
-				<spring:message code="lbl.room.address" />
-			</th>
-			<th class="v-alighn">
 				<spring:message code="lbl.room.roomName" />
 				<a href="rooms?sortByField=2&sortOrder=1&pageNumber=0"
 					title="<spring:message code="lbl.room.sortAsc"/>">
 					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
 				</a>
 				<a href="rooms?sortByField=2&sortOrder=2&pageNumber=0"
+					title="<spring:message code="lbl.room.sortDesc"/>">
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
+			</th>
+			<th class="v-alighn">
+				<spring:message code="lbl.room.location" />
+				<a href="rooms?sortByField=1&sortOrder=1&pageNumber=0"
+					title="<spring:message code="lbl.room.sortAsc"/>">
+					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				</a>
+				<a href="rooms?sortByField=1&sortOrder=2&pageNumber=0"
 					title="<spring:message code="lbl.room.sortDesc"/>">
 					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
 				</a>
@@ -80,6 +104,13 @@
 				<form:input path="showFilter" type="hidden" value="true" />
 				<td>
 					<div class="form-group">
+						<spring:message code="lbl.room.roomName" var="nameForPlaceholder" />
+						<form:input class="form-control input-sm input-name" type="text" path="name"
+							placeholder="${nameForPlaceholder}" />
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
 						<form:select class="form-control" path="locationId" id="locationId">
 							<option value="0"></option>
 							<c:forEach items="${locations}" var="location">
@@ -93,14 +124,6 @@
 								</c:choose>
 							</c:forEach>
 						</form:select>
-					</div>
-				</td>
-				<td></td>
-				<td>
-					<div class="form-group col-xs-10">
-						<spring:message code="lbl.room.roomName" var="nameForPlaceholder" />
-						<form:input class="form-control input-sm input-name" type="text" path="name"
-							placeholder="${nameForPlaceholder}" />
 					</div>
 				</td>
 				<td>
@@ -150,10 +173,12 @@
 		</tr>
 		<c:forEach items="${rooms}" var="room">
 			<tr>
-				<td>${room.location.name}</td>
-				<td>${room.location.address}</td>
-				<td>					
-					<a href="rooms/${room.id}">${room.name}</a>					
+				<td>
+					<a href="rooms/${room.id}">${room.name}</a>
+				</td>
+				<td>
+					<a href="${pageContext.request.contextPath}/locations/map/${room.location.id}">
+						${room.location.name}</a>
 				</td>
 				<td>${room.capacity}</td>
 				<td>
@@ -165,8 +190,8 @@
 				</td>
 				<td class="text-center v-alighn">
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
-						<a href="rooms/delete/${room.id}" title="<spring:message code="lbl.room.deleteRoom"/>"
-							onclick="return confirm('<spring:message code="lbl.room.deleteRoomConfirm"/>');">
+						<a data-href="rooms/delete/${room.id}" data-toggle="modal" data-target="#confirm-delete"
+							title="<spring:message code="lbl.room.deleteRoom"/>">
 							<i class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</sec:authorize>
@@ -217,27 +242,14 @@
 	</div>
 </div>
 
+<span id="firstLabel" hidden="true"><spring:message code="lbl.pager.first" /></span>
+<span id="lastLabel" hidden="true"><spring:message code="lbl.pager.last" /></span>
+<span id="previousLabel" hidden="true"><spring:message code="lbl.pager.previous" /></span>
+<span id="nextLabel" hidden="true"><spring:message code="lbl.pager.next" /></span>
+<spring:url value="/resources/js/rooms/list.js" var="roomsListJS" />
 <script>
-$(function() {
-	$("select[name=locationId]").chosen({
-		width : "160px"
-	});
-	$("select[name=equipments]").chosen({
-		width : "150px"
-	});		
-})
-
- $('#paginationList').twbsPagination({	 	
-	 	totalPages: ${roomPaginator.pagesCount + 1},
-        startPage: ${roomPaginator.pageNumber + 1},
-        visiblePages: 10,
-        first: '<spring:message code="lbl.pager.first"/>',
-        last: '<spring:message code="lbl.pager.last"/>',
-        prev: '<spring:message code="lbl.pager.previous"/>',
-        next: '<spring:message code="lbl.pager.next"/>',
-        initiateStartPageClick: false,        
-        onPageClick: function (event, page) {
-        	window.location = "rooms?pageNumber=" + (page-1);        	
-        }
-    });
+	var totalPages = ${roomPaginator.pagesCount + 1}
+	var startPage = ${roomPaginator.pageNumber + 1}
+</script>
+<script type="text/javascript" src="${roomsListJS}">	
 </script>

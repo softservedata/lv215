@@ -95,7 +95,7 @@
 				<label for="users"><spring:message code="lbl.group.members" /></label>
 				<form:select class="form-control" path="users" id="users"
 					multiple="multiple">
-					<c:forEach items="${allUsers}" var="user">
+					<c:forEach items="${users}" var="user">
 						<c:set var="found" value="false" />
 						<c:forEach items="${userGroupForm.users}" var="userInGroup">
 							<c:if test="${!found}">
@@ -114,11 +114,8 @@
 				</form:select>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
-						value="<spring:message code="lbl.form.save"/>"> <a
-						class="btn btn-default"
-						href="/schedule/usergroups/edit/${userGroupForm.id}"><spring:message
-							code="lbl.form.reset" /></a> <a class="btn btn-default"
-						href="${pageContext.request.contextPath}/usergroups"><spring:message
+						value="<spring:message code="lbl.form.save"/>"> <a class="btn btn-default"
+						href="${pageContext.request.contextPath}${UserGroupController.USERGROUP_MAPPING}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
 
@@ -135,23 +132,20 @@
 		$("select[name=curators]").chosen({
 			width : "100%"
 		});
-	})
-
+	});
 	function validateForm() {
 		document.getElementById("nameErrorMsg").innerHTML = "";
 		document.getElementById("descriptionErrorMsg").innerHTML = "";
-		$(".form-error").remove();
-
 		var isValid = true;
-
+		
 		var description = document.getElementById("description");
 		var name = document.getElementById("name");
-
-		if (name.value.length < "${UserGroupController.MIN_GROUP_NAME_LENGTH}") {
+		
+		if(name.value.length < "${UserGroupController.MIN_GROUP_NAME_LENGTH}") {
 			document.getElementById("nameErrorMsg").innerHTML = '<spring:message code="lbl.group.shortName"/>';
 			isValid = false;
 		}
-		if (name.value.length > "${UserGroupController.MAX_GROUP_NAME_LENGTH}") {
+		if(name.value.length > "${UserGroupController.MAX_GROUP_NAME_LENGTH}") {
 			document.getElementById("nameErrorMsg").innerHTML = '<spring:message code="lbl.group.longName"/>';
 			isValid = false;
 		}
