@@ -70,31 +70,24 @@ public class MeetingCanceledMailService implements MailConstants {
     @Async
     public void sendInfoMessageRoomDeletion(
             final MeetingCompactDTO meetingCompactDTO, final Locale locale) {
-        System.out.println("Starts mail sender");
         Context ctx = new Context(locale);
         ctx.setVariable(MEETING_MODEL_NAME, meetingCompactDTO);
 
         try {
-            System.out.println("In try block");
             MimeMessage mimeMessage = this.mailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true,
                     DEFAULT_MESSAGE_ENCODING);
-            System.out.println("Before sending");
-            
+
             message.setTo(
                     new InternetAddress(meetingCompactDTO.getOwnerMail()));
             message.setFrom(new InternetAddress(fromAddress));
-            
-            System.out.println("In sending");
-            
+
             message.setSubject(messageSource.getMessage(
                     MEETING_CANCELLED_MESSAGE_SUBJECT, new String[0], locale));
             String htmlContent = this.templateEngine
                     .process(MEETING_CANCELLED_TEMPLATE, ctx);
             message.setText(htmlContent, true);
             this.mailSender.send(mimeMessage);
-            
-            System.out.println("After sending");
         } catch (MessagingException e) {
             e.printStackTrace();
         }
