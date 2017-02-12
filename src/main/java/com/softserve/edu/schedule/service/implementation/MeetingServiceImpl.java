@@ -34,7 +34,7 @@ import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingChan
  * This is implementation of the interface for managing Meetings Service.
  *
  * @version 1.0 12.12.2016
- * @author IT Academy
+ * @author Bohdan Melnyk
  */
 @Transactional
 @Service

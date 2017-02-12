@@ -23,7 +23,7 @@ import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 
 /**
- * Provides mail notifications of group members when group has been deleted
+ * Provides mail notifications of meeting delation.
  *
  * @version 1.0 04 February 2017
  *
@@ -103,5 +103,4 @@ public class DeleteMeetingMailService implements MailConstants {
             }
         }
     }
-
 }

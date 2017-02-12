@@ -22,7 +22,7 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  * This interface for managing Meetings Service.
  *
  * @version 1.0 12.12.2016
- * @author IT Academy
+ * @author Bohdan Melnyk
  */
 public interface MeetingService {
 
