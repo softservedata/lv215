@@ -185,7 +185,7 @@ public class MeetingValidator
      */
     private boolean isOriginMeeting(MeetingDTO meetingDTO) {
         List<MeetingDTO> listOfDuplicates = meetingService
-                .DublicatesOfGivenDTO(meetingDTO);
+                .duplicatesOfGivenDTO(meetingDTO);
         return ((listOfDuplicates.isEmpty()) || listOfDuplicates.stream()
                 .anyMatch(s -> s.getId().equals(meetingDTO.getId())));
 

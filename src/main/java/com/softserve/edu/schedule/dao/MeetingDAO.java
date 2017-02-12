@@ -21,7 +21,7 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
 /**
  * This interface for managing Meetings DAO implementation. It extends ReadDAO
  * interface.
- * 
+ *
  * @version 1.0 12.12.2016
  * @author IT Academy
  */
@@ -29,9 +29,11 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
 
     /**
      * Returns List of Meetings by given MeetingFilter and Paginator.
-     * 
+     *
      * @param meetingFilter
+     *            a filter to apply.
      * @param meetingPaginator
+     *            a paginator to apply.
      * @return List of Meetings
      */
     List<Meeting> getMeetingPageWithFilter(MeetingFilter meetingFilter,
@@ -50,7 +52,7 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
 
     /**
      * Delete Meeting by id.
-     * 
+     *
      * @param id
      *            id.
      */
@@ -58,7 +60,7 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
 
     /**
      * For the given Meeting id changes meeting status for given MeetingStatus.
-     * 
+     *
      * @param id
      *            Id of the meeting.
      * @param meetingStatus
@@ -68,7 +70,7 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
 
     /**
      * Gives MeetingStatus by given String name.
-     * 
+     *
      * @param status
      *            name of status
      * @return MeetingStatus object.
@@ -77,12 +79,25 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
 
     /**
      * Returns the List of MeetingDTO, that duplicates given Meetings fields.
-     * 
-     * @param Meetings
-     *            fields
+     *
+     * @param subjectName
+     *            subject of meeting
+     *
+     * @param ownerName
+     *            owner of meeting
+     *
+     * @param roomName
+     *            room of meeting
+     *
+     * @param localDate
+     *            date of meeting
+     *
+     * @param localTime
+     *            start time of meeting
+     *
      * @return List of Meeting
      */
-    List<Meeting> dublicatesOfGivenFields(String subjectName, String OwnerName,
+    List<Meeting> dublicatesOfGivenFields(String subjectName, String ownerName,
             String roomName, LocalDate localDate, LocalTime localTime);
 
     /**
@@ -122,10 +137,10 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *
      * @param roomId
      *            room id for find meetings
-     * 
+     *
      * @param startDate
      *            start date for find meetings
-     * 
+     *
      * @param endDate
      *            end date for find meetings
      *
@@ -141,10 +156,10 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *
      * @param userId
      *            user id for find meetings
-     * 
+     *
      * @param startDate
      *            start date for find meetings
-     * 
+     *
      * @param endDate
      *            end date for find meetings
      *
@@ -160,10 +175,10 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *
      * @param subjectId
      *            subject id for find meetings
-     * 
+     *
      * @param startDate
      *            start date for find meetings
-     * 
+     *
      * @param endDate
      *            end date for find meetings
      *
@@ -175,14 +190,14 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     /**
      * Method that's used to get all meetings in specified interval for
      * specified group.
-     * 
+     *
      * @author Andriy Zhydenko
-     * 
+     *
      * @param groupId
      *            id of a group to find
-     * @param start
+     * @param startDate
      *            start time of meetings
-     * @param end
+     * @param endDate
      *            end time of meetings
      * @return list of meetings that will be held for specified group in
      *         specified time limits

@@ -52,7 +52,7 @@ public class ApplicationInitializer
     /**
      * Optionally perform further registration customization once
      * registerDispatcherServlet(ServletContext) has completed.
-     * 
+     *
      * @param registration
      *            the DispatcherServlet registration to be customized
      */

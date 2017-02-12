@@ -25,8 +25,8 @@ public enum UserRole {
     /**
      * User group level constructor.
      *
-     * @param code
-     *            message code
+     * @param role
+     *            user role
      */
     UserRole(final String role) {
         this.role = role;

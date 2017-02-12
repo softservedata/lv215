@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
-import com.softserve.edu.schedule.dto.filter.DateFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.service.LocationService;
@@ -151,16 +150,6 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     }
 
     /**
-     * Provides date filter for filtering meetings.
-     *
-     * @return new RoomFilter object.
-     */
-    @ModelAttribute(DATE_FILTER_MODEL_ATTR)
-    public DateFilter getDateFilter() {
-        return new DateFilter();
-    }
-
-    /**
      * Controls view of rooms list page.
      *
      * @param model
@@ -197,15 +186,11 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      * @param model
      *            room details show page view model.
      *
-     * @param dateFilter
-     *            date filter for page
-     *
      * @return room show detail page URL
      */
     @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.GET)
     public String showRoom(@PathVariable(PATH_VAR_ID) final Long id,
-            final Model model,
-            @ModelAttribute(DATE_FILTER_MODEL_ATTR) @Valid final DateFilter dateFilter) {
+            final Model model) {
         model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
         return ROOM_SHOW_URL;
     }
