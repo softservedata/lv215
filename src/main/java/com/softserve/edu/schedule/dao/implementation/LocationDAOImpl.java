@@ -43,18 +43,6 @@ public class LocationDAOImpl extends CrudDAOImpl<Location> implements LocationDA
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.softserve.edu.schedule.dao.LocationDAO#deleteById(java.lang.Long)
-	 */
-	@Override
-	public void deleteById(Long id) {
-		Location location = getById(id);
-		delete(location);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * com.softserve.edu.schedule.dao.LocationDAO#getLocationsByField(java.lang.
 	 * String, java.lang.String)
 	 */
