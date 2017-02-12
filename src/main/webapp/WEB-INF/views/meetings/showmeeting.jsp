@@ -5,76 +5,66 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<script type="text/javascript">
 <%@ page
-import="com.softserve.edu.schedule.controller.MeetingController"%>
-	$(function() {
-		$("select[name=subject]").chosen({
-			width : "100%"
-		});
-		$("select[name=owner]").chosen({
-			width : "100%"
-		});
-		$("select[name=room]").chosen({
-			width : "100%"
-		});
-		$("select[name=groups]").chosen({
-			width : "100%"
-		});
-		$("select[name=status]").chosen({
-			width : "100%"
-		});
-	})
-</script>
-<div class="container">
-	<div class="row">
-		<div class="col-md-1">
-			<br>
-			<button class="btn btn-default" onclick="window.history.back()">
-				<spring:message code="lbl.form.back" />
-			</button>
+	import="com.softserve.edu.schedule.controller.MeetingController"%>
 
+<div class="container">
+	<div class="row padding-calendar-details">
+		<div class="float-calendar-details">
+			<h3>
+				<a id="back" class="align-left" href="#" onclick="window.history.back()"
+					title="<spring:message code="lbl.form.back" />">
+					<i class="fa fa-arrow-left fa-lg"></i>
+				</a>
+			</h3>
 		</div>
-		<div class="col-md-11">
-			<h1 class="text-center">
-				<spring:message code="lbl.meeting.showmeeting" />
-			</h1>
+		<div class="col-lg-1 col-lg-offset-9 col-md-1 col-sm-1 col-xs-1 panel-exit zero-margin-top">
+			<h3>
+				<a class="align-right"
+					href="${pageContext.request.contextPath}/${MeetingController.MEETINGS_MODEL_ATTR}"
+					title="<spring:message code="lbl.subject.title" />">
+					<i class="fa fa-table fa-lg"></i>
+				</a>
+			</h3>
 		</div>
 	</div>
 	<div class="row">
 		<div
-			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel ">
+			<h2><spring:message code="lbl.meeting.showmeeting" /></h2>
 			<form:form role="form" method="post" modelAttribute="meetingForm">
 				<form:input path="id" type="hidden" />
 				<div class="form-group">
 					<spring:message code="lbl.meeting.id" />
 					: ${meetingForm.id}
-
 				</div>
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.description" /></b> :
 					${meetingForm.description}
-
 				</div>
-
-
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.subject" /></b> : <a
-						href="${pageContext.request.contextPath}/${MeetingController.SUBJECTS_MODEL_ATTR}/${meetingForm.subject.id}">${meetingForm.subject.name}</a>
-
-
+						href="${pageContext.request.contextPath}/${MeetingController.SUBJECTS_MODEL_ATTR}/
+						${meetingForm.subject.id}">${meetingForm.subject.name}</a>
 				</div>
-
 				<div class="form-group">
-					<b><spring:message code="lbl.meeting.owner" /></b> : <a
-						href="${pageContext.request.contextPath}/${MeetingController.PROFILE_MAPPING}${meetingForm.owner.id}">${meetingForm.owner.lastName}
-						${meetingForm.owner.firstName}</a>
-
+					<b><spring:message code="lbl.meeting.owner" /></b> :
+					<sec:authorize access="isAuthenticated()">
+						<a
+							href="${pageContext.request.contextPath}/${MeetingController.PROFILE_MAPPING}/
+							${meetingForm.owner.id}">${meetingForm.owner.lastName}
+							${meetingForm.owner.firstName}</a>
+					</sec:authorize>
+					<sec:authorize access="!isAuthenticated()">
+						
+						${meetingForm.owner.lastName}
+						${meetingForm.owner.firstName}
+						</sec:authorize>
 				</div>
-
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.room" /></b> : <a
-						href="${pageContext.request.contextPath}/${MeetingController.ROOMS_MODEL_ATTR}/${meetingForm.room.id}">${meetingForm.room.name}</a>
+						href="${pageContext.request.contextPath}/${MeetingController.ROOMS_MODEL_ATTR}/
+						${meetingForm.room.id}">${meetingForm.room.name}</a>
 				</div>
 
 				<div class="form-group">
@@ -93,7 +83,9 @@ import="com.softserve.edu.schedule.controller.MeetingController"%>
 					<b><spring:message code="lbl.meeting.groups" /></b> :
 					<c:forEach items="${meetingForm.groups}" var="group">
 						<li><a
-							href="${pageContext.request.contextPath}/${MeetingController.USERGROUPS_MAPPING}/${group.id}">${group.name}</a>
+							href="${pageContext.request.contextPath}/
+							${MeetingController.USERGROUPS_MAPPING}/${group.id}">
+							${group.name}</a>
 						</li>
 					</c:forEach>
 				</div>
@@ -109,3 +101,23 @@ import="com.softserve.edu.schedule.controller.MeetingController"%>
 		</div>
 	</div>
 </div>
+
+<script>
+	$(function() {
+		$("select[name=subject]").chosen({
+			width : "100%"
+		});
+		$("select[name=owner]").chosen({
+			width : "100%"
+		});
+		$("select[name=room]").chosen({
+			width : "100%"
+		});
+		$("select[name=groups]").chosen({
+			width : "100%"
+		});
+		$("select[name=status]").chosen({
+			width : "100%"
+		});
+	})
+</script>

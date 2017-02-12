@@ -1,6 +1,15 @@
 /* MeetingForCalendarDTO 1.0 02/04/2017 */
 package com.softserve.edu.schedule.dto;
 
+/**
+ * A DTO class to transport meeting data to full calendar API.
+ *
+ * @version 1.0 04 February 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
 public class MeetingForCalendarDTO {
 
     /**
@@ -79,7 +88,7 @@ public class MeetingForCalendarDTO {
      * @param id
      *            the id to set
      */
-    public void setId(String id) {
+    public void setId(final String id) {
         this.id = id;
     }
 
@@ -87,7 +96,7 @@ public class MeetingForCalendarDTO {
      * @param title
      *            the title to set
      */
-    public void setTitle(String title) {
+    public void setTitle(final String title) {
         this.title = title;
     }
 
@@ -95,7 +104,7 @@ public class MeetingForCalendarDTO {
      * @param start
      *            the start to set
      */
-    public void setStart(String start) {
+    public void setStart(final String start) {
         this.start = start;
     }
 
@@ -103,15 +112,15 @@ public class MeetingForCalendarDTO {
      * @param end
      *            the end to set
      */
-    public void setEnd(String end) {
+    public void setEnd(final String end) {
         this.end = end;
     }
 
     /**
      * @param url
-     *            the url to set
+     *            the URL to set
      */
-    public void setUrl(String url) {
+    public void setUrl(final String url) {
         this.url = url;
     }
 
@@ -119,7 +128,7 @@ public class MeetingForCalendarDTO {
      * @param color
      *            the color to set
      */
-    public void setColor(String color) {
+    public void setColor(final String color) {
         this.color = color;
     }
 

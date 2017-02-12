@@ -154,7 +154,7 @@ public class UserDTO implements UserDetails {
     }
 
     /**
-     * Returns the username used to authenticate the user. .
+     * Returns the username used to authenticate the user.
      *
      * @return the username
      */
@@ -210,13 +210,14 @@ public class UserDTO implements UserDetails {
     }
 
     /**
-     * Check if users are equal by email(if it's the same person)
+     * Check if users are equal by email(if it's the same person).
      */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
 
-        if (o == this)
+        if (o == this) {
             return true;
+        }
         if (!(o instanceof UserDTO)) {
             return false;
         }
@@ -224,10 +225,8 @@ public class UserDTO implements UserDetails {
         return Objects.equals(mail, user.mail);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#hashCode()
+    /**
+     * Calculate hashcode of given user.
      */
     @Override
     public int hashCode() {

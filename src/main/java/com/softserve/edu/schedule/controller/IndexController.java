@@ -21,48 +21,49 @@ import com.softserve.edu.schedule.service.UserGroupService;
  */
 @Controller
 public class IndexController implements ControllerConst {
-	/**
-	 * LocationService example to provide locations list to the model.
-	 */
-	@Autowired
-	private LocationService locationService;
 
-	/**
-	 * LocationService example to provide locations list to the model.
-	 */
-	@Autowired
-	private SubjectService subjectService;
-	
-	/**
-	 * LocationService example to provide locations list to the model.
-	 */
-	@Autowired
-	private UserGroupService userGroupService;
-	
-	/**
-	 * Controls view of start page.
-	 *
-	 * @param model
-	 *            start page view model.
-	 *
-	 * @return start page URL
-	 */
-	@RequestMapping(ROOT_URL)
-	public String showIndex(final Model model) {
-		model.addAttribute("locationI", locationService.getAll());
-		model.addAttribute("subjectI", subjectService.getAll());
-		model.addAttribute("groupI", userGroupService.getAll());
-		return INDEX_URL;
-	}
+    /**
+     * LocationService example to provide locations list to the model.
+     */
+    @Autowired
+    private LocationService locationService;
 
-	/**
-	 * Controls view of login page.
-	 *
-	 * @return login page URL
-	 */
-	@RequestMapping("/login")
-	public String login() {
-		return "login";
-	}
+    /**
+     * LocationService example to provide locations list to the model.
+     */
+    @Autowired
+    private SubjectService subjectService;
+
+    /**
+     * LocationService example to provide locations list to the model.
+     */
+    @Autowired
+    private UserGroupService userGroupService;
+
+    /**
+     * Controls view of start page.
+     *
+     * @param model
+     *            start page view model.
+     *
+     * @return start page URL
+     */
+    @RequestMapping(ROOT_URL)
+    public String showIndex(final Model model) {
+        model.addAttribute("locationI", locationService.getAll());
+        model.addAttribute("subjectI", subjectService.getAll());
+        model.addAttribute("groupI", userGroupService.getAll());
+        return INDEX_URL;
+    }
+
+    /**
+     * Controls view of login page.
+     *
+     * @return login page URL
+     */
+    @RequestMapping("/login")
+    public String login() {
+        return "login";
+    }
 
 }

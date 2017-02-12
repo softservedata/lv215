@@ -9,7 +9,17 @@
 <div class="container">
 	<div class="row ">
 		<div
-			class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 col-sm-11 col-xs-11 panel-exit">
+			class="col-lg-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
+			<h3>
+				<a
+					href="#" onclick="window.history.back()"
+					title="<spring:message code="lbl.form.back" />"> <i
+					class="fa fa-arrow-left"></i>
+				</a>
+			</h3>
+		</div>
+		<div
+			class="col-lg-8 col-lg-offset-1 col-md-10 col-sm-10 col-xs-10 panel-exit">
 			<h3 class="text-center v-alighn">
 				<i class="fa fa-building-o"></i> ${map.name} <i
 					class="fa fa-map-marker"></i> ${map.address}
@@ -17,9 +27,9 @@
 			<input type="hidden" id="coordinates" value="${map.coordinates}" />
 		</div>
 		<div
-			class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit">
+			class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
 			<h3>
-				<a class="align-right"
+				<a
 					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}"
 					title="<spring:message code="lbl.location.title" />"> <i
 					class="fa fa-table fa-lg"></i>

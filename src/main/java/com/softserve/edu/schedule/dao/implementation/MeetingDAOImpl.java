@@ -1,11 +1,11 @@
 /*
  * Implementation of the Interface for Meetings Data Access Object.
- * 
+ *
  * REMARK:
  * This interface is the same as CrudDAO but with additional
  * methods. This methods provide an opportunity to sort dataObjects
- * direct in the DB, not in the application. 
- * 
+ * direct in the DB, not in the application.
+ *
  *
  * Version 03.01.17
  *
@@ -50,20 +50,16 @@ import com.softserve.edu.schedule.service.implementation.specification.MeetingFi
 
 /**
  * This class implements the MeetingsDAO. It also implements ReadDAO interface.
- * 
- * @version 1.0 12.12.2016
- * @author IT Academy
- */
-/**
- * @author Andrew
  *
+ * @version 1.0 12.12.2016
+ * @author Bohdan Melnyk
  */
 @Repository
 public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
     /**
      * Overridden default constructor to provide entity class for DAO.
-     * 
+     *
      */
     public MeetingDAOImpl() {
         super(Meeting.class);
@@ -73,21 +69,22 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * UserGroupDAO example for further business logic.
      */
     @Autowired
-    UserGroupDAO userGroupDAO;
+    private UserGroupDAO userGroupDAO;
 
     /**
      * UserDAO example for further business logic.
      */
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.MeetingDAO#getMeetingPageWithFilter(com.
-     * softserve.edu.schedule.dto.filter.MeetingFilter,
-     * com.softserve.edu.schedule.dto.filter.Paginator)
+    /**
+     * Returns List of Meetings by given MeetingFilter and Paginator.
+     *
+     * @param meetingFilter
+     *            a filter to apply.
+     * @param meetingPaginator
+     *            a paginator to apply.
+     * @return List of Meetings
      */
     @Override
     public List<Meeting> getMeetingPageWithFilter(
@@ -111,12 +108,14 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
                 .setMaxResults(meetingPaginator.getPageSize()).getResultList();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.MeetingDAO#getCountOfMeetingsWithFilter(
-     * com.softserve.edu.schedule.dto.filter.MeetingFilter)
+    /**
+     * Count meeting entities in the database with specified predicate.
+     *
+     * @param meetingFilter
+     *            a filter to apply.
+     *
+     * @return Count of the meeting entities in the database with specified
+     *         predicate.
      */
     @Override
     public Long getCountOfMeetingsWithFilter(
@@ -125,6 +124,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         CriteriaQuery<Long> cq = qb.createQuery(Long.class);
         Root<Meeting> root = cq.from(Meeting.class);
         cq.select(qb.countDistinct(root));
+        
         Predicate predicate = new MeetingFilterSpecification(meetingFilter,
                 userGroupDAO).toPredicate(root, cq, qb);
         if (predicate != null) {
@@ -133,12 +133,12 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getSingleResult();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getById(java.
-     * lang.Long)
+    /**
+     * Return a Meeting object if found.
+     *
+     * @param id
+     *            of Meeting object
+     * @return meeting with given id
      */
     @Override
     public Meeting getById(final Long id) {
@@ -153,10 +153,10 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getSingleResult();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#getAll()
+    /**
+     * Find all meeting entities in the database.
+     *
+     * @return List of the meeting objects.
      */
     @Override
     public List<Meeting> getAll() {
@@ -171,12 +171,13 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.MeetingDAO#changeStatus(com.softserve.edu.
-     * schedule.entity.Meeting, com.softserve.edu.schedule.entity.MeetingStatus)
+    /**
+     * For the given Meeting id changes meeting status for given MeetingStatus.
+     *
+     * @param id
+     *            Id of the meeting.
+     * @param meetingStatus
+     *            New meeting status.
      */
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
@@ -185,10 +186,11 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         this.update(meeting);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.dao.MeetingDAO#deleteById(java.lang.Long)
+    /**
+     * Delete Meeting by id.
+     *
+     * @param id
+     *            id.
      */
     @Override
     public void deleteById(final Long id) {
@@ -196,18 +198,24 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         delete(meeting);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.implementation.CrudDAOImpl#create(java.
-     * lang.Object)
+    /**
+     * Create Meeting entity.
+     *
+     * @param meeting
+     *            meeting to create.
      */
     @Override
-    public void create(Meeting meeting) {
+    public void create(final Meeting meeting) {
         getEm().persist(meeting);
     }
 
+    /**
+     * Gives MeetingStatus by given String name.
+     *
+     * @param status
+     *            name of status
+     * @return MeetingStatus object.
+     */
     public MeetingStatus getStatusbyString(final String status) {
         if (status.contains("fin") || status.contains("FIN")) {
             return MeetingStatus.FINISHED;
@@ -222,16 +230,28 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.MeetingDAO#dublicatesOfGivenFields(java.
-     * lang.String, java.lang.String, java.lang.String, java.time.LocalDate,
-     * java.time.LocalTime)
+    /**
+     * Returns the List of MeetingDTO, that duplicates given Meetings fields.
+     *
+     * @param subjectName
+     *            subject of meeting
+     *
+     * @param ownerName
+     *            owner of meeting
+     *
+     * @param roomName
+     *            room of meeting
+     *
+     * @param localDate
+     *            date of meeting
+     *
+     * @param localTime
+     *            start time of meeting
+     *
+     * @return List of Meeting
      */
     public List<Meeting> dublicatesOfGivenFields(final String subjectName,
-            final String OwnerName, final String roomName,
+            final String ownerName, final String roomName,
             final LocalDate localDate, final LocalTime localTime) {
 
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -247,7 +267,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
                 .like(joinSubject.get(Subject_.name), subjectName);
 
         Predicate predicateOwner = builder.like(joinOwner.get(User_.lastName),
-                OwnerName);
+                ownerName);
 
         Predicate predicateRoom = builder.like(joinRoom.get(Room_.name),
                 roomName);
@@ -278,6 +298,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
+        
         Predicate predicate = builder.conjunction();
         predicate = builder.and(predicate, builder.lessThan(
                 root.get(Meeting_.date), (LocalDate.now().plusDays(1))));
@@ -315,6 +336,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
         Join<Meeting, Room> roomJoin = root.join(Meeting_.room, JoinType.LEFT);
+        
         Predicate basePredicate = builder.conjunction();
         basePredicate = builder.and(basePredicate,
                 roomJoin.get(Room_.id).in(roomId));
@@ -346,10 +368,10 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      *
      * @param roomId
      *            room id for find meetings
-     * 
+     *
      * @param startDate
      *            start date for find meetings
-     * 
+     *
      * @param endDate
      *            end date for find meetings
      *
@@ -381,10 +403,10 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      *
      * @param subjectId
      *            subject id for find meetings
-     * 
+     *
      * @param startDate
      *            start date for find meetings
-     * 
+     *
      * @param endDate
      *            end date for find meetings
      *
@@ -400,6 +422,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         root.join(Meeting_.owner);
         root.join(Meeting_.room);
         root.join(Meeting_.groups);
+        
         Predicate predicate = builder.conjunction();
         predicate = builder.and(predicate,
                 builder.between(root.get(Meeting_.date), startDate, endDate));
@@ -417,10 +440,10 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      *
      * @param userId
      *            user id for find meetings
-     * 
+     *
      * @param startDate
      *            start date for find meetings
-     * 
+     *
      * @param endDate
      *            end date for find meetings
      *
@@ -436,6 +459,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         root.join(Meeting_.owner);
         root.join(Meeting_.room);
         Join<Meeting, UserGroup> joinGroups = root.join(Meeting_.groups);
+        
         Predicate basePredicate = builder.conjunction();
         basePredicate = builder.and(basePredicate,
                 builder.between(root.get(Meeting_.date), startDate, endDate));
@@ -456,14 +480,14 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     /**
      * Method that's used to get all meetings in specified interval for
      * specified group.
-     * 
+     *
      * @author Andriy Zhydenko
-     * 
+     *
      * @param groupId
      *            id of a group to find
-     * @param start
+     * @param startDate
      *            start time of meetings
-     * @param end
+     * @param endDate
      *            end time of meetings
      * @return list of meetings that will be held for specified group in
      *         specified time limits
@@ -478,6 +502,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         root.join(Meeting_.owner);
         root.join(Meeting_.room);
         root.join(Meeting_.subject);
+        
         Predicate predicate = builder.conjunction();
         predicate = builder.and(predicate,
                 builder.between(root.get(Meeting_.date), startDate, endDate));
