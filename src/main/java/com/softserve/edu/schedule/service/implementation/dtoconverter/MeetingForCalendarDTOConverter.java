@@ -27,6 +27,11 @@ public class MeetingForCalendarDTOConverter {
     /**
      * Color value for approved meetings in calendar.
      */
+    private static final String MEETING_DETAIL_MAPPING = "/schedule/meetings/";
+
+    /**
+     * Color value for approved meetings in calendar.
+     */
     private static final String APPROVED_MEETING_COLOR = "blue";
 
     /**
@@ -74,8 +79,8 @@ public class MeetingForCalendarDTOConverter {
             meetingForCalendarDTO.setEnd(
                     getFullTime(meeting.getDate(), meeting.getEndTime()));
 
-            meetingForCalendarDTO
-                    .setUrl("meetings/" + meeting.getId().toString());
+            meetingForCalendarDTO.setUrl(
+                    MEETING_DETAIL_MAPPING + meeting.getId().toString());
             meetingForCalendarDTO
                     .setColor(getMeetingColor(meeting.getStatus()));
 
