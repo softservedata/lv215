@@ -87,6 +87,11 @@ public interface MailConstants {
      * UserGroup deleted message.
      */
     String USERGROUP_DELETED_MESSAGE = "groupDeleted.messageUserGroup";
+    
+    /**
+     * Subject deleted message.
+     */
+    String SUBJECT_DELETED_MESSAGE = "subjectDeleted.messageTutor";
 
     /**
      * Meeting deleted message.
@@ -131,5 +136,17 @@ public interface MailConstants {
      * Model name for location delete message template.
      */
     String LOCATION_MODEL_NAME = "location";
+    /**
+     * Model name for location delete message template.
+     */
+    String SUBJECT_MODEL_NAME="subject";
+    /**
+     * Model name for location delete message template.
+     */
+    String SUBJECT_TUTOR_MODEL_NAME="tutor";   
+    /**
+     * Subject deleted message template for EN locale.
+     */
+    String SUBJECT_DELETED_TEMPLATE = "subjectDeleted";
 
 }
