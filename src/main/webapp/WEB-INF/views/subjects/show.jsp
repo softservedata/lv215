@@ -7,25 +7,23 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <div class="container">
-	<div class="row padding-calendar-details">
-		<div class="float-calendar-details">
-			<h3>
-				<a id="back" class="align-left" href="#" onclick="window.history.back()"
-					title="<spring:message code="lbl.form.back" />">
-					<i class="fa fa-arrow-left fa-lg"></i>
-				</a>
-			</h3>
-		</div>
-		<div class="col-lg-1 col-lg-offset-9 col-md-1 col-sm-1 col-xs-1 panel-exit zero-margin-top">
-			<h3>
-				<a class="align-right"
-					href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}"
-					title="<spring:message code="lbl.subject.title" />">
-					<i class="fa fa-table fa-lg"></i>
-				</a>
-			</h3>
-		</div>
-	</div>
+<div class="row">
+        <div class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
+            <h3>
+                <a href="#" onclick="window.history.back()" title="<spring:message code="lbl.form.back" />">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+            </h3>
+        </div>
+        <div class="col-lg-1 col-lg-offset-8 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
+            <h3>
+                <a href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}"
+                    title="<spring:message code="lbl.room.title" />">
+                    <i class="fa fa-table fa-lg"></i>
+                </a>
+            </h3>
+        </div>
+    </div>
 	<div class="row">
 		<div class="col-lg-4 col-lg-offset-1 col-md-5 col-sm-6 panel panel-default zero-margin-top">
 			<h3 class="text-center">
