@@ -87,29 +87,11 @@
 	</div>
 </div>
 
-<script>
-	$(document)
-			.ready(
-					function() {
-						$('#calendar')
-								.fullCalendar(
-										{
-											defaultView : 'agendaWeek',
-											locale : '<spring:message code="label.localeCalendar"/>',
-											header : {
-												left : 'prev,next,today',
-												center : 'title',
-												right : 'month,agendaWeek,agendaDay,listWeek'
-											},
-											nowIndicator : true,
-											navLinks : true,
-											events : {
-												url : '${pageContext.request.contextPath}/meetings/restByGroup',
-												type : 'GET',
-												data : {
-													groupId : '${userGroupForm.id}'
-												}
-											}
-										})
-					});
+<span id="userGroupsRestURL" hidden="true">${pageContext.request.contextPath}/meetings/restByGroup</span>
+<span id="groupId" hidden="true">${userGroupForm.id}</span>
+<span id="language" hidden="true"><spring:message code="label.localeCalendar" /></span>
+
+<spring:url value="/resources/js/usergroups/calendar.js" var="userGroupsCalendarJS" />
+<script type="text/javascript" src="${userGroupsCalendarJS}">
+
 </script>
