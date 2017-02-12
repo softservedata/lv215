@@ -219,22 +219,20 @@
 	</div>
 </div>
 
-<script>
-$('#confirm-delete').on('show.bs.modal', function(e) {
-    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-});
+<c:set var="first"><spring:message code="lbl.pager.first"/></c:set>
+<input id="firstLabel" type="hidden" value="${first}"/>
+<c:set var="last"><spring:message code="lbl.pager.last"/></c:set>
+<input id="lastLabel" type="hidden" value="${last}"/>
+<c:set var="previous"><spring:message code="lbl.pager.previous"/></c:set>
+<input id="previousLabel" type="hidden" value="${previous}"/>
+<c:set var="next"><spring:message code="lbl.pager.next"/></c:set>
+<input id="nextLabel" type="hidden" value="${next}"/>
 
-$('#paginationList').twbsPagination({
-    totalPages: ${usergroupPaginator.pagesCount + 1},
-    startPage: ${usergroupPaginator.pageNumber + 1},
-    visiblePages: 10,
-    first: '<spring:message code="lbl.pager.first"/>',
-    last: '<spring:message code="lbl.pager.last"/>',
-    prev: '<spring:message code="lbl.pager.previous"/>',
-    next: '<spring:message code="lbl.pager.next"/>',
-    initiateStartPageClick: false,        
-    onPageClick: function (event, page) {
-    	window.location = "usergroups?pageNumber=" + (page-1);        	
-    }
-});
+<spring:url value="/resources/js/usergroups/list.js" var="userGroupsListJS" />
+<script>
+	var totalPages = ${usergroupPaginator.pagesCount + 1}
+	var startPage = ${usergroupPaginator.pageNumber + 1}
+	
+</script>
+<script type="text/javascript" src="${userGroupsListJS}">	
 </script>
