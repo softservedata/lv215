@@ -201,22 +201,11 @@
 		<ul id="paginationList" class="pagination"></ul>
 	</div>
 </div>
-<script>
-$('#confirm-delete').on('show.bs.modal', function(e) {
-    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-});
 
- $('#paginationList').twbsPagination({
-        totalPages: ${locationPaginator.pagesCount + 1},
-        startPage: ${locationPaginator.pageNumber + 1},
-        visiblePages: 10,
-        first: '<spring:message code="lbl.pager.first"/>',
-        last: '<spring:message code="lbl.pager.last"/>',
-        prev: '<spring:message code="lbl.pager.previous"/>',
-        next: '<spring:message code="lbl.pager.next"/>',
-        initiateStartPageClick: false,        
-        onPageClick: function (event, page) {
-        	window.location = "locations?pageNumber=" + (page-1);        	
-        }
-    });
+<spring:url value="/resources/js/locations/list.js" var="locationsListJS" />
+<script>
+	var totalPages = ${locationPaginator.pagesCount + 1}
+	var startPage = ${locationPaginator.pageNumber + 1}
+</script>
+<script type="text/javascript" src="${locationsListJS}">	
 </script>

@@ -23,14 +23,6 @@ import com.softserve.edu.schedule.entity.Location;
 public interface LocationDAO extends CrudDAO<Location> {
 
 	/**
-	 * Method deletes existing location from database by id.
-	 *
-	 * @param id
-	 *            location id to delete
-	 */
-	void deleteById(final Long id);
-
-	/**
 	 * Method returns list of locations which suit condition of search by field.
 	 * 
 	 * @param field
