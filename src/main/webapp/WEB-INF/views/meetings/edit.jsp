@@ -7,39 +7,17 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page
 	import="com.softserve.edu.schedule.controller.MeetingController"%>
-	
-<script type="text/javascript">
-	$(function() {
-		$("select[name=subject]").chosen({
-			width : "100%"
-		});
-		$("select[name=owner]").chosen({
-			width : "100%"
-		});
-		$("select[name=room]").chosen({
-			width : "100%"
-		});
-		$("select[name=groups]").chosen({
-			width : "100%"
-		});
-		 		$("select[name=status]").chosen({
-		 width : "100%"
-		 }); 
-	})
-</script>
+
 <div class="container">
 	<div class="row">
 		<div
-			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+			class="col-md-4 col-md-offset-4  panel-default">
 			<h3 class="text-center">
 				<spring:message code="lbl.meeting.edit" />
-
 			</h3>
 			<form:form role="form" method="post" modelAttribute="meetingForm"
 				onsubmit="return isValidForm()">
 				<form:input path="id" type="hidden" />
-
-
 				<div class="form-group">
 					<label for="subject"><spring:message
 							code="lbl.meeting.subject" /></label>
@@ -47,7 +25,8 @@
 						<c:forEach items="${subjects}" var="subject">
 							<c:choose>
 								<c:when test="${meetingForm.subject.id eq subject.id}">
-									<option value="${subject.id}" selected="selected">${subject.name}</option>
+									<option value="${subject.id}" selected="selected">
+									${subject.name}</option>
 								</c:when>
 								<c:otherwise>
 									<option value="${subject.id}">${subject.name}</option>
@@ -77,8 +56,7 @@
 							</c:forEach>
 						</form:select>
 					</sec:authorize>
-
-						<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+					<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<label for="owner"><spring:message
 								code="lbl.meeting.owner" /></label>
 						<sec:authentication property="principal.id" var="principarid" />
@@ -93,9 +71,6 @@
 							</c:forEach>
 						</form:select>
 					</sec:authorize>
-
-
-
 				</div>
 				<div class="form-group">
 					<label for="room"><spring:message code="lbl.meeting.room" /></label>
@@ -150,7 +125,8 @@
 							<c:forEach items="${meetingForm.groups}" var="groupsInMeeting">
 								<c:if test="${!found}">
 									<c:if test="${groupsInMeeting.id eq group.id}">
-										<option value="${group.id}" selected="selected">${group.name}</option>
+										<option value="${group.id}" selected="selected">
+										${group.name}</option>
 										<c:set var="found" value="true" />
 									</c:if>
 								</c:if>
@@ -163,7 +139,6 @@
 					<br>
 					<form:errors path="groups" class="text-danger" />
 				</div>
-				
 				<div class="form-group">
 					<label for="level"><spring:message code="lbl.meeting.level" /></label>
 					<spring:message code="lbl.meeting.levelinput" var="templevel" />
@@ -173,18 +148,15 @@
 					<br>
 					<form:errors path="level" class="text-danger" />
 				</div>
-
 				<div class="form-group">
 					<label for="description"><spring:message
 							code="lbl.meeting.description" /></label>
 					<spring:message code="lbl.meeting.createDesc" var="descPH" />
 					<form:input class="form-control" path="description"
 						id="description" placeholder="${descPH}"
-						pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}"
-						/>
+						pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}" />
 					<form:errors path="description" class="text-danger" />
 				</div>
-
 				<div class="form-group">
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 						<label for="status"><spring:message
@@ -208,8 +180,7 @@
 						</form:select>
 						<form:errors path="status" class="text-danger" />
 					</sec:authorize>
-
-						<sec:authorize access="!hasAnyRole('ROLE_ADMIN')">
+					<sec:authorize access="!hasAnyRole('ROLE_ADMIN')">
 						<label for="status"><spring:message
 								code="lbl.meeting.status" /></label>
 						<form:select class="form-control" path="status" id="status">
@@ -225,23 +196,24 @@
 						</form:select>
 						<form:errors path="status" class="text-danger" />
 					</sec:authorize>
-
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default" id="timeerror"
 						value="<spring:message code="lbl.form.save"/>"> <a
 						class="btn btn-default"
-						href="${pageContext.request.contextPath}/${MeetingController.MEETING_EDIT_URL}/${meetingForm.id}"><spring:message
+						href="${pageContext.request.contextPath}/${MeetingController.MEETING_EDIT_URL}/
+						${meetingForm.id}"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
-						href="${pageContext.request.contextPath}/${MeetingController.MEETINGS_MODEL_ATTR}"><spring:message
+						href="${pageContext.request.contextPath}/
+						${MeetingController.MEETINGS_MODEL_ATTR}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
 			</form:form>
 		</div>
 	</div>
 </div>
+
 <script>
-	//Expect input as d/m/y
 	function isValidDate(s) {
 		var bits = s.split('/');
 		var d = new Date(bits[2], bits[1] - 1, bits[0]);
@@ -251,14 +223,27 @@
 		var startTimeMeeting = document.getElementById("startTime").value;
 		var endTimeMeeting = document.getElementById("endTime").value;
 		if (startTimeMeeting > endTimeMeeting) {
-			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
+			document.getElementById("timevalidator").innerHTML = 
+				"Invalid time. The end of the meeting should be after the start meeting.";
 			return false;
 		}
-		// Valdating the date insert. It should has format: mm/dd/yyyy. If not, it not valid.
-		/* if (!(isValidDate(document.getElementById("date").value))) {
-			document.getElementById("datevalidator").innerHTML = "Invalid date. It should has format: dd/mm/yyyy.";
-			return false;
-		} */
 		return true;
 	}
+	$(function() {
+		$("select[name=subject]").chosen({
+			width : "100%"
+		});
+		$("select[name=owner]").chosen({
+			width : "100%"
+		});
+		$("select[name=room]").chosen({
+			width : "100%"
+		});
+		$("select[name=groups]").chosen({
+			width : "100%"
+		});
+		$("select[name=status]").chosen({
+			width : "100%"
+		});
+	})
 </script>

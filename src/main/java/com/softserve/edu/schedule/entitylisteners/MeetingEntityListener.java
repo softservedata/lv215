@@ -16,7 +16,7 @@ import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.service.implementation.mailsenders.DeleteMeetingMailService;
 
 /**
- * An entity listener class for Subject entity.
+ * An entity listener class for Meeting entity.
  *
  * @version 1.0 03 February 2017
  *
