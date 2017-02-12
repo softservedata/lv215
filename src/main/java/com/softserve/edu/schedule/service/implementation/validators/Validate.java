@@ -1,6 +1,4 @@
-
 /* Validate 1.0 01/29/2017 */
-
 package com.softserve.edu.schedule.service.implementation.validators;
 
 import java.lang.annotation.ElementType;

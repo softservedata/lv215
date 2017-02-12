@@ -55,14 +55,6 @@ public interface LocationService {
 	void update(final LocationDTO location);
 
 	/**
-	 * Method deletes existing location from database.
-	 * 
-	 * @param location
-	 *            location to delete
-	 */
-	void delete(final LocationDTO location);
-
-	/**
 	 * Method returns list of sorted locations by count of rooms.
 	 * 
 	 * @return list of sorted locations by count of rooms

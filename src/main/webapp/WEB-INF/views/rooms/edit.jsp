@@ -80,7 +80,7 @@
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default" value="<spring:message code="lbl.form.save"/>">
-					<a class="btn btn-default" href="/schedule/rooms/edit/${room.id}">
+					<a class="btn btn-default" href="${pageContext.request.contextPath}/rooms/edit/${room.id}">
 						<spring:message code="lbl.form.reset" />
 					</a>
 					<a class="btn btn-default" href="${pageContext.request.contextPath}/rooms">

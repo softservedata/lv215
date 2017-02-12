@@ -19,6 +19,7 @@ import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.filter.LocationFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.entity.Location;
 import com.softserve.edu.schedule.entity.Location_;
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.LocationDTOConverter;
@@ -95,19 +96,6 @@ public class LocationServiceImpl implements LocationService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.softserve.edu.schedule.service.LocationService#delete(com.softserve.
-	 * edu.schedule.entity.Location)
-	 */
-	@Override
-	@Transactional
-	public void delete(final LocationDTO location) {
-		locationDAO.delete(locationDTOConverter.getEntity(location));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * com.softserve.edu.schedule.service.LocationService#sortByCountRooms(com.
 	 * softserve.edu.schedule.dao.Order)
 	 */
@@ -133,7 +121,10 @@ public class LocationServiceImpl implements LocationService {
 	@Override
 	@Transactional
 	public void deleteById(final Long id) {
-		locationDAO.deleteById(id);
+		Location location = locationDAO.getById(id);
+		if (location.getRooms().size() == 0) {
+		locationDAO.delete(location);
+		}
 	}
 
 	/*
@@ -150,8 +141,12 @@ public class LocationServiceImpl implements LocationService {
 				.map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
-	/* (non-Javadoc)
-	 * @see com.softserve.edu.schedule.service.LocationService#getLocationsPageWithFilter(com.softserve.edu.schedule.dto.filter.LocationFilter, com.softserve.edu.schedule.dto.filter.Paginator)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.softserve.edu.schedule.service.LocationService#
+	 * getLocationsPageWithFilter(com.softserve.edu.schedule.dto.filter.
+	 * LocationFilter, com.softserve.edu.schedule.dto.filter.Paginator)
 	 */
 	@Override
 	@Transactional(readOnly = true)
