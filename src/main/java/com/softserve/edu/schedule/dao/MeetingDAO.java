@@ -23,7 +23,7 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  * interface.
  *
  * @version 1.0 12.12.2016
- * @author IT Academy
+ * @author Bohdan Melnyk
  */
 public interface MeetingDAO extends CrudDAO<Meeting> {
 
@@ -204,5 +204,4 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      */
     List<Meeting> getMeetingsInIntervalByGroupId(Long groupId,
             LocalDate startDate, LocalDate endDate);
-
 }

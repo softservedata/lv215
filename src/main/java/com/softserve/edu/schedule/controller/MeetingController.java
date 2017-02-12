@@ -160,7 +160,6 @@ public class MeetingController
         binder.registerCustomEditor(UserDTO.class, userDTOEditor);
         binder.registerCustomEditor(RoomDTO.class, roomDTOEditor);
         binder.registerCustomEditor(UserGroupDTO.class, userGroupDTOEditor);
-
     }
 
     /**

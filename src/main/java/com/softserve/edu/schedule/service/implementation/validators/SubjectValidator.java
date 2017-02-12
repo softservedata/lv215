@@ -67,7 +67,7 @@ public class SubjectValidator
      */
     @Override
     public boolean isValid(final SubjectDTO subjectDTO,
-            ConstraintValidatorContext context) {
+            final ConstraintValidatorContext context) {
         boolean validName = isValidName(subjectDTO);
         boolean validDescription = isValiDescription(subjectDTO);
         boolean validMultiselect = isValidMultiselect(subjectDTO);
@@ -152,7 +152,8 @@ public class SubjectValidator
      */
     private void printErrorMessages(final boolean validName,
             final boolean validDescription, final boolean validMultiselect,
-            final boolean noDuplicate, ConstraintValidatorContext context) {
+            final boolean noDuplicate,
+            final ConstraintValidatorContext context) {
         if (!validName) {
             errorMessage(ValidationFields.NAME,
                     ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD,
