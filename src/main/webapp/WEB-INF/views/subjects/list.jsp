@@ -89,7 +89,7 @@
 						placeholder="${search}" />
 				</td>
 				<td>
-					<form:select class="form-control" path="${SubjectController.SUBJECT_PATH_USER_ID}">
+					<form:select class="form-control" path="${SubjectController.SUBJECT_PATH_USER_ID}" id="${SubjectController.SUBJECT_PATH_USER_ID}">
 					<spring:message code="lbl.subject.selectTutor" var="tutor" />
 						<option value="0">${tutor}</option>
 						<c:forEach items="${users}" var="user">
@@ -194,19 +194,8 @@
 </div>
 <spring:url value="/resources/js/subjects/list.js" var="subjectsListJS" />
 <script>
- $('#paginationList').twbsPagination({
-        totalPages: ${subjectPaginator.pagesCount + 1},
-        startPage: ${subjectPaginator.pageNumber + 1},
-        visiblePages: 10,
-        first: '<spring:message code="lbl.pager.first"/>',
-        last: '<spring:message code="lbl.pager.last"/>',
-        prev: '<spring:message code="lbl.pager.previous"/>',
-        next: '<spring:message code="lbl.pager.next"/>',
-        initiateStartPageClick: false,        
-        onPageClick: function (event, page) {
-        	window.location = "subjects?pageNumber=" + (page-1);        	
-        }
-    });
+var totalPages = ${subjectPaginator.pagesCount + 1}
+var startPage = ${subjectPaginator.pageNumber + 1}
 </script>
 <script type="text/javascript" src="${subjectsListJS}">	
 </script>

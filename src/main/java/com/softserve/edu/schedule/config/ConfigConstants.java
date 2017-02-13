@@ -28,42 +28,6 @@ public interface ConfigConstants {
      */
     String START_URL = "/";
 
-    /* Application initializer */
-    /**
-     * Encoding filter name.
-     */
-    String ENCODING_FILTER_NAME = "encoding-filter";
-
-    /**
-     * Encoding filter encoding parameter name.
-     */
-    String ENC_FILTER_ENCODING_PARAM = "encoding";
-
-    /**
-     * Encoding filter force encoding parameter name.
-     */
-    String ENC_FILTER_FORCE_ENCODING_PARAM = "forceEncoding";
-
-    /**
-     * Encoding filter force encoding parameter value.
-     */
-    String FORCE_ENCODING_ENABLED = "true";
-
-    /**
-     * Encoding filter URL mapping pattern.
-     */
-    String ENC_FILTER_URL_MAPPING_PATTERN = "/*";
-
-    /**
-     * Throw exception if no handler found dispatcher servlet parameter.
-     */
-    String THROW_EXC_IF_NO_HANDLER_FOUND = "throwExceptionIfNoHandlerFound";
-
-    /**
-     * Throw exception if no handler found dispatcher servlet status.
-     */
-    String THROW_EXC_IF_NO_HANDLER_FOUND_STATUS = "true";
-
     /* Application config */
     /**
      * DataBase properties file path.

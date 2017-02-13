@@ -7,29 +7,11 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page
 	import="com.softserve.edu.schedule.controller.MeetingController"%>
-<script type="text/javascript">
-	$(function() {
-		$("select[name=subject]").chosen({
-			width : "100%"
-		});
-		$("select[name=owner]").chosen({
-			width : "100%"
-		});
-		$("select[name=room]").chosen({
-			width : "100%"
-		});
-		$("select[name=groups]").chosen({
-			width : "100%"
-		});
-		$("select[name=status]").chosen({
-			width : "100%"
-		});
-	})
-</script>
+
 <div class="container">
 	<div class="row">
 		<div
-			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+			class=" col-md-4 col-md-offset-4  panel-default">
 			<h3 class="text-center">
 				<spring:message code="lbl.meeting.create" />
 			</h3>
@@ -37,7 +19,6 @@
 				modelAttribute="${MeetingController.MEETING_MODEL_ATTR}"
 				onsubmit="return isValidForm()">
 				<form:input path="id" type="hidden" />
-
 				<sec:authorize
 					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
 					<div class="form-group">
@@ -51,8 +32,6 @@
 						<form:errors path="subject" class="text-danger" />
 					</div>
 				</sec:authorize>
-
-
 				<div class="form-group">
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 						<label for="owner"><spring:message
@@ -64,7 +43,6 @@
 							</c:forEach>
 						</form:select>
 					</sec:authorize>
-
 					<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<label for="owner"><spring:message
 								code="lbl.meeting.owner" /></label>
@@ -82,7 +60,6 @@
 							</c:forEach>
 						</form:select>
 					</sec:authorize>
-
 				</div>
 				<div class="form-group">
 					<label for="room"><spring:message code="lbl.meeting.room" /></label>
@@ -128,7 +105,8 @@
 							<c:forEach items="${meetingForm.groups}" var="groupsInMeeting">
 								<c:if test="${!found}">
 									<c:if test="${groupsInMeeting.id eq group.id}">
-										<option value="${group.id}" selected="selected">${group.name}</option>
+										<option value="${group.id}" selected="selected">
+										${group.name}</option>
 										<c:set var="found" value="true" />
 									</c:if>
 								</c:if>
@@ -154,28 +132,26 @@
 					<spring:message code="lbl.meeting.createDesc" var="descPH" />
 					<form:input class="form-control" path="description"
 						id="description" placeholder="${descPH}"
-						pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}"
-						/>
+						pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}" />
 					<form:errors path="description" class="text-danger" />
 				</div>
-
 
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
 						value="<spring:message code="lbl.form.save"/>"> <a
 						class="btn btn-default"
-						href="${pageContext.request.contextPath}${MeetingController.MEETING_CREATE_URL}"><spring:message
+						href="${pageContext.request.contextPath}/
+						${MeetingController.MEETING_CREATE_URL}"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
-						href="${pageContext.request.contextPath}/${MeetingController.MEETINGS_MODEL_ATTR}"><spring:message
+						href="${pageContext.request.contextPath}/
+						${MeetingController.MEETINGS_MODEL_ATTR}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
-
-
 			</form:form>
 		</div>
 	</div>
 </div>
-<!-- Validation   -->
+
 <script>
 	//Expect input as d/m/y
 	function isValidDate(s) {
@@ -188,14 +164,28 @@
 		var startTimeMeeting = document.getElementById("startTime").value;
 		var endTimeMeeting = document.getElementById("endTime").value;
 		if (startTimeMeeting > endTimeMeeting) {
-			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
+			document.getElementById("timevalidator").innerHTML = 
+				"Invalid time. The end of the meeting should be after the start meeting.";
 			return false;
 		}
-		// Valdating the date insert. It should has format: mm/dd/yyyy. If not, it not valid.
-		/* if (!isValidDate(document.getElementById("date").value)) {
-			document.getElementById("datevalidator").innerHTML = "Invalid date. It should has format: dd/mm/yyyy.";
-			return false;
-		} */
 		return true;
 	}
+
+	$(function() {
+		$("select[name=subject]").chosen({
+			width : "100%"
+		});
+		$("select[name=owner]").chosen({
+			width : "100%"
+		});
+		$("select[name=room]").chosen({
+			width : "100%"
+		});
+		$("select[name=groups]").chosen({
+			width : "100%"
+		});
+		$("select[name=status]").chosen({
+			width : "100%"
+		});
+	})
 </script>

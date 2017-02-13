@@ -2,22 +2,16 @@ $('#confirm-delete').on('show.bs.modal', function(e) {
     $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
 });
 
-$(function() {
-	$("select[name=userId]").chosen({
-		width : "160px"
-	});
-})
-
 $('#paginationList').twbsPagination({
     totalPages: totalPages,
     startPage: startPage,
     visiblePages: 10,
-    first: '&lt;&lt;',
-    last: '&gt;&gt;',
-    prev: '&lt;',
-    next: '&gt;',
+    first: document.getElementById("firstLabel").value,
+    last: document.getElementById("lastLabel").value,
+    prev: document.getElementById("previousLabel").value,
+    next: document.getElementById("nextLabel").value,
     initiateStartPageClick: false,        
     onPageClick: function (event, page) {
-    	window.location = "subjects?pageNumber=" + (page-1);        	
+    	window.location = "usergroups?pageNumber=" + (page-1);        	
     }
 });

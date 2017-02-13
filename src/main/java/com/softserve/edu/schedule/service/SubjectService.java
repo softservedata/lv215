@@ -29,7 +29,7 @@ public interface SubjectService {
      * @param subject
      *            - SubjectDTO object
      */
-    public void create(final SubjectDTO subject);
+    public void create(SubjectDTO subject);
 
     /**
      * Updating Subject in database.
@@ -37,7 +37,7 @@ public interface SubjectService {
      * @param subject
      *            - SubjectDTO object
      */
-    public void update(final SubjectDTO subject);
+    public void update(SubjectDTO subject);
 
     /**
      * Return a SubjectDTO object if found.
@@ -46,7 +46,7 @@ public interface SubjectService {
      *            of Subject transfer object
      * @return SubjectDTO object
      */
-    public SubjectDTO getById(final Long id);
+    public SubjectDTO getById(Long id);
 
     /**
      * Return a List of SubjectDTO objects.
@@ -68,14 +68,14 @@ public interface SubjectService {
      * @param id
      *            a SubjectDTO id to delete from database.
      */
-    public void deleteById(final Long id);
+    public void deleteById(Long id);
 
     /**
      * Return a searched SubjectDTO.
      *
      * @return searched SubjectDTO
      */
-    public List<SubjectDTO> getSubjectByName(final String subjectName);
+    public List<SubjectDTO> getSubjectByName(String subjectName);
 
     /**
      * Find all subjects entities in the database with applied filter
@@ -86,8 +86,7 @@ public interface SubjectService {
      *            the subjectPaginator to set
      * @return List of the subject DTO objects.
      */
-    List<SubjectDTO> getSubjectsPageWithFilter(
-            final SubjectFilter subjectFilter,
-            final Paginator subjectPaginator);
+    List<SubjectDTO> getSubjectsPageWithFilter(SubjectFilter subjectFilter,
+            Paginator subjectPaginator);
 
 }

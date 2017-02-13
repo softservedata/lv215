@@ -1,6 +1,4 @@
-
 /* TimeEditor 1.0 01/17/2017 */
-
 package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
@@ -15,7 +13,7 @@ import org.springframework.stereotype.Service;
  *
  * @version 1.0 17 January 2017
  *
- * 
+ *
  * @author Petro Zelyonka
  *
  * @since 1.8

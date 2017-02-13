@@ -23,7 +23,8 @@ import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 
 /**
- * Provides mail notifications of group members when group has been deleted
+ * Provides mail notifications about meeting changing status: from APPROVED - to
+ * DISAPPROVED or NOT APPROVED.
  *
  * @version 1.0 04 February 2017
  *
@@ -102,5 +103,4 @@ public class MeetingChangeStatusMailService implements MailConstants {
             }
         }
     }
-
 }

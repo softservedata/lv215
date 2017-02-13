@@ -4,6 +4,7 @@ package com.softserve.edu.schedule.config;
 import java.util.Locale;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -27,6 +28,7 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
  * @since 1.8
  */
 @Configuration
+@ComponentScan(ConfigConstants.PACKAGES_TO_SCAN)
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
 

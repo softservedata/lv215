@@ -12,7 +12,6 @@ package com.softserve.edu.schedule.service;
 
 import java.util.List;
 
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
@@ -21,16 +20,16 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
 
 /**
  * This interface for managing Meetings Service.
- * 
+ *
  * @version 1.0 12.12.2016
- * @author IT Academy
+ * @author Bohdan Melnyk
  */
 public interface MeetingService {
 
     /**
      * Saving Meeting in database.
      *
-     * @param meeting
+     * @param meetingDTO
      *            - Meeting object
      */
     void create(MeetingDTO meetingDTO);
@@ -46,7 +45,7 @@ public interface MeetingService {
 
     /**
      * Gives MeetingStatus by given String name.
-     * 
+     *
      * @param status
      *            name of status
      * @return MeetingStatus object.
@@ -55,7 +54,7 @@ public interface MeetingService {
 
     /**
      * Read all meetings from DB.
-     * 
+     *
      * @return List<Meeting> our meetings.
      */
     List<MeetingDTO> getAll();
@@ -63,23 +62,23 @@ public interface MeetingService {
     /**
      * Update (replace) existence meeting in DB. If such meeting no exist in DB,
      * it will add it.
-     * 
-     * @param meeting
+     *
+     * @param meetingDTO
      *            our meeting.
      */
     void update(MeetingDTO meetingDTO);
 
     /**
      * Delete meeting from DB.
-     * 
-     * @param meeting
+     *
+     * @param meetingDTO
      *            our meeting.
      */
     void delete(MeetingDTO meetingDTO);
 
     /**
      * Delete meeting from DB by given id.
-     * 
+     *
      * @param id
      *            our id of meeting.
      */
@@ -87,26 +86,15 @@ public interface MeetingService {
 
     /**
      * Returns List of MeetingDTO by given filter and paginator for Room page.
-     * 
+     *
      * @param meetingFilter
      *            filter for meetings.
-     * @param roomPaginator
-     *            Roompaginator for meetings.
+     * @param meetingPaginator
+     *            paginator for meetings.
      * @return List of MeetingDTO
      */
     List<MeetingDTO> getMeetingPageWithFilter(MeetingFilter meetingFilter,
-            Paginator roomPaginator);
-
-    /**
-     * Returns a List of sorted Meeting transfer objects.
-     *
-     * @param field
-     *            for sort
-     * @param order
-     *            - ASC or DESC
-     * @return List of sorted Subject transfer objects
-     */
-    List<MeetingDTO> sort(String field, Order order);
+            Paginator meetingPaginator);
 
     /**
      * Return a List of searched Meeting transfer objects.
@@ -121,23 +109,25 @@ public interface MeetingService {
 
     /**
      * Change existing status of the meeting to given new meeting status.
-     * 
+     *
      * @param id
      *            Meeting, in which the status will be changed.
-     * 
+     *
      * @param meetingStatus
      *            New meeting status.
      */
     void changeMeetingStatus(Long id, MeetingStatus meetingStatus);
 
     /**
-     * Finds Dublicates meeting (converted to meetingDTO) from DB by the given
-     * meetingDTO
-     * 
+     * Finds duplicates meeting (converted to meetingDTO) from DB by the given
+     * meetingDTO.
+     *
      * @param meetingDTO
-     * @return
+     *            MeetingDTO instance
+     *
+     * @return list of duplicates of given DTO
      */
-    List<MeetingDTO> DublicatesOfGivenDTO(MeetingDTO meetingDTO);
+    List<MeetingDTO> duplicatesOfGivenDTO(MeetingDTO meetingDTO);
 
     /**
      * During creation checks which status can be given to the meeting depends
@@ -149,7 +139,7 @@ public interface MeetingService {
      *            given meeting DTO
      *
      * @return correct MeetingStatus
-     * 
+     *
      */
     MeetingStatus getMeetingStatusDuringCreation(MeetingDTO meetingDTO);
 
@@ -163,7 +153,7 @@ public interface MeetingService {
      *
      * @param start
      *            start date for find meetings
-     * 
+     *
      * @param end
      *            end date for find meetings
      *
@@ -182,7 +172,7 @@ public interface MeetingService {
      *
      * @param start
      *            end date for find meetings
-     * 
+     *
      * @param end
      *            start date for find meetings
      *
@@ -194,9 +184,9 @@ public interface MeetingService {
     /**
      * Method that's used to get all meetings in specified interval for
      * specified group.
-     * 
+     *
      * @author Andriy Zhydenko
-     * 
+     *
      * @param groupId
      *            id of a group to find
      * @param start
@@ -219,7 +209,7 @@ public interface MeetingService {
      *
      * @param start
      *            start date for find meetings
-     * 
+     *
      * @param end
      *            end date for find meetings
      *
@@ -228,10 +218,12 @@ public interface MeetingService {
     List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(Long subjectId,
             String start, String end);
 
-    /** Sends mail to MeetingOwner and UserGroupsCurators if the meeting 
-     * status was changed from APPROVED to DISAPPROVED or NOT_APPROVED.
-     * @param id
-     *          Id of changed meeting. We need it for confirmation.
+    /**
+     * Sends mail to MeetingOwner and UserGroupsCurators if the meeting status
+     * was changed from APPROVED to DISAPPROVED or NOT_APPROVED.
+     *
+     * @param meetingDTO
+     *            meeting DTO of changed meeting. We need it for confirmation.
      */
-    void sendMailIfStatusChanged(final MeetingDTO meetingDTO);
+    void sendMailIfStatusChanged(MeetingDTO meetingDTO);
 }

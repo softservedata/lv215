@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.MeetingDAO;
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
@@ -35,7 +34,7 @@ import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingChan
  * This is implementation of the interface for managing Meetings Service.
  *
  * @version 1.0 12.12.2016
- * @author IT Academy
+ * @author Bohdan Melnyk
  */
 @Transactional
 @Service
@@ -67,12 +66,11 @@ public class MeetingServiceImpl implements MeetingService {
     @Autowired
     private MeetingChangeStatusMailService meetingChangeStatusMailService;
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#create(com.softserve.
-     * edu.schedule.entity.Meeting)
+    /**
+     * Saving Meeting in database.
+     *
+     * @param meetingDTO
+     *            - Meeting object
      */
     @Override
     public void create(final MeetingDTO meetingDTO) {
@@ -80,23 +78,23 @@ public class MeetingServiceImpl implements MeetingService {
         meetingDao.create(meetingDTOConverter.getEntity(meetingDTO));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#getStatusbyString(java.
-     * lang.String)
+    /**
+     * Gives MeetingStatus by given String name.
+     *
+     * @param status
+     *            name of status
+     * @return MeetingStatus object.
      */
     public MeetingStatus getStatusbyString(final String status) {
         return meetingDao.getStatusbyString(status);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#update(com.softserve.
-     * edu.schedule.entity.Meeting)
+    /**
+     * Update (replace) existence meeting in DB. If such meeting no exist in DB,
+     * it will add it.
+     *
+     * @param meetingDTO
+     *            our meeting.
      */
     @Override
     public void update(final MeetingDTO meetingDTO) {
@@ -104,12 +102,12 @@ public class MeetingServiceImpl implements MeetingService {
         meetingDao.update(meetingDTOConverter.getEntity(meetingDTO));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#sendMailIfStatusChanged
-     * (java.lang.Long)
+    /**
+     * Sends mail to MeetingOwner and UserGroupsCurators if the meeting status
+     * was changed from APPROVED to DISAPPROVED or NOT_APPROVED.
+     *
+     * @param meetingDTO
+     *            meeting DTO of changed meeting. We need it for confirmation.
      */
     @Override
     public void sendMailIfStatusChanged(final MeetingDTO meetingDTO) {
@@ -127,11 +125,12 @@ public class MeetingServiceImpl implements MeetingService {
 
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#getById(java.lang.Long)
+    /**
+     * Return a Meeting object if found.
+     *
+     * @param id
+     *            of Meeting transfer object
+     * @return Meeting transfer object
      */
     @Override
     @Transactional(readOnly = true)
@@ -139,10 +138,10 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingDTOConverter.getDTO(meetingDao.getById(id));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#getAll()
+    /**
+     * Read all meetings from DB.
+     *
+     * @return List<Meeting> our meetings.
      */
     @Override
     @Transactional(readOnly = true)
@@ -152,36 +151,36 @@ public class MeetingServiceImpl implements MeetingService {
                 .collect(Collectors.toList());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#delete(com.softserve.
-     * edu.schedule.entity.Meeting)
+    /**
+     * Delete meeting from DB.
+     *
+     * @param meetingDTO
+     *            our meeting.
      */
     @Override
     public void delete(final MeetingDTO meetingDTO) {
         meetingDao.delete(meetingDTOConverter.getEntity(meetingDTO));
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#deleteById(java.lang.
-     * Long)
+    /**
+     * Delete meeting from DB by given id.
+     *
+     * @param id
+     *            our id of meeting.
      */
     @Override
     public void deleteById(final Long id) {
         meetingDao.deleteById(id);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#
-     * getMeetingPageWithFilter(com.softserve.edu.schedule.dto.filter.
-     * MeetingFilter, com.softserve.edu.schedule.dto.filter.Paginator)
+    /**
+     * Returns List of MeetingDTO by given filter and paginator for Room page.
+     *
+     * @param meetingFilter
+     *            filter for meetings.
+     * @param meetingPaginator
+     *            paginator for meetings.
+     * @return List of MeetingDTO
      */
     @Override
     @Transactional(readOnly = true)
@@ -194,24 +193,14 @@ public class MeetingServiceImpl implements MeetingService {
                 .collect(Collectors.toList());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#sort(java.lang.String,
-     * com.softserve.edu.schedule.dao.Order)
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<MeetingDTO> sort(final String field, final Order order) {
-        return null;// meetingDao.sort(field, order);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.service.MeetingService#search(java.lang.
-     * String, java.lang.String)
+    /**
+     * Return a List of searched Meeting transfer objects.
+     *
+     * @param field
+     *            for search
+     * @param pattern
+     *            - input string
+     * @return List of sorted Subject transfer objects
      */
     @Override
     @Transactional(readOnly = true)
@@ -221,29 +210,31 @@ public class MeetingServiceImpl implements MeetingService {
                 .collect(Collectors.toList());
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#updateMeetingStatus(com
-     * .softserve.edu.schedule.entity.Meeting,
-     * com.softserve.edu.schedule.entity.MeetingStatus)
+    /**
+     * Change existing status of the meeting to given new meeting status.
+     *
+     * @param id
+     *            Meeting, in which the status will be changed.
+     *
+     * @param meetingStatus
+     *            New meeting status.
      */
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
         meetingDao.changeMeetingStatus(id, meetingStatus);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.service.MeetingService#DublicatesOfGivenDTO(
-     * com.softserve.edu.schedule.dto.MeetingDTO)
+    /**
+     * Finds duplicates meeting (converted to meetingDTO) from DB by the given
+     * meetingDTO.
+     *
+     * @param meetingDTO
+     *            MeetingDTO instance
+     *
+     * @return list of duplicates of given DTO
      */
-
     @Transactional(readOnly = true)
-    public List<MeetingDTO> DublicatesOfGivenDTO(final MeetingDTO meetingDTO) {
+    public List<MeetingDTO> duplicatesOfGivenDTO(final MeetingDTO meetingDTO) {
         return meetingDao
                 .dublicatesOfGivenFields(
                         meetingDTO.getSubject().getName().trim(),
@@ -264,7 +255,7 @@ public class MeetingServiceImpl implements MeetingService {
      *            given meeting DTO
      *
      * @return correct MeetingStatus
-     * 
+     *
      */
     @Override
     @Transactional(readOnly = true)
@@ -283,9 +274,9 @@ public class MeetingServiceImpl implements MeetingService {
     /**
      * Method that's used to get all meetings in specified interval for
      * specified group.
-     * 
+     *
      * @author Andriy Zhydenko
-     * 
+     *
      * @param groupId
      *            id of a group to find
      * @param start
@@ -316,7 +307,7 @@ public class MeetingServiceImpl implements MeetingService {
      *
      * @param start
      *            start date for find meetings
-     * 
+     *
      * @param end
      *            end date for find meetings
      *
@@ -343,7 +334,7 @@ public class MeetingServiceImpl implements MeetingService {
      *
      * @param start
      *            start date for find meetings
-     * 
+     *
      * @param end
      *            end date for find meetings
      *
@@ -351,7 +342,7 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(
-            Long subjectId, String start, String end) {
+            final Long subjectId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
         return meetingDao
@@ -370,7 +361,7 @@ public class MeetingServiceImpl implements MeetingService {
      *
      * @param start
      *            end date for find meetings
-     * 
+     *
      * @param end
      *            start date for find meetings
      *
@@ -378,7 +369,7 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(
-            String userId, String start, String end) {
+            final String userId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
         Long id = Long.parseLong(userId);

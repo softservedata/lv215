@@ -1,12 +1,13 @@
 /* ApplicationInitializer 1.0 02/07/2017 */
 package com.softserve.edu.schedule.config;
 
-import javax.servlet.FilterRegistration;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.web.context.ContextLoaderListener;
+import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 /**
@@ -35,33 +36,21 @@ public class ApplicationInitializer
     @Override
     public void onStartup(final ServletContext servletContext)
             throws ServletException {
-        FilterRegistration.Dynamic encodingFilter = servletContext.addFilter(
-                ConfigConstants.ENCODING_FILTER_NAME,
-                new CharacterEncodingFilter());
-        encodingFilter.setInitParameter(
-                ConfigConstants.ENC_FILTER_ENCODING_PARAM,
-                ConfigConstants.UTF8);
-        encodingFilter.setInitParameter(
-                ConfigConstants.ENC_FILTER_FORCE_ENCODING_PARAM,
-                ConfigConstants.FORCE_ENCODING_ENABLED);
-        encodingFilter.addMappingForUrlPatterns(null, false,
-                ConfigConstants.ENC_FILTER_URL_MAPPING_PATTERN);
-        super.onStartup(servletContext);
-    }
+        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
+        rootContext.register(ApplicationConfig.class, WebSecurityConfig.class,
+                TaskExecutorsConfig.class, MailSendingConfig.class);
+        servletContext.addListener(new ContextLoaderListener(rootContext));
 
-    /**
-     * Optionally perform further registration customization once
-     * registerDispatcherServlet(ServletContext) has completed.
-     * 
-     * @param registration
-     *            the DispatcherServlet registration to be customized
-     */
-    @Override
-    protected void customizeRegistration(
-            final ServletRegistration.Dynamic registration) {
-        registration.setInitParameter(
-                ConfigConstants.THROW_EXC_IF_NO_HANDLER_FOUND,
-                ConfigConstants.THROW_EXC_IF_NO_HANDLER_FOUND_STATUS);
+        AnnotationConfigWebApplicationContext servletAppContext = new AnnotationConfigWebApplicationContext();
+        servletAppContext.register(WebConfig.class);
+        DispatcherServlet dispatcherServlet = new DispatcherServlet(
+                servletAppContext);
+        dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
+
+        ServletRegistration.Dynamic dispatcher = servletContext
+                .addServlet("dispatcher", dispatcherServlet);
+        dispatcher.setLoadOnStartup(1);
+        dispatcher.addMapping(ConfigConstants.START_URL);
     }
 
     /**
@@ -74,8 +63,7 @@ public class ApplicationInitializer
      */
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {ApplicationConfig.class, TaskExecutorsConfig.class,
-                MailSendingConfig.class};
+        return new Class[] {WebSecurityConfig.class};
     }
 
     /**
@@ -88,7 +76,7 @@ public class ApplicationInitializer
      */
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        return new Class[] {ApplicationConfig.class, WebConfig.class};
+        return new Class<?>[0];
     }
 
     /**
@@ -98,7 +86,7 @@ public class ApplicationInitializer
      */
     @Override
     protected String[] getServletMappings() {
-        return new String[] {ConfigConstants.START_URL};
+        return new String[0];
     }
 
 }
