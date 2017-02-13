@@ -72,7 +72,7 @@ public class User {
      */
     private String position;
 
-    private String pathImage;
+    private String pathImage = "/resources/images/unnamed.png";
 
     /**
      * User status in system.

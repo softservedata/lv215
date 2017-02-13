@@ -51,7 +51,7 @@
 		class="org.springframework.web.multipart.support.StandardServletMultipartResolver">
 	</bean>
 
-	<mvc:resources mapping="/images/**" location="file:${catalina.home}/images/" cache-period="3600"/>
+	<!-- <mvc:resources mapping="/images/**" location="file:${catalina.home}/images/" cache-period="3600"/> -->
 	<mvc:resources mapping="/resources/**" location="/resources/"
 		cache-period="3600" />
 
@@ -75,5 +75,4 @@
 			<property name="paramName" value="lang" />
 		</bean>
 	</mvc:interceptors>	
-
 </beans>	

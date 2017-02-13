@@ -59,10 +59,10 @@
 				<th><spring:message code="lbl.user.phone" /></th>
 			</sec:authorize>
 			<th><spring:message code="lbl.user.position" /> <a
-				href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=1&pageNumber=0"
+				href="${pageContext.request.contextPath}/users?sortByField=2&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.user.sortAsc" />"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=2&pageNumber=0"
+				href="${pageContext.request.contextPath}/users?sortByField=2&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.user.sortDesc" />"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
 			<sec:authorize
@@ -127,7 +127,7 @@
 					</button>
 				</td>
 			</form:form>
-			<td  class="text-center v-alighn"><a
+			<td class="text-center v-alighn"><a
 				href="${pageContext.request.contextPath}/users?lastName=&position="
 				title="<spring:message code="lbl.room.resetFilter"/>"> <i
 					class="fa fa-times fa-lg"></i>

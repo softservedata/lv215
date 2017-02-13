@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
+import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
@@ -41,11 +42,23 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOFor
 @PerfomanceLoggable
 public class UserServiceImpl implements UserService {
 
+    private static final String PATH = "E:/Programing/lv215/src/main/webapp/resources/images/";
+
+    private static final String SLASH = "/";
+    
+    private static final String NAME_OF_FILE = "/resources/images/";
+
     /**
      * UserDAO example to provide database operations.
      */
     @Autowired
     private UserDAO userDAO;
+
+    /**
+     * UserDAO example to provide database operations.
+     */
+    @Autowired
+    private MeetingDAO meetingDAO;
 
     /**
      * UserDAOConverter example to provide conversion.
@@ -58,7 +71,6 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private UserDTOForChangePasswordConverter userDTOForPasswordConverter;
-    
 
     /**
      * BCryptPasswordEncoder example to provide encoder for password.
@@ -166,8 +178,10 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public boolean deleteById(final Long id) {
-        if (userDAO.getById(id).getGroups().stream()
-                .noneMatch(e -> e.getCurator().getId().equals(id))) {
+        if ((userDAO.getById(id).getGroups().stream()
+                .noneMatch(e -> e.getCurator().getId().equals(id)))
+                && (meetingDAO.getAll().stream()
+                        .noneMatch(e -> e.getOwner().getId().equals(id)))) {
             userDAO.deleteById(id);
             return true;
         } else {
@@ -178,8 +192,8 @@ public class UserServiceImpl implements UserService {
     /**
      * Find a userDTO in the database by mail.
      *
-     * @param user mail
-     *            a user mail to find in the database.
+     * @param user
+     *            mail a user mail to find in the database.
      * 
      * @return list userDTO with given mail.
      */
@@ -195,19 +209,17 @@ public class UserServiceImpl implements UserService {
      * Change password of user in the database.
      *
      * @param userDTO
-     *            a UserDTOForChangePassword example to change password in the database.
+     *            a UserDTOForChangePassword example to change password in the
+     *            database.
      */
     @Override
     @Transactional
     public void changePassword(UserDTOForChangePassword userDTO) {
         User user = userDTOForPasswordConverter.getEntity(userDTO);
         user.setPassword(encoder.encode(userDTO.getSecondNewPassword()));
-        user.setPathImage(userDAO.getById(user.getId()).getPathImage());
-        user.setStatus(userDAO.getById(user.getId()).getStatus());
-        user.setRole(userDAO.getById(user.getId()).getRole());
         userDAO.update(user);
     }
-    
+
     /**
      * Return a UserDTOForChangePassword object if found.
      *
@@ -262,26 +274,25 @@ public class UserServiceImpl implements UserService {
         }
         return userDTOConverter.getDTO(user);
     }
-    
-   /**
-    * Save image in database in the.
-    * 
-    * @param principal
-    *            a authorized userDTO.
-    * @param multipartFile
-    *            the picture.
-    */
+
+    /**
+     * Save image in database in the.
+     * 
+     * @param principal
+     *            a authorized userDTO.
+     * @param multipartFile
+     *            the picture.
+     */
     @Override
     @Transactional
     public void saveImage(Principal principal, MultipartFile multipartFile) {
 
         User user = userDAO.findByMail(principal.getName());
 
-        String path = System.getProperty("catalina.home") + "/images/"
-                + user.getMail() + "/"
+        String path = PATH + user.getMail() + SLASH
                 + multipartFile.getOriginalFilename();
 
-        user.setPathImage("/images/" + user.getMail() + "/"
+        user.setPathImage(NAME_OF_FILE + user.getMail() + SLASH
                 + multipartFile.getOriginalFilename());
 
         File file = new File(path);
@@ -290,15 +301,7 @@ public class UserServiceImpl implements UserService {
             file.mkdirs();
             try {
                 FileUtils.cleanDirectory(
-                        new File(System.getProperty("catalina.home")
-                                + "/resources/" + user.getMail() + "/"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            try {
-                FileUtils.cleanDirectory(
-                        new File(System.getProperty("catalina.home")
-                                + "/resources/" + user.getMail() + "/"));
+                        new File(PATH + user.getMail() + SLASH));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -308,4 +311,5 @@ public class UserServiceImpl implements UserService {
         }
         userDAO.update(user);
     }
+
 }

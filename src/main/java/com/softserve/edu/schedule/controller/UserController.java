@@ -47,15 +47,26 @@ public class UserController implements ControllerConst.UserControllerConst,
     @Autowired
     private UserService userService;
 
+    /**
+     * Provides user filter.
+     *
+     * @return new UserFilter object.
+     */
     @ModelAttribute(FILTER_MODEL_ATTR)
     public UserFilter getFilter() {
         return new UserFilter();
     }
 
+    /**
+     * Provides pagination object for users list page.
+     *
+     * @return new Paginator object.
+     */
     @ModelAttribute(USER_PAGINATOR_MODEL_ATTR)
     public Paginator getPaginator() {
         return new Paginator();
     }
+
     /**
      * Controls processing of user delete URL.
      *
@@ -166,6 +177,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String changeRole(@PathVariable Long id,
@@ -220,6 +232,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
     @RequestMapping(CHANGE_PASSWORD_MAPPING + "{id}")
     public String changePassword(@PathVariable Long id, Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getByIdForPassword(id));
@@ -234,6 +247,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
+    @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String saveChangedPassword(
@@ -245,7 +259,22 @@ public class UserController implements ControllerConst.UserControllerConst,
         userService.changePassword(user);
         return REDIRECT_USERS_PAGE;
     }
-
+  
+    /**
+     * Controls view of users list page.
+     *
+     * @param model
+     *            users list page view model.
+     *
+     * @param filter
+     *            users list page view filter.
+     *
+     * @param paginator
+     *            users list paginator.
+     *
+     * @return users list page URL
+     */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
     @RequestMapping(USERS_MAPPING_FROM_HEADER)
     public String showUserPage(final Model model,
             @ModelAttribute(FILTER_MODEL_ATTR) final UserFilter filter,
@@ -255,13 +284,40 @@ public class UserController implements ControllerConst.UserControllerConst,
         return USERS_PAGE_URL;
     }
 
-    @RequestMapping(value = "/saveImage", method = RequestMethod.POST)
+    /**
+     * Controls view for save image to profile.
+     *
+     * @param user
+     *            userDTO example of authorized user.
+     *
+     * @param principal
+     *            authorized user.
+     *
+     * @param image
+     *            image from user.
+     *
+     * @return path of images
+     */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
+    @RequestMapping(value = SAVE_IMAGES, method = RequestMethod.POST)
     public String saveImage(@ModelAttribute(USER_MODEL_ATTR) UserDTO user,
             Principal principal, @RequestParam MultipartFile image) {
         userService.saveImage(principal, image);
         return REDIRECT_USER_DETAILS_URL;
     }
-    
+
+    /**
+     * Method shows meetings of user
+     * 
+     * @param id
+     *            id of user
+     *            
+     * @param model
+     *            model of user
+     *            
+     * @return meetings of users.
+     */
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
     @RequestMapping(USER_MEETINGS_MAPPING + "{id}")
     public String showMeetings(@PathVariable Long id, final Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));

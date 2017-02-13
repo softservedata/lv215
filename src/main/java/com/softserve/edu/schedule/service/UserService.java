@@ -134,5 +134,4 @@ public interface UserService extends UserDetailsService {
      *            the picture.
      */
     void saveImage(Principal principal, MultipartFile multipartFile);
-
 }

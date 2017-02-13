@@ -2943,3 +2943,8 @@ keyframes fa-spin { 0%{
 	overflow: visible;
 	clip: auto
 }
+img {
+    display: block;
+    margin: 0 auto;
+    border: 5;
+}
