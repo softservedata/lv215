@@ -9,7 +9,7 @@ package com.softserve.edu.schedule.service.implementation.editor;
 import java.beans.PropertyEditorSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
@@ -24,7 +24,7 @@ import com.softserve.edu.schedule.service.UserService;
  *
  * @since 1.8
  */
-@Service
+@Component
 public class UserForSubjectDTOEditor extends PropertyEditorSupport {
 
     /**
