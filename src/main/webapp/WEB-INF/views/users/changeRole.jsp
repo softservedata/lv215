@@ -9,7 +9,16 @@
 	<div class="container">
 		<div class="row">
 			<div
-				class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+				class="col-lg-1 col-lg-offset-2 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
+				<h3>
+					<a href="#" onclick="window.history.back()"
+						title="<spring:message code="lbl.form.back" />"> <i
+						class="fa fa-arrow-left"></i>
+					</a>
+				</h3>
+			</div>
+			<div
+				class="col-lg-4 col-lg-offset-1 col-md-10 col-sm-10 col-xs-10 panel panel-default">
 				<h3 class="text-center">
 					<spring:message code="lbl.user.update" />
 				</h3>
@@ -19,7 +28,8 @@
 					<div class="form-group">
 						<form:select class="form-control" path="role">
 							<c:forEach var="role" items="${roles}">
-								<option value="${role}"><spring:message code="lbl.user.${role.getRole()}" /></option>
+								<option value="${role}"><spring:message
+										code="lbl.user.${role.getRole()}" /></option>
 							</c:forEach>
 						</form:select>
 					</div>
@@ -31,6 +41,15 @@
 								code="lbl.form.cancel" /></a>
 					</div>
 				</form:form>
+			</div>
+			<div
+				class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
+				<h3>
+					<a
+						href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}">
+						<i class="fa fa-table fa-lg"></i>
+					</a>
+				</h3>
 			</div>
 		</div>
 	</div>

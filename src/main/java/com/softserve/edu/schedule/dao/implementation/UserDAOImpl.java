@@ -40,16 +40,14 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
 		delete(getById(id));
 	}
 
-	/**
-	 * Find all meetings in the DB by given date and roomId.
-	 *
-	 * @author Petro Zelyonka
-	 *
-	 * @param userMail
-	 *            user mail to find user in database
-	 *
-	 * @return User object with given mail or null if not finded.
-	 */
+    /**
+     * Find user in the DB by given mail.
+     *
+     * @param userMail
+     *            user mail to find user in database
+     *
+     * @return User object with given mail or null if not finded.
+     */
 	@Override
 	public User findByMail(final String userMail) {
 		try {
@@ -63,67 +61,79 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
 		}
 	}
 
-	@Override
-	public List<User> getUsersPageWithFilter(UserFilter userFilter, Paginator userPaginator) {
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
-		Root<User> root = criteriaQuery.from(User.class);
-		Predicate predicate = new UserFilterSpecification(userFilter).toPredicate(root, criteriaQuery, builder);
-		if (predicate != null) {
-			criteriaQuery.where(predicate);
-		}
-		userPaginator.setPagesCount(getCountOfUsersWithFilter(userFilter));
-		return getEm().createQuery(criteriaQuery).setFirstResult(userPaginator.getOffset())
-				.setMaxResults(userPaginator.getPageSize()).getResultList();
-	}
-
-	/**
-	 * Count users entities in the database with specified predicate.
-	 *
-	 * @param userFilter
-	 *            a filter to apply.
-	 *
-	 * @return Count of the user entities in the database with specified
-	 *         predicate.
-	 */
-	@Override
-	public Long getCountOfUsersWithFilter(final UserFilter userFilter) {
-		CriteriaBuilder qb = getEm().getCriteriaBuilder();
-		CriteriaQuery<Long> cq = qb.createQuery(Long.class);
-		Root<User> root = cq.from(User.class);
-		cq.select(qb.countDistinct(root));
-		Predicate predicate = new UserFilterSpecification(userFilter).toPredicate(root, cq, qb);
-		if (predicate != null) {
-			cq.where(predicate);
-		}
-		return getEm().createQuery(cq).getSingleResult();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.softserve.edu.schedule.dao.UserDAO#getModerators()
-	 */
-	@Override
-	public List<User> getModerators() {
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<User> cq = builder.createQuery(User.class);
-		Root<User> root = cq.from(User.class);
-		cq.where(builder.equal(root.get(User_.role), UserRole.ROLE_MODERATOR.ordinal()));
-		return getEm().createQuery(cq).getResultList();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.softserve.edu.schedule.dao.UserDAO#getAllActive()
-	 */
-	@Override
-	public List<User> getAllActiveUsers() {
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<User> cq = builder.createQuery(User.class);
-		Root<User> root = cq.from(User.class);
-		cq.where(builder.equal(root.get(User_.status), UserStatus.ACTIVE.ordinal()));
-		return getEm().createQuery(cq).getResultList();
-	}
+    /**
+     * Find all user entities in the database with applied filter
+     * 
+     * @param userFilter
+     *            a filter to apply.
+     * 
+     * @return List of the user objects.
+     */
+    @Override
+    public List<User> getUsersPageWithFilter(UserFilter userFilter,
+            Paginator userPaginator) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<User> criteriaQuery = builder.createQuery(User.class);
+        Root<User> root = criteriaQuery.from(User.class);
+        Predicate predicate = new UserFilterSpecification(userFilter)
+                .toPredicate(root, criteriaQuery, builder);
+        if (predicate != null) {
+            criteriaQuery.where(predicate);
+        }
+        userPaginator.setPagesCount(getCountOfUsersWithFilter(userFilter));
+        return getEm().createQuery(criteriaQuery)
+                .setFirstResult(userPaginator.getOffset())
+                .setMaxResults(userPaginator.getPageSize()).getResultList();
+    }
+    
+    /**
+     * Count user entities in the database with specified filter
+     *
+     * @param userFilter
+     *            a filter to apply.
+     *
+     * @return Count of the user entities in the database with specified
+     *         predicate.
+     */
+    @Override
+    public Long getCountOfUsersWithFilter(final UserFilter userFilter) {
+        CriteriaBuilder qb = getEm().getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        Root<User> root = cq.from(User.class);
+        cq.select(qb.countDistinct(root));
+        Predicate predicate = new UserFilterSpecification(userFilter)
+                .toPredicate(root, cq, qb);
+        if (predicate != null) {
+            cq.where(predicate);
+        }
+        return getEm().createQuery(cq).getSingleResult();
+    }
+    
+    /**
+     * Method returns lists of users which have role - moderator
+     * 
+     * @return lists of users which have role - moderator
+     */
+    @Override
+    public List<User> getModerators() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<User> cq = builder.createQuery(User.class);
+        Root<User> root = cq.from(User.class);
+        cq.where(builder.equal(root.get(User_.role), UserRole.ROLE_MODERATOR.ordinal()));
+        return getEm().createQuery(cq).getResultList();
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.dao.UserDAO#getAllActive()
+     */
+    @Override
+    public List<User> getAllActiveUsers() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<User> cq = builder.createQuery(User.class);
+        Root<User> root = cq.from(User.class);
+        cq.where(builder.equal(root.get(User_.status), UserStatus.ACTIVE.ordinal()));
+        return getEm().createQuery(cq).getResultList();
+    }
 }

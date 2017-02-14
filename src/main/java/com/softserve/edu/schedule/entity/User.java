@@ -72,10 +72,7 @@ public class User {
      */
     private String position;
 
-    /**
-     * Path to user avatar.
-     */
-    private String pathImage;
+    private String pathImage = "/resources/images/unnamed.png";
 
     /**
      * User status in system.
