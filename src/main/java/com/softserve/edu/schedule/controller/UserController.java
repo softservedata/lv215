@@ -284,27 +284,27 @@ public class UserController implements ControllerConst.UserControllerConst,
         return USERS_PAGE_URL;
     }
 
-    /**
-     * Controls view for save image to profile.
-     *
-     * @param user
-     *            userDTO example of authorized user.
-     *
-     * @param principal
-     *            authorized user.
-     *
-     * @param image
-     *            image from user.
-     *
-     * @return path of images
-     */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
-    @RequestMapping(value = SAVE_IMAGES, method = RequestMethod.POST)
-    public String saveImage(@ModelAttribute(USER_MODEL_ATTR) UserDTO user,
-            Principal principal, @RequestParam MultipartFile image) {
-        userService.saveImage(principal, image);
-        return REDIRECT_USER_DETAILS_URL;
-    }
+//    /**
+//     * Controls view for save image to profile.
+//     *
+//     * @param user
+//     *            userDTO example of authorized user.
+//     *
+//     * @param principal
+//     *            authorized user.
+//     *
+//     * @param image
+//     *            image from user.
+//     *
+//     * @return path of images
+//     */
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
+//    @RequestMapping(value = SAVE_IMAGES, method = RequestMethod.POST)
+//    public String saveImage(@ModelAttribute(USER_MODEL_ATTR) UserDTO user,
+//            Principal principal, @RequestParam MultipartFile image) {
+//        userService.saveImage(principal, image);
+//        return REDIRECT_USER_DETAILS_URL;
+//    }
 
     /**
      * Method shows meetings of user

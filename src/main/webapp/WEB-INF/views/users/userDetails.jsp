@@ -23,7 +23,7 @@
 				<h3 class="text-center">
 					<spring:message code="lbl.user.profile" />
 				</h3>
-				<br> <img src="<c:url value='${user.pathImage}'/>" height="200"><br>
+				<%-- <br> <img src="<c:url value='${user.pathImage}'/>" height="200"><br>
 				<form:form commandName="${UserController.USER_MODEL_ATTR}"
 					action="${pageContext.request.contextPath}${UserController.SAVE_IMAGES}?${_csrf.parameterName}=${_csrf.token}"
 					method="post" enctype="multipart/form-data"><br>
@@ -32,7 +32,7 @@
 						<input type="submit" class="form-control"
 							value="<spring:message code="lbl.form.save"/>">
 					</div>
-				</form:form>
+				</form:form> --%>
 				<form:form commandName="${UserController.USER_MODEL_ATTR}">
 					<form:hidden path="id" />
 					<div class="form-group">

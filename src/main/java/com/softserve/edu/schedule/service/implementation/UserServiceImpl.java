@@ -286,30 +286,30 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveImage(Principal principal, MultipartFile multipartFile) {
-
-        User user = userDAO.findByMail(principal.getName());
-
-        String path = PATH + user.getMail() + SLASH
-                + multipartFile.getOriginalFilename();
-
-        user.setPathImage(NAME_OF_FILE + user.getMail() + SLASH
-                + multipartFile.getOriginalFilename());
-
-        File file = new File(path);
-
-        try {
-            file.mkdirs();
-            try {
-                FileUtils.cleanDirectory(
-                        new File(PATH + user.getMail() + SLASH));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            multipartFile.transferTo(file);
-        } catch (IOException e) {
-            System.out.println("error with file");
-        }
-        userDAO.update(user);
+//
+//        User user = userDAO.findByMail(principal.getName());
+//
+//        String path = PATH + user.getMail() + SLASH
+//                + multipartFile.getOriginalFilename();
+//
+//        user.setPathImage(NAME_OF_FILE + user.getMail() + SLASH
+//                + multipartFile.getOriginalFilename());
+//
+//        File file = new File(path);
+//
+//        try {
+//            file.mkdirs();
+//            try {
+//                FileUtils.cleanDirectory(
+//                        new File(PATH + user.getMail() + SLASH));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            multipartFile.transferTo(file);
+//        } catch (IOException e) {
+//            System.out.println("error with file");
+//        }
+//        userDAO.update(user);
     }
 
 }
