@@ -269,11 +269,18 @@ public class User {
         this.groups = groups;
     }
 
+    /**
+     * @return the pathImage
+     */
     public String getPathImage() {
         return pathImage;
     }
 
-    public void setPathImage(String pathImage) {
+    /**
+     * @param pathImage
+     *            the pathImage to set
+     */
+    public void setPathImage(final String pathImage) {
         this.pathImage = pathImage;
     }
 

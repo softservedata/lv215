@@ -47,7 +47,7 @@ public interface ValidationCriteria {
      * allowed in the entire string .{8,} # anything, at least eight places
      * though $ # end-of-string
      */
-    String CHARACTERS_FOR_PASSWORD = "\\A(?=\\S*[a-z])(?=\\S*[A-Z])\\S{8,}\\z";// (?=\\S*[0-9])(?=\\S*[!@#$%^&*()+=])
+    String CHARACTERS_FOR_PASSWORD = "\\A(?=\\S*[a-z])(?=\\S*[A-Z])\\S{8,}\\z";
 
     /**
      * Allowed characters for position expression.

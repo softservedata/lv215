@@ -338,6 +338,16 @@ public interface ControllerConst {
         String LOCATION_MAP_MAPPING = "/locations/map/";
     }
 
+    /**
+     * An interface to storage subject controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Volodymyr Ped'ko
+     *
+     * @since 1.8
+     */
     public interface SubjectControllerConst {
 
         /**
@@ -452,18 +462,22 @@ public interface ControllerConst {
     }
 
     /**
-     * An interface that stores all constants for USerGroup controller
-     * 
-     * @author Andrew
+     * An interface that stores all constants for USerGroup controller.
+     *
+     * @author Andrew Zhydenko
      *
      */
-
     public interface UserGroupControllerConst {
 
         /**
-         * Filter attribute for groups
+         * Filter attribute for groups.
          */
         String FILTER_MODEL_ATTR = "usergroupFilter";
+
+        /**
+         * Paginator attribute for groups.
+         */
+        String USERGROUP_PAGINATOR_MODEL_ATTR = "usergroupPaginator";
 
         /**
          * UserGroup model attribute name.
@@ -484,6 +498,11 @@ public interface ControllerConst {
          * UserGroup delete mapping name.
          */
         String USERGROUP_DELETE_MAPPING = "/delete/{id}";
+
+        /**
+         * UserGroups delete mapping name.
+         */
+        String USERGROUPS_DELETE_MAPPING = "/usergroups/delete/";
 
         /**
          * UserGroup create url name.
@@ -536,17 +555,17 @@ public interface ControllerConst {
         String USERGROUP_LEVEL_ATTR = "levels";
 
         /**
-         * Mapping on a usergroups page
+         * Mapping on a usergroups page.
          */
         String USERGROUP_MAPPING = "/usergroups";
 
         /**
-         * Path name
+         * Path name.
          */
         String USERGROUP_PATH_NAME = "name";
 
         /**
-         * Path curator's lastname
+         * Path curator's lastname.
          */
         String USERGROUP_PATH_CURATOR_LASTNAME = "curator.lastName";
 
@@ -571,27 +590,41 @@ public interface ControllerConst {
         String USERGROUP_GROUP_MEMBERS = "groupMembers";
 
         /**
-         * Minimum description length
+         * Minimum description length.
          */
         int MIN_GROUP_DESCRIPTION_LENGTH = 15;
 
         /**
-         * Maximum description length
+         * Maximum description length.
          */
         int MAX_GROUP_DESCRIPTION_LENGTH = 100;
 
         /**
-         * Minimum group name length
+         * Minimum group name length.
          */
         int MIN_GROUP_NAME_LENGTH = 5;
 
         /**
-         * Maximum group name length
+         * Maximum group name length.
          */
         int MAX_GROUP_NAME_LENGTH = 20;
 
+        /**
+         * Mapping to a profile from usergroups list.
+         */
+        String USERGROUP_USER_PROFILE_MAPPING = "/profile/";
     }
 
+    /**
+     * An interface to storage room controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Vitalii Shapovalov
+     *
+     * @since 1.8
+     */
     public interface RoomEquipmentControllerConst {
 
         String ROOM_EQUIPMENTS_URL = "/roomequipments";
@@ -621,6 +654,16 @@ public interface ControllerConst {
         String ROOM_EQUIPMENTS_SORT_DESC = "/sortbynamedesc";
     }
 
+    /**
+     * An interface to storage meeting controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Bohdan Melnyk
+     *
+     * @since 1.8
+     */
     public interface MeetingControllerConst {
 
         /**
@@ -629,7 +672,7 @@ public interface ControllerConst {
         String MEETINGS_URL = "/meetings";
 
         /**
-         * Filter attribute for meetings
+         * Filter attribute for meetings.
          */
         String FILTER_MODEL_ATTR = "meetingFilter";
 
@@ -736,14 +779,16 @@ public interface ControllerConst {
          * User profile mapping name.
          */
         String PROFILE_MAPPING = "profile";
-        
-        /** usergroups model attribute name.
-        */
-       String USERGROUPS_MAPPING = "usergroups";
-       
-       /** meeting delete url  name.
-        */
-       String DELETE_MAPPING = "meetings/delete";
-       
+
+        /**
+         * usergroups model attribute name.
+         */
+        String USERGROUPS_MAPPING = "/usergroups";
+
+        /**
+         * meeting delete url name.
+         */
+        String DELETE_MAPPING = "meetings/delete";
+
     }
 }

@@ -158,7 +158,7 @@ public interface ValidationMessages {
     String WRONG_PASSWORD = "vm.wronrPassword";
 
     /**
-     * Invalid meeting status
+     * Invalid meeting status.
      */
     String INVALID_STATUS = "vm.ivdalidStatus";
 

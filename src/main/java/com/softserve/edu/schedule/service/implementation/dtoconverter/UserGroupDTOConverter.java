@@ -9,15 +9,34 @@ import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.entity.UserGroup;
 
+/**
+ * Class-converter that is used to provide convertation DTO into Entity and vise
+ * versa
+ * 
+ * @author Andrew
+ *
+ */
 @Service
 public class UserGroupDTOConverter {
-
+	/**
+	 * UserDAO object to provide database operations.
+	 */
 	@Autowired
 	private UserDAO userDAO;
 
+	/**
+	 * UserGroupDAO object to provide database operations.
+	 */
 	@Autowired
 	private UserGroupDAO userGroupDAO;
 
+	/**
+	 * Method to convert DTO-object into entity
+	 * 
+	 * @param userGroupDTO
+	 *            DTO object to convert
+	 * @return Converted into entity DTO object
+	 */
 	public UserGroup getEntity(final UserGroupDTO userGroupDTO) {
 		if (userGroupDTO != null) {
 			UserGroup userGroup = new UserGroup();
@@ -40,6 +59,13 @@ public class UserGroupDTOConverter {
 		return null;
 	}
 
+	/**
+	 * Method to convert entity into DTO-object
+	 * 
+	 * @param userGroup
+	 *            Entity object to convert
+	 * @return Entity that is converted into a DTO object
+	 */
 	public UserGroupDTO getDTO(final UserGroup userGroup) {
 		if (userGroup != null) {
 			UserGroupDTO userGroupDTO = new UserGroupDTO();

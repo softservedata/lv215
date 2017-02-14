@@ -7,20 +7,25 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <div class="container">
-	<div class="row ">
-		<div class="col-lg-1 col-lg-offset-10 col-md-1 col-sm-1 col-xs-1 panel-exit"
-			style="margin-top: 0;">
-			<h3>
-				<a class="align-right"
-					href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}"
-					title="<spring:message code="lbl.subject.title" />">
-					<i class="fa fa-table fa-lg"></i>
-				</a>
-			</h3>
-		</div>
-	</div>
+<div class="row">
+        <div class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
+            <h3>
+                <a href="#" onclick="window.history.back()" title="<spring:message code="lbl.form.back" />">
+                    <i class="fa fa-arrow-left"></i>
+                </a>
+            </h3>
+        </div>
+        <div class="col-lg-1 col-lg-offset-8 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
+            <h3>
+                <a href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}"
+                    title="<spring:message code="lbl.room.title" />">
+                    <i class="fa fa-table fa-lg"></i>
+                </a>
+            </h3>
+        </div>
+    </div>
 	<div class="row">
-		<div class="col-lg-4 col-lg-offset-1 col-md-5 col-sm-6 panel panel-default" style="margin-top: 0;">
+		<div class="col-lg-4 col-lg-offset-1 col-md-5 col-sm-6 panel panel-default zero-margin-top">
 			<h3 class="text-center">
 				<spring:message code="lbl.subject.subjectDetails" />
 			</h3>
@@ -60,44 +65,17 @@
 				</ul>
 			</div>
 		</div>
-		<div class="col-lg-6 col-md-7 col-sm-6 panel-map" style="margin-top: 0;">
-			<div id='calendar' style="margin-top: 0px"></div>
+		<div class="col-lg-6 col-md-7 col-sm-6 panel-map zero-margin-top">
+			<div id='calendar' ></div>
 		</div>
 	</div>
-
 </div>
 
-<script>
-	$(document)
-			.ready(
-					function() {
-						$('#calendar')
-								.fullCalendar(
-										{
-											defaultView : 'agendaWeek',
-											locale : '<spring:message code="label.localeCalendar"/>',
-											header : {
-												left : 'prev,next,today',
-												center : 'title',
-												right : 'month,agendaWeek,agendaDay,listWeek'
-											},
-											nowIndicator : true,
-											navLinks : true,
-											events : {
-												url : '${pageContext.request.contextPath}/meetings/restBySubject',
-												type : 'GET',
-												data : {
-													subjectId : '${subject.id}'
-												}
-											}
-
-										})
-
-					});
+<span id="subjectRestURL" hidden="true">${pageContext.request.contextPath}/meetings/restBySubject</span>
+<span id="subjectId" hidden="true">${subject.id}</span>
+<span id="language" hidden="true"><spring:message code="label.localeCalendar" /></span>
+<spring:url value="/resources/js/subjects/show.js" var="subjectsShowJS" />
+<script type="text/javascript" src="${subjectsShowJS}">
 </script>
-
-
-
-
 
 

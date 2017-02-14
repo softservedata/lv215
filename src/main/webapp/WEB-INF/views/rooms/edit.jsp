@@ -80,7 +80,7 @@
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default" value="<spring:message code="lbl.form.save"/>">
-					<a class="btn btn-default" href="/schedule/rooms/edit/${room.id}">
+					<a class="btn btn-default" href="${pageContext.request.contextPath}/rooms/edit/${room.id}">
 						<spring:message code="lbl.form.reset" />
 					</a>
 					<a class="btn btn-default" href="${pageContext.request.contextPath}/rooms">
@@ -92,13 +92,7 @@
 	</div>
 </div>
 
-<script type="text/javascript">
-	$(function() {
-		$("select[name=location]").chosen({
-			width : "100%"
-		});
-		$("select[name=equipments]").chosen({
-			width : "100%"
-		});
-	})
+<spring:url value="/resources/js/rooms/create.js" var="roomsCreateJS" />
+<script type="text/javascript" src="${roomsCreateJS}">
+	
 </script>

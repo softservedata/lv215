@@ -27,6 +27,11 @@ public class MeetingForCalendarDTOConverter {
     /**
      * Color value for approved meetings in calendar.
      */
+    private static final String MEETING_DETAIL_MAPPING = "/schedule/meetings/";
+
+    /**
+     * Color value for approved meetings in calendar.
+     */
     private static final String APPROVED_MEETING_COLOR = "blue";
 
     /**
@@ -74,8 +79,8 @@ public class MeetingForCalendarDTOConverter {
             meetingForCalendarDTO.setEnd(
                     getFullTime(meeting.getDate(), meeting.getEndTime()));
 
-            meetingForCalendarDTO
-                    .setUrl("/schedule/meetings/" + meeting.getId().toString());
+            meetingForCalendarDTO.setUrl(
+                    MEETING_DETAIL_MAPPING + meeting.getId().toString());
             meetingForCalendarDTO
                     .setColor(getMeetingColor(meeting.getStatus()));
 
@@ -92,7 +97,7 @@ public class MeetingForCalendarDTOConverter {
      *
      * @return color name in String value.
      */
-    private String getMeetingColor(MeetingStatus status) {
+    private String getMeetingColor(final MeetingStatus status) {
         if (status.equals(MeetingStatus.APPROVED)) {
             return APPROVED_MEETING_COLOR;
         }
@@ -110,15 +115,15 @@ public class MeetingForCalendarDTOConverter {
      *
      * @param date
      *            date to convert.
-     * 
+     *
      * @param time
      *            time to convert
      *
      * @return datetime string.
      */
-    private String getFullTime(LocalDate date, LocalTime startTime) {
-        LocalDateTime time = LocalDateTime.of(date, startTime);
-        return time.toString();
+    private String getFullTime(final LocalDate date, final LocalTime time) {
+        LocalDateTime fullTime = LocalDateTime.of(date, time);
+        return fullTime.toString();
     }
 
     /**
@@ -130,7 +135,7 @@ public class MeetingForCalendarDTOConverter {
      *
      * @return meeting title in String value.
      */
-    private String getMeetingTitle(Meeting meeting) {
+    private String getMeetingTitle(final Meeting meeting) {
         StringBuffer title = new StringBuffer();
         if (meeting.getSubject() != null) {
             title.append(meeting.getSubject().getName());

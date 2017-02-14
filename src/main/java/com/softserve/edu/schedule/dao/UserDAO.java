@@ -54,5 +54,12 @@ public interface UserDAO extends CrudDAO<User> {
      * @return lists of users which have role - moderator
      */
     List<User> getModerators();
+    
+    /**
+     * Method returns lists of users which have status - active
+     * 
+     * @return lists of users which have status - active
+     */
+    List<User> getAllActiveUsers();
 
 }

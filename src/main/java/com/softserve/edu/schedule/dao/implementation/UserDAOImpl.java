@@ -15,6 +15,7 @@ import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
+import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.implementation.specification.UserFilterSpecification;
 
@@ -119,6 +120,20 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
         CriteriaQuery<User> cq = builder.createQuery(User.class);
         Root<User> root = cq.from(User.class);
         cq.where(builder.equal(root.get(User_.role), UserRole.ROLE_MODERATOR.ordinal()));
+        return getEm().createQuery(cq).getResultList();
+    }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.dao.UserDAO#getAllActive()
+     */
+    @Override
+    public List<User> getAllActiveUsers() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<User> cq = builder.createQuery(User.class);
+        Root<User> root = cq.from(User.class);
+        cq.where(builder.equal(root.get(User_.status), UserStatus.ACTIVE.ordinal()));
         return getEm().createQuery(cq).getResultList();
     }
 }

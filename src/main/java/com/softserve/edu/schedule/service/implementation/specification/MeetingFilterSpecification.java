@@ -258,14 +258,14 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.OWNER.ordinal()) {
             criteriaQuery.orderBy(
-                    criteriaBuilder.asc(ownerJoin.get(User_.firstName)));
+                    criteriaBuilder.asc(ownerJoin.get(User_.lastName)));
         }
 
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter.getFieldForSorting() == MeetingSortField.OWNER
                         .ordinal()) {
             criteriaQuery.orderBy(
-                    criteriaBuilder.desc(ownerJoin.get(User_.firstName)));
+                    criteriaBuilder.desc(ownerJoin.get(User_.lastName)));
         }
 
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter

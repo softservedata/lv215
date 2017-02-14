@@ -31,18 +31,18 @@ public class MeetingRESTController {
      * MeetingService example to provide meetings list.
      */
     @Autowired
-    MeetingService meetingService;
+    private MeetingService meetingService;
 
     /**
      * Provide ResponseEntity with list of MeetingForCalendarDTO instances by
      * given date interval and roomId.
-     * 
+     *
      * @param roomId
      *            room id for find meetings
      *
      * @param start
      *            start date for find meetings
-     * 
+     *
      * @param end
      *            end date for find meetings
      *
@@ -50,9 +50,9 @@ public class MeetingRESTController {
      */
     @RequestMapping(value = "/meetings/restByRoom", method = RequestMethod.GET)
     public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByRoomId(
-            @RequestParam("start") String start,
-            @RequestParam("end") String end,
-            @RequestParam("roomId") Long roomId) {
+            @RequestParam("start") final String start,
+            @RequestParam("end") final String end,
+            @RequestParam("roomId") final Long roomId) {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByRoomId(roomId, start, end);
         if (meetings.isEmpty()) {
@@ -66,13 +66,13 @@ public class MeetingRESTController {
     /**
      * Provide ResponseEntity with list of MeetingForCalendarDTO instances by
      * given date interval and user id.
-     * 
+     *
      * @param userId
      *            user id for find meetings
      *
      * @param start
      *            start date for find meetings
-     * 
+     *
      * @param end
      *            end date for find meetings
      *
@@ -81,9 +81,9 @@ public class MeetingRESTController {
     @PreAuthorize("isAuthenticated()")
     @RequestMapping(value = "/meetings/restByUser", method = RequestMethod.GET)
     public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByUserId(
-            @RequestParam("start") String start,
-            @RequestParam("end") String end,
-            @RequestParam("userId") String userId) {
+            @RequestParam("start") final String start,
+            @RequestParam("end") final String end,
+            @RequestParam("userId") final String userId) {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByUserId(userId, start, end);
         if (meetings.isEmpty()) {
@@ -97,15 +97,15 @@ public class MeetingRESTController {
     /**
      * Provide ResponseEntity with list of MeetingForCalendarDTO instances by
      * given date interval and subjectId.
-     * 
-     * @author Volodymyr Pedko
-     * 
+     *
+     * @author Volodymyr Ped'ko
+     *
      * @param subjectId
      *            subject id for find meetings
      *
      * @param start
      *            start date for find meetings
-     * 
+     *
      * @param end
      *            end date for find meetings
      *
@@ -114,9 +114,9 @@ public class MeetingRESTController {
     @RequestMapping(value = "/meetings/restBySubject",
             method = RequestMethod.GET)
     public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalBySubjectId(
-            @RequestParam("start") String start,
-            @RequestParam("end") String end,
-            @RequestParam("subjectId") Long subjectId) {
+            @RequestParam("start") final String start,
+            @RequestParam("end") final String end,
+            @RequestParam("subjectId") final Long subjectId) {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalBySubjectId(subjectId, start, end);
         if (meetings.isEmpty()) {
@@ -130,15 +130,15 @@ public class MeetingRESTController {
     /**
      * Provide ResponseEntity with list of MeetingForCalendarDTO instances by
      * given date interval and groupId.
-     * 
+     *
      * @author Andriy Zhydenko
-     * 
+     *
      * @param groupId
      *            group id for find meetings
      *
      * @param start
      *            start date for find meetings
-     * 
+     *
      * @param end
      *            end date for find meetings
      *
@@ -146,9 +146,9 @@ public class MeetingRESTController {
      */
     @RequestMapping(value = "/meetings/restByGroup", method = RequestMethod.GET)
     public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByGroupId(
-            @RequestParam("start") String start,
-            @RequestParam("end") String end,
-            @RequestParam("groupId") Long groupId) {
+            @RequestParam("start") final String start,
+            @RequestParam("end") final String end,
+            @RequestParam("groupId") final Long groupId) {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByGroupId(groupId, start, end);
         if (meetings.isEmpty()) {

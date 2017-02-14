@@ -1,12 +1,10 @@
 package com.softserve.edu.schedule.service.implementation;
 
-import java.io.File;
-import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -42,11 +40,11 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOFor
 @PerfomanceLoggable
 public class UserServiceImpl implements UserService {
 
-    private static final String PATH = "E:/Programing/lv215/src/main/webapp/resources/images/";
-
-    private static final String SLASH = "/";
-    
-    private static final String NAME_OF_FILE = "/resources/images/";
+//    private static final String PATH = "E:/Programing/lv215/src/main/webapp/resources/images/";
+//
+//    private static final String SLASH = "/";
+//    
+//    private static final String NAME_OF_FILE = "/resources/images/";
 
     /**
      * UserDAO example to provide database operations.
@@ -77,7 +75,7 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private BCryptPasswordEncoder encoder;
-
+    
     /**
      * Save new user entity into the database.
      *
@@ -311,5 +309,35 @@ public class UserServiceImpl implements UserService {
 //        }
 //        userDAO.update(user);
     }
+    
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.UserService#getAllActiveUsers()
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserDTO> getAllActiveUsers() {
+        return userDAO.getAllActiveUsers().stream().map(e -> userDTOConverter.getDTO(e)).collect(Collectors.toList());
+    }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.service.UserService#getAllManagers(java.util.
+     * List)
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO) {
+        List<UserDTO> listUserDTOForMeetingOwners = new ArrayList<UserDTO>();
+        for (UserDTO userTEMP : listUserDTO) {
+            if (userTEMP.getRole() != UserRole.ROLE_USER) {
+                listUserDTOForMeetingOwners.add(userTEMP);
+            }
+        }
+        return listUserDTOForMeetingOwners;
+    }
 }
+

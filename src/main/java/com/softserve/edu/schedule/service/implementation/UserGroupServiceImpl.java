@@ -41,6 +41,9 @@ public class UserGroupServiceImpl implements UserGroupService {
 	@Autowired
 	private UserGroupDAO userGroupDAO;
 
+	/**
+	 * 
+	 */
 	@Autowired
 	private UserGroupDTOConverter userGroupDTOConverter;
 
@@ -148,4 +151,9 @@ public class UserGroupServiceImpl implements UserGroupService {
 				.map(e -> userGroupDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
+	@Override
+	public List<UserGroupDTO> getUserGroupsByName(final String userGroupName) {
+		return userGroupDAO.getGroupsByName(userGroupName).stream().map(s -> userGroupDTOConverter.getDTO(s))
+				.collect(Collectors.toList());
+	}
 }

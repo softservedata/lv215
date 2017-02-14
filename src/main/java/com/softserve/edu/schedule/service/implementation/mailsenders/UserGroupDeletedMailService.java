@@ -30,62 +30,66 @@ import com.softserve.edu.schedule.entity.UserGroup;
 @Component
 public class UserGroupDeletedMailService implements MailConstants {
 
-	/**
-	 * JavaMailSender example to provide mail sending.
-	 */
-	@Autowired
-	private JavaMailSender mailSender;
+    /**
+     * JavaMailSender example to provide mail sending.
+     */
+    @Autowired
+    private JavaMailSender mailSender;
 
-	/**
-	 * Messages source for internationalization purposes.
-	 */
-	@Autowired
-	private ResourceBundleMessageSource messageSource;
+    /**
+     * Messages source for internationalization purposes.
+     */
+    @Autowired
+    private ResourceBundleMessageSource messageSource;
 
-	/**
-	 * SpringTemplateEngine example for templates processing.
-	 */
-	@Autowired
-	private SpringTemplateEngine templateEngine;
+    /**
+     * SpringTemplateEngine example for templates processing.
+     */
+    @Autowired
+    private SpringTemplateEngine templateEngine;
 
-	/**
-	 * Field for import from message attribute from mail.properties.
-	 */
-	@Value(DEFAULT_MESSAGE_FROM_ADDRESS)
-	private String fromAddress;
+    /**
+     * Field for import from message attribute from mail.properties.
+     */
+    @Value(DEFAULT_MESSAGE_FROM_ADDRESS)
+    private String fromAddress;
 
-	/**
-	 * Send mail notifications to all group members when group has been deleted
-	 *
-	 * @param userGroup
-	 *            a UserGroup object that contains mail message parameters.
-	 *
-	 * @param locale
-	 *            current locale.
-	 */
-	@Async
-	public void sendInfoMessageGroupDelete(final UserGroup userGroup, final Locale locale) {
-		Context ctx = new Context(locale);
-		ctx.setVariable(USERGROUP_MODEL_NAME, userGroup);
+    /**
+     * Send mail notifications to all group members when group has been deleted
+     *
+     * @param userGroup
+     *            a UserGroup object that contains mail message parameters.
+     *
+     * @param locale
+     *            current locale.
+     */
+    @Async
+    public void sendInfoMessageGroupDelete(final UserGroup userGroup,
+            final Locale locale) {
+        Context ctx = new Context(locale);
+        ctx.setVariable(USERGROUP_MODEL_NAME, userGroup);
 
-		List<User> groupMembers = userGroup.getUsers();
+        List<User> groupMembers = userGroup.getUsers();
 
-		for (User member : groupMembers) {
-			ctx.setVariable(USERGROUP_USER, member);
+        for (User member : groupMembers) {
+            ctx.setVariable(USERGROUP_USER, member);
 
-			try {
-				MimeMessage mimeMessage = this.mailSender.createMimeMessage();
-				MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, DEFAULT_MESSAGE_ENCODING);
-				message.setTo(member.getMail());
-				message.setFrom(new InternetAddress(fromAddress));
-				message.setSubject(messageSource.getMessage(USERGROUP_DELETED_MESSAGE, new String[0], locale));
-				String htmlContent = this.templateEngine.process(USERFROUP_DELETED_TEMPLATE, ctx);
-				message.setText(htmlContent, true);
-				this.mailSender.send(mimeMessage);
-			} catch (MessagingException e) {
-				e.printStackTrace();
-			}
-		}
-	}
+            try {
+                MimeMessage mimeMessage = this.mailSender.createMimeMessage();
+                MimeMessageHelper message = new MimeMessageHelper(mimeMessage,
+                        true, DEFAULT_MESSAGE_ENCODING);
+                message.setTo(member.getMail());
+                message.setFrom(new InternetAddress(fromAddress));
+                message.setSubject(messageSource.getMessage(
+                        USERGROUP_DELETED_MESSAGE, new String[0], locale));
+                String htmlContent = this.templateEngine
+                        .process(USERFROUP_DELETED_TEMPLATE, ctx);
+                message.setText(htmlContent, true);
+                this.mailSender.send(mimeMessage);
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

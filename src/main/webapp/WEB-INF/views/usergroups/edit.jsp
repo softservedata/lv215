@@ -1,48 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ page
 	import="com.softserve.edu.schedule.controller.UserGroupController"%>
 
-<script type="text/javascript">
-	$(function() {
-		$("select[name=users]").chosen({
-			width : "100%"
-		});
-		$("select[name=curators]").chosen({
-			width : "100%"
-		});
-	})
-
-	function validateForm() {
-		document.getElementById("nameErrorMsg").innerHTML = "";
-		document.getElementById("descriptionErrorMsg").innerHTML = "";
-
-		var isValid = true;
-		
-		var description = document.getElementById("description");
-		var name = document.getElementById("name");
-		
-		if(name.value.length < "${UserGroupController.MIN_GROUP_NAME_LENGTH}") {
-			document.getElementById("nameErrorMsg").innerHTML = '<spring:message code="lbl.group.shortName"/>';
-			isValid = false;
-		}
-		if(name.value.length > "${UserGroupController.MAX_GROUP_NAME_LENGTH}") {
-			document.getElementById("nameErrorMsg").innerHTML = '<spring:message code="lbl.group.longName"/>';
-			isValid = false;
-		}
-		if (description.value.length < "${UserGroupController.MIN_GROUP_DESCRIPTION_LENGTH}") {
-			document.getElementById("descriptionErrorMsg").innerHTML = '<spring:message code="lbl.group.shortDescription"/>';
-			isValid = false;
-		} else if (description.value.length > "${UserGroupController.MAX_GROUP_DESCRIPTION_LENGTH}") {
-			document.getElementById("descriptionErrorMsg").innerHTML = '<spring:message code="lbl.group.longDescription"/>';
-			isValid = false;
-		}
-		return isValid;
-	}
-</script>
 <div class="container">
 	<div class="row">
 		<div
@@ -58,7 +23,8 @@
 				<spring:message code="lbl.group.title" var="title" />
 				<div class="form-group">
 					<label for="Title">${title}</label>
-					<form:input path="name" class="form-control" placeholder="${title}" id="name"/>
+					<form:input path="name" class="form-control" placeholder="${title}"
+						id="name" />
 					<form:errors path="name" class="text-danger" />
 					<p class="text-danger" id="nameErrorMsg"></p>
 				</div>
@@ -67,8 +33,9 @@
 				<div class="form-group">
 					<label for="description">${description}</label>
 					<form:input path="description" class="form-control"
-						placeholder="${description}" id="description"/>
-					<form:errors path="description" class="text-danger" />
+						placeholder="${description}" id="description" />
+					<form:errors path="description" class="text-danger"
+						id="descriptionBackErrorMsg" />
 					<p class="text-danger" id="descriptionErrorMsg"></p>
 				</div>
 
@@ -94,20 +61,35 @@
 
 				<label for="curator"><spring:message
 						code="lbl.group.curator" /></label>
-				<form:select class="form-control" path="curator" id="curator">
-					<c:forEach items="${curators}" var="curator">
-						<c:choose>
-							<c:when test="${userGroupForm.curator.id eq curator.id}">
-								<option value="${curator.id}" selected="selected">${curator.lastName}
-									${curator.firstName}</option>
-							</c:when>
-							<c:otherwise>
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<form:select class="form-control" path="curator" id="curator">
+						<c:forEach items="${curators}" var="curator">
+							<c:choose>
+								<c:when test="${userGroupForm.curator.id eq curator.id}">
+									<option value="${curator.id}" selected="selected">${curator.lastName}
+										${curator.firstName}</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${curator.id}">${curator.lastName}
+										${curator.firstName}</option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</form:select>
+				</sec:authorize>
+
+				<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+					<sec:authentication property="principal.id" var="principalid" />
+					<form:select class="form-control" path="curator" id="curator"
+						readonly="true">
+						<c:forEach items="${curators}" var="curator">
+							<c:if test="${principalid eq curator.id}">
 								<option value="${curator.id}">${curator.lastName}
 									${curator.firstName}</option>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</form:select>
+							</c:if>
+						</c:forEach>
+					</form:select>
+				</sec:authorize>
 
 				<div class="form-group"></div>
 				<label for="users"><spring:message code="lbl.group.members" /></label>
@@ -132,11 +114,8 @@
 				</form:select>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default"
-						value="<spring:message code="lbl.form.save"/>"> <a
-						class="btn btn-default"
-						href="/schedule/usergroups/edit/${userGroupForm.id}"><spring:message
-							code="lbl.form.reset" /></a> <a class="btn btn-default"
-						href="${pageContext.request.contextPath}/usergroups"><spring:message
+						value="<spring:message code="lbl.form.save"/>"> <a class="btn btn-default"
+						href="${pageContext.request.contextPath}${UserGroupController.USERGROUP_MAPPING}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
 
@@ -144,3 +123,29 @@
 		</div>
 	</div>
 </div>
+
+<c:set var="shortName"><spring:message code="lbl.group.shortName"/></c:set>
+<input id="shortName" type="hidden" value="${shortName}"/>
+<c:set var="longName"><spring:message code="lbl.group.longName"/></c:set>
+<input id="longName" type="hidden" value="${longName}"/>
+
+<c:set var="shortDescription"><spring:message code="lbl.group.shortDescription"/></c:set>
+<input id="shortDescription" type="hidden" value="${shortDescription}"/>
+<c:set var="longDescription"><spring:message code="lbl.group.longDescription"/></c:set>
+<input id="longDescription" type="hidden" value="${longDescription}"/>
+
+<spring:url value="/resources/js/usergroups/chosenAppearance.js" var="userGroupsChosenJS" />
+<script type="text/javascript" src="${userGroupsChosenJS}"></script>
+
+<spring:url value="/resources/js/usergroups/chosenAppearance.js" var="userGroupsChosenJS" />
+<script type="text/javascript" src="${userGroupsChosenJS}"></script>
+
+<spring:url value="/resources/js/usergroups/validator.js" var="userGroupsValidatorJS" />
+<script>
+	var minName = ${UserGroupController.MIN_GROUP_NAME_LENGTH};
+	var maxName = ${UserGroupController.MAX_GROUP_NAME_LENGTH}
+	var minDescription = ${UserGroupController.MIN_GROUP_DESCRIPTION_LENGTH};
+	var maxDescription = ${UserGroupController.MAX_GROUP_DESCRIPTION_LENGTH};	
+</script>
+<script type="text/javascript" src="${userGroupsValidatorJS}">	
+</script>

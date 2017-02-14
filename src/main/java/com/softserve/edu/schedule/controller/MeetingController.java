@@ -54,8 +54,8 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEdit
  */
 @RequestMapping(ControllerConst.MeetingControllerConst.MEETINGS_URL)
 @Controller
-@SessionAttributes({ ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR })
+@SessionAttributes({ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR})
 public class MeetingController
         implements ControllerConst.MeetingControllerConst {
 
@@ -160,7 +160,6 @@ public class MeetingController
         binder.registerCustomEditor(UserDTO.class, userDTOEditor);
         binder.registerCustomEditor(RoomDTO.class, roomDTOEditor);
         binder.registerCustomEditor(UserGroupDTO.class, userGroupDTOEditor);
-
     }
 
     /**
@@ -185,7 +184,7 @@ public class MeetingController
     public MeetingFilter getFilter() {
         return new MeetingFilter();
     }
-    
+
     /**
      * Provides meetings paginator.
      *
@@ -208,7 +207,8 @@ public class MeetingController
             @ModelAttribute(MEETING_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
         model.addAttribute(MEETINGS_MODEL_ATTR, meetingService
                 .getMeetingPageWithFilter(meetingFilter, paginator));
-        model.addAttribute(USERS_MODEL_ATTR, userService.getAll());
+        model.addAttribute(USERS_MODEL_ATTR,
+                userService.getAllManagers(userService.getAllActiveUsers()));
         model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
         model.addAttribute(ROOMS_MODEL_ATTR, roomService.getAll());
         model.addAttribute(USERGROUPS_MODEL_ATTR, userGroupService.getAll());
@@ -229,7 +229,8 @@ public class MeetingController
     public String createForm(Model model) {
         model.addAttribute(MEETING_MODEL_ATTR, new MeetingDTO());
         model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
-        model.addAttribute(OWNERS_MODEL_ATTR, userService.getAll());
+        model.addAttribute(OWNERS_MODEL_ATTR,
+                userService.getAllManagers(userService.getAllActiveUsers()));
         model.addAttribute(ROOMS_MODEL_ATTR, roomService.getAll());
         model.addAttribute(GROUPS_MODEL_ATTR, userGroupService.getAll());
         return MEETING_CREATE_URL;
@@ -247,7 +248,8 @@ public class MeetingController
             BindingResult br, Model model) {
         if (br.hasErrors()) {
             model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
-            model.addAttribute(OWNERS_MODEL_ATTR, userService.getAll());
+            model.addAttribute(OWNERS_MODEL_ATTR, userService
+                    .getAllManagers(userService.getAllActiveUsers()));
             model.addAttribute(ROOMS_MODEL_ATTR, roomService.getAll());
             model.addAttribute(GROUPS_MODEL_ATTR, userGroupService.getAll());
             return MEETING_CREATE_URL;
@@ -281,7 +283,8 @@ public class MeetingController
     public String editForm(@PathVariable(ID_URL) Long id, Model model) {
         model.addAttribute(MEETING_MODEL_ATTR, meetingService.getById(id));
         model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
-        model.addAttribute(OWNERS_MODEL_ATTR, userService.getAll());
+        model.addAttribute(OWNERS_MODEL_ATTR,
+                userService.getAllManagers(userService.getAllActiveUsers()));
         model.addAttribute(ROOMS_MODEL_ATTR, roomService.getAll());
         model.addAttribute(GROUPS_MODEL_ATTR, userGroupService.getAll());
         model.addAttribute(MEETINGSTATUSES_MODEL_ATTR, MeetingStatus.values());
@@ -300,7 +303,8 @@ public class MeetingController
             BindingResult br, Model model) {
         if (br.hasErrors()) {
             model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
-            model.addAttribute(OWNERS_MODEL_ATTR, userService.getAll());
+            model.addAttribute(OWNERS_MODEL_ATTR, userService
+                    .getAllManagers(userService.getAllActiveUsers()));
             model.addAttribute(ROOMS_MODEL_ATTR, roomService.getAll());
             model.addAttribute(GROUPS_MODEL_ATTR, userGroupService.getAll());
             model.addAttribute(MEETINGSTATUSES_MODEL_ATTR,

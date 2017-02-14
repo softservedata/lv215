@@ -34,7 +34,7 @@ public class UserForSubjectDTO {
      * @param id
      *            the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -49,7 +49,7 @@ public class UserForSubjectDTO {
      * @param firstName
      *            the firstName to set
      */
-    public void setFirstName(String firstName) {
+    public void setFirstName(final String firstName) {
         this.firstName = firstName;
     }
 
@@ -64,7 +64,7 @@ public class UserForSubjectDTO {
      * @param lastName
      *            the lastName to set
      */
-    public void setLastName(String lastName) {
+    public void setLastName(final String lastName) {
         this.lastName = lastName;
     }
     

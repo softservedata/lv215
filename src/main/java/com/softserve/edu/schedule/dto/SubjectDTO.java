@@ -69,7 +69,7 @@ public class SubjectDTO {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -84,7 +84,7 @@ public class SubjectDTO {
      * @param description
      *            the description to set
      */
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -99,7 +99,7 @@ public class SubjectDTO {
      * @param users
      *            the users to set
      */
-    public void setUsers(List<UserForSubjectDTO> users) {
+    public void setUsers(final List<UserForSubjectDTO> users) {
         if (users == null) {
             this.users = new ArrayList<>();
         } else {

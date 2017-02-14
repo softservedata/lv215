@@ -40,26 +40,23 @@
 	<table class="table table-hover">
 		<tr>
 			<th class="v-alighn">
-				<spring:message code="lbl.room.location" />
-				<a href="rooms?sortByField=1&sortOrder=1&pageNumber=0"
-					title="<spring:message code="lbl.room.sortAsc"/>">
-					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a>
-				<a href="rooms?sortByField=1&sortOrder=2&pageNumber=0"
-					title="<spring:message code="lbl.room.sortDesc"/>">
-					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
-				</a>
-			</th>
-			<th class="v-alighn">
-				<spring:message code="lbl.room.address" />
-			</th>
-			<th class="v-alighn">
 				<spring:message code="lbl.room.roomName" />
 				<a href="rooms?sortByField=2&sortOrder=1&pageNumber=0"
 					title="<spring:message code="lbl.room.sortAsc"/>">
 					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
 				</a>
 				<a href="rooms?sortByField=2&sortOrder=2&pageNumber=0"
+					title="<spring:message code="lbl.room.sortDesc"/>">
+					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
+				</a>
+			</th>
+			<th class="v-alighn">
+				<spring:message code="lbl.room.location" />
+				<a href="rooms?sortByField=1&sortOrder=1&pageNumber=0"
+					title="<spring:message code="lbl.room.sortAsc"/>">
+					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				</a>
+				<a href="rooms?sortByField=1&sortOrder=2&pageNumber=0"
 					title="<spring:message code="lbl.room.sortDesc"/>">
 					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
 				</a>
@@ -107,6 +104,13 @@
 				<form:input path="showFilter" type="hidden" value="true" />
 				<td>
 					<div class="form-group">
+						<spring:message code="lbl.room.roomName" var="nameForPlaceholder" />
+						<form:input class="form-control input-sm input-name" type="text" path="name"
+							placeholder="${nameForPlaceholder}" />
+					</div>
+				</td>
+				<td>
+					<div class="form-group">
 						<form:select class="form-control" path="locationId" id="locationId">
 							<option value="0"></option>
 							<c:forEach items="${locations}" var="location">
@@ -120,14 +124,6 @@
 								</c:choose>
 							</c:forEach>
 						</form:select>
-					</div>
-				</td>
-				<td></td>
-				<td>
-					<div class="form-group col-xs-10">
-						<spring:message code="lbl.room.roomName" var="nameForPlaceholder" />
-						<form:input class="form-control input-sm input-name" type="text" path="name"
-							placeholder="${nameForPlaceholder}" />
 					</div>
 				</td>
 				<td>
@@ -177,10 +173,12 @@
 		</tr>
 		<c:forEach items="${rooms}" var="room">
 			<tr>
-				<td>${room.location.name}</td>
-				<td>${room.location.address}</td>
 				<td>
 					<a href="rooms/${room.id}">${room.name}</a>
+				</td>
+				<td>
+					<a href="${pageContext.request.contextPath}/locations/map/${room.location.id}">
+						${room.location.name}</a>
 				</td>
 				<td>${room.capacity}</td>
 				<td>
@@ -244,31 +242,14 @@
 	</div>
 </div>
 
+<span id="firstLabel" hidden="true"><spring:message code="lbl.pager.first" /></span>
+<span id="lastLabel" hidden="true"><spring:message code="lbl.pager.last" /></span>
+<span id="previousLabel" hidden="true"><spring:message code="lbl.pager.previous" /></span>
+<span id="nextLabel" hidden="true"><spring:message code="lbl.pager.next" /></span>
+<spring:url value="/resources/js/rooms/list.js" var="roomsListJS" />
 <script>
-$('#confirm-delete').on('show.bs.modal', function(e) {
-    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-});
-
-$(function() {
-	$("select[name=locationId]").chosen({
-		width : "160px"
-	});
-	$("select[name=equipments]").chosen({
-		width : "150px"
-	});		
-})
-
- $('#paginationList').twbsPagination({	 	
-	 	totalPages: ${roomPaginator.pagesCount + 1},
-        startPage: ${roomPaginator.pageNumber + 1},
-        visiblePages: 10,
-        first: '<spring:message code="lbl.pager.first"/>',
-        last: '<spring:message code="lbl.pager.last"/>',
-        prev: '<spring:message code="lbl.pager.previous"/>',
-        next: '<spring:message code="lbl.pager.next"/>',
-        initiateStartPageClick: false,        
-        onPageClick: function (event, page) {
-        	window.location = "rooms?pageNumber=" + (page-1);        	
-        }
-    });
+	var totalPages = ${roomPaginator.pagesCount + 1}
+	var startPage = ${roomPaginator.pageNumber + 1}
+</script>
+<script type="text/javascript" src="${roomsListJS}">	
 </script>

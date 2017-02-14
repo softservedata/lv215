@@ -1,8 +1,9 @@
+var geo = {lviv : "49.839683,24.029717"};
 function initMap() {
 	var x = document.getElementById('coordinates').value;
 	var z = 16;
 	if (x == "") {
-		x = "49.839683,24.029717";
+		x = geo.lviv;
 		z = 5;
 		document.getElementById('coordinates').value = x;
 	}
@@ -91,7 +92,7 @@ $('#showmap')
 													 */
 													$('#geo-error').show();
 													document
-															.getElementById('coordinates').value = "49.839683,24.029717";
+															.getElementById('coordinates').value = geo.lviv;
 												}
 											} else {
 												/*
@@ -101,7 +102,7 @@ $('#showmap')
 												 */
 												$('#geo-error').show();
 												document
-														.getElementById('coordinates').value = "49.839683,24.029717";
+														.getElementById('coordinates').value = geo.lviv;
 											}
 										});
 					}

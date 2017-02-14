@@ -4,7 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ page import="com.softserve.edu.schedule.controller.SubjectController"%>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -89,7 +89,7 @@
 						placeholder="${search}" />
 				</td>
 				<td>
-					<form:select class="form-control" path="${SubjectController.SUBJECT_PATH_USER_ID}">
+					<form:select class="form-control" path="${SubjectController.SUBJECT_PATH_USER_ID}" id="${SubjectController.SUBJECT_PATH_USER_ID}">
 					<spring:message code="lbl.subject.selectTutor" var="tutor" />
 						<option value="0">${tutor}</option>
 						<c:forEach items="${users}" var="user">
@@ -123,7 +123,9 @@
 			<tr>
 				<td>${subject.id}</td>
 				<td><a href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING_SHOW}${subject.id}">${subject.name}</a></td>
-				<td>${subject.description}</td>
+				<c:set var="string" value="${subject.description}"/>
+				<c:set var="string2" value="${fn:substring(string, 0, 25)}..." />
+				<td>${string2}</td>
 				<td>
 					<c:forEach items="${subject.users}" var="user">
 						<p>${user.firstName} ${user.lastName}</p>
@@ -190,22 +192,10 @@
 		<ul id="paginationList" class="pagination"></ul>
 	</div>
 </div>
+<spring:url value="/resources/js/subjects/list.js" var="subjectsListJS" />
 <script>
-$('#confirm-delete').on('show.bs.modal', function(e) {
-    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-});
-
- $('#paginationList').twbsPagination({
-        totalPages: ${subjectPaginator.pagesCount + 1},
-        startPage: ${subjectPaginator.pageNumber + 1},
-        visiblePages: 10,
-        first: '<spring:message code="lbl.pager.first"/>',
-        last: '<spring:message code="lbl.pager.last"/>',
-        prev: '<spring:message code="lbl.pager.previous"/>',
-        next: '<spring:message code="lbl.pager.next"/>',
-        initiateStartPageClick: false,        
-        onPageClick: function (event, page) {
-        	window.location = "subjects?pageNumber=" + (page-1);        	
-        }
-    });
+var totalPages = ${subjectPaginator.pagesCount + 1}
+var startPage = ${subjectPaginator.pageNumber + 1}
+</script>
+<script type="text/javascript" src="${subjectsListJS}">	
 </script>
