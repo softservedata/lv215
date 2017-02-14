@@ -23,8 +23,10 @@
 				<h3 class="text-center">
 					<spring:message code="lbl.user.profile" />
 				</h3>
+				<br>
 				<img src="<c:url value='${user.pathImage}'/>" height="200"
 					align="middle">
+					<br>
 				<form:form commandName="${UserController.USER_MODEL_ATTR}">
 					<form:hidden path="id" />
 					<div class="form-group">

@@ -23,12 +23,11 @@
 				<h3 class="text-center">
 					<spring:message code="lbl.user.profile" />
 				</h3>
-
-				<img src="<c:url value='${user.pathImage}'/>" height="200">
+				<br> <img src="<c:url value='${user.pathImage}'/>" height="200"><br>
 				<form:form commandName="${UserController.USER_MODEL_ATTR}"
 					action="${pageContext.request.contextPath}${UserController.SAVE_IMAGES}?${_csrf.parameterName}=${_csrf.token}"
-					method="post" enctype="multipart/form-data">
-					<input type="file" name="image">
+					method="post" enctype="multipart/form-data"><br>
+					<input type="file" name="image"><br>
 					<div class="form-group">
 						<input type="submit" class="form-control"
 							value="<spring:message code="lbl.form.save"/>">
@@ -74,8 +73,8 @@
 				class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
 				<h3>
 					<a
-						href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}"> <i
-						class="fa fa-table fa-lg"></i>
+						href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}">
+						<i class="fa fa-table fa-lg"></i>
 					</a>
 				</h3>
 			</div>
