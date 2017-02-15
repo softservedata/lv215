@@ -12,7 +12,7 @@ import com.softserve.edu.schedule.service.implementation.mailsenders.Registratio
 public class UserEntityListener {
 
     /**
-     * MeetingCanceledMailService example to provide send mail to user
+     * RegistrationMailService example to provide send mail to user
      * operations.
      */
     @Autowired

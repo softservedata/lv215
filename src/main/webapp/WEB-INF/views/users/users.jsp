@@ -16,7 +16,9 @@
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<h4 class="modal-title" id="myModalLabel"><spring:message code="lbl.form.deleteTitle" /></h4>
+				<h4 class="modal-title" id="myModalLabel">
+					<spring:message code="lbl.form.deleteTitle" />
+				</h4>
 			</div>
 			<div class="modal-body">
 				<p>
@@ -24,8 +26,11 @@
 				</p>
 			</div>
 			<div class="modal-footer">
-				<a class="btn btn-primary btn-ok"><spring:message code="lbl.form.delete" /></a>
-				<button type="button" class="btn btn-default" data-dismiss="modal"><spring:message code="lbl.form.cancel" /></button>
+				<a class="btn btn-primary btn-ok"><spring:message
+						code="lbl.form.delete" /></a>
+				<button type="button" class="btn btn-default" data-dismiss="modal">
+					<spring:message code="lbl.form.cancel" />
+				</button>
 			</div>
 		</div>
 	</div>
@@ -54,13 +59,19 @@
 				<th><spring:message code="lbl.user.phone" /></th>
 			</sec:authorize>
 			<th><spring:message code="lbl.user.position" /> <a
-				href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=1&pageNumber=0"
+				href="${pageContext.request.contextPath}/users?sortByField=2&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.user.sortAsc" />"><i
 					class="fa fa-arrow-circle-o-up fa-lg"></i></a> <a
-				href="${pageContext.request.contextPath}/users?sortByField=1&sortOrder=2&pageNumber=0"
+				href="${pageContext.request.contextPath}/users?sortByField=2&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.user.sortDesc" />"><i
 					class="fa fa-arrow-circle-o-down fa-lg"></i></a></th>
-			<th><spring:message code="lbl.user.role" /></th>
+			<sec:authorize
+				access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+				<th><spring:message code="lbl.user.role" /></th>
+			</sec:authorize>
+			<sec:authorize access="hasAnyRole('ROLE_USER')">
+				<th></th>
+			</sec:authorize>
 			<th><spring:message code="lbl.user.group" /></th>
 			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 				<th></th>
@@ -116,7 +127,7 @@
 					</button>
 				</td>
 			</form:form>
-			<td class="v-alighn"><a
+			<td class="text-center v-alighn"><a
 				href="${pageContext.request.contextPath}/users?lastName=&position="
 				title="<spring:message code="lbl.room.resetFilter"/>"> <i
 					class="fa fa-times fa-lg"></i>
@@ -137,18 +148,23 @@
 					<td>${user.phone}</td>
 				</sec:authorize>
 				<td>${user.position}</td>
-				<td><spring:message code="lbl.user.${user.role.getRole()}" />
-				</td>
+				<sec:authorize
+					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+					<td><spring:message code="lbl.user.${user.role.getRole()}" />
+					</td>
+				</sec:authorize>
+				<sec:authorize access="hasAnyRole('ROLE_USER')">
+					<td></td>
+				</sec:authorize>
 				<td><c:forEach items="${user.groups}" var="group">
 						<p>${group.name}</p>
 					</c:forEach></td>
-				<!-- <td>	</td> -->
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 					<td class="text-center v-alighn"><a
 						data-href="${pageContext.request.contextPath}${UserController.DELETE_USER_MAPPING}${user.id}"
 						data-toggle="modal" data-target="#confirm-delete"
 						title="<spring:message code="lbl.user.delete" />"><i
-						class="fa fa-trash-o"></i></a></td>
+							class="fa fa-trash-o"></i></a></td>
 				</sec:authorize>
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 					<td class="text-center v-alighn"><a
@@ -157,7 +173,8 @@
 					</a></td>
 				</sec:authorize>
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
-					<td class="text-center v-alighn"><c:if test="${user.status.ordinal() == 1}">
+					<td class="text-center v-alighn"><c:if
+							test="${user.status.ordinal() == 1}">
 							<a
 								href="${pageContext.request.contextPath}${UserController.BAN_USER_MAPPING}${user.id}">
 								<i class="fa fa-ban"></i>
