@@ -1,10 +1,17 @@
 package com.softserve.edu.schedule.service;
 
+import java.security.Principal;
 import java.util.List;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
-import com.softserve.edu.schedule.entity.User;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 
@@ -17,155 +24,173 @@ import com.softserve.edu.schedule.entity.UserStatus;
  *
  * @since 1.8
  */
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
-    /**
-     * Save new user entity into the database.
-     *
-     * @param user
-     *            a new user to storage in database.
-     */
-    public void create(final User user);
+	/**
+	 * Save new user entity into the database.
+	 *
+	 * @param userDTO
+	 *            a new userDTO for to storage new user in database.
+	 */
+	public void create(final UserDTO userDTO);
 
-    /**
-     * Delete existed user entity from the database.
-     *
-     * @param id
-     *            a user id to delete from database.
-     */
-    public void delete(final User user);
+	/**
+	 * Change field status at user entity in the database.
+	 *
+	 * @param id
+	 *            a user id in database.
+	 *
+	 * @param status
+	 *            a status from enum class UserStatus.
+	 */
+	public void changeStatus(final Long id, final UserStatus status);
 
-    /**
-     * Change field status at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param status
-     *            a status from enum class UserStatus.
-     */
-    public void changeStatus(final Long id, final UserStatus status);
+	/**
+	 * Change field role at user entity in the database.
+	 *
+	 * @param id
+	 *            a user id in database.
+	 *
+	 * @param role
+	 *            a role from enum class UserRole.
+	 */
+	public void changeRole(final Long id, final UserRole role);
 
-    /**
-     * Change field role at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param role
-     *            a role from enum class UserRole.
-     */
-    public void changeRole(final Long id, final UserRole role);
+	/**
+	 * Change field at user entity in the database.
+	 *
+	 * @param id
+	 *            a user id in database.
+	 */
+	public void update(final UserDTO userDTO);
 
-    /**
-     * Change field position at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param position
-     *            a position field in User entity.
-     */
-    public void changePosition(final Long id, final String position);
+	/**
+	 * Get all users.
+	 *
+	 * @return List of the user objects.
+	 */
+	public List<UserDTO> getAll();
 
-    /**
-     * Change field at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     */
-    public void update(final User user);
+	/**
+	 * Get all users.
+	 *
+	 * @return List of the user objects for SubjectDTO.
+	 */
+	public List<UserForSubjectDTO> getAllForSubject();
 
-    /**
-     * Get all users by group what was selected.
-     *
-     * @param id
-     *            a group id in database.
-     */
-    public List<User> searchByGroup(final String group);
+	/**
+	 * Get all users by last name what was selected.
+	 *
+	 * @param pattern
+	 *            a value of field in database.
+	 *
+	 * @return List of the user objects.
+	 */
+	public List<UserDTO> searchByLastName(final String pattern);
 
-    /**
-     * Get all users by role what was selected.
-     *
-     * @param userRole
-     *            a value role from enum class UserRole.
-     *
-     * @return List of the user objects.
-     */
-    public List<User> getByRole(final UserRole userRole);
+	/**
+	 * Get all users by position what was selected.
+	 *
+	 * @param pattern
+	 *            a value of field in database.
+	 *
+	 * @return List of the user objects.
+	 */
+	public List<UserDTO> searchByPosition(final String pattern);
 
-    /**
-     * Get all users.
-     *
-     * @return List of the user objects.
-     */
-    public List<User> getAll();
+	/**
+	 * Sort all users by first name.
+	 *
+	 * @param order
+	 *            a constant ASC or DESC.
+	 *
+	 * @return List of the user objects.
+	 */
+	public List<UserDTO> sortByLastName(final Order order);
 
-    /**
-     * Get all users.
-     *
-     * @return List of the user objects for SubjectDTO.
-     */
-    public List<UserForSubjectDTO> getAllForSubject();
+	/**
+	 * Sort all users by first name.
+	 *
+	 * @param order
+	 *            a constant ASC or DESC.
+	 *
+	 * @return List of the user objects.
+	 */
+	public List<UserDTO> sortByPosition(final Order order);
 
-    /**
-     * Get all users by role what was selected.
-     *
-     * @param userStatus
-     *            a value status from enum class UserRole.
-     *
-     * @return List of the user objects.
-     */
-    public List<User> getByStatus(final UserStatus userStatus);
+	/**
+	 * Return a User object if found.
+	 *
+	 * @param id
+	 *            of User transfer object
+	 * @return User transfer object
+	 */
+	public UserDTO getById(final Long id);
 
-    /**
-     * Get all users by position what was selected.
-     *
-     * @param field
-     *            a name of column in database.
-     *
-     * @param pattern
-     *            a value of field in database.
-     *
-     * @return List of the user objects.
-     */
-    public List<User> search(final String field, final String pattern);
+	/**
+	 * Delete existed transfer object from the database by id.
+	 *
+	 * @param id
+	 *            a user id to delete from database.
+	 */
+	public boolean deleteById(final Long id);
 
-    /**
-     * Sort all users by first name.
-     *
-     * @param field
-     *            a name of column in database.
-     *
-     * @param pattern
-     *            a value of field in database.
-     *
-     * @return List of the user objects.
-     */
-    public List<User> sort(final String field, final Order order);
+	/**
+	 * Find a user in the database by mail.
+	 *
+	 * @param userMail
+	 *            a user mail to find in the database.
+	 * 
+	 * @return a user DTO with given mail.
+	 */
+	public List<UserDTO> searchByMail(final String mail);
 
-    /**
-     * Return a User object if found.
-     *
-     * @param id
-     *            of User transfer object
-     * @return User transfer object
-     */
-    public User getById(final Long id);
+	/**
+	 * Change password of user in the database.
+	 *
+	 * @param id
+	 *            a user id to find in the database.
+	 *
+	 * @param password
+	 *            a user password to verify if real owner of account want change
+	 *            password.
+	 * 
+	 * @param firstNewPassword
+	 *            a new password which user want save.
+	 * 
+	 * @param secondNewPassword
+	 *            a new password which should be equal to firstNewPassword
+	 *            field.
+	 * 
+	 * @return a user DTO with given mail.
+	 */
+	public void changePassword(UserDTOForChangePassword userDTO);
 
-    /**
-     * Delete existed transfer object from the database by id.
-     *
-     * @param id
-     *            a user id to delete from database.
-     */
-    public void deleteById(final Long id);
+	/**
+	 * Return a User object if found.
+	 *
+	 * @param id
+	 *            of User transfer object
+	 * @return User transfer object
+	 */
+	public UserDTOForChangePassword getByIdForPassword(final Long id);
 
-    /**
-     * Return a List of searched Users fetching Groups.
-     *
-     * @return List of searched Users transfer objects
-     */
-    public List<User> getAllWithDetails();
+	List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter, final Paginator userPaginator);
 
+	void saveImage(Principal principal, MultipartFile multipartFile);
+
+	/**
+	 * Method returns lists of users which have status - active
+	 * 
+	 * @return lists of users which have status - active
+	 */
+	List<UserDTO> getAllActiveUsers();
+
+	/**
+	 * Get all users, that can manage groups, meetings, etc.
+	 * 
+	 * @param listUserDTO
+	 * @return List<UserDTO>
+	 */
+	List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO);
 }

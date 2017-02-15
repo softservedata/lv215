@@ -33,18 +33,16 @@ public class UserDTOConverter {
     private UserGroupDAO userGroupDAO;
 
     /**
-     * UserGroupDTOConverter example to provide to DTO user groups
-     * conversion.
+     * UserGroupDTOConverter example to provide to DTO user groups conversion.
      */
-//    @Autowired
-//    private UserGroupDTOConverter userGroupDTOConverter;
+    @Autowired
+    private UserGroupFouUserDTOConverter userGroupFUDTOConverter;
 
     /**
-     * SubjectDTOConverter example to provide to DTO subjects
-     * conversion.
+     * SubjectDTOConverter example to provide to DTO subjects conversion.
      */
-//    @Autowired
-//    private SubjectDTOConverter subjectDTOConverter;
+    @Autowired
+    private SubjectForUserDTOConverter subjectFUDTOConverter;
 
     /**
      * Convert given UserDTO object to User object
@@ -55,57 +53,43 @@ public class UserDTOConverter {
      * @return a User object or null if given @param userDTO is null.
      */
     public User getEntity(final UserDTO userDTO) {
-        if (userDTO != null) {
-            User user = new User();
 
-            if (userDTO.getId() != null) {
-                user.setId(userDTO.getId());
-            }
+        User user = new User();
 
-            if (userDTO.getFirstName() != null) {
-                user.setFirstName(userDTO.getFirstName());
-            }
+        user.setId(userDTO.getId());
 
-            if (userDTO.getLastName() != null) {
-                user.setLastName(userDTO.getLastName());
-            }
+        user.setFirstName(userDTO.getFirstName());
 
-            if (userDTO.getMail() != null) {
-                user.setMail(userDTO.getMail());
-            }
+        user.setLastName(userDTO.getLastName());
 
-            if (userDTO.getPassword() != null) {
-                user.setPassword(userDTO.getPassword());
-            }
+        user.setMail(userDTO.getMail());
 
-            if (userDTO.getPhone() != null) {
-                user.setPhone(userDTO.getPhone());
-            }
-
-            if (userDTO.getPosition() != null) {
-                user.setPosition(userDTO.getPosition());
-            }
-
-            if (userDTO.getStatus() != null) {
-                user.setStatus(userDTO.getStatus());
-            }
-
-            if (userDTO.getRole() != null) {
-                user.setRole(userDTO.getRole());
-            }
-
-            if (userDTO.getSubjects() != null) {
-                userDTO.getSubjects().forEach(e -> user.getSubjects()
-                        .add(subjectDAO.getById(e.getId())));
-            }
-
-            if (userDTO.getGroups() != null) {
-                userDTO.getGroups().forEach(e -> user.getGroups()
-                        .add(userGroupDAO.getById(e.getId())));
-            }
-            return user;
+        if (userDTO.getPassword() != null) {
+            user.setPassword(userDTO.getPassword());
         }
-        return null;
+
+        user.setPhone(userDTO.getPhone());
+        
+        user.setPathImage(userDTO.getPathImage());
+
+        user.setPosition(userDTO.getPosition());
+
+        if (userDTO.getStatus() != null) {
+            user.setStatus(userDTO.getStatus());
+        }
+
+        if (userDTO.getRole() != null) {
+            user.setRole(userDTO.getRole());
+        }
+
+        userDTO.getSubjects().forEach(
+                e -> user.getSubjects().add(subjectDAO.getById(e.getId())));
+
+        userDTO.getGroups().forEach(
+                e -> user.getGroups().add(userGroupDAO.getById(e.getId())));
+
+        return user;
+
     }
 
     /**
@@ -117,56 +101,42 @@ public class UserDTOConverter {
      * @return a UserDTO object or null if given @param user is null.
      */
     public UserDTO getDTO(final User user) {
-        if (user != null) {
-            UserDTO userDTO = new UserDTO();
 
-            if (user.getId() != null) {
-                userDTO.setId(user.getId());
-            }
+        UserDTO userDTO = new UserDTO();
 
-            if (user.getFirstName() != null) {
-                userDTO.setFirstName(user.getFirstName());
-            }
+        userDTO.setId(user.getId());
 
-            if (user.getLastName() != null) {
-                userDTO.setLastName(user.getLastName());
-            }
+        userDTO.setFirstName(user.getFirstName());
 
-            if (user.getMail() != null) {
-                userDTO.setMail(user.getMail());
-            }
+        userDTO.setLastName(user.getLastName());
 
-            if (user.getPassword() != null) {
-                userDTO.setPassword(user.getPassword());
-            }
+        userDTO.setMail(user.getMail());
 
-            if (user.getPhone() != null) {
-                userDTO.setPhone(user.getPhone());
-            }
-
-            if (user.getPosition() != null) {
-                userDTO.setPosition(user.getPosition());
-            }
-
-            if (user.getStatus() != null) {
-                userDTO.setStatus(user.getStatus());
-            }
-
-            if (user.getRole() != null) {
-                userDTO.setRole(user.getRole());
-            }
-
-//            if (user.getSubjects() != null) {
-//                user.getSubjects().forEach(e -> userDTO.getSubjects()
-//                        .add(subjectDTOConverter.getDTO(e)));
-//            }
-//
-//            if (user.getGroups() != null) {
-//                user.getGroups().forEach(e -> userDTO.getGroups()
-//                        .add(userGroupDTOConverter.getDTO(e)));
-//            }
-            return userDTO;
+        if (user.getPassword() != null) {
+            userDTO.setPassword(user.getPassword());
         }
-        return null;
+
+        userDTO.setPhone(user.getPhone());
+        
+        userDTO.setPathImage(user.getPathImage());
+
+        userDTO.setPosition(user.getPosition());
+
+        if (user.getStatus() != null) {
+            userDTO.setStatus(user.getStatus());
+        }
+
+        if (user.getRole() != null) {
+            userDTO.setRole(user.getRole());
+        }
+
+        user.getSubjects().forEach(e -> userDTO.getSubjects()
+                .add(subjectFUDTOConverter.getDTO(e)));
+
+        user.getGroups().forEach(e -> userDTO.getGroups()
+                .add(userGroupFUDTOConverter.getDTO(e)));
+
+        return userDTO;
+
     }
 }

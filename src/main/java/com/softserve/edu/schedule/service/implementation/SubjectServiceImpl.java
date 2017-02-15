@@ -13,24 +13,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.SubjectDAO;
+import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
+import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.entity.Subject;
-import com.softserve.edu.schedule.entity.Subject_;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.SubjectDTOConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSubjectDTOConverter;
 
 /**
  * A SubjectService implementation to handle the operation required to
- * manipulate an Subject menu.
+ * manipulate an Subject object and Subject DTO object.
  *
  * @version 1.0 03 Jan 2016
  * @author Ped'ko Volodymyr
  *
  */
-@Transactional
-@Service("subjectService")
+@Service
+@PerfomanceLoggable
 public class SubjectServiceImpl implements SubjectService {
 
     /**
@@ -40,15 +44,28 @@ public class SubjectServiceImpl implements SubjectService {
     private SubjectDAO subjectDao;
 
     @Autowired
+    private UserDAO userDao;
+
+    /**
+     * Field for subjectDTOConverter.
+     */
+    @Autowired
     private SubjectDTOConverter subjectDTOConverter;
+
+    /**
+     * Field for userForSubjectDTOconverter.
+     */
+    @Autowired
+    private UserForSubjectDTOConverter userForSubjectDTOconverter;
 
     /**
      * Saving Subject in database.
      *
      * @param subject
-     *            - Subject object
+     *            - SubjectDTO object
      */
     @Override
+    @Transactional
     public void create(final SubjectDTO subject) {
         subjectDao.create(subjectDTOConverter.getEntity(subject));
     }
@@ -57,117 +74,94 @@ public class SubjectServiceImpl implements SubjectService {
      * Updating Subject in database.
      *
      * @param subject
-     *            - Subject object
+     *            - SubjectDTO object
      */
     @Override
+    @Transactional
     public void update(final SubjectDTO subject) {
         subjectDao.update(subjectDTOConverter.getEntity(subject));
     }
 
     /**
-     * Return a Subject object if found.
+     * Return a SubjectDTO object if found.
      *
      * @param id
      *            of Subject transfer object
-     * @return Subject transfer object
+     * @return SubjectDTO object
      */
     @Override
     @Transactional(readOnly = true)
-    public Subject getById(final Long id) {
-        return subjectDao.getById(id);
+    public SubjectDTO getById(final Long id) {
+        return subjectDTOConverter.getDTO(subjectDao.getById(id));
     }
 
     /**
-     * Return a Subject object if found.
+     * Return a searched SubjectDTO.
+     *
+     * @return searched SubjectDTO
+     */
+    @Override
+    public List<SubjectDTO> getSubjectByName(final String subjectName) {
+        return subjectDao.getSubjectByName(subjectName).stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Return a List of SubjectDTO objects.
+     *
+     * @return List of SubjectDTO objects
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<SubjectDTO> getAll() {
+        return subjectDao.getAll().stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Get all UserForSubjectDTO.
+     *
+     * @return List of the UserForSubjectDTO objects for SubjectDTO.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserForSubjectDTO> getAllUserForSubjectDTO() {
+        return userDao.getAllActiveUsers().stream()
+                .map(u -> userForSubjectDTOconverter.getDTO(u))
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Delete existed Subject from the database by id.
      *
      * @param id
-     *            of Subject object
-     * @return room with given id
+     *            a SubjectDTO id to delete from database.
      */
     @Override
-    public SubjectDTO getByIdWhithDetails(final Long id) {
-        return subjectDTOConverter.getDTO(subjectDao.getByIdWhithDetails(id));
+    @Transactional
+    public void deleteById(final Long id) {
+        Subject subject = subjectDao.getSubjectsWithMeetingDetailsById(id);
+        subjectDao.delete(subject);
     }
 
     /**
-     * Return a List of Subject objects.
-     *
-     * @return List of Subject objects
+     * Find all subjects entities in the database with applied filter
+     * 
+     * @param subjectFilter
+     *            a filter to apply.
+     * @param subjectPaginator
+     *            the subjectPaginator to set
+     * @return List of the subject DTO objects.
      */
     @Override
     @Transactional(readOnly = true)
-    public List<Subject> getAll() {
-        return subjectDao.getAll();
-    }
-
-    /**
-     * Return a List of searched Subjects fetching Users.
-     *
-     * @return List of searched Subject transfer objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubjectDTO> getAllWithDetails() {
-        return subjectDao.getAllWithDetails().stream()
-                .map(s -> subjectDTOConverter.getDTO(s))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Delete existed transfer object from the database by id.
-     *
-     * @param id
-     *            a Subject id to delete from database.
-     */
-    @Override
-    public void deleteById(Long id) {
-        subjectDao.deleteById(id);
-    }
-
-    /**
-     * Return a List of searched Subject transfer objects.
-     *
-     * @param field
-     *            for search
-     * @param pattern
-     *            - input string
-     * @return List of sorted Subject transfer objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubjectDTO> searchByName(final String pattern) {
-        return subjectDao.search(Subject_.name.getName(), pattern).stream()
-                .map(s -> subjectDTOConverter.getDTO(s))
-                .collect(Collectors.toList());
-    }
-
-    /**
-     * Return a List of searched Subject transfer objects containing searched
-     * tutor.
-     *
-     * @param pattern
-     *            searched tutor
-     * @return List of searched Subject transfer objects containing searched
-     *         tutor
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<Subject> searchTutors(final String pattern) {
-        return subjectDao.searchTutors(pattern);
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubjectDTO> sortByName(Order order) {
-        return subjectDao.sortByField(Subject_.name.getName(), order).stream()
-                .map(s -> subjectDTOConverter.getDTO(s))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public List<SubjectDTO> sortByDescription(Order order) {
-        return subjectDao.sortByField(Subject_.description.getName(), order)
+    public List<SubjectDTO> getSubjectsPageWithFilter(
+            final SubjectFilter subjectFilter,
+            final Paginator subjectPaginator) {
+        return subjectDao
+                .getSubjectsPageWithFilter(subjectFilter, subjectPaginator)
                 .stream().map(s -> subjectDTOConverter.getDTO(s))
                 .collect(Collectors.toList());
     }

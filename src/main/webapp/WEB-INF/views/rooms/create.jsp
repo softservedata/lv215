@@ -1,25 +1,22 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ page import="com.softserve.edu.schedule.controller.RoomController"%>
 
-<script type="text/javascript">
-$(function(){
-	$("select[name=location]").chosen({width: "100%"});
-	$("select[name=equipments]").chosen({width: "100%"});	
-})
-</script>
-
-<div class="row">
-	<div class="col-md-2">
-	</div>
-	<div class="col-md-4">
-		<h3> </h3>
-		<form:form role="form" method="post" modelAttribute="room">
-			<fieldset class="form-fieldset">
-				<legend class="text-center">Create room</legend>
+<div class="container">
+	<div class="row">
+		<div
+			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+			<h3 class="text-center">
+				<spring:message code="lbl.room.createRoom" />
+			</h3>
+			<form:form role="form" method="post" modelAttribute="${RoomController.ROOM_MODEL_ATTR}">
 				<div class="form-group">
-					<label for="location">Location:</label>
+					<label for="location">
+						<spring:message code="lbl.room.location" />
+						:
+					</label>
 					<form:select class="form-control" path="location" id="location">
 						<c:forEach items="${locations}" var="location">
 							<c:choose>
@@ -32,47 +29,70 @@ $(function(){
 							</c:choose>
 						</c:forEach>
 					</form:select>
-					<form:errors path="location" />
+					<form:errors path="location" class="text-danger" />
 				</div>
 				<div class="form-group">
-					<label for="name">Room name:</label>
+					<label for="name">
+						<spring:message code="lbl.room.roomName" />
+						:
+					</label>
+					<spring:message code="lbl.room.roomName" var="nameForPlaceholder" />
+					<spring:message code="vm.invalidName" var="invalidName" />
 					<form:input type="text" class="form-control" path="name" id="name"
-						placeholder="room name" required="true" />
-					<form:errors path="name" />
+						placeholder="${nameForPlaceholder}" pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№',\.\s\-]{2,254}"
+						required="true" oninvalid="this.setCustomValidity('${invalidName}')"
+						oninput="setCustomValidity('')" />
+					<form:errors path="name" class="text-danger" />
 				</div>
 				<div class="form-group">
-					<label for="capacity">Room capacity:</label>
-					<form:input class="form-control" type="number" path="capacity"
-						id="capacity" min="1" step="1" required="true" />
-					<form:errors path="capacity" />
+					<label for="capacity">
+						<spring:message code="lbl.room.roomCapacity" />
+						:
+					</label>
+					<spring:message code="lbl.room.roomCapacity" var="capacityForPlaceholder" />
+					<spring:message code="vm.ivalidRoomCapacity" var="invalidCapacity" />
+					<form:input class="form-control" type="number" path="capacity" id="capacity" min="1"
+						max="50000" step="1" placeholder="${capacityForPlaceholder}" required="true"
+						oninvalid="this.setCustomValidity('${invalidCapacity}')" oninput="setCustomValidity('')" />
+					<form:errors path="capacity" class="text-danger" />
 				</div>
 				<div class="form-group">
-					<label for="equipments">Room equipments:</label>
-					<form:select class="form-control" path="equipments" id="equipments"
-						multiple="multiple">					
+					<label for="equipments">
+						<spring:message code="lbl.room.roomEquipments" />
+						:
+					</label>
+					<form:select class="form-control" path="equipments" id="equipments" multiple="multiple">
 						<c:forEach items="${equipments}" var="equipment">
-							<c:set var="found" value="false"/>
+							<c:set var="found" value="false" />
 							<c:forEach items="${room.equipments}" var="equipmentInRoom">
-								<c:if test="${!found}">								
+								<c:if test="${!found}">
 									<c:if test="${equipmentInRoom.id eq equipment.id}">
 										<option value="${equipment.id}" selected="selected">${equipment.name}</option>
-										<c:set var="found" value="true"/>
+										<c:set var="found" value="true" />
 									</c:if>
-								</c:if>									
+								</c:if>
 							</c:forEach>
 							<c:if test="${!found}">
 								<option value="${equipment.id}">${equipment.name}</option>
 							</c:if>
-						</c:forEach>					
-					</form:select>				
+						</c:forEach>
+					</form:select>
 				</div>
-				<div class="text-center">
-					<input type="submit" class="btn btn-primary" value="Save room">
-					<a class="btn btn-danger" href="create">Reset form</a>			
-					<a class="btn btn-danger" href="${pageContext.request.contextPath}/rooms">Cancel</a>
+				<div class="form-group text-center">
+					<input type="submit" class="btn btn-default" value="<spring:message code="lbl.form.save"/>">
+					<a class="btn btn-default" href="create">
+						<spring:message code="lbl.form.reset" />
+					</a>
+					<a class="btn btn-default" href="${pageContext.request.contextPath}/rooms">
+						<spring:message code="lbl.form.cancel" />
+					</a>
 				</div>
-			</fieldset>
-		</form:form>
+			</form:form>
+		</div>
 	</div>
 </div>
-<br>
+
+<spring:url value="/resources/js/rooms/create.js" var="roomsCreateJS" />
+<script type="text/javascript" src="${roomsCreateJS}">
+	
+</script>

@@ -1,5 +1,5 @@
 /*
- * CrudDAO<E>.java
+ * SubjectDAO.java
  * 1.0
  * 04 Jan 2017
  * Copyright (c) Ped'ko Volodymyr
@@ -8,11 +8,13 @@ package com.softserve.edu.schedule.dao;
 
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.entity.Subject;
 
 /**
  * A simple DAO interface to handle the database operation required to
- * manipulate Tutors in Subject.
+ * manipulate in database.
  *
  * @version 1.0 04 Jan 2016
  * @author Ped'ko Volodymyr
@@ -21,63 +23,38 @@ import com.softserve.edu.schedule.entity.Subject;
 public interface SubjectDAO extends CrudDAO<Subject> {
 
     /**
-     * Return a List of searched Transfer objects.
+     * Return a searched Subjects.
      *
-     * @return List of searched Transfer objects
+     * @return searched Subjects
      */
-    List<Subject> searchTutors(final String pattern);
+    public List<Subject> getSubjectByName(String subjectName);
 
     /**
-     * Return a List of searched Subjects fetching Users.
-     *
-     * @return List of searched Subject transfer objects
+     * Find all subjects entities in the database with applied filter
+     * 
+     * @param subjectFilter
+     *            a filter to apply.
+     * 
+     * @return List of the subject objects.
      */
-    List<Subject> getAllWithDetails();
-    
-    /**
-     * Return a Subject object if found.
-     *
-     * @param id
-     *            of Subject object
-     * @return room with given id
-     */
-    Subject getByIdWhithDetails(final Long id);
+    public List<Subject> getSubjectsPageWithFilter(SubjectFilter subjectFilter,
+            Paginator subjectPaginator);
 
     /**
-     * Return a List of searched Subjects fetching Users sorted by name.
+     * Count subjects entities in the database with specified filter
      *
-     * @return List of searched Subjects fetching Users sorted by name
-     */
-    List<Subject> sortByName(final Order order);
-    
-    /**
-     * Return a List of searched Subjects fetching Users sorted by description.
+     * @param predicate
+     *            a predicate to apply.
      *
-     * @return List of searched Subjects fetching Users sorted by description
+     * @return Count of the subject entities in the database with specified
+     *         predicate.
      */
-    List<Subject> sortByDescription(final Order order);
+    public Long getCountOfSubjectsWithFilter(SubjectFilter subjectFilter);
 
     /**
-     * Delete existed transfer object from the database by id.
+     * Return a searched Subject.
      *
-     * @param id
-     *            a subject id to delete from database.
+     * @return searched Subject
      */
-    void deleteById(final Long id);
-    
-
-    public List<Subject> sortByField(final String field, final Order order);
-
-    /**
-     * Delete existed transfer object from the database by id.
-     *
-     * @param id
-     *            a user id to delete from database.
-     *                 *
-     * @param id
-     *            a subject id where delete user from database.
-     */
-    void deleteUserFromSubject(Long userID, Long subjectID);
-
-
+    public Subject getSubjectsWithMeetingDetailsById(Long id);
 }

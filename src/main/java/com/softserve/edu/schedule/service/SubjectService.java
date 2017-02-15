@@ -8,13 +8,14 @@ package com.softserve.edu.schedule.service;
 
 import java.util.List;
 
-import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.SubjectDTO;
-import com.softserve.edu.schedule.entity.Subject;
+import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 
 /**
  * A simple service interface to handle the operation required to manipulate an
- * Subject menu.
+ * Subject object and SubjectDTO object.
  *
  * @version 1.0 04 Jan 2016
  * @author Ped'ko Volodymyr
@@ -26,83 +27,66 @@ public interface SubjectService {
      * Saving Subject in database.
      *
      * @param subject
-     *            - Subject object
+     *            - SubjectDTO object
      */
-    void create(final SubjectDTO subject);
+    public void create(SubjectDTO subject);
 
     /**
      * Updating Subject in database.
      *
      * @param subject
-     *            - Subject object
+     *            - SubjectDTO object
      */
-    void update(final SubjectDTO subject);
+    public void update(SubjectDTO subject);
 
     /**
-     * Return a Subject object if found.
+     * Return a SubjectDTO object if found.
      *
      * @param id
      *            of Subject transfer object
-     * @return Subject transfer object
+     * @return SubjectDTO object
      */
-    Subject getById(final Long id);
+    public SubjectDTO getById(Long id);
 
     /**
-     * Return a Subject object if found.
+     * Return a List of SubjectDTO objects.
+     *
+     * @return List of SubjectDTO objects
+     */
+    public List<SubjectDTO> getAll();
+
+    /**
+     * Get all UserForSubjectDTO.
+     *
+     * @return List of the UserForSubjectDTO objects for SubjectDTO.
+     */
+    public List<UserForSubjectDTO> getAllUserForSubjectDTO();
+
+    /**
+     * Delete existed Subject from the database by id.
      *
      * @param id
-     *            of Subject object
-     * @return room with given id
+     *            a SubjectDTO id to delete from database.
      */
-    SubjectDTO getByIdWhithDetails(final Long id);
-    
-    /**
-     * Return a List of Subject objects.
-     *
-     * @return List of Subject objects
-     */
-    List<Subject> getAll();
-    
-    /**
-     * Return a List of searched Subjects fetching Users.
-     *
-     * @return List of searched Subject transfer objects
-     */
-    List<SubjectDTO> getAllWithDetails();
-    
-    /**
-     * Delete existed transfer object from the database by id.
-     *
-     * @param id
-     *            a subject id to delete from database.
-     */
-    void deleteById(final Long id);
-    
-    /**
-     * Return a List of searched Subject transfer objects.
-     *
-     * @param field
-     *            for search
-     * @param pattern
-     *            - input string
-     * @return List of sorted Subject transfer objects
-     */
-    List<SubjectDTO> searchByName(final String pattern);
+    public void deleteById(Long id);
 
     /**
-     * Return a List of searched Subject transfer objects containing searched
-     * tutor.
+     * Return a searched SubjectDTO.
      *
-     * @param pattern
-     *            searched tutor
-     * @return List of searched Subject transfer objects containing searched
-     *         tutor
+     * @return searched SubjectDTO
      */
-    List<Subject> searchTutors(final String pattern);
-    
-    public List<SubjectDTO> sortByName( final Order order);
-    
-    public List<SubjectDTO> sortByDescription( final Order order);
+    public List<SubjectDTO> getSubjectByName(String subjectName);
 
+    /**
+     * Find all subjects entities in the database with applied filter
+     * 
+     * @param subjectFilter
+     *            a filter to apply.
+     * @param subjectPaginator
+     *            the subjectPaginator to set
+     * @return List of the subject DTO objects.
+     */
+    List<SubjectDTO> getSubjectsPageWithFilter(SubjectFilter subjectFilter,
+            Paginator subjectPaginator);
 
 }

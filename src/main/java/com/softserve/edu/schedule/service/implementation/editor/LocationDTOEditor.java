@@ -1,7 +1,10 @@
-/* LocationDTOEditor 1.0 01/17/2017 */
+/* UserDTOEditor 1.0 01/17/2017 */
 package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.softserve.edu.schedule.service.LocationService;
 
@@ -15,35 +18,26 @@ import com.softserve.edu.schedule.service.LocationService;
  *
  * @since 1.8
  */
+@Service
 public class LocationDTOEditor extends PropertyEditorSupport {
 
     /**
      * LocationService example to provide search DTO operations.
      */
+    @Autowired
     private LocationService locationService;
 
     /**
-     * Constructor of LocationDTOEditor.
-     * 
-     * @param locationService
-     *            LocationService example
-     */
-    public LocationDTOEditor(final LocationService locationService) {
-        this.locationService = locationService;
-    }
-
-    /**
      * Provides a LocationDTO example by given location id in String format.
-     * 
-     * @param locationId
+     *
+     * @param text
      *            a location id in String format
-     * 
+     *
      * @throws IllegalArgumentException
-     *             if @param locationId is not String.
+     *             if text is not String.
      */
     @Override
-
-    public void setAsText(String text) throws IllegalArgumentException {
+    public void setAsText(final String text) throws IllegalArgumentException {
         setValue(locationService.getById(Long.valueOf(text)));
     }
 }

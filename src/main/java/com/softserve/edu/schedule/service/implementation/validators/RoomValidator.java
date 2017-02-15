@@ -1,9 +1,13 @@
-/* RoomValidator 1.0 01/20/2017 */
+/* RoomValidator 1.0 01/29/2017 */
 package com.softserve.edu.schedule.service.implementation.validators;
 
-import org.springframework.validation.Errors;
-import org.springframework.validation.ValidationUtils;
-import org.springframework.validation.Validator;
+import java.util.List;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.context.support.ResourceBundleMessageSource;
 
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.service.RoomService;
@@ -11,131 +15,148 @@ import com.softserve.edu.schedule.service.RoomService;
 /**
  * A validator class to check whatever room DTO data is correct.
  *
- * @version 1.0 20 January 2017
+ * @version 1.0 29 January 2017
  *
  * @author Petro Zelyonka
  *
  * @since 1.8
  */
-public class RoomValidator implements Validator {
+public class RoomValidator implements ConstraintValidator<Validate, RoomDTO> {
 
     /**
-     * RoomService example to provide search DTO operations.
+     * Messages source for internationalization purposes.
      */
-    private final RoomService roomService;
+    @Autowired
+    private ResourceBundleMessageSource messageSource;
 
     /**
-     * Constructor of RoomValidator.
-     * 
-     * @param roomService
-     *            RoomService example
+     * RoomService example to provide search by location and room name.
      */
-    public RoomValidator(RoomService roomService) {
-        this.roomService = roomService;
-    }
+    @Autowired
+    private RoomService roomService;
 
     /**
-     * Check if this validator can validate instances of the supplied class.
-     * 
-     * @param clazz
-     *            a Class to check
-     * 
-     * @return true if this validator can validate instances of the supplied
-     *         class.
+     * Initializes the validator in preparation for calls. The constraint
+     * annotation for a given constraint declaration is passed. This method is
+     * guaranteed to be called before any use of this instance for validation.
+     *
+     * @param constraintAnnotation
+     *            annotation instance for a given constraint declaration
      */
     @Override
-    public boolean supports(Class<?> clazz) {
-        return RoomDTO.class.isAssignableFrom(clazz);
+    public void initialize(final Validate constraintAnnotation) {
     }
 
     /**
-     * Validate the supplied object, which must be of a Class for which the
-     * support() method typically has (or would) return true. The supplied
-     * errors instance can be used to report any resulting validation errors.
-     * 
-     * @param target
-     *            the object that is to be validated.
-     * @param errors
-     *            contextual state about the validation process
+     * Implements the validation logic.
+     *
+     * @param roomDTO
+     *            object to validate
+     * @param context
+     *            context in which the constraint is evaluated
+     *
+     * @return false if value does not pass the constraint
      */
     @Override
-    public void validate(Object target, Errors errors) {
-        RoomDTO roomDTO = (RoomDTO) target;
-
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, ValidationFields.NAME,
-                ValidationMessages.NO_ERROR_CODE,
-                ValidationMessages.EMPTY_FIELD);
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,
-                ValidationFields.CAPACITY, ValidationMessages.NO_ERROR_CODE,
-                ValidationMessages.EMPTY_FIELD);
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors,
-                ValidationFields.LOCATION, ValidationMessages.NO_ERROR_CODE,
-                ValidationMessages.EMPTY_FIELD);
-
-        if (!isRoomNameValid(roomDTO)) {
-            errors.rejectValue(ValidationFields.NAME,
-                    ValidationMessages.NO_ERROR_CODE,
-                    ValidationMessages.INVALID_CHARACTERS);
-        }
-
-        if (!isRoomCapacityValid(roomDTO)) {
-            errors.rejectValue(ValidationFields.CAPACITY,
-                    ValidationMessages.NO_ERROR_CODE,
-                    ValidationMessages.INVALID_CHARACTERS);
-        }
-
-        if (hasDuplicates(roomDTO)) {
-            errors.rejectValue(ValidationFields.NAME,
-                    ValidationMessages.NO_ERROR_CODE,
-                    ValidationMessages.DUPLICATE_ROOM);
-        }
-
-    }
-
-    /**
-     * Checks the given roomDTO capacity contains only digits.
-     * 
-     * @param roomDTO
-     *            a RoomDTO object to check capacity.
-     * 
-     * @return true if capacity is valid
-     */
-    private boolean isRoomCapacityValid(RoomDTO roomDTO) {
-        return roomDTO.getCapacity().matches(ValidationCriteria.DIGITS_ONLY);
-    }
-
-    /**
-     * Checks the given roomDTO name contains only allowed characters.
-     * 
-     * @param roomDTO
-     *            a RoomDTO object to check name.
-     * 
-     * @return true if name is valid
-     */
-    private boolean isRoomNameValid(RoomDTO roomDTO) {
-        return roomDTO.getName()
-                .matches(ValidationCriteria.CHARACTERS_FOR_NAME);
+    public boolean isValid(final RoomDTO roomDTO,
+            final ConstraintValidatorContext context) {
+        boolean isNameValid = isNameValid(roomDTO);
+        boolean isCapacityValid = isCapacityValid(roomDTO);
+        boolean hasNoDuplicates = hasNoDuplicates(roomDTO);
+        printErrorMessages(isNameValid, isCapacityValid, hasNoDuplicates,
+                context);
+        return isNameValid && isCapacityValid && hasNoDuplicates;
     }
 
     /**
      * Checks the rooms in the database with the same name and location as given
      * roomDTO parameter.
-     * 
+     *
      * @param roomDTO
      *            a RoomDTO object to check duplicates.
-     * 
-     * @return true if there are duplicates
+     *
+     * @return true if there are no duplicates
      */
-    private boolean hasDuplicates(RoomDTO roomDTO) {
-        RoomDTO dublicate = roomService.getByNameAndLocation(roomDTO.getName(),
-                roomDTO.getLocation());
-        if (dublicate == null) {
-            return false;
+    private boolean hasNoDuplicates(final RoomDTO roomDTO) {
+        List<RoomDTO> duplicates = roomService.getByNameAndLocation(
+                roomDTO.getName().trim(), roomDTO.getLocation());
+        return duplicates.isEmpty() || duplicates.stream()
+                .anyMatch(s -> s.getId().equals(roomDTO.getId()));
+    }
+
+    /**
+     * Checks the given roomDTO name contains only allowed characters.
+     *
+     * @param roomDTO
+     *            a RoomDTO object to check name.
+     *
+     * @return true if name is valid
+     */
+    private boolean isNameValid(final RoomDTO roomDTO) {
+        return roomDTO.getName().trim()
+                .matches(ValidationCriteria.PATTERN_FOR_ROOM_NAME);
+    }
+
+    /**
+     * Checks the given roomDTO capacity is greater than 0 and less than maximum
+     * allowed capacity.
+     *
+     * @param roomDTO
+     *            a RoomDTO object to check capacity.
+     *
+     * @return true if capacity is valid
+     */
+    private boolean isCapacityValid(final RoomDTO roomDTO) {
+        return roomDTO.getCapacity() != null && roomDTO.getCapacity() > 0
+                && roomDTO.getCapacity() < ValidationCriteria.MAX_ROOM_CAPACITY;
+    }
+
+    /**
+     * Method localizes message.
+     *
+     * @param field
+     *            message field
+     * @param message
+     *            message text
+     * @param context
+     *            validator context
+     */
+    private void errorMessage(final String field, final String message,
+            final ConstraintValidatorContext context) {
+        context.disableDefaultConstraintViolation();
+        context.buildConstraintViolationWithTemplate(messageSource.getMessage(
+                message, new String[0], LocaleContextHolder.getLocale()))
+                .addPropertyNode(field).addConstraintViolation();
+    }
+
+    /**
+     * Method sets error messages if some verification fails.
+     *
+     * @param isNameValid
+     *            true if room name is valid
+     * @param isCapacityValid
+     *            true if room capacity is valid
+     * @param hasNoDuplicates
+     *            true if there are no duplicates of room in this locstion
+     * @param context
+     *            validator context
+     */
+    private void printErrorMessages(final boolean isNameValid,
+            final boolean isCapacityValid, final boolean hasNoDuplicates,
+            final ConstraintValidatorContext context) {
+        if (!isNameValid) {
+            errorMessage(ValidationFields.NAME,
+                    ValidationMessages.INVALID_CHARACTERS_OR_EMPTY_FIELD,
+                    context);
         }
-        if (dublicate.getId() == roomDTO.getId()) {
-            return false;
+        if (!isCapacityValid) {
+            errorMessage(ValidationFields.CAPACITY,
+                    ValidationMessages.INVALID_ROOM_CAPACITY, context);
         }
-        return true;
+        if (!hasNoDuplicates) {
+            errorMessage(ValidationFields.NAME,
+                    ValidationMessages.DUPLICATE_ROOM, context);
+        }
     }
 
 }

@@ -10,6 +10,8 @@ import java.util.List;
 
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.LocationDTO;
+import com.softserve.edu.schedule.dto.filter.LocationFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 
 /**
  * The service-level interface to handle operation with locations.
@@ -53,14 +55,6 @@ public interface LocationService {
 	void update(final LocationDTO location);
 
 	/**
-	 * Method deletes existing location from database.
-	 * 
-	 * @param location
-	 *            location to delete
-	 */
-	void delete(final LocationDTO location);
-
-	/**
 	 * Method returns list of sorted locations by count of rooms.
 	 * 
 	 * @return list of sorted locations by count of rooms
@@ -78,42 +72,22 @@ public interface LocationService {
 	/**
 	 * Method returns list of locations which suit condition of search by name.
 	 * 
-	 * @param pattern
-	 *            pattern for search
+	 * @param locationName
+	 *            location name for search
 	 * @return list of locations which suit condition of search by name
 	 */
-	List<LocationDTO> searchByName(final String pattern);
+	List<LocationDTO> getLocationsByName(final String locationName);
 
 	/**
-	 * Method returns list of locations which suit condition of search by
-	 * address.
-	 * 
-	 * @param pattern
-	 *            pattern for search
-	 * @return list of locations which suit condition of search by address
-	 */
-	List<LocationDTO> searchByAddress(final String pattern);
+     * Method returns list of locations which suit filter condition.
+     * 
+     * @param locationFilter
+     *            filter to apply.
+     * @param locationPaginator
+     *            locationPaginator to set
+     * @return list of locations which suit filter condition
+     */
+	List<LocationDTO> getLocationsPageWithFilter(final LocationFilter locationFilter,
+			final Paginator locationPaginator);
 
-	/**
-	 * Method returns list of sorted locations by name.
-	 * 
-	 * @param field
-	 *            field for sort
-	 * @param order
-	 *            ASC or DESC
-	 * @return list of sorted locations by name
-	 */
-	List<LocationDTO> sortByName(final Order order);
-	
-	/**
-	 * Method returns list of sorted locations by address.
-	 * 
-	 * @param field
-	 *            field for sort
-	 * @param order
-	 *            ASC or DESC
-	 * @return list of sorted locations by address
-	 */
-	List<LocationDTO> sortByAddress(final Order order);
-	
 }

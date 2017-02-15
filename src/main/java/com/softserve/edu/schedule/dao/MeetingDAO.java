@@ -9,110 +9,199 @@
  */
 package com.softserve.edu.schedule.dao;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.filter.MeetingFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 
 /**
  * This interface for managing Meetings DAO implementation. It extends ReadDAO
  * interface.
- * 
+ *
  * @version 1.0 12.12.2016
- * @author IT Academy
+ * @author Bohdan Melnyk
  */
 public interface MeetingDAO extends CrudDAO<Meeting> {
 
     /**
+     * Returns List of Meetings by given MeetingFilter and Paginator.
+     *
+     * @param meetingFilter
+     *            a filter to apply.
+     * @param meetingPaginator
+     *            a paginator to apply.
+     * @return List of Meetings
+     */
+    List<Meeting> getMeetingPageWithFilter(MeetingFilter meetingFilter,
+            Paginator meetingPaginator);
+
+    /**
+     * Count meeting entities in the database with specified predicate.
+     *
+     * @param meetingFilter
+     *            a filter to apply.
+     *
+     * @return Count of the meeting entities in the database with specified
+     *         predicate.
+     */
+    Long getCountOfMeetingsWithFilter(MeetingFilter meetingFilter);
+
+    /**
      * Delete Meeting by id.
-     * 
+     *
      * @param id
      *            id.
      */
-    public void deleteById(Long id);
+    void deleteById(Long id);
 
     /**
-     * For the given Meeting changes meeting status for given MeetingStatus.
-     * 
-     * @param meeting
+     * For the given Meeting id changes meeting status for given MeetingStatus.
+     *
+     * @param id
+     *            Id of the meeting.
      * @param meetingStatus
+     *            New meeting status.
      */
-    public void changeStatus(final Meeting meeting,
-            final MeetingStatus meetingStatus);
+    void changeMeetingStatus(Long id, MeetingStatus meetingStatus);
 
     /**
-     * Return the List of searched Meetings filtered by Owner.
+     * Gives MeetingStatus by given String name.
      *
-     * @return List of searched Transfer objects
+     * @param status
+     *            name of status
+     * @return MeetingStatus object.
      */
-    public List<Meeting> searchByOwner(final String pattern);
+    MeetingStatus getStatusbyString(String status);
 
     /**
-     * Return the List of searched Meetings filtered by Description.
+     * Returns the List of MeetingDTO, that duplicates given Meetings fields.
      *
-     * @return List of searched Transfer objects
+     * @param subjectName
+     *            subject of meeting
+     *
+     * @param ownerName
+     *            owner of meeting
+     *
+     * @param roomName
+     *            room of meeting
+     *
+     * @param localDate
+     *            date of meeting
+     *
+     * @param localTime
+     *            start time of meeting
+     *
+     * @return List of Meeting
      */
-    public List<Meeting> searchByDescription(final String pattern);
+    List<Meeting> dublicatesOfGivenFields(String subjectName, String ownerName,
+            String roomName, LocalDate localDate, LocalTime localTime);
 
     /**
-     * Return the List of searched Meetings filtered by Subject.
+     * Find all meetings in the DB which date and time are in past and status
+     * not FINISHED.
      *
-     * @return List of searched Transfer objects
+     * @author Petro Zelyonka
+     *
+     * @return List of the Meeting objects.
      */
-    public List<Meeting> searchBySubject(final String pattern);
+    List<Meeting> getUnfinishedPastMeetings();
 
     /**
-     * Return the List of searched Meetings filtered by Room.
+     * Find all approved meetings in the DB by given roomId, date, start and end
+     * time.
      *
-     * @return List of searched Transfer objects
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     * @param date
+     *            date for find meetings
+     * @param startTime
+     *            start time for find meetings
+     * @param endTime
+     *            end time for find meetings
+     *
+     * @return List of the Meeting objects.
      */
-    public List<Meeting> searchByRoom(final String pattern);
+    List<Meeting> getApprovedMeetingsByRoomIdAndTime(Long roomId,
+            LocalDate date, LocalTime startTime, LocalTime endTime);
 
     /**
-     * Return the List of searched Meetings filtered by UserGroup.
+     * Find all meetings in the DB by given roomId, startDate and endDate.
      *
-     * @return List of searched Transfer objects
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     *
+     * @param startDate
+     *            start date for find meetings
+     *
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
      */
-    public List<Meeting> searchByUserGroup(final String pattern);
+    List<Meeting> getMeetingsInIntervalByRoomId(Long roomId,
+            LocalDate startDate, LocalDate endDate);
 
     /**
-     * Return the List of searched Meetings filtered by Status.
+     * Find all meetings in the DB by given userId, startDate and endDate.
      *
-     * @return List of searched Transfer objects
+     * @author Petro Zelyonka
+     *
+     * @param userId
+     *            user id for find meetings
+     *
+     * @param startDate
+     *            start date for find meetings
+     *
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
      */
-    public List<Meeting> searchByDate(final String pattern);
+    List<Meeting> getMeetingsInIntervalByUserId(Long userId,
+            LocalDate startDate, LocalDate endDate);
 
     /**
-     * Return the List of searched Meetings filtered by Date.
+     * Find all meetings in the DB by given subjectId, startDate and endDate.
      *
-     * @return List of searched Transfer objects
+     * @author Volodymyr Ped'ko
+     *
+     * @param subjectId
+     *            subject id for find meetings
+     *
+     * @param startDate
+     *            start date for find meetings
+     *
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
      */
-    public List<Meeting> searchByStatus(final String pattern);
+    List<Meeting> getMeetingsInIntervalBySubjectId(Long subjectId,
+            LocalDate startDate, LocalDate endDate);
 
     /**
-     * Return the List of searched Meetings filtered by level.
+     * Method that's used to get all meetings in specified interval for
+     * specified group.
      *
-     * @return List of searched Transfer objects
+     * @author Andriy Zhydenko
+     *
+     * @param groupId
+     *            id of a group to find
+     * @param startDate
+     *            start time of meetings
+     * @param endDate
+     *            end time of meetings
+     * @return list of meetings that will be held for specified group in
+     *         specified time limits
      */
-    public List<Meeting> searchByLevel(final String pattern);
-
-    public List<Meeting> sortByDescription(final Order order);
-
-    public List<Meeting> sortBySubject(final Order order);
-    
-    public List<Meeting> sortByOwner(final Order order);
-
-    public List<Meeting> sortByRoom(final Order order);
-
-    public List<Meeting> sortByLevel(final Order order);
-
-    public List<Meeting> sortByStatus(final Order order);
-    
-    public void addMeetingtoUserGroup(Long meetingId, Long userGroupId); 
-    
-    public void deleteMeetingFromUserGroup(Long userID, Long userGroupId);
-    
-    
-    
-
+    List<Meeting> getMeetingsInIntervalByGroupId(Long groupId,
+            LocalDate startDate, LocalDate endDate);
 }

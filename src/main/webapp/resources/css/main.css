@@ -6,6 +6,7 @@ body, html {
 	background-attachment: fixed;
 	line-height: 1.4em;
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
+	color: #173c72;
 }
 
 table {
@@ -25,14 +26,14 @@ th {
 .tooltip3 .tooltiptext3 {
 	visibility: hidden;
 	width: 120px;
-	background-color: #c0c0c0;
+	background-color: #dee0ed;
 	color: #004040;
 	text-align: center;
 	border-radius: 6px;
 	padding: 5px 0;
 	position: absolute;
 	z-index: 1;
-	top: 150%;
+	bottom: 150%;
 	left: 50%;
 	margin-left: -60px;
 }
@@ -40,12 +41,12 @@ th {
 .tooltip3 .tooltiptext3::after {
 	content: "";
 	position: absolute;
-	bottom: 100%;
+	top: 100%;
 	left: 50%;
 	margin-left: -5px;
 	border-width: 5px;
 	border-style: solid;
-	border-color: transparent transparent black transparent;
+	border-color: black transparent transparent transparent;
 }
 
 .tooltip3:hover .tooltiptext3 {
@@ -72,14 +73,6 @@ th {
 	height: 200%;
 }
 
-/* Set black background color, white text and some padding */
-footer {
-	background-color: #555;
-	color: white;
-	padding: 15px;
-}
-
-/* On small screens, set height to 'auto' for sidenav and grid */
 @media screen and (max-width: 767px) {
 	.sidenav {
 		height: auto;
@@ -102,4 +95,107 @@ table>tbody>tr>.v-alighn {
 
 #sortfield {
 	margin-top: 24px;
+}
+
+.btn-default {
+	background-color: #dee0ed;
+}
+
+.panel-default {
+	background-color: rgba(255, 255, 255, 0.9);
+	margin-top: 60px;
+}
+
+#geo-error {
+	position: fixed;
+	top: 55px;
+	width: 90%;
+}
+
+textarea {
+	resize: vertical;
+}
+/* For meeetingJsp */
+#map {
+	height: 326px;
+	width: 100%;
+}
+
+.panel-map {
+	margin-top: 60px;
+}
+
+.panel-exit {
+	margin-top: 60px;
+}
+
+.class-date {
+	width: 120px;
+	padding-right: 0px;
+	padding-left: 1px;
+	mergin-left: 0px;
+	mergin-right: 0px;
+}
+
+.levelclass {
+	width: 45px;
+}
+
+.meetingsTable {
+	width: 100%;
+}
+
+.container {
+	width: 95%;
+}
+
+.classid {
+	width: 70px;
+}
+
+#logoutForm {
+	margin-top: 8px;
+}
+
+.classtime {
+	width: 70px;
+}
+
+.input-number {
+	/* margin-left: 10px; */
+	width: 60px;
+}
+
+.input-name {
+	width: 130px;
+}
+
+#calendar {
+	margin-top: 20px;
+}
+
+
+.chosen-category-row {
+	margin-top: 20px;
+}
+
+
+.button-back-container {
+	padding-left: 160px;
+	float: left;
+}
+
+.zero-margin-top {
+	margin-top: 0;
+}
+
+.float-calendar-details {
+	float: left;
+}
+
+.padding-calendar-details {
+	padding-left: 160px;
+}
+.zero-margin-top #calendar {
+	margin-top: 0;
 }

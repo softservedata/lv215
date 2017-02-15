@@ -4,6 +4,8 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softserve.edu.schedule.service.implementation.validators.Validate;
+
 /**
  * A DTO class to transport location data.
  *
@@ -13,6 +15,7 @@ import java.util.List;
  *
  * @since 1.8
  */
+@Validate
 public class LocationDTO {
 
     /**
@@ -23,6 +26,7 @@ public class LocationDTO {
     /**
      * Location name.
      */
+
     private String name;
 
     /**
@@ -79,7 +83,7 @@ public class LocationDTO {
      * @param id
      *            the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -87,7 +91,7 @@ public class LocationDTO {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -95,7 +99,7 @@ public class LocationDTO {
      * @param address
      *            the address to set
      */
-    public void setAddress(String address) {
+    public void setAddress(final String address) {
         this.address = address;
     }
 
@@ -103,7 +107,7 @@ public class LocationDTO {
      * @param coordinates
      *            the coordinates to set
      */
-    public void setCoordinates(String coordinates) {
+    public void setCoordinates(final String coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -111,7 +115,7 @@ public class LocationDTO {
      * @param rooms
      *            the rooms to set
      */
-    public void setRooms(List<RoomForLocationDTO> rooms) {
+    public void setRooms(final List<RoomForLocationDTO> rooms) {
         this.rooms = rooms;
     }
 

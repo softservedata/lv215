@@ -5,12 +5,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import com.softserve.edu.schedule.entitylisteners.UserEntityListener;
 
 /**
  * An entity class for users.
@@ -22,231 +29,262 @@ import javax.persistence.ManyToMany;
  * @since 1.8
  */
 @Entity
+@EntityListeners(UserEntityListener.class)
+@Table(indexes = {@Index(columnList = "firstName"),
+        @Index(columnList = "lastName"), @Index(columnList = "mail"),
+        @Index(columnList = "phone"), @Index(columnList = "position")})
 public class User {
 
-	/**
-	 * Id for database.
-	 */
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    /**
+     * Id for database.
+     */
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	/**
-	 * User first name.
-	 */
-	private String firstName;
+    /**
+     * User first name.
+     */
+    private String firstName;
 
-	/**
-	 * User last name.
-	 */
-	private String lastName;
+    /**
+     * User last name.
+     */
+    private String lastName;
 
-	/**
-	 * User e-mail. Also as login usage.
-	 */
-	private String mail;
+    /**
+     * User e-mail. Also as login usage.
+     */
+    private String mail;
 
-	/**
-	 * User password. Stored encrypted.
-	 */
-	private String password;
+    /**
+     * User password. Stored encrypted.
+     */
+    private String password;
 
-	/**
-	 * User phone.
-	 */
-	private String phone;
+    /**
+     * User phone.
+     */
+    private String phone;
 
-	/**
-	 * User position. For general info purpose.
-	 */
-	private String position;
+    /**
+     * User position. For general info purpose.
+     */
+    private String position;
 
-	/**
-	 * User status in system.
-	 */
-	@Enumerated
-	private UserStatus status = UserStatus.NEW_USER;
+    /**
+     * Path to user avatar.
+     */
+    private String pathImage;
 
-	/**
-	 * User role in system.
-	 */
-	@Enumerated
-	private UserRole role = UserRole.USER;
+    /**
+     * User status in system.
+     */
+    @Enumerated
+    private UserStatus status = UserStatus.NEW_USER;
 
-	/**
-	 * List of subjects available for this user.
-	 */
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
-	private List<Subject> subjects = new ArrayList<>();
+    /**
+     * User role in system.
+     */
+    @Enumerated
+    private UserRole role = UserRole.ROLE_USER;
 
-	/**
-	 * List of groups this user participates.
-	 */
-	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "users")
-	private List<UserGroup> groups = new ArrayList<>();
+    /**
+     * List of subjects available for this user.
+     */
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Subject.class)
+    @JoinTable(name = "subject_user",
+            joinColumns = {@JoinColumn(name = "users_id")},
+            inverseJoinColumns = {@JoinColumn(name = "subjects_id")})
+    private List<Subject> subjects = new ArrayList<>();
 
-	/**
-	 * @return the id
-	 */
-	public Long getId() {
-		return id;
-	}
+    /**
+     * List of groups this user participates.
+     */
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = UserGroup.class)
+    @JoinTable(name = "usergroup_user",
+            joinColumns = {@JoinColumn(name = "users_id")},
+            inverseJoinColumns = {@JoinColumn(name = "groups_id")})
+    private List<UserGroup> groups = new ArrayList<>();
 
-	/**
-	 * @return the firstName
-	 */
-	public String getFirstName() {
-		return firstName;
-	}
+    /**
+     * @return the id
+     */
+    public Long getId() {
+        return id;
+    }
 
-	/**
-	 * @return the lastName
-	 */
-	public String getLastName() {
-		return lastName;
-	}
+    /**
+     * @return the firstName
+     */
+    public String getFirstName() {
+        return firstName;
+    }
 
-	/**
-	 * @return the mail
-	 */
-	public String getMail() {
-		return mail;
-	}
+    /**
+     * @return the lastName
+     */
+    public String getLastName() {
+        return lastName;
+    }
 
-	/**
-	 * @return the password
-	 */
-	public String getPassword() {
-		return password;
-	}
+    /**
+     * @return the mail
+     */
+    public String getMail() {
+        return mail;
+    }
 
-	/**
-	 * @return the phone
-	 */
-	public String getPhone() {
-		return phone;
-	}
+    /**
+     * @return the password
+     */
+    public String getPassword() {
+        return password;
+    }
 
-	/**
-	 * @return the position
-	 */
-	public String getPosition() {
-		return position;
-	}
+    /**
+     * @return the phone
+     */
+    public String getPhone() {
+        return phone;
+    }
 
-	/**
-	 * @return the status
-	 */
-	public UserStatus getStatus() {
-		return status;
-	}
+    /**
+     * @return the position
+     */
+    public String getPosition() {
+        return position;
+    }
 
-	/**
-	 * @return the role
-	 */
-	public UserRole getRole() {
-		return role;
-	}
+    /**
+     * @return the status
+     */
+    public UserStatus getStatus() {
+        return status;
+    }
 
-	/**
-	 * @return the subjects
-	 */
-	public List<Subject> getSubjects() {
-		return subjects;
-	}
+    /**
+     * @return the role
+     */
+    public UserRole getRole() {
+        return role;
+    }
 
-	/**
-	 * @return the groups
-	 */
-	public List<UserGroup> getGroups() {
-		return groups;
-	}
+    /**
+     * @return the subjects
+     */
+    public List<Subject> getSubjects() {
+        return subjects;
+    }
 
-	/**
-	 * @param id
-	 *            the id to set
-	 */
-	public void setId(Long id) {
-		this.id = id;
-	}
+    /**
+     * @return the groups
+     */
+    public List<UserGroup> getGroups() {
+        return groups;
+    }
 
-	/**
-	 * @param firstName
-	 *            the firstName to set
-	 */
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
+    /**
+     * @param id
+     *            the id to set
+     */
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
-	/**
-	 * @param lastName
-	 *            the lastName to set
-	 */
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
+    /**
+     * @param firstName
+     *            the firstName to set
+     */
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
 
-	/**
-	 * @param mail
-	 *            the mail to set
-	 */
-	public void setMail(String mail) {
-		this.mail = mail;
-	}
+    /**
+     * @param lastName
+     *            the lastName to set
+     */
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
 
-	/**
-	 * @param password
-	 *            the password to set
-	 */
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    /**
+     * @param mail
+     *            the mail to set
+     */
+    public void setMail(final String mail) {
+        this.mail = mail;
+    }
 
-	/**
-	 * @param phone
-	 *            the phone to set
-	 */
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
+    /**
+     * @param password
+     *            the password to set
+     */
+    public void setPassword(final String password) {
+        this.password = password;
+    }
 
-	/**
-	 * @param position
-	 *            the position to set
-	 */
-	public void setPosition(String position) {
-		this.position = position;
-	}
+    /**
+     * @param phone
+     *            the phone to set
+     */
+    public void setPhone(final String phone) {
+        this.phone = phone;
+    }
 
-	/**
-	 * @param status
-	 *            the status to set
-	 */
-	public void setStatus(UserStatus status) {
-		this.status = status;
-	}
+    /**
+     * @param position
+     *            the position to set
+     */
+    public void setPosition(final String position) {
+        this.position = position;
+    }
 
-	/**
-	 * @param role
-	 *            the role to set
-	 */
-	public void setRole(UserRole role) {
-		this.role = role;
-	}
+    /**
+     * @param status
+     *            the status to set
+     */
+    public void setStatus(final UserStatus status) {
+        this.status = status;
+    }
 
-	/**
-	 * @param subjects
-	 *            the subjects to set
-	 */
-	public void setSubjects(List<Subject> subjects) {
-		this.subjects = subjects;
-	}
+    /**
+     * @param role
+     *            the role to set
+     */
+    public void setRole(final UserRole role) {
+        this.role = role;
+    }
 
-	/**
-	 * @param groups
-	 *            the groups to set
-	 */
-	public void setGroups(List<UserGroup> groups) {
-		this.groups = groups;
-	}
+    /**
+     * @param subjects
+     *            the subjects to set
+     */
+    public void setSubjects(final List<Subject> subjects) {
+        this.subjects = subjects;
+    }
+
+    /**
+     * @param groups
+     *            the groups to set
+     */
+    public void setGroups(final List<UserGroup> groups) {
+        this.groups = groups;
+    }
+
+    /**
+     * @return the pathImage
+     */
+    public String getPathImage() {
+        return pathImage;
+    }
+
+    /**
+     * @param pathImage
+     *            the pathImage to set
+     */
+    public void setPathImage(final String pathImage) {
+        this.pathImage = pathImage;
+    }
+
 }

@@ -3,8 +3,9 @@ package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
 
-import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
-import com.softserve.edu.schedule.entity.RoomEquipment;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 
 /**
@@ -17,42 +18,28 @@ import com.softserve.edu.schedule.service.RoomEquipmentService;
  *
  * @since 1.8
  */
+@Service
 public class RoomEquipmentDTOEditor extends PropertyEditorSupport {
 
     /**
      * RoomEquipmentService example to provide search DTO operations.
      */
+    @Autowired
     private RoomEquipmentService roomEquipmentService;
-
-    /**
-     * Constructor of RoomEquipmentDTOEditor.
-     * 
-     * @param roomEquipmentService
-     *            RoomEquipmentService example
-     */
-    public RoomEquipmentDTOEditor(
-            final RoomEquipmentService roomEquipmentService) {
-        this.roomEquipmentService = roomEquipmentService;
-    }
 
     /**
      * Provides a RoomEquipmentDTO example by given room equipment id in String
      * format.
-     * 
+     *
      * @param roomEquipmentId
      *            a room equipment id in String format
-     * 
+     *
      * @throws IllegalArgumentException
-     *             if @param roomEquipmentId is not String.
+     *             if roomEquipmentId is not String.
      */
     @Override
     public void setAsText(final String roomEquipmentId)
             throws IllegalArgumentException {
-        RoomEquipment roomEquipment = roomEquipmentService
-                .getById(Long.valueOf(roomEquipmentId));
-        RoomEquipmentDTO roomEquipmentDTO = new RoomEquipmentDTO();
-        roomEquipmentDTO.setId(roomEquipment.getId());
-        roomEquipmentDTO.setName(roomEquipment.getName());
-        setValue(roomEquipmentDTO);
+        setValue(roomEquipmentService.getById(Long.valueOf(roomEquipmentId)));
     }
 }

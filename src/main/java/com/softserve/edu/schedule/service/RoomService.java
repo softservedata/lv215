@@ -5,9 +5,8 @@ import java.util.List;
 
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
-import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.RoomFilter;
-import com.softserve.edu.schedule.entity.Room;
 
 /**
  * An interface to provide service operations with Room entity.
@@ -23,18 +22,18 @@ public interface RoomService {
     /**
      * Save new room entity into the database.
      *
-     * @param room
+     * @param roomDTO
      *            a new room DTO to storage in database.
      */
-    void create(final RoomDTO roomDTO);
+    void create(RoomDTO roomDTO);
 
     /**
      * Update existed room entity in the database.
      *
-     * @param room
+     * @param roomDTO
      *            a room DTO to update in database.
      */
-    void update(final RoomDTO roomDTO);
+    void update(RoomDTO roomDTO);
 
     /**
      * Find room entity in the database by id.
@@ -44,28 +43,20 @@ public interface RoomService {
      * @return an room object if room with this id exists in the database or
      *         Null if room not found
      */
-    RoomDTO getById(final Long id);
+    RoomDTO getById(Long id);
 
     /**
-     * Find a room DTO in the database by name and location.
+     * Find rooms DTO in the database by name and location.
      *
      * @param roomName
      *            a room name to find in the database.
-     *            
+     *
      * @param location
      *            a location to find room.
-     *                    
-     * @return a room DTO with given name and location.
-     */
-    RoomDTO getByNameAndLocation(final String roomName, final LocationDTO location);
-
-    /**
-     * Delete existed room entity from the database.
      *
-     * @param room
-     *            a room DTO object to delete from database.
+     * @return list of rooms DTO with given name and location.
      */
-    void delete(final RoomDTO roomDTO);
+    List<RoomDTO> getByNameAndLocation(String roomName, LocationDTO location);
 
     /**
      * Delete existed room entity from the database by id.
@@ -73,11 +64,11 @@ public interface RoomService {
      * @param id
      *            a room id to delete from database.
      */
-    void deleteById(final Long id);
+    void deleteById(Long id);
 
     /**
      * Find all rooms entities in the database.
-     * 
+     *
      * @return List of the room DTO objects.
      */
     List<RoomDTO> getAll();
@@ -85,58 +76,23 @@ public interface RoomService {
     /**
      * Find all rooms entities in the database with location and equipment
      * details.
-     * 
+     *
      * @return List of the room DTO objects.
      */
     List<RoomDTO> getAllWithDetails();
 
     /**
-     * Find all rooms in the database with location and equipment details which
-     * has capacity in given interval.
-     * 
-     * @param minCapacity
-     *            a minimum capacity.
-     * @param maxCapacity
-     *            a minimum capacity.
-     * 
-     * @return List of the room DTO objects.
-     */
-    List<RoomDTO> getRoomsByCapacity(final int minCapacity,
-            final int maxCapacity);
-
-    /**
-     * Find all rooms in the database with location and equipment details by
-     * given location.
-     * 
-     * @param location
-     *            a location to find rooms.
-     * 
-     * @return List of the room DTO objects.
-     */
-    List<RoomDTO> getRoomsByLocation(final LocationDTO location);
-
-    /**
-     * Find all rooms entities in the database with location and equipment
-     * details which has given list of equipments.
-     * 
-     * @param equipments
-     *            a list of equipments to find rooms.
-     * 
-     * @return List of the room DTO objects.
-     */
-    List<RoomDTO> getRoomsWithEquipments(
-            final List<RoomEquipmentDTO> equipments);
-
-    /**
-     * Find all rooms entities in the database with applied filter
-     * 
+     * Find all rooms entities in the database with applied filter.
+     *
      * @param roomFilter
      *            a filter to apply.
-     * 
+     *
+     * @param roomPaginator
+     *            paginator object.
+     *
      * @return List of the room DTO objects.
      */
-    List<RoomDTO> getRoomsWithFilter(final RoomFilter roomFilter);
-    
-    public Room getEntityById(final Long id);
+    List<RoomDTO> getRoomsPageWithFilter(RoomFilter roomFilter,
+            Paginator roomPaginator);
 
 }

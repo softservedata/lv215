@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<h3 th:text="#{mailSender.userAccost(${tutor.getFirstName()})}">Dear
+		user</h3>
+	<p th:text="#{subjectDeleted.messageBody}"></p>
+	
+	<h4 th:text="#{lbl.subject.details}"></h4>
+		<table>
+		<tr>
+			<th th:text="#{lbl.subject.name}"></th>
+			<td th:text="${subject.getName()}"></td>
+		</tr>
+
+		<tr>
+			<th th:text="#{lbl.subject.description}"></th>
+			<td th:text="${subject.getDescription()}"></td>
+		</tr>
+	</table>
+	
+	<h2 th:text="#{lbl.meeting.endofmail}"></h2>
+</body>
+</html>
