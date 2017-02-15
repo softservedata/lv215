@@ -54,8 +54,8 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEdit
  */
 @RequestMapping(ControllerConst.MeetingControllerConst.MEETINGS_URL)
 @Controller
-@SessionAttributes({ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR})
+@SessionAttributes({ ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR })
 public class MeetingController
         implements ControllerConst.MeetingControllerConst {
 
@@ -143,7 +143,7 @@ public class MeetingController
      * fields to MeetingStatus enum.
      */
     @Autowired
-    MeetingStatusEditor meetingStatusEditor;
+    private MeetingStatusEditor meetingStatusEditor;
 
     /**
      * Initialize binder for meeting model.
