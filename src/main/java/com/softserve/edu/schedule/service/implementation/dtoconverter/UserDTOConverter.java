@@ -1,7 +1,7 @@
 package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
@@ -17,7 +17,7 @@ import com.softserve.edu.schedule.entity.User;
  *
  * @since 1.8
  */
-@Service("userDTOConverter")
+@Component("userDTOConverter")
 public class UserDTOConverter {
 
     /**
@@ -113,9 +113,9 @@ public class UserDTOConverter {
 
         userDTO.setMail(user.getMail());
 
-        if (user.getPassword() != null) {
-            userDTO.setPassword(user.getPassword());
-        }
+        userDTO.setPassword(user.getPassword());
+
+        userDTO.setConfirmPassword(user.getPassword());
 
         userDTO.setPhone(user.getPhone());
 

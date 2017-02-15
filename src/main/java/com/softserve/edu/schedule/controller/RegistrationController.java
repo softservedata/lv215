@@ -70,7 +70,7 @@ public class RegistrationController
     @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE, method = RequestMethod.POST)
     public String newUserFromStartPage(
             @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
-            BindingResult br) {
+            BindingResult br){
         if (br.hasErrors()) {
             return USER_REGIST_URL;
         }
@@ -88,7 +88,7 @@ public class RegistrationController
      */
     @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN, method = RequestMethod.POST)
     public String newUserForAdmin(
-            @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
+            @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO, 
             BindingResult br) {
         if (br.hasErrors()) {
             return USER_REGIST_URL;

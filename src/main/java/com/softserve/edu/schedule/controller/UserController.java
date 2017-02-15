@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
+import com.softserve.edu.schedule.dto.UserDTOForRestorePassword;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.UserRole;
@@ -35,8 +36,8 @@ import com.softserve.edu.schedule.service.UserService;
  * @since 1.8
  */
 @Controller
-@SessionAttributes({ControllerConst.UserControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.UserControllerConst.USER_PAGINATOR_MODEL_ATTR})
+@SessionAttributes({ ControllerConst.UserControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.UserControllerConst.USER_PAGINATOR_MODEL_ATTR })
 public class UserController implements ControllerConst.UserControllerConst,
         ControllerConst.RegistrationControllerConst {
 
@@ -108,8 +109,8 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING + "{id}",
-            method = RequestMethod.POST)
+    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING
+            + "{id}", method = RequestMethod.POST)
     public String updateUser(
             @ModelAttribute(USER_UPDATE_ATTR) @Valid UserDTO user,
             BindingResult br) {
@@ -258,7 +259,7 @@ public class UserController implements ControllerConst.UserControllerConst,
         userService.changePassword(user);
         return REDIRECT_USERS_PAGE;
     }
-  
+
     /**
      * Controls view of users list page.
      *
@@ -283,37 +284,38 @@ public class UserController implements ControllerConst.UserControllerConst,
         return USERS_PAGE_URL;
     }
 
-//    /**
-//     * Controls view for save image to profile.
-//     *
-//     * @param user
-//     *            userDTO example of authorized user.
-//     *
-//     * @param principal
-//     *            authorized user.
-//     *
-//     * @param image
-//     *            image from user.
-//     *
-//     * @return path of images
-//     */
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
-//    @RequestMapping(value = SAVE_IMAGES, method = RequestMethod.POST)
-//    public String saveImage(@ModelAttribute(USER_MODEL_ATTR) UserDTO user,
-//            Principal principal, @RequestParam MultipartFile image) {
-//        userService.saveImage(principal, image);
-//        return REDIRECT_USER_DETAILS_URL;
-//    }
+    // /**
+    // * Controls view for save image to profile.
+    // *
+    // * @param user
+    // * userDTO example of authorized user.
+    // *
+    // * @param principal
+    // * authorized user.
+    // *
+    // * @param image
+    // * image from user.
+    // *
+    // * @return path of images
+    // */
+    // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR',
+    // 'ROLE_MODERATOR', 'ROLE_USER')")
+    // @RequestMapping(value = SAVE_IMAGES, method = RequestMethod.POST)
+    // public String saveImage(@ModelAttribute(USER_MODEL_ATTR) UserDTO user,
+    // Principal principal, @RequestParam MultipartFile image) {
+    // userService.saveImage(principal, image);
+    // return REDIRECT_USER_DETAILS_URL;
+    // }
 
     /**
      * Method shows meetings of user
      * 
      * @param id
      *            id of user
-     *            
+     * 
      * @param model
      *            model of user
-     *            
+     * 
      * @return meetings of users.
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
@@ -321,5 +323,19 @@ public class UserController implements ControllerConst.UserControllerConst,
     public String showMeetings(@PathVariable Long id, final Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
         return USER_MEETINGS_URL;
+    }
+
+    /**
+     * Method shows meetings of user
+     * 
+     * @param model
+     *            model of user
+     * 
+     * @return meetings of users.
+     */
+    @RequestMapping(RESTORE_PASSWORD_MAPPING)
+    public String changeForgottenPassord(final Model model) {
+        model.addAttribute(/*MAIL_MODEL_ATTR*/USER_MODEL_ATTR, new UserDTOForRestorePassword());
+        return RESTORE_PASSWORD_URL;
     }
 }

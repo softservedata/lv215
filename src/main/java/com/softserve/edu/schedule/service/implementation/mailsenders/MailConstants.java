@@ -57,6 +57,10 @@ public interface MailConstants {
     String REGISTRATION_MESSAGE_SUBJECT = "userRegistrated.messageSubject";
 
     String USER_REGISTRATED_TEMPLATE = "userRegistrated";
+    
+    String RESTORE_TEMPLATE = "userRestorePassword";
+    
+    String RESTORE_PASSWORD_MESSAGE_SUBJECT = "userRestorePassword.messageSubject";
 
     /**
      * Name of a usergroup model.

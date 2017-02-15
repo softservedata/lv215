@@ -240,6 +240,12 @@ public interface ControllerConst {
         String USER_MEETINGS_URL = "/showMeetings";
         
         String SAVE_IMAGES = "/saveImage";
+        
+        String RESTORE_PASSWORD_MAPPING = "restorePassword";
+        
+        String MAIL_MODEL_ATTR = "mail";
+        
+        String RESTORE_PASSWORD_URL = "/restorePassword";
     }
 
     /**
