@@ -58,10 +58,10 @@ public class AndroidRESTController {
             @RequestParam("userPass") final String pass) {
         UserForAndroidDTO user = userService.getVerifiedUser(mail, pass);
         if (user == null) {
-            return new ResponseEntity<UserForAndroidDTO>(
+            return new ResponseEntity<>(
                     HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<UserForAndroidDTO>(user, HttpStatus.OK);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     /**
@@ -88,10 +88,10 @@ public class AndroidRESTController {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByUserId(userId, start, end);
         if (meetings.isEmpty()) {
-            return new ResponseEntity<List<MeetingForCalendarDTO>>(
+            return new ResponseEntity<>(
                     HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
+        return new ResponseEntity<>(meetings,
                 HttpStatus.OK);
     }
 

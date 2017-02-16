@@ -375,7 +375,7 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
             findBylevel();
             findByStatus();
         }
-        if (list.size() == 0) {
+        if (list.isEmpty()) {
             return null;
         }
         Specifications<Meeting> spec = Specifications.where(list.get(0));

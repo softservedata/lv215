@@ -85,6 +85,7 @@ public class MeetingServiceImpl implements MeetingService {
      *            name of status
      * @return MeetingStatus object.
      */
+    @Override
     public MeetingStatus getStatusbyString(final String status) {
         return meetingDao.getStatusbyString(status);
     }
@@ -219,6 +220,7 @@ public class MeetingServiceImpl implements MeetingService {
      * @param meetingStatus
      *            New meeting status.
      */
+    @Override
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
         meetingDao.changeMeetingStatus(id, meetingStatus);
@@ -233,6 +235,7 @@ public class MeetingServiceImpl implements MeetingService {
      *
      * @return list of duplicates of given DTO
      */
+    @Override
     @Transactional(readOnly = true)
     public List<MeetingDTO> duplicatesOfGivenDTO(final MeetingDTO meetingDTO) {
         return meetingDao
