@@ -37,7 +37,6 @@ import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
 import com.softserve.edu.schedule.service.implementation.editor.MeetingDTOEditor;
-import com.softserve.edu.schedule.service.implementation.editor.MeetingStatusEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.SubjectDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.TimeEditor;
@@ -137,13 +136,6 @@ public class MeetingController
      */
     @Autowired
     private MeetingDTOEditor meetingDTOEditor;
-
-    /**
-     * MeetingStatusEditor example to provide conversions from form select
-     * fields to MeetingStatus enum.
-     */
-    @Autowired
-    private MeetingStatusEditor meetingStatusEditor;
 
     /**
      * Initialize binder for meeting model.

@@ -45,11 +45,12 @@ public class RegistrationMailServise implements MailConstants {
     private String fromAddress;
 
     /**
-     * Send mail notifications to the meetings owners if meeting is cancelled
-     * because of room delete.
+     * Send mail notifications to the new user when user has been registered.
      * 
-     * @param meetingCompactDTO
-     *            a DTO object which contains mail message parameters.
+     * @param user
+     *            a new user parameters.
+     * @param locale
+     *            current locale.
      */
     @Async
     public void sendInfoMessageRegistration(final User user,
