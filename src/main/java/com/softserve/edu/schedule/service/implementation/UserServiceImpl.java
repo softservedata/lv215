@@ -40,11 +40,12 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOFor
 @PerfomanceLoggable
 public class UserServiceImpl implements UserService {
 
-//    private static final String PATH = "E:/Programing/lv215/src/main/webapp/resources/images/";
-//
-//    private static final String SLASH = "/";
-//    
-//    private static final String NAME_OF_FILE = "/resources/images/";
+    // private static final String PATH =
+    // "E:/Programing/lv215/src/main/webapp/resources/images/";
+    //
+    // private static final String SLASH = "/";
+    //
+    // private static final String NAME_OF_FILE = "/resources/images/";
 
     /**
      * UserDAO example to provide database operations.
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private BCryptPasswordEncoder encoder;
-    
+
     /**
      * Save new user entity into the database.
      *
@@ -284,32 +285,32 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveImage(Principal principal, MultipartFile multipartFile) {
-//
-//        User user = userDAO.findByMail(principal.getName());
-//
-//        String path = PATH + user.getMail() + SLASH
-//                + multipartFile.getOriginalFilename();
-//
-//        user.setPathImage(NAME_OF_FILE + user.getMail() + SLASH
-//                + multipartFile.getOriginalFilename());
-//
-//        File file = new File(path);
-//
-//        try {
-//            file.mkdirs();
-//            try {
-//                FileUtils.cleanDirectory(
-//                        new File(PATH + user.getMail() + SLASH));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            multipartFile.transferTo(file);
-//        } catch (IOException e) {
-//            System.out.println("error with file");
-//        }
-//        userDAO.update(user);
+        //
+        // User user = userDAO.findByMail(principal.getName());
+        //
+        // String path = PATH + user.getMail() + SLASH
+        // + multipartFile.getOriginalFilename();
+        //
+        // user.setPathImage(NAME_OF_FILE + user.getMail() + SLASH
+        // + multipartFile.getOriginalFilename());
+        //
+        // File file = new File(path);
+        //
+        // try {
+        // file.mkdirs();
+        // try {
+        // FileUtils.cleanDirectory(
+        // new File(PATH + user.getMail() + SLASH));
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
+        // multipartFile.transferTo(file);
+        // } catch (IOException e) {
+        // System.out.println("error with file");
+        // }
+        // userDAO.update(user);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -318,7 +319,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public List<UserDTO> getAllActiveUsers() {
-        return userDAO.getAllActiveUsers().stream().map(e -> userDTOConverter.getDTO(e)).collect(Collectors.toList());
+        return userDAO.getAllActiveUsers().stream()
+                .map(e -> userDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
     }
 
     /*
@@ -339,5 +342,15 @@ public class UserServiceImpl implements UserService {
         }
         return listUserDTOForMeetingOwners;
     }
-}
 
+    @Override
+    @Transactional(readOnly = true)
+    public UserDTO getVerifiedUser(String mail, String password) {
+        User user = userDAO.findByMail(mail);
+        if (user != null && user.getStatus().equals(UserStatus.ACTIVE)
+                && encoder.matches(password, user.getPassword())) {
+            return userDTOConverter.getDTO(user);
+        }
+        return null;
+    }
+}
