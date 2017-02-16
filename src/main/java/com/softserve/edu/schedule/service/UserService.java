@@ -150,5 +150,7 @@ public interface UserService extends UserDetailsService {
      * @return List<UserDTO>
      */
     List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO);
+    
+    UserDTO getVerifiedUser(String mail, String password);
 
 }
