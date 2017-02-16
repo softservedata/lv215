@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
-import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserForAndroidDTO;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.UserService;
 
@@ -42,7 +42,7 @@ public class AndroidRESTController {
     private UserService userService;
 
     /**
-     * Provide ResponseEntity with UserDTO instance by given mail and password.
+     * Provide ResponseEntity with UserForAndroidDTO instance by given mail and password.
      *
      * @param mail
      *            user Mail
@@ -50,17 +50,18 @@ public class AndroidRESTController {
      * @param pass
      *            user password
      *
-     * @return ResponseEntity with UserDTO instance.
+     * @return ResponseEntity with UserForAndroidDTO instance.
      */
     @RequestMapping(value = "/userVerify", method = RequestMethod.GET)
-    public ResponseEntity<UserDTO> verifyUser(
+    public ResponseEntity<UserForAndroidDTO> verifyUser(
             @RequestParam("userMail") final String mail,
             @RequestParam("userPass") final String pass) {
-        UserDTO user = userService.getVerifiedUser(mail, pass);
+        UserForAndroidDTO user = userService.getVerifiedUser(mail, pass);
         if (user == null) {
-            return new ResponseEntity<UserDTO>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<UserForAndroidDTO>(
+                    HttpStatus.UNAUTHORIZED);
         }
-        return new ResponseEntity<UserDTO>(user, HttpStatus.OK);
+        return new ResponseEntity<UserForAndroidDTO>(user, HttpStatus.OK);
     }
 
     /**

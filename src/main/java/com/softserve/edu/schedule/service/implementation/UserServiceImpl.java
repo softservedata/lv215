@@ -17,6 +17,7 @@ import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
+import com.softserve.edu.schedule.dto.UserForAndroidDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.User;
@@ -26,6 +27,7 @@ import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForChangePasswordConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForAndroidDTOConverter;
 
 /**
  * An interface to provide service operations with User entity.
@@ -64,6 +66,12 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private UserDTOConverter userDTOConverter;
+
+    /**
+     * UserForAndroidDTOConverter example to provide conversion.
+     */
+    @Autowired
+    private UserForAndroidDTOConverter userForAndroidDTOConverter;
 
     /**
      * UserDAOForChangePassword example to provide conversion.
@@ -345,11 +353,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional(readOnly = true)
-    public UserDTO getVerifiedUser(String mail, String password) {
+    public UserForAndroidDTO getVerifiedUser(String mail, String password) {
         User user = userDAO.findByMail(mail);
         if (user != null && user.getStatus().equals(UserStatus.ACTIVE)
                 && encoder.matches(password, user.getPassword())) {
-            return userDTOConverter.getDTO(user);
+            return userForAndroidDTOConverter.getDTO(user);
         }
         return null;
     }
