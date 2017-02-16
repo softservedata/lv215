@@ -92,14 +92,6 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
         }
     }
 
-    /*
-     * private void findByDescription() { if (meetingFilter.getDescription() !=
-     * null && !meetingFilter.getDescription().equals("")) { list.add((root,
-     * criteriaQuery, criteriaBuilder) -> criteriaBuilder
-     * .like(root.get(Meeting_.description), "%" +
-     * meetingFilter.getDescription() + "%")); } }
-     */
-
     /**
      * Add Subjects id for meeting specifications to specification list if
      * filter contains equipments parameter.
