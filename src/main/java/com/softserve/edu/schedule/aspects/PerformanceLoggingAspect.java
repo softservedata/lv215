@@ -49,7 +49,7 @@ public class PerformanceLoggingAspect {
         Object retVal = joinPoint.proceed();
         stopWatch.stop();
 
-        StringBuffer logMessage = new StringBuffer();
+        StringBuilder logMessage = new StringBuilder();
         logMessage.append(joinPoint.getTarget().getClass().getName());
         logMessage.append(".");
         logMessage.append(joinPoint.getSignature().getName());
