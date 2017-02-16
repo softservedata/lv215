@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
+import com.softserve.edu.schedule.dto.UserForAndroidDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.UserRole;
@@ -151,6 +152,6 @@ public interface UserService extends UserDetailsService {
      */
     List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO);
     
-    UserDTO getVerifiedUser(String mail, String password);
+    UserForAndroidDTO getVerifiedUser(String mail, String password);
 
 }
