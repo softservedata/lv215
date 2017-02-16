@@ -246,6 +246,11 @@ public interface ControllerConst {
         String MAIL_MODEL_ATTR = "mail";
         
         String RESTORE_PASSWORD_URL = "/restorePassword";
+        
+        
+        String NO_SUCH_USER_URL = "/noSuchUser";
+        
+        String PASSWORD_WAS_SENT = "/passwordWasSent";
     }
 
     /**

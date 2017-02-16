@@ -8,7 +8,8 @@ import com.softserve.edu.schedule.dto.UserDTOForRestorePassword;
 import com.softserve.edu.schedule.entity.User;
 
 /**
- * A class to provide conversion operations between UserDTOForRestorePassword and User entity.
+ * A class to provide conversion operations between UserDTOForRestorePassword
+ * and User entity.
  *
  * @version 1.0 15 February 2017
  *
@@ -21,10 +22,16 @@ public class UserDTOForRestorePasswordConverter {
 
     @Autowired
     UserDAO userDAO;
-    
+
     public User getEntity(final UserDTOForRestorePassword userDTO) {
 
-        User user = userDAO.findByMail(userDTO.getMail());
+        User user = new User();
+        
+        if (userDAO.findByMail(userDTO.getMail()) == null) {
+            user = null;
+        } else {
+            user = userDAO.findByMail(userDTO.getMail());
+        }
 
         return user;
     }

@@ -1,11 +1,14 @@
 package com.softserve.edu.schedule.entitylisteners;
 
 import javax.persistence.PostPersist;
+import javax.persistence.PreUpdate;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import com.softserve.edu.schedule.dto.UserDTOForRestorePassword;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.service.implementation.mailsenders.RegistrationMailServise;
 import com.softserve.edu.schedule.service.implementation.mailsenders.RestorePasswordMailServise;
@@ -45,10 +48,11 @@ public class UserEntityListener {
      * @param user
      *            User restored password.
      */
-    @PostPersist
-    public void processingAfterRestorePassword(User user) {
+    @PreUpdate
+    public void processingAfterRestorePassword(UserDTOForRestorePassword userDTO) {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-        restorePasswordMailService.sendInfoMessageRegistration(
-                user, LocaleContextHolder.getLocale());
+        String newPassword = RandomStringUtils.randomAscii(32);
+        restorePasswordMailService.sendInfoMessageRestorePassword(
+                userDTO, LocaleContextHolder.getLocale(), newPassword);
     }
 }

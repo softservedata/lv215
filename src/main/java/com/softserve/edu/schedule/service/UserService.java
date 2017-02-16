@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
+import com.softserve.edu.schedule.dto.UserDTOForRestorePassword;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.UserRole;
@@ -89,8 +90,8 @@ public interface UserService extends UserDetailsService {
     /**
      * Find a userDTO in the database by mail.
      *
-     * @param user mail
-     *            a user mail to find in the database.
+     * @param user
+     *            mail a user mail to find in the database.
      * 
      * @return list userDTO with given mail.
      */
@@ -100,10 +101,11 @@ public interface UserService extends UserDetailsService {
      * Change password of user in the database.
      *
      * @param userDTO
-     *            a UserDTOForChangePassword example to change password in the database.
+     *            a UserDTOForChangePassword example to change password in the
+     *            database.
      */
     public void changePassword(UserDTOForChangePassword userDTO);
-    
+
     /**
      * Return a UserDTOForChangePassword object if found.
      *
@@ -112,7 +114,7 @@ public interface UserService extends UserDetailsService {
      * @return UserDTOForChangePassword transfer object
      */
     public UserDTOForChangePassword getByIdForPassword(final Long id);
-    
+
     /**
      * Find all user entities in the database with applied filter
      * 
@@ -124,7 +126,7 @@ public interface UserService extends UserDetailsService {
      */
     List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter,
             final Paginator userPaginator);
-     
+
     /**
      * Save image in database in the.
      * 
@@ -134,7 +136,6 @@ public interface UserService extends UserDetailsService {
      *            the picture.
      */
     void saveImage(Principal principal, MultipartFile multipartFile);
-    
 
     /**
      * Method returns lists of users which have status - active
@@ -150,5 +151,22 @@ public interface UserService extends UserDetailsService {
      * @return List<UserDTO>
      */
     List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO);
+
+    /**
+     * Check if user with this mail exist.
+     * 
+     * @param userDTO
+     *            mail of user what want restore password
+     */
+    boolean isUserWithMailExist(UserDTOForRestorePassword userDTO);
+
+    /**
+     * Restore password and sent mail about this.
+     * 
+     * @param mail
+     *            mail of user what want restore password
+     */
+    void submitRestorePassword(UserDTOForRestorePassword userDTO,
+            String newPassword);
 
 }
