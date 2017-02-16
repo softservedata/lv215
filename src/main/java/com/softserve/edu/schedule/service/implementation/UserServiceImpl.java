@@ -18,6 +18,7 @@ import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserDTOForRestorePassword;
+import com.softserve.edu.schedule.dto.UserForAndroidDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.User;
@@ -28,6 +29,7 @@ import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForChangePasswordConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForRestorePasswordConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForAndroidDTOConverter;
 
 /**
  * An interface to provide service operations with User entity.
@@ -42,11 +44,12 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOFor
 @PerfomanceLoggable
 public class UserServiceImpl implements UserService {
 
-//    private static final String PATH = "E:/Programing/lv215/src/main/webapp/resources/images/";
-//
-//    private static final String SLASH = "/";
-//    
-//    private static final String NAME_OF_FILE = "/resources/images/";
+    // private static final String PATH =
+    // "E:/Programing/lv215/src/main/webapp/resources/images/";
+    //
+    // private static final String SLASH = "/";
+    //
+    // private static final String NAME_OF_FILE = "/resources/images/";
 
     /**
      * UserDAO example to provide database operations.
@@ -67,11 +70,17 @@ public class UserServiceImpl implements UserService {
     private UserDTOConverter userDTOConverter;
 
     /**
+     * UserForAndroidDTOConverter example to provide conversion.
+     */
+    @Autowired
+    private UserForAndroidDTOConverter userForAndroidDTOConverter;
+
+    /**
      * UserDAOForChangePassword example to provide conversion.
      */
     @Autowired
     private UserDTOForChangePasswordConverter userDTOForPasswordConverter;
-    
+
     /**
      * UserDAOForRestorePassword example to provide conversion.
      */
@@ -83,7 +92,7 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private BCryptPasswordEncoder encoder;
-    
+
     /**
      * Save new user entity into the database.
      *
@@ -292,32 +301,32 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public void saveImage(Principal principal, MultipartFile multipartFile) {
-//
-//        User user = userDAO.findByMail(principal.getName());
-//
-//        String path = PATH + user.getMail() + SLASH
-//                + multipartFile.getOriginalFilename();
-//
-//        user.setPathImage(NAME_OF_FILE + user.getMail() + SLASH
-//                + multipartFile.getOriginalFilename());
-//
-//        File file = new File(path);
-//
-//        try {
-//            file.mkdirs();
-//            try {
-//                FileUtils.cleanDirectory(
-//                        new File(PATH + user.getMail() + SLASH));
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            multipartFile.transferTo(file);
-//        } catch (IOException e) {
-//            System.out.println("error with file");
-//        }
-//        userDAO.update(user);
+        //
+        // User user = userDAO.findByMail(principal.getName());
+        //
+        // String path = PATH + user.getMail() + SLASH
+        // + multipartFile.getOriginalFilename();
+        //
+        // user.setPathImage(NAME_OF_FILE + user.getMail() + SLASH
+        // + multipartFile.getOriginalFilename());
+        //
+        // File file = new File(path);
+        //
+        // try {
+        // file.mkdirs();
+        // try {
+        // FileUtils.cleanDirectory(
+        // new File(PATH + user.getMail() + SLASH));
+        // } catch (IOException e) {
+        // e.printStackTrace();
+        // }
+        // multipartFile.transferTo(file);
+        // } catch (IOException e) {
+        // System.out.println("error with file");
+        // }
+        // userDAO.update(user);
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -326,7 +335,9 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional(readOnly = true)
     public List<UserDTO> getAllActiveUsers() {
-        return userDAO.getAllActiveUsers().stream().map(e -> userDTOConverter.getDTO(e)).collect(Collectors.toList());
+        return userDAO.getAllActiveUsers().stream()
+                .map(e -> userDTOConverter.getDTO(e))
+                .collect(Collectors.toList());
     }
 
     /*
@@ -347,40 +358,50 @@ public class UserServiceImpl implements UserService {
         }
         return listUserDTOForMeetingOwners;
     }
-    
-    
+
     /**
      * Check if user with this mail exist.
      * 
      * @param userDTO
-     *          mail of user what want restore password
+     *            mail of user what want restore password
      */
-    public boolean isUserWithMailExist(UserDTOForRestorePassword userDTO){
+    public boolean isUserWithMailExist(UserDTOForRestorePassword userDTO) {
         User user = userDTOForRestorePasswordConverter.getEntity(userDTO);
-        if(user != null){
+        if (user != null) {
             return true;
-            }
+        }
         return false;
     }
-    
+
     /**
      * Restore password and sent mail about this.
      * 
      * @param mail
-     * mail of user what want restore password
+     *            mail of user what want restore password
      */
     @Override
     @Transactional
-    public void submitRestorePassword(UserDTOForRestorePassword userDTO, String newPassword){
-            User user = userDTOForRestorePasswordConverter.getEntity(userDTO);
-//            user.setPassword(encoder.encode(newPassword));
-//            user.setPathImage(userDAO.getById(user.getId()).getPathImage());
-//            user.setStatus(userDAO.getById(user.getId()).getStatus());
-//            user.setRole(userDAO.getById(user.getId()).getRole());
-//            user.setSubjects(userDAO.getById(user.getId()).getSubjects());
-//            user.setGroups(userDAO.getById(user.getId()).getGroups());
-//            userDAO.update(user);
-//            newPassword = null;
+    public void submitRestorePassword(UserDTOForRestorePassword userDTO,
+            String newPassword) {
+        User user = userDTOForRestorePasswordConverter.getEntity(userDTO);
+        // user.setPassword(encoder.encode(newPassword));
+        // user.setPathImage(userDAO.getById(user.getId()).getPathImage());
+        // user.setStatus(userDAO.getById(user.getId()).getStatus());
+        // user.setRole(userDAO.getById(user.getId()).getRole());
+        // user.setSubjects(userDAO.getById(user.getId()).getSubjects());
+        // user.setGroups(userDAO.getById(user.getId()).getGroups());
+        // userDAO.update(user);
+        // newPassword = null;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public UserForAndroidDTO getVerifiedUser(String mail, String password) {
+        User user = userDAO.findByMail(mail);
+        if (user != null && user.getStatus().equals(UserStatus.ACTIVE)
+                && encoder.matches(password, user.getPassword())) {
+            return userForAndroidDTOConverter.getDTO(user);
+        }
+        return null;
     }
 }
-

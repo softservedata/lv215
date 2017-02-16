@@ -52,7 +52,7 @@ public interface ConfigConstants {
     /**
      * DataBase user password property mapping.
      */
-    String DB_PASSWORD = "${db.password}";
+    String DB_PASS = "${db.password}";
 
     /**
      * DataBase dialect property mapping.
@@ -153,7 +153,7 @@ public interface ConfigConstants {
     /**
      * Mail password property mapping.
      */
-    String MAIL_PASSWORD = "${mail.password}";
+    String MAIL_PASS = "${mail.password}";
 
     /**
      * Mail SMTP authorization property mapping.
