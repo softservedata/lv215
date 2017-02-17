@@ -5,21 +5,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.Table;
 import javax.persistence.OneToMany;
+
+import com.softserve.edu.schedule.entitylisteners.LocationEntityListner;
 
 /**
  * An entity class for locations.
  *
  * @version 1.0 25 December 2016
  *
- * @author Petro Zelyonka
+ * @author Oleksandr Butyter
  *
  * @since 1.8
  */
 @Entity
+@EntityListeners(LocationEntityListner.class)
+@Table(indexes = {@Index(columnList = "name"), @Index(columnList = "address")})
 public class Location {
 
     /**
@@ -89,7 +96,7 @@ public class Location {
      * @param id
      *            the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -97,7 +104,7 @@ public class Location {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -105,7 +112,7 @@ public class Location {
      * @param address
      *            the address to set
      */
-    public void setAddress(String address) {
+    public void setAddress(final String address) {
         this.address = address;
     }
 
@@ -113,7 +120,7 @@ public class Location {
      * @param coordinates
      *            the coordinates to set
      */
-    public void setCoordinates(String coordinates) {
+    public void setCoordinates(final String coordinates) {
         this.coordinates = coordinates;
     }
 
@@ -121,7 +128,7 @@ public class Location {
      * @param rooms
      *            the rooms to set
      */
-    public void setRooms(List<Room> rooms) {
+    public void setRooms(final List<Room> rooms) {
         this.rooms = rooms;
     }
 }

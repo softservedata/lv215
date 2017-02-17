@@ -5,13 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.softserve.edu.schedule.entitylisteners.SubjectEntityListner;
 
 /**
  * An entity class for subjects of meetings.
@@ -23,6 +30,8 @@ import javax.persistence.OneToMany;
  * @since 1.8
  */
 @Entity
+@EntityListeners(SubjectEntityListner.class)
+@Table(indexes = {@Index(columnList = "name")})
 public class Subject {
 
     /**
@@ -46,7 +55,10 @@ public class Subject {
     /**
      * List of users who can create meetings with this subject.
      */
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = User.class)
+    @JoinTable(name = "subject_user",
+            joinColumns = {@JoinColumn(name = "subjects_id")},
+            inverseJoinColumns = {@JoinColumn(name = "users_id")})
     private List<User> users = new ArrayList<>();
 
     /**
@@ -94,7 +106,7 @@ public class Subject {
      * @param id
      *            the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -102,7 +114,7 @@ public class Subject {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -110,7 +122,7 @@ public class Subject {
      * @param description
      *            the description to set
      */
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -118,7 +130,7 @@ public class Subject {
      * @param users
      *            the users to set
      */
-    public void setUsers(List<User> users) {
+    public void setUsers(final List<User> users) {
         this.users = users;
     }
 
@@ -126,7 +138,7 @@ public class Subject {
      * @param meetings
      *            the meetings to set
      */
-    public void setMeetings(List<Meeting> meetings) {
+    public void setMeetings(final List<Meeting> meetings) {
         this.meetings = meetings;
     }
 }

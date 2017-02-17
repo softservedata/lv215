@@ -1,29 +1,37 @@
 /* Meeting 1.0 12/25/2016 */
 package com.softserve.edu.schedule.entity;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+
+import com.softserve.edu.schedule.entitylisteners.MeetingEntityListener;
 
 /**
  * An entity class for meetings.
  *
  * @version 1.0 25 December 2016
  *
- * @author Petro Zelyonka
+ * @author Bohdan Melnyk
  *
  * @since 1.8
  */
 @Entity
+@EntityListeners(MeetingEntityListener.class)
 public class Meeting {
 
     /**
@@ -46,19 +54,27 @@ public class Meeting {
     private Room room;
 
     /**
+     * Date of the meeting.
+     */
+    private LocalDate date;
+
+    /**
      * Start time of the meeting.
      */
-    private LocalDateTime startTime;
+    private LocalTime startTime;
 
     /**
      * End time of the meeting.
      */
-    private LocalDateTime endTime;
+    private LocalTime endTime;
 
     /**
      * Field for storage user groups which participate in meeting.
      */
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "meetings")
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = UserGroup.class)
+    @JoinTable(name = "usergroup_meeting",
+            joinColumns = {@JoinColumn(name = "meetings_id")},
+            inverseJoinColumns = {@JoinColumn(name = "groups_id")})
     private List<UserGroup> groups = new ArrayList<>();
 
     /**
@@ -81,6 +97,7 @@ public class Meeting {
     /**
      * Description of the meeting.
      */
+    @Lob
     private String description;
 
     /**
@@ -105,16 +122,23 @@ public class Meeting {
     }
 
     /**
+     * @return the date
+     */
+    public LocalDate getDate() {
+        return date;
+    }
+
+    /**
      * @return the startTime
      */
-    public LocalDateTime getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
     /**
      * @return the endTime
      */
-    public LocalDateTime getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
@@ -157,7 +181,7 @@ public class Meeting {
      * @param id
      *            the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -165,7 +189,7 @@ public class Meeting {
      * @param subject
      *            the subject to set
      */
-    public void setSubject(Subject subject) {
+    public void setSubject(final Subject subject) {
         this.subject = subject;
     }
 
@@ -173,15 +197,23 @@ public class Meeting {
      * @param room
      *            the room to set
      */
-    public void setRoom(Room room) {
+    public void setRoom(final Room room) {
         this.room = room;
+    }
+
+    /**
+     * @param date
+     *            the date to set
+     */
+    public void setDate(final LocalDate date) {
+        this.date = date;
     }
 
     /**
      * @param startTime
      *            the startTime to set
      */
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(final LocalTime startTime) {
         this.startTime = startTime;
     }
 
@@ -189,7 +221,7 @@ public class Meeting {
      * @param endTime
      *            the endTime to set
      */
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(final LocalTime endTime) {
         this.endTime = endTime;
     }
 
@@ -197,7 +229,7 @@ public class Meeting {
      * @param groups
      *            the groups to set
      */
-    public void setGroups(List<UserGroup> groups) {
+    public void setGroups(final List<UserGroup> groups) {
         this.groups = groups;
     }
 
@@ -205,7 +237,7 @@ public class Meeting {
      * @param owner
      *            the owner to set
      */
-    public void setOwner(User owner) {
+    public void setOwner(final User owner) {
         this.owner = owner;
     }
 
@@ -213,7 +245,7 @@ public class Meeting {
      * @param status
      *            the status to set
      */
-    public void setStatus(MeetingStatus status) {
+    public void setStatus(final MeetingStatus status) {
         this.status = status;
     }
 
@@ -221,7 +253,7 @@ public class Meeting {
      * @param level
      *            the level to set
      */
-    public void setLevel(Integer level) {
+    public void setLevel(final Integer level) {
         this.level = level;
     }
 
@@ -229,7 +261,7 @@ public class Meeting {
      * @param description
      *            the description to set
      */
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 }

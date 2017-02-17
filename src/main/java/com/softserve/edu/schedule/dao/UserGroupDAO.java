@@ -8,6 +8,8 @@ package com.softserve.edu.schedule.dao;
 
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserGroupFilter;
 import com.softserve.edu.schedule.entity.UserGroup;
 
 /**
@@ -18,40 +20,25 @@ import com.softserve.edu.schedule.entity.UserGroup;
  * @author Zhydenko Andrii
  *
  */
-
 public interface UserGroupDAO extends CrudDAO<UserGroup> {
 
 	/**
-	 * Method returns list of sorted usergroups.
+	 * Get page with filtered groups
 	 * 
-	 * @param field
-	 *            field for sort
-	 * @param order
-	 *            ASC or DESC
-	 * @return list of sorted usergroups
+	 * @param userGroupFilter
+	 *            UserGroup filter
+	 * @param userGroupPaginator
+	 *            Paginator for UserGroup
+	 * @return List of a filtered groups
 	 */
-	public List<UserGroup> sortByFields(final String field, final Order order);
+	public List<UserGroup> getUserGroupPageWithFilter(UserGroupFilter userGroupFilter, Paginator userGroupPaginator);
 
 	/**
-	 * Deleting user from a UserGroup
-	 * 
-	 * @param userID
-	 *            an id of a user to delete
-	 * @param userGroupID
-	 *            an id of a user group
+	 * Returns list with searched by name groups.
+	 *
+	 * @param groupName
+	 *            Name of a group to search
+	 * @return list with searched by name groups
 	 */
-	public void deleteUserFromUserGroup(final Long userID, final Long userGroupID);
-
-	/**
-	 * Checks if user is a curator in a group
-	 * 
-	 * @param userID
-	 *            an id of a user to check
-	 * @param userGroupID
-	 *            an id of a group to check
-	 * @return true value if user is a curator in specified group or false if
-	 *         not
-	 */
-	public boolean isUserCurator(final Long userID, final Long userGroupID);
-
+	public List<UserGroup> getGroupsByName(final String groupName);
 }

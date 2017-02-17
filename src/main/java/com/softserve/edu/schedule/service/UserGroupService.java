@@ -8,8 +8,10 @@ package com.softserve.edu.schedule.service;
 
 import java.util.List;
 
-import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.entity.UserGroup;
+import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserGroupDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserGroupFilter;
 
 /**
  * A simple service interface to handle the operation required to manipulate a
@@ -27,7 +29,7 @@ public interface UserGroupService {
 	 * @param UserGroup
 	 *            - UserGroup object
 	 */
-	void create(final UserGroup userGroup);
+	void create(final UserGroupDTO userGroupDTO);
 
 	/**
 	 * Updating UserGroup in database.
@@ -35,7 +37,7 @@ public interface UserGroupService {
 	 * @param userGroup
 	 *            - UserGroup object
 	 */
-	void update(final UserGroup userGroup);
+	void update(final UserGroupDTO userGroupDTO);
 
 	/**
 	 * Returns a UserGroup object if it exists in table.
@@ -44,7 +46,7 @@ public interface UserGroupService {
 	 *            UserGroup transfer object id
 	 * @return UserGroup transfer object
 	 */
-	UserGroup getById(final Long id);
+	UserGroupDTO getById(final Long id);
 
 	/**
 	 * Deleting existed UserGroup entity from the database by id.
@@ -59,7 +61,7 @@ public interface UserGroupService {
 	 *
 	 * @return List of UserGroup objects
 	 */
-	List<UserGroup> getAll();
+	List<UserGroupDTO> getAll();
 
 	/**
 	 * Deleting UserGroup in database.
@@ -67,46 +69,36 @@ public interface UserGroupService {
 	 * @param userGroup
 	 *            - UserGroup object
 	 */
-	void delete(final UserGroup userGroup);
+	void delete(final UserGroupDTO userGroupDTO);
 
 	/**
-	 * Returns a List of sorted UserGroup transfer objects.
-	 *
-	 * @param field
-	 *            for sort
-	 * @param order
-	 *            - ASC or DESC
-	 * @return List of sorted UserGroup transfer objects
-	 */
-	List<UserGroup> sort(final String field, final Order order);
-
-	/**
-	 * Returns a List of searched UserGroup transfer objects.
-	 *
-	 * @param field
-	 *            for search
-	 * @param pattern
-	 *            - input string
-	 * @return List of sorted UserGroup transfer objects
-	 */
-	List<UserGroup> search(final String field, final String pattern);
-
-	/**
-	 * Method returns list of sorted locations by count of groups.
+	 * Adding user to a list of users in a group
 	 * 
-	 * @return list of sorted groups by count of members
+	 * @param user
+	 *            User to be added in a list
+	 * @param group
+	 *            Group where we need to add a user
 	 */
-	List<UserGroup> sortByCountMembers(final Order order);
+	public UserGroupDTO addUserToGroup(final UserDTO userDTO, final UserGroupDTO userGroupDTO);
 
 	/**
-	 * Method returns list of sorted usergroups.
+	 * Get page with filtered groups
 	 * 
-	 * @param field
-	 *            field for sort
-	 * @param order
-	 *            ASC or DESC
-	 * @return list of sorted usergroups
+	 * @param userGroupFilter
+	 *            UserGroup filter
+	 * @param userGroupPaginator
+	 *            Paginator for UserGroup
+	 * @return List of a filtered groups
 	 */
-	List<UserGroup> sortByFields(final String field, final Order order);
+	public List<UserGroupDTO> getUserGroupPageWithFilter(final UserGroupFilter userGroupFilter,
+			final Paginator userGroupPaginator);
 
+	/**
+	 * Returns list with searched by name groups.
+	 *
+	 * @param userGroupName
+	 *            Name of a group to search
+	 * @return list with searched by name groups
+	 */
+	public List<UserGroupDTO> getUserGroupsByName(final String userGroupName);
 }

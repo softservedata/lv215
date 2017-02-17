@@ -4,6 +4,8 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softserve.edu.schedule.service.implementation.validators.Validate;
+
 /**
  * A DTO class to transport room data.
  *
@@ -13,6 +15,7 @@ import java.util.List;
  *
  * @since 1.8
  */
+@Validate
 public class RoomDTO {
 
     /**
@@ -28,7 +31,7 @@ public class RoomDTO {
     /**
      * Room capacity. How many people can accommodate the room.
      */
-    private String capacity;
+    private Integer capacity;
 
     /**
      * Field for storage location of the room.
@@ -57,7 +60,7 @@ public class RoomDTO {
     /**
      * @return the capacity
      */
-    public String getCapacity() {
+    public Integer getCapacity() {
         return capacity;
     }
 
@@ -95,7 +98,7 @@ public class RoomDTO {
      * @param capacity
      *            the capacity to set
      */
-    public void setCapacity(final String capacity) {
+    public void setCapacity(final Integer capacity) {
         this.capacity = capacity;
     }
 
@@ -112,6 +115,10 @@ public class RoomDTO {
      *            the equipments to set
      */
     public void setEquipments(final List<RoomEquipmentDTO> equipments) {
-        this.equipments = equipments;
+        if (equipments == null) {
+            this.equipments = new ArrayList<>();
+        } else {
+            this.equipments = equipments;
+        }
     }
 }

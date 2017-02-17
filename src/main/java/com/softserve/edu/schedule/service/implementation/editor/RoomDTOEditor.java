@@ -3,6 +3,9 @@ package com.softserve.edu.schedule.service.implementation.editor;
 
 import java.beans.PropertyEditorSupport;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.softserve.edu.schedule.service.RoomService;
 
 /**
@@ -14,31 +17,23 @@ import com.softserve.edu.schedule.service.RoomService;
  *
  * @since 1.8
  */
+@Service
 public class RoomDTOEditor extends PropertyEditorSupport {
 
     /**
      * RoomService example to provide search DTO operations.
      */
+    @Autowired
     private RoomService roomService;
 
     /**
-     * Constructor of RoomDTOEditor.
-     * 
-     * @param roomService
-     *            RoomService example
-     */
-    public RoomDTOEditor(final RoomService roomService) {
-        this.roomService = roomService;
-    }
-
-    /**
      * Provides a RoomDTO example by given room id in String format.
-     * 
+     *
      * @param roomId
      *            a room id in String format
-     * 
+     *
      * @throws IllegalArgumentException
-     *             if @param roomId is not String.
+     *             if roomId is not String.
      */
     @Override
     public void setAsText(final String roomId) throws IllegalArgumentException {

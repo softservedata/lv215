@@ -6,6 +6,10 @@
  */
 package com.softserve.edu.schedule.dao;
 
+import java.util.List;
+
+import com.softserve.edu.schedule.dto.filter.LocationFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Location;
 
 /**
@@ -17,13 +21,39 @@ import com.softserve.edu.schedule.entity.Location;
  *
  */
 public interface LocationDAO extends CrudDAO<Location> {
-	
+
 	/**
-     * Method deletes existing location from database by id.
-     *
-     * @param id
-     *            location id to delete
+	 * Method returns list of locations which suit condition of search by field.
+	 * 
+	 * @param field
+	 *            field for search
+	 * @param pattern
+	 *            pattern for search
+	 * @return list of locations which suit condition of search by field
+	 */
+	List<Location> getLocationsByField(final String field, final String pattern);
+
+	/**
+     * Method returns list of locations which suit filter condition.
+     * 
+     * @param locationFilter
+     *            filter to apply.
+     * @param locationPaginator
+     *            locationPaginator to set
+     * @return list of locations which suit filter condition
      */
-    void deleteById(final Long id);
+	public List<Location> getLocationsPageWithFilter(final LocationFilter locationFilter,
+			final Paginator locationPaginator);
 	
+	 /**
+     * Count locations entities in the database with specified filter
+     *
+     * @param predicate
+     *            a predicate to apply.
+     *
+     * @return Count of the location entities in the database with specified
+     *         predicate.
+     */
+    Long getCountOfLocationsWithFilter(final LocationFilter locationFilter);
 }
+

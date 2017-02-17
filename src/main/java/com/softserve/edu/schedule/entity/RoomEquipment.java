@@ -9,7 +9,11 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 
 /**
  * An entity class for rooms equipment.
@@ -21,6 +25,7 @@ import javax.persistence.ManyToMany;
  * @since 1.8
  */
 @Entity
+@Table(indexes = {@Index(columnList = "name")})
 public class RoomEquipment {
 
     /**
@@ -38,7 +43,10 @@ public class RoomEquipment {
     /**
      * List of rooms where this equipment is available.
      */
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "equipments")
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Room.class)
+    @JoinTable(name = "room_roomequipment",
+            joinColumns = {@JoinColumn(name = "equipments_id")},
+            inverseJoinColumns = {@JoinColumn(name = "rooms_id")})
     private List<Room> rooms = new ArrayList<>();
 
     /**
@@ -66,7 +74,7 @@ public class RoomEquipment {
      * @param id
      *            the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -74,7 +82,7 @@ public class RoomEquipment {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -82,7 +90,7 @@ public class RoomEquipment {
      * @param rooms
      *            the rooms to set
      */
-    public void setRooms(List<Room> rooms) {
+    public void setRooms(final List<Room> rooms) {
         this.rooms = rooms;
     }
 

@@ -2,7 +2,7 @@
 package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dto.LocationDTO;
@@ -18,7 +18,7 @@ import com.softserve.edu.schedule.entity.Location;
  *
  * @since 1.8
  */
-@Service("locationDTOConverter")
+@Component
 public class LocationDTOConverter {
 
     /**
@@ -35,32 +35,22 @@ public class LocationDTOConverter {
     private RoomDAO roomDAO;
 
     /**
-     * Convert given LocationDTO object to Location object
-     * 
+     * Convert given LocationDTO object to Location object.
+     *
      * @param locationDTO
      *            a LocationDTO object to convert.
-     * 
-     * @return a Location object or null if given @param locationDTO is null.
+     *
+     * @return a Location object or null if given locationDTO is null.
      */
-    public Location getEntity(LocationDTO locationDTO) {
+    public Location getEntity(final LocationDTO locationDTO) {
         if (locationDTO != null) {
             Location location = new Location();
-            if (locationDTO.getId() != null) {
-                location.setId(locationDTO.getId());
-            }
-            if (locationDTO.getName() != null) {
-                location.setName(locationDTO.getName());
-            }
-            if (locationDTO.getAddress() != null) {
-                location.setAddress(locationDTO.getAddress());
-            }
-            if (locationDTO.getCoordinates() != null) {
-                location.setCoordinates(locationDTO.getCoordinates());
-            }
-            if (!locationDTO.getRooms().isEmpty()) {
-                locationDTO.getRooms().forEach(e -> location.getRooms()
-                        .add(roomDAO.getById(e.getId())));
-            }
+            location.setId(locationDTO.getId());
+            location.setName(locationDTO.getName());
+            location.setAddress(locationDTO.getAddress());
+            location.setCoordinates(locationDTO.getCoordinates());
+            locationDTO.getRooms().forEach(
+                    e -> location.getRooms().add(roomDAO.getById(e.getId())));
             return location;
         }
         return null;
@@ -68,31 +58,21 @@ public class LocationDTOConverter {
 
     /**
      * Convert given Location object to LocationDTO object.
-     * 
+     *
      * @param location
      *            a Location object to convert.
-     * 
-     * @return a LocationDTO object or null if given @param location is null.
+     *
+     * @return a LocationDTO object or null if given location is null.
      */
-    public LocationDTO getDTO(Location location) {
+    public LocationDTO getDTO(final Location location) {
         if (location != null) {
             LocationDTO locationDTO = new LocationDTO();
-            if (location.getId() != null) {
-                locationDTO.setId(location.getId());
-            }
-            if (location.getName() != null) {
-                locationDTO.setName(location.getName());
-            }
-            if (location.getAddress() != null) {
-                locationDTO.setAddress(location.getAddress());
-            }
-            if (location.getCoordinates() != null) {
-                locationDTO.setCoordinates(location.getCoordinates());
-            }
-            if (!location.getRooms().isEmpty()) {
-                location.getRooms().forEach(e -> locationDTO.getRooms()
-                        .add(roomForLocationDTOConverter.getDTO(e)));
-            }
+            locationDTO.setId(location.getId());
+            locationDTO.setName(location.getName());
+            locationDTO.setAddress(location.getAddress());
+            locationDTO.setCoordinates(location.getCoordinates());
+            location.getRooms().forEach(e -> locationDTO.getRooms()
+                    .add(roomForLocationDTOConverter.getDTO(e)));
             return locationDTO;
         }
         return null;

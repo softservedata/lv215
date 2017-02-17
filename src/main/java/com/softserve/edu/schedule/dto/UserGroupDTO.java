@@ -3,8 +3,16 @@ package com.softserve.edu.schedule.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softserve.edu.schedule.entity.UserGroupLevel;
+import com.softserve.edu.schedule.service.implementation.validators.Validate;
+
+//@UserGroupValidator(min = 5, max = 20, id = ValidationFields.ID, name = ValidationFields.NAME, description = ValidationFields.DESCRIPTION, level = ValidationFields.LEVEL)
+@Validate
 public class UserGroupDTO {
 
+	/**
+	 * User group id.
+	 */
 	private Long id;
 
 	/**
@@ -15,13 +23,12 @@ public class UserGroupDTO {
 	/**
 	 * User group description.
 	 */
-
 	private String description;
 
 	/**
 	 * Level of the group. The higher the value - the more important group.
 	 */
-	private Integer level;
+	private UserGroupLevel level;
 
 	/**
 	 * User group manager.
@@ -31,17 +38,15 @@ public class UserGroupDTO {
 	/**
 	 * List of users in this group.
 	 */
-
 	private List<UserDTO> users = new ArrayList<>();
 
 	/**
 	 * List of meetings of this group.
 	 */
-
 	private List<MeetingDTO> meetings = new ArrayList<>();
 
 	/**
-	 * @return the id
+	 * @return the id.
 	 */
 	public Long getId() {
 		return id;
@@ -88,7 +93,7 @@ public class UserGroupDTO {
 	/**
 	 * @return the level
 	 */
-	public Integer getLevel() {
+	public UserGroupLevel getLevel() {
 		return level;
 	}
 
@@ -96,7 +101,7 @@ public class UserGroupDTO {
 	 * @param level
 	 *            the level to set
 	 */
-	public void setLevel(Integer level) {
+	public void setLevel(UserGroupLevel level) {
 		this.level = level;
 	}
 
@@ -119,6 +124,9 @@ public class UserGroupDTO {
 	 * @return the users
 	 */
 	public List<UserDTO> getUsers() {
+		if (users == null) {
+			return new ArrayList<>();
+		}
 		return users;
 	}
 
@@ -127,13 +135,20 @@ public class UserGroupDTO {
 	 *            the users to set
 	 */
 	public void setUsers(List<UserDTO> users) {
-		this.users = users;
+		if (users == null) {
+			this.users = new ArrayList<>();
+		} else {
+			this.users = users;
+		}
 	}
 
 	/**
 	 * @return the meetings
 	 */
 	public List<MeetingDTO> getMeetings() {
+		if (meetings == null) {
+			return new ArrayList<>();
+		}
 		return meetings;
 	}
 

@@ -10,33 +10,29 @@
 
 package com.softserve.edu.schedule.service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
-import com.softserve.edu.schedule.dao.Order;
-import com.softserve.edu.schedule.entity.Meeting;
+import com.softserve.edu.schedule.dto.MeetingDTO;
+import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
+import com.softserve.edu.schedule.dto.filter.MeetingFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.MeetingStatus;
-import com.softserve.edu.schedule.entity.Room;
-import com.softserve.edu.schedule.entity.Subject;
-import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.UserGroup;
 
 /**
  * This interface for managing Meetings Service.
- * 
+ *
  * @version 1.0 12.12.2016
- * @author IT Academy
+ * @author Bohdan Melnyk
  */
-
 public interface MeetingService {
 
     /**
      * Saving Meeting in database.
      *
-     * @param meeting
+     * @param meetingDTO
      *            - Meeting object
      */
-    public void create(final Meeting meeting);
+    void create(MeetingDTO meetingDTO);
 
     /**
      * Return a Meeting object if found.
@@ -45,95 +41,60 @@ public interface MeetingService {
      *            of Meeting transfer object
      * @return Meeting transfer object
      */
-    public Meeting getById(final Long id);
+    MeetingDTO getById(Long id);
+
+    /**
+     * Gives MeetingStatus by given String name.
+     *
+     * @param status
+     *            name of status
+     * @return MeetingStatus object.
+     */
+    MeetingStatus getStatusbyString(String status);
 
     /**
      * Read all meetings from DB.
-     * 
+     *
      * @return List<Meeting> our meetings.
      */
-    public List<Meeting> getAll();
+    List<MeetingDTO> getAll();
 
     /**
      * Update (replace) existence meeting in DB. If such meeting no exist in DB,
      * it will add it.
-     * 
-     * @param meeting
+     *
+     * @param meetingDTO
      *            our meeting.
      */
-    public void update(final Meeting meeting);
+    void update(MeetingDTO meetingDTO);
 
     /**
      * Delete meeting from DB.
-     * 
-     * @param meeting
+     *
+     * @param meetingDTO
      *            our meeting.
      */
-    public void delete(final Meeting meeting);
+    void delete(MeetingDTO meetingDTO);
 
     /**
      * Delete meeting from DB by given id.
-     * 
+     *
      * @param id
      *            our id of meeting.
      */
-    public void deleteById(final Long id);
+    void deleteById(Long id);
 
     /**
-     * Delete meeting from DB by given User. It means, that all meetings, which
-     * was approved with owner User will be deleted.
-     * 
-     * @param user
-     *            our owner for meeting.
-     */
-    public void deleteByOwner(final User user);
-
-    /**
-     * Delete meetings from DB by given Room. It means, that all meetings, which
-     * was approved in this room will be deleted.
-     * 
-     * @param room
-     *            our room for meeting.
-     */
-    public void deleteByRoom(final Room room);
-
-    /**
-     * Delete meetings from DB by given Date. It means, that all meetings, which
-     * are planned at this Date will be deleted.
-     * 
-     * @param userGroup
-     *            our userGroup for meeting.
-     */
-    public void deleteByDate(final LocalDateTime localDateTime);
-
-    /**
-     * Delete meetings from DB by given User Group. It means, that all meetings,
-     * which consist only this User Group will be deleted.
-     * 
-     * @param userGroup
-     *            our userGroup for meeting.
-     */
-    public void deleteMeetingByUserGroup(final UserGroup userGroup);
-
-    /**
-     * Delete meetings from DB by given Status. It means, that all meetings,
-     * which have this Status will be deleted.
-     * 
-     * @param meetingStatus
-     *            our Status for meeting.
-     */
-    public void deleteMeetingByStatus(final MeetingStatus meetingStatus);
-
-    /**
-     * Return a List of sorted Meeting transfer objects.
+     * Returns List of MeetingDTO by given filter and paginator for Room page.
      *
-     * @param field
-     *            for sort
-     * @param order
-     *            - ASC or DESC
-     * @return List of sorted Subject transfer objects
+     * @param meetingFilter
+     *            filter for meetings.
+     * @param meetingPaginator
+     *            paginator for meetings.
+     * @return List of MeetingDTO
      */
-    public List<Meeting> sort(final String field, final Order order);
+    List<MeetingDTO> getMeetingPageWithFilter(MeetingFilter meetingFilter,
+            Paginator meetingPaginator);
 
     /**
      * Return a List of searched Meeting transfer objects.
@@ -144,114 +105,125 @@ public interface MeetingService {
      *            - input string
      * @return List of sorted Subject transfer objects
      */
-    public List<Meeting> search(final String field, final String pattern);
+    List<MeetingDTO> search(String field, String pattern);
 
     /**
-     * Change the status in given (existences in DB) meeting.
-     * 
-     * @param meeting
-     *            old meeting, will be changed.
+     * Change existing status of the meeting to given new meeting status.
+     *
+     * @param id
+     *            Meeting, in which the status will be changed.
+     *
      * @param meetingStatus
-     *            new meeting status.
+     *            New meeting status.
      */
-    public void changeStatus(final Meeting meeting,
-            final MeetingStatus meetingStatus);
-
-    /*
-     * Additional methods for doing the SEARCH operation but direct in DB.
-     */
+    void changeMeetingStatus(Long id, MeetingStatus meetingStatus);
 
     /**
-     * Find all meetings in the DB by given description.
-     * 
-     * @param description
-     *            our description for meeting.
-     * @return List<Meeting> returns list.
+     * Finds duplicates meeting (converted to meetingDTO) from DB by the given
+     * meetingDTO.
+     *
+     * @param meetingDTO
+     *            MeetingDTO instance
+     *
+     * @return list of duplicates of given DTO
      */
-    public List<Meeting> searchByDescription(final String description);
+    List<MeetingDTO> duplicatesOfGivenDTO(MeetingDTO meetingDTO);
 
     /**
-     * Find all meetings in the DB by given subject.
-     * 
-     * @param subject
-     *            our subject for meeting.
-     * @return List<Meeting> returns list.
+     * During creation checks which status can be given to the meeting depends
+     * on room availability.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param meetingDTO
+     *            given meeting DTO
+     *
+     * @return correct MeetingStatus
+     *
      */
-    public List<Meeting> searchBySubject(final Subject subject);
+    MeetingStatus getMeetingStatusDuringCreation(MeetingDTO meetingDTO);
 
     /**
-     * Find all meetings in the DB by given Owner.
-     * 
-     * @param user
-     *            our user for meeting.
-     * @return List<Meeting> returns list.
+     * Find all meetings in the DB by given date interval and roomId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     *
+     * @param start
+     *            start date for find meetings
+     *
+     * @param end
+     *            end date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
      */
-    public List<Meeting> searchByOwner(final User user);
+    List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(Long roomId,
+            String start, String end);
 
     /**
-     * Find all meetings in the DB by given Room.
-     * 
-     * @param room
-     *            our room for meeting.
-     * @return List<Meeting> list.
+     * Find all meetings in the DB by given date interval and userId.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param userId
+     *            user id for find meetings
+     *
+     * @param start
+     *            end date for find meetings
+     *
+     * @param end
+     *            start date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
      */
-    public List<Meeting> searchByRoom(final Room room);
+    List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(String userId,
+            String start, String end);
 
     /**
-     * Find all meetings in the DB by given date.
-     * 
-     * @param date
-     *            our date for meeting.
-     * @return List<Meeting> list.
+     * Method that's used to get all meetings in specified interval for
+     * specified group.
+     *
+     * @author Andriy Zhydenko
+     *
+     * @param groupId
+     *            id of a group to find
+     * @param start
+     *            start date of meetings
+     * @param end
+     *            end date of meetings
+     * @return list of meetings that will be held for specified group in
+     *         specified time limits
      */
-    public List<Meeting> searchByDate(final LocalDateTime date);
+    List<MeetingForCalendarDTO> getMeetingsInIntervalByGroupId(Long groupId,
+            String start, String end);
 
     /**
-     * Find all meetings in the DB by given userGroup.
-     * 
-     * @param userGroup
-     *            our userGroup for meeting.
-     * @return List<Meeting>
+     * Find all meetings in the DB by given date interval and subjectId.
+     *
+     * @author Volodymyr Ped'ko
+     *
+     * @param subjectId
+     *            subject id for find meetings
+     *
+     * @param start
+     *            start date for find meetings
+     *
+     * @param end
+     *            end date for find meetings
+     *
+     * @return List of the MeetingForCalendarDTO objects.
      */
-    public List<Meeting> searchByUserGroup(final UserGroup userGroup);
+    List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(Long subjectId,
+            String start, String end);
 
     /**
-     * Find all meetings in the DB by given userGroups.
-     * 
-     * @param userGroups
-     *            our list of userGroups for meeting.
-     * @return List<Meeting>
+     * Sends mail to MeetingOwner and UserGroupsCurators if the meeting status
+     * was changed from APPROVED to DISAPPROVED or NOT_APPROVED.
+     *
+     * @param meetingDTO
+     *            meeting DTO of changed meeting. We need it for confirmation.
      */
-    public List<Meeting> searchByUserGroups(final List<UserGroup> userGroups);
-
-    /**
-     * Find all meetings in the DB by given level.
-     * 
-     * @param level
-     *            of the meeting.
-     * @return List<Meeting>
-     */
-    public List<Meeting> searchByLevel(final Integer level);
-
-    /**
-     * Find all meetings in the DB by given meetingStatus.
-     * 
-     * @param meetingStatus
-     *            of the meeting.
-     * @return List<Meeting>
-     */
-    public List<Meeting> searchByStatus(final MeetingStatus meetingStatus);
-
-    public List<Meeting> sortBySubject(final Order order);
-
-    public List<Meeting> sortByOwner(final Order order);
-
-    public List<Meeting> sortByRoom(final Order order);
-
-    public List<Meeting> sortByDescription(final Order order);
-
-    public List<Meeting> sortByLevel(final Order order);
-
-    public List<Meeting> sortByStatus(final Order order);
-
+    void sendMailIfStatusChanged(MeetingDTO meetingDTO);
 }

@@ -1,24 +1,45 @@
+/*
+ * SubjectDTO.java
+ * 1.0
+ * 15 Jan 2017
+ * Copyright (c) Ped'ko Volodymyr
+ */
 package com.softserve.edu.schedule.dto;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.softserve.edu.schedule.service.implementation.validators.Validate;
+
+/**
+ * A DTO class to transport subject data.
+ *
+ * @version 1.0 17 January 2017
+ *
+ * @author Ped'ko Volodymyr
+ *
+ * @since 1.8
+ */
+@Validate
 public class SubjectDTO {
 
+    /**
+     * SubjectDTO id.
+     */
     private Long id;
 
     /**
-     * Subject name.
+     * SubjectDTO name.
      */
     private String name;
 
     /**
-     * Subject description.
+     * SubjectDTO description.
      */
     private String description;
 
     /**
-     * List of users who can create meetings with this subject.
+     * List of subject tutors(users).
      */
     private List<UserForSubjectDTO> users = new ArrayList<>();
 
@@ -48,7 +69,7 @@ public class SubjectDTO {
      * @param name
      *            the name to set
      */
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -63,7 +84,7 @@ public class SubjectDTO {
      * @param description
      *            the description to set
      */
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -78,7 +99,11 @@ public class SubjectDTO {
      * @param users
      *            the users to set
      */
-    public void setUsers(List<UserForSubjectDTO> users) {
-        this.users = users;
+    public void setUsers(final List<UserForSubjectDTO> users) {
+        if (users == null) {
+            this.users = new ArrayList<>();
+        } else {
+            this.users = users;
+        }
     }
 }

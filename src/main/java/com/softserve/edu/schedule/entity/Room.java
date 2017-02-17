@@ -5,13 +5,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Index;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import com.softserve.edu.schedule.entitylisteners.RoomEntityListener;
 
 /**
  * An entity class for rooms.
@@ -23,6 +30,8 @@ import javax.persistence.OneToMany;
  * @since 1.8
  */
 @Entity
+@EntityListeners(RoomEntityListener.class)
+@Table(indexes = {@Index(columnList = "name")})
 public class Room {
 
     /**
@@ -51,7 +60,10 @@ public class Room {
     /**
      * Field for storage list of equipments of the room.
      */
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = RoomEquipment.class)
+    @JoinTable(name = "room_roomequipment",
+            joinColumns = {@JoinColumn(name = "rooms_id")},
+            inverseJoinColumns = {@JoinColumn(name = "equipments_id")})
     private List<RoomEquipment> equipments = new ArrayList<>();
 
     /**
@@ -106,7 +118,7 @@ public class Room {
      * @param id
      *            the id to set
      */
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 

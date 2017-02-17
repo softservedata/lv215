@@ -1,11 +1,11 @@
 /*
  * Implementation of the Interface for Meetings Data Access Object.
- * 
+ *
  * REMARK:
  * This interface is the same as CrudDAO but with additional
  * methods. This methods provide an opportunity to sort dataObjects
- * direct in the DB, not in the application. 
- * 
+ * direct in the DB, not in the application.
+ *
  *
  * Version 03.01.17
  *
@@ -16,6 +16,8 @@
 
 package com.softserve.edu.schedule.dao.implementation;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -29,8 +31,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
-import com.softserve.edu.schedule.dao.Order;
+import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
+import com.softserve.edu.schedule.dto.filter.MeetingFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Meeting_;
@@ -42,20 +46,118 @@ import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserGroup;
 import com.softserve.edu.schedule.entity.UserGroup_;
 import com.softserve.edu.schedule.entity.User_;
+import com.softserve.edu.schedule.service.implementation.specification.MeetingFilterSpecification;
 
 /**
- * This class implements the Meetings DAO. It also implements ReadDAO interface.
- * 
+ * This class implements the MeetingsDAO. It also implements ReadDAO interface.
+ *
  * @version 1.0 12.12.2016
- * @author IT Academy
+ * @author Bohdan Melnyk
  */
-
-@Repository("meetingDAO")
+@Repository
 public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
+    /**
+     * Overridden default constructor to provide entity class for DAO.
+     *
+     */
+    public MeetingDAOImpl() {
+        super(Meeting.class);
+    }
+
+    /**
+     * UserGroupDAO example for further business logic.
+     */
     @Autowired
     private UserGroupDAO userGroupDAO;
 
+    /**
+     * UserDAO example for further business logic.
+     */
+    @Autowired
+    private UserDAO userDAO;
+
+    /**
+     * Returns List of Meetings by given MeetingFilter and Paginator.
+     *
+     * @param meetingFilter
+     *            a filter to apply.
+     * @param meetingPaginator
+     *            a paginator to apply.
+     * @return List of Meetings
+     */
+    @Override
+    public List<Meeting> getMeetingPageWithFilter(
+            final MeetingFilter meetingFilter,
+            final Paginator meetingPaginator) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> criteriaQuery = builder
+                .createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
+
+        Predicate predicate = new MeetingFilterSpecification(meetingFilter,
+                userGroupDAO).toPredicate(root, criteriaQuery, builder);
+        if (predicate != null) {
+            criteriaQuery.where(predicate);
+        }
+        criteriaQuery.distinct(true);
+        meetingPaginator
+                .setPagesCount(getCountOfMeetingsWithFilter(meetingFilter));
+        return getEm().createQuery(criteriaQuery)
+                .setFirstResult(meetingPaginator.getOffset())
+                .setMaxResults(meetingPaginator.getPageSize()).getResultList();
+    }
+
+    /**
+     * Count meeting entities in the database with specified predicate.
+     *
+     * @param meetingFilter
+     *            a filter to apply.
+     *
+     * @return Count of the meeting entities in the database with specified
+     *         predicate.
+     */
+    @Override
+    public Long getCountOfMeetingsWithFilter(
+            final MeetingFilter meetingFilter) {
+        CriteriaBuilder qb = getEm().getCriteriaBuilder();
+        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        cq.select(qb.countDistinct(root));
+        
+        Predicate predicate = new MeetingFilterSpecification(meetingFilter,
+                userGroupDAO).toPredicate(root, cq, qb);
+        if (predicate != null) {
+            cq.where(predicate);
+        }
+        return getEm().createQuery(cq).getSingleResult();
+    }
+
+    /**
+     * Return a Meeting object if found.
+     *
+     * @param id
+     *            of Meeting object
+     * @return meeting with given id
+     */
+    @Override
+    public Meeting getById(final Long id) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
+        root.fetch(Meeting_.subject, JoinType.LEFT);
+        root.fetch(Meeting_.owner, JoinType.LEFT);
+        root.fetch(Meeting_.room, JoinType.LEFT);
+        root.fetch(Meeting_.groups, JoinType.LEFT);
+        cq.where(root.get(Meeting_.id).in(id));
+        return getEm().createQuery(cq).getSingleResult();
+    }
+
+    /**
+     * Find all meeting entities in the database.
+     *
+     * @return List of the meeting objects.
+     */
     @Override
     public List<Meeting> getAll() {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -66,328 +168,348 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         root.fetch(Meeting_.room, JoinType.LEFT);
         root.fetch(Meeting_.groups, JoinType.LEFT);
         cq.distinct(true);
-
         return getEm().createQuery(cq).getResultList();
     }
 
     /**
-     * Overridden default constructor to provide entity class for DAO.
-     * 
+     * For the given Meeting id changes meeting status for given MeetingStatus.
+     *
+     * @param id
+     *            Id of the meeting.
+     * @param meetingStatus
+     *            New meeting status.
      */
-    public MeetingDAOImpl() {
-        super(Meeting.class);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.MeetingDAO#changeStatus(com.softserve.edu.
-     * schedule.entity.Meeting, com.softserve.edu.schedule.entity.MeetingStatus)
-     */
-    public void changeStatus(Meeting meeting,
+    public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
-        this.delete(meeting);
+        Meeting meeting = this.getById(id);
         meeting.setStatus(meetingStatus);
         this.update(meeting);
-
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.dao.MeetingDAO#deleteById(java.lang.Long)
+    /**
+     * Delete Meeting by id.
+     *
+     * @param id
+     *            id.
      */
     @Override
     public void deleteById(final Long id) {
         Meeting meeting = getById(id);
-        meeting.getGroups()
-                .forEach(e -> deleteMeetingFromUserGroup(id, e.getId()));
         delete(meeting);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.dao.MeetingDAO#searchBySubject(java.lang.
-     * String)
+    /**
+     * Create Meeting entity.
+     *
+     * @param meeting
+     *            meeting to create.
      */
     @Override
-    public List<Meeting> searchBySubject(final String pattern) {
+    public void create(final Meeting meeting) {
+        getEm().persist(meeting);
+    }
+
+    /**
+     * Gives MeetingStatus by given String name.
+     *
+     * @param status
+     *            name of status
+     * @return MeetingStatus object.
+     */
+    public MeetingStatus getStatusbyString(final String status) {
+        if (status.contains("fin") || status.contains("FIN")) {
+            return MeetingStatus.FINISHED;
+        }
+        if (status.contains("app") || status.contains("APP")) {
+            return MeetingStatus.APPROVED;
+        }
+        if (status.contains("DIS") || status.contains("dis")) {
+            return MeetingStatus.DISAPPROVED;
+        } else {
+            return MeetingStatus.NOT_APPROVED;
+        }
+    }
+
+    /**
+     * Returns the List of MeetingDTO, that duplicates given Meetings fields.
+     *
+     * @param subjectName
+     *            subject of meeting
+     *
+     * @param ownerName
+     *            owner of meeting
+     *
+     * @param roomName
+     *            room of meeting
+     *
+     * @param localDate
+     *            date of meeting
+     *
+     * @param localTime
+     *            start time of meeting
+     *
+     * @return List of Meeting
+     */
+    public List<Meeting> dublicatesOfGivenFields(final String subjectName,
+            final String ownerName, final String roomName,
+            final LocalDate localDate, final LocalTime localTime) {
+
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
 
         Join<Meeting, Subject> joinSubject = root.join(Meeting_.subject);
-        Predicate predicate = builder.like(joinSubject.get(Subject_.name),
-                SEARCH_MASK + pattern + SEARCH_MASK);
-        cq.where(predicate);
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.MeetingDAO#searchByOwner(java.lang.String)
-     */
-    @Override
-    public List<Meeting> searchByOwner(final String pattern) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
-
-        Join<Meeting, User> joinUser = root.join(Meeting_.owner);
-        Predicate predicate = builder.like(joinUser.get(User_.lastName),
-                SEARCH_MASK + pattern + SEARCH_MASK);
-        cq.where(predicate);
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.MeetingDAO#searchByRoom(java.lang.String)
-     */
-    public List<Meeting> searchByRoom(final String pattern) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
-
+        Join<Meeting, User> joinOwner = root.join(Meeting_.owner);
         Join<Meeting, Room> joinRoom = root.join(Meeting_.room);
-        Predicate predicate = builder.like(joinRoom.get(Room_.name),
-                SEARCH_MASK + pattern + SEARCH_MASK);
-        cq.where(predicate);
+        root.join(Meeting_.groups);
+
+        Predicate predicateSubject = builder
+                .like(joinSubject.get(Subject_.name), subjectName);
+
+        Predicate predicateOwner = builder.like(joinOwner.get(User_.lastName),
+                ownerName);
+
+        Predicate predicateRoom = builder.like(joinRoom.get(Room_.name),
+                roomName);
+
+        Predicate predicateDate = root.get(Meeting_.date).in(localDate);
+
+        Predicate predicateStartTime = root.get(Meeting_.startTime)
+                .in(localTime);
+
+        Predicate predicateAll = builder.and(predicateSubject, predicateOwner,
+                predicateRoom, predicateDate, predicateStartTime);
+
+        cq.where(predicateAll);
+
         return getEm().createQuery(cq).getResultList();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.MeetingDAO#searchByUserGroup(java.lang.
-     * String)
-     */
-    public List<Meeting> searchByUserGroup(final String pattern) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
-
-        Join<Meeting, UserGroup> joinUserGroup = root.join(Meeting_.groups);
-        Predicate predicate = builder.like(joinUserGroup.get(UserGroup_.name),
-                SEARCH_MASK + pattern + SEARCH_MASK);
-        cq.where(predicate);
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see com.softserve.edu.schedule.dao.MeetingDAO#searchByStatus(java.lang.
-     * String)
-     */
-    public List<Meeting> searchByStatus(final String pattern) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
-
-        Join<Meeting, MeetingStatus> joinStatus = root.join(Meeting_.status);
-        Predicate predicate = builder.like(
-                joinStatus.get(Meeting_.status.toString()),
-                SEARCH_MASK + pattern + SEARCH_MASK);
-        cq.where(predicate);
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.MeetingDAO#searchByLevel(java.lang.String)
-     */
-    public List<Meeting> searchByLevel(final String pattern) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
-
-        Join<Meeting, Integer> joinLevel = root.join(Meeting_.level);
-        Predicate predicate = builder.like(
-                joinLevel.get(Meeting_.level.toString()),
-                SEARCH_MASK + pattern + SEARCH_MASK);
-        cq.where(predicate);
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.MeetingDAO#searchByDate(java.lang.String)
-     */
-    public List<Meeting> searchByDate(final String pattern) {
-        // TODO How to filter by Date in DB?
-        return this.getAll();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * com.softserve.edu.schedule.dao.MeetingDAO#searchByDescription(java.lang.
-     * String)
+    /**
+     * Find all meetings in the DB which date and time are in past and status
+     * not FINISHED.
+     *
+     * @author Petro Zelyonka
+     *
+     * @return List of the Meeting objects.
      */
     @Override
-    public List<Meeting> searchByDescription(String pattern) {
-
+    public List<Meeting> getUnfinishedPastMeetings() {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
-
-        Join<Meeting, String> joinDescription = root.join(Meeting_.description);
-        Predicate predicate = builder.like(
-                joinDescription.get(Meeting_.description.toString()),
-                SEARCH_MASK + pattern + SEARCH_MASK);
+        
+        Predicate predicate = builder.conjunction();
+        predicate = builder.and(predicate, builder.lessThan(
+                root.get(Meeting_.date), (LocalDate.now().plusDays(1))));
+        predicate = builder.and(predicate, builder
+                .lessThan(root.get(Meeting_.endTime), (LocalTime.now())));
+        predicate = builder.and(predicate, builder
+                .not(root.get(Meeting_.status).in(MeetingStatus.FINISHED)));
         cq.where(predicate);
+        cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
 
+    /**
+     * Find all approved meetings in the DB by given roomId, date, start and end
+     * time.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     * @param date
+     *            date for find meetings
+     * @param startTime
+     *            start time for find meetings
+     * @param endTime
+     *            end time for find meetings
+     *
+     * @return List of the Meeting objects.
+     */
     @Override
-    public List<Meeting> sortByDescription(final Order order) {
+    public List<Meeting> getApprovedMeetingsByRoomIdAndTime(final Long roomId,
+            final LocalDate date, final LocalTime startTime,
+            final LocalTime endTime) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
-        root.fetch(Meeting_.subject, JoinType.LEFT);
-        root.fetch(Meeting_.owner, JoinType.LEFT);
-        root.fetch(Meeting_.room, JoinType.LEFT);
-        root.fetch(Meeting_.groups, JoinType.LEFT);
+        Join<Meeting, Room> roomJoin = root.join(Meeting_.room, JoinType.LEFT);
+        
+        Predicate basePredicate = builder.conjunction();
+        basePredicate = builder.and(basePredicate,
+                roomJoin.get(Room_.id).in(roomId));
+        basePredicate = builder.and(basePredicate,
+                root.get(Meeting_.date).in(date));
+        basePredicate = builder.and(basePredicate,
+                root.get(Meeting_.status).in(MeetingStatus.APPROVED));
+        Predicate timePredicate1 = builder.conjunction();
+        timePredicate1 = builder.and(basePredicate,
+                builder.lessThan(root.get(Meeting_.startTime), endTime));
+        timePredicate1 = builder.and(basePredicate,
+                builder.greaterThan(root.get(Meeting_.endTime), startTime));
+        Predicate timePredicate2 = builder.conjunction();
+        timePredicate2 = builder.and(basePredicate, builder
+                .between(root.get(Meeting_.startTime), startTime, endTime));
+        timePredicate2 = builder.and(basePredicate, builder
+                .between(root.get(Meeting_.endTime), startTime, endTime));
+        Predicate timePredicate = builder.or(timePredicate1, timePredicate2);
+        basePredicate = builder.and(basePredicate, timePredicate);
+        cq.where(basePredicate);
         cq.distinct(true);
-        if (order == Order.ASC) {
-            cq.orderBy(builder.asc(root.get(Meeting_.description)));
-
-        } else {
-            cq.orderBy(builder.desc(root.get(Meeting_.description)));
-        }
         return getEm().createQuery(cq).getResultList();
     }
 
+    /**
+     * Find all meetings in the DB by given roomId, startDate and endDate.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param roomId
+     *            room id for find meetings
+     *
+     * @param startDate
+     *            start date for find meetings
+     *
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
+     */
     @Override
-    public List<Meeting> sortBySubject(final Order order) {
+    public List<Meeting> getMeetingsInIntervalByRoomId(final Long roomId,
+            final LocalDate startDate, final LocalDate endDate) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
-        root.fetch(Meeting_.subject, JoinType.LEFT);
-        root.fetch(Meeting_.owner, JoinType.LEFT);
-        root.fetch(Meeting_.room, JoinType.LEFT);
-        root.fetch(Meeting_.groups, JoinType.LEFT);
+        root.join(Meeting_.subject);
+        root.join(Meeting_.owner);
+        Join<Meeting, Room> roomJoin = root.join(Meeting_.room);
+        root.join(Meeting_.groups);
+        Predicate predicate = builder.conjunction();
+        predicate = builder.and(predicate,
+                builder.between(root.get(Meeting_.date), startDate, endDate));
+        predicate = builder.and(predicate, roomJoin.get(Room_.id).in(roomId));
+        cq.where(predicate);
         cq.distinct(true);
-        if (order == Order.ASC) {
-            cq.orderBy(builder.asc(root.get(Meeting_.subject)));
-
-        } else {
-            cq.orderBy(builder.desc(root.get(Meeting_.subject)));
-        }
         return getEm().createQuery(cq).getResultList();
     }
 
+    /**
+     * Find all meetings in the DB by given subjectId, startDate and endDate.
+     *
+     * @author Volodymyr Ped'ko
+     *
+     * @param subjectId
+     *            subject id for find meetings
+     *
+     * @param startDate
+     *            start date for find meetings
+     *
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
+     */
     @Override
-    public List<Meeting> sortByOwner(final Order order) {
+    public List<Meeting> getMeetingsInIntervalBySubjectId(final Long subjectId,
+            final LocalDate startDate, final LocalDate endDate) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
-        root.fetch(Meeting_.subject, JoinType.LEFT);
-        root.fetch(Meeting_.owner, JoinType.LEFT);
-        root.fetch(Meeting_.room, JoinType.LEFT);
-        root.fetch(Meeting_.groups, JoinType.LEFT);
+        Join<Meeting, Subject> subjectJoin = root.join(Meeting_.subject);
+        root.join(Meeting_.owner);
+        root.join(Meeting_.room);
+        root.join(Meeting_.groups);
+        
+        Predicate predicate = builder.conjunction();
+        predicate = builder.and(predicate,
+                builder.between(root.get(Meeting_.date), startDate, endDate));
+        predicate = builder.and(predicate,
+                subjectJoin.get(Subject_.id).in(subjectId));
+        cq.where(predicate);
         cq.distinct(true);
-        if (order == Order.ASC) {
-            cq.orderBy(builder.asc(root.get(Meeting_.owner)));
-
-        } else {
-            cq.orderBy(builder.desc(root.get(Meeting_.owner)));
-        }
         return getEm().createQuery(cq).getResultList();
     }
 
+    /**
+     * Find all meetings in the DB by given userId, startDate and endDate.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param userId
+     *            user id for find meetings
+     *
+     * @param startDate
+     *            start date for find meetings
+     *
+     * @param endDate
+     *            end date for find meetings
+     *
+     * @return List of the Meeting objects.
+     */
     @Override
-    public List<Meeting> sortByRoom(final Order order) {
+    public List<Meeting> getMeetingsInIntervalByUserId(final Long userId,
+            final LocalDate startDate, final LocalDate endDate) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
-        root.fetch(Meeting_.subject, JoinType.LEFT);
-        root.fetch(Meeting_.owner, JoinType.LEFT);
-        root.fetch(Meeting_.room, JoinType.LEFT);
-        root.fetch(Meeting_.groups, JoinType.LEFT);
+        root.join(Meeting_.subject);
+        root.join(Meeting_.owner);
+        root.join(Meeting_.room);
+        Join<Meeting, UserGroup> joinGroups = root.join(Meeting_.groups);
+        
+        Predicate basePredicate = builder.conjunction();
+        basePredicate = builder.and(basePredicate,
+                builder.between(root.get(Meeting_.date), startDate, endDate));
+        User user = userDAO.getById(userId);
+        Predicate userPredicate = builder.disjunction();
+        userPredicate = builder.or(userPredicate,
+                root.get(Meeting_.owner).in(userId));
+        userPredicate = builder.or(userPredicate,
+                builder.isMember(user, joinGroups.get(UserGroup_.users)));
+        userPredicate = builder.or(userPredicate,
+                joinGroups.get(UserGroup_.curator).in(userId));
+        basePredicate = builder.and(basePredicate, userPredicate);
+        cq.where(basePredicate);
         cq.distinct(true);
-        if (order == Order.ASC) {
-            cq.orderBy(builder.asc(root.get(Meeting_.room)));
-
-        } else {
-            cq.orderBy(builder.desc(root.get(Meeting_.room)));
-        }
         return getEm().createQuery(cq).getResultList();
     }
 
+    /**
+     * Method that's used to get all meetings in specified interval for
+     * specified group.
+     *
+     * @author Andriy Zhydenko
+     *
+     * @param groupId
+     *            id of a group to find
+     * @param startDate
+     *            start time of meetings
+     * @param endDate
+     *            end time of meetings
+     * @return list of meetings that will be held for specified group in
+     *         specified time limits
+     */
     @Override
-    public List<Meeting> sortByLevel(final Order order) {
+    public List<Meeting> getMeetingsInIntervalByGroupId(final Long groupId,
+            final LocalDate startDate, final LocalDate endDate) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
-        root.fetch(Meeting_.subject, JoinType.LEFT);
-        root.fetch(Meeting_.owner, JoinType.LEFT);
-        root.fetch(Meeting_.room, JoinType.LEFT);
-        root.fetch(Meeting_.groups, JoinType.LEFT);
+        Join<Meeting, UserGroup> groupJoin = root.join(Meeting_.groups);
+        root.join(Meeting_.owner);
+        root.join(Meeting_.room);
+        root.join(Meeting_.subject);
+        
+        Predicate predicate = builder.conjunction();
+        predicate = builder.and(predicate,
+                builder.between(root.get(Meeting_.date), startDate, endDate));
+        predicate = builder.and(predicate,
+                groupJoin.get(UserGroup_.id).in(groupId));
+        cq.where(predicate);
         cq.distinct(true);
-        if (order == Order.ASC) {
-            cq.orderBy(builder.asc(root.get(Meeting_.level)));
-
-        } else {
-            cq.orderBy(builder.desc(root.get(Meeting_.level)));
-        }
         return getEm().createQuery(cq).getResultList();
     }
-
-    @Override
-    public List<Meeting> sortByStatus(final Order order) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
-        root.fetch(Meeting_.subject, JoinType.LEFT);
-        root.fetch(Meeting_.owner, JoinType.LEFT);
-        root.fetch(Meeting_.room, JoinType.LEFT);
-        root.fetch(Meeting_.groups, JoinType.LEFT);
-        cq.distinct(true);
-        if (order == Order.ASC) {
-            cq.orderBy(builder.asc(root.get(Meeting_.status)));
-
-        } else {
-            cq.orderBy(builder.desc(root.get(Meeting_.status)));
-        }
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    @Override
-    public void create(Meeting meeting) {
-        meeting.setStatus(MeetingStatus.NOT_APPROVED);
-        getEm().persist(meeting);
-        // TODO When we will make validator, move it to the validator.
-        if (meeting.getGroups() != null) {
-            meeting.getGroups().forEach(
-                    e -> addMeetingtoUserGroup(meeting.getId(), e.getId()));
-        }
-
-    }
-
-    @Override
-    public void addMeetingtoUserGroup(Long meetingId, Long userGroupId) {
-        userGroupDAO.getById(userGroupId).getMeetings().add(getById(meetingId));
-
-    }
-
-    @Override
-    public void deleteMeetingFromUserGroup(Long meetingId, Long userGroupId) {
-        userGroupDAO.getById(userGroupId).getMeetings()
-                .removeIf(e -> e.getId().equals(meetingId));
-    }
-
 }

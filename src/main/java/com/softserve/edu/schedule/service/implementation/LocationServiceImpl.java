@@ -13,9 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.LocationDAO;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dto.LocationDTO;
+import com.softserve.edu.schedule.dto.filter.LocationFilter;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.entity.Location;
 import com.softserve.edu.schedule.entity.Location_;
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.LocationDTOConverter;
@@ -27,7 +31,8 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.LocationDT
  * @author Oleksandr Butyter
  *
  */
-@Service("locationService")
+@Service
+@PerfomanceLoggable
 public class LocationServiceImpl implements LocationService {
 
 	@Autowired
@@ -91,19 +96,6 @@ public class LocationServiceImpl implements LocationService {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.softserve.edu.schedule.service.LocationService#delete(com.softserve.
-	 * edu.schedule.entity.Location)
-	 */
-	@Override
-	@Transactional
-	public void delete(final LocationDTO location) {
-		locationDAO.delete(locationDTOConverter.getEntity(location));
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
 	 * com.softserve.edu.schedule.service.LocationService#sortByCountRooms(com.
 	 * softserve.edu.schedule.dao.Order)
 	 */
@@ -129,62 +121,38 @@ public class LocationServiceImpl implements LocationService {
 	@Override
 	@Transactional
 	public void deleteById(final Long id) {
-		locationDAO.deleteById(id);
+		Location location = locationDAO.getById(id);
+		if (location.getRooms().size() == 0) {
+		locationDAO.delete(location);
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.softserve.edu.schedule.service.LocationService#searchByName(java.lang
-	 * .String)
+	 * com.softserve.edu.schedule.service.LocationService#getLocationsByName(
+	 * java.lang.String)
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<LocationDTO> searchByName(final String pattern) {
-		return locationDAO.search(Location_.name.getName(), pattern).stream().map(e -> locationDTOConverter.getDTO(e))
-				.collect(Collectors.toList());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.LocationService#searchByAddress(java.
-	 * lang.String)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<LocationDTO> searchByAddress(final String pattern) {
-		return locationDAO.search(Location_.address.getName(), pattern).stream()
+	public List<LocationDTO> getLocationsByName(String locationName) {
+		return locationDAO.getLocationsByField(Location_.name.getName(), locationName).stream()
 				.map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.softserve.edu.schedule.service.LocationService#sortByName(com.
-	 * softserve.edu.schedule.dao.Order)
+	 * @see com.softserve.edu.schedule.service.LocationService#
+	 * getLocationsPageWithFilter(com.softserve.edu.schedule.dto.filter.
+	 * LocationFilter, com.softserve.edu.schedule.dto.filter.Paginator)
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<LocationDTO> sortByName(final Order order) {
-		return locationDAO.sort(Location_.name.getName(), order).stream().map(e -> locationDTOConverter.getDTO(e))
-				.collect(Collectors.toList());
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * com.softserve.edu.schedule.service.LocationService#sortByAddress(com.
-	 * softserve.edu.schedule.dao.Order)
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<LocationDTO> sortByAddress(final Order order) {
-		return locationDAO.sort(Location_.address.getName(), order).stream().map(e -> locationDTOConverter.getDTO(e))
-				.collect(Collectors.toList());
+	public List<LocationDTO> getLocationsPageWithFilter(LocationFilter locationFilter, Paginator locationPaginator) {
+		return locationDAO.getLocationsPageWithFilter(locationFilter, locationPaginator).stream()
+				.map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}
 
 }

@@ -2,45 +2,48 @@ package com.softserve.edu.schedule.dao;
 
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.UserRole;
-import com.softserve.edu.schedule.entity.UserStatus;
 
-public interface UserDAO extends CrudDAO<User>{
-    /**
-     * Return a List of searched Transfer objects.
-     *
-     * @return List of searched Transfer objects
-     */
-    public List<User> searchByRole(final UserRole role);
+public interface UserDAO extends CrudDAO<User> {
 
-    /**
-     * Return a List of searched Transfer objects.
-     *
-     * @return List of searched Transfer objects
-     */
-    public List<User> searchByStatus(final UserStatus status);
+	/**
+	 * Delete existed user entity from the database by id.
+	 *
+	 * @param id
+	 *            a user id to delete from database.
+	 */
+	void deleteById(Long id);
 
-    /**
-     * Return a List of searched Transfer objects.
-     *
-     * @return List of searched Transfer objects
-     */
-    public List<User> searchByGroup(final String group);
+	/**
+	 * Find all meetings in the DB by given date and roomId.
+	 *
+	 * @author Petro Zelyonka
+	 *
+	 * @param userMail
+	 *            user mail to find user in database
+	 *
+	 * @return User object with given mail or null if not finded.
+	 */
+	User findByMail(String userMail);
 
-    /**
-     * Delete existed user entity from the database by id.
-     *
-     * @param id
-     *            a user id to delete from database.
-     */
-    public void deleteById(final Long id);
+	List<User> getUsersPageWithFilter(UserFilter userFilter, Paginator userPaginator);
 
-    /**
-     * Return a List of searched Users fetching Group.
-     *
-     * @return List of searched Users transfer objects
-     */
-    public List<User> getAllWithDetails();
+	Long getCountOfUsersWithFilter(final UserFilter userFilter);
+
+	/**
+	 * Method returns lists of users which have role - moderator
+	 * 
+	 * @return lists of users which have role - moderator
+	 */
+	List<User> getModerators();
+
+	/**
+	 * Method returns lists of users which have status - active
+	 * 
+	 * @return lists of users which have status - active
+	 */
+	List<User> getAllActiveUsers();
 
 }

@@ -1,22 +1,36 @@
 package com.softserve.edu.schedule.service.implementation;
 
+import java.io.File;
+import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.Order;
 import com.softserve.edu.schedule.dao.UserDAO;
+import com.softserve.edu.schedule.dto.UserDTO;
+import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
+import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.dto.filter.UserFilter;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
+import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForChangePasswordConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSubjectDTOConverter;
-
 
 /**
  * An interface to provide service operations with User entity.
@@ -27,231 +41,348 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSub
  *
  * @since 1.8
  */
-@Transactional
 @Service("userService")
+@PerfomanceLoggable
 public class UserServiceImpl implements UserService {
 
-    /**
-     * UserDAO example to provide database operations.
-     */
-    @Autowired
-    private UserDAO userDAO;
-    
-    @Autowired
-    private UserDTOConverter userDAOConverter;
+	/**
+	 * UserDAO example to provide database operations.
+	 */
+	@Autowired
+	private UserDAO userDAO;
 
-    @Autowired
-    private UserForSubjectDTOConverter userForSubjectDTOConverter;
+	@Autowired
+	private UserDTOConverter userDTOConverter;
 
+	@Autowired
+	private UserDTOForChangePasswordConverter userDTOForPasswordConverter;
 
-    /**
-     * Save new user entity into the database.
-     *
-     * @param user
-     *            a new user to storage in database.
-     */
-    @Override
-    public void create(final User user) {
-        userDAO.create(user);
-    }
+	@Autowired
+	private UserForSubjectDTOConverter userForSubjectDTOConverter;
 
-    /**
-     * Delete existed user entity from the database.
-     *
-     * @param id
-     *            a user id to delete from database.
-     */
-    @Override
-    public void delete(final User user) {
-            userDAO.delete(user);
-    }
+	@Autowired
+	private BCryptPasswordEncoder encoder;
 
-    /**
-     * Change field status at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param status
-     *            a status from enum class UserStatus.
-     */
-    @Override
-    public void changeStatus(final Long id, final UserStatus status) {
-        User user = userDAO.getById(id);
-        user.setStatus(status);
-        userDAO.update(user);
-    }
+	/**
+	 * Save new user entity into the database.
+	 *
+	 * @param user
+	 *            a userDTO for to storage new user in database.
+	 */
+	@Override
+	@Transactional
+	public void create(final UserDTO userDTO) {
+		userDTO.setPassword(encoder.encode(userDTO.getPassword()));
+		userDAO.create(userDTOConverter.getEntity(userDTO));
+	}
 
-    /**
-     * Change field role at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param role
-     *            a role from enum class UserRole.
-     */
-    @Override
-    public void changeRole(final Long id, final UserRole userRole) {
-        User user = userDAO.getById(id);
-        user.setRole(userRole);
-        userDAO.update(user);
-    }
+	/**
+	 * Change field status at user entity in the database.
+	 *
+	 * @param id
+	 *            a user id in database.
+	 *
+	 * @param status
+	 *            a status from enum class UserStatus.
+	 */
+	@Override
+	@Transactional
+	public void changeStatus(final Long id, final UserStatus status) {
+		User user = userDAO.getById(id);
+		user.setStatus(status);
+		userDAO.update(user);
+	}
 
-    /**
-     * Change field position at user entity in the database.
-     *
-     * @param id
-     *            a user id in database.
-     *
-     * @param position
-     *            a position field in User entity.
-     */
-    @Override
-    public void changePosition(final Long id, final String position) {
-        User user = userDAO.getById(id);
-        user.setPosition(position);
-        userDAO.update(user);
-    }
+	/**
+	 * Change field role at user entity in the database.
+	 *
+	 * @param id
+	 *            a user id in database.
+	 *
+	 * @param role
+	 *            a role from enum class UserRole.
+	 */
+	@Override
+	@Transactional
+	public void changeRole(final Long id, final UserRole userRole) {
+		User user = userDAO.getById(id);
+		user.setRole(userRole);
+		userDAO.update(user);
+	}
 
-    /**
-     * Change field at user entity in the database.
-     *
-     * @param user
-     *            a new user to storage in database.
-     */
-    @Override
-    public void update(final User user) {
-        List<User> allUsers = userDAO.getAll();
-        for (User userExample : allUsers) {
-            if(userExample.getId()==(user.getId())){
-                user.setStatus(userDAO.getById(user.getId()).getStatus());
-                user.setRole(userDAO.getById(user.getId()).getRole());
-                userDAO.update(user);
-            }
-        }
-    }
+	/**
+	 * Change field at user entity in the database.
+	 *
+	 * @param userDTO
+	 *            a new user to storage in database.
+	 */
+	@Override
+	@Transactional
+	public void update(final UserDTO userDTO) {
+		User user = userDTOConverter.getEntity(userDTO);
+		user.setPassword(userDTO.getPassword());
+		user.setStatus(userDAO.getById(user.getId()).getStatus());
+		user.setRole(userDAO.getById(user.getId()).getRole());
+		user.setSubjects(userDAO.getById(user.getId()).getSubjects());
+		user.setGroups(userDAO.getById(user.getId()).getGroups());
+		userDAO.update(user);
+	}
 
-    /**
-     * Get all users by group what was selected.
-     *
-     * @param id
-     *            a group id in database.
-     */
-     @Override
-     @Transactional(readOnly = true)
-     public List<User> searchByGroup(final String group) {
-     return userDAO.searchByGroup(group);
-     }
+	/**
+	 * Get all usersDTO.
+	 *
+	 * @return List of the userDTO objects.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> getAll() {
+		return userDAO.getAll().stream().map(e -> userDTOConverter.getDTO(e)).collect(Collectors.toList());
+	}
 
-    /**
-     * Get all users by role what was selected.
-     *
-     * @param userRole
-     *            a value role from enum class UserRole.
-     *
-     * @return List of the user objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<User> getByRole(final UserRole role) {
-        return userDAO.searchByRole(role);
-    }
+	/**
+	 * Get all users.
+	 *
+	 * @return List of the userDTO objects for SubjectDTO.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserForSubjectDTO> getAllForSubject() {
+		return userDAO.getAll().stream().map(u -> userForSubjectDTOConverter.getDTO(u)).collect(Collectors.toList());
+	}
 
-    /**
-     * Get all users.
-     *
-     * @return List of the user objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<User> getAll() {
-        return userDAO.getAll();
-    }
-    
-    /**
-     * Get all users.
-     *
-     * @return List of the user objects for SubjectDTO.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<UserForSubjectDTO> getAllForSubject() {       
-        return userDAO.getAll().stream()
-                .map(u -> userForSubjectDTOConverter.getDTO(u))
-                .collect(Collectors.toList());
-    }
+	/**
+	 * Get all users by last name what was selected.
+	 *
+	 * @param position
+	 *            a value of name field in database.
+	 *
+	 * @return List of the userDTO objects.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> searchByLastName(final String pattern) {
+		return userDAO.search(User_.lastName.getName(), pattern).stream().map(e -> userDTOConverter.getDTO(e))
+				.collect(Collectors.toList());
+	}
 
-    /**
-     * Get all users by role what was selected.
-     *
-     * @param userRole
-     *            a value role from enum class UserRole.
-     *
-     * @return List of the user objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<User> getByStatus(final UserStatus status) {
-        return userDAO.searchByStatus(status);
-    }
+	/**
+	 * Get all users by position what was selected.
+	 *
+	 * @param position
+	 *            a value of position field in database.
+	 *
+	 * @return List of the userDTO objects.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> searchByPosition(final String pattern) {
+		return userDAO.search(User_.position.getName(), pattern).stream().map(e -> userDTOConverter.getDTO(e))
+				.collect(Collectors.toList());
+	}
 
-    /**
-     * Get all users by position what was selected.
-     *
-     * @param position
-     *            a value of position field in database.
-     *
-     * @return List of the user objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<User> search(final String field, final String pattern) {
-        return userDAO.search(field, pattern);
-    }
+	/**
+	 * Sort all users by last name.
+	 *
+	 * @return List of the userDTO objects.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> sortByLastName(final Order order) {
+		return userDAO.sort(User_.lastName.getName(), order).stream().map(e -> userDTOConverter.getDTO(e))
+				.collect(Collectors.toList());
+	}
 
-    /**
-     * Sort all users by last name.
-     *
-     * @return List of the user objects.
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<User> sort(final String field, final Order order) {
-        return userDAO.sort(field, order);
-    }
+	/**
+	 * Sort all users by last name.
+	 *
+	 * @return List of the userDTO objects.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> sortByPosition(final Order order) {
+		return userDAO.sort(User_.position.getName(), order).stream().map(e -> userDTOConverter.getDTO(e))
+				.collect(Collectors.toList());
+	}
 
-    /**
-     * Return a User object if found.
-     *
-     * @param id
-     *            of User transfer object
-     * @return User transfer object
-     */
-    @Override
-    public User getById(final Long id){
-        return userDAO.getById(id);
-    }
+	/**
+	 * Return a User object if found.
+	 *
+	 * @param id
+	 *            of User transfer object
+	 * @return UserDTO transfer object
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public UserDTO getById(final Long id) {
+		return userDTOConverter.getDTO(userDAO.getById(id));
+	}
 
-    /**
-     * Delete existed transfer object from the database by id.
-     *
-     * @param id
-     *            a user id to delete from database.
-     */
-    @Override
-    public void deleteById(final Long id){
-        userDAO.deleteById(id);
-    }
+	/**
+	 * Delete existed transfer object from the database by id.
+	 *
+	 * @param id
+	 *            a user id to delete from database.
+	 */
+	@Override
+	@Transactional
+	public boolean deleteById(final Long id) {
+		if (userDAO.getById(id).getGroups().stream().noneMatch(e -> e.getCurator().getId().equals(id))) {
+			userDAO.deleteById(id);
+			return true;
+		} else {
+			return false;
+		}
+	}
 
-    /**
-     * Return a List of searched Users fetching Group.
-     *
-     * @return List of searched Users transfer objects
-     */
-    @Override
-    @Transactional(readOnly = true)
-    public List<User> getAllWithDetails() {
-        return userDAO.getAllWithDetails();
-    }
+	/**
+	 * Find a user DTO in the database by mail.
+	 *
+	 * @param userMail
+	 *            a user mail to find in the database.
+	 * 
+	 * @return a user DTO with given mail.
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> searchByMail(final String mail) {
+		return userDAO.search(User_.mail.getName(), mail).stream().map(e -> userDTOConverter.getDTO(e))
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Change password of user in the database.
+	 *
+	 * @param id
+	 *            a user id to find in the database.
+	 *
+	 * @param password
+	 *            a user password to verify if real owner of account want change
+	 *            password.
+	 * 
+	 * @param firstNewPassword
+	 *            a new password which user want save.
+	 * 
+	 * @param secondNewPassword
+	 *            a new password which should be equal to firstNewPassword
+	 *            field.
+	 * 
+	 * @return a user DTO with given mail.
+	 */
+	@Override
+	@Transactional
+	public void changePassword(UserDTOForChangePassword userDTO) {
+
+		User user = userDTOForPasswordConverter.getEntity(userDTO);
+		user.setPassword(encoder.encode(userDTO.getSecondNewPassword()));
+		user.setStatus(userDAO.getById(user.getId()).getStatus());
+		user.setRole(userDAO.getById(user.getId()).getRole());
+		userDAO.update(user);
+	}
+
+	/**
+	 * Return a User object if found.
+	 *
+	 * @param id
+	 *            of User transfer object
+	 * @return User transfer object
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public UserDTOForChangePassword getByIdForPassword(final Long id) {
+		return userDTOForPasswordConverter.getDTOForPassword(userDAO.getById(id));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter, final Paginator userPaginator) {
+		return userDAO.getUsersPageWithFilter(userFilter, userPaginator).stream().map(e -> userDTOConverter.getDTO(e))
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Locates the user based on the user e-mail.
+	 *
+	 * @param userMail
+	 *            e-mail address identifying the user whose data is required.
+	 *
+	 * @return a fully populated user record
+	 *
+	 * @throws UsernameNotFoundException
+	 *             if the user could not be found or the user has no
+	 *             GrantedAuthority
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public UserDTO loadUserByUsername(final String userMail) throws UsernameNotFoundException {
+		User user = userDAO.findByMail(userMail);
+		if (user == null) {
+			throw new UsernameNotFoundException("User not found");
+		}
+		return userDTOConverter.getDTO(user);
+	}
+
+	@Override
+	@Transactional
+	public void saveImage(Principal principal, MultipartFile multipartFile) {
+
+		User user = userDAO.findByMail(principal.getName());
+
+		String path = System.getProperty("catalina.home") + "/images/" + user.getMail() + "/"
+				+ multipartFile.getOriginalFilename();
+
+		user.setPathImage("/images/" + user.getMail() + "/" + multipartFile.getOriginalFilename());
+
+		File file = new File(path);
+
+		try {
+			file.mkdirs();
+			try {
+				FileUtils.cleanDirectory(
+						new File(System.getProperty("catalina.home") + "/resources/" + user.getMail() + "/"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			try {
+				FileUtils.cleanDirectory(
+						new File(System.getProperty("catalina.home") + "/resources/" + user.getMail() + "/"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			multipartFile.transferTo(file);
+		} catch (IOException e) {
+			System.out.println("error with file");
+		}
+		userDAO.update(user);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.softserve.edu.schedule.service.UserService#getAllActiveUsers()
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> getAllActiveUsers() {
+		return userDAO.getAllActiveUsers().stream().map(e -> userDTOConverter.getDTO(e)).collect(Collectors.toList());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * com.softserve.edu.schedule.service.UserService#getAllManagers(java.util.
+	 * List)
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO) {
+		List<UserDTO> listUserDTOForMeetingOwners = new ArrayList<UserDTO>();
+		for (UserDTO userTEMP : listUserDTO) {
+			if (userTEMP.getRole() != UserRole.ROLE_USER) {
+				listUserDTOForMeetingOwners.add(userTEMP);
+			}
+		}
+		return listUserDTOForMeetingOwners;
+	}
+
 }
