@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private BCryptPasswordEncoder encoder;
-    
+
     /**
      * RestorePasswordMailService example to provide send mail to user
      * operations.
@@ -160,12 +160,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(final UserDTO userDTO) {
         User user = userDTOConverter.getEntity(userDTO);
-        user.setPassword(userDTO.getPassword());
-        user.setPathImage(userDAO.getById(user.getId()).getPathImage());
-        user.setStatus(userDAO.getById(user.getId()).getStatus());
-        user.setRole(userDAO.getById(user.getId()).getRole());
-        user.setSubjects(userDAO.getById(user.getId()).getSubjects());
-        user.setGroups(userDAO.getById(user.getId()).getGroups());
         userDAO.update(user);
     }
 
@@ -388,7 +382,7 @@ public class UserServiceImpl implements UserService {
      * 
      * @param mail
      *            mail of user what want restore password
-     *             
+     * 
      * @return UserDTO
      */
     @Override
@@ -397,18 +391,17 @@ public class UserServiceImpl implements UserService {
         User user = userDTOForRestorePasswordConverter.getEntity(userDTO);
         
         String newPassword = RandomStringUtils.randomAscii(8);
-        restorePasswordMailService.sendInfoMessageRestorePassword(
-                userDTO, LocaleContextHolder.getLocale(), newPassword, user);  
-         user.setPassword(encoder.encode(newPassword));
-//         user.setPathImage(userDAO.getById(user.getId()).getPathImage());
-//         user.setStatus(userDAO.getById(user.getId()).getStatus());
-//         user.setRole(userDAO.getById(user.getId()).getRole());
-//         user.setSubjects(userDAO.getById(user.getId()).getSubjects());
-//         user.setGroups(userDAO.getById(user.getId()).getGroups());
-         userDAO.update(user);
-         newPassword = null;
-         UserDTO userDTOFull = userDTOConverter.getDTO(user);
-         return userDTOFull;
+        
+        restorePasswordMailService.sendInfoMessageRestorePassword(userDTO,
+                LocaleContextHolder.getLocale(), newPassword, user);
+        
+        user.setPassword(encoder.encode(newPassword));
+        userDAO.update(user);
+        
+        newPassword = null;
+        
+        UserDTO userDTOFull = userDTOConverter.getDTO(user);
+        return userDTOFull;
     }
 
     @Override

@@ -68,6 +68,7 @@ public class RestorePasswordMailServise implements MailConstants  {
            Locale locale, String newPassword, User user) {
        Context ctx = new Context(locale);
        ctx.setVariable(USER_MODEL_NAME, user);
+       ctx.setVariable(PASSWORD, newPassword);
 
        try {           
            MimeMessage mimeMessage = this.mailSender.createMimeMessage();

@@ -20,13 +20,25 @@ import com.softserve.edu.schedule.entity.User;
 @Component("userDTOForRestorePasswordConverter")
 public class UserDTOForRestorePasswordConverter {
 
+    /**
+     * UserDAO example to provide database operations.
+     */
     @Autowired
     UserDAO userDAO;
 
+    /**
+     * Convert given UserDTOForRestorePassword object to User object
+     *
+     * @param userDTOForRestorePassword
+     *            a userDTOForRestorePassword object to convert.
+     *
+     * @return a User object or null if given @param userDTOForRestorePassword
+     *         is null.
+     */
     public User getEntity(final UserDTOForRestorePassword userDTO) {
 
-        User user = new User();
-        
+        User user;
+
         if (userDAO.findByMail(userDTO.getMail()) == null) {
             user = null;
         } else {
