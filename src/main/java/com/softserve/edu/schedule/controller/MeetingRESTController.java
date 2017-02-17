@@ -54,9 +54,9 @@ public class MeetingRESTController {
 			@RequestParam("roomId") final Long roomId) {
 		List<MeetingForCalendarDTO> meetings = meetingService.getMeetingsInIntervalByRoomId(roomId, start, end);
 		if (meetings.isEmpty()) {
-			return new ResponseEntity<List<MeetingForCalendarDTO>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings, HttpStatus.OK);
+		return new ResponseEntity<>(meetings, HttpStatus.OK);
 	}
 
 	/**
@@ -81,9 +81,9 @@ public class MeetingRESTController {
 			@RequestParam("userId") final String userId) {
 		List<MeetingForCalendarDTO> meetings = meetingService.getMeetingsInIntervalByUserId(userId, start, end);
 		if (meetings.isEmpty()) {
-			return new ResponseEntity<List<MeetingForCalendarDTO>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings, HttpStatus.OK);
+		return new ResponseEntity<>(meetings, HttpStatus.OK);
 	}
 
 	/**
@@ -109,9 +109,9 @@ public class MeetingRESTController {
 			@RequestParam("subjectId") final Long subjectId) {
 		List<MeetingForCalendarDTO> meetings = meetingService.getMeetingsInIntervalBySubjectId(subjectId, start, end);
 		if (meetings.isEmpty()) {
-			return new ResponseEntity<List<MeetingForCalendarDTO>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings, HttpStatus.OK);
+		return new ResponseEntity<>(meetings, HttpStatus.OK);
 	}
 
 	/**
@@ -137,8 +137,8 @@ public class MeetingRESTController {
 			@RequestParam("groupId") final Long groupId) {
 		List<MeetingForCalendarDTO> meetings = meetingService.getMeetingsInIntervalByGroupId(groupId, start, end);
 		if (meetings.isEmpty()) {
-			return new ResponseEntity<List<MeetingForCalendarDTO>>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
-		return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings, HttpStatus.OK);
+		return new ResponseEntity<>(meetings, HttpStatus.OK);
 	}
 }

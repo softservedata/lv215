@@ -52,7 +52,7 @@ public class UserPasswordValidator
     /**
      * Implements the validation logic.
      *
-     * @param roomDTO
+     * @param UserDTOForChangePassword
      *            object to validate
      * @param context
      *            context in which the constraint is evaluated
@@ -75,8 +75,8 @@ public class UserPasswordValidator
     /**
      * Checks the given userDTO password contains only allowed characters.
      * 
-     * @param userDTO
-     *            a UserDTO object to check password.
+     * @param UserDTOForChangePassword
+     *            a UserDTOForChangePassword object to check password.
      * 
      * @return true if password is valid
      */
@@ -87,10 +87,10 @@ public class UserPasswordValidator
     }
 
     /**
-     * Checks the given userDTO password contains only allowed characters.
+     * Checks the given UserDTOForChangePassword password contains only allowed characters.
      * 
-     * @param userDTO
-     *            a UserDTO object to check password.
+     * @param UserDTOForChangePassword
+     *            a UserDTOForChangePassword object to check password.
      * 
      * @return true if password is valid
      */
@@ -101,10 +101,10 @@ public class UserPasswordValidator
     }
 
     /**
-     * Checks the given userDTO password contains only allowed characters.
+     * Checks the given userDTO password is similar to firstNewPassword.
      * 
-     * @param userDTO
-     *            a UserDTO object to check password.
+     * @param UserDTOForChangePassword
+     *            a UserDTOForChangePassword object to check password.
      * 
      * @return true if password is valid
      */
@@ -131,9 +131,9 @@ public class UserPasswordValidator
     /**
      * Method sets error messages if some verification fails.
      * 
-     * @param isNameValid
-     * @param isCapacityValid
-     * @param hasNoDuplicates
+     * @param isPasswordValid
+     * @param isFirstNewPasswordValid
+     * @param isSecondNewPasswordValid
      * @param context
      */
     private void printErrorMessages(final boolean isPasswordValid,

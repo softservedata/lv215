@@ -10,33 +10,63 @@
 
 <div class="container">
 	<div class="row">
-		<div
-			class="col-md-4 col-md-offset-4  panel-default">
+		<div class="col-md-4 col-md-offset-4  panel-default">
 			<h3 class="text-center">
 				<spring:message code="lbl.meeting.edit" />
 			</h3>
 			<form:form role="form" method="post" modelAttribute="meetingForm"
 				onsubmit="return isValidForm()">
 				<form:input path="id" type="hidden" />
-				<div class="form-group">
-					<label for="subject"><spring:message
-							code="lbl.meeting.subject" /></label>
-					<form:select class="form-control" path="subject" id="subject">
-						<c:forEach items="${subjects}" var="subject">
-							<c:choose>
-								<c:when test="${meetingForm.subject.id eq subject.id}">
-									<option value="${subject.id}" selected="selected">
-									${subject.name}</option>
-								</c:when>
-								<c:otherwise>
-									<option value="${subject.id}">${subject.name}</option>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-					</form:select>
-					<br>
-					<form:errors path="subject" class="text-danger" />
-				</div>
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<div class="form-group">
+						<label for="subject"><spring:message
+								code="lbl.meeting.subject" /></label>
+						<form:select class="form-control" path="subject" id="subject">
+							<c:forEach items="${subjects}" var="subject">
+								<c:choose>
+									<c:when test="${meetingForm.subject.id eq subject.id}">
+										<option value="${subject.id}" selected="selected">
+											${subject.name}</option>
+									</c:when>
+									<c:otherwise>
+										<option value="${subject.id}">${subject.name}</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</form:select>
+						<br>
+						<form:errors path="subject" class="text-danger" />
+					</div>
+				</sec:authorize>
+				<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+					<sec:authentication property="principal.id" var="principarid" />
+					<div class="form-group">
+						<label for="subject"><spring:message
+								code="lbl.meeting.subject" /></label>
+						<form:select class="form-control" path="subject" id="subject">
+							<c:forEach items="${subjects}" var="subject">
+								<c:choose>
+									<c:when test="${meetingForm.subject.id eq subject.id}">
+										<option value="${subject.id}" selected="selected">
+											${subject.name}</option>
+									</c:when>
+									<c:otherwise>
+										<c:forEach items="${subject.users}" var="subjecttutor">
+											<c:choose>
+												<c:when test="${subjecttutor.id eq principarid}">
+													<option value="${subject.id}">${subject.name}</option>
+												</c:when>
+											</c:choose>
+										</c:forEach>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+						</form:select>
+						<br>
+						<form:errors path="subject" class="text-danger" />
+					</div>
+				</sec:authorize>
+
 				<div class="form-group">
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 						<label for="owner"><spring:message
@@ -78,7 +108,7 @@
 						<c:forEach items="${rooms}" var="room">
 							<c:choose>
 								<c:when test="${meetingForm.room.id eq room.id}">
-									<option value="${room.id}" selected="selected">${room.name}</option>
+									<option value="${room.id}" selected="selected">${room.name} (${room.location.name})</option>
 								</c:when>
 								<c:otherwise>
 									<option value="${room.id}">${room.name}</option>
@@ -126,7 +156,7 @@
 								<c:if test="${!found}">
 									<c:if test="${groupsInMeeting.id eq group.id}">
 										<option value="${group.id}" selected="selected">
-										${group.name}</option>
+											${group.name}</option>
 										<c:set var="found" value="true" />
 									</c:if>
 								</c:if>
@@ -223,8 +253,7 @@
 		var startTimeMeeting = document.getElementById("startTime").value;
 		var endTimeMeeting = document.getElementById("endTime").value;
 		if (startTimeMeeting > endTimeMeeting) {
-			document.getElementById("timevalidator").innerHTML = 
-				"Invalid time. The end of the meeting should be after the start meeting.";
+			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
 			return false;
 		}
 		return true;

@@ -136,7 +136,7 @@ public class MeetingForCalendarDTOConverter {
      * @return meeting title in String value.
      */
     private String getMeetingTitle(final Meeting meeting) {
-        StringBuffer title = new StringBuffer();
+        StringBuilder title = new StringBuilder();
         if (meeting.getSubject() != null) {
             title.append(meeting.getSubject().getName());
             title.append(NEXT_LINE);

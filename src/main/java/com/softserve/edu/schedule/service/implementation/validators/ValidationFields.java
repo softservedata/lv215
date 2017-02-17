@@ -126,5 +126,7 @@ public interface ValidationFields {
      * Old password.
      */
     String OLD_PASSWORD = "oldPassword";
+    
+    String CONFIRM_PASSWORD = "confirmPassword";
 
 }

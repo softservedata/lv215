@@ -58,14 +58,6 @@ import com.softserve.edu.schedule.service.implementation.specification.MeetingFi
 public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
     /**
-     * Overridden default constructor to provide entity class for DAO.
-     *
-     */
-    public MeetingDAOImpl() {
-        super(Meeting.class);
-    }
-
-    /**
      * UserGroupDAO example for further business logic.
      */
     @Autowired
@@ -76,6 +68,14 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      */
     @Autowired
     private UserDAO userDAO;
+
+    /**
+     * Overridden default constructor to provide entity class for DAO.
+     *
+     */
+    public MeetingDAOImpl() {
+        super(Meeting.class);
+    }
 
     /**
      * Returns List of Meetings by given MeetingFilter and Paginator.
@@ -124,7 +124,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         CriteriaQuery<Long> cq = qb.createQuery(Long.class);
         Root<Meeting> root = cq.from(Meeting.class);
         cq.select(qb.countDistinct(root));
-        
+
         Predicate predicate = new MeetingFilterSpecification(meetingFilter,
                 userGroupDAO).toPredicate(root, cq, qb);
         if (predicate != null) {
@@ -179,6 +179,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * @param meetingStatus
      *            New meeting status.
      */
+    @Override
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
         Meeting meeting = this.getById(id);
@@ -216,6 +217,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      *            name of status
      * @return MeetingStatus object.
      */
+    @Override
     public MeetingStatus getStatusbyString(final String status) {
         if (status.contains("fin") || status.contains("FIN")) {
             return MeetingStatus.FINISHED;
@@ -250,6 +252,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      *
      * @return List of Meeting
      */
+    @Override
     public List<Meeting> dublicatesOfGivenFields(final String subjectName,
             final String ownerName, final String roomName,
             final LocalDate localDate, final LocalTime localTime) {
@@ -298,12 +301,12 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
-        
+
         Predicate predicate = builder.conjunction();
         predicate = builder.and(predicate, builder.lessThan(
-                root.get(Meeting_.date), (LocalDate.now().plusDays(1))));
+                root.get(Meeting_.date), LocalDate.now().plusDays(1)));
         predicate = builder.and(predicate, builder
-                .lessThan(root.get(Meeting_.endTime), (LocalTime.now())));
+                .lessThan(root.get(Meeting_.endTime), LocalTime.now()));
         predicate = builder.and(predicate, builder
                 .not(root.get(Meeting_.status).in(MeetingStatus.FINISHED)));
         cq.where(predicate);
@@ -336,7 +339,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
         Join<Meeting, Room> roomJoin = root.join(Meeting_.room, JoinType.LEFT);
-        
+
         Predicate basePredicate = builder.conjunction();
         basePredicate = builder.and(basePredicate,
                 roomJoin.get(Room_.id).in(roomId));
@@ -422,7 +425,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         root.join(Meeting_.owner);
         root.join(Meeting_.room);
         root.join(Meeting_.groups);
-        
+
         Predicate predicate = builder.conjunction();
         predicate = builder.and(predicate,
                 builder.between(root.get(Meeting_.date), startDate, endDate));
@@ -459,7 +462,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         root.join(Meeting_.owner);
         root.join(Meeting_.room);
         Join<Meeting, UserGroup> joinGroups = root.join(Meeting_.groups);
-        
+
         Predicate basePredicate = builder.conjunction();
         basePredicate = builder.and(basePredicate,
                 builder.between(root.get(Meeting_.date), startDate, endDate));
@@ -502,7 +505,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         root.join(Meeting_.owner);
         root.join(Meeting_.room);
         root.join(Meeting_.subject);
-        
+
         Predicate predicate = builder.conjunction();
         predicate = builder.and(predicate,
                 builder.between(root.get(Meeting_.date), startDate, endDate));

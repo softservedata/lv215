@@ -238,6 +238,19 @@ public interface ControllerConst {
         String USER_MEETINGS_MAPPING = "showMeetings/";
 
         String USER_MEETINGS_URL = "/showMeetings";
+
+        String SAVE_IMAGES = "/saveImage";
+        
+        String RESTORE_PASSWORD_MAPPING = "restorePassword";
+        
+        String MAIL_MODEL_ATTR = "mail";
+        
+        String RESTORE_PASSWORD_URL = "/restorePassword";
+        
+        
+        String NO_SUCH_USER_URL = "/noSuchUser";
+        
+        String PASSWORD_WAS_SENT = "/passwordWasSent";
     }
 
     /**

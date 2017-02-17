@@ -60,7 +60,7 @@ public class ApplicationConfig {
     /**
      * DataBase user password property name.
      */
-    @Value(ConfigConstants.DB_PASSWORD)
+    @Value(ConfigConstants.DB_PASS)
     private String dbPassword;
 
     /**

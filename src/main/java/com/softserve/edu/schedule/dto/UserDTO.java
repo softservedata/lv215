@@ -35,6 +35,7 @@ public class UserDTO implements UserDetails {
     private String lastName;
     private String mail;
     private String password;
+    private String confirmPassword;
     private String phone;
     private String pathImage;
     private String position;
@@ -140,6 +141,14 @@ public class UserDTO implements UserDetails {
         this.pathImage = pathImage;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     /**
      * Returns the authorities granted to the user.
      *
@@ -148,7 +157,7 @@ public class UserDTO implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority sga = new SimpleGrantedAuthority(getRole().name());
-        List<SimpleGrantedAuthority> roles = new ArrayList<SimpleGrantedAuthority>(1);
+        List<SimpleGrantedAuthority> roles = new ArrayList<>(1);
         roles.add(sga);
         return roles;
     }
