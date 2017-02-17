@@ -120,7 +120,8 @@
 				<div class="form-group">
 					<label for="date"><spring:message code="lbl.meeting.date" /></label>
 					<form:input type="date" path="date" id="date"
-						placeholder="YYYY-MM-DD" required="true" />
+						placeholder="YYYY-MM-DD" required="true"
+						min="2017-01-01"  max="2050-01-01" />
 					<br>
 					<form:errors path="date" class="text-danger" />
 					<p id="datevalidator"></p>

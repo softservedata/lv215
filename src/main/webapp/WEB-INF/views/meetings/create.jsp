@@ -85,7 +85,8 @@
 					<label for="room"><spring:message code="lbl.meeting.room" /></label>
 					<form:select class="form-control" path="room" id="room">
 						<c:forEach items="${rooms}" var="room">
-							<option value="${room.id}">${room.name} (${room.getLocation().name})</option>
+							<option value="${room.id}">${room.name}
+								(${room.getLocation().name})</option>
 						</c:forEach>
 					</form:select>
 				</div>
@@ -93,7 +94,9 @@
 					<label for="date"><spring:message code="lbl.meeting.date" /></label>
 					<spring:message code="lbl.meeting.dates" var="datetemp" />
 					<form:input type="date" path="date" id="date"
-						placeholder="YYYY-MM-DD" required="true" />
+						placeholder="YYYY-MM-DD" required="true" 
+						 min="2017-01-01"  max="2050-01-01"
+						/>
 					<br>
 					<form:errors path="date" class="text-danger" />
 					<p id="datevalidator"></p>
@@ -173,6 +176,25 @@
 </div>
 
 <script>
+function checkform() {
+	var dateString = document.purchase.date.value;
+	var myDate = new Date(dateString);
+	var today = new Date();
+	if (document.purchase.txndt.value == "") {
+		//something is wrong
+		alert('REQUIRED FIELD ERROR: Please enter date in field!')
+		return false;
+	} else if (myDate < today) {
+		//something else is wrong
+		alert('You cannot enter a date in the future!')
+		return false;
+	}
+	// if script gets this far through all of your fields
+	// without problems, it's ok and you can submit the form
+	alert('Alles gut!')
+	return true;
+}
+
 	//Expect input as d/m/y
 	function isValidDate(s) {
 		var bits = s.split('/');
@@ -187,6 +209,7 @@
 			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
 			return false;
 		}
+		
 		return true;
 	}
 
@@ -207,18 +230,16 @@
 			width : "100%"
 		});
 	})
-	
+
 	//new
-	$("#subject").change(function(){
+	$("#subject").change(function() {
 		subjectid = $(this).val();
-		
-		 $("#ownerid").val('2').hide().trigger('chosen:updated');
-		
-		
-		
+
+	
+	/* 	$("#ownerid").val('2').hide().trigger('chosen:updated');
+		 */
 		/* $("#ownerid").val('2').trigger('chosen:updated'); */
-	} );
-	
-	
+	});
+
 	
 </script>
