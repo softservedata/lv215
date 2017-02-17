@@ -318,6 +318,7 @@ public class MeetingController
     public String showMeeting(@PathVariable(ID_URL) final Long id,
             final Model model) {
         model.addAttribute(MEETING_MODEL_ATTR, meetingService.getById(id));
+        model.addAttribute(ROOMS_MODEL_ATTR, roomService.getAll());
         return MEETING_SHOWMEETING_MAPPING;
     }
 }
