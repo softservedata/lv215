@@ -10,7 +10,7 @@ package com.softserve.edu.schedule.dto;
  * @since 1.8
  */
 public class UserDTOForRestorePassword {
-    
+
     private String mail;
 
     public String getMail() {

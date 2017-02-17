@@ -12,10 +12,12 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import com.softserve.edu.schedule.dto.UserDTOForRestorePassword;
+import com.softserve.edu.schedule.entity.User;
 
 /**
  * A class to provide mail notifications with new password.
@@ -26,6 +28,7 @@ import com.softserve.edu.schedule.dto.UserDTOForRestorePassword;
  *
  * @since 1.8
  */
+@Component
 public class RestorePasswordMailServise implements MailConstants  {
     
     /**
@@ -62,15 +65,15 @@ public class RestorePasswordMailServise implements MailConstants  {
     */
    @Async
    public void sendInfoMessageRestorePassword(final UserDTOForRestorePassword userDTO,
-           Locale locale, String newPassword) {
+           Locale locale, String newPassword, User user) {
        Context ctx = new Context(locale);
-       ctx.setVariable(USER_MODEL_NAME, userDTO);
+       ctx.setVariable(USER_MODEL_NAME, user);
 
        try {           
            MimeMessage mimeMessage = this.mailSender.createMimeMessage();
            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true,
                    DEFAULT_MESSAGE_ENCODING);
-           message.setTo(new InternetAddress(userDTO.getMail()));
+           message.setTo(new InternetAddress(user.getMail()));
            message.setFrom(new InternetAddress(fromAddress));
            message.setSubject(messageSource.getMessage(
                    RESTORE_PASSWORD_MESSAGE_SUBJECT, new String[0], locale));

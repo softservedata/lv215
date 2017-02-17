@@ -168,8 +168,9 @@ public interface UserService extends UserDetailsService {
      * 
      * @param mail
      *            mail of user what want restore password
+     *            
+     * @return UserDTO
      */
-    void submitRestorePassword(UserDTOForRestorePassword userDTO,
-            String newPassword);
+    UserDTO submitRestorePassword(UserDTOForRestorePassword userDTO);
 
 }

@@ -348,10 +348,12 @@ public class UserController implements ControllerConst.UserControllerConst,
      * @return meetings of users.
      */
     @RequestMapping(value = RESTORE_PASSWORD_MAPPING, method = RequestMethod.POST)
-    public String submitChangeForgottenPassord(@ModelAttribute(USER_MODEL_ATTR) 
-                    final UserDTOForRestorePassword userDTO){
+    public String submitChangeForgottenPassord(final Model model,
+            @ModelAttribute(USER_MODEL_ATTR) final UserDTOForRestorePassword userDTO) {
 
         if (userService.isUserWithMailExist(userDTO)) {
+            model.addAttribute(USER_MODEL_ATTR,
+                    userService.submitRestorePassword(userDTO));
             return PASSWORD_WAS_SENT;
         } else {
             return NO_SUCH_USER_URL;

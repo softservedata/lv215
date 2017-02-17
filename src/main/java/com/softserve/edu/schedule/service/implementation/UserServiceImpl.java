@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOCon
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForChangePasswordConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForRestorePasswordConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForAndroidDTOConverter;
+import com.softserve.edu.schedule.service.implementation.mailsenders.RestorePasswordMailServise;
 
 /**
  * An interface to provide service operations with User entity.
@@ -92,6 +95,13 @@ public class UserServiceImpl implements UserService {
      */
     @Autowired
     private BCryptPasswordEncoder encoder;
+    
+    /**
+     * RestorePasswordMailService example to provide send mail to user
+     * operations.
+     */
+    @Autowired
+    private RestorePasswordMailServise restorePasswordMailService;
 
     /**
      * Save new user entity into the database.
@@ -378,20 +388,27 @@ public class UserServiceImpl implements UserService {
      * 
      * @param mail
      *            mail of user what want restore password
+     *             
+     * @return UserDTO
      */
     @Override
     @Transactional
-    public void submitRestorePassword(UserDTOForRestorePassword userDTO,
-            String newPassword) {
+    public UserDTO submitRestorePassword(UserDTOForRestorePassword userDTO) {
         User user = userDTOForRestorePasswordConverter.getEntity(userDTO);
-        // user.setPassword(encoder.encode(newPassword));
-        // user.setPathImage(userDAO.getById(user.getId()).getPathImage());
-        // user.setStatus(userDAO.getById(user.getId()).getStatus());
-        // user.setRole(userDAO.getById(user.getId()).getRole());
-        // user.setSubjects(userDAO.getById(user.getId()).getSubjects());
-        // user.setGroups(userDAO.getById(user.getId()).getGroups());
-        // userDAO.update(user);
-        // newPassword = null;
+        
+        String newPassword = RandomStringUtils.randomAscii(8);
+        restorePasswordMailService.sendInfoMessageRestorePassword(
+                userDTO, LocaleContextHolder.getLocale(), newPassword, user);  
+         user.setPassword(encoder.encode(newPassword));
+//         user.setPathImage(userDAO.getById(user.getId()).getPathImage());
+//         user.setStatus(userDAO.getById(user.getId()).getStatus());
+//         user.setRole(userDAO.getById(user.getId()).getRole());
+//         user.setSubjects(userDAO.getById(user.getId()).getSubjects());
+//         user.setGroups(userDAO.getById(user.getId()).getGroups());
+         userDAO.update(user);
+         newPassword = null;
+         UserDTO userDTOFull = userDTOConverter.getDTO(user);
+         return userDTOFull;
     }
 
     @Override

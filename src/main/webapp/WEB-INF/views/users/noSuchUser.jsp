@@ -10,9 +10,12 @@
 		<div class="row">
 			<div
 				class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
-				<h3 class="text-center">
+				<h4 class="text-center">
+					<spring:message code="lbl.user.sorry" />
+				</h4>
+				<div class="form-group text-center">
 					<spring:message code="lbl.user.noSuchUser" />
-				</h3>
+				</div>
 				<div class="form-group text-center">
 					<a class="btn btn-default"
 						href="${pageContext.request.contextPath}/${UserController.RESTORE_PASSWORD_MAPPING}"><spring:message
