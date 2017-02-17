@@ -108,7 +108,7 @@
 						<c:forEach items="${rooms}" var="room">
 							<c:choose>
 								<c:when test="${meetingForm.room.id eq room.id}">
-									<option value="${room.id}" selected="selected">${room.name}</option>
+									<option value="${room.id}" selected="selected">${room.name} (${room.location.name})</option>
 								</c:when>
 								<c:otherwise>
 									<option value="${room.id}">${room.name}</option>

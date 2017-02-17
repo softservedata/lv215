@@ -238,7 +238,7 @@ public interface ControllerConst {
         String USER_MEETINGS_MAPPING = "showMeetings/";
 
         String USER_MEETINGS_URL = "/showMeetings";
-        
+
         String SAVE_IMAGES = "/saveImage";
     }
 
