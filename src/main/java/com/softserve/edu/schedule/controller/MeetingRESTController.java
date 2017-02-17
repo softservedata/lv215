@@ -56,11 +56,9 @@ public class MeetingRESTController {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByRoomId(roomId, start, end);
         if (meetings.isEmpty()) {
-            return new ResponseEntity<List<MeetingForCalendarDTO>>(
-                    HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
-                HttpStatus.OK);
+        return new ResponseEntity<>(meetings, HttpStatus.OK);
     }
 
     /**
@@ -87,11 +85,9 @@ public class MeetingRESTController {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByUserId(userId, start, end);
         if (meetings.isEmpty()) {
-            return new ResponseEntity<List<MeetingForCalendarDTO>>(
-                    HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
-                HttpStatus.OK);
+        return new ResponseEntity<>(meetings, HttpStatus.OK);
     }
 
     /**
@@ -120,11 +116,9 @@ public class MeetingRESTController {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalBySubjectId(subjectId, start, end);
         if (meetings.isEmpty()) {
-            return new ResponseEntity<List<MeetingForCalendarDTO>>(
-                    HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
-                HttpStatus.OK);
+        return new ResponseEntity<>(meetings, HttpStatus.OK);
     }
 
     /**
@@ -152,10 +146,8 @@ public class MeetingRESTController {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByGroupId(groupId, start, end);
         if (meetings.isEmpty()) {
-            return new ResponseEntity<List<MeetingForCalendarDTO>>(
-                    HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<MeetingForCalendarDTO>>(meetings,
-                HttpStatus.OK);
+        return new ResponseEntity<>(meetings, HttpStatus.OK);
     }
 }

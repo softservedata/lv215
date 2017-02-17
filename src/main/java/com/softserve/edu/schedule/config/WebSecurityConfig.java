@@ -31,6 +31,12 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /**
+     * UserDetailsService instance.
+     */
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    /**
      * Configure the HttpSecurity settings of application.
      *
      * @param http
@@ -55,12 +61,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(userDetailsService()).tokenValiditySeconds(
                         ConfigConstants.REMEMBER_ME_TOKEN_LIFE_TIME);
     }
-
-    /**
-     * UserDetailsService instance.
-     */
-    @Autowired
-    private UserDetailsService userDetailsService;
 
     /**
      * Set configured password encoder for application.

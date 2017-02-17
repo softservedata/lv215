@@ -48,7 +48,7 @@ public class UserValidator implements ConstraintValidator<Validate, UserDTO> {
     /**
      * Implements the validation logic.
      *
-     * @param roomDTO
+     * @param userDTO
      *            object to validate
      * @param context
      *            context in which the constraint is evaluated
@@ -196,9 +196,13 @@ public class UserValidator implements ConstraintValidator<Validate, UserDTO> {
     /**
      * Method sets error messages if some verification fails.
      * 
-     * @param isNameValid
-     * @param isCapacityValid
+     * @param isFirstNameValid
+     * @param isLastNameValid
+     * @param isMailValid
      * @param hasNoDuplicates
+     * @param isPhoneValid
+     * @param isPositionValid
+     * @param isPasswordValid
      * @param context
      */
     private void printErrorMessages(final boolean isFirstNameValid,

@@ -47,7 +47,7 @@ public class MailSendingConfig {
     /**
      * Mail password property name.
      */
-    @Value(ConfigConstants.MAIL_PASSWORD)
+    @Value(ConfigConstants.MAIL_PASS)
     private String mailPassword;
 
     /**
