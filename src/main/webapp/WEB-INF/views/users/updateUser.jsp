@@ -26,6 +26,7 @@
 					commandName="${UserController.USER_UPDATE_ATTR}" method="post">
 					<form:hidden path="id" />
 					<form:hidden path="password" />
+					<form:hidden path="confirmPassword" />
 					<div class="form-group">
 						<label for="firstName"><spring:message
 								code="lbl.user.firstName" />:</label>
@@ -66,7 +67,7 @@
 					</div>
 					<div class="form-group text-center">
 						<input type="submit" class="btn btn-default"
-							value="<spring:message code="lbl.form.save"/>"><a
+							value="<spring:message code="lbl.form.save"/>">   <a
 							class="btn btn-default"
 							href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}"><spring:message
 								code="lbl.form.cancel" /></a>

@@ -101,7 +101,7 @@ public class UserPasswordValidator
     }
 
     /**
-     * Checks the given userDTO password contains only allowed characters.
+     * Checks the given userDTO password is similar to firstNewPassword.
      * 
      * @param UserDTOForChangePassword
      *            a UserDTOForChangePassword object to check password.

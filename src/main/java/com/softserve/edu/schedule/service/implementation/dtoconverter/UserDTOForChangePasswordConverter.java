@@ -1,7 +1,7 @@
 package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
@@ -16,7 +16,7 @@ import com.softserve.edu.schedule.entity.User;
  *
  * @since 1.8
  */
-@Service("userDTOForPasswordConverter")
+@Component("userDTOForPasswordConverter")
 public class UserDTOForChangePasswordConverter {
 
     @Autowired
