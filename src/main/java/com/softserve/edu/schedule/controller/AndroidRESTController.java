@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
+import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.UserForAndroidDTO;
 import com.softserve.edu.schedule.service.MeetingService;
+import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.UserService;
 
 /**
- * A controller class to provide verification and meetings data for Android
- * application.
+ * A controller class to provide verification and data for Android application.
  *
  * @version 1.0 16 February 2017
  *
@@ -42,7 +43,14 @@ public class AndroidRESTController {
     private UserService userService;
 
     /**
-     * Provide ResponseEntity with UserForAndroidDTO instance by given mail and password.
+     * RoomService example to provide rooms list.
+     */
+    @Autowired
+    private RoomService roomService;
+
+    /**
+     * Provide ResponseEntity with UserForAndroidDTO instance by given mail and
+     * password.
      *
      * @param mail
      *            user Mail
@@ -58,8 +66,7 @@ public class AndroidRESTController {
             @RequestParam("userPass") final String pass) {
         UserForAndroidDTO user = userService.getVerifiedUser(mail, pass);
         if (user == null) {
-            return new ResponseEntity<>(
-                    HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
@@ -88,11 +95,24 @@ public class AndroidRESTController {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByUserId(userId, start, end);
         if (meetings.isEmpty()) {
-            return new ResponseEntity<>(
-                    HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(meetings,
-                HttpStatus.OK);
+        return new ResponseEntity<>(meetings, HttpStatus.OK);
+    }
+
+    /**
+     * Provide ResponseEntity with list of RoomDTO instances.
+     *
+     * @return ResponseEntity with list of RoomDTO instances.
+     */
+    @RequestMapping(value = "/rooms/restRoomsAndroid",
+            method = RequestMethod.GET)
+    public ResponseEntity<List<RoomDTO>> getRooms() {
+        List<RoomDTO> rooms = roomService.getAllWithDetails();
+        if (rooms.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
 }
