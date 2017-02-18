@@ -37,7 +37,6 @@ import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
 import com.softserve.edu.schedule.service.implementation.editor.MeetingDTOEditor;
-import com.softserve.edu.schedule.service.implementation.editor.MeetingStatusEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.SubjectDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.TimeEditor;
@@ -54,8 +53,8 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEdit
  */
 @RequestMapping(ControllerConst.MeetingControllerConst.MEETINGS_URL)
 @Controller
-@SessionAttributes({ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR})
+@SessionAttributes({ ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR })
 public class MeetingController
         implements ControllerConst.MeetingControllerConst {
 
@@ -137,13 +136,6 @@ public class MeetingController
      */
     @Autowired
     private MeetingDTOEditor meetingDTOEditor;
-
-    /**
-     * MeetingStatusEditor example to provide conversions from form select
-     * fields to MeetingStatus enum.
-     */
-    @Autowired
-    MeetingStatusEditor meetingStatusEditor;
 
     /**
      * Initialize binder for meeting model.
@@ -326,6 +318,7 @@ public class MeetingController
     public String showMeeting(@PathVariable(ID_URL) final Long id,
             final Model model) {
         model.addAttribute(MEETING_MODEL_ATTR, meetingService.getById(id));
+        model.addAttribute(ROOMS_MODEL_ATTR, roomService.getAll());
         return MEETING_SHOWMEETING_MAPPING;
     }
 }

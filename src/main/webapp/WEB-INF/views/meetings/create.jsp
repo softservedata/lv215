@@ -10,8 +10,7 @@
 
 <div class="container">
 	<div class="row">
-		<div
-			class=" col-md-4 col-md-offset-4  panel-default">
+		<div class=" col-md-4 col-md-offset-4  panel-default">
 			<h3 class="text-center">
 				<spring:message code="lbl.meeting.create" />
 			</h3>
@@ -19,8 +18,7 @@
 				modelAttribute="${MeetingController.MEETING_MODEL_ATTR}"
 				onsubmit="return isValidForm()">
 				<form:input path="id" type="hidden" />
-				<sec:authorize
-					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 					<div class="form-group">
 						<label for="subject"><spring:message
 								code="lbl.meeting.subject" /></label>
@@ -32,11 +30,33 @@
 						<form:errors path="subject" class="text-danger" />
 					</div>
 				</sec:authorize>
+
+				<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+					<div class="form-group">
+						<label for="subject"><spring:message
+								code="lbl.meeting.subject" /></label>
+						<sec:authentication property="principal.id" var="principarid" />
+						<form:select class="form-control" path="subject" id="subject">
+							<c:forEach items="${subjects}" var="subject">
+								<c:forEach items="${subject.users}" var="subjecttutor">
+									<c:choose>
+										<c:when test="${subjecttutor.id eq principarid}">
+											<option value="${subject.id}">${subject.name}</option>
+										</c:when>
+									</c:choose>
+								</c:forEach>
+							</c:forEach>
+
+						</form:select>
+						<form:errors path="subject" class="text-danger" />
+					</div>
+				</sec:authorize>
+
 				<div class="form-group">
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 						<label for="owner"><spring:message
 								code="lbl.meeting.owner" /></label>
-						<form:select class="form-control" path="owner" id="owner">
+						<form:select class="form-control" path="owner" id="ownerid">
 							<c:forEach items="${owners}" var="owner">
 								<option value="${owner.id}">${owner.lastName}
 									${owner.firstName}</option>
@@ -65,7 +85,7 @@
 					<label for="room"><spring:message code="lbl.meeting.room" /></label>
 					<form:select class="form-control" path="room" id="room">
 						<c:forEach items="${rooms}" var="room">
-							<option value="${room.id}">${room.name}</option>
+							<option value="${room.id}">${room.name} (${room.getLocation().name})</option>
 						</c:forEach>
 					</form:select>
 				</div>
@@ -106,7 +126,7 @@
 								<c:if test="${!found}">
 									<c:if test="${groupsInMeeting.id eq group.id}">
 										<option value="${group.id}" selected="selected">
-										${group.name}</option>
+											${group.name}</option>
 										<c:set var="found" value="true" />
 									</c:if>
 								</c:if>
@@ -164,8 +184,7 @@
 		var startTimeMeeting = document.getElementById("startTime").value;
 		var endTimeMeeting = document.getElementById("endTime").value;
 		if (startTimeMeeting > endTimeMeeting) {
-			document.getElementById("timevalidator").innerHTML = 
-				"Invalid time. The end of the meeting should be after the start meeting.";
+			document.getElementById("timevalidator").innerHTML = "Invalid time. The end of the meeting should be after the start meeting.";
 			return false;
 		}
 		return true;
@@ -188,4 +207,18 @@
 			width : "100%"
 		});
 	})
+	
+	//new
+	$("#subject").change(function(){
+		subjectid = $(this).val();
+		
+		 $("#ownerid").val('2').hide().trigger('chosen:updated');
+		
+		
+		
+		/* $("#ownerid").val('2').trigger('chosen:updated'); */
+	} );
+	
+	
+	
 </script>

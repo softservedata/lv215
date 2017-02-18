@@ -14,6 +14,7 @@
 <spring:url value="/resources/jQuery_v3.1.1/jquery-3.1.1.min.js" var="jQueryJs" />
 <spring:url value="/resources/fullcalendar-3.1.0/fullcalendar.min.css" var="fullCalendarCSS" />
 <spring:url value="/resources/bootstrap-3.3.7/css/bootstrap.min.css" var="bootStrapCSS" />
+<spring:url value="/resources/socialbuttons/bootstrap-social.css" var="bootStrapSocialCSS" />
 <spring:url value="/resources/bootstrap-3.3.7/js/bootstrap.min.js" var="bootStrapJS" />
 <spring:url value="/resources/esimakin-twbs-pagination-1.3.1/jquery.twbsPagination.min.js"
 	var="paginationJS" />
@@ -28,6 +29,7 @@
 <link rel="stylesheet" href="${mainCss}">
 <link rel="stylesheet" href="${fontCss}">
 <link rel='stylesheet' href="${fullCalendarCSS}" />
+<link rel='stylesheet' href="${bootStrapSocialCSS}" />
 <script type="text/javascript" src="${jQueryJs}"></script>
 <script type="text/javascript" src="${bootStrapJS}"></script>
 <script type="text/javascript" src="${chosenJs}"></script>

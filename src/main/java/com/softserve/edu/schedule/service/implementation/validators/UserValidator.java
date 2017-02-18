@@ -48,7 +48,7 @@ public class UserValidator implements ConstraintValidator<Validate, UserDTO> {
     /**
      * Implements the validation logic.
      *
-     * @param roomDTO
+     * @param userDTO
      *            object to validate
      * @param context
      *            context in which the constraint is evaluated
@@ -66,12 +66,13 @@ public class UserValidator implements ConstraintValidator<Validate, UserDTO> {
         boolean isPhoneValid = isPhoneValid(userDTO);
         boolean isPositionValid = isPositionValid(userDTO);
         boolean isPasswordValid = isPasswordValid(userDTO);
+        boolean isConfirmPasswordValid = isConfirmPasswordValid(userDTO);
         printErrorMessages(isFirstNameValid, isLastNameValid, isMailValid,
                 hasNoDuplicates, isPhoneValid, isPositionValid, isPasswordValid,
-                context);
+                isConfirmPasswordValid, context);
         return isFirstNameValid && isLastNameValid && isMailValid
                 && !hasNoDuplicates && isPhoneValid && isPositionValid
-                && isPasswordValid;
+                && isPasswordValid && isConfirmPasswordValid;
     }
 
     /**
@@ -179,6 +180,19 @@ public class UserValidator implements ConstraintValidator<Validate, UserDTO> {
     }
 
     /**
+     * Checks the given userDTO confirmPassword is similar to password.
+     * 
+     * @param UserDTOForChangePassword
+     *            a UserDTOForChangePassword object to check password.
+     * 
+     * @return true if password is valid
+     */
+
+    private boolean isConfirmPasswordValid(UserDTO userDTO) {
+        return userDTO.getConfirmPassword().equals(userDTO.getPassword());
+    }
+
+    /**
      * Method localizes message.
      * 
      * @param field
@@ -196,15 +210,20 @@ public class UserValidator implements ConstraintValidator<Validate, UserDTO> {
     /**
      * Method sets error messages if some verification fails.
      * 
-     * @param isNameValid
-     * @param isCapacityValid
+     * @param isFirstNameValid
+     * @param isLastNameValid
+     * @param isMailValid
      * @param hasNoDuplicates
+     * @param isPhoneValid
+     * @param isPositionValid
+     * @param isPasswordValid
      * @param context
      */
     private void printErrorMessages(final boolean isFirstNameValid,
             final boolean isLastNameValid, final boolean isMailValid,
             final boolean hasNoDuplicates, final boolean isPhoneValid,
             final boolean isPositionValid, final boolean isPasswordValid,
+            final boolean isConfirmPasswordValid,
             final ConstraintValidatorContext context) {
 
         if (!isFirstNameValid) {
@@ -243,6 +262,11 @@ public class UserValidator implements ConstraintValidator<Validate, UserDTO> {
         if (hasNoDuplicates) {
             errorMessage(ValidationFields.MAIL,
                     ValidationMessages.DUPLICATE_MAIL, context);
+        }
+        
+        if (!isConfirmPasswordValid) {
+            errorMessage(ValidationFields.CONFIRM_PASSWORD,
+                    ValidationMessages.NOT_EQUAL, context);
         }
     }
 }
