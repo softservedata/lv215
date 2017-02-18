@@ -150,7 +150,7 @@ public class SubjectController
 			return SUBJECT_CREATE_URL;
 		}
 		subjectService.create(subject);
-		driveSample.beginUpload();
+/*		driveSample.beginUpload();*/
 		return SUBJECTS_REDIRECT_URL;
 	}
 
