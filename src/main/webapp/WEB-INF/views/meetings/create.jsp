@@ -186,12 +186,12 @@ function checkform() {
 		return false;
 	} else if (myDate < today) {
 		//something else is wrong
-		alert('You cannot enter a date in the future!')
+		alert('You cannot enter a date in the past!');
 		return false;
 	}
 	// if script gets this far through all of your fields
 	// without problems, it's ok and you can submit the form
-	alert('Alles gut!')
+	alert('Alles gut!');
 	return true;
 }
 
