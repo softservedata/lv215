@@ -40,7 +40,7 @@ public class GlobalExceptionController implements ControllerConst {
     @ExceptionHandler(value = AccessDeniedException.class)
     public String accessDenied(final Exception ex) {
         log.warn(ex.getMessage(), ex);
-        return "redirect:/?accessDenied=true";
+        return "redirect:/login?accessDenied=true";
     }
 
     /**

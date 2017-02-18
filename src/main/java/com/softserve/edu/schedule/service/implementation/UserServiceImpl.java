@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -40,7 +43,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForAnd
  */
 @Service("userService")
 @PerfomanceLoggable
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, SocialUserDetailsService {
 
     // private static final String PATH =
     // "E:/Programing/lv215/src/main/webapp/resources/images/";
@@ -283,6 +286,18 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * @see UserDetailsService#loadUserByUsername(String)
+     * @param userId
+     *            the user ID used to lookup the user details
+     * @return the SocialUserDetails requested
+     */
+    @Override
+    public SocialUserDetails loadUserByUserId(String userId)
+            throws UsernameNotFoundException {
+        return loadUserByUsername(userId);
+    }
+
+    /**
      * Save image in database in the.
      * 
      * @param principal
@@ -351,6 +366,17 @@ public class UserServiceImpl implements UserService {
         return listUserDTOForMeetingOwners;
     }
 
+    /**
+     * Class used for android application user identification.
+     * 
+     * @param mail
+     *            User mail
+     * 
+     * @param password
+     *            User password
+     * 
+     * @return UserForAndroidDTO instance if user credentials are correct
+     */
     @Override
     @Transactional(readOnly = true)
     public UserForAndroidDTO getVerifiedUser(String mail, String password) {
