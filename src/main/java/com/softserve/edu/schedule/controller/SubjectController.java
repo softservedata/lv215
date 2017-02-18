@@ -27,16 +27,11 @@ import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.editor.UserForSubjectDTOEditor;
-import com.softserve.edu.schedule.service.implementation.filemanager.DriveSample;
 
 @Controller
 @SessionAttributes({ ControllerConst.SubjectControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.SubjectControllerConst.SUBJECT_PAGINATOR_MODEL_ATTR })
-public class SubjectController
-        implements ControllerConst.SubjectControllerConst {
-
-	@Autowired
-	private DriveSample driveSample;
+		ControllerConst.SubjectControllerConst.SUBJECT_PAGINATOR_MODEL_ATTR })
+public class SubjectController implements ControllerConst.SubjectControllerConst {
 
 	/**
 	 * SubjectService example to provide subjects list to the model.
@@ -79,8 +74,7 @@ public class SubjectController
 	 */
 	@InitBinder(FILTER_MODEL_ATTR)
 	protected void initBinderFilter(final WebDataBinder binder) {
-		binder.registerCustomEditor(UserForSubjectDTO.class,
-		        userForSubjectDTOEditor);
+		binder.registerCustomEditor(UserForSubjectDTO.class, userForSubjectDTOEditor);
 	}
 
 	/**
@@ -91,8 +85,7 @@ public class SubjectController
 	 */
 	@InitBinder(SUBJECT_FORM_MODEL_ATTR)
 	protected void initBinder(final WebDataBinder binder) {
-		binder.registerCustomEditor(UserForSubjectDTO.class,
-		        userForSubjectDTOEditor);
+		binder.registerCustomEditor(UserForSubjectDTO.class, userForSubjectDTOEditor);
 	}
 
 	/**
@@ -107,13 +100,10 @@ public class SubjectController
 	 * @return subjects list page URL
 	 */
 	@RequestMapping(SUBJECTS_MAPPING)
-	public String showSubjectPage(final Model model,
-	        @ModelAttribute(FILTER_MODEL_ATTR) final SubjectFilter filter,
-	        @ModelAttribute(SUBJECT_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
-		model.addAttribute(SUBJECTS_MODEL_ATTR,
-		        subjectService.getSubjectsPageWithFilter(filter, paginator));
-		model.addAttribute(USERS_MODEL_ATTR,
-		        subjectService.getAllUserForSubjectDTO());
+	public String showSubjectPage(final Model model, @ModelAttribute(FILTER_MODEL_ATTR) final SubjectFilter filter,
+			@ModelAttribute(SUBJECT_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
+		model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getSubjectsPageWithFilter(filter, paginator));
+		model.addAttribute(USERS_MODEL_ATTR, subjectService.getAllUserForSubjectDTO());
 		return SUBJECTS_LIST_URL;
 	}
 
@@ -128,8 +118,7 @@ public class SubjectController
 	@RequestMapping(SUBJECT_CREATE_MAPPING)
 	public String createForm(final Model model) {
 		model.addAttribute(SUBJECT_FORM_MODEL_ATTR, new SubjectDTO());
-		model.addAttribute(USERS_MODEL_ATTR,
-		        subjectService.getAllUserForSubjectDTO());
+		model.addAttribute(USERS_MODEL_ATTR, subjectService.getAllUserForSubjectDTO());
 		return SUBJECT_CREATE_URL;
 	}
 
@@ -141,16 +130,13 @@ public class SubjectController
 	 * @return subjects list page URL (redirect)
 	 */
 	@RequestMapping(value = SUBJECT_CREATE_MAPPING, method = RequestMethod.POST)
-	public String create(
-	        @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
-	        final BindingResult result, final Model model) {
+	public String create(@ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
+			final BindingResult result, final Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute(USERS_MODEL_ATTR,
-			        subjectService.getAllUserForSubjectDTO());
+			model.addAttribute(USERS_MODEL_ATTR, subjectService.getAllUserForSubjectDTO());
 			return SUBJECT_CREATE_URL;
 		}
 		subjectService.create(subject);
-/*		driveSample.beginUpload();*/
 		return SUBJECTS_REDIRECT_URL;
 	}
 
@@ -165,8 +151,7 @@ public class SubjectController
 	@RequestMapping(SUBJECT_EDIT_MAPPING + "{id}")
 	public String editForm(@PathVariable final Long id, final Model model) {
 		model.addAttribute(SUBJECT_FORM_MODEL_ATTR, subjectService.getById(id));
-		model.addAttribute(USERS_MODEL_ATTR,
-		        subjectService.getAllUserForSubjectDTO());
+		model.addAttribute(USERS_MODEL_ATTR, subjectService.getAllUserForSubjectDTO());
 		return SUBJECTS_EDIT_URL;
 	}
 
@@ -177,14 +162,11 @@ public class SubjectController
 	 *            subjects edit page model
 	 * @return subjects list page URL (redirect)
 	 */
-	@RequestMapping(value = SUBJECT_EDIT_MAPPING
-	        + "{id}", method = RequestMethod.POST)
-	public String edit(
-	        @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
-	        final BindingResult result, final Model model) {
+	@RequestMapping(value = SUBJECT_EDIT_MAPPING + "{id}", method = RequestMethod.POST)
+	public String edit(@ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
+			final BindingResult result, final Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute(USERS_MODEL_ATTR,
-			        subjectService.getAllUserForSubjectDTO());
+			model.addAttribute(USERS_MODEL_ATTR, subjectService.getAllUserForSubjectDTO());
 			return SUBJECTS_EDIT_URL;
 		}
 		subjectService.update(subject);
@@ -217,8 +199,7 @@ public class SubjectController
 	 * @return subject show detail page URL
 	 */
 	@RequestMapping(SUBJECTS_MAPPING_SHOW + "{id}")
-	public String showSubjectDetails(@PathVariable final Long id,
-	        final Model model) {
+	public String showSubjectDetails(@PathVariable final Long id, final Model model) {
 		model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
 		return SUBJECTS_SHOW_URL;
 	}
