@@ -2,6 +2,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
 
 <div class="container">
 	<c:if test="${param.accessDenied eq true}">
@@ -48,6 +49,11 @@
 					</label>
 					<input type="checkbox" name="remember-me" id="remember-me" checked="checked">
 				</div>
+				<div class="form-group">
+					<label for="restorePassword"><a
+						href="${pageContext.request.contextPath}/${UserController.RESTORE_PASSWORD_MAPPING}"><spring:message
+								code="lbl.user.restorePassword" /></a></label>
+				</div >
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default" value="<spring:message code="lbl.auth.enter"/>" />
 					<a class="btn btn-default" href="${pageContext.request.contextPath}/">

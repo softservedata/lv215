@@ -36,6 +36,7 @@ public class UserDTO implements UserDetails, SocialUserDetails {
     private String lastName;
     private String mail;
     private String password;
+    private String confirmPassword;
     private String phone;
     private String pathImage;
     private String position;
@@ -139,6 +140,14 @@ public class UserDTO implements UserDetails, SocialUserDetails {
 
     public void setPathImage(String pathImage) {
         this.pathImage = pathImage;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     /**

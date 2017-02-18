@@ -8,6 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
+import com.softserve.edu.schedule.dto.UserDTOForRestorePassword;
 import com.softserve.edu.schedule.dto.UserForAndroidDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
@@ -164,5 +165,23 @@ public interface UserService extends UserDetailsService {
      * @return UserForAndroidDTO instance if user credentials are correct
      */
     UserForAndroidDTO getVerifiedUser(String mail, String password);
+
+    /**
+     * Check if user with this mail exist.
+     * 
+     * @param userDTO
+     *            mail of user what want restore password
+     */
+    boolean isUserWithMailExist(UserDTOForRestorePassword userDTO);
+
+    /**
+     * Restore password and sent mail about this.
+     * 
+     * @param mail
+     *            mail of user what want restore password
+     *            
+     * @return UserDTO
+     */
+    UserDTO submitRestorePassword(UserDTOForRestorePassword userDTO);
 
 }
