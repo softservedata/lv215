@@ -49,8 +49,8 @@ public class SubjectEntityListner {
 
     /**
      * Set to all meetings for subject null value, change status of all future
-     * meetings to NOT_APPROVED and send mail messages to their owners.
-     * Send messages about subjec delete to all subject tutors.
+     * meetings to NOT_APPROVED and send mail messages to their owners. Send
+     * messages about subjec delete to all subject tutors.
      *
      * @param subject
      *            subject to proceed meetings
@@ -60,16 +60,50 @@ public class SubjectEntityListner {
     public void processingSubjectBeforeDeletion(final Subject subject) {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         List<Meeting> meetingsToChange = new ArrayList<>();
+        correctMeeting(subject, meetingsToChange);
+        mailsForMeetinOwners(meetingsToChange);
+        mailsForSubjectTutors(subject);
+    }
+
+    /**
+     * Correct meeting.
+     * 
+     * @param subject
+     *            subject to delete
+     *
+     */
+    private void correctMeeting(final Subject subject,
+            final List<Meeting> meetings) {
         subject.getMeetings().forEach(m -> {
             if (m.getDate().isAfter(LocalDate.now().minusDays(1))) {
                 m.setStatus(MeetingStatus.NOT_APPROVED);
-                meetingsToChange.add(m);
+                meetings.add(m);
             }
             m.setSubject(null);
         });
-        meetingsToChange.forEach(
+    }
+
+    /**
+     * Sends mail to meeting owners.
+     * 
+     * @param meetings
+     *            meetings to get owner
+     *
+     */
+    private void mailsForMeetinOwners(final List<Meeting> meetings) {
+        meetings.forEach(
                 m -> meetingCanceledMailService.sendInfoMessageSubjectDelete(m,
                         LocaleContextHolder.getLocale()));
+    }
+
+    /**
+     * Sends mail to subject tutors.
+     * 
+     * @param subject
+     *            subject to get tutor
+     *
+     */
+    private void mailsForSubjectTutors(final Subject subject) {
         subject.getUsers()
                 .forEach(u -> subjectDeletedMailService
                         .sendInfoMessageSubjectDelete(subject, u,
