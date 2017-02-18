@@ -67,9 +67,9 @@
 						</form></li>
 				</sec:authorize>
 				<sec:authorize access="!isAuthenticated()">
-					<li><a href="${pageContext.request.contextPath}/registration">
+					<%-- <li><a href="${pageContext.request.contextPath}/registration">
 							<spring:message code="lbl.nav.signUp" />
-					</a></li>
+					</a></li> --%>
 					<li><a href="${pageContext.request.contextPath}/login"> <span
 							class="glyphicon glyphicon-log-in"></span> <spring:message
 								code="lbl.nav.signIn" />

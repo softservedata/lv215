@@ -18,6 +18,15 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import com.softserve.edu.schedule.entity.User;
 
+/**
+ * A class to provide mail notifications when user were registered.
+ *
+ * @version 1.0 23 January 2017
+ *
+ * @author Serhiy Dudynsky
+ *
+ * @since 1.8
+ */
 @Component
 public class RegistrationMailServise implements MailConstants {
     /**
