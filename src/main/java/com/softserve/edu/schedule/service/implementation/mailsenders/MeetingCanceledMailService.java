@@ -13,7 +13,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
@@ -30,7 +30,7 @@ import com.softserve.edu.schedule.entity.Meeting;
  *
  * @since 1.8
  */
-@Service
+@Component
 public class MeetingCanceledMailService implements MailConstants {
 
     /**
