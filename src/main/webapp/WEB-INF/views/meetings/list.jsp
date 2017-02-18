@@ -266,7 +266,9 @@
 						</sec:authorize></td>
 				<td><a
 					href="${pageContext.request.contextPath}/
-					${MeetingController.ROOMS_MODEL_ATTR}/${meeting.room.id}">${meeting.room.name}</a>
+					${MeetingController.ROOMS_MODEL_ATTR}/${meeting.room.id}">
+					${meeting.room.name} (${meeting.room.location.name})
+					</a>
 				</td>
 				<td>${meeting.date}</td>
 				<td>${meeting.startTime}</td>

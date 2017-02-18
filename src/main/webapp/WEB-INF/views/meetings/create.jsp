@@ -56,7 +56,7 @@
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 						<label for="owner"><spring:message
 								code="lbl.meeting.owner" /></label>
-						<form:select class="form-control" path="owner" id="owner">
+						<form:select class="form-control" path="owner" id="ownerid">
 							<c:forEach items="${owners}" var="owner">
 								<option value="${owner.id}">${owner.lastName}
 									${owner.firstName}</option>
@@ -85,7 +85,7 @@
 					<label for="room"><spring:message code="lbl.meeting.room" /></label>
 					<form:select class="form-control" path="room" id="room">
 						<c:forEach items="${rooms}" var="room">
-							<option value="${room.id}">${room.name}</option>
+							<option value="${room.id}">${room.name} (${room.getLocation().name})</option>
 						</c:forEach>
 					</form:select>
 				</div>
@@ -207,4 +207,18 @@
 			width : "100%"
 		});
 	})
+	
+	//new
+	$("#subject").change(function(){
+		subjectid = $(this).val();
+		
+		 $("#ownerid").val('2').hide().trigger('chosen:updated');
+		
+		
+		
+		/* $("#ownerid").val('2').trigger('chosen:updated'); */
+	} );
+	
+	
+	
 </script>

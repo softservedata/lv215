@@ -9,7 +9,7 @@ import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dao.UserGroupDAO;
-
+import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
@@ -135,6 +135,10 @@ public class MeetingDTOConverter {
                 RoomDTO roomDTO = new RoomDTO();
                 roomDTO.setId(room.getId());
                 roomDTO.setName(room.getName());
+                LocationDTO locationDTO = new LocationDTO();
+                locationDTO.setId(room.getLocation().getId());
+                locationDTO.setName(room.getLocation().getName());
+                roomDTO.setLocation(locationDTO);
                 meetingDTO.setRoom(roomDTO);
             }
             if (meeting.getDate() != null) {

@@ -74,6 +74,18 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/users/showCalendar.jsp" />
 	</definition>
+	<definition extends="common" name="/restorePassword">
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/restorePassword.jsp" />
+	</definition>
+	<definition extends="common" name="/noSuchUser">
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/noSuchUser.jsp" />
+	</definition>
+	<definition extends="common" name="/passwordWasSent">
+		<put-attribute name="body"
+			value="/WEB-INF/views/users/passwordWasSent.jsp" />
+	</definition>
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
 

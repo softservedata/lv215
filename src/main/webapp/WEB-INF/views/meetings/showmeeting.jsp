@@ -64,7 +64,7 @@
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.room" /></b> : <a
 						href="${pageContext.request.contextPath}/${MeetingController.ROOMS_MODEL_ATTR}/
-						${meetingForm.room.id}">${meetingForm.room.name}</a>
+						${meetingForm.room.id}">${meetingForm.room.name} (${meetingForm.room.location.name})</a>
 				</div>
 
 				<div class="form-group">

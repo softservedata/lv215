@@ -1,6 +1,6 @@
 package com.softserve.edu.schedule.entitylisteners;
 
-import javax.persistence.PrePersist;
+import javax.persistence.PostPersist;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -22,11 +22,10 @@ public class UserEntityListener {
      * Send mail messages to new user after registration
      * 
      * @param user
-     *            User just registed.
-     * 
+     *            User just registered.
      */
-    @PrePersist
-    public void processingBeforUserRegistration(User user) {
+    @PostPersist
+    public void processingAfterUserRegistration(User user) {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         registrationMailService.sendInfoMessageRegistration(
                 user, LocaleContextHolder.getLocale());

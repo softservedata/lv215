@@ -38,7 +38,7 @@ public class ApplicationInitializer
             throws ServletException {
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(ApplicationConfig.class, WebSecurityConfig.class,
-                TaskExecutorsConfig.class, MailSendingConfig.class);
+                TaskExecutorsConfig.class, MailSendingConfig.class, SocialConfig.class);
         servletContext.addListener(new ContextLoaderListener(rootContext));
 
         AnnotationConfigWebApplicationContext servletAppContext = new AnnotationConfigWebApplicationContext();
