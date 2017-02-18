@@ -105,6 +105,12 @@ public class User {
     private List<UserGroup> groups = new ArrayList<>();
 
     /**
+     * Social media service used for user sign in.
+     */
+    @Enumerated
+    private SocialMediaService socialMediaService;
+
+    /**
      * @return the id
      */
     public Long getId() {
@@ -179,6 +185,13 @@ public class User {
      */
     public List<UserGroup> getGroups() {
         return groups;
+    }
+
+    /**
+     * @return the socialMediaService
+     */
+    public SocialMediaService getSocialMediaService() {
+        return socialMediaService;
     }
 
     /**
@@ -282,6 +295,14 @@ public class User {
      */
     public void setPathImage(final String pathImage) {
         this.pathImage = pathImage;
+    }
+
+    /**
+     * @param socialMediaService
+     *            the socialMediaService to set
+     */
+    public void setSocialMediaService(SocialMediaService socialMediaService) {
+        this.socialMediaService = socialMediaService;
     }
 
 }

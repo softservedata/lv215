@@ -5,9 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -17,6 +22,7 @@ import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
+import com.softserve.edu.schedule.dto.UserDTOForRestorePassword;
 import com.softserve.edu.schedule.dto.UserForAndroidDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
@@ -27,7 +33,9 @@ import com.softserve.edu.schedule.entity.User_;
 import com.softserve.edu.schedule.service.UserService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForChangePasswordConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForRestorePasswordConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForAndroidDTOConverter;
+import com.softserve.edu.schedule.service.implementation.mailsenders.RestorePasswordMailServise;
 
 /**
  * An interface to provide service operations with User entity.
@@ -40,7 +48,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForAnd
  */
 @Service("userService")
 @PerfomanceLoggable
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, SocialUserDetailsService {
 
     // private static final String PATH =
     // "E:/Programing/lv215/src/main/webapp/resources/images/";
@@ -80,10 +88,23 @@ public class UserServiceImpl implements UserService {
     private UserDTOForChangePasswordConverter userDTOForPasswordConverter;
 
     /**
+     * UserDAOForRestorePassword example to provide conversion.
+     */
+    @Autowired
+    private UserDTOForRestorePasswordConverter userDTOForRestorePasswordConverter;
+
+    /**
      * BCryptPasswordEncoder example to provide encoder for password.
      */
     @Autowired
     private BCryptPasswordEncoder encoder;
+
+    /**
+     * RestorePasswordMailService example to provide send mail to user
+     * operations.
+     */
+    @Autowired
+    private RestorePasswordMailServise restorePasswordMailService;
 
     /**
      * Save new user entity into the database.
@@ -142,12 +163,6 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void update(final UserDTO userDTO) {
         User user = userDTOConverter.getEntity(userDTO);
-        user.setPassword(userDTO.getPassword());
-        user.setPathImage(userDAO.getById(user.getId()).getPathImage());
-        user.setStatus(userDAO.getById(user.getId()).getStatus());
-        user.setRole(userDAO.getById(user.getId()).getRole());
-        user.setSubjects(userDAO.getById(user.getId()).getSubjects());
-        user.setGroups(userDAO.getById(user.getId()).getGroups());
         userDAO.update(user);
     }
 
@@ -277,9 +292,23 @@ public class UserServiceImpl implements UserService {
             throws UsernameNotFoundException {
         User user = userDAO.findByMail(userMail);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+//            throw new UsernameNotFoundException("User not found");
+            return null;
         }
         return userDTOConverter.getDTO(user);
+    }
+
+    /**
+     * @see UserDetailsService#loadUserByUsername(String)
+     * @param userId
+     *            the user ID used to lookup the user details
+     * @return the SocialUserDetails requested
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public SocialUserDetails loadUserByUserId(String userId)
+            throws UsernameNotFoundException {
+        return loadUserByUsername(userId);
     }
 
     /**
@@ -351,8 +380,58 @@ public class UserServiceImpl implements UserService {
         return listUserDTOForMeetingOwners;
     }
 
+    /**
+     * Check if user with this mail exist.**
+     * 
+     * @param userDTO
+     *            mail of user what want restore password
+     */
+    public boolean isUserWithMailExist(UserDTOForRestorePassword userDTO) {
+        User user = userDTOForRestorePasswordConverter.getEntity(userDTO);
+        if (user != null) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Restore password and sent mail about this.
+     * 
+     * @param mail
+     *            mail of user what want restore password
+     * 
+     * @return UserDTO
+     */
     @Override
-    @Transactional(readOnly = true)
+    @Transactional
+    public UserDTO submitRestorePassword(UserDTOForRestorePassword userDTO) {
+        User user = userDTOForRestorePasswordConverter.getEntity(userDTO);
+
+        String newPassword = RandomStringUtils.randomAscii(8);
+
+        restorePasswordMailService.sendInfoMessageRestorePassword(userDTO,
+                LocaleContextHolder.getLocale(), newPassword, user);
+
+        user.setPassword(encoder.encode(newPassword));
+        userDAO.update(user);
+
+        newPassword = null;
+
+        UserDTO userDTOFull = userDTOConverter.getDTO(user);
+        return userDTOFull;
+    }
+
+    /**
+     * Class used for android application user identification.
+     * 
+     * @param mail
+     *            User mail
+     * 
+     * @param password
+     *            User password
+     * 
+     * @return UserForAndroidDTO instance if user credentials are correct
+     */
     public UserForAndroidDTO getVerifiedUser(String mail, String password) {
         User user = userDAO.findByMail(mail);
         if (user != null && user.getStatus().equals(UserStatus.ACTIVE)

@@ -3,17 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
-<c:if test="${param.accessDenied eq true}">
-	<div class="row">
-		<div
-			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-4 col-sm-offset-4 panel panel-default">
-			<h3 class="text-danger text-center">
-				<spring:message code="lbl.index.securityMessage" />
-			</h3>
-		</div>
-	</div>
-</c:if>
-
 <div class="row chosen-category-row">
 	<div class="col-lg-2 col-md-2 col-sm-2 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
 		<select class="chosen-category" id="ch1">

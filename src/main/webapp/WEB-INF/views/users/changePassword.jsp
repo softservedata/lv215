@@ -57,7 +57,7 @@
 					</div>
 					<div class="form-group text-center">
 						<input type="submit" class="btn btn-default"
-							value="<spring:message code="lbl.form.save"/>"><a
+							value="<spring:message code="lbl.form.save"/>"> <a
 							class="btn btn-default"
 							href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}"><spring:message
 								code="lbl.form.cancel" /></a>

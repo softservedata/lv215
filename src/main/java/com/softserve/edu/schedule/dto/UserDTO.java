@@ -8,7 +8,9 @@ import java.util.Objects;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.social.security.SocialUserDetails;
 
+import com.softserve.edu.schedule.entity.SocialMediaService;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.service.implementation.validators.Validate;
@@ -23,7 +25,7 @@ import com.softserve.edu.schedule.service.implementation.validators.Validate;
  * @since 1.8
  */
 @Validate
-public class UserDTO implements UserDetails {
+public class UserDTO implements UserDetails, SocialUserDetails {
 
     /**
      * Serial version UID for serialization.
@@ -35,6 +37,7 @@ public class UserDTO implements UserDetails {
     private String lastName;
     private String mail;
     private String password;
+    private String confirmPassword;
     private String phone;
     private String pathImage;
     private String position;
@@ -42,6 +45,7 @@ public class UserDTO implements UserDetails {
     private UserRole role;
     private List<UserGroupForUserDTO> groups = new ArrayList<>();
     private List<SubjectForUserDTO> subjects = new ArrayList<>();
+    private SocialMediaService signInProvider;
 
     public Long getId() {
         return id;
@@ -140,6 +144,29 @@ public class UserDTO implements UserDetails {
         this.pathImage = pathImage;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    /**
+     * @return the signInProvider
+     */
+    public SocialMediaService getSignInProvider() {
+        return signInProvider;
+    }
+
+    /**
+     * @param signInProvider
+     *            the signInProvider to set
+     */
+    public void setSignInProvider(SocialMediaService signInProvider) {
+        this.signInProvider = signInProvider;
+    }
+
     /**
      * Returns the authorities granted to the user.
      *
@@ -147,7 +174,8 @@ public class UserDTO implements UserDetails {
      */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority sga = new SimpleGrantedAuthority(getRole().name());
+        SimpleGrantedAuthority sga = new SimpleGrantedAuthority(
+                getRole().name());
         List<SimpleGrantedAuthority> roles = new ArrayList<>(1);
         roles.add(sga);
         return roles;
@@ -231,5 +259,34 @@ public class UserDTO implements UserDetails {
     @Override
     public int hashCode() {
         return Objects.hash(mail);
+    }
+
+    /**
+     * The user's identity at the provider. Might be same as getUsername() if
+     * users are identified by username
+     * 
+     * @return user's id used to assign connections
+     */
+    @Override
+    public String getUserId() {
+        return getMail();
+    }
+
+    /**
+     * Check whatever user is sign in by enter credentials.
+     * 
+     * @return true if user is sign in by enter credentials.
+     */
+    public boolean isNormalRegistration() {
+        return signInProvider == null;
+    }
+
+    /**
+     * Check whatever user is sign in by social network.
+     * 
+     * @return true if user is sign in by social network.
+     */
+    public boolean isSocialSignIn() {
+        return signInProvider != null;
     }
 }

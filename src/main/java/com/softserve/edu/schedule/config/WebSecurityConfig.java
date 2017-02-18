@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 /**
@@ -58,8 +59,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureUrl(ConfigConstants.LOGIN_FAILURE_URL).and().logout()
                 .logoutSuccessUrl(ConfigConstants.START_URL).and().rememberMe()
                 .key(ConfigConstants.REMEMBER_ME_KEY)
-                .userDetailsService(userDetailsService()).tokenValiditySeconds(
-                        ConfigConstants.REMEMBER_ME_TOKEN_LIFE_TIME);
+                .userDetailsService(userDetailsService())
+                .tokenValiditySeconds(
+                        ConfigConstants.REMEMBER_ME_TOKEN_LIFE_TIME)
+                .and().apply(new SpringSocialConfigurer());
     }
 
     /**
