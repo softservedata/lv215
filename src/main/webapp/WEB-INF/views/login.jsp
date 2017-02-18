@@ -49,11 +49,6 @@
 					</label>
 					<input type="checkbox" name="remember-me" id="remember-me" checked="checked">
 				</div>
-				<div class="form-group">
-					<label for="restorePassword"><a
-						href="${pageContext.request.contextPath}/${UserController.RESTORE_PASSWORD_MAPPING}"><spring:message
-								code="lbl.user.restorePassword" /></a></label>
-				</div >
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default" value="<spring:message code="lbl.auth.enter"/>" />
 					<a class="btn btn-default" href="${pageContext.request.contextPath}/">
@@ -64,6 +59,11 @@
 			<div class="form-group">
 				<a href="${pageContext.request.contextPath}/registration">
 					<spring:message code="lbl.nav.signUp" />
+				</a>
+			</div>
+			<div class="form-group">
+				<a href="${pageContext.request.contextPath}/${UserController.RESTORE_PASSWORD_MAPPING}">
+					<spring:message code="lbl.user.restorePassword" />
 				</a>
 			</div>
 		</div>
