@@ -13,6 +13,7 @@ import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.connect.UsersConnectionRepository;
 import org.springframework.social.connect.jdbc.JdbcUsersConnectionRepository;
 import org.springframework.social.connect.web.ConnectController;
+import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
@@ -34,12 +35,18 @@ public class SocialConfig implements SocialConfigurer {
         cfConfig.addConnectionFactory(new TwitterConnectionFactory(
                 env.getProperty("twitter.consumer.key"),
                 env.getProperty("twitter.consumer.secret")));
-        cfConfig.addConnectionFactory(new FacebookConnectionFactory(
+
+        FacebookConnectionFactory facebookConnectionFactory = new FacebookConnectionFactory(
                 env.getProperty("facebook.app.id"),
-                env.getProperty("facebook.app.secret")));
-        cfConfig.addConnectionFactory(
-                new GoogleConnectionFactory(env.getProperty("google.app.id"),
-                        env.getProperty("google.app.secret")));
+                env.getProperty("facebook.app.secret"));
+        facebookConnectionFactory.setScope("public_profile,email");
+        cfConfig.addConnectionFactory(facebookConnectionFactory);
+
+        GoogleConnectionFactory googleConnectionFactory = new GoogleConnectionFactory(
+                env.getProperty("google.app.id"),
+                env.getProperty("google.app.secret"));
+        googleConnectionFactory.setScope("profile email");
+        cfConfig.addConnectionFactory(googleConnectionFactory);
 
     }
 
@@ -52,8 +59,7 @@ public class SocialConfig implements SocialConfigurer {
     public UsersConnectionRepository getUsersConnectionRepository(
             ConnectionFactoryLocator connectionFactoryLocator) {
         return new JdbcUsersConnectionRepository(dataSource,
-                connectionFactoryLocator,
-                Encryptors.noOpText());
+                connectionFactoryLocator, Encryptors.noOpText());
     }
 
     @Bean
@@ -62,6 +68,13 @@ public class SocialConfig implements SocialConfigurer {
             ConnectionRepository connectionRepository) {
         return new ConnectController(connectionFactoryLocator,
                 connectionRepository);
+    }
+
+    @Bean
+    public ProviderSignInUtils getProviderSignInUtils(
+            ConnectionFactoryLocator connectionFactoryLocator) {
+        return new ProviderSignInUtils(connectionFactoryLocator,
+                getUsersConnectionRepository(connectionFactoryLocator));
     }
 
 }

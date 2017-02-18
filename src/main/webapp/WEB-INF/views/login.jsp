@@ -85,7 +85,8 @@
 			</div>
 			<div class="row social-button-row">
 				<div class="col-lg-6 col-md-6 col-sm-8">
-					<a href="${pageContext.request.contextPath}/auth/google"
+					<a
+						href="${pageContext.request.contextPath}/auth/google"
 						class="btn btn-block btn-social btn-google">
 						<span class="fa fa-google"></span>
 						<spring:message code="label.social.sign.in.google" />

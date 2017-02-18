@@ -292,7 +292,8 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
             throws UsernameNotFoundException {
         User user = userDAO.findByMail(userMail);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+//            throw new UsernameNotFoundException("User not found");
+            return null;
         }
         return userDTOConverter.getDTO(user);
     }
@@ -304,6 +305,7 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      * @return the SocialUserDetails requested
      */
     @Override
+    @Transactional(readOnly = true)
     public SocialUserDetails loadUserByUserId(String userId)
             throws UsernameNotFoundException {
         return loadUserByUsername(userId);
