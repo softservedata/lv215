@@ -7,10 +7,17 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.social.connect.Connection;
+import org.springframework.social.connect.ConnectionKey;
+import org.springframework.social.connect.UserProfile;
 import org.springframework.social.security.SocialUserDetails;
 import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Service;
@@ -19,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.MeetingDAO;
+import com.softserve.edu.schedule.dao.UserConnectionDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
@@ -26,6 +34,7 @@ import com.softserve.edu.schedule.dto.UserDTOForRestorePassword;
 import com.softserve.edu.schedule.dto.UserForAndroidDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.UserFilter;
+import com.softserve.edu.schedule.entity.SocialMediaService;
 import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
@@ -62,6 +71,12 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      */
     @Autowired
     private UserDAO userDAO;
+
+    /**
+     * UserConnectionDAO example to provide database operations.
+     */
+    @Autowired
+    private UserConnectionDAO userConnectionDAO;
 
     /**
      * UserDAO example to provide database operations.
@@ -133,6 +148,9 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     public void changeStatus(final Long id, final UserStatus status) {
         User user = userDAO.getById(id);
         user.setStatus(status);
+        if (status != UserStatus.ACTIVE) {
+            userConnectionDAO.deleteConnectionsByUserId(user.getMail());
+        }
         userDAO.update(user);
     }
 
@@ -142,7 +160,7 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      * @param id
      *            a user id in database.
      *
-     * @param role
+     * @param userRole
      *            a role from enum class UserRole.
      */
     @Override
@@ -204,6 +222,8 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
                 .noneMatch(e -> e.getCurator().getId().equals(id)))
                 && (meetingDAO.getAll().stream()
                         .noneMatch(e -> e.getOwner().getId().equals(id)))) {
+            userConnectionDAO
+                    .deleteConnectionsByUserId(userDAO.getById(id).getMail());
             userDAO.deleteById(id);
             return true;
         } else {
@@ -214,9 +234,9 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     /**
      * Find a userDTO in the database by mail.
      *
-     * @param user
+     * @param mail
      *            mail a user mail to find in the database.
-     * 
+     *
      * @return list userDTO with given mail.
      */
     @Override
@@ -236,7 +256,7 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      */
     @Override
     @Transactional
-    public void changePassword(UserDTOForChangePassword userDTO) {
+    public void changePassword(final UserDTOForChangePassword userDTO) {
         User user = userDTOForPasswordConverter.getEntity(userDTO);
         user.setPassword(encoder.encode(userDTO.getSecondNewPassword()));
         userDAO.update(user);
@@ -257,8 +277,8 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     }
 
     /**
-     * Find all user entities in the database with applied filter
-     * 
+     * Find all user entities in the database with applied filter.
+     *
      * @param userFilter
      *            a filter to apply.
      * @param userPaginator
@@ -292,7 +312,8 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
             throws UsernameNotFoundException {
         User user = userDAO.findByMail(userMail);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            // throw new UsernameNotFoundException("User not found");
+            return null;
         }
         return userDTOConverter.getDTO(user);
     }
@@ -304,14 +325,15 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      * @return the SocialUserDetails requested
      */
     @Override
-    public SocialUserDetails loadUserByUserId(String userId)
+    @Transactional(readOnly = true)
+    public SocialUserDetails loadUserByUserId(final String userId)
             throws UsernameNotFoundException {
         return loadUserByUsername(userId);
     }
 
     /**
      * Save image in database in the.
-     * 
+     *
      * @param principal
      *            a authorized userDTO.
      * @param multipartFile
@@ -319,7 +341,8 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      */
     @Override
     @Transactional
-    public void saveImage(Principal principal, MultipartFile multipartFile) {
+    public void saveImage(final Principal principal,
+            final MultipartFile multipartFile) {
         //
         // User user = userDAO.findByMail(principal.getName());
         //
@@ -348,7 +371,7 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.softserve.edu.schedule.service.UserService#getAllActiveUsers()
      */
     @Override
@@ -361,13 +384,12 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see
      * com.softserve.edu.schedule.service.UserService#getAllManagers(java.util.
      * List)
      */
     @Override
-    @Transactional(readOnly = true)
     public List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO) {
         List<UserDTO> listUserDTOForMeetingOwners = new ArrayList<UserDTO>();
         for (UserDTO userTEMP : listUserDTO) {
@@ -379,12 +401,14 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     }
 
     /**
-     * Check if user with this mail exist.**
-     * 
+     * Check if user with this mail exist.
+     *
      * @param userDTO
      *            mail of user what want restore password
+     * @return true if user exist
      */
-    public boolean isUserWithMailExist(UserDTOForRestorePassword userDTO) {
+    public boolean isUserWithMailExist(
+            final UserDTOForRestorePassword userDTO) {
         User user = userDTOForRestorePasswordConverter.getEntity(userDTO);
         if (user != null) {
             return true;
@@ -394,15 +418,16 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
 
     /**
      * Restore password and sent mail about this.
-     * 
-     * @param mail
-     *            mail of user what want restore password
-     * 
+     *
+     * @param userDTO
+     *            user DTO for restore password
+     *
      * @return UserDTO
      */
     @Override
     @Transactional
-    public UserDTO submitRestorePassword(UserDTOForRestorePassword userDTO) {
+    public UserDTO submitRestorePassword(
+            final UserDTOForRestorePassword userDTO) {
         User user = userDTOForRestorePasswordConverter.getEntity(userDTO);
 
         String newPassword = RandomStringUtils.randomAscii(8);
@@ -421,21 +446,61 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
 
     /**
      * Class used for android application user identification.
-     * 
+     *
      * @param mail
      *            User mail
-     * 
+     *
      * @param password
      *            User password
-     * 
+     *
      * @return UserForAndroidDTO instance if user credentials are correct
      */
-    public UserForAndroidDTO getVerifiedUser(String mail, String password) {
+    public UserForAndroidDTO getVerifiedUser(final String mail,
+            final String password) {
         User user = userDAO.findByMail(mail);
         if (user != null && user.getStatus().equals(UserStatus.ACTIVE)
                 && encoder.matches(password, user.getPassword())) {
             return userForAndroidDTOConverter.getDTO(user);
         }
         return null;
+    }
+
+    /**
+     * Provide import data from social network account if user is signing in
+     * with social network account.
+     *
+     * @param connection
+     *            social network connection.
+     *
+     * @return UserDTO instance
+     */
+    @Override
+    public UserDTO createRegistrationDTO(final Connection<?> connection) {
+        UserDTO dto = new UserDTO();
+        if (connection != null) {
+            UserProfile socialMediaProfile = connection.fetchUserProfile();
+            dto.setMail(socialMediaProfile.getEmail());
+            dto.setFirstName(socialMediaProfile.getFirstName());
+            dto.setLastName(socialMediaProfile.getLastName());
+            ConnectionKey providerKey = connection.getKey();
+            dto.setSignInProvider(SocialMediaService
+                    .valueOf(providerKey.getProviderId().toUpperCase()));
+        }
+        return dto;
+    }
+
+    /**
+     * Provide autologin for new users.
+     *
+     * @param userDTO
+     *            user DTO of new user
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public void autoLoginUser(UserDTO userDTO) {
+        UserDetails userDetails = loadUserByUsername(userDTO.getMail());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

@@ -47,7 +47,11 @@ public class UserDTOConverter {
      */
     public User getEntity(final UserDTO userDTO) {
 
-        User user = userDAO.getById(userDTO.getId());
+        User user = new User();
+
+        if (userDTO.getId() != null) {
+            user = userDAO.getById(userDTO.getId());
+        }
 
         user.setId(userDTO.getId());
 
@@ -60,6 +64,10 @@ public class UserDTOConverter {
         user.setPhone(userDTO.getPhone());
 
         user.setPosition(userDTO.getPosition());
+
+        user.setPassword(userDTO.getPassword());
+
+        user.setSocialMediaService(userDTO.getSignInProvider());
 
         return user;
 
@@ -94,6 +102,8 @@ public class UserDTOConverter {
         userDTO.setPathImage(user.getPathImage());
 
         userDTO.setPosition(user.getPosition());
+
+        userDTO.setSignInProvider(user.getSocialMediaService());
 
         if (user.getStatus() != null) {
             userDTO.setStatus(user.getStatus());

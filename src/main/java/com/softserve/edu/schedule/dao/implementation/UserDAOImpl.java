@@ -22,23 +22,23 @@ import com.softserve.edu.schedule.service.implementation.specification.UserFilte
 @Repository
 public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
 
-	/**
-	 * Constructor for UserDAOImpl class.
-	 */
-	public UserDAOImpl() {
-		super(User.class);
-	}
+    /**
+     * Constructor for UserDAOImpl class.
+     */
+    public UserDAOImpl() {
+        super(User.class);
+    }
 
-	/**
-	 * Delete existed user entity from the database by id.
-	 *
-	 * @param id
-	 *            a user id to delete from database.
-	 */
-	@Override
-	public void deleteById(final Long id) {
-		delete(getById(id));
-	}
+    /**
+     * Delete existed user entity from the database by id.
+     *
+     * @param id
+     *            a user id to delete from database.
+     */
+    @Override
+    public void deleteById(final Long id) {
+        delete(getById(id));
+    }
 
     /**
      * Find user in the DB by given mail.
@@ -46,20 +46,20 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
      * @param userMail
      *            user mail to find user in database
      *
-     * @return User object with given mail or null if not finded.
+     * @return User object with given mail or null if not found.
      */
-	@Override
-	public User findByMail(final String userMail) {
-		try {
-			CriteriaBuilder builder = getEm().getCriteriaBuilder();
-			CriteriaQuery<User> cq = builder.createQuery(User.class);
-			Root<User> root = cq.from(User.class);
-			cq.where(builder.like(root.get(User_.mail), userMail));
-			return getEm().createQuery(cq).getSingleResult();
-		} catch (NoResultException e) {
-			return null;
-		}
-	}
+    @Override
+    public User findByMail(final String userMail) {
+        try {
+            CriteriaBuilder builder = getEm().getCriteriaBuilder();
+            CriteriaQuery<User> cq = builder.createQuery(User.class);
+            Root<User> root = cq.from(User.class);
+            cq.where(builder.like(root.get(User_.mail), userMail));
+            return getEm().createQuery(cq).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
+    }
 
     /**
      * Find all user entities in the database with applied filter
@@ -85,7 +85,7 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
                 .setFirstResult(userPaginator.getOffset())
                 .setMaxResults(userPaginator.getPageSize()).getResultList();
     }
-    
+
     /**
      * Count user entities in the database with specified filter
      *
@@ -108,7 +108,7 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
         }
         return getEm().createQuery(cq).getSingleResult();
     }
-    
+
     /**
      * Method returns lists of users which have role - moderator
      * 
@@ -119,10 +119,11 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<User> cq = builder.createQuery(User.class);
         Root<User> root = cq.from(User.class);
-        cq.where(builder.equal(root.get(User_.role), UserRole.ROLE_MODERATOR.ordinal()));
+        cq.where(builder.equal(root.get(User_.role),
+                UserRole.ROLE_MODERATOR.ordinal()));
         return getEm().createQuery(cq).getResultList();
     }
-    
+
     /*
      * (non-Javadoc)
      * 
@@ -133,7 +134,8 @@ public class UserDAOImpl extends CrudDAOImpl<User> implements UserDAO {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<User> cq = builder.createQuery(User.class);
         Root<User> root = cq.from(User.class);
-        cq.where(builder.equal(root.get(User_.status), UserStatus.ACTIVE.ordinal()));
+        cq.where(builder.equal(root.get(User_.status),
+                UserStatus.ACTIVE.ordinal()));
         return getEm().createQuery(cq).getResultList();
     }
 }

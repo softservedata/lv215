@@ -32,6 +32,26 @@ public class TaskExecutorsConfig
         implements AsyncConfigurer, SchedulingConfigurer {
 
     /**
+     * Async task executor core pool size.
+     */
+    private static final int ASYNC_EXECUTOR_CORE_POOL_SIZE = 10;
+
+    /**
+     * Async task executor max pool size.
+     */
+    private static final int ASYNC_EXECUTOR_MAX_POOL_SIZE = 20;
+
+    /**
+     * Async task executor queue capacity.
+     */
+    private static final int ASYNC_EXECUTOR_QUEUE_CAPACITY = 1000;
+
+    /**
+     * Scheduled task executor pool size.
+     */
+    private static final int SCHEDULED_EXECUTOR_POOL_SIZE = 10;
+
+    /**
      * Provides the Executor instance to be used when processing async method
      * invocations.
      *
@@ -40,12 +60,10 @@ public class TaskExecutorsConfig
     @Override
     public Executor getAsyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(ConfigConstants.ASYNC_EXECUTOR_CORE_POOL_SIZE);
-        executor.setMaxPoolSize(ConfigConstants.ASYNC_EXECUTOR_MAX_POOL_SIZE);
-        executor.setQueueCapacity(
-                ConfigConstants.ASYNC_EXECUTOR_QUEUE_CAPACITY);
-        executor.setThreadNamePrefix(
-                ConfigConstants.ASYNC_EXECUTOR_THREAD_PREFIX);
+        executor.setCorePoolSize(ASYNC_EXECUTOR_CORE_POOL_SIZE);
+        executor.setMaxPoolSize(ASYNC_EXECUTOR_MAX_POOL_SIZE);
+        executor.setQueueCapacity(ASYNC_EXECUTOR_QUEUE_CAPACITY);
+        executor.setThreadNamePrefix("AsyncExecutor-");
         executor.initialize();
         return executor;
     }
@@ -79,10 +97,9 @@ public class TaskExecutorsConfig
      *
      * @return Executor instance
      */
-    @Bean(destroyMethod = ConfigConstants.SCHEDULED_EXECUTOR_DESTROY_METHOD)
+    @Bean(destroyMethod = "shutdown")
     public Executor scheduledTaskExecutor() {
-        return Executors.newScheduledThreadPool(
-                ConfigConstants.SCHEDULED_EXECUTOR_POOL_SIZE);
+        return Executors.newScheduledThreadPool(SCHEDULED_EXECUTOR_POOL_SIZE);
     }
 
 }

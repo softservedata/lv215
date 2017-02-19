@@ -26,6 +26,11 @@
 					<spring:message code="lbl.auth.errorMessadge" />
 				</h4>
 			</c:if>
+			<c:if test="${param.acount_inactive eq true}">
+				<h4 class="text-danger">
+					<spring:message code="lbl.auth.acountInactiveMessage" />
+				</h4>
+			</c:if>
 			<form:form role="form" action="${pageContext.request.contextPath}/login" method="post">
 				<div class="form-group">
 					<label for="username">
@@ -71,9 +76,6 @@
 	<div class="row">
 		<div
 			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
-			<h3 class="text-center">
-				<spring:message code="label.social.sign.in.title" />
-			</h3>
 			<div class="row social-button-row">
 				<div class="col-lg-6 col-md-6 col-sm-8">
 					<a href="${pageContext.request.contextPath}/auth/facebook"
@@ -82,22 +84,11 @@
 						<spring:message code="label.social.sign.in.facebook" />
 					</a>
 				</div>
-			</div>
-			<div class="row social-button-row">
 				<div class="col-lg-6 col-md-6 col-sm-8">
 					<a href="${pageContext.request.contextPath}/auth/google"
 						class="btn btn-block btn-social btn-google">
 						<span class="fa fa-google"></span>
 						<spring:message code="label.social.sign.in.google" />
-					</a>
-				</div>
-			</div>
-			<div class="row social-button-row">
-				<div class="col-lg-6 col-md-6 col-sm-8">
-					<a href="${pageContext.request.contextPath}/auth/twitter"
-						class="btn btn-block btn-social btn-twitter">
-						<span class="fa fa-twitter"></span>
-						<spring:message code="label.social.sign.in.twitter" />
 					</a>
 				</div>
 			</div>
