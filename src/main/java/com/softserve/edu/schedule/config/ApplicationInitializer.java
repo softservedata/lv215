@@ -38,7 +38,8 @@ public class ApplicationInitializer
             throws ServletException {
         AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
         rootContext.register(ApplicationConfig.class, WebSecurityConfig.class,
-                TaskExecutorsConfig.class, MailSendingConfig.class, SocialConfig.class);
+                TaskExecutorsConfig.class, MailSendingConfig.class,
+                SocialConfig.class);
         servletContext.addListener(new ContextLoaderListener(rootContext));
 
         AnnotationConfigWebApplicationContext servletAppContext = new AnnotationConfigWebApplicationContext();
@@ -50,7 +51,7 @@ public class ApplicationInitializer
         ServletRegistration.Dynamic dispatcher = servletContext
                 .addServlet("dispatcher", dispatcherServlet);
         dispatcher.setLoadOnStartup(1);
-        dispatcher.addMapping(ConfigConstants.START_URL);
+        dispatcher.addMapping("/");
     }
 
     /**

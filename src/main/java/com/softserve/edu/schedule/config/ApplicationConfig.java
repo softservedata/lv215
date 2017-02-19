@@ -7,13 +7,14 @@ import javax.persistence.EntityManagerFactory;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.hibernate.jpa.HibernatePersistenceProvider;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -32,66 +33,33 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  * @since 1.8
  */
 @Configuration
-@ComponentScan(ConfigConstants.PACKAGES_TO_SCAN)
-@PropertySource({ConfigConstants.DB_CONFIG_PROPERTIES})
+@ComponentScan("com.softserve.edu.schedule")
+@PropertySource({"/WEB-INF/db.properties"})
 @EnableJpaRepositories
 @EnableTransactionManagement
 @EnableAspectJAutoProxy
 public class ApplicationConfig {
 
     /**
-     * DataBase driver class property name.
+     * Data source connection pool initial size.
      */
-    @Value(ConfigConstants.DB_DRIVER_CLASS_NAME)
-    private String driverClassName;
+    private static final int DATA_SOURCE_CON_POOL_INIT_SIZE = 5;
 
     /**
-     * DataBase URL property name.
+     * Data source connection pool maximum connections.
      */
-    @Value(ConfigConstants.DB_URL)
-    private String databaseurl;
+    private static final int DATA_SOURCE_CON_POOL_MAX_SIZE = 10;
 
     /**
-     * DataBase username property name.
+     * Data source connection pool maximum idle connections.
      */
-    @Value(ConfigConstants.DB_USERNAME)
-    private String dbUserName;
+    private static final int DATA_SOURCE_CON_POOL_MAX_IDLE = 10;
 
     /**
-     * DataBase user password property name.
+     * Environment instance to get properties.
      */
-    @Value(ConfigConstants.DB_PASS)
-    private String dbPassword;
-
-    /**
-     * DataBase dialect property name.
-     */
-    @Value(ConfigConstants.DB_DIALECT)
-    private String dbDialect;
-
-    /**
-     * DataBase hbm2ddl property name.
-     */
-    @Value(ConfigConstants.HBM2DDL_AUTO)
-    private String hbm2ddlAuto;
-
-    /**
-     * DataBase show SQL property name.
-     */
-    @Value(ConfigConstants.DB_SHOW_SQL)
-    private String showSQL;
-
-    /**
-     * Hibernate set big string try clob property name.
-     */
-    @Value(ConfigConstants.DB_HB_SET_BIG_STRING_TC)
-    private String hbSetBigStringTryClob;
-
-    /**
-     * Hibernate JDBC batch size property mapping.
-     */
-    @Value(ConfigConstants.DB_HB_JDBC_BATCH_SIZE)
-    private String hbJdbcBatchSize;
+    @Autowired
+    private Environment env;
 
     /**
      * Resolves ${...} placeholders within bean definition property values and
@@ -123,17 +91,16 @@ public class ApplicationConfig {
      *
      * @return DataSource example
      */
-    @Bean(destroyMethod = ConfigConstants.DATA_SOURCE_DESTROY_METHOD)
+    @Bean(destroyMethod = "close")
     public DataSource dataSource() {
         DataSource dataSource = new DataSource();
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(databaseurl);
-        dataSource.setUsername(dbUserName);
-        dataSource.setPassword(dbPassword);
-        dataSource
-                .setInitialSize(ConfigConstants.DATA_SOURCE_CON_POOL_INIT_SIZE);
-        dataSource.setMaxActive(ConfigConstants.DATA_SOURCE_CON_POOL_MAX_SIZE);
-        dataSource.setMaxIdle(ConfigConstants.DATA_SOURCE_CON_POOL_MAX_IDLE);
+        dataSource.setDriverClassName(env.getProperty("db.driverClassName"));
+        dataSource.setUrl(env.getProperty("db.databaseurl"));
+        dataSource.setUsername(env.getProperty("db.username"));
+        dataSource.setPassword(env.getProperty("db.password"));
+        dataSource.setInitialSize(DATA_SOURCE_CON_POOL_INIT_SIZE);
+        dataSource.setMaxActive(DATA_SOURCE_CON_POOL_MAX_SIZE);
+        dataSource.setMaxIdle(DATA_SOURCE_CON_POOL_MAX_IDLE);
         return dataSource;
     }
 
@@ -146,18 +113,21 @@ public class ApplicationConfig {
     public EntityManagerFactory entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(jpaVendorAdapter());
-        factory.setPackagesToScan(ConfigConstants.ENTITY_LOCATION);
+        factory.setPackagesToScan("com.softserve.edu.schedule.entity");
         factory.setDataSource(dataSource());
         factory.afterPropertiesSet();
         factory.setPersistenceProvider(new HibernatePersistenceProvider());
         Properties jpaProperties = new Properties();
-        jpaProperties.setProperty(ConfigConstants.HIBERNATE_DIALECT, dbDialect);
-        jpaProperties.setProperty(ConfigConstants.HIBERNATE_SHOW_SQL, showSQL);
-        jpaProperties.setProperty(ConfigConstants.HBM2DDL_AUTO, hbm2ddlAuto);
-        jpaProperties.setProperty(ConfigConstants.HIBERNATE_SBSTC,
-                hbSetBigStringTryClob);
-        jpaProperties.setProperty(ConfigConstants.HIBERNATE_JDBC_BATCH_SIZE,
-                hbJdbcBatchSize);
+        jpaProperties.setProperty("hibernate.dialect",
+                env.getProperty("db.dialect"));
+        jpaProperties.setProperty("hibernate.show_sql",
+                env.getProperty("db.showSQL"));
+        jpaProperties.setProperty("hibernate.hbm2ddl.auto",
+                env.getProperty("db.hbm2ddl.auto"));
+        jpaProperties.setProperty("hibernate.connection.SetBigStringTryClob",
+                env.getProperty("db.hbSetBigStringTryClob"));
+        jpaProperties.setProperty("hibernate.jdbc.batch_size",
+                env.getProperty("db.hbJdbcBatchSize"));
         factory.setJpaProperties(jpaProperties);
         return factory.getObject();
     }

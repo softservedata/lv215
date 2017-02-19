@@ -1,9 +1,13 @@
+/* SocialConfig 1.0 02/18/2017 */
 package com.softserve.edu.schedule.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.*;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.encrypt.Encryptors;
+import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
@@ -21,17 +25,38 @@ import org.springframework.social.twitter.connect.TwitterConnectionFactory;
 
 import javax.sql.DataSource;
 
+/**
+ * Social network APIs configuration of application.
+ *
+ * @version 1.0 18 February 2017
+ *
+ * @author Petro Zelyonka
+ *
+ * @since 1.8
+ */
 @Configuration
 @PropertySource({"/WEB-INF/social.properties"})
 @EnableSocial
 public class SocialConfig implements SocialConfigurer {
 
+    /**
+     * Data source instance for storage users connections.
+     */
     @Autowired
     private DataSource dataSource;
 
+    /**
+     * Callback method to allow configuration of ConnectionFactorys.
+     *
+     * @param cfConfig
+     *            A configurer for adding ConnectionFactory instances.
+     * @param env
+     *            The Spring environment, useful for fetching application
+     *            credentials needed to create a ConnectionFactory instance.
+     */
     @Override
-    public void addConnectionFactories(ConnectionFactoryConfigurer cfConfig,
-            Environment env) {
+    public void addConnectionFactories(
+            final ConnectionFactoryConfigurer cfConfig, final Environment env) {
         cfConfig.addConnectionFactory(new TwitterConnectionFactory(
                 env.getProperty("twitter.consumer.key"),
                 env.getProperty("twitter.consumer.secret")));
@@ -50,29 +75,71 @@ public class SocialConfig implements SocialConfigurer {
 
     }
 
+    /**
+     * Callback method to enable creation of a UserIdSource that uniquely
+     * identifies the current user.
+     *
+     * @return the UserIdSource.
+     */
     @Override
     public UserIdSource getUserIdSource() {
         return new AuthenticationNameUserIdSource();
     }
 
+    /**
+     * Callback method to create an instance of UsersConnectionRepository. Will
+     * be used to create a request-scoped instance of ConnectionRepository for
+     * the current user.
+     *
+     * @param connectionFactoryLocator
+     *            A ConnectionFactoryLocator to be used by the
+     *            UsersConnectionRepository.
+     * @return An instance of UsersConnectionRepository.
+     */
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(
-            ConnectionFactoryLocator connectionFactoryLocator) {
+            final ConnectionFactoryLocator connectionFactoryLocator) {
+        String salt = KeyGenerators.string().generateKey();
         return new JdbcUsersConnectionRepository(dataSource,
-                connectionFactoryLocator, Encryptors.noOpText());
+                connectionFactoryLocator,
+                Encryptors.text("Scheduler_app", salt));
     }
 
+    /**
+     * Create an instance of ConnectController for managing the
+     * account-to-service-provider connection flow.
+     *
+     * @param connectionFactoryLocator
+     *            A ConnectionFactoryLocator to be used by the
+     *            ConnectController.
+     *
+     * @param connectionRepository
+     *            A ConnectionRepository instance to persist user social
+     *            connections.
+     *
+     * @return An instance of ConnectController.
+     */
     @Bean
     public ConnectController connectController(
-            ConnectionFactoryLocator connectionFactoryLocator,
-            ConnectionRepository connectionRepository) {
+            final ConnectionFactoryLocator connectionFactoryLocator,
+            final ConnectionRepository connectionRepository) {
         return new ConnectController(connectionFactoryLocator,
                 connectionRepository);
     }
 
+    /**
+     * Create an instance of ProviderSignInUtils for support provider user
+     * sign-in scenarios.
+     *
+     * @param connectionFactoryLocator
+     *            A ConnectionFactoryLocator to be used by the
+     *            ProviderSignInUtils.
+     *
+     * @return An instance of ProviderSignInUtils.
+     */
     @Bean
     public ProviderSignInUtils getProviderSignInUtils(
-            ConnectionFactoryLocator connectionFactoryLocator) {
+            final ConnectionFactoryLocator connectionFactoryLocator) {
         return new ProviderSignInUtils(connectionFactoryLocator,
                 getUsersConnectionRepository(connectionFactoryLocator));
     }

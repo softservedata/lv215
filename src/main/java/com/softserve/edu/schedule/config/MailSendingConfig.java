@@ -3,10 +3,12 @@ package com.softserve.edu.schedule.config;
 
 import java.util.Properties;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.apache.commons.codec.CharEncoding;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
@@ -23,44 +25,14 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
  * @since 1.8
  */
 @Configuration
-@PropertySource({ConfigConstants.MAIL_CONFIG_PROPERTIES})
+@PropertySource({"/WEB-INF/mail.properties"})
 public class MailSendingConfig {
 
     /**
-     * Mail host property name.
+     * Environment instance to get properties.
      */
-    @Value(ConfigConstants.MAIL_HOST)
-    private String mailHost;
-
-    /**
-     * Mail port property name.
-     */
-    @Value(ConfigConstants.MAIL_PORT)
-    private String mailPort;
-
-    /**
-     * Mail username property name.
-     */
-    @Value(ConfigConstants.MAIL_USERNAME)
-    private String mailUserName;
-
-    /**
-     * Mail password property name.
-     */
-    @Value(ConfigConstants.MAIL_PASS)
-    private String mailPassword;
-
-    /**
-     * Mail SMTP authorization property name.
-     */
-    @Value(ConfigConstants.MAIL_SMTP_AUTH)
-    private String smtpAuth;
-
-    /**
-     * Mail start TLS enable property name.
-     */
-    @Value(ConfigConstants.MAIL_START_TLS)
-    private String smtpStartTLS;
+    @Autowired
+    private Environment env;
 
     /**
      * Set configured mail sender service for application.
@@ -70,15 +42,15 @@ public class MailSendingConfig {
     @Bean
     public JavaMailSenderImpl mailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(mailHost);
-        mailSender.setPort(Integer.parseInt(mailPort));
-        mailSender.setUsername(mailUserName);
-        mailSender.setPassword(mailPassword);
+        mailSender.setHost(env.getProperty("mail.host"));
+        mailSender.setPort(Integer.parseInt(env.getProperty("mail.port")));
+        mailSender.setUsername(env.getProperty("mail.userName"));
+        mailSender.setPassword(env.getProperty("mail.password"));
         Properties mailProperties = new Properties();
-        mailProperties.setProperty(ConfigConstants.MAIL_SMTP_AUTH_NAME,
-                smtpAuth);
-        mailProperties.setProperty(ConfigConstants.MAIL_START_TLS_NAME,
-                smtpStartTLS);
+        mailProperties.setProperty("mail.smtp.auth",
+                env.getProperty("mail.smtp.auth"));
+        mailProperties.setProperty("mail.smtp.starttls.enable",
+                env.getProperty("mail.smtp.starttls.enable"));
         mailSender.setJavaMailProperties(mailProperties);
         return mailSender;
     }
@@ -102,10 +74,10 @@ public class MailSendingConfig {
      */
     private ITemplateResolver htmlTemplateResolver() {
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setPrefix(ConfigConstants.THYMELEAF_PREFIX);
-        templateResolver.setSuffix(ConfigConstants.THYMELEAF_SUFFIX);
+        templateResolver.setPrefix("/thymeleaf/");
+        templateResolver.setSuffix(".html");
         templateResolver.setTemplateMode(TemplateMode.HTML);
-        templateResolver.setCharacterEncoding(ConfigConstants.UTF8);
+        templateResolver.setCharacterEncoding(CharEncoding.UTF_8);
         templateResolver.setCacheable(false);
         return templateResolver;
     }
