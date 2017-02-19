@@ -1,3 +1,4 @@
+/* RegistrationController 1.0 01/20/2017 */
 package com.softserve.edu.schedule.controller;
 
 import javax.validation.Valid;
@@ -9,8 +10,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionKey;
-import org.springframework.social.connect.UserProfile;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
 import com.softserve.edu.schedule.dto.UserDTO;
-import com.softserve.edu.schedule.entity.SocialMediaService;
 import com.softserve.edu.schedule.service.UserService;
 
 /**
@@ -37,6 +35,9 @@ import com.softserve.edu.schedule.service.UserService;
 public class RegistrationController
         implements ControllerConst.RegistrationControllerConst {
 
+    /**
+     * UserService example to provide business logic for user entity.
+     */
     @Autowired
     private UserService userService;
 
@@ -52,11 +53,14 @@ public class RegistrationController
      * @param model
      *            user registration page view model.
      *
+     * @param request
+     *            WebRequest instance to get social connection
+     *
      * @return start page URL
      */
     @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE,
             method = RequestMethod.GET)
-    public String newUserPage(WebRequest request, Model model) {
+    public String newUserPage(final WebRequest request, final Model model) {
         Connection<?> connection = providerSignInUtils
                 .getConnectionFromSession(request);
         UserDetails userDetails = userService
@@ -69,31 +73,8 @@ public class RegistrationController
             return "calendar";
         }
         model.addAttribute(USER_REGIST_MODEL_ATTR,
-                createRegistrationDTO(connection));
+                userService.createRegistrationDTO(connection));
         return USER_REGIST_URL;
-    }
-
-    /**
-     * Provide import data from social network account if user is signing in
-     * with social network account.
-     *
-     * @param connection
-     *            social network connection.
-     *
-     * @return UserDTO instance
-     */
-    private UserDTO createRegistrationDTO(Connection<?> connection) {
-        UserDTO dto = new UserDTO();
-        if (connection != null) {
-            UserProfile socialMediaProfile = connection.fetchUserProfile();
-            dto.setMail(socialMediaProfile.getEmail());
-            dto.setFirstName(socialMediaProfile.getFirstName());
-            dto.setLastName(socialMediaProfile.getLastName());
-            ConnectionKey providerKey = connection.getKey();
-            dto.setSignInProvider(SocialMediaService
-                    .valueOf(providerKey.getProviderId().toUpperCase()));
-        }
-        return dto;
     }
 
     /**
@@ -106,7 +87,7 @@ public class RegistrationController
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN)
-    public String newUserPageForAdmin(Model model) {
+    public String newUserPageForAdmin(final Model model) {
         model.addAttribute(USER_REGIST_MODEL_ATTR, new UserDTO());
         return USER_REGIST_URL;
     }
@@ -114,8 +95,12 @@ public class RegistrationController
     /**
      * Controls view of user create form.
      *
-     * @param User
-     *            user example which is built based on form data.
+     * @param userDTO
+     *            user DTO example which is built based on form data.
+     * @param br
+     *            binding result to check validation errors
+     * @param request
+     *            WebRequest instance to get social connection
      *
      * @return start page URL
      */
@@ -123,7 +108,7 @@ public class RegistrationController
             method = RequestMethod.POST)
     public String newUserFromStartPage(
             @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
-            BindingResult br, WebRequest request) {
+            final BindingResult br, final WebRequest request) {
         if (br.hasErrors()) {
             return USER_REGIST_URL;
         }
@@ -135,8 +120,10 @@ public class RegistrationController
     /**
      * Controls view of user create form for administrator.
      *
-     * @param User
-     *            user example which is built based on form data.
+     * @param userDTO
+     *            user DTO example which is built based on form data.
+     * @param br
+     *            binding result to check validation errors
      *
      * @return users page URL
      */
@@ -144,7 +131,7 @@ public class RegistrationController
             method = RequestMethod.POST)
     public String newUserForAdmin(
             @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
-            BindingResult br) {
+            final BindingResult br) {
         if (br.hasErrors()) {
             return USER_REGIST_URL;
         }
