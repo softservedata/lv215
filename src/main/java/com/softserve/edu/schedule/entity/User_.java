@@ -18,4 +18,5 @@ public class User_ {
     public static volatile SingularAttribute<User, UserRole> role;
     public static volatile ListAttribute<User, Subject> subjects;
     public static volatile ListAttribute<User, UserGroup> groups;
+    public static volatile SingularAttribute<User, SocialMediaService> socialMediaService;
 }

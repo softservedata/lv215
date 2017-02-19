@@ -152,7 +152,18 @@ public interface UserService extends UserDetailsService {
      * @return List<UserDTO>
      */
     List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO);
-    
+
+    /**
+     * Class used for android application user identification.
+     * 
+     * @param mail
+     *            User mail
+     * 
+     * @param password
+     *            User password
+     * 
+     * @return UserForAndroidDTO instance if user credentials are correct
+     */
     UserForAndroidDTO getVerifiedUser(String mail, String password);
 
     /**

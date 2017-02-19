@@ -7,9 +7,12 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.social.security.SocialUserDetails;
+import org.springframework.social.security.SocialUserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,7 +48,7 @@ import com.softserve.edu.schedule.service.implementation.mailsenders.RestorePass
  */
 @Service("userService")
 @PerfomanceLoggable
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, SocialUserDetailsService {
 
     // private static final String PATH =
     // "E:/Programing/lv215/src/main/webapp/resources/images/";
@@ -289,9 +292,23 @@ public class UserServiceImpl implements UserService {
             throws UsernameNotFoundException {
         User user = userDAO.findByMail(userMail);
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+//            throw new UsernameNotFoundException("User not found");
+            return null;
         }
         return userDTOConverter.getDTO(user);
+    }
+
+    /**
+     * @see UserDetailsService#loadUserByUsername(String)
+     * @param userId
+     *            the user ID used to lookup the user details
+     * @return the SocialUserDetails requested
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public SocialUserDetails loadUserByUserId(String userId)
+            throws UsernameNotFoundException {
+        return loadUserByUsername(userId);
     }
 
     /**
@@ -364,7 +381,7 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * Check if user with this mail exist.
+     * Check if user with this mail exist.**
      * 
      * @param userDTO
      *            mail of user what want restore password
@@ -389,23 +406,32 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public UserDTO submitRestorePassword(UserDTOForRestorePassword userDTO) {
         User user = userDTOForRestorePasswordConverter.getEntity(userDTO);
-        
+
         String newPassword = RandomStringUtils.randomAscii(8);
-        
+
         restorePasswordMailService.sendInfoMessageRestorePassword(userDTO,
                 LocaleContextHolder.getLocale(), newPassword, user);
-        
+
         user.setPassword(encoder.encode(newPassword));
         userDAO.update(user);
-        
+
         newPassword = null;
-        
+
         UserDTO userDTOFull = userDTOConverter.getDTO(user);
         return userDTOFull;
     }
 
-    @Override
-    @Transactional(readOnly = true)
+    /**
+     * Class used for android application user identification.
+     * 
+     * @param mail
+     *            User mail
+     * 
+     * @param password
+     *            User password
+     * 
+     * @return UserForAndroidDTO instance if user credentials are correct
+     */
     public UserForAndroidDTO getVerifiedUser(String mail, String password) {
         User user = userDAO.findByMail(mail);
         if (user != null && user.getStatus().equals(UserStatus.ACTIVE)
