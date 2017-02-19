@@ -515,4 +515,20 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
+
+	@Override
+	public List<Meeting> getFinishedMeetings() {
+		 CriteriaBuilder builder = getEm().getCriteriaBuilder();
+	        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+	        Root<Meeting> root = cq.from(Meeting.class);
+
+	        Predicate predicate = builder.conjunction();
+	        predicate = builder.and(predicate, builder.lessThan(
+	                root.get(Meeting_.date), LocalDate.now().plusDays(1)));
+	        predicate = builder.and(predicate, builder
+	                .lessThan(root.get(Meeting_.endTime), LocalTime.now()));
+	        cq.where(predicate);
+	        cq.distinct(true);
+	        return getEm().createQuery(cq).getResultList();
+	}
 }
