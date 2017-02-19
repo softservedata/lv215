@@ -78,7 +78,7 @@ public class User {
      * User status in system.
      */
     @Enumerated
-    private UserStatus status = UserStatus.NEW_USER;
+    private UserStatus status = UserStatus.ACTIVE;
 
     /**
      * User role in system.

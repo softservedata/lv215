@@ -7,6 +7,10 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.MeetingDAO;
+import com.softserve.edu.schedule.dao.UserConnectionDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
@@ -66,6 +71,12 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      */
     @Autowired
     private UserDAO userDAO;
+
+    /**
+     * UserConnectionDAO example to provide database operations.
+     */
+    @Autowired
+    private UserConnectionDAO userConnectionDAO;
 
     /**
      * UserDAO example to provide database operations.
@@ -137,6 +148,9 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     public void changeStatus(final Long id, final UserStatus status) {
         User user = userDAO.getById(id);
         user.setStatus(status);
+        if (status != UserStatus.ACTIVE) {
+            userConnectionDAO.deleteConnectionsByUserId(user.getMail());
+        }
         userDAO.update(user);
     }
 
@@ -208,6 +222,8 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
                 .noneMatch(e -> e.getCurator().getId().equals(id)))
                 && (meetingDAO.getAll().stream()
                         .noneMatch(e -> e.getOwner().getId().equals(id)))) {
+            userConnectionDAO
+                    .deleteConnectionsByUserId(userDAO.getById(id).getMail());
             userDAO.deleteById(id);
             return true;
         } else {
@@ -472,5 +488,20 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
                     .valueOf(providerKey.getProviderId().toUpperCase()));
         }
         return dto;
+    }
+
+    /**
+     * Provide autologin for new users.
+     *
+     * @param userDTO
+     *            user DTO of new user
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public void autoLoginUser(UserDTO userDTO) {
+        UserDetails userDetails = loadUserByUsername(userDTO.getMail());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                userDetails, null, userDetails.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

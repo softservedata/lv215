@@ -196,4 +196,12 @@ public interface UserService extends UserDetailsService {
      */
     UserDTO createRegistrationDTO(Connection<?> connection);
 
+    /**
+     * Provide autologin for new users.
+     *
+     * @param userDTO
+     *            user DTO of new user
+     */
+    void autoLoginUser(UserDTO userDTO);
+
 }

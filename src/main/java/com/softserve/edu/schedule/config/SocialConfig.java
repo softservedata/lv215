@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.security.crypto.encrypt.Encryptors;
-import org.springframework.security.crypto.keygen.KeyGenerators;
 import org.springframework.social.UserIdSource;
 import org.springframework.social.config.annotation.ConnectionFactoryConfigurer;
 import org.springframework.social.config.annotation.EnableSocial;
@@ -21,8 +20,6 @@ import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.google.connect.GoogleConnectionFactory;
 import org.springframework.social.security.AuthenticationNameUserIdSource;
-import org.springframework.social.twitter.connect.TwitterConnectionFactory;
-
 import javax.sql.DataSource;
 
 /**
@@ -57,10 +54,6 @@ public class SocialConfig implements SocialConfigurer {
     @Override
     public void addConnectionFactories(
             final ConnectionFactoryConfigurer cfConfig, final Environment env) {
-        cfConfig.addConnectionFactory(new TwitterConnectionFactory(
-                env.getProperty("twitter.consumer.key"),
-                env.getProperty("twitter.consumer.secret")));
-
         FacebookConnectionFactory facebookConnectionFactory = new FacebookConnectionFactory(
                 env.getProperty("facebook.app.id"),
                 env.getProperty("facebook.app.secret"));
@@ -99,10 +92,8 @@ public class SocialConfig implements SocialConfigurer {
     @Override
     public UsersConnectionRepository getUsersConnectionRepository(
             final ConnectionFactoryLocator connectionFactoryLocator) {
-        String salt = KeyGenerators.string().generateKey();
         return new JdbcUsersConnectionRepository(dataSource,
-                connectionFactoryLocator,
-                Encryptors.text("Scheduler_app", salt));
+                connectionFactoryLocator, Encryptors.noOpText());
     }
 
     /**
