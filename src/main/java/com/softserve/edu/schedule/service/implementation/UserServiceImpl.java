@@ -390,7 +390,6 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      * List)
      */
     @Override
-    @Transactional(readOnly = true)
     public List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO) {
         List<UserDTO> listUserDTOForMeetingOwners = new ArrayList<UserDTO>();
         for (UserDTO userTEMP : listUserDTO) {
