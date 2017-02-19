@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.SubjectService;
@@ -64,6 +65,26 @@ public class IndexController implements ControllerConst {
     @RequestMapping("/login")
     public String login() {
         return "login";
+    }
+
+    /**
+     * Redirect request from default sign in URL to custom URL.
+     *
+     * @return registration URL
+     */
+    @RequestMapping(value = "/signin", method = RequestMethod.GET)
+    public String redirectRequestToLoginPage() {
+        return "redirect:/login?fail=true";
+    }
+
+    /**
+     * Redirect request from default sign up URL to custom URL.
+     *
+     * @return registration URL
+     */
+    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    public String redirectRequestToRegistrationPage() {
+        return "redirect:/registration";
     }
 
 }

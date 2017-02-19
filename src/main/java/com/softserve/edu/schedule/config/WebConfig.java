@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.config;
 
 import java.util.Locale;
 
+import org.apache.commons.codec.CharEncoding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -28,9 +29,14 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
  * @since 1.8
  */
 @Configuration
-@ComponentScan(ConfigConstants.PACKAGES_TO_SCAN)
+@ComponentScan("com.softserve.edu.schedule")
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
+
+    /**
+     * Resources handlers cache period.
+     */
+    private static final int RESOURCES_CACHE_PERIOD = 3600;
 
     /**
      * Set configured view resolver for application.
@@ -52,8 +58,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public TilesConfigurer tilesConfigurer() {
         TilesConfigurer tilesConfigurer = new TilesConfigurer();
-        tilesConfigurer
-                .setDefinitions(ConfigConstants.TILES_DEFINITIONS_LOCATION);
+        tilesConfigurer.setDefinitions("/WEB-INF/defs/general.xml");
         return tilesConfigurer;
     }
 
@@ -87,8 +92,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Bean
     public ResourceBundleMessageSource messageSource() {
         ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
-        messageSource.setBasename(ConfigConstants.MESSAGE_BOUNDLE_BASE_NAME);
-        messageSource.setDefaultEncoding(ConfigConstants.UTF8);
+        messageSource.setBasename("/i118n/messages");
+        messageSource.setDefaultEncoding(CharEncoding.UTF_8);
         return messageSource;
     }
 
@@ -103,8 +108,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(final InterceptorRegistry registry) {
         LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
-        localeChangeInterceptor
-                .setParamName(ConfigConstants.LOCALE_CHANGE_INTERCEPTER_PARAM);
+        localeChangeInterceptor.setParamName("lang");
         registry.addInterceptor(localeChangeInterceptor);
     }
 
@@ -118,18 +122,12 @@ public class WebConfig extends WebMvcConfigurerAdapter {
      */
     @Override
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
-        registry.addResourceHandler(
-                ConfigConstants.WEB_RESOURCES_HANDLER_PATTERN)
-                .addResourceLocations(
-                        ConfigConstants.WEB_RESOURCES_HANDLER_LOCATION)
-                .setCachePeriod(
-                        ConfigConstants.RESOURCES_HANDLERS_CACHE_PERIOD);
-        registry.addResourceHandler(
-                ConfigConstants.IMAGE_RESOURCES_HANDLER_PATTERN)
-                .addResourceLocations(
-                        ConfigConstants.IMAGE_RESOURCES_HANDLER_PATTERN)
-                .setCachePeriod(
-                        ConfigConstants.RESOURCES_HANDLERS_CACHE_PERIOD);
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/")
+                .setCachePeriod(RESOURCES_CACHE_PERIOD);
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("/images/**")
+                .setCachePeriod(RESOURCES_CACHE_PERIOD);
     }
 
 }
