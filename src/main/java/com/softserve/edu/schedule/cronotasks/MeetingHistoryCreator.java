@@ -23,6 +23,7 @@ public class MeetingHistoryCreator {
 	@Scheduled(cron = "0 0/5 * 1/1 * ?")
 	@Transactional
 	public void createMeetingHistory() {
+		System.out.println("SSSSSSSSSSSSSSSSSSSSS");
 		meetingDAO.getFinishedMeetings().stream()
 				.filter(m -> meetingHistoryDAO.getMeetingHistoryByIdMeeting(Long.toString(m.getId())).isEmpty())
 				.collect(Collectors.toList()).forEach(e -> meetingHistoryDAO.create(convertMeetingToMeetingHistory(e)));
