@@ -470,6 +470,11 @@ public interface ControllerConst {
          * Subject field users.
          */
         String SUBJECT_PATH_USER_ID = "userId";
+        
+        /**
+         * Security permission.
+         */
+        String HAS_ANY_ROLE_EXEPT_USER = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')";
     }
 
     /**
