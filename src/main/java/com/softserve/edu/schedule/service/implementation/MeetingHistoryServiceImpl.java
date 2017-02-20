@@ -20,25 +20,30 @@ import com.softserve.edu.schedule.service.MeetingHistoryService;
 @Transactional
 @Service
 @PerfomanceLoggable
-public class MeetingHistoryServiceImpl implements  MeetingHistoryService {
+public class MeetingHistoryServiceImpl implements MeetingHistoryService {
 
     /**
      * Field for MeetingHistoryDAO.
      */
     @Autowired
     private MeetingHistoryDAO meetingHistoryDAO;
-    
-    /* (non-Javadoc)
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see com.softserve.edu.schedule.service.MeetingHistoryService#getAll()
      */
     @Override
     @Transactional(readOnly = true)
-    public List<MeetingHistory> getAll(){
-        return meetingHistoryDAO.getAll();  
-        }
-    
-    /* (non-Javadoc)
-     * @see com.softserve.edu.schedule.service.MeetingHistoryService#getMeetingHistoryByIdMeeting(java.lang.String)
+    public List<MeetingHistory> getAll() {
+        return meetingHistoryDAO.getAll();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.service.MeetingHistoryService#
+     * getMeetingHistoryByIdMeeting(java.lang.String)
      */
     @Override
     @Transactional(readOnly = true)

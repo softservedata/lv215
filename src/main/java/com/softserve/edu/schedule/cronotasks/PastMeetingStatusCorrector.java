@@ -8,6 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.softserve.edu.schedule.config.IgnoreDuringScan;
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
@@ -22,6 +23,7 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  * @since 1.8
  */
 @Component
+@IgnoreDuringScan
 public class PastMeetingStatusCorrector {
 
 	/**
