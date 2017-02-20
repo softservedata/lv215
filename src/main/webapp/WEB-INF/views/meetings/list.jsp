@@ -113,7 +113,7 @@
 			<th><spring:message code="lbl.meeting.groups" /></th>
 			<sec:authorize
 				access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
-				<th><spring:message code="lbl.meeting.level" /> <br> <a
+				<th class="levelclass"><spring:message code="lbl.meeting.level" /> <br> <a
 					href="meetings?fieldForSorting=7&sortOrder=0&pageNumber=0"
 					title="Sort Ascending"> <i
 						class="fa fa-arrow-circle-o-up fa-lg"></i>

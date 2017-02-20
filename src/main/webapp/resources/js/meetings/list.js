@@ -19,9 +19,9 @@
 	});
  
 	$(function() {
-		$("select[name=subjectId]").chosen({width : "100px"});
+		$("select[name=subjectId]").chosen({width : "130px"});
 		$("select[name=ownerId]").chosen({width : "150px"});
-		$("select[name=roomId]").chosen({width : "100px"});
+		$("select[name=roomId]").chosen({width : "130px"});
 		$("select[name=groups]").chosen({width : "90px"});
 		$("select[name=status]").chosen({
 			width : "120px"
