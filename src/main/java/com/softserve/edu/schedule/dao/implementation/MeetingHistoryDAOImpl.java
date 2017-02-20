@@ -1,5 +1,6 @@
 package com.softserve.edu.schedule.dao.implementation;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import com.softserve.edu.schedule.dao.MeetingHistoryDAO;
 import com.softserve.edu.schedule.entity.MeetingHistory;
 import com.softserve.edu.schedule.entity.MeetingHistory_;
-
 @Repository
 public class MeetingHistoryDAOImpl extends CrudDAOImpl<MeetingHistory>
         implements MeetingHistoryDAO {
@@ -35,6 +35,27 @@ public class MeetingHistoryDAOImpl extends CrudDAOImpl<MeetingHistory>
         Root<MeetingHistory> root = cq.from(MeetingHistory.class);
         cq.where(builder.like(root.get(MeetingHistory_.idMeeting.getName()),
                 idMeeting));
+        return getEm().createQuery(cq).getResultList();
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.dao.MeetingHistoryDAO#
+     * getMeetingHistoryByStartAndEndDate(java.time.LocalDate,
+     * java.time.LocalDate)
+     */
+    @Override
+    public List<MeetingHistory> getMeetingHistoryByStartAndEndDate(
+            final LocalDate startDate, final LocalDate endDate) {
+        return null;
+        // TODO
+    }
+
+    public List<MeetingHistory> getAllMeetingHistory() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<MeetingHistory> cq = builder
+                .createQuery(MeetingHistory.class);
         return getEm().createQuery(cq).getResultList();
     }
 

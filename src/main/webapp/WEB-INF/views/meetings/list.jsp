@@ -38,6 +38,13 @@
 <h3 class="text-center">
 	<spring:message code="lbl.meeting.all" />
 </h3>
+
+
+	<div align="center">
+        <h3><a href="meetings/downloadExcel">Download Meeting History Excel file</a></h3>
+    </div>
+    
+    
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
@@ -332,6 +339,7 @@
 		</c:forEach>
 	</table>
 </div>
+
 <div class="row">
 	<div class="col-md-2">
 		<p>
