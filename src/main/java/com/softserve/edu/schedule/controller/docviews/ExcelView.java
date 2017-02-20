@@ -1,22 +1,21 @@
-package com.softserve.edu.schedule.service.implementation.builder;
+package com.softserve.edu.schedule.controller.docviews;
 
+import java.io.OutputStream;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 
 import com.softserve.edu.schedule.entity.MeetingHistory;
-
-import org.apache.poi.ss.usermodel.Row;
-
-import java.text.DateFormat;
-
-import java.util.List;
+import com.softserve.edu.schedule.service.MeetingHistoryService;
 
 /**
  * This class builds an Excel spreadsheet document using Apache POI library.
@@ -24,24 +23,26 @@ import java.util.List;
  * @author www.codejava.net
  *
  */
-@Component
-public class ExcelBuilder extends AbstractXlsView {
+public class ExcelView extends AbstractXlsView {
+
+    @Autowired
+    MeetingHistoryService meetingHistoryService;
 
     @Override
-    protected void buildExcelDocument(Map<String, Object> model,
-            Workbook workbook, HttpServletRequest request,
-            HttpServletResponse response) throws Exception {
-        final DateFormat DATE_FORMAT = DateFormat
-                .getDateInstance(DateFormat.SHORT);
+    public void buildExcelDocument(Map<String, Object> model, Workbook workbook,
+            HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
 
-        @SuppressWarnings("unchecked")
-        List<MeetingHistory> listMH = (List<MeetingHistory>) model
-                .get("listMeetingHistory");
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 
-        // create excel xls sheet
+        response.setHeader("Content-Type", "application/octet-stream");
+        response.setHeader("Content-Disposition",
+                "attachment; filename=MeetingsArchive.xls");
+
+        List<MeetingHistory> listMH = meetingHistoryService.getAll();
+        
         Sheet sheet = workbook.createSheet("Meeting History");
-
-        // create header row
+        
         Row header = sheet.createRow(0);
         header.createCell(0).setCellValue("ID");
         header.createCell(1).setCellValue("IdMeeting");
@@ -55,8 +56,7 @@ public class ExcelBuilder extends AbstractXlsView {
         header.createCell(9).setCellValue("EndTime");
         header.createCell(10).setCellValue("Groups");
         header.createCell(11).setCellValue("Description");
-
-        // Create data cells
+        
         int rowCount = 1;
         for (MeetingHistory meetingHistory : listMH) {
             Row courseRow = sheet.createRow(rowCount++);
@@ -68,7 +68,7 @@ public class ExcelBuilder extends AbstractXlsView {
             courseRow.createCell(5).setCellValue(meetingHistory.getAddress());
             courseRow.createCell(6).setCellValue(meetingHistory.getRoom());
             courseRow.createCell(7)
-                    .setCellValue(DATE_FORMAT.format(meetingHistory.getDate()));
+                    .setCellValue(meetingHistory.getDate().toString());
             courseRow.createCell(8)
                     .setCellValue(meetingHistory.getStartTime().toString());
             courseRow.createCell(9)
@@ -78,7 +78,16 @@ public class ExcelBuilder extends AbstractXlsView {
                     .setCellValue(meetingHistory.getDescription());
 
         }
+
+        OutputStream outStream = null;
+
+        try {
+            outStream = response.getOutputStream();
+            workbook.write(outStream);
+            outStream.flush();
+        } finally {
+            outStream.close();
+        }
     }
-    // TODO Auto-generated method stub
 
 }
