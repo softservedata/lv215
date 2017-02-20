@@ -21,7 +21,7 @@ public class MeetingHistoryCreator {
     @Autowired
     private MeetingHistoryDAO meetingHistoryDAO;
 
-    @Scheduled(cron = "0 0/5 * 1/1 * ?")
+    @Scheduled(cron = "0 0 0 * * *")
     @Transactional
     public void createMeetingHistory() {
         System.out.println("SSSSSSSSSSSSSSSSSSSSS");

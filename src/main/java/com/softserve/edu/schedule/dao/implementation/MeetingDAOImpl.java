@@ -311,12 +311,12 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         Predicate timePredicate = builder.disjunction();
         timePredicate = builder.or(timePredicate,
                 builder.lessThan(root.get(Meeting_.date), LocalDate.now()));
-        timePredicate = builder.or(todayPredicate);
+        timePredicate = builder.or(timePredicate, todayPredicate);
 
         Predicate searchPredicate = builder.conjunction();
         searchPredicate = builder.and(searchPredicate, builder
                 .not(root.get(Meeting_.status).in(MeetingStatus.FINISHED)));
-        searchPredicate = builder.and(timePredicate);
+        searchPredicate = builder.and(searchPredicate, timePredicate);
 
         cq.where(searchPredicate);
         return getEm().createQuery(cq).getResultList();
