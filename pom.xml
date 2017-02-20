@@ -332,6 +332,15 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
+
+		<!-- Apache POI (Apache POI is a set of pure Java libraries for reading 
+			and writing Microsoft Office documents ) -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.15</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
