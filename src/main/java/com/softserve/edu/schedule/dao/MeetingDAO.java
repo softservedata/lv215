@@ -204,4 +204,7 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      */
     List<Meeting> getMeetingsInIntervalByGroupId(Long groupId,
             LocalDate startDate, LocalDate endDate);
+    
+    List<Meeting> getFinishedMeetings();
+    
 }

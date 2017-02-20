@@ -26,26 +26,27 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
 @IgnoreDuringScan
 public class PastMeetingStatusCorrector {
 
-    /**
-     * MeetingDAO example to provide database operations.
-     */
-    @Autowired
-    private MeetingDAO meetingDAO;
+	/**
+	 * MeetingDAO example to provide database operations.
+	 */
+	@Autowired
+	private MeetingDAO meetingDAO;
 
-    /**
-     * Scheduling task to correct past meetings statuses.
-     *
-     */
-    @Scheduled(cron = "0 0 * * * *")
-    @Transactional
-    public void correctMeetingStatuses() {
-        List<Meeting> pastMeetings = meetingDAO.getUnfinishedPastMeetings();
-        pastMeetings.forEach(e -> {
-            if (e.getStatus().equals(MeetingStatus.APPROVED)) {
-                e.setStatus(MeetingStatus.FINISHED);
-            } else {
-                meetingDAO.deleteById(e.getId());
-            }
-        });
-    }
+	/**
+	 * Scheduling task to correct past meetings statuses.
+	 *
+	 */
+	@Scheduled(cron = "0 0 * * * *")
+	@Transactional
+	public void correctMeetingStatuses() {
+		List<Meeting> pastMeetings = meetingDAO.getUnfinishedPastMeetings();
+		pastMeetings.forEach(e -> {
+			if (e.getStatus().equals(MeetingStatus.APPROVED)) {
+				e.setStatus(MeetingStatus.FINISHED);
+			} else {
+				meetingDAO.deleteById(e.getId());
+			}
+		});
+	}
+
 }
