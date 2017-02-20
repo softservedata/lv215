@@ -288,6 +288,7 @@
 				</td>
 				<td><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
+						<c:if test="${ meeting.status.ordinal() != 2}">
 						<a
 							data-href="${pageContext.request.contextPath}/
 							${MeetingController.DELETE_MAPPING}/${meeting.id}"
@@ -295,9 +296,10 @@
 							title="<spring:message code="lbl.meeting.delete" />"> <i
 							class="fa fa-trash-o fa-lg"></i>
 						</a>
+						</c:if>
 					</sec:authorize> <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<sec:authentication property="principal.id" var="principarid" />
-						<c:if test="${principarid eq  meeting.owner.id}">
+						<c:if test="${principarid eq  meeting.owner.id && meeting.status.ordinal() != 2}">
 							<a
 								data-href="${pageContext.request.contextPath}/
 								${MeetingController.DELETE_MAPPING}/${meeting.id}"

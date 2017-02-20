@@ -13,19 +13,29 @@ import com.softserve.edu.schedule.entity.MeetingHistory;
 import com.softserve.edu.schedule.entity.MeetingHistory_;
 
 @Repository
-public class MeetingHistoryDAOImpl extends CrudDAOImpl<MeetingHistory> implements MeetingHistoryDAO {
+public class MeetingHistoryDAOImpl extends CrudDAOImpl<MeetingHistory>
+        implements MeetingHistoryDAO {
 
-	public MeetingHistoryDAOImpl() {
-		super(MeetingHistory.class);
-	}
+    public MeetingHistoryDAOImpl() {
+        super(MeetingHistory.class);
+    }
 
-	@Override
-	public List<MeetingHistory> getMeetingHistoryByIdMeeting(final String idMeeting) {
-		CriteriaBuilder builder = getEm().getCriteriaBuilder();
-		CriteriaQuery<MeetingHistory> cq = builder.createQuery(MeetingHistory.class);
-		Root<MeetingHistory> root = cq.from(MeetingHistory.class);
-		cq.where(builder.like(root.get(MeetingHistory_.idMeeting.getName()), idMeeting));
-		return getEm().createQuery(cq).getResultList();
-	}
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.softserve.edu.schedule.dao.MeetingHistoryDAO#
+     * getMeetingHistoryByIdMeeting(java.lang.String)
+     */
+    @Override
+    public List<MeetingHistory> getMeetingHistoryByIdMeeting(
+            final String idMeeting) {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<MeetingHistory> cq = builder
+                .createQuery(MeetingHistory.class);
+        Root<MeetingHistory> root = cq.from(MeetingHistory.class);
+        cq.where(builder.like(root.get(MeetingHistory_.idMeeting.getName()),
+                idMeeting));
+        return getEm().createQuery(cq).getResultList();
+    }
 
 }
