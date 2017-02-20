@@ -26,42 +26,38 @@
 				<br>
 				<%-- <img src="<c:url value='${user.pathImage}'/>" height="200"
 					align="middle"> --%>
-					<br>
-				<form:form commandName="${UserController.USER_MODEL_ATTR}">
-					<form:hidden path="id" />
-					<div class="form-group">
-						<label for="firstName"><spring:message
-								code="lbl.user.firstName" />:</label> <b>${user.firstName}</b>
-					</div>
-					<div class="form-group">
-						<label for="lastName"><spring:message
-								code="lbl.user.lastName" />:</label> <b>${user.lastName}</b>
-					</div>
-					<div class="form-group">
-						<sec:authorize
-							access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
-							<label for="mail"><spring:message code="lbl.user.mail" />:</label>
-							<b>${user.mail}</b>
-						</sec:authorize>
-					</div>
-					<div class="form-group">
-						<sec:authorize
-							access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
-							<label for="phone"><spring:message code="lbl.user.phone" />:</label>
-							<b>${user.phone}</b>
-						</sec:authorize>
-					</div>
-					<div class="form-group">
-						<label for="position"><spring:message
-								code="lbl.user.position" />:</label> <b>${user.position}</b>
-					</div>
-					<div class="form-group">
-						<a class="form-control"
-							href="${pageContext.request.contextPath}/${UserController.USER_MEETINGS_MAPPING}${user.id}">
-							<spring:message code="lbl.user.showMitings" />
-						</a>
-					</div>
-				</form:form>
+				<div class="form-group">
+					<label for="firstName"><spring:message
+							code="lbl.user.firstName" />:</label> <b>${user.firstName}</b>
+				</div>
+				<div class="form-group">
+					<label for="lastName"><spring:message
+							code="lbl.user.lastName" />:</label> <b>${user.lastName}</b>
+				</div>
+				<div class="form-group">
+					<sec:authorize
+						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+						<label for="mail"><spring:message code="lbl.user.mail" />:</label>
+						<b>${user.mail}</b>
+					</sec:authorize>
+				</div>
+				<div class="form-group">
+					<sec:authorize
+						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+						<label for="phone"><spring:message code="lbl.user.phone" />:</label>
+						<b>${user.phone}</b>
+					</sec:authorize>
+				</div>
+				<div class="form-group">
+					<label for="position"><spring:message
+							code="lbl.user.position" />:</label> <b>${user.position}</b>
+				</div>
+				<div class="form-group">
+					<a class="form-control"
+						href="${pageContext.request.contextPath}/${UserController.USER_MEETINGS_MAPPING}${user.id}">
+						<spring:message code="lbl.user.showMitings" />
+					</a>
+				</div>
 			</div>
 			<div
 				class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">

@@ -31,43 +31,39 @@
 					<div class="form-group">
 						<input type="submit" class="form-control"
 							value="<spring:message code="lbl.form.save"/>">
-					</div>
-				</form:form> --%>
-				<form:form commandName="${UserController.USER_MODEL_ATTR}">
-					<form:hidden path="id" />
-					<div class="form-group">
-						<label for="firstName"><spring:message
-								code="lbl.user.firstName" />:</label> <b>${user.firstName}</b>
-					</div>
-					<div class="form-group">
-						<label for="lastName"><spring:message
-								code="lbl.user.lastName" />:</label> <b>${user.lastName}</b>
-					</div>
-					<div class="form-group">
-						<label for="mail"><spring:message code="lbl.user.mail" />:</label>
-						<b>${user.mail}</b>
-					</div>
-					<div class="form-group">
-						<label for="phone"><spring:message code="lbl.user.phone" />:</label>
-						<b>${user.phone}</b>
-					</div>
-					<div class="form-group">
-						<label for="position"><spring:message
-								code="lbl.user.position" />:</label> <b>${user.position}</b>
-					</div>
-					<div class="form-group">
-						<a class="form-control"
-							href="${pageContext.request.contextPath}/${UserController.UPDATE_USER_MAPPING}${user.id}">
-							<spring:message code="lbl.user.update" />
-						</a>
-					</div>
-					<div class="form-group">
-						<a class="form-control"
-							href="${pageContext.request.contextPath}/${UserController.CHANGE_PASSWORD_MAPPING}${user.id}">
-							<spring:message code="lbl.user.changePassword" />
-						</a>
-					</div>
-				</form:form>
+					</div>--%>
+				<div class="form-group">
+					<label for="firstName"><spring:message
+							code="lbl.user.firstName" />:</label> <b>${user.firstName}</b>
+				</div>
+				<div class="form-group">
+					<label for="lastName"><spring:message
+							code="lbl.user.lastName" />:</label> <b>${user.lastName}</b>
+				</div>
+				<div class="form-group">
+					<label for="mail"><spring:message code="lbl.user.mail" />:</label>
+					<b>${user.mail}</b>
+				</div>
+				<div class="form-group">
+					<label for="phone"><spring:message code="lbl.user.phone" />:</label>
+					<b>${user.phone}</b>
+				</div>
+				<div class="form-group">
+					<label for="position"><spring:message
+							code="lbl.user.position" />:</label> <b>${user.position}</b>
+				</div>
+				<div class="form-group">
+					<a class="form-control"
+						href="${pageContext.request.contextPath}/${UserController.UPDATE_USER_MAPPING}${user.id}">
+						<spring:message code="lbl.user.update" />
+					</a>
+				</div>
+				<div class="form-group">
+					<a class="form-control"
+						href="${pageContext.request.contextPath}/${UserController.CHANGE_PASSWORD_MAPPING}${user.id}">
+						<spring:message code="lbl.user.changePassword" />
+					</a>
+				</div>
 			</div>
 			<div
 				class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
