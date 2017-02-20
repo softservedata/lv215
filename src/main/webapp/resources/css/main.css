@@ -203,3 +203,5 @@ textarea {
 	margin-bottom: 10px;
 	margin-top: 10px;
 }
+.panel-default-login {
+	background-color: rgba(255, 255, 255, 0.9);
