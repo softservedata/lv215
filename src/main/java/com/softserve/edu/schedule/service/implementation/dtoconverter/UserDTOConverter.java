@@ -65,6 +65,8 @@ public class UserDTOConverter {
 
         user.setPosition(userDTO.getPosition());
 
+        user.setPassword(userDTO.getPassword());
+
         user.setSocialMediaService(userDTO.getSignInProvider());
 
         return user;

@@ -365,34 +365,22 @@
 	</div>
 </div>
 
-<script>
-/* Notification when deleting meeting.  */
- $('#confirm-delete').on('show.bs.modal', function(e) {
-    $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
-});
 
- $('#paginationList').twbsPagination({
-        totalPages: ${meetingPaginator.pagesCount + 1},
-        startPage: ${meetingPaginator.pageNumber + 1},
-        visiblePages: 10,
-        first: '<spring:message code="lbl.pager.first"/>',
-        last: '<spring:message code="lbl.pager.last"/>',
-        prev: '<spring:message code="lbl.pager.previous"/>',
-        next: '<spring:message code="lbl.pager.next"/>',
-        initiateStartPageClick: false,        
-        onPageClick: function (event, page) {
-        	window.location = "meetings?pageNumber=" + (page-1);        	
-        }
-    });
- 
-	$(function() {
-		$("select[name=subjectId]").chosen({width : "100px"});
-		$("select[name=ownerId]").chosen({width : "150px"});
-		$("select[name=roomId]").chosen({width : "100px"});
-		$("select[name=groups]").chosen({width : "90px"});
-		$("select[name=status]").chosen({
-			width : "120px"
-		});
-	})
+<c:set var="first"><spring:message code="lbl.pager.first"/></c:set>
+<input id="firstLabel" type="hidden" value="${first}"/>
+<c:set var="last"><spring:message code="lbl.pager.last"/></c:set>
+<input id="lastLabel" type="hidden" value="${last}"/>
+<c:set var="previous"><spring:message code="lbl.pager.previous"/></c:set>
+<input id="previousLabel" type="hidden" value="${previous}"/>
+<c:set var="next"><spring:message code="lbl.pager.next"/></c:set>
+<input id="nextLabel" type="hidden" value="${next}"/>
+
+<spring:url value="/resources/js/meetings/list.js" var="meetingsListJS" />
+<script>
+	var totalPages = ${meetingPaginator.pagesCount + 1}
+	var startPage = ${meetingPaginator.pageNumber + 1}
+	
+</script>
+<script type="text/javascript" src="${meetingsListJS}">	
 </script>
 

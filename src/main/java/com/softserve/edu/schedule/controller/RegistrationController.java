@@ -63,18 +63,45 @@ public class RegistrationController
     public String newUserPage(final WebRequest request, final Model model) {
         Connection<?> connection = providerSignInUtils
                 .getConnectionFromSession(request);
-        UserDetails userDetails = userService
-                .loadUserByUsername(connection.fetchUserProfile().getEmail());
-        if (userDetails != null) {
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities());
-            SecurityContextHolder.getContext()
-                    .setAuthentication(authentication);
-            return "calendar";
+        if (connection != null) {
+            UserDetails userDetails = userService.loadUserByUsername(
+                    connection.fetchUserProfile().getEmail());
+            if (userDetails != null) {
+                return processExistedUser(request, connection, userDetails);
+            }
         }
         model.addAttribute(USER_REGIST_MODEL_ATTR,
                 userService.createRegistrationDTO(connection));
         return USER_REGIST_URL;
+    }
+
+    /**
+     * Process login of existed user.
+     * 
+     * @param request
+     *            WebRequest instance to get social connection
+     * 
+     * @param connection
+     *            connection with social service
+     * @param userDetails
+     *            user details to process login
+     * 
+     * @return calendar URL if user active or login URL with error if login
+     *         inactive
+     */
+    private String processExistedUser(final WebRequest request,
+            final Connection<?> connection, final UserDetails userDetails) {
+        if (userDetails.isAccountNonLocked()) {
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    userDetails, null, userDetails.getAuthorities());
+            SecurityContextHolder.getContext()
+                    .setAuthentication(authentication);
+            providerSignInUtils.doPostSignUp(
+                    connection.fetchUserProfile().getEmail(), request);
+            return "calendar";
+        } else {
+            return "redirect:/login?acount_inactive=true";
+        }
     }
 
     /**
@@ -113,8 +140,9 @@ public class RegistrationController
             return USER_REGIST_URL;
         }
         userService.create(userDTO);
+        userService.autoLoginUser(userDTO);
         providerSignInUtils.doPostSignUp(userDTO.getMail(), request);
-        return REDIRECT_STARTPAGE;
+        return "redirect:/?new_account=true";
     }
 
     /**
