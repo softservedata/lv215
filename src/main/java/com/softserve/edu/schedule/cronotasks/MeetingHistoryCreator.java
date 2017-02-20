@@ -7,15 +7,14 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.schedule.config.IgnoreDuringScan;
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.MeetingHistoryDAO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingHistory;
 
 @Component
-@IgnoreDuringScan
-public class MeetingHistoryCreator {
+public class MeetingHistoryCreator {    
+
     @Autowired
     private MeetingDAO meetingDAO;
 

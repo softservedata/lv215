@@ -6,7 +6,6 @@ import java.util.Locale;
 import org.apache.commons.codec.CharEncoding;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
@@ -30,8 +29,7 @@ import org.springframework.web.servlet.view.tiles3.TilesView;
  * @since 1.8
  */
 @Configuration
-@ComponentScan(value = "com.softserve.edu.schedule",
-        excludeFilters = @Filter(IgnoreDuringScan.class))
+@ComponentScan("com.softserve.edu.schedule")
 @EnableWebMvc
 public class WebConfig extends WebMvcConfigurerAdapter {
 
