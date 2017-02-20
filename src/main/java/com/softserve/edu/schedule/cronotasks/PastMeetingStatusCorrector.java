@@ -23,12 +23,6 @@ import com.softserve.edu.schedule.entity.MeetingStatus;
  */
 @Component
 public class PastMeetingStatusCorrector {
-    
-    
-
-    public PastMeetingStatusCorrector() {
-        System.out.println("PastMeetingStatusCorrector");
-    }
 
     /**
      * MeetingDAO example to provide database operations.
