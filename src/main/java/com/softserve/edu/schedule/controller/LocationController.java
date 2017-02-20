@@ -65,37 +65,6 @@ public class LocationController
     }
 
     /**
-     * Method provides sorting of location list by count of rooms in ascending
-     * order.
-     *
-     * @param model
-     *            locations list page model
-     * @return locations list page URL
-     */
-    @RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING)
-    public String sortByCountRoomsAsc(Model model) {
-        model.addAttribute(LOCATIONS_MODEL_ATTR,
-                locationService.sortByCountRooms(Order.ASC));
-        return LOCATIONS_LIST_URL;
-    }
-
-    /**
-     * Method provides sorting of location list by count of rooms in descending
-     * order.
-     *
-     * @param model
-     *            locations list page model
-     * @return locations list page URL
-     */
-    @RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING)
-    public String sortByCountRoomsDesc(Model model) {
-        model.addAttribute(LOCATIONS_MODEL_ATTR,
-                locationService.sortByCountRooms(Order.DESC));
-        return LOCATIONS_LIST_URL;
-
-    }
-
-    /**
      * Method provides deleting location by id.
      * 
      * @param id
@@ -190,4 +159,34 @@ public class LocationController
         return LOCATION_MAP_URL;
     }
 
+    /**
+     * Method provides sorting of location list by count of rooms in ascending
+     * order.
+     *
+     * @param model
+     *            locations list page model
+     * @return locations list page URL
+     */
+    @RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING)
+    public String sortByCountRoomsAsc(Model model) {
+        model.addAttribute(LOCATIONS_MODEL_ATTR,
+                locationService.sortByCountRooms(Order.ASC));
+        return LOCATIONS_LIST_URL;
+    }
+
+    /**
+     * Method provides sorting of location list by count of rooms in descending
+     * order.
+     *
+     * @param model
+     *            locations list page model
+     * @return locations list page URL
+     */
+    @RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING)
+    public String sortByCountRoomsDesc(Model model) {
+        model.addAttribute(LOCATIONS_MODEL_ATTR,
+                locationService.sortByCountRooms(Order.DESC));
+        return LOCATIONS_LIST_URL;
+
+    }
 }

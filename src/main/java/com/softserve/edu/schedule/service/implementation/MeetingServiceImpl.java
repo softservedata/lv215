@@ -171,7 +171,9 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void deleteById(final Long id) {
-        meetingDao.deleteById(id);
+        if (meetingDao.getById(id).getStatus() != MeetingStatus.FINISHED){
+            meetingDao.deleteById(id);  
+        }
     }
 
     /**
