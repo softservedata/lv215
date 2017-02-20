@@ -113,7 +113,7 @@
 			<th><spring:message code="lbl.meeting.groups" /></th>
 			<sec:authorize
 				access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
-				<th><spring:message code="lbl.meeting.level" /> <br> <a
+				<th class="levelclass"><spring:message code="lbl.meeting.level" /> <br> <a
 					href="meetings?fieldForSorting=7&sortOrder=0&pageNumber=0"
 					title="Sort Ascending"> <i
 						class="fa fa-arrow-circle-o-up fa-lg"></i>
@@ -288,6 +288,7 @@
 				</td>
 				<td><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
+						<c:if test="${ meeting.status.ordinal() != 2}">
 						<a
 							data-href="${pageContext.request.contextPath}/
 							${MeetingController.DELETE_MAPPING}/${meeting.id}"
@@ -295,9 +296,10 @@
 							title="<spring:message code="lbl.meeting.delete" />"> <i
 							class="fa fa-trash-o fa-lg"></i>
 						</a>
+						</c:if>
 					</sec:authorize> <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<sec:authentication property="principal.id" var="principarid" />
-						<c:if test="${principarid eq  meeting.owner.id}">
+						<c:if test="${principarid eq  meeting.owner.id && meeting.status.ordinal() != 2}">
 							<a
 								data-href="${pageContext.request.contextPath}/
 								${MeetingController.DELETE_MAPPING}/${meeting.id}"

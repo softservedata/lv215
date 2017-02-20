@@ -136,11 +136,6 @@ textarea {
 	mergin-left: 0px;
 	mergin-right: 0px;
 }
-
-.levelclass {
-	width: 45px;
-}
-
 .meetingsTable {
 	width: 100%;
 }
@@ -202,4 +197,7 @@ textarea {
 .social-button-row {
 	margin-bottom: 10px;
 	margin-top: 10px;
+}
+.levelclass{
+	width: 45px;
 }

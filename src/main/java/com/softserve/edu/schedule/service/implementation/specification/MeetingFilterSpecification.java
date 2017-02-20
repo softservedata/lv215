@@ -337,6 +337,8 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
                         .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.status)));
+        } else {
+            criteriaQuery.orderBy(criteriaBuilder.desc(root.get(Meeting_.id)));
         }
     }
 
