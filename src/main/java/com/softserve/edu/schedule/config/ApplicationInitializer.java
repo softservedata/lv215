@@ -5,7 +5,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -36,10 +35,6 @@ public class ApplicationInitializer
     @Override
     public void onStartup(final ServletContext servletContext)
             throws ServletException {
-        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(ApplicationConfig.class, TaskExecutorsConfig.class,
-                MailSendingConfig.class, SocialConfig.class);
-        servletContext.addListener(new ContextLoaderListener(rootContext));
 
         AnnotationConfigWebApplicationContext servletAppContext = new AnnotationConfigWebApplicationContext();
         servletAppContext.register(WebConfig.class);
@@ -63,7 +58,9 @@ public class ApplicationInitializer
      */
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {WebSecurityConfig.class};
+        return new Class[] {ApplicationConfig.class, TaskExecutorsConfig.class,
+                MailSendingConfig.class, SocialConfig.class,
+                WebSecurityConfig.class};
     }
 
     /**
