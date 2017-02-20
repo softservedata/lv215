@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.social.connect.Connection;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.dto.UserDTO;
@@ -152,7 +153,18 @@ public interface UserService extends UserDetailsService {
      * @return List<UserDTO>
      */
     List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO);
-    
+
+    /**
+     * Class used for android application user identification.
+     *
+     * @param mail
+     *            User mail
+     *
+     * @param password
+     *            User password
+     *
+     * @return UserForAndroidDTO instance if user credentials are correct
+     */
     UserForAndroidDTO getVerifiedUser(String mail, String password);
 
     /**
@@ -168,9 +180,28 @@ public interface UserService extends UserDetailsService {
      * 
      * @param mail
      *            mail of user what want restore password
-     *            
+     * 
      * @return UserDTO
      */
     UserDTO submitRestorePassword(UserDTOForRestorePassword userDTO);
+
+    /**
+     * Provide import data from social network account if user is signing in
+     * with social network account.
+     *
+     * @param connection
+     *            social network connection.
+     *
+     * @return UserDTO instance
+     */
+    UserDTO createRegistrationDTO(Connection<?> connection);
+
+    /**
+     * Provide autologin for new users.
+     *
+     * @param userDTO
+     *            user DTO of new user
+     */
+    void autoLoginUser(UserDTO userDTO);
 
 }

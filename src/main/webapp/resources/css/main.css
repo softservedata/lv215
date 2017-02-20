@@ -178,7 +178,6 @@ textarea {
 	margin-top: 20px;
 }
 
-
 .button-back-container {
 	padding-left: 160px;
 	float: left;
@@ -195,6 +194,12 @@ textarea {
 .padding-calendar-details {
 	padding-left: 160px;
 }
+
 .zero-margin-top #calendar {
 	margin-top: 0;
+}
+
+.social-button-row {
+	margin-bottom: 10px;
+	margin-top: 10px;
 }

@@ -1,6 +1,7 @@
 /* WebSecurityConfig 1.0 02/07/2017 */
 package com.softserve.edu.schedule.config;
 
+import org.apache.commons.codec.CharEncoding;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CsrfFilter;
+import org.springframework.social.security.SpringSocialConfigurer;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 /**
@@ -27,8 +29,18 @@ import org.springframework.web.filter.CharacterEncodingFilter;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-@ComponentScan(ConfigConstants.PACKAGES_TO_SCAN)
+@ComponentScan("com.softserve.edu.schedule")
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    /**
+     * Remember me token validity period.
+     */
+    private static final int REMEMBER_ME_TOKEN_LIFE_TIME = 2592000;
+
+    /**
+     * BCrypt password encoder password strength.
+     */
+    private static final int BC_CRYPT_PASS_STRENGTH = 10;
 
     /**
      * UserDetailsService instance.
@@ -48,18 +60,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(final HttpSecurity http) throws Exception {
 
         CharacterEncodingFilter filter = new CharacterEncodingFilter();
-        filter.setEncoding(ConfigConstants.UTF8);
+        filter.setEncoding(CharEncoding.UTF_8);
         filter.setForceEncoding(true);
         http.addFilterBefore(filter, CsrfFilter.class);
 
         http.requiresChannel().anyRequest().requiresSecure().and().formLogin()
-                .loginPage(ConfigConstants.START_URL)
-                .loginProcessingUrl(ConfigConstants.LOGIN_URL)
-                .failureUrl(ConfigConstants.LOGIN_FAILURE_URL).and().logout()
-                .logoutSuccessUrl(ConfigConstants.START_URL).and().rememberMe()
-                .key(ConfigConstants.REMEMBER_ME_KEY)
-                .userDetailsService(userDetailsService()).tokenValiditySeconds(
-                        ConfigConstants.REMEMBER_ME_TOKEN_LIFE_TIME);
+                .loginPage("/").loginProcessingUrl("/login")
+                .failureUrl("/login?fail=true").and().logout()
+                .logoutSuccessUrl("/").and().rememberMe().key("Scheduler_app")
+                .userDetailsService(userDetailsService())
+                .tokenValiditySeconds(REMEMBER_ME_TOKEN_LIFE_TIME).and()
+                .apply(new SpringSocialConfigurer());
     }
 
     /**
@@ -69,8 +80,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Bean
     public BCryptPasswordEncoder encoder() {
-        return new BCryptPasswordEncoder(
-                ConfigConstants.BC_CRYPT_PASS_STRENGTH);
+        return new BCryptPasswordEncoder(BC_CRYPT_PASS_STRENGTH);
     }
 
     /**

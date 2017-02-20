@@ -78,7 +78,7 @@ public class User {
      * User status in system.
      */
     @Enumerated
-    private UserStatus status = UserStatus.NEW_USER;
+    private UserStatus status = UserStatus.ACTIVE;
 
     /**
      * User role in system.
@@ -103,6 +103,12 @@ public class User {
             joinColumns = {@JoinColumn(name = "users_id")},
             inverseJoinColumns = {@JoinColumn(name = "groups_id")})
     private List<UserGroup> groups = new ArrayList<>();
+
+    /**
+     * Social media service used for user sign in.
+     */
+    @Enumerated
+    private SocialMediaService socialMediaService;
 
     /**
      * @return the id
@@ -179,6 +185,13 @@ public class User {
      */
     public List<UserGroup> getGroups() {
         return groups;
+    }
+
+    /**
+     * @return the socialMediaService
+     */
+    public SocialMediaService getSocialMediaService() {
+        return socialMediaService;
     }
 
     /**
@@ -282,6 +295,14 @@ public class User {
      */
     public void setPathImage(final String pathImage) {
         this.pathImage = pathImage;
+    }
+
+    /**
+     * @param socialMediaService
+     *            the socialMediaService to set
+     */
+    public void setSocialMediaService(SocialMediaService socialMediaService) {
+        this.socialMediaService = socialMediaService;
     }
 
 }
