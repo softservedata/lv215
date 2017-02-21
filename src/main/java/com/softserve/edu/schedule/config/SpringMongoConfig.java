@@ -13,13 +13,13 @@ public class SpringMongoConfig extends AbstractMongoConfiguration {
 
 	@Override
 	protected String getDatabaseName() {
-		return "demo";
+		return "schedule-lv215";
 	}
 
 	@Override
 	@Bean
 	public Mongo mongo() throws Exception {
-		return new MongoClient("127.0.0.1");
+		return new MongoClient("mongodb://schedule:schedule@ds157839.mlab.com:57839/");
 	}
 
 	@Bean
