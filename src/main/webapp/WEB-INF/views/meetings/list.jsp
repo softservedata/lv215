@@ -424,14 +424,8 @@
 
 <spring:url value="/resources/js/meetings/list.js" var="meetingsListJS" />
 <script>
-	var totalPages = $
-	{
-		meetingPaginator.pagesCount + 1
-	}
-	var startPage = $
-	{
-		meetingPaginator.pageNumber + 1
-	}
+	var totalPages = ${meetingPaginator.pagesCount + 1}
+	var startPage = ${meetingPaginator.pageNumber + 1}
 </script>
 <script type="text/javascript" src="${meetingsListJS}">
 	
