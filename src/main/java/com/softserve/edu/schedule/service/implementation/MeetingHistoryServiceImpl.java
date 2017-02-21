@@ -14,6 +14,7 @@ import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingHistory;
 import com.softserve.edu.schedule.service.MeetingHistoryService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingHistoryDTOConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingToMeetingHistoryConverter;
 
 /**
  * This class is implementation of MeetingHistoryService.
@@ -37,6 +38,12 @@ public class MeetingHistoryServiceImpl implements MeetingHistoryService {
      */
     @Autowired
     private MeetingHistoryDTOConverter meetingHistoryDTOConverter;
+
+    /**
+     * Field for MeetingHistoryDTOConverter.
+     */
+    @Autowired
+    private MeetingToMeetingHistoryConverter meetingToMeetingHistoryConverter;
 
     /*
      * (non-Javadoc)
@@ -77,7 +84,8 @@ public class MeetingHistoryServiceImpl implements MeetingHistoryService {
      */
     @Override
     public void backup(Meeting meeting) {
-        create(meetingHistoryDTOConverter.getEntityFromMeeting(meeting));
+        create(meetingToMeetingHistoryConverter
+                .convertMeetingToMeetingHistory(meeting));
     }
 
 }
