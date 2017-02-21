@@ -15,11 +15,13 @@ import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForAndroidDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.MeetingService;
+import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.RoomService;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserGroupService;
@@ -72,6 +74,12 @@ public class AndroidRESTController {
 	 */
 	@Autowired
 	private LocationService locationService;
+
+	/**
+	 * LocationService example to provide location list.
+	 */
+	@Autowired
+	private RoomEquipmentService roomEquipmentService;
 
 	/**
 	 * Provide ResponseEntity with UserForAndroidDTO instance by given mail and
@@ -189,5 +197,19 @@ public class AndroidRESTController {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(locations, HttpStatus.OK);
+	}
+
+	/**
+	 * Provide ResponseEntity with list of RoomEquipmentDTO instances.
+	 *
+	 * @return ResponseEntity with list of RoomEquipmentDTO instances.
+	 */
+	@RequestMapping(value = "/roomequipments/restEquipmentsAndroid", method = RequestMethod.GET)
+	public ResponseEntity<List<RoomEquipmentDTO>> getEquipments() {
+		List<RoomEquipmentDTO> equipments = roomEquipmentService.getAll();
+		if (equipments.isEmpty()) {
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<>(equipments, HttpStatus.OK);
 	}
 }
