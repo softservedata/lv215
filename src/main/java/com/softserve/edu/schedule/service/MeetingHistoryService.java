@@ -12,6 +12,7 @@ package com.softserve.edu.schedule.service;
 
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.MeetingHistoryDTO;
 import com.softserve.edu.schedule.entity.MeetingHistory;
 
 /**
@@ -29,7 +30,7 @@ public interface MeetingHistoryService {
      *            id of the meeting, that will be returned.
      * @return List<MeetingHistory>.
      */
-    public List<MeetingHistory> getAll();
+    public List<MeetingHistoryDTO> getAll();
     
     /** Returns meeting from MeetingHistory table by given id.
      * @param idMeeting
@@ -39,4 +40,6 @@ public interface MeetingHistoryService {
      */
     public List<MeetingHistory> getMeetingHistoryByIdMeeting(
             final String idMeeting);
+    
+    public void create (final MeetingHistory meetingHistory);
 }

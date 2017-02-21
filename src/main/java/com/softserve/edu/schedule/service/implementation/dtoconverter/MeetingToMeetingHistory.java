@@ -1,36 +1,15 @@
-package com.softserve.edu.schedule.cronotasks;
+package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
-import com.softserve.edu.schedule.dao.MeetingDAO;
-import com.softserve.edu.schedule.dao.MeetingHistoryDAO;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingHistory;
 
 @Component
-public class MeetingHistoryCreator {    
-
-    @Autowired
-    private MeetingDAO meetingDAO;
-
-    @Autowired
-    private MeetingHistoryDAO meetingHistoryDAO;
-
-    @Scheduled(cron = "0 0 0 * * *")
-    @Transactional
-    public void createMeetingHistory() {
-        //TODO to delete
-        System.out.println("CreateMeetingHistory working ... ");
-        meetingDAO.getPastNotArchivedMeetings().forEach(e -> meetingHistoryDAO
-                        .create(convertMeetingToMeetingHistory(e)));
-    }
-
-    public MeetingHistory convertMeetingToMeetingHistory(Meeting meeting) {
+public class MeetingToMeetingHistory {
+    public MeetingHistory convertMeetingToMeetingHistory(final Meeting meeting) {
         if (meeting != null) {
             MeetingHistory meetingHistory = new MeetingHistory();
             meetingHistory.setIdMeeting(Long.toString(meeting.getId()));
