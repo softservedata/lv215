@@ -6,10 +6,6 @@
  */
 package com.softserve.edu.schedule.service.implementation;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,10 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
-import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
@@ -53,9 +46,6 @@ public class SubjectServiceImpl implements SubjectService {
 	@Autowired
 	private UserDAO userDao;
 
-	@Autowired
-	private FileStorageDAO fileStorageDAO;
-
 	/**
 	 * Field for subjectDTOConverter.
 	 */
@@ -78,25 +68,6 @@ public class SubjectServiceImpl implements SubjectService {
 	@Transactional
 	public void create(final SubjectDTO subject) {
 		subjectDao.create(subjectDTOConverter.getEntity(subject));
-		DBObject metaData = new BasicDBObject();
-		metaData.put("subjectId", "1");
-		InputStream inputStream = null;
-		try {
-			inputStream = new FileInputStream("E:/some.bmp");
-			fileStorageDAO.store(inputStream, "some.bmp", "image/bmp",
-			        metaData);
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} finally {
-			if (inputStream != null) {
-				try {
-					inputStream.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
 	}
 
 	/**

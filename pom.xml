@@ -71,6 +71,8 @@
 		<spring.social.google.version>1.0.0.RELEASE</spring.social.google.version>
 		<!-- Spring-Data-MongoDB -->
 		<org.springframework.data.mongodb.version>1.9.5.RELEASE</org.springframework.data.mongodb.version>
+		<org.springframework.data.mongodb.driver.version>3.4.0</org.springframework.data.mongodb.driver.version>
+		<org.springframework.data.cglib.version>3.2.4</org.springframework.data.cglib.version>
 	</properties>
 
 	<dependencies>
@@ -348,6 +350,16 @@
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-mongodb</artifactId>
 			<version>${org.springframework.data.mongodb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>${org.springframework.data.mongodb.driver.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${org.springframework.data.cglib.version}</version>
 		</dependency>
 
 	</dependencies>
