@@ -5,8 +5,6 @@ package com.softserve.edu.schedule.controller;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -24,15 +22,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.softserve.edu.schedule.controller.docviews.ExcelViewAllMeetingHistory;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserGroupDTO;
-
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
-import com.softserve.edu.schedule.entity.MeetingHistory;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingHistoryService;
 import com.softserve.edu.schedule.service.MeetingService;
@@ -58,8 +55,8 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEdit
  */
 @RequestMapping(ControllerConst.MeetingControllerConst.MEETINGS_URL)
 @Controller
-@SessionAttributes({ ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR })
+@SessionAttributes({ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR})
 public class MeetingController
         implements ControllerConst.MeetingControllerConst {
 
@@ -143,11 +140,12 @@ public class MeetingController
     private MeetingDTOEditor meetingDTOEditor;
 
     /**
-     * MeetingHistoryService example to provide opportunity to download MeetingHistory.xml.
+     * MeetingHistoryService example to provide opportunity to download
+     * MeetingHistory.xml.
      */
     @Autowired
     MeetingHistoryService meetingHistoryService;
-    
+
     /**
      * Initialize binder for meeting model.
      *
@@ -332,20 +330,14 @@ public class MeetingController
         model.addAttribute(ROOMS_MODEL_ATTR, roomService.getAll());
         return MEETING_SHOWMEETING_MAPPING;
     }
-    
-    
+
     /**
      * Handle request to download an Excel document
      */
     @RequestMapping(value = "/downloadExcel", method = RequestMethod.GET)
-    public ModelAndView downloadExcel() {
-        // create some sample data
-        List<MeetingHistory> listMeetingHistory = new ArrayList<MeetingHistory>();
-        listMeetingHistory = meetingHistoryService.getAll();
-
-        // return a view which will be resolved by an excel view resolver
-        return new ModelAndView("excelView", "listMeetingHistory", listMeetingHistory);
+    public ModelAndView downloadExcel(ModelAndView model) {
+        model.setView(new ExcelViewAllMeetingHistory());
+        return model;
     }
-    
-    
+
 }

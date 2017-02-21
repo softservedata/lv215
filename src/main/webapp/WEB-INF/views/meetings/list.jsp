@@ -295,7 +295,7 @@
 				</td>
 				<td><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
-						<c:if test="${ meeting.status.ordinal() != 2}">
+						<c:if test="${ meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4}">
 						<a
 							data-href="${pageContext.request.contextPath}/
 							${MeetingController.DELETE_MAPPING}/${meeting.id}"
@@ -306,7 +306,7 @@
 						</c:if>
 					</sec:authorize> <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<sec:authentication property="principal.id" var="principarid" />
-						<c:if test="${principarid eq  meeting.owner.id && meeting.status.ordinal() != 2}">
+						<c:if test="${principarid eq  meeting.owner.id && meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4}">
 							<a
 								data-href="${pageContext.request.contextPath}/
 								${MeetingController.DELETE_MAPPING}/${meeting.id}"
@@ -318,15 +318,17 @@
 					</sec:authorize></td>
 				<td><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
+						<c:if test="${ meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4}">
 						<a
 							href="${pageContext.request.contextPath}/
 							${MeetingController.MEETING_EDIT_URL}/${meeting.id}"
 							title="<spring:message code="lbl.meeting.edit" />"> <i
 							class="fa fa-pencil-square-o fa-lg"></i>
 						</a>
+						</c:if>
 					</sec:authorize> <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<sec:authentication property="principal.id" var="principarid" />
-						<c:if test="${principarid eq  meeting.owner.id}">
+						<c:if test="${principarid eq  meeting.owner.id && meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4 }">
 							<a
 								href="${pageContext.request.contextPath}/
 								${MeetingController.MEETING_EDIT_URL}/${meeting.id}"

@@ -38,7 +38,7 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
 
     @Autowired
     UserDAO userDao;
-
+    
     /**
      * Overridden default constructor to provide entity class for DAO.
      * 

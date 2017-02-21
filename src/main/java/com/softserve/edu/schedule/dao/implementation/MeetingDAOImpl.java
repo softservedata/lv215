@@ -290,7 +290,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
     /**
      * Find all meetings in the DB which date and time are in past and status
-     * not FINISHED.
+     * not FINISHED or ARCHIVED.
      *
      * @author Petro Zelyonka
      *
@@ -315,7 +315,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
         Predicate searchPredicate = builder.conjunction();
         searchPredicate = builder.and(searchPredicate, builder
-                .not(root.get(Meeting_.status).in(MeetingStatus.FINISHED)));
+                .not(root.get(Meeting_.status).in(MeetingStatus.FINISHED, MeetingStatus.ARCHIVED)));
         searchPredicate = builder.and(searchPredicate, timePredicate);
 
         cq.where(searchPredicate);
@@ -525,16 +525,17 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     }
 
     @Override
-    public List<Meeting> getFinishedMeetings() {
+    public List<Meeting> getPastNotArchivedMeetings() {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
 
         Predicate predicate = builder.conjunction();
         predicate = builder.and(predicate, builder.lessThan(
-                root.get(Meeting_.date), LocalDate.now().plusDays(1)));
-        predicate = builder.and(predicate,
-                builder.lessThan(root.get(Meeting_.endTime), LocalTime.now()));
+                root.get(Meeting_.date), LocalDate.now()));
+        predicate = builder.and(predicate, builder
+                .not(root.get(Meeting_.status).in(MeetingStatus.ARCHIVED)));
+        
         cq.where(predicate);
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();

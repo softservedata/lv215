@@ -12,6 +12,8 @@ package com.softserve.edu.schedule.service;
 
 import java.util.List;
 
+import com.softserve.edu.schedule.dto.MeetingHistoryDTO;
+import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingHistory;
 
 /**
@@ -29,14 +31,25 @@ public interface MeetingHistoryService {
      *            id of the meeting, that will be returned.
      * @return List<MeetingHistory>.
      */
-    public List<MeetingHistory> getAll();
-    
-    /** Returns meeting from MeetingHistory table by given id.
+    public List<MeetingHistoryDTO> getAll();
+
+    /**
+     * Returns meeting from MeetingHistory table by given id.
+     * 
      * @param idMeeting
-     *                 id of the meeting, that will be returned.
-     * @return
-     *         List<MeetingHistory>.
+     *            id of the meeting, that will be returned.
+     * @return List<MeetingHistory>.
      */
     public List<MeetingHistory> getMeetingHistoryByIdMeeting(
             final String idMeeting);
+
+    public void create(final MeetingHistory meetingHistory);
+
+    /**
+     * Backup given meeting to MeetinHistory table.
+     * 
+     * @param meeting
+     *            meeting to backup.
+     */
+    public void backup(Meeting meeting);
 }

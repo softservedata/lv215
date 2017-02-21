@@ -69,6 +69,10 @@
 		<springframework.social.version>1.1.4.RELEASE</springframework.social.version>
 		<spring.social.facebook.version>3.0.0.M1</spring.social.facebook.version>
 		<spring.social.google.version>1.0.0.RELEASE</spring.social.google.version>
+		<!-- Spring-Data-MongoDB -->
+		<org.springframework.data.mongodb.version>1.10.0.RELEASE</org.springframework.data.mongodb.version>
+		<org.springframework.data.mongodb.driver.version>3.4.2</org.springframework.data.mongodb.driver.version>
+		<org.springframework.data.cglib.version>3.2.4</org.springframework.data.cglib.version>
 	</properties>
 
 	<dependencies>
@@ -339,6 +343,23 @@
 			<groupId>org.apache.poi</groupId>
 			<artifactId>poi</artifactId>
 			<version>3.15</version>
+		</dependency>
+
+		<!-- Spring-Data-MongoDB -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-mongodb</artifactId>
+			<version>${org.springframework.data.mongodb.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>${org.springframework.data.mongodb.driver.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>${org.springframework.data.cglib.version}</version>
 		</dependency>
 
 	</dependencies>
