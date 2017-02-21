@@ -32,7 +32,6 @@ import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForCalendarDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForChartDTOConverter;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingToMeetingHistory;
 import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingChangeStatusMailService;
 
 /**
