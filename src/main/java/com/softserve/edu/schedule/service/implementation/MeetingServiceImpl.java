@@ -114,6 +114,10 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void update(final MeetingDTO meetingDTO) {
+        if (meetingDTO.getStatus() == MeetingStatus.FINISHED
+                || meetingDTO.getStatus() == MeetingStatus.ARCHIVED) {
+            return;
+        }
         sendMailIfStatusChanged(meetingDTO);
         meetingDao.update(meetingDTOConverter.getEntity(meetingDTO));
     }
