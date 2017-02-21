@@ -49,5 +49,4 @@ public class FileStorageDAOImpl implements FileStorageDAO {
 	public void delete(String id) {
 		gridFsTemplate.delete(new Query(Criteria.where("_id").is(id)));
 	}
-
 }
