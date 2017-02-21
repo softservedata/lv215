@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.MeetingHistoryDAO;
 import com.softserve.edu.schedule.dto.MeetingHistoryDTO;
+import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingHistory;
 import com.softserve.edu.schedule.service.MeetingHistoryService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingHistoryDTOConverter;
@@ -66,6 +67,17 @@ public class MeetingHistoryServiceImpl implements MeetingHistoryService {
     @Override
     public void create(final MeetingHistory meetingHistory) {
         meetingHistoryDAO.create(meetingHistory);
+    }
+
+    /**
+     * Backup given meeting to MeetinHistory table.
+     * 
+     * @param meeting
+     *            meeting to backup.
+     */
+    @Override
+    public void backup(Meeting meeting) {
+        create(meetingHistoryDTOConverter.getEntityFromMeeting(meeting));
     }
 
 }

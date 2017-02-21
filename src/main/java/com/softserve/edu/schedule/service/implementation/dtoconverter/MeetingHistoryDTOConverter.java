@@ -1,11 +1,12 @@
 /* MeetingHistoryDTOConverter 1.0 01/17/2017 */
 package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import com.softserve.edu.schedule.dto.MeetingHistoryDTO;
+import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingHistory;
-
-
 
 /**
  * A class to provide conversion operations between MeetingHistoryDTO and
@@ -74,6 +75,38 @@ public class MeetingHistoryDTOConverter {
             meetingHistoryDTO.setOwner(meetingHistory.getOwner());
             meetingHistoryDTO.setDescription(meetingHistory.getDescription());
             return meetingHistoryDTO;
+        }
+        return null;
+    }
+
+    /**
+     * Convert given Meeting object to MeetingHistory object.
+     * 
+     * @param meeting
+     *            a Meeting object to convert.
+     * 
+     * @return a MeetingHistory object or null if given @param meeting is null.
+     */
+    public MeetingHistory getEntityFromMeeting(Meeting meeting) {
+        if (meeting != null) {
+            MeetingHistory meetingHistory = new MeetingHistory();
+            meetingHistory.setIdMeeting(Long.toString(meeting.getId()));
+            meetingHistory.setSubject(meeting.getSubject().getName());
+            meetingHistory.setRoom(meeting.getRoom().getName());
+            meetingHistory
+                    .setLocation(meeting.getRoom().getLocation().getName());
+            meetingHistory
+                    .setAddress(meeting.getRoom().getLocation().getAddress());
+            meetingHistory.setDate(meeting.getDate());
+            meetingHistory.setStartTime(meeting.getStartTime());
+            meetingHistory.setEndTime(meeting.getEndTime());
+            meetingHistory.setGroups(String.join(", ",
+                    meeting.getGroups().stream().map(arg0 -> arg0.getName())
+                            .collect(Collectors.toList())));
+            meetingHistory.setOwner(meeting.getOwner().getFirstName() + " "
+                    + meeting.getOwner().getLastName());
+            meetingHistory.setDescription(meeting.getDescription());
+            return meetingHistory;
         }
         return null;
     }
