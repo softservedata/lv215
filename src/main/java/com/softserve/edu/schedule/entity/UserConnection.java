@@ -5,7 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
-import javax.persistence.Table;
 
 /**
  * An entity class for storage user social connections.
@@ -17,7 +16,6 @@ import javax.persistence.Table;
  * @since 1.8
  */
 @Entity
-@Table(name = "userconnection")
 @IdClass(UserConnectionKey.class)
 public class UserConnection {
 

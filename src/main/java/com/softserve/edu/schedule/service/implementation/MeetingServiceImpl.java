@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.MeetingDAO;
-import com.softserve.edu.schedule.dao.MeetingHistoryDAO;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.MeetingForChartDTO;
@@ -28,6 +27,7 @@ import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
+import com.softserve.edu.schedule.service.MeetingHistoryService;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForCalendarDTOConverter;
@@ -73,12 +73,6 @@ public class MeetingServiceImpl implements MeetingService {
     private MeetingChangeStatusMailService meetingChangeStatusMailService;
 
     /**
-     * MeetingToMeetingHistory example operations.
-     */
-    @Autowired
-    private MeetingToMeetingHistory meetingToMeetingHistory;
-
-    /**
      * Saving Meeting in database.
      *
      * @param meetingDTO
@@ -106,7 +100,7 @@ public class MeetingServiceImpl implements MeetingService {
      * MeetingHistoryDAO example. operations.
      */
     @Autowired
-    MeetingHistoryDAO meetingHistoryDAO;
+    MeetingHistoryService meetingHistoryService;
 
     /**
      * Update (replace) existence meeting in DB. If such meeting no exist in DB,
@@ -195,8 +189,7 @@ public class MeetingServiceImpl implements MeetingService {
     public void deleteById(final Long id) {
         Meeting meeting = meetingDao.getById(id);
         if (meeting.getStatus() == MeetingStatus.FINISHED) {
-            meetingHistoryDAO.create(meetingToMeetingHistory
-                    .convertMeetingToMeetingHistory(meeting));
+            meetingHistoryService.backup(meeting);
         }
         meetingDao.deleteById(id);
 

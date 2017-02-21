@@ -290,7 +290,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
 
     /**
      * Find all meetings in the DB which date and time are in past and status
-     * not FINISHED.
+     * not FINISHED or ARCHIVED.
      *
      * @author Petro Zelyonka
      *
