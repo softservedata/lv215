@@ -10,11 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
-import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
-import com.softserve.edu.schedule.service.MeetingHistoryService;
+import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
 import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingCanceledMailService;
 
@@ -44,16 +43,10 @@ public class RoomEntityListener {
     private MeetingCanceledMailService meetingCanceledMailService;
 
     /**
-     * MeetingHistoryService example to provide meeting backup operations.
-     */
-    @Autowired
-    private MeetingHistoryService meetingHistoryService;
-
-    /**
      * MeetingDAO example to provide meeting delete operations.
      */
     @Autowired
-    private MeetingDAO meetingDAO;
+    private MeetingService meetingService;
 
     /**
      * Delete all meetings in room, archiving non-archived finished meetings and
@@ -71,10 +64,7 @@ public class RoomEntityListener {
             if (e.getStatus().equals(MeetingStatus.APPROVED)) {
                 meetingToAlert.add(meetingCompactDTOConverter.getDTO(e));
             }
-            if (e.getStatus().equals(MeetingStatus.FINISHED)) {
-                meetingHistoryService.backup(e);
-            }
-            meetingDAO.delete(e);
+            meetingService.deleteById(e.getId());
         });
         meetingToAlert.forEach(
                 e -> meetingCanceledMailService.sendInfoMessageRoomDeletion(e,

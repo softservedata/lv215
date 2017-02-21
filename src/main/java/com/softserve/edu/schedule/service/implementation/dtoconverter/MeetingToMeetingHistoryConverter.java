@@ -8,8 +8,9 @@ import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingHistory;
 
 @Component
-public class MeetingToMeetingHistory {
-    public MeetingHistory convertMeetingToMeetingHistory(final Meeting meeting) {
+public class MeetingToMeetingHistoryConverter {
+    public MeetingHistory convertMeetingToMeetingHistory(
+            final Meeting meeting) {
         if (meeting != null) {
             MeetingHistory meetingHistory = new MeetingHistory();
             meetingHistory.setIdMeeting(Long.toString(meeting.getId()));
