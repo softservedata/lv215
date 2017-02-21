@@ -36,13 +36,12 @@ public class ApplicationInitializer
     @Override
     public void onStartup(final ServletContext servletContext)
             throws ServletException {
-        AnnotationConfigWebApplicationContext rootContext = new AnnotationConfigWebApplicationContext();
-        rootContext.register(ApplicationConfig.class, TaskExecutorsConfig.class,
-                MailSendingConfig.class, SocialConfig.class);
-        servletContext.addListener(new ContextLoaderListener(rootContext));
 
         AnnotationConfigWebApplicationContext servletAppContext = new AnnotationConfigWebApplicationContext();
         servletAppContext.register(WebConfig.class);
+        servletContext
+                .addListener(new ContextLoaderListener(servletAppContext));
+
         DispatcherServlet dispatcherServlet = new DispatcherServlet(
                 servletAppContext);
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);
@@ -63,7 +62,9 @@ public class ApplicationInitializer
      */
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] {WebSecurityConfig.class};
+        return new Class[] {ApplicationConfig.class, TaskExecutorsConfig.class,
+                MailSendingConfig.class, SocialConfig.class,
+                WebSecurityConfig.class};
     }
 
     /**

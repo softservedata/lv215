@@ -75,7 +75,7 @@
 	</div>
 	<div class="row">
 		<div
-			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default-login">
 			<div class="row social-button-row">
 				<div class="col-lg-6 col-md-6 col-sm-8">
 					<a href="${pageContext.request.contextPath}/auth/facebook"
