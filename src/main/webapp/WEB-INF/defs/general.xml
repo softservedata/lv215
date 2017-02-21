@@ -173,4 +173,10 @@
 	<definition extends="common" name="roomequipments/edit">
 		<put-attribute name="body" value="/WEB-INF/views/equipments/edit.jsp" />
 	</definition>
+	
+		<!-- Definitions for Statistics page -->
+	<definition extends="common" name="statistics/list">
+		<put-attribute name="body" value="/WEB-INF/views/statistics/list.jsp" />
+	</definition>
+	
 </tiles-definitions>

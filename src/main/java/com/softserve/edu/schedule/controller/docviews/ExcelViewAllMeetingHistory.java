@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.web.servlet.view.document.AbstractXlsView;
 
-import com.softserve.edu.schedule.entity.MeetingHistory;
+import com.softserve.edu.schedule.dto.MeetingHistoryDTO;
 import com.softserve.edu.schedule.service.MeetingHistoryService;
 
 /**
@@ -23,7 +23,7 @@ import com.softserve.edu.schedule.service.MeetingHistoryService;
  * @author www.codejava.net
  *
  */
-public class ExcelView extends AbstractXlsView {
+public class ExcelViewAllMeetingHistory extends AbstractXlsView {
 
     @Autowired
     MeetingHistoryService meetingHistoryService;
@@ -39,7 +39,7 @@ public class ExcelView extends AbstractXlsView {
         response.setHeader("Content-Disposition",
                 "attachment; filename=MeetingsArchive.xls");
 
-        List<MeetingHistory> listMH = meetingHistoryService.getAll();
+        List<MeetingHistoryDTO> listMH = meetingHistoryService.getAll();
         
         Sheet sheet = workbook.createSheet("Meeting History");
         
@@ -58,24 +58,24 @@ public class ExcelView extends AbstractXlsView {
         header.createCell(11).setCellValue("Description");
         
         int rowCount = 1;
-        for (MeetingHistory meetingHistory : listMH) {
+        for (MeetingHistoryDTO meetingHistoryDTO : listMH) {
             Row courseRow = sheet.createRow(rowCount++);
-            courseRow.createCell(0).setCellValue(meetingHistory.getId());
-            courseRow.createCell(1).setCellValue(meetingHistory.getIdMeeting());
-            courseRow.createCell(2).setCellValue(meetingHistory.getSubject());
-            courseRow.createCell(3).setCellValue(meetingHistory.getOwner());
-            courseRow.createCell(4).setCellValue(meetingHistory.getLocation());
-            courseRow.createCell(5).setCellValue(meetingHistory.getAddress());
-            courseRow.createCell(6).setCellValue(meetingHistory.getRoom());
+            courseRow.createCell(0).setCellValue(meetingHistoryDTO.getId());
+            courseRow.createCell(1).setCellValue(Long.parseLong(meetingHistoryDTO.getIdMeeting()));
+            courseRow.createCell(2).setCellValue(meetingHistoryDTO.getSubject());
+            courseRow.createCell(3).setCellValue(meetingHistoryDTO.getOwner());
+            courseRow.createCell(4).setCellValue(meetingHistoryDTO.getLocation());
+            courseRow.createCell(5).setCellValue(meetingHistoryDTO.getAddress());
+            courseRow.createCell(6).setCellValue(meetingHistoryDTO.getRoom());
             courseRow.createCell(7)
-                    .setCellValue(meetingHistory.getDate().toString());
+                    .setCellValue(meetingHistoryDTO.getDate().toString());
             courseRow.createCell(8)
-                    .setCellValue(meetingHistory.getStartTime().toString());
+                    .setCellValue(meetingHistoryDTO.getStartTime().toString());
             courseRow.createCell(9)
-                    .setCellValue(meetingHistory.getEndTime().toString());
-            courseRow.createCell(10).setCellValue(meetingHistory.getGroups());
+                    .setCellValue(meetingHistoryDTO.getEndTime().toString());
+            courseRow.createCell(10).setCellValue(meetingHistoryDTO.getGroups());
             courseRow.createCell(11)
-                    .setCellValue(meetingHistory.getDescription());
+                    .setCellValue(meetingHistoryDTO.getDescription());
 
         }
 
