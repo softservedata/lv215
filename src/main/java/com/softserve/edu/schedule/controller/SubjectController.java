@@ -6,6 +6,11 @@
  */
 package com.softserve.edu.schedule.controller;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -39,6 +47,9 @@ public class SubjectController
 	 */
 	@Autowired
 	private SubjectService subjectService;
+	
+	@Autowired
+	private FileStorageDAO dao;
 
 	/**
 	 * UserForSubjectDTOEditor example to provide conversions from form select
@@ -146,6 +157,27 @@ public class SubjectController
 			return SUBJECT_CREATE_URL;
 		}
 		subjectService.create(subject);
+		DBObject metaData = new BasicDBObject();
+		metaData.put("extra1", "anything 1");
+		metaData.put("extra2", "anything 2");
+		InputStream inputStream = null;
+		try {
+			inputStream = new FileInputStream("E:\\some1.jpg");
+			String id = dao.store(inputStream, "some1.jpg",
+			        "image/jpg", metaData);
+			System.out.println(id);
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return SUBJECTS_REDIRECT_URL;
 	}
 
