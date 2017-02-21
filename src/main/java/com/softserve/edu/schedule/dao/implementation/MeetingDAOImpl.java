@@ -302,14 +302,23 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
         Root<Meeting> root = cq.from(Meeting.class);
 
-        Predicate predicate = builder.conjunction();
-        predicate = builder.and(predicate, builder.lessThan(
-                root.get(Meeting_.date), LocalDate.now().plusDays(1)));
-        predicate = builder.and(predicate,
+        Predicate todayPredicate = builder.conjunction();
+        todayPredicate = builder.and(todayPredicate,
+                builder.equal(root.get(Meeting_.date), LocalDate.now()));
+        todayPredicate = builder.and(todayPredicate,
                 builder.lessThan(root.get(Meeting_.endTime), LocalTime.now()));
-        predicate = builder.and(predicate, builder
-                .not(root.get(Meeting_.status).in(MeetingStatus.FINISHED)));
-        cq.where(predicate);
+
+        Predicate timePredicate = builder.disjunction();
+        timePredicate = builder.or(timePredicate,
+                builder.lessThan(root.get(Meeting_.date), LocalDate.now()));
+        timePredicate = builder.or(timePredicate, todayPredicate);
+
+        Predicate searchPredicate = builder.conjunction();
+        searchPredicate = builder.and(searchPredicate, builder
+                .not(root.get(Meeting_.status).in(MeetingStatus.FINISHED, MeetingStatus.ARCHIVED)));
+        searchPredicate = builder.and(searchPredicate, timePredicate);
+
+        cq.where(searchPredicate);
         return getEm().createQuery(cq).getResultList();
     }
 
@@ -515,19 +524,20 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         return getEm().createQuery(cq).getResultList();
     }
 
-	@Override
-	public List<Meeting> getFinishedMeetings() {
-		 CriteriaBuilder builder = getEm().getCriteriaBuilder();
-	        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-	        Root<Meeting> root = cq.from(Meeting.class);
+    @Override
+    public List<Meeting> getPastNotArchivedMeetings() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
+        Root<Meeting> root = cq.from(Meeting.class);
 
-	        Predicate predicate = builder.conjunction();
-	        predicate = builder.and(predicate, builder.lessThan(
-	                root.get(Meeting_.date), LocalDate.now().plusDays(1)));
-	        predicate = builder.and(predicate, builder
-	                .lessThan(root.get(Meeting_.endTime), LocalTime.now()));
-	        cq.where(predicate);
-	        cq.distinct(true);
-	        return getEm().createQuery(cq).getResultList();
-	}
+        Predicate predicate = builder.conjunction();
+        predicate = builder.and(predicate, builder.lessThan(
+                root.get(Meeting_.date), LocalDate.now()));
+        predicate = builder.and(predicate, builder
+                .not(root.get(Meeting_.status).in(MeetingStatus.ARCHIVED)));
+        
+        cq.where(predicate);
+        cq.distinct(true);
+        return getEm().createQuery(cq).getResultList();
+    }
 }

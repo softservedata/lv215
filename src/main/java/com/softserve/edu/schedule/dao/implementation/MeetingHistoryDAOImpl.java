@@ -38,4 +38,11 @@ public class MeetingHistoryDAOImpl extends CrudDAOImpl<MeetingHistory>
         return getEm().createQuery(cq).getResultList();
     }
 
+    public List<MeetingHistory> getAllMeetingHistory() {
+        CriteriaBuilder builder = getEm().getCriteriaBuilder();
+        CriteriaQuery<MeetingHistory> cq = builder
+                .createQuery(MeetingHistory.class);
+        return getEm().createQuery(cq).getResultList();
+    }
+
 }

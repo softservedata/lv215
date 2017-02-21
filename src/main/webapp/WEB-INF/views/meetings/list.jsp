@@ -38,6 +38,13 @@
 <h3 class="text-center">
 	<spring:message code="lbl.meeting.all" />
 </h3>
+
+
+	<div align="center">
+        <h3><a href="meetings/downloadExcel">Download Meeting History Excel file</a></h3>
+    </div>
+    
+    
 <div class="table-responsive">
 	<table class="table table-hover">
 		<tr>
@@ -288,7 +295,7 @@
 				</td>
 				<td><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
-						<c:if test="${ meeting.status.ordinal() != 2}">
+						<c:if test="${ meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4}">
 						<a
 							data-href="${pageContext.request.contextPath}/
 							${MeetingController.DELETE_MAPPING}/${meeting.id}"
@@ -299,7 +306,7 @@
 						</c:if>
 					</sec:authorize> <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<sec:authentication property="principal.id" var="principarid" />
-						<c:if test="${principarid eq  meeting.owner.id && meeting.status.ordinal() != 2}">
+						<c:if test="${principarid eq  meeting.owner.id && meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4}">
 							<a
 								data-href="${pageContext.request.contextPath}/
 								${MeetingController.DELETE_MAPPING}/${meeting.id}"
@@ -311,15 +318,17 @@
 					</sec:authorize></td>
 				<td><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
+						<c:if test="${ meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4}">
 						<a
 							href="${pageContext.request.contextPath}/
 							${MeetingController.MEETING_EDIT_URL}/${meeting.id}"
 							title="<spring:message code="lbl.meeting.edit" />"> <i
 							class="fa fa-pencil-square-o fa-lg"></i>
 						</a>
+						</c:if>
 					</sec:authorize> <sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 						<sec:authentication property="principal.id" var="principarid" />
-						<c:if test="${principarid eq  meeting.owner.id}">
+						<c:if test="${principarid eq  meeting.owner.id && meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4 }">
 							<a
 								href="${pageContext.request.contextPath}/
 								${MeetingController.MEETING_EDIT_URL}/${meeting.id}"
@@ -332,6 +341,7 @@
 		</c:forEach>
 	</table>
 </div>
+
 <div class="row">
 	<div class="col-md-2">
 		<p>

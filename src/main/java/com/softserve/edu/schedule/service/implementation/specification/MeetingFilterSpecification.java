@@ -223,7 +223,7 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
                         .ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.asc(root.get(Meeting_.description)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter
@@ -231,13 +231,13 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
                                 .ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.desc(root.get(Meeting_.description)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.SUBJECT.ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.asc(subjectJoin.get(Subject_.name)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter
@@ -245,51 +245,51 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
                                 .ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.desc(subjectJoin.get(Subject_.name)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.OWNER.ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.asc(ownerJoin.get(User_.lastName)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter.getFieldForSorting() == MeetingSortField.OWNER
                         .ordinal()) {
             criteriaQuery.orderBy(
                     criteriaBuilder.desc(ownerJoin.get(User_.lastName)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.ROOM.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(roomJoin.get(Room_.name)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter.getFieldForSorting() == MeetingSortField.ROOM
                         .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(roomJoin.get(Room_.name)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.DATE.ordinal()) {
             criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Meeting_.date)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter.getFieldForSorting() == MeetingSortField.DATE
                         .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.date)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.STARTTIME.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.startTime)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter
@@ -297,13 +297,13 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
                                 .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.endTime)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.ENDTIME.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.endTime)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter
@@ -311,33 +311,34 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
                                 .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.endTime)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.LEVEL.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.level)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter.getFieldForSorting() == MeetingSortField.LEVEL
                         .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.level)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.ASC.ordinal() && meetingFilter
                 .getFieldForSorting() == MeetingSortField.STATUS.ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.asc(root.get(Meeting_.status)));
-        }
+        } else
 
         if (meetingFilter.getSortOrder() == Order.DESC.ordinal()
                 && meetingFilter.getFieldForSorting() == MeetingSortField.STATUS
                         .ordinal()) {
             criteriaQuery
                     .orderBy(criteriaBuilder.desc(root.get(Meeting_.status)));
-        } else {
+        } 
+        else {
             criteriaQuery.orderBy(criteriaBuilder.desc(root.get(Meeting_.id)));
         }
     }

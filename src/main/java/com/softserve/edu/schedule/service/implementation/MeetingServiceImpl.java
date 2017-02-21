@@ -20,16 +20,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.MeetingDAO;
+import com.softserve.edu.schedule.dao.MeetingHistoryDAO;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.MeetingForChartDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
+import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForCalendarDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForChartDTOConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingToMeetingHistory;
 import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingChangeStatusMailService;
 
 /**
@@ -70,6 +73,12 @@ public class MeetingServiceImpl implements MeetingService {
     private MeetingChangeStatusMailService meetingChangeStatusMailService;
 
     /**
+     * MeetingToMeetingHistory example operations.
+     */
+    @Autowired
+    private MeetingToMeetingHistory meetingToMeetingHistory;
+
+    /**
      * Saving Meeting in database.
      *
      * @param meetingDTO
@@ -94,6 +103,12 @@ public class MeetingServiceImpl implements MeetingService {
     }
 
     /**
+     * MeetingHistoryDAO example. operations.
+     */
+    @Autowired
+    MeetingHistoryDAO meetingHistoryDAO;
+
+    /**
      * Update (replace) existence meeting in DB. If such meeting no exist in DB,
      * it will add it.
      *
@@ -102,6 +117,10 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void update(final MeetingDTO meetingDTO) {
+        if (meetingDTO.getStatus() == MeetingStatus.FINISHED
+                || meetingDTO.getStatus() == MeetingStatus.ARCHIVED) {
+            return;
+        }
         sendMailIfStatusChanged(meetingDTO);
         meetingDao.update(meetingDTOConverter.getEntity(meetingDTO));
     }
@@ -174,9 +193,13 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void deleteById(final Long id) {
-        if (meetingDao.getById(id).getStatus() != MeetingStatus.FINISHED){
-            meetingDao.deleteById(id);  
+        Meeting meeting = meetingDao.getById(id);
+        if (meeting.getStatus() == MeetingStatus.FINISHED) {
+            meetingHistoryDAO.create(meetingToMeetingHistory
+                    .convertMeetingToMeetingHistory(meeting));
         }
+        meetingDao.deleteById(id);
+
     }
 
     /**

@@ -3,6 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ page
 	import="com.softserve.edu.schedule.controller.UserGroupController"%>
 
@@ -50,20 +52,35 @@
 
 				<label for="curator"><spring:message
 						code="lbl.group.curator" /></label>
-				<form:select class="form-control" path="curator" id="curator">
-					<c:forEach items="${curators}" var="curator">
-						<c:choose>
-							<c:when test="${userGroupForm.curator.id eq curator.id}">
-								<option value="${curator.id}" selected="selected">${curator.lastName}
-									${curator.firstName}</option>
-							</c:when>
-							<c:otherwise>
+				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
+					<form:select class="form-control" path="curator" id="curator">
+						<c:forEach items="${curators}" var="curator">
+							<c:choose>
+								<c:when test="${userGroupForm.curator.id eq curator.id}">
+									<option value="${curator.id}" selected="selected">${curator.lastName}
+										${curator.firstName}</option>
+								</c:when>
+								<c:otherwise>
+									<option value="${curator.id}">${curator.lastName}
+										${curator.firstName}</option>
+								</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</form:select>
+				</sec:authorize>
+				
+				<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
+					<sec:authentication property="principal.id" var="principalid" />
+					<form:select class="form-control" path="curator" id="curator"
+						readonly="true">
+						<c:forEach items="${curators}" var="curator">
+							<c:if test="${principalid eq curator.id}">
 								<option value="${curator.id}">${curator.lastName}
 									${curator.firstName}</option>
-							</c:otherwise>
-						</c:choose>
-					</c:forEach>
-				</form:select>
+							</c:if>
+						</c:forEach>
+					</form:select>
+				</sec:authorize>
 
 				<label for="users"><spring:message code="lbl.group.members" /></label>
 				<form:select class="form-control" path="users" id="users"

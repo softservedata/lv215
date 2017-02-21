@@ -5,6 +5,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
+import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
@@ -38,6 +39,9 @@ public class ApplicationInitializer
 
         AnnotationConfigWebApplicationContext servletAppContext = new AnnotationConfigWebApplicationContext();
         servletAppContext.register(WebConfig.class);
+        servletContext
+                .addListener(new ContextLoaderListener(servletAppContext));
+
         DispatcherServlet dispatcherServlet = new DispatcherServlet(
                 servletAppContext);
         dispatcherServlet.setThrowExceptionIfNoHandlerFound(true);

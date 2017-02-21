@@ -13,6 +13,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.softserve.edu.schedule.entity.Meeting;
+import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.implementation.mailsenders.DeleteMeetingMailService;
 
 /**
@@ -42,8 +43,11 @@ public class MeetingEntityListener {
      */
     @PreRemove
     public void processingBeforeMeetingDeletion(final Meeting meeting) {
-        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-        deleteMeetingMailService.sendInfoMessageAboutMeetingDeletetion(meeting,
-                LocaleContextHolder.getLocale());
+        if (meeting.getStatus() == MeetingStatus.FINISHED) {
+            SpringBeanAutowiringSupport
+                    .processInjectionBasedOnCurrentContext(this);
+            deleteMeetingMailService.sendInfoMessageAboutMeetingDeletetion(
+                    meeting, LocaleContextHolder.getLocale());
+        }
     }
 }

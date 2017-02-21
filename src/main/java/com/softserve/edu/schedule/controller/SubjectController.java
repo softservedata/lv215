@@ -6,6 +6,12 @@
  */
 package com.softserve.edu.schedule.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +25,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -39,6 +50,9 @@ public class SubjectController
 	 */
 	@Autowired
 	private SubjectService subjectService;
+
+	@Autowired
+	private FileStorageDAO dao;
 
 	/**
 	 * UserForSubjectDTOEditor example to provide conversions from form select
@@ -216,5 +230,57 @@ public class SubjectController
 	        final Model model) {
 		model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
 		return SUBJECTS_SHOW_URL;
+	}
+
+	@RequestMapping("/subjects/simple")
+	public String showSubjectSimple() {
+		return "subjects/simple";
+	}
+
+	@RequestMapping(value = "/subjects/simple", method = RequestMethod.POST)
+	public String showSubjectSimplePost(@RequestParam MultipartFile file) {
+
+		//
+		// User user = userDAO.findByMail(principal.getName());
+		//
+		// String path = PATH + user.getMail() + SLASH
+		// + multipartFile.getOriginalFilename();
+		//
+		// user.setPathImage(NAME_OF_FILE + user.getMail() + SLASH
+		// + multipartFile.getOriginalFilename());
+		//
+		// File file = new File(path);
+		//
+		// try {
+		// file.mkdirs();
+		// try {
+		// FileUtils.cleanDirectory(
+		// new File(PATH + user.getMail() + SLASH));
+		// } catch (IOException e) {
+		// e.printStackTrace();
+		// }
+		// multipartFile.transferTo(file);
+		// } catch (IOException e) {
+		// System.out.println("error with file");
+		// }
+		// userDAO.update(user);
+
+		DBObject metaData = new BasicDBObject();
+		metaData.put("rinox", "anything 1");
+
+		try {
+			dao.store(file.getInputStream(), "testing.png", "image/png",
+			        metaData);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("Done");
+
+		System.out.println(file.getContentType());
+		System.out.println(file.getName());
+		System.out.println(file.getOriginalFilename());
+
+		return "subjects/simple";
 	}
 }

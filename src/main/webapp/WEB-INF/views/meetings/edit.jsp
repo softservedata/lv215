@@ -201,7 +201,7 @@
 												code="${status.getMessageCode()}" /></option>
 									</c:when>
 									<c:otherwise>
-										<c:if test="${status.ordinal() ne 2}">
+										<c:if test="${status.ordinal() ne 2 && status.ordinal() ne 4 }">
 											<option value="${status}"><spring:message
 													code="${status.getMessageCode()}" /></option>
 										</c:if>

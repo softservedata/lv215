@@ -11,11 +11,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
+import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
+import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForAndroidDTO;
+import com.softserve.edu.schedule.dto.UserGroupForAndroidDTO;
+import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.MeetingService;
+import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.RoomService;
+import com.softserve.edu.schedule.service.SubjectService;
+import com.softserve.edu.schedule.service.UserGroupService;
 import com.softserve.edu.schedule.service.UserService;
 
 /**
@@ -47,6 +55,30 @@ public class AndroidRESTController {
      */
     @Autowired
     private RoomService roomService;
+
+    /**
+     * UserGroupService example to provide group list.
+     */
+    @Autowired
+    private UserGroupService userGroupService;
+
+    /**
+     * UserGroupService example to provide group list.
+     */
+    @Autowired
+    private SubjectService subjectService;
+
+    /**
+     * LocationService example to provide location list.
+     */
+    @Autowired
+    private LocationService locationService;
+
+    /**
+     * LocationService example to provide location list.
+     */
+    @Autowired
+    private RoomEquipmentService roomEquipmentService;
 
     /**
      * Provide ResponseEntity with UserForAndroidDTO instance by given mail and
@@ -115,4 +147,64 @@ public class AndroidRESTController {
         return new ResponseEntity<>(rooms, HttpStatus.OK);
     }
 
+    /**
+     * Provide ResponseEntity with list of UserGroupDTO instances.
+     *
+     * @return ResponseEntity with list of UserGroupDTO instances.
+     */
+    @RequestMapping(value = "/groups/restGroupsAndroid",
+            method = RequestMethod.GET)
+    public ResponseEntity<List<UserGroupForAndroidDTO>> getGroups() {
+        List<UserGroupForAndroidDTO> groups = userGroupService
+                .getAllForAndroid();
+        if (groups.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(groups, HttpStatus.OK);
+    }
+
+    /**
+     * Provide ResponseEntity with list of SubjectDTO instances.
+     *
+     * @return ResponseEntity with list of SubjectDTO instances.
+     */
+    @RequestMapping(value = "/subjects/restSubjectsAndroid",
+            method = RequestMethod.GET)
+    public ResponseEntity<List<SubjectDTO>> getSubjects() {
+        List<SubjectDTO> subjects = subjectService.getAll();
+        if (subjects.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(subjects, HttpStatus.OK);
+    }
+
+    /**
+     * Provide ResponseEntity with list of LocationDTO instances.
+     *
+     * @return ResponseEntity with list of LocationDTO instances.
+     */
+    @RequestMapping(value = "/locations/restLocationsAndroid",
+            method = RequestMethod.GET)
+    public ResponseEntity<List<LocationDTO>> getLocations() {
+        List<LocationDTO> locations = locationService.getAll();
+        if (locations.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(locations, HttpStatus.OK);
+    }
+
+    /**
+     * Provide ResponseEntity with list of RoomEquipmentDTO instances.
+     *
+     * @return ResponseEntity with list of RoomEquipmentDTO instances.
+     */
+    @RequestMapping(value = "/roomequipments/restEquipmentsAndroid",
+            method = RequestMethod.GET)
+    public ResponseEntity<List<RoomEquipmentDTO>> getEquipments() {
+        List<RoomEquipmentDTO> equipments = roomEquipmentService.getAll();
+        if (equipments.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(equipments, HttpStatus.OK);
+    }
 }
