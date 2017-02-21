@@ -7,9 +7,9 @@
 		<parameter name="numberTest" value="Test" />
 		<classes>
 			<!-- <class name="com.softserve.edu.AppTest" /> -->
-			<class name="com.softserve.edu.AppTest">
+			<class name="com.softserve.edu.schedule.tests.LoginTest">
 				<methods>
-					<include name="testApp" />
+					<include name="adminSmoke" />
 				</methods>
 			</class>
 		</classes>

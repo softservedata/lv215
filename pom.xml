@@ -55,6 +55,8 @@
 		<org.testng.version>6.9.10</org.testng.version>
 		<testng.reports.directory>./target/surefire-reports/test-output</testng.reports.directory>
 		<maven.surefire.plugin.version>2.19.1</maven.surefire.plugin.version>
+		<org.seleniumhq.version>3.1.0</org.seleniumhq.version>
+		<org.seleniumhq.selenium.htmlunit-driver>2.21</org.seleniumhq.selenium.htmlunit-driver>
 		<!-- - - - - - Mock - - - - - -->
 		<org.mockito.version>1.10.19</org.mockito.version>
 		<org.powermock.version>1.6.4</org.powermock.version>
@@ -105,11 +107,11 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>${org.hibernate.version}</version>
 		</dependency>
-<!-- 		<dependency> -->
-<!-- 			<groupId>org.hibernate</groupId> -->
-<!-- 			<artifactId>hibernate-entitymanager</artifactId> -->
-<!-- 			<version>${org.hibernate.version}</version> -->
-<!-- 		</dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>org.hibernate</groupId> -->
+		<!-- <artifactId>hibernate-entitymanager</artifactId> -->
+		<!-- <version>${org.hibernate.version}</version> -->
+		<!-- </dependency> -->
 		<!-- <dependency> -->
 		<!-- <groupId>org.hibernate</groupId> -->
 		<!-- <artifactId>hibernate-validator</artifactId> -->
@@ -289,6 +291,28 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- - - - - - Automation Framework Selenium - - - - - -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>${org.seleniumhq.version}</version>
+		</dependency>
+		<!-- <dependency> -->
+		<!-- <groupId>org.seleniumhq.selenium</groupId> -->
+		<!-- <artifactId>htmlunit-driver</artifactId> -->
+		<!-- <version>${org.seleniumhq.selenium.htmlunit-driver}</version> -->
+		<!-- </dependency> -->
+		<!-- <dependency> -->
+		<!-- <groupId>com.github.detro.ghostdriver</groupId> -->
+		<!-- <artifactId>phantomjsdriver</artifactId> -->
+		<!-- <version>1.1.0</version> -->
+		<!-- </dependency> -->
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>21.0</version>
+		</dependency>
 		<!-- - - - - - Mock - - - - - -->
 		<dependency>
 			<groupId>org.mockito</groupId>
