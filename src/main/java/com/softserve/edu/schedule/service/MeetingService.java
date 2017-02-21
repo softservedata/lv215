@@ -14,6 +14,7 @@ import java.util.List;
 
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
+import com.softserve.edu.schedule.dto.MeetingForChartDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.MeetingStatus;
@@ -226,4 +227,7 @@ public interface MeetingService {
      *            meeting DTO of changed meeting. We need it for confirmation.
      */
     void sendMailIfStatusChanged(MeetingDTO meetingDTO);
+    
+    List<MeetingForChartDTO> getMeetingsForChartInIntervalByUserId(String userId,
+            String start, String end);
 }

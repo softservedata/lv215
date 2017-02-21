@@ -22,12 +22,14 @@ import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
+import com.softserve.edu.schedule.dto.MeetingForChartDTO;
 import com.softserve.edu.schedule.dto.filter.MeetingFilter;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForCalendarDTOConverter;
+import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingForChartDTOConverter;
 import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingChangeStatusMailService;
 
 /**
@@ -58,7 +60,8 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Autowired
     private MeetingForCalendarDTOConverter meetingForCalendarDTOConverter;
-
+    @Autowired
+    private MeetingForChartDTOConverter meetingForChartDTOConverter;
     /**
      * MeetingStatusChangeMailService example to provide send mail to user
      * operations.
@@ -382,4 +385,12 @@ public class MeetingServiceImpl implements MeetingService {
                 .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
+
+	@Override
+	public List<MeetingForChartDTO> getMeetingsForChartInIntervalByUserId(String userId, String start, String end) {
+		 LocalDate startDate = LocalDate.parse(start);
+	        LocalDate endDate = LocalDate.parse(end);
+	        Long id = Long.parseLong(userId);
+		return meetingForChartDTOConverter.getListDTO(meetingDao.getMeetingsInIntervalByUserId(id, startDate, endDate));			
+	}
 }
