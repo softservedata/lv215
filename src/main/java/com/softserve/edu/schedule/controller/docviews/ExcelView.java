@@ -61,7 +61,7 @@ public class ExcelView extends AbstractXlsView {
         for (MeetingHistory meetingHistory : listMH) {
             Row courseRow = sheet.createRow(rowCount++);
             courseRow.createCell(0).setCellValue(meetingHistory.getId());
-            courseRow.createCell(1).setCellValue(meetingHistory.getIdMeeting());
+            courseRow.createCell(1).setCellValue(Long.parseLong(meetingHistory.getIdMeeting()));
             courseRow.createCell(2).setCellValue(meetingHistory.getSubject());
             courseRow.createCell(3).setCellValue(meetingHistory.getOwner());
             courseRow.createCell(4).setCellValue(meetingHistory.getLocation());
