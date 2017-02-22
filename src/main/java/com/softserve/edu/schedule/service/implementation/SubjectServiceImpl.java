@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -202,13 +205,18 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 
 	@Override
-	public void retriveSubjectFileById(Long id, String fileName) {
-		GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(Long.toString(id), fileName+".jpg");
-		System.out.println(file.getFilename());
-		try {
-			file.writeTo("E:/2017/some.jpg");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public void retriveSubjectFileById(Long id, String fileName, HttpServletResponse response) {
+		GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(Long.toString(id), fileName);
+		if (file != null) {
+	        try {
+	            response.setContentType(file.getContentType());
+	            response.setContentLength((new Long(file.getLength()).intValue()));
+	            response.setHeader("content-Disposition", "attachment; filename=" + file.getFilename());// "attachment;filename=test.xls"
+	            // copy it to response's OutputStream
+	            IOUtils.copyLarge(file.getInputStream(), response.getOutputStream());
+	        } catch (IOException e) {
+	        	e.printStackTrace();
+	        }
+	    }
 	}
 }
