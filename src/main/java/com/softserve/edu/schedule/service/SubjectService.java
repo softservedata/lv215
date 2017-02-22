@@ -91,5 +91,11 @@ public interface SubjectService {
 	public List<SubjectDTO> getSubjectsPageWithFilter(
 	        SubjectFilter subjectFilter, Paginator subjectPaginator);
 	
-	public void uploadFile(MultipartFile file, String subjectName);
+	public void uploadFile(MultipartFile file, Long id);
+	
+	public List<String> showSubjectFiles(Long id);
+	
+	public void deleteSubjectFileById(Long id);
+	
+	public void retriveSubjectFileById(Long id, String fileName);
 }
