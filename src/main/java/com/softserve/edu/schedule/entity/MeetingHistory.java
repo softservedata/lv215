@@ -1,3 +1,4 @@
+/* MeetingHistory entity 1.0 22/02/2017 */
 package com.softserve.edu.schedule.entity;
 
 import java.time.LocalDate;
@@ -9,33 +10,78 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
+/**
+ * An entity class for meetingHistories.
+ *
+ * @version 1.0 22 02 2017.
+ *
+ * @author Bohdan Melnyk
+ *
+ * @since 1.8
+ */
 @Entity
 public class MeetingHistory {
 
+    /**
+     * Id for database.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * Id for the real meeting from meeting entity.
+     */
     private String idMeeting;
 
+    /**
+     * The name of subject of this meetingHistory.
+     */
     private String subject;
 
+    /**
+     * The name of room of this meetingHistory.
+     */
     private String room;
 
+    /**
+     * The name of location of this meetingHistory.
+     */
     private String location;
 
+    /**
+     * Address of subject of this meetingHistory.
+     */
     private String address;
 
+    /**
+     * Date of subject of this meetingHistory.
+     */
     private LocalDate date;
 
+    /**
+     * StartTime of subject of this meetingHistory.
+     */
     private LocalTime startTime;
 
+    /**
+     * EndTime of subject of this meetingHistory.
+     */
     private LocalTime endTime;
 
+    /**
+     * The list of groups of this meetingHistory.
+     */
     private String groups;
 
+    /**
+     * The name of meeting owner of this meetingHistory.
+     */
     private String owner;
 
+    /**
+     * The description of this meetingHistory.
+     */
     @Lob
     private String description;
 

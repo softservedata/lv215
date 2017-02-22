@@ -1,5 +1,5 @@
 /*
- * Interface for Meetings Service.
+ * Interface for MeetingsHistory Service.
  *
  * Version 03.01.17
  *
@@ -19,7 +19,7 @@ import com.softserve.edu.schedule.entity.MeetingHistory;
 /**
  * This interface for managing MeetingsHistory Service.
  *
- * @version 1.0 12.12.2016
+ * @version 1.0 22.02.2017
  * @author Bohdan Melnyk
  */
 public interface MeetingHistoryService {
@@ -43,6 +43,13 @@ public interface MeetingHistoryService {
     public List<MeetingHistory> getMeetingHistoryByIdMeeting(
             final String idMeeting);
 
+    /**
+     * Creates new MeetingHistory in the MeetingHistory table by given
+     * MeetingHostory.
+     * 
+     * @param meetingHistory
+     *            meetingHistory to be created.
+     */
     public void create(final MeetingHistory meetingHistory);
 
     /**
@@ -51,5 +58,5 @@ public interface MeetingHistoryService {
      * @param meeting
      *            meeting to backup.
      */
-    public void backup(Meeting meeting);
+    public void backup(final Meeting meeting);
 }
