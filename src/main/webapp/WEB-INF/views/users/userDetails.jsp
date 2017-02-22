@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
@@ -23,15 +23,29 @@
 				<h3 class="text-center">
 					<spring:message code="lbl.user.profile" />
 				</h3>
-				<%-- <br> <img src="<c:url value='${user.pathImage}'/>" height="200"><br>
+				<%-- <br> <img src="<c:url value='${user.pathImage}'/>" height="200"><br> --%>
+				<%-- <br> <img src="<c:url value='${user.pathImage}'/>" height="200"><br> --%>
+
+
+				<%-- <c:url var="getPhoto" value="/getPhoto" />
+				<div id="preview">
+					<img id="imagePreview" src="${getPhoto}" alt="Profile Photo" />
+				</div> --%>
+
+
+
+
 				<form:form commandName="${UserController.USER_MODEL_ATTR}"
 					action="${pageContext.request.contextPath}${UserController.SAVE_IMAGES}?${_csrf.parameterName}=${_csrf.token}"
-					method="post" enctype="multipart/form-data"><br>
-					<input type="file" name="image"><br>
-					<div class="form-group">
-						<input type="submit" class="form-control"
-							value="<spring:message code="lbl.form.save"/>">
-					</div>--%>
+					method="post" enctype="multipart/form-data">
+					<br>
+					<input type="file" name="image">
+					<br>
+				</form:form>
+				<div class="form-group">
+					<input type="submit" class="form-control"
+						value="<spring:message code="lbl.form.save"/>">
+				</div>
 				<div class="form-group">
 					<label for="firstName"><spring:message
 							code="lbl.user.firstName" />:</label> <b>${user.firstName}</b>

@@ -1,5 +1,6 @@
 package com.softserve.edu.schedule.service.implementation;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,12 +8,12 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.connect.Connection;
@@ -24,7 +25,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
+import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.UserConnectionDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
@@ -330,6 +334,9 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
             throws UsernameNotFoundException {
         return loadUserByUsername(userId);
     }
+    
+    @Autowired
+    private FileStorageDAO dao;
 
     /**
      * Save image in database in the.
@@ -342,10 +349,10 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     @Override
     @Transactional
     public void saveImage(final Principal principal,
-            final MultipartFile multipartFile) {
-        //
+            final MultipartFile file) {
+        
         // User user = userDAO.findByMail(principal.getName());
-        //
+        
         // String path = PATH + user.getMail() + SLASH
         // + multipartFile.getOriginalFilename();
         //
@@ -367,6 +374,24 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
         // System.out.println("error with file");
         // }
         // userDAO.update(user);
+        
+        DBObject metaData = new BasicDBObject();
+        metaData.put(principal.getName(), "photo");
+
+        try {
+            dao.store(file.getInputStream(), file.getOriginalFilename(), "image/png",
+                    metaData);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("Done");
+
+        System.out.println(file.getContentType());
+        System.out.println(file.getName());
+        System.out.println(file.getOriginalFilename());
+
+//        return "subjects/simple";
     }
 
     /*
