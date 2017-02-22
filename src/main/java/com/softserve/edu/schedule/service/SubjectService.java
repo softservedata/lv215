@@ -8,6 +8,8 @@ package com.softserve.edu.schedule.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.dto.SubjectDTO;
@@ -97,5 +99,5 @@ public interface SubjectService {
 	
 	public void deleteSubjectFileById(Long id);
 	
-	public void retriveSubjectFileById(Long id, String fileName);
+	public void retriveSubjectFileById(Long id, String fileName, HttpServletResponse response);
 }
