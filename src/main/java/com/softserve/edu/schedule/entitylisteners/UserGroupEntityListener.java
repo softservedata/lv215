@@ -7,6 +7,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.softserve.edu.schedule.entity.UserGroup;
+import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.mailsenders.UserGroupDeletedMailService;
 
 /**
@@ -18,23 +19,33 @@ import com.softserve.edu.schedule.service.implementation.mailsenders.UserGroupDe
  */
 public class UserGroupEntityListener {
 
-	/**
-	 * UserGroupDeletedMailService example to provide send mail to user
-	 * operations.
-	 */
-	@Autowired
-	private UserGroupDeletedMailService userGroupDeletedMailService;
+    /**
+     * UserGroupDeletedMailService example to provide send mail to user
+     * operations.
+     */
+    @Autowired
+    private UserGroupDeletedMailService userGroupDeletedMailService;
 
-	/**
-	 * Send mail messages to all users from deleted group
-	 * 
-	 * @param userGroup
-	 *            UserGroup that will be deleted.
-	 * 
-	 */
-	@PreRemove
-	public void processingBeforeGroupDeletion(final UserGroup userGroup) {
-		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-		userGroupDeletedMailService.sendInfoMessageGroupDelete(userGroup, LocaleContextHolder.getLocale());
-	}
+    /**
+     * MeetingService example to provide meeting delete operations.
+     */
+    @Autowired
+    private MeetingService meetingService;
+
+    /**
+     * Send mail messages to all users from deleted group
+     * 
+     * @param userGroup
+     *            UserGroup that will be deleted.
+     * 
+     */
+    @PreRemove
+    public void processingBeforeGroupDeletion(final UserGroup userGroup) {
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+        userGroup.getMeetings().forEach(e -> {
+            meetingService.deleteById(e.getId());
+        });
+        userGroupDeletedMailService.sendInfoMessageGroupDelete(userGroup,
+                LocaleContextHolder.getLocale());
+    }
 }
