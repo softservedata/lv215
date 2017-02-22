@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dao.SubjectDAO;
@@ -178,18 +179,36 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 
 	@Override
-	public void uploadFile(MultipartFile file, String subjectName) {
-		if(fileStorageDao.getByFilename(file.getOriginalFilename())==null){
-			DBObject metadata = new BasicDBObject();
-			metadata.put("subjectName", subjectName);
-			try {
-				fileStorageDao.store(file.getInputStream(),
-				        file.getOriginalFilename(), metadata);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			System.out.println("File already exist");
+	public void uploadFile(MultipartFile file, Long id) {
+		DBObject metadata = new BasicDBObject();
+		metadata.put("subjectId", Long.toString(id));
+		try {
+			fileStorageDao.store(file.getInputStream(),
+			        file.getOriginalFilename(), metadata);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public List<String> showSubjectFiles(Long id) {
+		return fileStorageDao.findAllById(Long.toString(id)).stream()
+		        .map(f -> f.getFilename()).collect(Collectors.toList());
+	}
+
+	@Override
+	public void deleteSubjectFileById(Long id) {
+		fileStorageDao.deleteById("metadata.subjectId", Long.toString(id));
+	}
+
+	@Override
+	public void retriveSubjectFileById(Long id, String fileName) {
+		GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(Long.toString(id), fileName+".jpg");
+		System.out.println(file.getFilename());
+		try {
+			file.writeTo("E:/2017/some.jpg");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

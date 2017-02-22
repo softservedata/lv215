@@ -59,6 +59,20 @@
 				</form>
 			</div>
 			<div class="form-group">
+				<h4>Subject files :</h4>
+				<ul>
+					<c:forEach items="${subjectFiles}" var="fileName">
+						<li style="list-style-type: none"><i class="fa fa-file-o"
+							aria-hidden="true"></i> ${fileName}<a
+							href="/schedule/subjects/deleteFile/${subject.id}"
+							title="<spring:message code="lbl.subject.delete"/>"> <i
+								class="fa fa-trash-o fa-lg"></i>
+						</a> <a href="/schedule/subjects/downloadFile/${subject.id}/${fileName}"><i
+								class="fa fa-download" aria-hidden="true"></i></a></li>
+					</c:forEach>
+				</ul>
+			</div>
+			<div class="form-group">
 				<h4>
 					<spring:message code="lbl.subject.tutor" />
 					:
@@ -73,7 +87,7 @@
 						</sec:authorize>
 						<sec:authorize
 							access="!hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')">
-							<li>${user.firstName}${user.lastName}</li>
+							<li>${user.firstName} ${user.lastName}</li>
 						</sec:authorize>
 					</c:forEach>
 				</ul>
