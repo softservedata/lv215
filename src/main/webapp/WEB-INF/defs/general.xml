@@ -117,10 +117,6 @@
 	<definition extends="common" name="subjects/show">
 		<put-attribute name="body" value="/WEB-INF/views/subjects/show.jsp" />
 	</definition>
-	<definition extends="common" name="subjects/simple">
-		<put-attribute name="body" value="/WEB-INF/views/subjects/simple.jsp" />
-	</definition>
-
 
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
@@ -161,7 +157,6 @@
 			value="/WEB-INF/views/meetings/showmeeting.jsp" />
 	</definition>
 
-
 	<!-- Definitions for room equipments -->
 	<definition extends="common" name="roomequipments/list">
 		<put-attribute name="body" value="/WEB-INF/views/equipments/list.jsp" />
@@ -173,10 +168,5 @@
 	<definition extends="common" name="roomequipments/edit">
 		<put-attribute name="body" value="/WEB-INF/views/equipments/edit.jsp" />
 	</definition>
-	
-		<!-- Definitions for Statistics page -->
-	<definition extends="common" name="statistics/list">
-		<put-attribute name="body" value="/WEB-INF/views/statistics/list.jsp" />
-	</definition>
-	
+
 </tiles-definitions>

@@ -9,7 +9,7 @@ import com.mongodb.gridfs.GridFSDBFile;
 public interface FileStorageDAO {
 
 	public String store(InputStream inputStream, String fileName,
-	        String contentType, DBObject metaData);
+	        DBObject metadata);
 
 	public GridFSDBFile retrive(String fileName);
 

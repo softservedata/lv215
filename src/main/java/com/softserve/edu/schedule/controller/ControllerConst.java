@@ -805,6 +805,11 @@ public interface ControllerConst {
          * meeting delete url name.
          */
         String DELETE_MAPPING = "meetings/delete";
+        
+        /**
+         * meetingHistory download url name.
+         */
+        String DOWNLOAD_MAPPING = "/downloadExcel";
 
     }
 }

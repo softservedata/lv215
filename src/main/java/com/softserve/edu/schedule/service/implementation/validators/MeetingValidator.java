@@ -159,17 +159,23 @@ public class MeetingValidator
     private boolean isValidMeetingStatus(MeetingDTO meetingDTO) {
         if (meetingDTO.getDate() != null) {
             if (meetingDTO.getDate().isAfter(LocalDate.now())) {
-                return (meetingDTO.getStatus() != MeetingStatus.FINISHED);
+                return ((meetingDTO.getStatus() != MeetingStatus.FINISHED)
+                        || (meetingDTO.getStatus() != MeetingStatus.APPROVED));
             }
             if (meetingDTO.getDate().isBefore(LocalDate.now())) {
-                return (meetingDTO.getStatus() == MeetingStatus.FINISHED);
+                return ((meetingDTO.getStatus() == MeetingStatus.FINISHED)
+                        || (meetingDTO.getStatus() == MeetingStatus.ARCHIVED));
             }
             if (meetingDTO.getDate().isEqual(LocalDate.now())) {
                 if (meetingDTO.getEndTime().isBefore(LocalTime.now())) {
-                    return (meetingDTO.getStatus() == MeetingStatus.FINISHED);
+                    return ((meetingDTO.getStatus() == MeetingStatus.FINISHED)
+                            || (meetingDTO
+                                    .getStatus() == MeetingStatus.ARCHIVED));
                 }
                 if (meetingDTO.getStartTime().isAfter(LocalTime.now())) {
-                    return (meetingDTO.getStatus() != MeetingStatus.FINISHED);
+                    return ((meetingDTO.getStatus() != MeetingStatus.FINISHED)
+                            || (meetingDTO
+                                    .getStatus() != MeetingStatus.APPROVED));
                 }
             }
             return true;
