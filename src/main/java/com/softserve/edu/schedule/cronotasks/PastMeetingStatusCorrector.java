@@ -1,4 +1,4 @@
-/* PastMeetingStatusCorrector 1.0 02/03/2017 */
+/* PastMeetingStatusCorrector 1.0 02/22/2017 */
 package com.softserve.edu.schedule.cronotasks;
 
 import java.util.List;

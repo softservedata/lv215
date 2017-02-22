@@ -10,6 +10,7 @@
 package com.softserve.edu.schedule.service.implementation;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -281,14 +282,43 @@ public class MeetingServiceImpl implements MeetingService {
     @Transactional(readOnly = true)
     public MeetingStatus getMeetingStatusDuringCreation(
             final MeetingDTO meetingDTO) {
-        if (meetingDao
-                .getApprovedMeetingsByRoomIdAndTime(
-                        meetingDTO.getRoom().getId(), meetingDTO.getDate(),
-                        meetingDTO.getStartTime(), meetingDTO.getEndTime())
-                .isEmpty()) {
-            return MeetingStatus.APPROVED;
+        if (meetingHasConflictWithExistedMeeting(meetingDTO)) {
+            return MeetingStatus.NOT_APPROVED;
         }
-        return MeetingStatus.NOT_APPROVED;
+        return MeetingStatus.APPROVED;
+    }
+
+    /**
+     * Checks room availability before adding meeting to database.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param meetingDTO
+     *            given meeting DTO
+     *
+     * @return true if room is not available for given DTO time interval else
+     *         return false
+     *
+     */
+    private boolean meetingHasConflictWithExistedMeeting(
+            MeetingDTO meetingDTO) {
+        List<Meeting> existedMeetings = meetingDao
+                .getMeetingsInIntervalByRoomId(meetingDTO.getRoom().getId(),
+                        meetingDTO.getDate(), meetingDTO.getDate());
+        LocalTime start = meetingDTO.getStartTime();
+        LocalTime end = meetingDTO.getEndTime();
+        for (Meeting meeting : existedMeetings) {
+            if (meeting.getStatus().equals(MeetingStatus.APPROVED)) {
+                if ((meeting.getStartTime().isAfter(start)
+                        ? meeting.getStartTime() : start.plusNanos(1L))
+                                .isBefore((meeting.getEndTime().isBefore(end)
+                                        ? meeting.getEndTime()
+                                        : end.minusNanos(1L)).plusNanos(1L))) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**

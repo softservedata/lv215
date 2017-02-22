@@ -43,7 +43,9 @@ public class UserGroupEntityListener {
     public void processingBeforeGroupDeletion(final UserGroup userGroup) {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         userGroup.getMeetings().forEach(e -> {
-            meetingService.deleteById(e.getId());
+            if (e.getGroups().size() == 1) {
+                meetingService.deleteById(e.getId());
+            }
         });
         userGroupDeletedMailService.sendInfoMessageGroupDelete(userGroup,
                 LocaleContextHolder.getLocale());

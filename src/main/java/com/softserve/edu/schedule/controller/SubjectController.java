@@ -217,6 +217,7 @@ public class SubjectController
 	public String showSubjectDetails(@PathVariable final Long id,
 	        final Model model) {
 		model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
+		model.addAttribute("subjectFiles", subjectService.showSubjectFiles(id));
 		return SUBJECTS_SHOW_URL;
 	}
 
@@ -225,7 +226,23 @@ public class SubjectController
 	public String showSubjectUploadFile(@PathVariable final Long id,
 	        @RequestParam final MultipartFile file, final Model model) {
 		model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
-		subjectService.uploadFile(file, subjectService.getById(id).getName());
-		return SUBJECTS_SHOW_URL;
+		model.addAttribute("subjectFiles", subjectService.showSubjectFiles(id));
+		subjectService.uploadFile(file, id);
+		return "redirect:/subjects/{id}";
 	}
+
+	@RequestMapping("/subjects/deleteFile/" + "{id}")
+	public String deleteFile(@PathVariable final Long id) {
+		subjectService.deleteSubjectFileById(id);
+		return "redirect:/subjects/{id}";
+	}
+	
+	@RequestMapping("/subjects/downloadFile/" + "{id}/{fileName}")
+	public String downloadFile(@PathVariable final Long id, @PathVariable final String fileName) {
+		System.out.println(fileName);
+		System.out.println(id);
+		subjectService.retriveSubjectFileById(id, fileName);
+		return "redirect:/subjects/{id}";
+	}
+
 }

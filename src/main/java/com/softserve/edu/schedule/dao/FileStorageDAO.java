@@ -13,11 +13,17 @@ public interface FileStorageDAO {
 
 	public GridFSDBFile retrive(String fileName);
 
+	public GridFSDBFile retriveByIdAndFileName(String id, String fileName);
+
 	public GridFSDBFile getById(String id);
 
 	public GridFSDBFile getByFilename(String filename);
 
 	public List<GridFSDBFile> findAll();
 
+	public List<GridFSDBFile> findAllById(String id);
+
 	public void delete(String id);
+
+	public void deleteById(String pattern, String id);
 }

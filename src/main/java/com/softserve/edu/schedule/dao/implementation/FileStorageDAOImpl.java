@@ -47,4 +47,22 @@ public class FileStorageDAOImpl implements FileStorageDAO {
 	public void delete(String id) {
 		gridFsTemplate.delete(new Query(Criteria.where("_id").is(id)));
 	}
+
+	@Override
+	public List<GridFSDBFile> findAllById(String id) {
+		return gridFsTemplate
+		        .find(new Query(Criteria.where("metadata.subjectId").is(id)));
+	}
+
+	@Override
+	public void deleteById(String pattern, String id) {
+		gridFsTemplate.delete(new Query(Criteria.where(pattern).is(id)));
+	}
+
+	@Override
+	public GridFSDBFile retriveByIdAndFileName(String id, String fileName) {
+		return gridFsTemplate
+		        .findOne(new Query(Criteria.where("metadata.subjectId").is(id)
+		                .and("filename").is(fileName)));
+	}
 }

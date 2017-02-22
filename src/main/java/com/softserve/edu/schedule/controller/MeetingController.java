@@ -144,7 +144,7 @@ public class MeetingController
      * MeetingHistory.xml.
      */
     @Autowired
-    MeetingHistoryService meetingHistoryService;
+    private MeetingHistoryService meetingHistoryService;
 
     /**
      * Initialize binder for meeting model.
@@ -334,11 +334,11 @@ public class MeetingController
     /**
      * Handle request to download an Excel document
      */
-    @RequestMapping(value = "/downloadExcel", method = RequestMethod.GET)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
+    @RequestMapping(value = DOWNLOAD_MAPPING, method = RequestMethod.GET)
     public ModelAndView downloadExcel(ModelAndView model) {
         model.setView(new ExcelViewMeetingHistory(
                  meetingHistoryService.getAll()));
         return model;
     }
-
 }
