@@ -43,7 +43,7 @@ public class MeetingEntityListener {
      */
     @PreRemove
     public void processingBeforeMeetingDeletion(final Meeting meeting) {
-        if (meeting.getStatus() == MeetingStatus.FINISHED) {
+        if (meeting.getStatus() == MeetingStatus.APPROVED) {
             SpringBeanAutowiringSupport
                     .processInjectionBasedOnCurrentContext(this);
             deleteMeetingMailService.sendInfoMessageAboutMeetingDeletetion(

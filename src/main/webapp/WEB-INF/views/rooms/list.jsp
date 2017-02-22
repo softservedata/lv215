@@ -165,7 +165,7 @@
 			</form:form>
 			<td class="text-center v-alighn">
 				<a
-					href="rooms?showFilter=false&locationId=0&name=&minCapacity=0&maxCapacity=0&_equipments=1&pageNumber=0"
+					href="rooms?showFilter=false&locationId=0&name=&minCapacity=0&maxCapacity=0&_equipments=1&pageNumber=0&sortOrder=0"
 					title="<spring:message code="lbl.room.resetFilter"/>">
 					<i class="fa fa-ban fa-lg"></i>
 				</a>
@@ -251,5 +251,6 @@
 	var totalPages = ${roomPaginator.pagesCount + 1}
 	var startPage = ${roomPaginator.pageNumber + 1}
 </script>
-<script type="text/javascript" src="${roomsListJS}">	
+<script type="text/javascript" src="${roomsListJS}">
+	
 </script>

@@ -43,7 +43,7 @@ public class RoomEntityListener {
     private MeetingCanceledMailService meetingCanceledMailService;
 
     /**
-     * MeetingDAO example to provide meeting delete operations.
+     * MeetingService example to provide meeting delete operations.
      */
     @Autowired
     private MeetingService meetingService;

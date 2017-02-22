@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.softserve.edu.schedule.controller.docviews.ExcelViewAllMeetingHistory;
+import com.softserve.edu.schedule.controller.docviews.ExcelViewMeetingHistory;
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
@@ -336,7 +336,8 @@ public class MeetingController
      */
     @RequestMapping(value = "/downloadExcel", method = RequestMethod.GET)
     public ModelAndView downloadExcel(ModelAndView model) {
-        model.setView(new ExcelViewAllMeetingHistory());
+        model.setView(new ExcelViewMeetingHistory(
+                 meetingHistoryService.getAll()));
         return model;
     }
 

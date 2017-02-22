@@ -6,14 +6,19 @@
  */
 package com.softserve.edu.schedule.service.implementation;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
+import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
@@ -43,8 +48,14 @@ public class SubjectServiceImpl implements SubjectService {
 	@Autowired
 	private SubjectDAO subjectDao;
 
+	/**
+	 * Field for userDao.
+	 */
 	@Autowired
 	private UserDAO userDao;
+
+	@Autowired
+	private FileStorageDAO fileStorageDao;
 
 	/**
 	 * Field for subjectDTOConverter.
@@ -164,5 +175,21 @@ public class SubjectServiceImpl implements SubjectService {
 		        .getSubjectsPageWithFilter(subjectFilter, subjectPaginator)
 		        .stream().map(s -> subjectDTOConverter.getDTO(s))
 		        .collect(Collectors.toList());
+	}
+
+	@Override
+	public void uploadFile(MultipartFile file, String subjectName) {
+		if(fileStorageDao.getByFilename(file.getOriginalFilename())==null){
+			DBObject metadata = new BasicDBObject();
+			metadata.put("subjectName", subjectName);
+			try {
+				fileStorageDao.store(file.getInputStream(),
+				        file.getOriginalFilename(), metadata);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println("File already exist");
+		}
 	}
 }

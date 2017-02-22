@@ -117,10 +117,6 @@
 	<definition extends="common" name="subjects/show">
 		<put-attribute name="body" value="/WEB-INF/views/subjects/show.jsp" />
 	</definition>
-	<definition extends="common" name="subjects/simple">
-		<put-attribute name="body" value="/WEB-INF/views/subjects/simple.jsp" />
-	</definition>
-
 
 
 	<!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
