@@ -63,13 +63,6 @@ import com.softserve.edu.schedule.service.implementation.mailsenders.RestorePass
 @PerfomanceLoggable
 public class UserServiceImpl implements UserService, SocialUserDetailsService {
 
-    // private static final String PATH =
-    // "E:/Programing/lv215/src/main/webapp/resources/images/";
-    //
-    // private static final String SLASH = "/";
-    //
-    // private static final String NAME_OF_FILE = "/resources/images/";
-
     /**
      * UserDAO example to provide database operations.
      */
@@ -124,6 +117,10 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      */
     @Autowired
     private RestorePasswordMailServise restorePasswordMailService;
+    
+
+    @Autowired
+    private FileStorageDAO fileStorageDao;
 
     /**
      * Save new user entity into the database.
@@ -334,9 +331,6 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
             throws UsernameNotFoundException {
         return loadUserByUsername(userId);
     }
-    
-    @Autowired
-    private FileStorageDAO dao;
 
     /**
      * Save image in database in the.
@@ -351,47 +345,18 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     public void saveImage(final Principal principal,
             final MultipartFile file) {
         
-        // User user = userDAO.findByMail(principal.getName());
-        
-        // String path = PATH + user.getMail() + SLASH
-        // + multipartFile.getOriginalFilename();
-        //
-        // user.setPathImage(NAME_OF_FILE + user.getMail() + SLASH
-        // + multipartFile.getOriginalFilename());
-        //
-        // File file = new File(path);
-        //
-        // try {
-        // file.mkdirs();
-        // try {
-        // FileUtils.cleanDirectory(
-        // new File(PATH + user.getMail() + SLASH));
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
-        // multipartFile.transferTo(file);
-        // } catch (IOException e) {
-        // System.out.println("error with file");
-        // }
-        // userDAO.update(user);
-        
-        DBObject metaData = new BasicDBObject();
-        metaData.put(principal.getName(), "photo");
-
-        try {
-            dao.store(file.getInputStream(), file.getOriginalFilename(), "image/png",
-                    metaData);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(fileStorageDao.getByFilename(file.getOriginalFilename())==null){
+            DBObject metadata = new BasicDBObject();
+            metadata.put("userName", principal.getName());
+            try {
+                fileStorageDao.store(file.getInputStream(),
+                        file.getOriginalFilename(), metadata);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("File already exist");
         }
-
-        System.out.println("Done");
-
-        System.out.println(file.getContentType());
-        System.out.println(file.getName());
-        System.out.println(file.getOriginalFilename());
-
-//        return "subjects/simple";
     }
 
     /*

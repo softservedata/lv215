@@ -33,19 +33,28 @@
 				</div> --%>
 
 
+				<div class="form-group">
+					<form
+						action="${pageContext.request.contextPath}${UserController.SAVE_IMAGES}?${_csrf.parameterName}=${_csrf.token}"
+						method="POST" enctype="multipart/form-data">
+						<div class="form-group">
+						<input type="file" name="image" /> 
+						<input type="submit"  class="form-control" value="<spring:message code="lbl.form.save"/>" />
+						</div>
+					</form>
+				</div>
 
-
-				<form:form commandName="${UserController.USER_MODEL_ATTR}"
+			<%-- 	<form:form commandName="${UserController.USER_MODEL_ATTR}"
 					action="${pageContext.request.contextPath}${UserController.SAVE_IMAGES}?${_csrf.parameterName}=${_csrf.token}"
 					method="post" enctype="multipart/form-data">
 					<br>
 					<input type="file" name="image">
 					<br>
-				</form:form>
-				<div class="form-group">
+				</form:form> --%>
+				<%-- <div class="form-group">
 					<input type="submit" class="form-control"
 						value="<spring:message code="lbl.form.save"/>">
-				</div>
+				</div> --%>
 				<div class="form-group">
 					<label for="firstName"><spring:message
 							code="lbl.user.firstName" />:</label> <b>${user.firstName}</b>

@@ -301,6 +301,17 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return path of images
      */
+//    @RequestMapping(value = SUBJECTS_MAPPING_SHOW
+//            + "{id}", method = RequestMethod.POST)
+//    public String showSubjectUploadFile(@PathVariable final Long id,
+//            @RequestParam final MultipartFile file, final Model model) {
+//        model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
+//        subjectService.uploadFile(file, subjectService.getById(id).getName());
+//        return SUBJECTS_SHOW_URL;
+//    }
+    
+    
+    
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
     @RequestMapping(value = SAVE_IMAGES, method = RequestMethod.POST)
     public String saveImage(@ModelAttribute(USER_MODEL_ATTR) UserDTO user,
