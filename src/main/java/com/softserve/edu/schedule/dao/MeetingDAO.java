@@ -111,26 +111,6 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     List<Meeting> getUnfinishedPastMeetings();
 
     /**
-     * Find all approved meetings in the DB by given roomId, date, start and end
-     * time.
-     *
-     * @author Petro Zelyonka
-     *
-     * @param roomId
-     *            room id for find meetings
-     * @param date
-     *            date for find meetings
-     * @param startTime
-     *            start time for find meetings
-     * @param endTime
-     *            end time for find meetings
-     *
-     * @return List of the Meeting objects.
-     */
-    List<Meeting> getApprovedMeetingsByRoomIdAndTime(Long roomId,
-            LocalDate date, LocalTime startTime, LocalTime endTime);
-
-    /**
      * Find all meetings in the DB by given roomId, startDate and endDate.
      *
      * @author Petro Zelyonka
@@ -204,7 +184,7 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      */
     List<Meeting> getMeetingsInIntervalByGroupId(Long groupId,
             LocalDate startDate, LocalDate endDate);
-    
+
     List<Meeting> getPastNotArchivedMeetings();
-    
+
 }
