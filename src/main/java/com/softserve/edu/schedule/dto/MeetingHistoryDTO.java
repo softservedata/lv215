@@ -15,28 +15,64 @@ import java.time.LocalTime;
  */
 public class MeetingHistoryDTO {
 
+    /**
+     * Id for database.
+     */
     private Long id;
 
+    /**
+     * Id for the real meeting from meeting entity.
+     */
     private String idMeeting;
 
+    /**
+     * The name of subject of this meetingHistory.
+     */
     private String subject;
 
+    /**
+     * The name of room of this meetingHistory.
+     */
     private String room;
 
+    /**
+     * The name of location of this meetingHistory.
+     */
     private String location;
 
+    /**
+     * Address of subject of this meetingHistory.
+     */
     private String address;
 
+    /**
+     * Date of subject of this meetingHistory.
+     */
     private LocalDate date;
 
+    /**
+     * StartTime of subject of this meetingHistory.
+     */
     private LocalTime startTime;
 
+    /**
+     * EndTime of subject of this meetingHistory.
+     */
     private LocalTime endTime;
 
+    /**
+     * The list of groups of this meetingHistory.
+     */
     private String groups;
 
+    /**
+     * The name of meeting owner of this meetingHistory.
+     */
     private String owner;
 
+    /**
+     * The description of this meetingHistory.
+     */
     private String description;
 
     public Long getId() {
