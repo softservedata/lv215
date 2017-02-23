@@ -46,10 +46,10 @@
 			<th style="width: 120px"><spring:message code="lbl.meeting.subject" /> 
 			<br> 
 				<a
-				href="meetings?fieldForSorting=1&sortOrder=0&pageNumber=0"
+				href="meetings?fieldForSorting=1&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 				</a> 
-			<a href="meetings?fieldForSorting=1&sortOrder=1&pageNumber=0"
+			<a href="meetings?fieldForSorting=1&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
@@ -58,10 +58,10 @@
 					code="lbl.meeting.owner" /> 
 					<br> 
 					<a
-				href="meetings?fieldForSorting=2&sortOrder=0&pageNumber=0"
+				href="meetings?fieldForSorting=2&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 			</a> 
-			<a href="meetings?fieldForSorting=2&sortOrder=1&pageNumber=0"
+			<a href="meetings?fieldForSorting=2&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
@@ -70,10 +70,10 @@
 			<th><spring:message code="lbl.meeting.room" /> 
 			<br>
 			 <a
-				href="meetings?fieldForSorting=3&sortOrder=0&pageNumber=0"
+				href="meetings?fieldForSorting=3&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 			</a> 
-			<a href="meetings?fieldForSorting=3&sortOrder=1&pageNumber=0"
+			<a href="meetings?fieldForSorting=3&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
@@ -81,10 +81,10 @@
 			<th><spring:message code="lbl.meeting.date" /> 
 			<br>
 			 <a
-				href="meetings?fieldForSorting=4&sortOrder=0&pageNumber=0"
+				href="meetings?fieldForSorting=4&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 			</a> 
-			<a href="meetings?fieldForSorting=4&sortOrder=1&pageNumber=0"
+			<a href="meetings?fieldForSorting=4&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
@@ -92,10 +92,10 @@
 			<th><spring:message code="lbl.meeting.starttime" /> 
 			<br> 
 			<a
-				href="meetings?fieldForSorting=5&sortOrder=0&pageNumber=0"
+				href="meetings?fieldForSorting=5&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 			</a> 
-			<a href="meetings?fieldForSorting=5&sortOrder=1&pageNumber=0"
+			<a href="meetings?fieldForSorting=5&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
@@ -103,10 +103,10 @@
 			<th><spring:message code="lbl.meeting.endtime" /> 
 			<br> 
 			<a
-				href="meetings?fieldForSorting=6&sortOrder=0&pageNumber=0"
+				href="meetings?fieldForSorting=6&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 			</a> 
-			<a href="meetings?fieldForSorting=6&sortOrder=1&pageNumber=0"
+			<a href="meetings?fieldForSorting=6&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
@@ -115,18 +115,18 @@
 			<sec:authorize
 				access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
 				<th class="levelclass"><spring:message code="lbl.meeting.level" /> <br> <a
-					href="meetings?fieldForSorting=7&sortOrder=0&pageNumber=0"
+					href="meetings?fieldForSorting=7&sortOrder=1&pageNumber=0"
 					title="<spring:message code="lbl.location.sortAsc" />"> <i
 						class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a> <a href="meetings?fieldForSorting=7&sortOrder=1&pageNumber=0"
+				</a> <a href="meetings?fieldForSorting=7&sortOrder=2&pageNumber=0"
 					title="<spring:message code="lbl.location.sortDesc" />"> <i
 						class="fa fa-arrow-circle-o-down fa-lg"></i>
 				</a></th>
 			</sec:authorize>
 			<th><spring:message code="lbl.meeting.status" /> <br> <a
-				href="meetings?fieldForSorting=8&sortOrder=0&pageNumber=0"
+				href="meetings?fieldForSorting=8&sortOrder=1&pageNumber=0"
 				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
-			</a> <a href="meetings?fieldForSorting=8&sortOrder=1&pageNumber=0"
+			</a> <a href="meetings?fieldForSorting=8&sortOrder=2&pageNumber=0"
 				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a></th>
