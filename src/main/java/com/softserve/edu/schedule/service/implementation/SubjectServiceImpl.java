@@ -217,8 +217,7 @@ public class SubjectServiceImpl implements SubjectService {
                 response.setContentLength(
                         (new Long(file.getLength()).intValue()));
                 response.setHeader("content-Disposition",
-                        "attachment; filename=" + file.getFilename());// "attachment;filename=test.xls"
-                // copy it to response's OutputStream
+                        "attachment; filename=" + file.getFilename());
                 IOUtils.copyLarge(file.getInputStream(),
                         response.getOutputStream());
             } catch (IOException e) {

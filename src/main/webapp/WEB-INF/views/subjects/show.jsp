@@ -51,12 +51,13 @@
 				</h4>
 			</div>
 			<div class="form-group">
-				<form
+				<form:form
+					modelAttribute="fileForSubjectForm"
 					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING_SHOW}${subject.id}?${_csrf.parameterName}=${_csrf.token}"
 					method="POST" enctype="multipart/form-data">
-					<input type="file" name="file" /> <input type="submit"
-						value="Submit" />
-				</form>
+					<input type="file" name="file" />
+					<input type="submit" value="Submit" />
+				</form:form>
 			</div>
 			<div class="form-group">
 				<h4>Subject files :</h4>
@@ -67,7 +68,8 @@
 							href="/schedule/subjects/deleteFile/${subject.id}"
 							title="<spring:message code="lbl.subject.delete"/>"> <i
 								class="fa fa-trash-o fa-lg"></i>
-						</a> <a href="/schedule/subjects/downloadFile/${fileName}/${subject.id}"><i
+						</a> <a
+							href="/schedule/subjects/downloadFile/${fileName}/${subject.id}"><i
 								class="fa fa-download" aria-hidden="true"></i></a></li>
 					</c:forEach>
 				</ul>
