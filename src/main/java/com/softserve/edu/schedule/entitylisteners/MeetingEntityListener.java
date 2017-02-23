@@ -1,8 +1,9 @@
 /*
- * SubjectEntityListner.java
+ *
+ * DeleteMeetingMailService 23.02.2017.
  * 1.0
  * 03 Feb 2017
- * Copyright (c) Ped'ko Volodymyr
+ * Copyright (c) Bohdan Melnyk
  */
 package com.softserve.edu.schedule.entitylisteners;
 

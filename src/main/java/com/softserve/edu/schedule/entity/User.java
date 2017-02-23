@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -30,9 +31,9 @@ import com.softserve.edu.schedule.entitylisteners.UserEntityListener;
  */
 @Entity
 @EntityListeners(UserEntityListener.class)
-@Table(indexes = {@Index(columnList = "firstName"),
+@Table(indexes = { @Index(columnList = "firstName"),
         @Index(columnList = "lastName"), @Index(columnList = "mail"),
-        @Index(columnList = "phone"), @Index(columnList = "position")})
+        @Index(columnList = "phone"), @Index(columnList = "position") })
 public class User {
 
     /**
@@ -90,18 +91,18 @@ public class User {
      * List of subjects available for this user.
      */
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Subject.class)
-    @JoinTable(name = "subject_user",
-            joinColumns = {@JoinColumn(name = "users_id")},
-            inverseJoinColumns = {@JoinColumn(name = "subjects_id")})
+    @JoinTable(name = "subject_user", joinColumns = {
+            @JoinColumn(name = "users_id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "subjects_id") })
     private List<Subject> subjects = new ArrayList<>();
 
     /**
      * List of groups this user participates.
      */
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = UserGroup.class)
-    @JoinTable(name = "usergroup_user",
-            joinColumns = {@JoinColumn(name = "users_id")},
-            inverseJoinColumns = {@JoinColumn(name = "groups_id")})
+    @JoinTable(name = "usergroup_user", joinColumns = {
+            @JoinColumn(name = "users_id") }, inverseJoinColumns = {
+                    @JoinColumn(name = "groups_id") })
     private List<UserGroup> groups = new ArrayList<>();
 
     /**
@@ -303,6 +304,30 @@ public class User {
      */
     public void setSocialMediaService(SocialMediaService socialMediaService) {
         this.socialMediaService = socialMediaService;
+    }
+
+    /**
+     * Check if users are equal by email(if it's the same person).
+     */
+    @Override
+    public boolean equals(final Object o) {
+
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(mail, user.mail);
+    }
+
+    /**
+     * Calculate hashcode of given user.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(mail);
     }
 
 }
