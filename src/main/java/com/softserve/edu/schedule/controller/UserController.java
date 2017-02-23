@@ -27,8 +27,6 @@ import com.softserve.edu.schedule.entity.UserRole;
 import com.softserve.edu.schedule.entity.UserStatus;
 import com.softserve.edu.schedule.service.UserService;
 
-
-
 /**
  * A controller class of user pages.
  *
@@ -224,6 +222,7 @@ public class UserController implements ControllerConst.UserControllerConst,
                 .getAuthentication().getPrincipal();
         model.addAttribute(USER_MODEL_ATTR,
                 userService.getById(activeUser.getId()));
+        model.addAttribute(FILE, userService.getUserPhotoById(activeUser.getId()));
         return USER_DETAILS_URL;
     }
 
@@ -301,17 +300,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return path of images
      */
-//    @RequestMapping(value = SUBJECTS_MAPPING_SHOW
-//            + "{id}", method = RequestMethod.POST)
-//    public String showSubjectUploadFile(@PathVariable final Long id,
-//            @RequestParam final MultipartFile file, final Model model) {
-//        model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
-//        subjectService.uploadFile(file, subjectService.getById(id).getName());
-//        return SUBJECTS_SHOW_URL;
-//    }
-    
-    
-    
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
     @RequestMapping(value = SAVE_IMAGES, method = RequestMethod.POST)
     public String saveImage(@ModelAttribute(USER_MODEL_ATTR) UserDTO user,
@@ -372,61 +361,5 @@ public class UserController implements ControllerConst.UserControllerConst,
             return NO_SUCH_USER_URL;
         }
     }
-    
-    
-    
-    
-    
-    
-    
-//    @RequestMapping(value = "/getPhoto", method = RequestMethod.GET)
-//    public @ResponseBody
-//    void getPhoto() {
-//        try {
-//                GridFSDBFile imageForOutput = userFacade.loadProfilePhoto((User) SecurityContextHolder.getContext().getAuthentication()
-//                        .getPrincipal());
-//                InputStream is = imageForOutput.getInputStream();
-//                ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-//                int nRead;
-//                byte[] data = new byte[16384];
-//                while ((nRead = is.read(data, 0, data.length)) != -1) {
-//                    buffer.write(data, 0, nRead);
-//                }
-//                buffer.flush();
-//                byte[]imagenEnBytes = buffer.toByteArray();
-//
-//
-//                response.setHeader("Accept-ranges","bytes");
-//                response.setContentType( "image/jpeg" );
-//                response.setContentLength(imagenEnBytes.length);
-//                response.setHeader("Expires","0");
-//                response.setHeader("Cache-Control","must-revalidate, post-check=0, pre-check=0");
-//                response.setHeader("Content-Description","File Transfer");
-//                response.setHeader("Content-Transfer-Encoding:","binary");
-//
-//                OutputStream out = response.getOutputStream();
-//                out.write( imagenEnBytes );
-//                out.flush();
-//                out.close();
-//        } catch (Exception e) {
-//            // TODO Auto-generated catch block
-//
-//        }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
 }

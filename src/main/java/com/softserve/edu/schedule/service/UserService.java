@@ -1,5 +1,6 @@
 package com.softserve.edu.schedule.service;
 
+import java.io.File;
 import java.security.Principal;
 import java.util.List;
 
@@ -138,6 +139,8 @@ public interface UserService extends UserDetailsService {
      *            the picture.
      */
     void saveImage(Principal principal, MultipartFile multipartFile);
+    
+    File getUserPhotoById(Long id);
 
     /**
      * Method returns lists of users which have status - active

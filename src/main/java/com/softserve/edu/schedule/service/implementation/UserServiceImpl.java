@@ -1,6 +1,10 @@
 package com.softserve.edu.schedule.service.implementation;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +67,11 @@ import com.softserve.edu.schedule.service.implementation.mailsenders.RestorePass
 @PerfomanceLoggable
 public class UserServiceImpl implements UserService, SocialUserDetailsService {
 
+    private final static String USER_PHOTO_BY_DEFOULT = "http://kutuphane.omu.edu.tr/sites/kutuphane.omu.edu.tr/files/profil_4.png";
+
+    private final static String USER_NAME = "userName";
+
+    private final static String FILE_NAME = "profil_4.png";
     /**
      * UserDAO example to provide database operations.
      */
@@ -117,7 +126,6 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      */
     @Autowired
     private RestorePasswordMailServise restorePasswordMailService;
-    
 
     @Autowired
     private FileStorageDAO fileStorageDao;
@@ -127,12 +135,24 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      *
      * @param userDTO
      *            a userDTO for to storage new user in database.
+     * @throws FileNotFoundException
      */
     @Override
     @Transactional
     public void create(final UserDTO userDTO) {
         userDTO.setPassword(encoder.encode(userDTO.getPassword()));
         userDAO.create(userDTOConverter.getEntity(userDTO));
+        
+        DBObject metadata = new BasicDBObject();
+        metadata.put(USER_NAME, userDTO.getMail());
+
+        try {
+            File image = new File(USER_PHOTO_BY_DEFOULT);
+            InputStream inputStream = new FileInputStream(image);
+            fileStorageDao.store(inputStream, FILE_NAME, metadata);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -313,7 +333,6 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
             throws UsernameNotFoundException {
         User user = userDAO.findByMail(userMail);
         if (user == null) {
-            // throw new UsernameNotFoundException("User not found");
             return null;
         }
         return userDTOConverter.getDTO(user);
@@ -342,21 +361,25 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      */
     @Override
     @Transactional
-    public void saveImage(final Principal principal,
-            final MultipartFile file) {
-        
-        if(fileStorageDao.getByFilename(file.getOriginalFilename())==null){
-            DBObject metadata = new BasicDBObject();
-            metadata.put("userName", principal.getName());
-            try {
-                fileStorageDao.store(file.getInputStream(),
-                        file.getOriginalFilename(), metadata);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.out.println("File already exist");
+    public void saveImage(final Principal principal, final MultipartFile file) {
+
+        DBObject metadata = new BasicDBObject();
+        metadata.put(USER_NAME, principal.getName());
+        try {
+            fileStorageDao.store(file.getInputStream(),
+                    file.getOriginalFilename(), metadata);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
+
+    @Override
+    public File getUserPhotoById(Long id) {
+        // GridFSDBFile file = fileStorageDao
+        // .retriveById(userDAO.getById(id).getMail());
+        File file = new File (USER_PHOTO_BY_DEFOULT);
+//        System.out.println(file.getFilename());
+        return file;
     }
 
     /*

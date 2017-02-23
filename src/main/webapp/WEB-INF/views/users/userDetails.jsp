@@ -23,7 +23,7 @@
 				<h3 class="text-center">
 					<spring:message code="lbl.user.profile" />
 				</h3>
-				<%-- <br> <img src="<c:url value='${user.pathImage}'/>" height="200"><br> --%>
+				<br> <img src="<c:url value='${file}'/>" height="200"><br>
 				<%-- <br> <img src="<c:url value='${user.pathImage}'/>" height="200"><br> --%>
 
 
