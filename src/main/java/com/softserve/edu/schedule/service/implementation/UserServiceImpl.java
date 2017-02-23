@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dao.MeetingDAO;
@@ -53,6 +54,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOFor
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForRestorePasswordConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForAndroidDTOConverter;
 import com.softserve.edu.schedule.service.implementation.mailsenders.RestorePasswordMailServise;
+import com.sun.jna.platform.FileUtils;
 
 /**
  * An interface to provide service operations with User entity.
@@ -375,10 +377,12 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
 
     @Override
     public File getUserPhotoById(Long id) {
-        // GridFSDBFile file = fileStorageDao
-        // .retriveById(userDAO.getById(id).getMail());
-        File file = new File (USER_PHOTO_BY_DEFOULT);
+         GridFSDBFile gridFile = fileStorageDao
+         .retriveById(userDAO.getById(id).getMail());
+//        File file = new File (USER_PHOTO_BY_DEFOULT);
 //        System.out.println(file.getFilename());
+        InputStream inputStream = gridFile.getInputStream();
+        File file = FileUtils.copyInputStreamToFile(inputStream, targetFile);
         return file;
     }
 

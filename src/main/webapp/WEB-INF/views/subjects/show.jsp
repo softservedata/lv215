@@ -67,7 +67,7 @@
 							href="/schedule/subjects/deleteFile/${subject.id}"
 							title="<spring:message code="lbl.subject.delete"/>"> <i
 								class="fa fa-trash-o fa-lg"></i>
-						</a> <a href="/schedule/subjects/downloadFile/${subject.id}/${fileName}"><i
+						</a> <a href="/schedule/subjects/downloadFile/${fileName}/${subject.id}"><i
 								class="fa fa-download" aria-hidden="true"></i></a></li>
 					</c:forEach>
 				</ul>

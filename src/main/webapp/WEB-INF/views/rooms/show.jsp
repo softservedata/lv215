@@ -36,6 +36,34 @@
 					: ${room.location.name}
 				</a>
 			</h4>
+
+			<!-- room images -->
+			<div class="form-group">
+				<form
+					action="${pageContext.request.contextPath}/rooms/${room.id}?${_csrf.parameterName}=${_csrf.token}"
+					method="POST" enctype="multipart/form-data">
+					<input type="file" name="file" />
+					<input type="submit" value="Submit" />
+				</form>
+			</div>
+			<div class="form-group">
+				<h4>Room photos:</h4>
+				<ul>
+					<c:forEach items="${roomFiles}" var="fileName">
+						<li style="list-style-type: none">
+							<a style="display: inline-block;" href="rooms/downloadFile/${fileName}/${room.id}">
+								<img src="rooms/downloadFile/${fileName}/${room.id}" height="200" class="img-fluid"
+									alt="${fileName}">
+							</a>
+							<a style="display: inline-block; vertical-align: top; margin-left:-20px;" href="rooms/deleteFile/${room.id}" title="Delete photo">
+								X
+							</a>
+						</li>
+					</c:forEach>
+				</ul>
+			</div>
+			<!-- room images -->
+
 			<h4>
 				<spring:message code="lbl.room.roomCapacity" />
 				: ${room.capacity}

@@ -49,9 +49,8 @@ public class FileStorageDAOImpl implements FileStorageDAO {
     }
 
     @Override
-    public List<GridFSDBFile> findAllById(String id) {
-        return gridFsTemplate
-                .find(new Query(Criteria.where("metadata.subjectId").is(id)));
+    public List<GridFSDBFile> findAllByIdAndType(String id, String type) {
+        return gridFsTemplate.find(new Query(Criteria.where(type).is(id)));
     }
 
     @Override
@@ -60,10 +59,10 @@ public class FileStorageDAOImpl implements FileStorageDAO {
     }
 
     @Override
-    public GridFSDBFile retriveByIdAndFileName(String id, String fileName) {
-        return gridFsTemplate
-                .findOne(new Query(Criteria.where("metadata.subjectId").is(id)
-                        .and("filename").is(fileName)));
+    public GridFSDBFile retriveByIdAndFileName(String id, String fileName,
+            String type) {
+        return gridFsTemplate.findOne(new Query(
+                Criteria.where(type).is(id).and("filename").is(fileName)));
     }
 
     @Override

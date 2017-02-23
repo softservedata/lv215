@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,172 +46,184 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSub
 @PerfomanceLoggable
 public class SubjectServiceImpl implements SubjectService {
 
-	/**
-	 * Field for subjectDAO.
-	 */
-	@Autowired
-	private SubjectDAO subjectDao;
+    /**
+     * Field for subjectDAO.
+     */
+    @Autowired
+    private SubjectDAO subjectDao;
 
-	/**
-	 * Field for userDao.
-	 */
-	@Autowired
-	private UserDAO userDao;
+    /**
+     * Field for userDao.
+     */
+    @Autowired
+    private UserDAO userDao;
 
-	@Autowired
-	private FileStorageDAO fileStorageDao;
+    @Autowired
+    private FileStorageDAO fileStorageDao;
 
-	/**
-	 * Field for subjectDTOConverter.
-	 */
-	@Autowired
-	private SubjectDTOConverter subjectDTOConverter;
+    /**
+     * Field for subjectDTOConverter.
+     */
+    @Autowired
+    private SubjectDTOConverter subjectDTOConverter;
 
-	/**
-	 * Field for userForSubjectDTOconverter.
-	 */
-	@Autowired
-	private UserForSubjectDTOConverter userForSubjectDTOconverter;
+    /**
+     * Field for userForSubjectDTOconverter.
+     */
+    @Autowired
+    private UserForSubjectDTOConverter userForSubjectDTOconverter;
 
-	/**
-	 * Saving Subject in database.
-	 *
-	 * @param subject
-	 *            - SubjectDTO object
-	 */
-	@Override
-	@Transactional
-	public void create(final SubjectDTO subject) {
-		subjectDao.create(subjectDTOConverter.getEntity(subject));
-	}
+    /**
+     * Saving Subject in database.
+     *
+     * @param subject
+     *            - SubjectDTO object
+     */
+    @Override
+    @Transactional
+    public void create(final SubjectDTO subject) {
+        subjectDao.create(subjectDTOConverter.getEntity(subject));
+    }
 
-	/**
-	 * Updating Subject in database.
-	 *
-	 * @param subject
-	 *            - SubjectDTO object
-	 */
-	@Override
-	@Transactional
-	public void update(final SubjectDTO subject) {
-		subjectDao.update(subjectDTOConverter.getEntity(subject));
-	}
+    /**
+     * Updating Subject in database.
+     *
+     * @param subject
+     *            - SubjectDTO object
+     */
+    @Override
+    @Transactional
+    public void update(final SubjectDTO subject) {
+        subjectDao.update(subjectDTOConverter.getEntity(subject));
+    }
 
-	/**
-	 * Return a SubjectDTO object if found.
-	 *
-	 * @param id
-	 *            of Subject transfer object
-	 * @return SubjectDTO object
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public SubjectDTO getById(final Long id) {
-		return subjectDTOConverter.getDTO(subjectDao.getById(id));
-	}
+    /**
+     * Return a SubjectDTO object if found.
+     *
+     * @param id
+     *            of Subject transfer object
+     * @return SubjectDTO object
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public SubjectDTO getById(final Long id) {
+        return subjectDTOConverter.getDTO(subjectDao.getById(id));
+    }
 
-	/**
-	 * Return a searched SubjectDTO.
-	 *
-	 * @return searched SubjectDTO
-	 */
-	@Override
-	public List<SubjectDTO> getSubjectByName(final String subjectName) {
-		return subjectDao.getSubjectByName(subjectName).stream()
-		        .map(s -> subjectDTOConverter.getDTO(s))
-		        .collect(Collectors.toList());
-	}
+    /**
+     * Return a searched SubjectDTO.
+     *
+     * @return searched SubjectDTO
+     */
+    @Override
+    public List<SubjectDTO> getSubjectByName(final String subjectName) {
+        return subjectDao.getSubjectByName(subjectName).stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
+    }
 
-	/**
-	 * Return a List of SubjectDTO objects.
-	 *
-	 * @return List of SubjectDTO objects
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<SubjectDTO> getAll() {
-		return subjectDao.getAll().stream()
-		        .map(s -> subjectDTOConverter.getDTO(s))
-		        .collect(Collectors.toList());
-	}
+    /**
+     * Return a List of SubjectDTO objects.
+     *
+     * @return List of SubjectDTO objects
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<SubjectDTO> getAll() {
+        return subjectDao.getAll().stream()
+                .map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
+    }
 
-	/**
-	 * Get all UserForSubjectDTO.
-	 *
-	 * @return List of the UserForSubjectDTO objects for SubjectDTO.
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<UserForSubjectDTO> getAllUserForSubjectDTO() {
-		return userDao.getAllActiveUsers().stream()
-		        .map(u -> userForSubjectDTOconverter.getDTO(u))
-		        .collect(Collectors.toList());
-	}
+    /**
+     * Get all UserForSubjectDTO.
+     *
+     * @return List of the UserForSubjectDTO objects for SubjectDTO.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<UserForSubjectDTO> getAllUserForSubjectDTO() {
+        return userDao.getAllActiveUsers().stream()
+                .map(u -> userForSubjectDTOconverter.getDTO(u))
+                .collect(Collectors.toList());
+    }
 
-	/**
-	 * Delete existed Subject from the database by id.
-	 *
-	 * @param id
-	 *            a SubjectDTO id to delete from database.
-	 */
-	@Override
-	@Transactional
-	public void deleteById(final Long id) {
-		Subject subject = subjectDao.getSubjectsWithMeetingDetailsById(id);
-		subjectDao.delete(subject);
-	}
+    /**
+     * Delete existed Subject from the database by id.
+     *
+     * @param id
+     *            a SubjectDTO id to delete from database.
+     */
+    @Override
+    @Transactional
+    public void deleteById(final Long id) {
+        Subject subject = subjectDao.getSubjectsWithMeetingDetailsById(id);
+        subjectDao.delete(subject);
+    }
 
-	/**
-	 * Find all subjects entities in the database with applied filter
-	 * 
-	 * @param subjectFilter
-	 *            a filter to apply.
-	 * @param subjectPaginator
-	 *            the subjectPaginator to set
-	 * @return List of the subject DTO objects.
-	 */
-	@Override
-	@Transactional(readOnly = true)
-	public List<SubjectDTO> getSubjectsPageWithFilter(
-	        final SubjectFilter subjectFilter,
-	        final Paginator subjectPaginator) {
-		return subjectDao
-		        .getSubjectsPageWithFilter(subjectFilter, subjectPaginator)
-		        .stream().map(s -> subjectDTOConverter.getDTO(s))
-		        .collect(Collectors.toList());
-	}
+    /**
+     * Find all subjects entities in the database with applied filter
+     * 
+     * @param subjectFilter
+     *            a filter to apply.
+     * @param subjectPaginator
+     *            the subjectPaginator to set
+     * @return List of the subject DTO objects.
+     */
+    @Override
+    @Transactional(readOnly = true)
+    public List<SubjectDTO> getSubjectsPageWithFilter(
+            final SubjectFilter subjectFilter,
+            final Paginator subjectPaginator) {
+        return subjectDao
+                .getSubjectsPageWithFilter(subjectFilter, subjectPaginator)
+                .stream().map(s -> subjectDTOConverter.getDTO(s))
+                .collect(Collectors.toList());
+    }
 
-	@Override
-	public void uploadFile(MultipartFile file, Long id) {
-		DBObject metadata = new BasicDBObject();
-		metadata.put("subjectId", Long.toString(id));
-		try {
-			fileStorageDao.store(file.getInputStream(),
-			        file.getOriginalFilename(), metadata);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void uploadFile(MultipartFile file, Long id) {
+        DBObject metadata = new BasicDBObject();
+        metadata.put("subjectId", Long.toString(id));
+        try {
+            fileStorageDao.store(file.getInputStream(),
+                    file.getOriginalFilename(), metadata);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
-	@Override
-	public List<String> showSubjectFiles(Long id) {
-		return fileStorageDao.findAllById(Long.toString(id)).stream()
-		        .map(f -> f.getFilename()).collect(Collectors.toList());
-	}
+    @Override
+    public List<String> showSubjectFiles(Long id) {
+        return fileStorageDao
+                .findAllByIdAndType(Long.toString(id), "metadata.subjectId")
+                .stream().map(f -> f.getFilename())
+                .collect(Collectors.toList());
+    }
 
-	@Override
-	public void deleteSubjectFileById(Long id) {
-		fileStorageDao.deleteById("metadata.subjectId", Long.toString(id));
-	}
+    @Override
+    public void deleteSubjectFileById(Long id) {
+        fileStorageDao.deleteById("metadata.subjectId", Long.toString(id));
+    }
 
-	@Override
-	public void retriveSubjectFileById(Long id, String fileName) {
-		GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(Long.toString(id), fileName+".jpg");
-		System.out.println(file.getFilename());
-		try {
-			file.writeTo("E:/2017/some.jpg");
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void retriveSubjectFileById(Long id, String fileName,
+            HttpServletResponse response) {
+        GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(
+                Long.toString(id), fileName, "metadata.subjectId");
+        if (file != null) {
+            try {
+                response.setContentType(file.getContentType());
+                response.setContentLength(
+                        (new Long(file.getLength()).intValue()));
+                response.setHeader("content-Disposition",
+                        "attachment; filename=" + file.getFilename());// "attachment;filename=test.xls"
+                // copy it to response's OutputStream
+                IOUtils.copyLarge(file.getInputStream(),
+                        response.getOutputStream());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }

@@ -6,6 +6,7 @@
  */
 package com.softserve.edu.schedule.controller;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -236,13 +237,14 @@ public class SubjectController
 		subjectService.deleteSubjectFileById(id);
 		return "redirect:/subjects/{id}";
 	}
-	
-	@RequestMapping("/subjects/downloadFile/" + "{id}/{fileName}")
-	public String downloadFile(@PathVariable final Long id, @PathVariable final String fileName) {
-		System.out.println(fileName);
-		System.out.println(id);
-		subjectService.retriveSubjectFileById(id, fileName);
-		return "redirect:/subjects/{id}";
+
+	@RequestMapping("/subjects/downloadFile/{fileName}/{id}")
+	public String downloadFile(@PathVariable final Long id,
+	        @PathVariable final String fileName, HttpServletResponse response,
+	        Model model) {
+		subjectService.retriveSubjectFileById(id, fileName, response);
+		model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
+		return "/subjects/{id}";
 	}
 
 }
