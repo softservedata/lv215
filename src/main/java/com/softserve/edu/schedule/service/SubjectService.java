@@ -6,12 +6,12 @@
  */
 package com.softserve.edu.schedule.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.web.multipart.MultipartFile;
-
+import com.softserve.edu.schedule.dto.FileForSubjectDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -92,12 +92,14 @@ public interface SubjectService {
 	 */
 	public List<SubjectDTO> getSubjectsPageWithFilter(
 	        SubjectFilter subjectFilter, Paginator subjectPaginator);
-	
-	public void uploadFile(MultipartFile file, Long id);
-	
+
+	public void uploadFile(FileForSubjectDTO fileForSubjectDTO, Long id)
+	        throws IOException;
+
 	public List<String> showSubjectFiles(Long id);
-	
-	public void deleteSubjectFileById(Long id);
-	
-	public void retriveSubjectFileById(Long id, String fileName, HttpServletResponse response);
+
+	public void deleteSubjectFileById(Long id, String fileName);
+
+	public void retriveSubjectFileById(Long id, String fileName,
+	        HttpServletResponse response) throws IOException;
 }

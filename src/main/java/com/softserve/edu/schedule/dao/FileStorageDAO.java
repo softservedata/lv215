@@ -26,4 +26,6 @@ public interface FileStorageDAO {
     public void delete(String id);
 
     public void deleteById(String pattern, String id);
+    
+    public void deleteByIdAndFileName(String id, String fileName, String type);
 }
