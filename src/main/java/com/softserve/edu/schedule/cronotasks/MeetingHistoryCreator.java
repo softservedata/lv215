@@ -37,7 +37,7 @@ public class MeetingHistoryCreator {
      * Scheduling task to correct past meetings statuses and them to MeetingHistory table.
      *
      */
-    @Scheduled(cron = "0 0/5 * * * ?")
+    @Scheduled(cron = "0 0 1 * * *")
     @Transactional
     public void createMeetingHistory() {
         // TODO to delete

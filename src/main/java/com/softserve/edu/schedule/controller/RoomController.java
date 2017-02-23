@@ -1,8 +1,10 @@
 /* RoomController 1.0 01/15/2017 */
 package com.softserve.edu.schedule.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +17,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
@@ -178,24 +183,6 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     }
 
     /**
-     * Controls view of room details show page.
-     *
-     * @param id
-     *            room id to show details.
-     *
-     * @param model
-     *            room details show page view model.
-     *
-     * @return room show detail page URL
-     */
-    @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.GET)
-    public String showRoom(@PathVariable(PATH_VAR_ID) final Long id,
-            final Model model) {
-        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
-        return ROOM_SHOW_URL;
-    }
-
-    /**
      * Controls processing of room update information form.
      *
      * @param roomDTO
@@ -304,5 +291,48 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     public String deleteRoom(@PathVariable final Long id) {
         roomService.deleteById(id);
         return ROOMS_REDIRECT_URL;
+    }
+
+    /**
+     * Controls view of room details show page.
+     *
+     * @param id
+     *            room id to show details.
+     *
+     * @param model
+     *            room details show page view model.
+     *
+     * @return room show detail page URL
+     */
+    @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.GET)
+    public String showRoom(@PathVariable(PATH_VAR_ID) final Long id,
+            final Model model) {
+        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
+        model.addAttribute("roomFiles", roomService.showRoomFiles(id));
+        return ROOM_SHOW_URL;
+    }
+
+    @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.POST)
+    public String showRoomUploadFile(@PathVariable final Long id,
+            @RequestParam final MultipartFile file, final Model model) {
+        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
+        model.addAttribute("roomFiles", roomService.showRoomFiles(id));
+        roomService.uploadFile(file, id);
+        return "redirect:/rooms/{id}";
+    }
+
+    @RequestMapping("/rooms/deleteFile/{id}")
+    public String deleteFile(@PathVariable final Long id) {
+        roomService.deleteRoomFileById(id);
+        return "redirect:/rooms/{id}";
+    }
+
+    @RequestMapping("/rooms/downloadFile/{fileName}/{id}")
+    public void downloadFile(@PathVariable final Long id,
+            @PathVariable final String fileName, HttpServletResponse response,
+            Model model) throws IOException {
+        roomService.retriveRoomFileById(id, fileName, response);
+        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));        
+//        return "rooms/show";
     }
 }

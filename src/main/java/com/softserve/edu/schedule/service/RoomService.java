@@ -1,7 +1,12 @@
 /* RoomService 1.0 01/02/2017 */
 package com.softserve.edu.schedule.service;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
@@ -95,4 +100,12 @@ public interface RoomService {
     List<RoomDTO> getRoomsPageWithFilter(RoomFilter roomFilter,
             Paginator roomPaginator);
 
+    public void uploadFile(MultipartFile file, Long id);
+
+    public List<String> showRoomFiles(Long id);
+
+    public void deleteRoomFileById(Long id);
+
+    public void retriveRoomFileById(Long id, String fileName,
+            HttpServletResponse response) throws IOException;
 }
