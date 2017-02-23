@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
 import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dao.SubjectDAO;
@@ -178,18 +182,41 @@ public class SubjectServiceImpl implements SubjectService {
 	}
 
 	@Override
-	public void uploadFile(MultipartFile file, String subjectName) {
-		if(fileStorageDao.getByFilename(file.getOriginalFilename())==null){
-			DBObject metadata = new BasicDBObject();
-			metadata.put("subjectName", subjectName);
-			try {
-				fileStorageDao.store(file.getInputStream(),
-				        file.getOriginalFilename(), metadata);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			System.out.println("File already exist");
+	public void uploadFile(MultipartFile file, Long id) {
+		DBObject metadata = new BasicDBObject();
+		metadata.put("subjectId", Long.toString(id));
+		try {
+			fileStorageDao.store(file.getInputStream(),
+			        file.getOriginalFilename(), metadata);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public List<String> showSubjectFiles(Long id) {
+		return fileStorageDao.findAllById(Long.toString(id)).stream()
+		        .map(f -> f.getFilename()).collect(Collectors.toList());
+	}
+
+	@Override
+	public void deleteSubjectFileById(Long id) {
+		fileStorageDao.deleteById("metadata.subjectId", Long.toString(id));
+	}
+
+	@Override
+	public void retriveSubjectFileById(Long id, String fileName, HttpServletResponse response) {
+		GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(Long.toString(id), fileName);
+		if (file != null) {
+	        try {
+	            response.setContentType(file.getContentType());
+	            response.setContentLength((new Long(file.getLength()).intValue()));
+	            response.setHeader("content-Disposition", "attachment; filename=" + file.getFilename());// "attachment;filename=test.xls"
+	            // copy it to response's OutputStream
+	            IOUtils.copyLarge(file.getInputStream(), response.getOutputStream());
+	        } catch (IOException e) {
+	        	e.printStackTrace();
+	        }
+	    }
 	}
 }
