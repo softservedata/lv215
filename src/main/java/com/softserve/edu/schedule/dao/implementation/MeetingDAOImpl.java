@@ -314,61 +314,12 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         timePredicate = builder.or(timePredicate, todayPredicate);
 
         Predicate searchPredicate = builder.conjunction();
-        searchPredicate = builder.and(searchPredicate, builder
-                .not(root.get(Meeting_.status).in(MeetingStatus.FINISHED, MeetingStatus.ARCHIVED)));
+        searchPredicate = builder.and(searchPredicate,
+                builder.not(root.get(Meeting_.status).in(MeetingStatus.FINISHED,
+                        MeetingStatus.ARCHIVED)));
         searchPredicate = builder.and(searchPredicate, timePredicate);
 
         cq.where(searchPredicate);
-        return getEm().createQuery(cq).getResultList();
-    }
-
-    /**
-     * Find all approved meetings in the DB by given roomId, date, start and end
-     * time.
-     *
-     * @author Petro Zelyonka
-     *
-     * @param roomId
-     *            room id for find meetings
-     * @param date
-     *            date for find meetings
-     * @param startTime
-     *            start time for find meetings
-     * @param endTime
-     *            end time for find meetings
-     *
-     * @return List of the Meeting objects.
-     */
-    @Override
-    public List<Meeting> getApprovedMeetingsByRoomIdAndTime(final Long roomId,
-            final LocalDate date, final LocalTime startTime,
-            final LocalTime endTime) {
-        CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
-        Join<Meeting, Room> roomJoin = root.join(Meeting_.room, JoinType.LEFT);
-
-        Predicate basePredicate = builder.conjunction();
-        basePredicate = builder.and(basePredicate,
-                roomJoin.get(Room_.id).in(roomId));
-        basePredicate = builder.and(basePredicate,
-                root.get(Meeting_.date).in(date));
-        basePredicate = builder.and(basePredicate,
-                root.get(Meeting_.status).in(MeetingStatus.APPROVED));
-        Predicate timePredicate1 = builder.conjunction();
-        timePredicate1 = builder.and(basePredicate,
-                builder.lessThan(root.get(Meeting_.startTime), endTime));
-        timePredicate1 = builder.and(basePredicate,
-                builder.greaterThan(root.get(Meeting_.endTime), startTime));
-        Predicate timePredicate2 = builder.conjunction();
-        timePredicate2 = builder.and(basePredicate, builder
-                .between(root.get(Meeting_.startTime), startTime, endTime));
-        timePredicate2 = builder.and(basePredicate, builder
-                .between(root.get(Meeting_.endTime), startTime, endTime));
-        Predicate timePredicate = builder.or(timePredicate1, timePredicate2);
-        basePredicate = builder.and(basePredicate, timePredicate);
-        cq.where(basePredicate);
-        cq.distinct(true);
         return getEm().createQuery(cq).getResultList();
     }
 
@@ -531,11 +482,11 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         Root<Meeting> root = cq.from(Meeting.class);
 
         Predicate predicate = builder.conjunction();
-        predicate = builder.and(predicate, builder.lessThan(
-                root.get(Meeting_.date), LocalDate.now()));
+        predicate = builder.and(predicate,
+                builder.lessThan(root.get(Meeting_.date), LocalDate.now()));
         predicate = builder.and(predicate, builder
                 .not(root.get(Meeting_.status).in(MeetingStatus.ARCHIVED)));
-        
+
         cq.where(predicate);
         cq.distinct(true);
         return getEm().createQuery(cq).getResultList();

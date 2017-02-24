@@ -1,3 +1,6 @@
+/*
+ * This class builds an Excel spreadsheet document using Apache POI library.
+ */
 package com.softserve.edu.schedule.controller.docviews;
 
 import java.io.OutputStream;
@@ -19,18 +22,35 @@ import com.softserve.edu.schedule.dto.MeetingHistoryDTO;
 /**
  * This class builds an Excel spreadsheet document using Apache POI library.
  * 
- * @author www.codejava.net
+ * @version 1.0 22 02 2017
  *
+ * @author Bohdan Melnyk.
+ *
+ * @since 1.8
  */
 public class ExcelViewMeetingHistory extends AbstractXlsView {
 
+    /** Constructor.
+     * @param listMeetingHistoryDTO
+     */
     public ExcelViewMeetingHistory(
             final List<MeetingHistoryDTO> listMeetingHistoryDTO) {
         this.listMeetingHistoryDTO = listMeetingHistoryDTO;
     }
 
+    /**
+     * The list of MeetingHistoryDTO, that will be writen in the excel file.
+     */
     private List<MeetingHistoryDTO> listMeetingHistoryDTO = new ArrayList<MeetingHistoryDTO>();
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.springframework.web.servlet.view.document.AbstractXlsView#
+     * buildExcelDocument(java.util.Map, org.apache.poi.ss.usermodel.Workbook,
+     * javax.servlet.http.HttpServletRequest,
+     * javax.servlet.http.HttpServletResponse)
+     */
     @Override
     public void buildExcelDocument(Map<String, Object> model, Workbook workbook,
             HttpServletRequest request, HttpServletResponse response)
@@ -40,7 +60,7 @@ public class ExcelViewMeetingHistory extends AbstractXlsView {
 
         response.setHeader("Content-Type", "application/octet-stream");
         response.setHeader("Content-Disposition",
-                "attachment; filename=MeetingsArchive.xls");
+                "attachment; filename=AllArchivedMeetings.xls");
 
         Sheet sheet = workbook.createSheet("Meeting History");
 
@@ -82,7 +102,6 @@ public class ExcelViewMeetingHistory extends AbstractXlsView {
                     .setCellValue(meetingHistoryDTO.getGroups());
             courseRow.createCell(11)
                     .setCellValue(meetingHistoryDTO.getDescription());
-
         }
 
         OutputStream outStream = null;
@@ -95,5 +114,4 @@ public class ExcelViewMeetingHistory extends AbstractXlsView {
             outStream.close();
         }
     }
-
 }

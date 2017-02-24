@@ -38,12 +38,6 @@
 <h3 class="text-center">
 	<spring:message code="lbl.meeting.all" />
 </h3>
-
-
-	<div align="center">
-        <h3><a href="meetings/downloadExcel">Download Meeting History Excel file</a></h3>
-    </div>
-    
     
 <div class="table-responsive">
 	<table class="table table-hover">
@@ -52,11 +46,11 @@
 			<th style="width: 120px"><spring:message code="lbl.meeting.subject" /> 
 			<br> 
 				<a
-				href="meetings?fieldForSorting=1&sortOrder=0&pageNumber=0"
-				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				href="meetings?fieldForSorting=1&sortOrder=1&pageNumber=0"
+				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 				</a> 
-			<a href="meetings?fieldForSorting=1&sortOrder=1&pageNumber=0"
-				title="Sort Descending"> <i
+			<a href="meetings?fieldForSorting=1&sortOrder=2&pageNumber=0"
+				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
 			</th>
@@ -64,11 +58,11 @@
 					code="lbl.meeting.owner" /> 
 					<br> 
 					<a
-				href="meetings?fieldForSorting=2&sortOrder=0&pageNumber=0"
-				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				href="meetings?fieldForSorting=2&sortOrder=1&pageNumber=0"
+				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 			</a> 
-			<a href="meetings?fieldForSorting=2&sortOrder=1&pageNumber=0"
-				title="Sort Descending"> <i
+			<a href="meetings?fieldForSorting=2&sortOrder=2&pageNumber=0"
+				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
 			</th>
@@ -76,44 +70,44 @@
 			<th><spring:message code="lbl.meeting.room" /> 
 			<br>
 			 <a
-				href="meetings?fieldForSorting=3&sortOrder=0&pageNumber=0"
-				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				href="meetings?fieldForSorting=3&sortOrder=1&pageNumber=0"
+				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 			</a> 
-			<a href="meetings?fieldForSorting=3&sortOrder=1&pageNumber=0"
-				title="Sort Descending"> <i
+			<a href="meetings?fieldForSorting=3&sortOrder=2&pageNumber=0"
+				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
 			</th>
 			<th><spring:message code="lbl.meeting.date" /> 
 			<br>
 			 <a
-				href="meetings?fieldForSorting=4&sortOrder=0&pageNumber=0"
-				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				href="meetings?fieldForSorting=4&sortOrder=1&pageNumber=0"
+				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 			</a> 
-			<a href="meetings?fieldForSorting=4&sortOrder=1&pageNumber=0"
-				title="Sort Descending"> <i
+			<a href="meetings?fieldForSorting=4&sortOrder=2&pageNumber=0"
+				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
 			</th>
 			<th><spring:message code="lbl.meeting.starttime" /> 
 			<br> 
 			<a
-				href="meetings?fieldForSorting=5&sortOrder=0&pageNumber=0"
-				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				href="meetings?fieldForSorting=5&sortOrder=1&pageNumber=0"
+				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 			</a> 
-			<a href="meetings?fieldForSorting=5&sortOrder=1&pageNumber=0"
-				title="Sort Descending"> <i
+			<a href="meetings?fieldForSorting=5&sortOrder=2&pageNumber=0"
+				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
 			</th>
 			<th><spring:message code="lbl.meeting.endtime" /> 
 			<br> 
 			<a
-				href="meetings?fieldForSorting=6&sortOrder=0&pageNumber=0"
-				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+				href="meetings?fieldForSorting=6&sortOrder=1&pageNumber=0"
+				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
 			</a> 
-			<a href="meetings?fieldForSorting=6&sortOrder=1&pageNumber=0"
-				title="Sort Descending"> <i
+			<a href="meetings?fieldForSorting=6&sortOrder=2&pageNumber=0"
+				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a>
 			</th>
@@ -121,22 +115,28 @@
 			<sec:authorize
 				access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_USER', 'ROLE_SUPERVISOR')">
 				<th class="levelclass"><spring:message code="lbl.meeting.level" /> <br> <a
-					href="meetings?fieldForSorting=7&sortOrder=0&pageNumber=0"
-					title="Sort Ascending"> <i
+					href="meetings?fieldForSorting=7&sortOrder=1&pageNumber=0"
+					title="<spring:message code="lbl.location.sortAsc" />"> <i
 						class="fa fa-arrow-circle-o-up fa-lg"></i>
-				</a> <a href="meetings?fieldForSorting=7&sortOrder=1&pageNumber=0"
-					title="Sort Descending"> <i
+				</a> <a href="meetings?fieldForSorting=7&sortOrder=2&pageNumber=0"
+					title="<spring:message code="lbl.location.sortDesc" />"> <i
 						class="fa fa-arrow-circle-o-down fa-lg"></i>
 				</a></th>
 			</sec:authorize>
 			<th><spring:message code="lbl.meeting.status" /> <br> <a
-				href="meetings?fieldForSorting=8&sortOrder=0&pageNumber=0"
-				title="Sort Ascending"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
-			</a> <a href="meetings?fieldForSorting=8&sortOrder=1&pageNumber=0"
-				title="Sort Descending"> <i
+				href="meetings?fieldForSorting=8&sortOrder=1&pageNumber=0"
+				title="<spring:message code="lbl.location.sortAsc" />"> <i class="fa fa-arrow-circle-o-up fa-lg"></i>
+			</a> <a href="meetings?fieldForSorting=8&sortOrder=2&pageNumber=0"
+				title="<spring:message code="lbl.location.sortDesc" />"> <i
 					class="fa fa-arrow-circle-o-down fa-lg"></i>
 			</a></th>
-			<th></th>
+			<th class="text-center v-alighn"><sec:authorize
+					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
+					<a href="${MeetingController.MEETINGS_MODEL_ATTR}${MeetingController.DOWNLOAD_MAPPING}"
+					title="<spring:message code="lbl.meeting.download" />"
+					><i
+						class="fa fa-lg fa-download" aria-hidden="true"></i></a>
+				</sec:authorize></th>
 			<th class="text-center v-alighn"><sec:authorize
 					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
 					<a
@@ -261,11 +261,15 @@
 					title="<spring:message code="lbl.meeting.details" />">${meeting.id}</a></td>
 				<td><a
 					href="${pageContext.request.contextPath}/${MeetingController.SUBJECTS_MODEL_ATTR}/
-					${meeting.subject.id}">${meeting.subject.name}</a></td>
+					${meeting.subject.id}"
+					title="<spring:message code="lbl.subject.subjectDetails" />"
+					>${meeting.subject.name}</a></td>
 				<td><sec:authorize access="isAuthenticated()">
 						<a
 							href="${pageContext.request.contextPath}/
-							${MeetingController.PROFILE_MAPPING}/${meeting.owner.id}">${meeting.owner.lastName}
+							${MeetingController.PROFILE_MAPPING}/${meeting.owner.id}"
+							title="<spring:message code="lbl.meeting.ownerdetails" />"
+							>${meeting.owner.lastName}
 							${meeting.owner.firstName}</a>
 					</sec:authorize> <sec:authorize access="!isAuthenticated()">
 						${meeting.owner.lastName}
@@ -273,7 +277,9 @@
 						</sec:authorize></td>
 				<td><a
 					href="${pageContext.request.contextPath}/
-					${MeetingController.ROOMS_MODEL_ATTR}/${meeting.room.id}">
+					${MeetingController.ROOMS_MODEL_ATTR}/${meeting.room.id}"
+					title="<spring:message code="lbl.room.roomDetails" />"
+					>
 					${meeting.room.name} (${meeting.room.location.name})
 					</a>
 				</td>
@@ -284,7 +290,9 @@
 						<p>
 							<a
 								href="${pageContext.request.contextPath}/
-								${MeetingController.USERGROUPS_MAPPING}/${group.id}">${group.name}</a>
+								${MeetingController.USERGROUPS_MAPPING}/${group.id}"
+								title="<spring:message code="lbl.meeting.groupdetails" />"
+								>${group.name}</a>
 						</p>
 					</c:forEach></td>
 				<sec:authorize
@@ -293,7 +301,7 @@
 				</sec:authorize>
 				<td><spring:message code="${meeting.status.getMessageCode()}" />
 				</td>
-				<td><sec:authorize
+				<td class="text-center v-alighn"><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
 						<c:if test="${ meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4}">
 						<a
@@ -316,7 +324,7 @@
 							</a>
 						</c:if>
 					</sec:authorize></td>
-				<td><sec:authorize
+				<td class="text-center v-alighn"><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR')">
 						<c:if test="${ meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4}">
 						<a
@@ -395,4 +403,3 @@
 </script>
 <script type="text/javascript" src="${meetingsListJS}">	
 </script>
-

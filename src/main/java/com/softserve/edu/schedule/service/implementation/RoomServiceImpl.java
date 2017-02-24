@@ -1,14 +1,23 @@
 /* RoomServiceImpl 1.0 01/02/2017 */
 package com.softserve.edu.schedule.service.implementation;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
+import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
@@ -31,6 +40,9 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomDTOCon
 @Transactional
 @PerfomanceLoggable
 public class RoomServiceImpl implements RoomService {
+
+    @Autowired
+    private FileStorageDAO fileStorageDao;
 
     /**
      * RoomDAO example to provide database operations.
@@ -153,5 +165,45 @@ public class RoomServiceImpl implements RoomService {
         return roomDAO.getRoomsPageWithFilter(roomFilter, roomPaginator)
                 .stream().map(e -> roomDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void uploadFile(MultipartFile file, Long id) {
+        DBObject metadata = new BasicDBObject();
+        metadata.put("roomId", Long.toString(id));
+        try {
+            fileStorageDao.store(file.getInputStream(),
+                    file.getOriginalFilename(), metadata);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<String> showRoomFiles(Long id) {
+        return fileStorageDao
+                .findAllByIdAndType(Long.toString(id), "metadata.roomId")
+                .stream().map(f -> f.getFilename())
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteRoomFileById(Long id) {
+        fileStorageDao.deleteById("metadata.roomId", Long.toString(id));
+    }
+
+    @Override
+    public void retriveRoomFileById(Long id, String fileName,
+            HttpServletResponse response) throws IOException {
+        GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(
+                Long.toString(id), fileName, "metadata.roomId");
+        if (file != null) {
+            response.setContentType(file.getContentType());
+            response.setContentLength((new Long(file.getLength()).intValue()));
+            response.setHeader("content-Disposition",
+                    "attachment; filename=" + file.getFilename());
+            IOUtils.copyLarge(file.getInputStream(),
+                    response.getOutputStream());
+        }
     }
 }

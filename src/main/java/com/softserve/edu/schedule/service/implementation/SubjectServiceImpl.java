@@ -6,16 +6,25 @@
  */
 package com.softserve.edu.schedule.service.implementation;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
+import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dao.SubjectDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
+import com.softserve.edu.schedule.dto.FileForSubjectDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -43,8 +52,14 @@ public class SubjectServiceImpl implements SubjectService {
 	@Autowired
 	private SubjectDAO subjectDao;
 
+	/**
+	 * Field for userDao.
+	 */
 	@Autowired
 	private UserDAO userDao;
+
+	@Autowired
+	private FileStorageDAO fileStorageDao;
 
 	/**
 	 * Field for subjectDTOConverter.
@@ -164,5 +179,40 @@ public class SubjectServiceImpl implements SubjectService {
 		        .getSubjectsPageWithFilter(subjectFilter, subjectPaginator)
 		        .stream().map(s -> subjectDTOConverter.getDTO(s))
 		        .collect(Collectors.toList());
+	}
+
+	@Override
+	public void uploadFile(FileForSubjectDTO fileForSubjectDTO, Long id)
+	        throws IOException {
+		DBObject metadata = new BasicDBObject();
+		metadata.put("subjectId", Long.toString(id));
+		fileStorageDao.store(fileForSubjectDTO.getFile().getInputStream(),
+		        fileForSubjectDTO.getFile().getOriginalFilename(), metadata);
+	}
+
+	@Override
+	public List<String> showSubjectFiles(Long id) {
+		return fileStorageDao
+		        .findAllByIdAndType(Long.toString(id), "metadata.subjectId")
+		        .stream().map(f -> f.getFilename())
+		        .collect(Collectors.toList());
+	}
+
+	@Override
+	public void deleteSubjectFileById(Long id, String fileName) {
+		fileStorageDao.deleteByIdAndFileName(Long.toString(id), fileName,
+		        "metadata.subjectId");
+	}
+
+	@Override
+	public void retriveSubjectFileById(Long id, String fileName,
+	        HttpServletResponse response) throws IOException {
+		GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(
+		        Long.toString(id), fileName, "metadata.subjectId");
+		response.setContentType(file.getContentType());
+		response.setContentLength((new Long(file.getLength()).intValue()));
+		response.setHeader("content-Disposition",
+		        "attachment; filename=" + file.getFilename());
+		IOUtils.copyLarge(file.getInputStream(), response.getOutputStream());
 	}
 }

@@ -20,15 +20,13 @@ public class FileStorageDAOImpl implements FileStorageDAO {
 	private GridFsTemplate gridFsTemplate;
 
 	public String store(InputStream inputStream, String fileName,
-	        String contentType, DBObject metaData) {
-		return this.gridFsTemplate
-		        .store(inputStream, fileName, contentType, metaData).getId()
+	        DBObject metadata) {
+		return gridFsTemplate.store(inputStream, fileName, metadata).getId()
 		        .toString();
 	}
 
 	public GridFSDBFile getById(String id) {
-		return this.gridFsTemplate
-		        .findOne(new Query(Criteria.where("_id").is(id)));
+		return gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id)));
 	}
 
 	public GridFSDBFile getByFilename(String fileName) {
@@ -48,5 +46,29 @@ public class FileStorageDAOImpl implements FileStorageDAO {
 	@Override
 	public void delete(String id) {
 		gridFsTemplate.delete(new Query(Criteria.where("_id").is(id)));
+	}
+
+	@Override
+	public List<GridFSDBFile> findAllByIdAndType(String id, String type) {
+		return gridFsTemplate.find(new Query(Criteria.where(type).is(id)));
+	}
+
+	@Override
+	public void deleteById(String pattern, String id) {
+		gridFsTemplate.delete(new Query(Criteria.where(pattern).is(id)));
+	}
+
+	@Override
+	public GridFSDBFile retriveByIdAndFileName(String id, String fileName,
+	        String type) {
+		return gridFsTemplate.findOne(new Query(
+		        Criteria.where(type).is(id).and("filename").is(fileName)));
+	}
+
+	@Override
+	public void deleteByIdAndFileName(String id, String fileName, String type) {
+		gridFsTemplate.delete(new Query(
+		        Criteria.where(type).is(id).and("filename").is(fileName)));
+
 	}
 }
