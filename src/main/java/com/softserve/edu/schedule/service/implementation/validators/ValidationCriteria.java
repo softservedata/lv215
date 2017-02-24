@@ -68,6 +68,11 @@ public interface ValidationCriteria {
      * Array size comparator.
      */
     Integer ZERO = 0;
+    
+    /**
+     * Max file size.
+     */
+    Integer MAX_FILE_SIZE = 5242880;
 
     /**
      * Allowed characters for name expression.

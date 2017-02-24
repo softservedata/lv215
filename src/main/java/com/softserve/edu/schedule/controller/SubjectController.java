@@ -218,39 +218,80 @@ public class SubjectController
 	@RequestMapping(SUBJECTS_MAPPING_SHOW + "{id}")
 	public String showSubjectDetails(@PathVariable final Long id,
 	        final Model model) {
-		model.addAttribute("fileForSubjectForm", new FileForSubjectDTO());
+		model.addAttribute(SUBJECT_FILE_FORM, new FileForSubjectDTO());
 		model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
-		model.addAttribute("subjectFiles", subjectService.showSubjectFiles(id));
+		model.addAttribute(SUBJECT_FILES, subjectService.showSubjectFiles(id));
 		return SUBJECTS_SHOW_URL;
 	}
 
+	/**
+	 * Method for upload file for Subject.
+	 *
+	 * @param id
+	 *            subject id to show details.
+	 *
+	 * @param subjectFileDTO
+	 *            subjectFileDTO details for storing file.
+	 *
+	 * @exception IOException
+	 * 
+	 * @return subject show detail page URL
+	 */
+	@PreAuthorize(HAS_ANY_ROLE_EXEPT_USER)
 	@RequestMapping(value = SUBJECTS_MAPPING_SHOW
 	        + "{id}", method = RequestMethod.POST)
-	public String showSubjectUploadFile(@PathVariable final Long id,
-	        @ModelAttribute("fileForSubjectForm") final FileForSubjectDTO subjectFileDTO) {
-		try {
-			subjectService.uploadFile(subjectFileDTO, id);
-		} catch (IOException e) {
-			e.printStackTrace();
+	public String uploadFile(@PathVariable final Long id,
+	        @ModelAttribute(SUBJECT_FILE_FORM) @Valid final FileForSubjectDTO subjectFileDTO,
+	        final BindingResult result, final Model model) throws IOException {
+		if (result.hasErrors()) {
+			System.out.println("I WAS HERE!!!");
+			return SUBJECT_DELETE_FILE_URL;
 		}
-		return "redirect:/subjects/{id}";
+		subjectService.uploadFile(subjectFileDTO, id);
+		return SUBJECT_DELETE_FILE_URL;
 	}
 
-	@RequestMapping("/subjects/deleteFile/{fileName}/{id}")
+	/**
+	 * Method for delete file from Subject.
+	 *
+	 * @param id
+	 *            subject id to show details.
+	 *
+	 * @param fileName
+	 *            subject file name.
+	 *
+	 * @return subject show detail page URL
+	 */
+	@PreAuthorize(HAS_ANY_ROLE_EXEPT_USER)
+	@RequestMapping(SUBJECT_DELETE_FILE_MAPPING + "{fileName}/{id}")
 	public String deleteFile(@PathVariable final Long id,
 	        @PathVariable String fileName) {
 		subjectService.deleteSubjectFileById(id, fileName);
-		return "redirect:/subjects/{id}";
+		return SUBJECT_DELETE_FILE_URL;
 	}
 
-	@RequestMapping("/subjects/downloadFile/{fileName}/{id}")
+	/**
+	 * Method for delete file from Subject.
+	 *
+	 * @param id
+	 *            subject id to show details.
+	 *
+	 * @param fileName
+	 *            subject file name.
+	 * 
+	 * @exception IOException
+	 * 
+	 * @param response
+	 *            HttpServletResponse response for file download.
+	 *
+	 * @return subject show detail page URL
+	 */
+	@PreAuthorize(HAS_ANY_ROLE)
+	@RequestMapping(SUBJECT_DOWNLOAD_FILE_MAPPING + "{fileName}/{id}")
 	public void downloadFile(@PathVariable final Long id,
-	        @PathVariable final String fileName, HttpServletResponse response) {
-		try {
-			subjectService.retriveSubjectFileById(id, fileName, response);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	        @PathVariable final String fileName, HttpServletResponse response)
+	        throws IOException {
+		subjectService.retriveSubjectFileById(id, fileName, response);
 	}
 
 }
