@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -54,7 +57,6 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOFor
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOForRestorePasswordConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForAndroidDTOConverter;
 import com.softserve.edu.schedule.service.implementation.mailsenders.RestorePasswordMailServise;
-import com.sun.jna.platform.FileUtils;
 
 /**
  * An interface to provide service operations with User entity.
@@ -69,11 +71,6 @@ import com.sun.jna.platform.FileUtils;
 @PerfomanceLoggable
 public class UserServiceImpl implements UserService, SocialUserDetailsService {
 
-    private final static String USER_PHOTO_BY_DEFOULT = "http://kutuphane.omu.edu.tr/sites/kutuphane.omu.edu.tr/files/profil_4.png";
-
-    private final static String USER_NAME = "userName";
-
-    private final static String FILE_NAME = "profil_4.png";
     /**
      * UserDAO example to provide database operations.
      */
@@ -144,17 +141,6 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     public void create(final UserDTO userDTO) {
         userDTO.setPassword(encoder.encode(userDTO.getPassword()));
         userDAO.create(userDTOConverter.getEntity(userDTO));
-        
-        DBObject metadata = new BasicDBObject();
-        metadata.put(USER_NAME, userDTO.getMail());
-
-        try {
-            File image = new File(USER_PHOTO_BY_DEFOULT);
-            InputStream inputStream = new FileInputStream(image);
-            fileStorageDao.store(inputStream, FILE_NAME, metadata);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -358,37 +344,92 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      *
      * @param principal
      *            a authorized userDTO.
+     * 
      * @param multipartFile
      *            the picture.
      */
     @Override
     @Transactional
-    public void saveImage(final Principal principal, final MultipartFile file) {
+    public void saveImage(final Principal principal, final MultipartFile file)
+            throws IOException {
 
         DBObject metadata = new BasicDBObject();
-        metadata.put(USER_NAME, principal.getName());
-        try {
-            fileStorageDao.store(file.getInputStream(),
-                    file.getOriginalFilename(), metadata);
-        } catch (IOException e) {
-            e.printStackTrace();
+        metadata.put(USER_ID,
+                Long.toString(userDAO.findByMail(principal.getName()).getId()));
+        fileStorageDao.store(file.getInputStream(), file.getOriginalFilename(),
+                metadata);
+    }
+
+    /**
+     * Save default image in database after registration.
+     * 
+     * @param userDTO
+     *            a userDTO from new user.
+     */
+    @Override
+    @Transactional
+    public void saveDefoultImage(final UserDTO userDTO) throws IOException {
+
+        User user = userDTOConverter.getEntity(userDTO);
+        DBObject metadata = new BasicDBObject();
+        metadata.put(USER_ID, user.getId());
+        File image = new File(USER_PHOTO_BY_DEFOULT);
+        InputStream inputStream = new FileInputStream(image);
+        fileStorageDao.store(inputStream, FILE_NAME, metadata);
+    }
+
+    /**
+     * Show image in jsp.
+     * 
+     * @param id
+     *            a user id.
+     */
+    @Override
+    public String showUserFile(Long id) {
+        return fileStorageDao
+                .findByIdAndType(Long.toString(id), METADATA_USERID)
+                .getFilename();
+    }
+
+    /**
+     * Delete image from database by id.
+     * 
+     * @param id
+     *            a user id.
+     */
+    @Override
+    public void deleteUserPhotoById(Long id) {
+        fileStorageDao.deleteById(METADATA_USERID, Long.toString(id));
+    }
+
+    /**
+     * Retrive image from database.
+     * 
+     * @param id
+     *            a user id.
+     * 
+     * @param fileName
+     *            name of file in database.
+     * 
+     * @param response
+     *            response.
+     */
+    @Override
+    public void retrivePhotoById(Long id, String fileName,
+            HttpServletResponse response) throws IOException {
+        GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(
+                Long.toString(id), fileName, METADATA_USERID);
+        if (file != null) {
+            response.setContentType(file.getContentType());
+            response.setContentLength((new Long(file.getLength()).intValue()));
+            response.setHeader("content-Disposition",
+                    "attachment; filename=" + file.getFilename());
+            IOUtils.copyLarge(file.getInputStream(),
+                    response.getOutputStream());
         }
     }
 
-    @Override
-    public File getUserPhotoById(Long id) {
-         GridFSDBFile gridFile = fileStorageDao
-         .retriveById(userDAO.getById(id).getMail());
-//        File file = new File (USER_PHOTO_BY_DEFOULT);
-//        System.out.println(file.getFilename());
-        InputStream inputStream = gridFile.getInputStream();
-        File file = FileUtils.copyInputStreamToFile(inputStream, targetFile);
-        return file;
-    }
-
     /*
-     * (non-Javadoc)
-     *
      * @see com.softserve.edu.schedule.service.UserService#getAllActiveUsers()
      */
     @Override
@@ -400,8 +441,6 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     }
 
     /*
-     * (non-Javadoc)
-     *
      * @see
      * com.softserve.edu.schedule.service.UserService#getAllManagers(java.util.
      * List)

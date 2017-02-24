@@ -64,10 +64,9 @@ public class FileStorageDAOImpl implements FileStorageDAO {
         return gridFsTemplate.findOne(new Query(
                 Criteria.where(type).is(id).and("filename").is(fileName)));
     }
-
+    
     @Override
-    public GridFSDBFile retriveById(String id) {
-        return gridFsTemplate
-                .findOne(new Query(Criteria.where("metadata.userName").is(id)));
+    public GridFSDBFile findByIdAndType(String id, String type) {
+        return gridFsTemplate.findOne(new Query(Criteria.where(type).is(id)));
     }
 }

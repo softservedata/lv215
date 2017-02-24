@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
@@ -24,8 +24,18 @@
 					<spring:message code="lbl.user.profile" />
 				</h3>
 				<br>
-				<%-- <img src="<c:url value='${user.pathImage}'/>" height="200"
-					align="middle"> --%>
+				<div class="form-group">
+					<ul>
+						<c:forEach items="${userFiles}" var="fileName">
+							<li style="list-style-type: none"><a
+								style="display: inline-block;"
+								href="${pageContext.request.contextPath}/downloadFile/${fileName}/${user.id}"> <img
+									src="${pageContext.request.contextPath}/downloadFile/${fileName}/${user.id}" height="200"
+									class="img-fluid" alt="${fileName}">
+							</a></li>
+						</c:forEach>
+					</ul>
+				</div>
 				<div class="form-group">
 					<label for="firstName"><spring:message
 							code="lbl.user.firstName" />:</label> <b>${user.firstName}</b>

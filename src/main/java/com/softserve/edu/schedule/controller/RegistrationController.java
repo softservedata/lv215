@@ -1,6 +1,8 @@
 /* RegistrationController 1.0 01/20/2017 */
 package com.softserve.edu.schedule.controller;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -135,11 +137,12 @@ public class RegistrationController
             method = RequestMethod.POST)
     public String newUserFromStartPage(
             @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
-            final BindingResult br, final WebRequest request) {
+            final BindingResult br, final WebRequest request) throws IOException{
         if (br.hasErrors()) {
             return USER_REGIST_URL;
         }
         userService.create(userDTO);
+        userService.saveDefoultImage(userDTO);
         userService.autoLoginUser(userDTO);
         providerSignInUtils.doPostSignUp(userDTO.getMail(), request);
         return "redirect:/?new_account=true";

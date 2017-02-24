@@ -1,8 +1,10 @@
 package com.softserve.edu.schedule.service;
 
-import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.social.connect.Connection;
@@ -27,6 +29,14 @@ import com.softserve.edu.schedule.entity.UserStatus;
  * @since 1.8
  */
 public interface UserService extends UserDetailsService {
+    
+    String USER_PHOTO_BY_DEFOULT = "http://kutuphane.omu.edu.tr/sites/kutuphane.omu.edu.tr/files/profil_4.png";
+
+    String USER_ID = "userId";
+
+    String FILE_NAME = "profil_4.png";
+    
+    String METADATA_USERID = "metadata.userId";
 
     /**
      * Save new user entity into the database.
@@ -127,27 +137,64 @@ public interface UserService extends UserDetailsService {
      *            the userPaginator to set
      * @return List of the user DTO objects.
      */
-    List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter,
+    public List<UserDTO> getUsersPageWithFilter(final UserFilter userFilter,
             final Paginator userPaginator);
 
     /**
-     * Save image in database in the.
+     * Save image in database.
      * 
      * @param principal
      *            a authorized userDTO.
      * @param multipartFile
      *            the picture.
      */
-    void saveImage(Principal principal, MultipartFile multipartFile);
+    public void saveImage(Principal principal, MultipartFile multipartFile) throws IOException;
+
+    /**
+     * Save default image in database after registration.
+     * 
+     * @param userDTO
+     *            a userDTO from new user.
+     */
+    public void saveDefoultImage(final UserDTO userDTO) throws IOException;
+
+    /**
+     * Show image in jsp.
+     * 
+     * @param id
+     *            a user id.
+     */
+    public String showUserFile(Long id);
     
-    File getUserPhotoById(Long id);
+    /**
+     * Delete image from database by id.
+     * 
+     * @param id
+     *            a user id.
+     */
+    public void deleteUserPhotoById(Long id) throws IOException;
+    
+    /**
+     * Retrive image from database.
+     * 
+     * @param id
+     *            a user id.
+     *            
+     * @param fileName
+     *            name of file in database.
+     *            
+     * @param response
+     *            response.
+     */
+    public void retrivePhotoById(Long id, String fileName,
+            HttpServletResponse response) throws IOException;
 
     /**
      * Method returns lists of users which have status - active
      * 
      * @return lists of users which have status - active
      */
-    List<UserDTO> getAllActiveUsers();
+    public List<UserDTO> getAllActiveUsers();
 
     /**
      * Get all users, that can manage groups, meetings, etc.
@@ -155,7 +202,7 @@ public interface UserService extends UserDetailsService {
      * @param listUserDTO
      * @return List<UserDTO>
      */
-    List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO);
+    public List<UserDTO> getAllManagers(final List<UserDTO> listUserDTO);
 
     /**
      * Class used for android application user identification.
@@ -168,7 +215,7 @@ public interface UserService extends UserDetailsService {
      *
      * @return UserForAndroidDTO instance if user credentials are correct
      */
-    UserForAndroidDTO getVerifiedUser(String mail, String password);
+    public UserForAndroidDTO getVerifiedUser(String mail, String password);
 
     /**
      * Check if user with this mail exist.
@@ -176,7 +223,7 @@ public interface UserService extends UserDetailsService {
      * @param userDTO
      *            mail of user what want restore password
      */
-    boolean isUserWithMailExist(UserDTOForRestorePassword userDTO);
+    public boolean isUserWithMailExist(UserDTOForRestorePassword userDTO);
 
     /**
      * Restore password and sent mail about this.

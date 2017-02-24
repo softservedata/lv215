@@ -252,6 +252,18 @@ public interface ControllerConst {
         String PASSWORD_WAS_SENT = "/passwordWasSent";
         
         String FILE = "file";
+        
+        String PATH_VAR_ID = "id";
+        
+        String USER_FILES = "userFiles";
+             
+        String HAS_ROLE_ADMIN = "hasAnyRole('ROLE_ADMIN')";
+        
+        String HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
+        
+        String HAS_ANY_AUTHORIZED_ROLE = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')";
+        
+        String IS_AUTHENTICATED = "isAuthenticated()";
     }
 
     /**
