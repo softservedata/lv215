@@ -161,5 +161,10 @@ public interface ValidationMessages {
      * Invalid meeting status.
      */
     String INVALID_STATUS = "vm.ivdalidStatus";
+    
+    /**
+     * Invalid size.
+     */
+    String FILE_TO_LARGE = "vm.invalidSize";
 
 }
