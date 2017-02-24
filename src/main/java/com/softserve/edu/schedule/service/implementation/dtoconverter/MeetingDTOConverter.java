@@ -164,6 +164,7 @@ public class MeetingDTOConverter {
                 userDTO.setId(user.getId());
                 userDTO.setFirstName(user.getFirstName());
                 userDTO.setLastName(user.getLastName());
+                userDTO.setMail(user.getMail());
                 meetingDTO.setOwner(userDTO);
             }
             if (meeting.getStatus() != null) {

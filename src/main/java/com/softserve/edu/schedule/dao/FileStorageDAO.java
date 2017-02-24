@@ -30,4 +30,6 @@ public interface FileStorageDAO {
     
     public GridFSDBFile findByIdAndType(String id, String type);
 
+    public void deleteByIdAndFileName(String id, String fileName, String type);
+
 }

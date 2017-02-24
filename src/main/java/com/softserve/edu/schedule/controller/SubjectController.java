@@ -6,6 +6,8 @@
  */
 package com.softserve.edu.schedule.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -20,10 +22,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartFile;
 
+import com.softserve.edu.schedule.dto.FileForSubjectDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -217,6 +218,7 @@ public class SubjectController
 	@RequestMapping(SUBJECTS_MAPPING_SHOW + "{id}")
 	public String showSubjectDetails(@PathVariable final Long id,
 	        final Model model) {
+		model.addAttribute("fileForSubjectForm", new FileForSubjectDTO());
 		model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
 		model.addAttribute("subjectFiles", subjectService.showSubjectFiles(id));
 		return SUBJECTS_SHOW_URL;
@@ -225,26 +227,30 @@ public class SubjectController
 	@RequestMapping(value = SUBJECTS_MAPPING_SHOW
 	        + "{id}", method = RequestMethod.POST)
 	public String showSubjectUploadFile(@PathVariable final Long id,
-	        @RequestParam final MultipartFile file, final Model model) {
-		model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
-		model.addAttribute("subjectFiles", subjectService.showSubjectFiles(id));
-		subjectService.uploadFile(file, id);
+	        @ModelAttribute("fileForSubjectForm") final FileForSubjectDTO subjectFileDTO) {
+		try {
+			subjectService.uploadFile(subjectFileDTO, id);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return "redirect:/subjects/{id}";
 	}
 
-	@RequestMapping("/subjects/deleteFile/" + "{id}")
-	public String deleteFile(@PathVariable final Long id) {
-		subjectService.deleteSubjectFileById(id);
+	@RequestMapping("/subjects/deleteFile/{fileName}/{id}")
+	public String deleteFile(@PathVariable final Long id,
+	        @PathVariable String fileName) {
+		subjectService.deleteSubjectFileById(id, fileName);
 		return "redirect:/subjects/{id}";
 	}
 
 	@RequestMapping("/subjects/downloadFile/{fileName}/{id}")
-	public String downloadFile(@PathVariable final Long id,
-	        @PathVariable final String fileName, HttpServletResponse response,
-	        Model model) {
-		subjectService.retriveSubjectFileById(id, fileName, response);
-		model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
-		return "/subjects/{id}";
+	public void downloadFile(@PathVariable final Long id,
+	        @PathVariable final String fileName, HttpServletResponse response) {
+		try {
+			subjectService.retriveSubjectFileById(id, fileName, response);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }
