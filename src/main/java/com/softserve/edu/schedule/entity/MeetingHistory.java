@@ -15,7 +15,7 @@ import javax.persistence.Lob;
  *
  * @version 1.0 22 02 2017.
  *
- * @author Bohdan Melnyk
+ * @author Bohdan Melnyk, Oleksandr Butyter
  *
  * @since 1.8
  */

@@ -1,4 +1,5 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -15,7 +16,8 @@
 		</div>
 	</c:if>
 
-	<div class="col-lg-2 col-md-2 col-sm-2 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
+	<div
+		class="col-lg-2 col-md-2 col-sm-2 col-lg-offset-2 col-md-offset-2 col-sm-offset-2">
 		<select class="chosen-category" id="ch1">
 			<spring:message code="lbl.nav.rooms" var="roomSelect" />
 			<option value="0">${roomSelect}</option>
@@ -49,7 +51,8 @@
 </div>
 
 <div class="row">
-	<div class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2"
+	<div
+		class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2"
 		id='calendar'></div>
 </div>
 <spring:message code="label.localeCalendar" var="locale" />
