@@ -91,14 +91,15 @@
 										code="lbl.filePicker.browse" />&hellip; <input
 									style="display: none;" type="file" name="file"
 									accept="${SubjectController.ACCES_FILES}"> </span>
-							</label>
-							<form:errors path="file" />
-							<input type="text" class="form-control" readonly>
+							</label> <input type="text" class="form-control" readonly>
 						</div>
 					</div>
 					<div class="form-group">
 						<input type="submit" class="btn btn-default"
 							value="<spring:message code="lbl.form.save"/>" />
+					</div>
+					<div class="input-group">
+						<form:errors path="file" />
 					</div>
 				</form:form>
 			</sec:authorize>
