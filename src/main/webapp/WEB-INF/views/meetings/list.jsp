@@ -260,7 +260,7 @@
 					href="${MeetingController.MEETINGS_MODEL_ATTR}/${meeting.id}"
 					title="<spring:message code="lbl.meeting.details" />">${meeting.id}</a></td>
 				<td><a
-					href="${pageContext.request.contextPath}/${MeetingController.SUBJECTS_MODEL_ATTR}/
+					href="${pageContext.request.contextPath}/${MeetingController.MEETING_SUBJECT_URL}/
 					${meeting.subject.id}"
 					title="<spring:message code="lbl.subject.subjectDetails" />"
 					>${meeting.subject.name}</a></td>
