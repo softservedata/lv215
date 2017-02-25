@@ -19,66 +19,40 @@ public class FileStorageDAOImpl implements FileStorageDAO {
     @Autowired
     private GridFsTemplate gridFsTemplate;
 
-    // needed
-    public String store(InputStream inputStream, String fileName,
-            DBObject metadata) {
+    @Override
+    public String store(final InputStream inputStream, final String fileName,
+            final DBObject metadata) {
         return gridFsTemplate.store(inputStream, fileName, metadata).getId()
                 .toString();
     }
 
-    /*
-     * public GridFSDBFile getById(String id) { return
-     * gridFsTemplate.findOne(new Query(Criteria.where("_id").is(id))); }
-     */
-
-    /*
-     * public GridFSDBFile getByFilename(String fileName) { return
-     * gridFsTemplate .findOne(new
-     * Query(Criteria.where("filename").is(fileName))); }
-     */
-
-    /*
-     * public GridFSDBFile retrive(String fileName) { return gridFsTemplate
-     * .findOne(new Query(Criteria.where("filename").is(fileName))); }
-     */
-
-    /*
-     * public List<GridFSDBFile> findAll() { return gridFsTemplate.find(null); }
-     */
-
-    /*
-     * @Override public void delete(String id) { gridFsTemplate.delete(new
-     * Query(Criteria.where("_id").is(id))); }
-     */
-
-    // needed
     @Override
-    public List<GridFSDBFile> findAllByIdAndType(String id, String type) {
+    public List<GridFSDBFile> findAllByIdAndType(final String id,
+            final String type) {
         return gridFsTemplate.find(new Query(Criteria.where(type).is(id)));
     }
 
     @Override
-    public void deleteById(String pattern, String id) {
+    public void deleteById(final String pattern, final String id) {
         gridFsTemplate.delete(new Query(Criteria.where(pattern).is(id)));
     }
 
-    // needed
     @Override
-    public GridFSDBFile retriveByIdAndFileName(String id, String fileName,
-            String type) {
+    public GridFSDBFile retriveByIdAndFileName(final String id,
+            final String fileName, final String type) {
         return gridFsTemplate.findOne(new Query(
                 Criteria.where(type).is(id).and("filename").is(fileName)));
     }
 
-    // needed
     @Override
-    public void deleteByIdAndFileName(String id, String fileName, String type) {
+    public void deleteByIdAndFileName(final String id, final String fileName,
+            final String type) {
         gridFsTemplate.delete(new Query(
                 Criteria.where(type).is(id).and("filename").is(fileName)));
     }
 
     @Override
-    public GridFSDBFile findByIdAndType(String id, String type) {
+    public GridFSDBFile findByIdAndType(final String id, final String type) {
         return gridFsTemplate.findOne(new Query(Criteria.where(type).is(id)));
     }
 
