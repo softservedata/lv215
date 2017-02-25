@@ -298,7 +298,7 @@ public class SubjectController
 	@PreAuthorize(HAS_ANY_ROLE_EXEPT_USER)
 	@RequestMapping(SUBJECT_DELETE_FILE_MAPPING + "{fileName}/{id}")
 	public String deleteFile(@PathVariable final Long id,
-	        @PathVariable String fileName) {
+	        @PathVariable final String fileName) {
 		subjectService.deleteSubjectFileById(id, fileName);
 		return SUBJECT_SHOW_URL;
 	}
@@ -322,7 +322,7 @@ public class SubjectController
 	@PreAuthorize(HAS_ANY_ROLE)
 	@RequestMapping(SUBJECT_DOWNLOAD_FILE_MAPPING + "{fileName}/{id}")
 	public void downloadFile(@PathVariable final Long id,
-	        @PathVariable final String fileName, HttpServletResponse response)
+	        @PathVariable final String fileName, final HttpServletResponse response)
 	        throws IOException {
 		subjectService.retriveSubjectFileById(id, fileName, response);
 	}

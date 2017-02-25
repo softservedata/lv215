@@ -189,7 +189,7 @@ public class SubjectServiceImpl implements SubjectService {
 	 * @throws IOException
 	 */
 	@Override
-	public void uploadFile(FileForSubjectDTO fileForSubjectDTO)
+	public void uploadFile(final FileForSubjectDTO fileForSubjectDTO)
 	        throws IOException {
 		DBObject metadata = new BasicDBObject();
 		metadata.put("subjectId", Long.toString(fileForSubjectDTO.getId()));
@@ -205,7 +205,7 @@ public class SubjectServiceImpl implements SubjectService {
 	 * @return List of subject files.
 	 */
 	@Override
-	public List<String> showSubjectFiles(Long id) {
+	public List<String> showSubjectFiles(final Long id) {
 		return fileStorageDao
 		        .findAllByIdAndType(Long.toString(id), "metadata.subjectId")
 		        .stream().map(f -> f.getFilename())
@@ -221,7 +221,7 @@ public class SubjectServiceImpl implements SubjectService {
 	 * 
 	 */
 	@Override
-	public void deleteSubjectFileById(Long id, String fileName) {
+	public void deleteSubjectFileById(final Long id, final String fileName) {
 		fileStorageDao.deleteByIdAndFileName(Long.toString(id), fileName,
 		        "metadata.subjectId");
 	}
@@ -238,7 +238,7 @@ public class SubjectServiceImpl implements SubjectService {
 	 * @throws IOException
 	 */
 	@Override
-	public void retriveSubjectFileById(Long id, String fileName,
+	public void retriveSubjectFileById(final Long id, final String fileName,
 	        HttpServletResponse response) throws IOException {
 		GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(
 		        Long.toString(id), fileName, "metadata.subjectId");
@@ -259,7 +259,8 @@ public class SubjectServiceImpl implements SubjectService {
 	 * @return GridFSDBFile object
 	 */
 	@Override
-	public GridFSDBFile retriveSubjectFileById(String id, String fileName) {
+	public GridFSDBFile retriveSubjectFileById(final String id,
+	        final String fileName) {
 		return fileStorageDao.retriveByIdAndFileName(id, fileName,
 		        "metadata.subjectId");
 	}

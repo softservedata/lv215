@@ -6,7 +6,6 @@
  */
 package com.softserve.edu.schedule.entitylisteners;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,6 +18,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Subject;
+import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingCanceledMailService;
 import com.softserve.edu.schedule.service.implementation.mailsenders.SubjectDeleteMailSender;
 
@@ -46,6 +46,12 @@ public class SubjectEntityListner {
      */
     @Autowired
     private SubjectDeleteMailSender subjectDeletedMailService;
+    
+    /**
+     * MeetingService example to provide meeting delete operations.
+     */
+    @Autowired
+    private MeetingService meetingService;
 
     /**
      * Set to all meetings for subject null value, change status of all future
@@ -74,13 +80,12 @@ public class SubjectEntityListner {
      */
     private void correctMeeting(final Subject subject,
             final List<Meeting> meetings) {
-        subject.getMeetings().forEach(m -> {
-            if (m.getDate().isAfter(LocalDate.now().minusDays(1))) {
-                m.setStatus(MeetingStatus.NOT_APPROVED);
-                meetings.add(m);
-            }
-            m.setSubject(null);
-        });
+    		subject.getMeetings().forEach(m->{
+    			if(m.getStatus().equals(MeetingStatus.APPROVED)) {
+    				meetings.add(m);
+    			}
+    			meetingService.deleteById(m.getId());
+    		});
     }
 
     /**

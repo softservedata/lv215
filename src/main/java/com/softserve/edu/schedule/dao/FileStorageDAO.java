@@ -32,7 +32,8 @@ public interface FileStorageDAO {
 	 * 
 	 * @return file _id in database
 	 */
-	String store(InputStream inputStream, String fileName, DBObject metadata);
+	public String store(final InputStream inputStream, final String fileName,
+	        final DBObject metadata);
 
 	/**
 	 * Method for retrieving file from database.
@@ -45,8 +46,8 @@ public interface FileStorageDAO {
 	 * 
 	 * @return GridFSDBFile type file from database
 	 */
-	GridFSDBFile retriveByIdAndFileName(String id, String fileName,
-	        String type);
+	public GridFSDBFile retriveByIdAndFileName(final String id,
+	        final String fileName, final String type);
 
 	/**
 	 * Method for retrieving files from database.
@@ -57,7 +58,8 @@ public interface FileStorageDAO {
 	 * 
 	 * @return GridFSDBFile type files from database
 	 */
-	List<GridFSDBFile> findAllByIdAndType(String id, String type);
+	public List<GridFSDBFile> findAllByIdAndType(final String id,
+	        final String type);
 
 	/**
 	 * Method for deleting files from database.
@@ -66,7 +68,7 @@ public interface FileStorageDAO {
 	 * 
 	 * @param id
 	 */
-	void deleteById(String pattern, String id);
+	public void deleteById(final String pattern, final String id);
 
 	/**
 	 * Method for retrieving files from database.
@@ -77,7 +79,7 @@ public interface FileStorageDAO {
 	 * 
 	 * @return GridFSDBFile type files from database
 	 */
-	GridFSDBFile findByIdAndType(String id, String type);
+	public GridFSDBFile findByIdAndType(final String id, final String type);
 
 	/**
 	 * Method for deleting files from database.
@@ -88,6 +90,7 @@ public interface FileStorageDAO {
 	 * 
 	 * @param type
 	 */
-	void deleteByIdAndFileName(String id, String fileName, String type);
+	public void deleteByIdAndFileName(final String id, final String fileName,
+	        final String type);
 
 }
