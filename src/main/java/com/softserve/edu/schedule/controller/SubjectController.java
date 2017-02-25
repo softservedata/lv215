@@ -251,11 +251,11 @@ public class SubjectController
 	        + "{id}", method = RequestMethod.POST)
 	public String uploadFile(@PathVariable final Long id,
 	        @ModelAttribute(SUBJECT_FILE_FORM) @Valid final FileForSubjectDTO subjectFileDTO,
-	        final BindingResult result, final Model model) throws IOException {
+	        final BindingResult result) throws IOException {
 		if (result.hasErrors()) {
-			System.out.println("I WAS HERE!!!");
 			return SUBJECT_DELETE_FILE_URL;
 		}
+		System.out.println(subjectFileDTO.getId());
 		subjectService.uploadFile(subjectFileDTO, id);
 		return SUBJECT_DELETE_FILE_URL;
 	}

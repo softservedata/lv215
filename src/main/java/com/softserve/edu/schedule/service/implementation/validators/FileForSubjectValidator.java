@@ -1,5 +1,7 @@
 package com.softserve.edu.schedule.service.implementation.validators;
 
+import java.util.List;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -7,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import com.mongodb.gridfs.GridFSDBFile;
 import com.softserve.edu.schedule.dto.FileForSubjectDTO;
+import com.softserve.edu.schedule.service.SubjectService;
 
 public class FileForSubjectValidator
         implements ConstraintValidator<Validate, FileForSubjectDTO> {
@@ -17,6 +21,9 @@ public class FileForSubjectValidator
 	 */
 	@Autowired
 	private ResourceBundleMessageSource messageSource;
+
+	@Autowired
+	private SubjectService subjectService;
 
 	/**
 	 * Initializes the validator in preparation for calls. The constraint
@@ -47,7 +54,7 @@ public class FileForSubjectValidator
 		boolean validSize = isValidSize(fileForSubjectDTO);
 		boolean validExpansion = isValidExpansion(fileForSubjectDTO);
 		printErrorMessages(noDuplicate, validSize, validExpansion, context);
-		return validSize;
+		return (validSize && validExpansion);
 	}
 
 	/**
@@ -63,6 +70,10 @@ public class FileForSubjectValidator
 		if (!validSize) {
 			errorMessage(ValidationFields.FILE,
 			        ValidationMessages.FILE_TO_LARGE, context);
+		}
+		if (!validExpansion) {
+			errorMessage(ValidationFields.FILE,
+			        ValidationMessages.FILE_WRONG_CONTENT_TYPE, context);
 		}
 
 	}
@@ -83,8 +94,10 @@ public class FileForSubjectValidator
 	}
 
 	private boolean isValidExpansion(FileForSubjectDTO fileForSubjectDTO) {
-
-		return false;
+		return isValidIMG(fileForSubjectDTO) || isValidMSW(fileForSubjectDTO)
+		        || isValidMSE(fileForSubjectDTO)
+		        || isValidMSP(fileForSubjectDTO)
+		        || isValidPDF(fileForSubjectDTO);
 	}
 
 	private boolean isValidSize(FileForSubjectDTO fileForSubjectDTO) {
@@ -93,8 +106,40 @@ public class FileForSubjectValidator
 	}
 
 	private boolean isNoDuplicate(FileForSubjectDTO fileForSubjectDTO) {
-		// TODO Auto-generated method stub
 		return false;
+	}
+
+	private boolean isValidIMG(FileForSubjectDTO fileForSubjectDTO) {
+		return fileForSubjectDTO.getFile().getContentType()
+		        .equals(ValidationCriteria.IMAGE_JPG)
+		        || fileForSubjectDTO.getFile().getContentType()
+		                .equals(ValidationCriteria.IMAGE_GIF);
+	}
+
+	private boolean isValidMSW(FileForSubjectDTO fileForSubjectDTO) {
+		return fileForSubjectDTO.getFile().getContentType()
+		        .equals(ValidationCriteria.MSWORD)
+		        || fileForSubjectDTO.getFile().getContentType()
+		                .equals(ValidationCriteria.MSWORD_2007);
+	}
+
+	private boolean isValidMSE(FileForSubjectDTO fileForSubjectDTO) {
+		return fileForSubjectDTO.getFile().getContentType()
+		        .equals(ValidationCriteria.MSEXEL)
+		        || fileForSubjectDTO.getFile().getContentType()
+		                .equals(ValidationCriteria.MSEXEL_2007);
+	}
+
+	private boolean isValidMSP(FileForSubjectDTO fileForSubjectDTO) {
+		return fileForSubjectDTO.getFile().getContentType()
+		        .equals(ValidationCriteria.MSPOWER)
+		        || fileForSubjectDTO.getFile().getContentType()
+		                .equals(ValidationCriteria.MSPOWER_2007);
+	}
+
+	private boolean isValidPDF(FileForSubjectDTO fileForSubjectDTO) {
+		return fileForSubjectDTO.getFile().getContentType()
+		        .equals(ValidationCriteria.PDF);
 	}
 
 }

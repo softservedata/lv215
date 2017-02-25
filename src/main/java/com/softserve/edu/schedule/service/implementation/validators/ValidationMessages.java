@@ -166,5 +166,10 @@ public interface ValidationMessages {
      * Invalid size.
      */
     String FILE_TO_LARGE = "vm.invalidSize";
+    
+    /**
+     * Invalid size.
+     */
+    String FILE_WRONG_CONTENT_TYPE = "vm.wrongContentType";
 
 }
