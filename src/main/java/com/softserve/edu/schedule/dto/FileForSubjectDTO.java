@@ -7,6 +7,16 @@ import com.softserve.edu.schedule.service.implementation.validators.Validate;
 @Validate
 public class FileForSubjectDTO {
 
+	private Long id;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	private MultipartFile file;
 
 	public MultipartFile getFile() {

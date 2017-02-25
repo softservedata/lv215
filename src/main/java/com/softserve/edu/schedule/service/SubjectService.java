@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletResponse;
 
+import com.mongodb.gridfs.GridFSDBFile;
 import com.softserve.edu.schedule.dto.FileForSubjectDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
@@ -102,4 +103,6 @@ public interface SubjectService {
 
 	public void retriveSubjectFileById(Long id, String fileName,
 	        HttpServletResponse response) throws IOException;
+	
+	public GridFSDBFile retriveSubjectFileById (String id, String fileName);
 }

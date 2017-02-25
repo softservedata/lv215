@@ -215,4 +215,10 @@ public class SubjectServiceImpl implements SubjectService {
 		        "attachment; filename=" + file.getFilename());
 		IOUtils.copyLarge(file.getInputStream(), response.getOutputStream());
 	}
+
+	@Override
+	public GridFSDBFile retriveSubjectFileById(String id, String fileName) {
+		return fileStorageDao.retriveByIdAndFileName(id, fileName,
+		        "metadata.subjectId");
+	}
 }

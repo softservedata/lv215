@@ -32,6 +32,15 @@ import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.editor.UserForSubjectDTOEditor;
 
+/**
+ * A controller class of subjects pages.
+ *
+ * @version 1.0 15 January 2017
+ *
+ * @author Ped'ko Volodymyr
+ *
+ * @since 1.8
+ */
 @Controller
 @SessionAttributes({ ControllerConst.SubjectControllerConst.FILTER_MODEL_ATTR,
         ControllerConst.SubjectControllerConst.SUBJECT_PAGINATOR_MODEL_ATTR })
@@ -244,8 +253,10 @@ public class SubjectController
 	        @ModelAttribute(SUBJECT_FILE_FORM) @Valid final FileForSubjectDTO subjectFileDTO,
 	        final BindingResult result, final Model model) throws IOException {
 		if (result.hasErrors()) {
-			System.out.println("I WAS HERE!!!");
-			return SUBJECT_DELETE_FILE_URL;
+			model.addAttribute(SUBJECT_FILE_FORM, new FileForSubjectDTO());
+			model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
+			model.addAttribute(SUBJECT_FILES, subjectService.showSubjectFiles(id));
+			return "subjects/show";
 		}
 		subjectService.uploadFile(subjectFileDTO, id);
 		return SUBJECT_DELETE_FILE_URL;
