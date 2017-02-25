@@ -27,8 +27,10 @@ google.charts.load('current', {
 google.charts.setOnLoadCallback(drawChartWeek);
 google.charts.setOnLoadCallback(drawChartMonth);
 var date = new Date();
-var firstDay = new Date(date.getFullYear(), date.getMonth(), 2).toISOString().substring(0, 10);
-var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1).toISOString().substring(0, 10);
+var firstDay = new Date(date.getFullYear(), date.getMonth(), 2).toISOString()
+		.substring(0, 10);
+var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 1)
+		.toISOString().substring(0, 10);
 var date2 = new Date();
 var first = date2.getDate() - date2.getDay() + 1;
 var last = first + 6;
@@ -54,28 +56,21 @@ var jsonData2 = $.ajax({
 	dataType : 'json',
 	async : false
 }).responseText;
-/* window.alert(Object.keys(JSON.parse(jsonData))); */
-/* window.alert(Object.keys(JSON.parse(jsonData)).length); */
+
 function drawChartWeek() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Subject');
 	data.addColumn('number', 'Time');
-
-	/*
-	 * data.addRows(Object.keys(JSON.parse(jsonData)).length); var iterator = 0;
-	 * $.each(JSON.parse(jsonData), function(key,value) {
-	 * data.setValue(iterator, 0, key); data.setValue(iterator, 1, value);
-	 * iterator++; });
-	 */
-
-	data.addRows(jsonData2.length);
-	$.each(JSON.parse(jsonData2), function(i, v) {
-		data.setValue(i, 0, v.subject);
-		data.setValue(i, 1, v.time);
+	data.addRows(Object.keys(JSON.parse(jsonData2)).length);
+	var iterator = 0;
+	$.each(JSON.parse(jsonData2), function(key, value) {
+		data.setValue(iterator, 0, key);
+		data.setValue(iterator, 1, value);
+		iterator++;
 	});
-
 	var options = {
-		'title' : "My meetings of current week\n("+firstDay2+" - "+lastDay2+")",
+		'title' : "My meetings of current week\n(" + firstDay2 + " - "
+				+ lastDay2 + ")",
 		'titleFontSize' : 12,
 		'width' : 300,
 		'height' : 300,
@@ -83,7 +78,6 @@ function drawChartWeek() {
 			'position' : 'bottom',
 			'alignment' : 'left'
 		},
-		/* 'is3D' : true, */
 		'pieHole' : 0.4
 	};
 	var chart = new google.visualization.PieChart(document
@@ -95,22 +89,16 @@ function drawChartMonth() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Subject');
 	data.addColumn('number', 'Time');
-
-	/*
-	 * data.addRows(Object.keys(JSON.parse(jsonData)).length); var iterator = 0;
-	 * $.each(JSON.parse(jsonData), function(key,value) {
-	 * data.setValue(iterator, 0, key); data.setValue(iterator, 1, value);
-	 * iterator++; });
-	 */
-
-	data.addRows(jsonData.length);
-	$.each(JSON.parse(jsonData), function(i, v) {
-		data.setValue(i, 0, v.subject);
-		data.setValue(i, 1, v.time);
+	data.addRows(Object.keys(JSON.parse(jsonData)).length);
+	var iterator = 0;
+	$.each(JSON.parse(jsonData), function(key, value) {
+		data.setValue(iterator, 0, key);
+		data.setValue(iterator, 1, value);
+		iterator++;
 	});
-
 	var options = {
-		'title' : "My meetings of current month\n("+firstDay+" - "+lastDay+")",
+		'title' : "My meetings of current month\n(" + firstDay + " - "
+				+ lastDay + ")",
 		'titleFontSize' : 12,
 		'width' : 300,
 		'height' : 300,
@@ -118,7 +106,6 @@ function drawChartMonth() {
 			'position' : 'bottom',
 			'alignment' : 'left'
 		},
-		/* 'is3D' : true, */
 		'pieHole' : 0.4
 	};
 	var chart = new google.visualization.PieChart(document

@@ -2,6 +2,7 @@
 package com.softserve.edu.schedule.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
-import com.softserve.edu.schedule.dto.MeetingForChartDTO;
 import com.softserve.edu.schedule.service.MeetingService;
 
 /**
@@ -143,23 +143,30 @@ public class MeetingRESTController {
 		return new ResponseEntity<>(meetings, HttpStatus.OK);
 	}
 
+	/**
+	 * Method returns data for building charts by given date interval and user
+	 * id.
+	 *
+	 * @author Oleksandr Butyter
+	 * @param userId
+	 *            user id for find meetings
+	 *
+	 * @param start
+	 *            start date for find meetings
+	 *
+	 * @param end
+	 *            end date for find meetings
+	 *
+	 * @return ResponseEntity with data for building charts.
+	 */
+	@PreAuthorize("isAuthenticated()")
 	@RequestMapping(value = "/meetings/restForChart", method = RequestMethod.GET)
-	public ResponseEntity<List<MeetingForChartDTO>> getMeetingsForChart(@RequestParam("start") final String start,
+	public ResponseEntity<Map<String, Long>> getMeetingsForChart(@RequestParam("start") final String start,
 			@RequestParam("end") final String end, @RequestParam("userId") final String userId) {
-		List<MeetingForChartDTO> meetings = meetingService.getMeetingsForChartInIntervalByUserId(userId, start, end);
+		Map<String, Long> meetings = meetingService.getMeetingsForChartInIntervalByUserId(userId, start, end);
 		if (meetings.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		}
 		return new ResponseEntity<>(meetings, HttpStatus.OK);
-
-		/*
-		 * @RequestMapping(value = "/meetings/restBy/{id}", method =
-		 * RequestMethod.GET) public ResponseEntity<Map<String, Long>>
-		 * getSomething(@PathVariable String id) { Map<String, Long> map = new
-		 * HashMap<>(); map.put("Sasha", 32L); map.put("Katya", 16L); if
-		 * (map.isEmpty()) { return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		 * } return new ResponseEntity<>(map, HttpStatus.OK);
-		 */
-
 	}
 }

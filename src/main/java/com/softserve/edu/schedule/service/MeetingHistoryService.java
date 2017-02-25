@@ -20,7 +20,7 @@ import com.softserve.edu.schedule.entity.MeetingHistory;
  * This interface for managing MeetingsHistory Service.
  *
  * @version 1.0 22.02.2017
- * @author Bohdan Melnyk
+ * @author Bohdan Melnyk, Oleksandr Butyter
  */
 public interface MeetingHistoryService {
 

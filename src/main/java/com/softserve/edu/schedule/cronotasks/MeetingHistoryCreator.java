@@ -10,7 +10,8 @@ import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.service.MeetingHistoryService;
 
 /**
- * MeetingHistoryCreator task to correct past meetings statuses and them to MeetingHistory table.
+ * MeetingHistoryCreator task to correct past meetings statuses and them to
+ * MeetingHistory table.
  *
  * @version 1.0 22 02 2017.
  *
@@ -21,28 +22,28 @@ import com.softserve.edu.schedule.service.MeetingHistoryService;
 @Component
 public class MeetingHistoryCreator {
 
-    /**
-     * MeetingDAO example to provide database operations.
-     */
-    @Autowired
-    private MeetingDAO meetingDAO;
+	/**
+	 * MeetingDAO example to provide database operations.
+	 */
+	@Autowired
+	private MeetingDAO meetingDAO;
 
-    /**
-     * MeetingHistoryService example to provide database operations.
-     */
-    @Autowired
-    private MeetingHistoryService meetingHistoryService;
-    
-    /**
-     * Scheduling task to correct past meetings statuses and them to MeetingHistory table.
-     *
-     */
-    @Scheduled(cron = "0 0 1 * * *")
-    @Transactional
-    public void createMeetingHistory() {
-        // TODO to delete
-        System.out.println("CreateMeetingHistory working ... ");
-        meetingDAO.getPastNotArchivedMeetings()
-                .forEach(e -> meetingHistoryService.backup(e));
-    }
+	/**
+	 * MeetingHistoryService example to provide database operations.
+	 */
+	@Autowired
+	private MeetingHistoryService meetingHistoryService;
+
+	/**
+	 * Scheduling task to correct past meetings statuses and them to
+	 * MeetingHistory table.
+	 *
+	 */
+	@Scheduled(cron = "0 0 1 * * *")
+	@Transactional
+	public void createMeetingHistory() {
+		// TODO to delete
+		System.out.println("CreateMeetingHistory working ... ");
+		meetingDAO.getPastNotArchivedMeetings().forEach(e -> meetingHistoryService.backup(e));
+	}
 }
