@@ -421,7 +421,7 @@ public class MeetingServiceImpl implements MeetingService {
 	 * @return data of meetings to build charts
 	 */
 	@Override
-	public Map<String, Long> getMeetingsForChartInIntervalByUserId(String userId, String start, String end) {
+	public Map<String, Long> getMeetingsForChartInIntervalByUserId(final String userId, final String start, final String end) {
 		LocalDate startDate = LocalDate.parse(start);
 		LocalDate endDate = LocalDate.parse(end);
 		Long id = Long.parseLong(userId);

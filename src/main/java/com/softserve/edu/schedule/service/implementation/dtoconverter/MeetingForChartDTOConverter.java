@@ -28,7 +28,7 @@ public class MeetingForChartDTOConverter {
 	 *            list of meetings to convert
 	 * @return data for building charts
 	 */
-	public Map<String, Long> getChartData(List<Meeting> meetings) {
+	public Map<String, Long> getChartData(final List<Meeting> meetings) {
 		Map<String, Long> chartData = new HashMap<>();
 		meetings.forEach(e -> {
 			if (!chartData.containsKey(e.getSubject().getName())) {
