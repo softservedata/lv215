@@ -29,8 +29,12 @@ public interface FileStorageDAO {
 
     /* public void delete(String id); */
 
-    /* public void deleteById(String pattern, String id); */
+    public void deleteById(String pattern, String id);
+
+    // needed
+    public GridFSDBFile findByIdAndType(String id, String type);
 
     // needed
     public void deleteByIdAndFileName(String id, String fileName, String type);
+
 }

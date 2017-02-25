@@ -239,17 +239,31 @@ public interface ControllerConst {
 
 		String USER_MEETINGS_URL = "/showMeetings";
 
-		String SAVE_IMAGES = "/saveImage";
-
-		String RESTORE_PASSWORD_MAPPING = "restorePassword";
-
-		String MAIL_MODEL_ATTR = "mail";
-
-		String RESTORE_PASSWORD_URL = "/restorePassword";
-
-		String NO_SUCH_USER_URL = "/noSuchUser";
-
-		String PASSWORD_WAS_SENT = "/passwordWasSent";
+        String SAVE_IMAGES = "/saveImage";
+        
+        String RESTORE_PASSWORD_MAPPING = "restorePassword";
+        
+        String MAIL_MODEL_ATTR = "mail";
+        
+        String RESTORE_PASSWORD_URL = "/restorePassword";
+             
+        String NO_SUCH_USER_URL = "/noSuchUser";
+        
+        String PASSWORD_WAS_SENT = "/passwordWasSent";
+        
+        String FILE = "file";
+        
+        String PATH_VAR_ID = "id";
+        
+        String USER_FILES = "userFiles";
+             
+        String HAS_ROLE_ADMIN = "hasAnyRole('ROLE_ADMIN')";
+        
+        String HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
+        
+        String HAS_ANY_AUTHORIZED_ROLE = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')";
+        
+        String IS_AUTHENTICATED = "isAuthenticated()";
 	}
 
 	/**

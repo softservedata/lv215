@@ -57,10 +57,10 @@ public class FileStorageDAOImpl implements FileStorageDAO {
         return gridFsTemplate.find(new Query(Criteria.where(type).is(id)));
     }
 
-    /*
-     * @Override public void deleteById(String pattern, String id) {
-     * gridFsTemplate.delete(new Query(Criteria.where(pattern).is(id))); }
-     */
+    @Override
+    public void deleteById(String pattern, String id) {
+        gridFsTemplate.delete(new Query(Criteria.where(pattern).is(id)));
+    }
 
     // needed
     @Override
@@ -76,4 +76,10 @@ public class FileStorageDAOImpl implements FileStorageDAO {
         gridFsTemplate.delete(new Query(
                 Criteria.where(type).is(id).and("filename").is(fileName)));
     }
+
+    @Override
+    public GridFSDBFile findByIdAndType(String id, String type) {
+        return gridFsTemplate.findOne(new Query(Criteria.where(type).is(id)));
+    }
+
 }
