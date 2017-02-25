@@ -104,8 +104,8 @@ public interface RoomService {
 
     public List<String> showRoomFiles(Long id);
 
-    public void deleteRoomFileById(Long id);
+    public void deleteFileByRoomId(Long id, String fileName);
 
-    public void retriveRoomFileById(Long id, String fileName,
+    public void retriveFileByRoomId(Long id, String fileName,
             HttpServletResponse response) throws IOException;
 }

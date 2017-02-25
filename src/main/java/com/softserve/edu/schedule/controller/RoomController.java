@@ -204,6 +204,8 @@ public class RoomController implements ControllerConst.RoomControllerConst {
             model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
             model.addAttribute(EQUIPMENTS_MODEL_ATTR,
                     roomEquipmentService.getAll());
+            model.addAttribute("roomFiles",
+                    roomService.showRoomFiles(roomDTO.getId()));
             return ROOM_EDIT_URL;
         }
         roomService.update(roomDTO);
@@ -229,6 +231,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
         model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
         model.addAttribute(EQUIPMENTS_MODEL_ATTR,
                 roomEquipmentService.getAll());
+        model.addAttribute("roomFiles", roomService.showRoomFiles(id));
         return ROOM_EDIT_URL;
     }
 
@@ -312,27 +315,30 @@ public class RoomController implements ControllerConst.RoomControllerConst {
         return ROOM_SHOW_URL;
     }
 
-    @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.POST)
-    public String showRoomUploadFile(@PathVariable final Long id,
+    @RequestMapping(value = "/edit/{id}/uploadfile",
+            method = RequestMethod.POST)
+    public String uploadFile(@PathVariable final Long id,
             @RequestParam final MultipartFile file, final Model model) {
         model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
+        model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
+        model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+                roomEquipmentService.getAll());
         model.addAttribute("roomFiles", roomService.showRoomFiles(id));
         roomService.uploadFile(file, id);
-        return "redirect:/rooms/{id}";
+        return "redirect:/rooms/edit/{id}";
     }
 
-    @RequestMapping("/rooms/deleteFile/{id}")
-    public String deleteFile(@PathVariable final Long id) {
-        roomService.deleteRoomFileById(id);
-        return "redirect:/rooms/{id}";
+    @RequestMapping("/deleteFile/{fileName}/{roomId}")
+    public String deleteFile(@PathVariable final Long roomId,
+            @PathVariable String fileName) {
+        roomService.deleteFileByRoomId(roomId, fileName);
+        return "redirect:/rooms/edit/{roomId}";
     }
 
-    @RequestMapping("/rooms/downloadFile/{fileName}/{id}")
-    public void downloadFile(@PathVariable final Long id,
+    @RequestMapping("/downloadFile/{fileName}/{roomId}")
+    public void downloadFile(@PathVariable final Long roomId,
             @PathVariable final String fileName, HttpServletResponse response,
             Model model) throws IOException {
-        roomService.retriveRoomFileById(id, fileName, response);
-        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));        
-//        return "rooms/show";
+        roomService.retriveFileByRoomId(roomId, fileName, response);
     }
 }
