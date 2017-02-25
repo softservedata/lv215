@@ -16,7 +16,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
@@ -83,7 +82,6 @@ public class DeleteMeetingMailService implements MailConstants {
      *            current locale.
      */
     @Async
-    @Transactional(readOnly = true)
     public void sendmail(final UserDTO userDTO, final MeetingDTO meetingDTO,
             final Locale locale) {
         Context ctx = new Context(locale);
