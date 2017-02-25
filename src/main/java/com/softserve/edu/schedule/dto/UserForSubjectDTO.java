@@ -1,11 +1,20 @@
 /*
- * SubjectDTO.java
+ * UserForSubjectDTO.java
  * 1.0
  * 15 Jan 2017
  * Copyright (c) Ped'ko Volodymyr
  */
 package com.softserve.edu.schedule.dto;
 
+/**
+ * A DTO class to transport user data.
+ *
+ * @version 1.0 17 January 2017
+ *
+ * @author Ped'ko Volodymyr
+ *
+ * @since 1.8
+ */
 public class UserForSubjectDTO {
 
     /**

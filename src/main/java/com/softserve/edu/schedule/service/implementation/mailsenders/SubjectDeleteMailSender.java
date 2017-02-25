@@ -1,3 +1,9 @@
+/*
+ * DeleteLocationMailService
+ * 1.0
+ * 6 Feb 2017
+ * Copyright (c) Ped'ko Volodymyr
+ */
 package com.softserve.edu.schedule.service.implementation.mailsenders;
 
 import java.util.Locale;
@@ -19,6 +25,15 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.entity.User;
 
+/**
+ * A class to provide mail notification for tutors about deleting subject.
+ *
+ * @version 1.0 6 February 2017
+ *
+ * @author Ped'ko Volodymyr
+ *
+ * @since 1.8
+ */
 @Component
 public class SubjectDeleteMailSender implements MailConstants {
 

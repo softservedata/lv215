@@ -25,6 +25,8 @@ public interface SubjectDAO extends CrudDAO<Subject> {
     /**
      * Return a searched Subjects.
      *
+     * @param subjectName
+     *
      * @return searched Subjects
      */
     public List<Subject> getSubjectByName(String subjectName);
@@ -34,6 +36,8 @@ public interface SubjectDAO extends CrudDAO<Subject> {
      * 
      * @param subjectFilter
      *            a filter to apply.
+     *            
+     * @param subjectPaginator           
      * 
      * @return List of the subject objects.
      */
@@ -43,16 +47,16 @@ public interface SubjectDAO extends CrudDAO<Subject> {
     /**
      * Count subjects entities in the database with specified filter
      *
-     * @param predicate
-     *            a predicate to apply.
-     *
-     * @return Count of the subject entities in the database with specified
-     *         predicate.
+     * @param subjectFilter
+     *            
+     * @return Count of the subject entities in the database with filter.
      */
     public Long getCountOfSubjectsWithFilter(SubjectFilter subjectFilter);
 
     /**
      * Return a searched Subject.
+     *
+     *@param id
      *
      * @return searched Subject
      */
