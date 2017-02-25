@@ -100,7 +100,7 @@ public interface RoomService {
     List<RoomDTO> getRoomsPageWithFilter(RoomFilter roomFilter,
             Paginator roomPaginator);
 
-    public void uploadFile(MultipartFile file, Long id);
+    public void uploadFile(MultipartFile file, Long id) throws IOException;
 
     public List<String> showRoomFiles(Long id);
 

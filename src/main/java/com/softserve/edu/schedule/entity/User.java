@@ -31,9 +31,9 @@ import com.softserve.edu.schedule.entitylisteners.UserEntityListener;
  */
 @Entity
 @EntityListeners(UserEntityListener.class)
-@Table(indexes = { @Index(columnList = "firstName"),
-        @Index(columnList = "lastName"), @Index(columnList = "mail"),
-        @Index(columnList = "phone"), @Index(columnList = "position") })
+@Table(indexes = {@Index(columnList = "lastName"), 
+        @Index(columnList = "mail"),
+        @Index(columnList = "position")})
 public class User {
 
     /**

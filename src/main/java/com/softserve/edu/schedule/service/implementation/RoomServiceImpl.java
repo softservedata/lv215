@@ -168,15 +168,18 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void uploadFile(MultipartFile file, Long id) {
+    public void uploadFile(MultipartFile file, Long id) throws IOException {
+        System.out.println(file.getOriginalFilename());
+        GridFSDBFile fileInDataBase = fileStorageDao.retriveByIdAndFileName(
+                Long.toString(id), file.getOriginalFilename(),
+                "metadata.roomId");
+        if (fileInDataBase != null) {
+            deleteFileByRoomId(id, file.getOriginalFilename());
+        }
         DBObject metadata = new BasicDBObject();
         metadata.put("roomId", Long.toString(id));
-        try {
-            fileStorageDao.store(file.getInputStream(),
-                    file.getOriginalFilename(), metadata);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fileStorageDao.store(file.getInputStream(), file.getOriginalFilename(),
+                metadata);
     }
 
     @Override
