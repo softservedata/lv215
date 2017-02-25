@@ -220,7 +220,7 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     public UserDTO getById(final Long id) {
         return userDTOConverter.getDTO(userDAO.getById(id));
     }
-    
+
     /**
      * Return a UserDTO object if found.
      *
@@ -228,7 +228,7 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      *            of User transfer object
      * @return UserDTO transfer object
      */
-    public UserDTO getByMail(final String mail){
+    public UserDTO getByMail(final String mail) {
         return userDTOConverter.getDTO(userDAO.findByMail(mail));
     }
 
@@ -384,7 +384,7 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     @Transactional
     public void saveDefoultImage(final UserDTO userDTO) throws IOException {
         DBObject metadata = new BasicDBObject();
-        metadata.put(USER_ID, Long.toString(userDTO.getId()));       
+        metadata.put(USER_ID, Long.toString(userDTO.getId()));
         URL url = new URL(USER_PHOTO_BY_DEFOULT);
         BufferedImage img = ImageIO.read(url);
         File file = new File(FILE_NAME);
@@ -401,9 +401,15 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      */
     @Override
     public String showUserFile(Long id) {
-        return fileStorageDao
-                .findByIdAndType(Long.toString(id), METADATA_USERID)
-                .getFilename();
+        GridFSDBFile userPhoto = fileStorageDao
+                .findByIdAndType(Long.toString(id), METADATA_USERID);
+        if (userPhoto != null) {
+            return fileStorageDao
+                    .findByIdAndType(Long.toString(id), METADATA_USERID)
+                    .getFilename();
+        }
+        return "noFile";
+
     }
 
     /**

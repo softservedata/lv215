@@ -100,12 +100,56 @@ public interface RoomService {
     List<RoomDTO> getRoomsPageWithFilter(RoomFilter roomFilter,
             Paginator roomPaginator);
 
-    public void uploadFile(MultipartFile file, Long id) throws IOException;
+    /**
+     * Upload room image file.
+     *
+     * @param file
+     *            file to upload.
+     *
+     * @param id
+     *            roomId to upload file.
+     *
+     * @throws IOException
+     *             if something unexpected happens during file upload
+     */
+    void uploadFile(MultipartFile file, Long id) throws IOException;
 
-    public List<String> showRoomFiles(Long id);
+    /**
+     * Retrieve all room image files names.
+     *
+     * @param id
+     *            roomId to show files.
+     *
+     * @return list of room files names
+     */
+    List<String> showRoomFiles(Long id);
 
-    public void deleteFileByRoomId(Long id, String fileName);
+    /**
+     * Delete room image file.
+     *
+     * @param id
+     *            roomId to delete file.
+     *
+     * @param fileName
+     *            file name to delete file.
+     */
+    void deleteFileByRoomId(Long id, String fileName);
 
-    public void retriveFileByRoomId(Long id, String fileName,
+    /**
+     * Download room image file.
+     *
+     * @param id
+     *            roomId to download file.
+     *
+     * @param fileName
+     *            file name to download file.
+     *
+     * @param response
+     *            response to download file
+     *
+     * @throws IOException
+     *             if something unexpected happens during file download
+     */
+    void retriveFileByRoomId(Long id, String fileName,
             HttpServletResponse response) throws IOException;
 }
