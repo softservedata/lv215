@@ -32,6 +32,15 @@ import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.editor.UserForSubjectDTOEditor;
 
+/**
+ * A controller class of subjects pages.
+ *
+ * @version 1.0 15 January 2017
+ *
+ * @author Ped'ko Volodymyr
+ *
+ * @since 1.8
+ */
 @Controller
 @SessionAttributes({ ControllerConst.SubjectControllerConst.FILTER_MODEL_ATTR,
         ControllerConst.SubjectControllerConst.SUBJECT_PAGINATOR_MODEL_ATTR })
