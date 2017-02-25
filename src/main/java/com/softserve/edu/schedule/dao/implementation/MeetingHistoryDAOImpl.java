@@ -38,7 +38,6 @@ public class MeetingHistoryDAOImpl extends CrudDAOImpl<MeetingHistory>
      * @see com.softserve.edu.schedule.dao.MeetingHistoryDAO#
      * getMeetingHistoryByIdMeeting(java.lang.String)
      */
-    @Override
     public List<MeetingHistory> getMeetingHistoryByIdMeeting(
             final String idMeeting) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();

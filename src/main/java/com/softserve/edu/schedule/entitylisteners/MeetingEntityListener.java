@@ -48,9 +48,9 @@ public class MeetingEntityListener {
     @Autowired
     private UserDTOConverter userDTOConverter;
 
-
     /**
-     * MeetingDTOConverter example to ability to convert form Meeting to MeetingDTO.
+     * MeetingDTOConverter example to ability to convert form Meeting to
+     * MeetingDTO.
      */
     @Autowired
     private MeetingDTOConverter meetingDTOConverter;
@@ -81,7 +81,7 @@ public class MeetingEntityListener {
      * @param locale
      *            current locale.
      */
-    public void sendInfoMessageAboutMeetingDeletetion(final Meeting meeting,
+    private void sendInfoMessageAboutMeetingDeletetion(final Meeting meeting,
             final Locale locale) {
         Set<User> curators = new HashSet<User>();
         curators.add(meeting.getOwner());

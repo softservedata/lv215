@@ -55,8 +55,8 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEdit
  */
 @RequestMapping(ControllerConst.MeetingControllerConst.MEETINGS_URL)
 @Controller
-@SessionAttributes({ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR})
+@SessionAttributes({ ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
+        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR })
 public class MeetingController
         implements ControllerConst.MeetingControllerConst {
 
@@ -153,7 +153,7 @@ public class MeetingController
      *            a WebDataBinder example to initialize.
      */
     @InitBinder(MEETING_MODEL_ATTR)
-    protected void initBinder(WebDataBinder binder) {
+    protected void initBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(MeetingDTO.class, meetingDTOEditor);
         binder.registerCustomEditor(SubjectDTO.class, subjectDTOEditor);
         binder.registerCustomEditor(LocalDate.class, dateEditor);
@@ -203,7 +203,7 @@ public class MeetingController
      * @return
      */
     @RequestMapping
-    public String showMeetingPage(Model model,
+    public String showMeetingPage(final Model model,
             @ModelAttribute(FILTER_MODEL_ATTR) final MeetingFilter meetingFilter,
             @ModelAttribute(MEETING_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
         model.addAttribute(MEETINGS_MODEL_ATTR, meetingService
@@ -227,7 +227,7 @@ public class MeetingController
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
     @RequestMapping(value = MEETING_CREATE_MAPPING, method = RequestMethod.GET)
-    public String createForm(Model model) {
+    public String createForm(final Model model) {
         model.addAttribute(MEETING_MODEL_ATTR, new MeetingDTO());
         model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
         model.addAttribute(OWNERS_MODEL_ATTR,
@@ -245,8 +245,8 @@ public class MeetingController
      */
     @RequestMapping(value = MEETING_CREATE_MAPPING, method = RequestMethod.POST)
     public String create(
-            @Valid @ModelAttribute(MEETING_MODEL_ATTR) MeetingDTO meetingDTO,
-            BindingResult br, Model model) {
+            @Valid @ModelAttribute(MEETING_MODEL_ATTR) final MeetingDTO meetingDTO,
+            final BindingResult br, final Model model) {
         if (br.hasErrors()) {
             model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
             model.addAttribute(OWNERS_MODEL_ATTR, userService
@@ -267,7 +267,7 @@ public class MeetingController
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
     @RequestMapping(value = MEETING_DELETE_MAPPING, method = RequestMethod.GET)
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable final Long id) {
         meetingService.deleteById(id);
         return MEETING_REDIRECT_URL;
     }
@@ -281,7 +281,8 @@ public class MeetingController
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
     @RequestMapping(value = MEETING_EDIT_MAPPING, method = RequestMethod.GET)
-    public String editForm(@PathVariable(ID_URL) Long id, Model model) {
+    public String editForm(@PathVariable(ID_URL) final Long id,
+            final Model model) {
         model.addAttribute(MEETING_MODEL_ATTR, meetingService.getById(id));
         model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
         model.addAttribute(OWNERS_MODEL_ATTR,
@@ -300,8 +301,8 @@ public class MeetingController
      */
     @RequestMapping(value = MEETING_EDIT_MAPPING, method = RequestMethod.POST)
     public String edit(
-            @ModelAttribute(MEETING_MODEL_ATTR) @Valid MeetingDTO meetingDTO,
-            BindingResult br, Model model) {
+            @ModelAttribute(MEETING_MODEL_ATTR) @Valid final MeetingDTO meetingDTO,
+            final BindingResult br, final Model model) {
         if (br.hasErrors()) {
             model.addAttribute(SUBJECTS_MODEL_ATTR, subjectService.getAll());
             model.addAttribute(OWNERS_MODEL_ATTR, userService
@@ -336,9 +337,9 @@ public class MeetingController
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
     @RequestMapping(value = DOWNLOAD_MAPPING, method = RequestMethod.GET)
-    public ModelAndView downloadExcel(ModelAndView model) {
-        model.setView(new ExcelViewMeetingHistory(
-                 meetingHistoryService.getAll()));
+    public ModelAndView downloadExcel(final ModelAndView model) {
+        model.setView(
+                new ExcelViewMeetingHistory(meetingHistoryService.getAll()));
         return model;
     }
 }
