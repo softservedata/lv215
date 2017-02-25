@@ -43,7 +43,7 @@ public class FileForSubjectDTO {
      * @param id
      *            the id to set
      */
-	public void setId(Long id) {
+	public void setId(final Long id) {
 		this.id = id;
 	}
 
@@ -58,7 +58,7 @@ public class FileForSubjectDTO {
      * @param file
      *            the file to set
      */
-	public void setFile(MultipartFile file) {
+	public void setFile(final MultipartFile file) {
 		this.file = file;
 	}
 }

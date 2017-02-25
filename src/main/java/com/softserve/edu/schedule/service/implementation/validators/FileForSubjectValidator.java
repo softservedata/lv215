@@ -50,7 +50,7 @@ public class FileForSubjectValidator
 	 *            annotation instance for a given constraint declaration
 	 */
 	@Override
-	public void initialize(Validate constraintAnnotation) {
+	public void initialize(final Validate constraintAnnotation) {
 	}
 
 	/**
@@ -64,8 +64,8 @@ public class FileForSubjectValidator
 	 * @return false if value does not pass the constraint
 	 */
 	@Override
-	public boolean isValid(FileForSubjectDTO fileForSubjectDTO,
-	        ConstraintValidatorContext context) {
+	public boolean isValid(final FileForSubjectDTO fileForSubjectDTO,
+	        final ConstraintValidatorContext context) {
 		boolean noDuplicate = isNoDuplicate(fileForSubjectDTO);
 		boolean validSize = isValidSize(fileForSubjectDTO);
 		boolean validExpansion = isValidExpansion(fileForSubjectDTO);
@@ -84,8 +84,9 @@ public class FileForSubjectValidator
 	 * 
 	 * @param context
 	 */
-	private void printErrorMessages(boolean noDuplicate, boolean validSize,
-	        boolean validExpansion, ConstraintValidatorContext context) {
+	private void printErrorMessages(final boolean noDuplicate,
+	        final boolean validSize, final boolean validExpansion,
+	        final ConstraintValidatorContext context) {
 		if (!validSize) {
 			errorMessage(ValidationFields.FILE,
 			        ValidationMessages.FILE_TO_LARGE, context);
@@ -125,7 +126,8 @@ public class FileForSubjectValidator
 	 * 
 	 * @return true if validation is succes
 	 */
-	private boolean isValidExpansion(FileForSubjectDTO fileForSubjectDTO) {
+	private boolean isValidExpansion(
+	        final FileForSubjectDTO fileForSubjectDTO) {
 		return isValidIMG(fileForSubjectDTO) || isValidMSW(fileForSubjectDTO)
 		        || isValidMSE(fileForSubjectDTO)
 		        || isValidMSP(fileForSubjectDTO)
@@ -139,7 +141,7 @@ public class FileForSubjectValidator
 	 * 
 	 * @return true if validation is succes
 	 */
-	private boolean isValidSize(FileForSubjectDTO fileForSubjectDTO) {
+	private boolean isValidSize(final FileForSubjectDTO fileForSubjectDTO) {
 		return fileForSubjectDTO.getFile()
 		        .getSize() <= ValidationCriteria.MAX_FILE_SIZE;
 	}
@@ -151,7 +153,7 @@ public class FileForSubjectValidator
 	 * 
 	 * @return true if validation is succes
 	 */
-	private boolean isNoDuplicate(FileForSubjectDTO fileForSubjectDTO) {
+	private boolean isNoDuplicate(final FileForSubjectDTO fileForSubjectDTO) {
 		GridFSDBFile file = subjectService.retriveSubjectFileById(
 		        Long.toString(fileForSubjectDTO.getId()),
 		        fileForSubjectDTO.getFile().getOriginalFilename());
@@ -165,7 +167,7 @@ public class FileForSubjectValidator
 	 * 
 	 * @return true if validation is succes
 	 */
-	private boolean isValidIMG(FileForSubjectDTO fileForSubjectDTO) {
+	private boolean isValidIMG(final FileForSubjectDTO fileForSubjectDTO) {
 		return fileForSubjectDTO.getFile().getContentType()
 		        .equals(ValidationCriteria.IMAGE_JPG)
 		        || fileForSubjectDTO.getFile().getContentType()
@@ -179,7 +181,7 @@ public class FileForSubjectValidator
 	 * 
 	 * @return true if validation is succes
 	 */
-	private boolean isValidMSW(FileForSubjectDTO fileForSubjectDTO) {
+	private boolean isValidMSW(final FileForSubjectDTO fileForSubjectDTO) {
 		return fileForSubjectDTO.getFile().getContentType()
 		        .equals(ValidationCriteria.MSWORD)
 		        || fileForSubjectDTO.getFile().getContentType()
@@ -193,7 +195,7 @@ public class FileForSubjectValidator
 	 * 
 	 * @return true if validation is succes
 	 */
-	private boolean isValidMSE(FileForSubjectDTO fileForSubjectDTO) {
+	private boolean isValidMSE(final FileForSubjectDTO fileForSubjectDTO) {
 		return fileForSubjectDTO.getFile().getContentType()
 		        .equals(ValidationCriteria.MSEXEL)
 		        || fileForSubjectDTO.getFile().getContentType()
@@ -207,7 +209,7 @@ public class FileForSubjectValidator
 	 * 
 	 * @return true if validation is succes
 	 */
-	private boolean isValidMSP(FileForSubjectDTO fileForSubjectDTO) {
+	private boolean isValidMSP(final FileForSubjectDTO fileForSubjectDTO) {
 		return fileForSubjectDTO.getFile().getContentType()
 		        .equals(ValidationCriteria.MSPOWER)
 		        || fileForSubjectDTO.getFile().getContentType()
@@ -221,7 +223,7 @@ public class FileForSubjectValidator
 	 * 
 	 * @return true if validation is succes
 	 */
-	private boolean isValidPDF(FileForSubjectDTO fileForSubjectDTO) {
+	private boolean isValidPDF(final FileForSubjectDTO fileForSubjectDTO) {
 		return fileForSubjectDTO.getFile().getContentType()
 		        .equals(ValidationCriteria.PDF);
 	}

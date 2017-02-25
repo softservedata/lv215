@@ -34,7 +34,7 @@ public interface SubjectService {
 	 * @param subject
 	 *            - SubjectDTO object
 	 */
-	public void create(SubjectDTO subject);
+	public void create(final SubjectDTO subject);
 
 	/**
 	 * Updating Subject in database.
@@ -42,7 +42,7 @@ public interface SubjectService {
 	 * @param subject
 	 *            - SubjectDTO object
 	 */
-	public void update(SubjectDTO subject);
+	public void update(final SubjectDTO subject);
 
 	/**
 	 * Return a SubjectDTO object if found.
@@ -52,7 +52,7 @@ public interface SubjectService {
 	 * 
 	 * @return SubjectDTO object
 	 */
-	public SubjectDTO getById(Long id);
+	public SubjectDTO getById(final Long id);
 
 	/**
 	 * Return a List of SubjectDTO objects.
@@ -74,14 +74,14 @@ public interface SubjectService {
 	 * @param id
 	 *            a SubjectDTO id to delete from database.
 	 */
-	public void deleteById(Long id);
+	public void deleteById(final Long id);
 
 	/**
 	 * Return a searched SubjectDTO.
 	 *
 	 * @return searched SubjectDTO
 	 */
-	public List<SubjectDTO> getSubjectByName(String subjectName);
+	public List<SubjectDTO> getSubjectByName(final String subjectName);
 
 	/**
 	 * Find all subjects entities in the database with applied filter
@@ -95,7 +95,8 @@ public interface SubjectService {
 	 * @return List of the subject DTO objects.
 	 */
 	public List<SubjectDTO> getSubjectsPageWithFilter(
-	        SubjectFilter subjectFilter, Paginator subjectPaginator);
+	        final SubjectFilter subjectFilter,
+	        final Paginator subjectPaginator);
 
 	/**
 	 * Method for uploading files.
@@ -104,7 +105,7 @@ public interface SubjectService {
 	 * 
 	 * @throws IOException
 	 */
-	public void uploadFile(FileForSubjectDTO fileForSubjectDTO)
+	public void uploadFile(final FileForSubjectDTO fileForSubjectDTO)
 	        throws IOException;
 
 	/**
@@ -114,7 +115,7 @@ public interface SubjectService {
 	 * 
 	 * @return List of subject files.
 	 */
-	public List<String> showSubjectFiles(Long id);
+	public List<String> showSubjectFiles(final Long id);
 
 	/**
 	 * Method for deleting file form subject.
@@ -124,7 +125,7 @@ public interface SubjectService {
 	 * @param fileName
 	 * 
 	 */
-	public void deleteSubjectFileById(Long id, String fileName);
+	public void deleteSubjectFileById(final Long id, final String fileName);
 
 	/**
 	 * Method for downloading file.
@@ -137,8 +138,8 @@ public interface SubjectService {
 	 * 
 	 * @throws IOException
 	 */
-	public void retriveSubjectFileById(Long id, String fileName,
-	        HttpServletResponse response) throws IOException;
+	public void retriveSubjectFileById(final Long id, final String fileName,
+	        final HttpServletResponse response) throws IOException;
 
 	/**
 	 * Method for validation purpose.
@@ -149,5 +150,6 @@ public interface SubjectService {
 	 * 
 	 * @return GridFSDBFile object
 	 */
-	public GridFSDBFile retriveSubjectFileById(String id, String fileName);
+	public GridFSDBFile retriveSubjectFileById(final String id,
+	        final String fileName);
 }

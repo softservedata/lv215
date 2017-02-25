@@ -841,7 +841,7 @@ public interface ControllerConst {
         /**
          * Subjects model attribute name.
          */
-        String SUBJECTS_MODEL_ATTR = "subjects/show";
+        String SUBJECTS_MODEL_ATTR = "subjects";     
 
         /**
          * Rooms model attribute name.
@@ -897,6 +897,11 @@ public interface ControllerConst {
          * Meeting list url name.
          */
         String MEETING_LIST_URL = "meetings/list";
+        
+        /**
+         * Meeting list url name.
+         */
+        String MEETING_SUBJECT_URL = "subjects/show";
 
         /**
          * Id path.
