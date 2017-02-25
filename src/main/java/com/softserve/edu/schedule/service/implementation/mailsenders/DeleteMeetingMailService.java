@@ -3,9 +3,7 @@
  */
 package com.softserve.edu.schedule.service.implementation.mailsenders;
 
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -18,13 +16,12 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
-import com.softserve.edu.schedule.entity.Meeting;
-import com.softserve.edu.schedule.entity.User;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
 
@@ -85,28 +82,9 @@ public class DeleteMeetingMailService implements MailConstants {
      * @param locale
      *            current locale.
      */
-    public void sendInfoMessageAboutMeetingDeletetion(final Meeting meeting,
-            final Locale locale) {
-        Set<User> curators = new HashSet<User>();
-        curators.add(meeting.getOwner());
-
-        meeting.getGroups()
-                .forEach(e -> e.getUsers().forEach(u -> curators.add(u)));
-        curators.forEach(e -> sendmail(userDTOConverter.getDTO(e),
-                meetingDTOconverter.getDTO(meeting), locale));
-    }
-
-    /**
-     * Send mail notifications to all group members when group has been deleted
-     *
-     * @param Meeting
-     *            a Meeting object that contains mail message parameters.
-     *
-     * @param locale
-     *            current locale.
-     */
     @Async
-    private void sendmail(final UserDTO userDTO, final MeetingDTO meetingDTO,
+    @Transactional(readOnly = true)
+    public void sendmail(final UserDTO userDTO, final MeetingDTO meetingDTO,
             final Locale locale) {
         Context ctx = new Context(locale);
         ctx.setVariable(MEETING_MODEL_NAME, meetingDTO);
