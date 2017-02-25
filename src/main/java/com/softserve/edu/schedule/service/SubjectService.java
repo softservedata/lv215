@@ -49,6 +49,7 @@ public interface SubjectService {
 	 *
 	 * @param id
 	 *            of Subject transfer object
+	 * 
 	 * @return SubjectDTO object
 	 */
 	public SubjectDTO getById(Long id);
@@ -87,22 +88,66 @@ public interface SubjectService {
 	 * 
 	 * @param subjectFilter
 	 *            a filter to apply.
+	 * 
 	 * @param subjectPaginator
-	 *            the subjectPaginator to set
+	 *            the subjectPaginator to set.
+	 * 
 	 * @return List of the subject DTO objects.
 	 */
 	public List<SubjectDTO> getSubjectsPageWithFilter(
 	        SubjectFilter subjectFilter, Paginator subjectPaginator);
 
-	public void uploadFile(FileForSubjectDTO fileForSubjectDTO, Long id)
+	/**
+	 * Method for uploading files.
+	 * 
+	 * @param fileForSubjectDTO
+	 * 
+	 * @throws IOException
+	 */
+	public void uploadFile(FileForSubjectDTO fileForSubjectDTO)
 	        throws IOException;
 
+	/**
+	 * Method for showing subjects files on show page.
+	 * 
+	 * @param id
+	 * 
+	 * @return List of subject files.
+	 */
 	public List<String> showSubjectFiles(Long id);
 
+	/**
+	 * Method for deleting file form subject.
+	 * 
+	 * @param id
+	 * 
+	 * @param fileName
+	 * 
+	 */
 	public void deleteSubjectFileById(Long id, String fileName);
 
+	/**
+	 * Method for downloading file.
+	 * 
+	 * @param id
+	 * 
+	 * @param fileName
+	 * 
+	 * @param response
+	 * 
+	 * @throws IOException
+	 */
 	public void retriveSubjectFileById(Long id, String fileName,
 	        HttpServletResponse response) throws IOException;
-	
-	public GridFSDBFile retriveSubjectFileById (String id, String fileName);
+
+	/**
+	 * Method for validation purpose.
+	 * 
+	 * @param id
+	 * 
+	 * @param fileName
+	 * 
+	 * @return GridFSDBFile object
+	 */
+	public GridFSDBFile retriveSubjectFileById(String id, String fileName);
 }

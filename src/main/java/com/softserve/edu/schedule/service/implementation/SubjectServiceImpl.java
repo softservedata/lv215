@@ -181,15 +181,29 @@ public class SubjectServiceImpl implements SubjectService {
 		        .collect(Collectors.toList());
 	}
 
+	/**
+	 * Method for uploading files.
+	 * 
+	 * @param fileForSubjectDTO
+	 * 
+	 * @throws IOException
+	 */
 	@Override
-	public void uploadFile(FileForSubjectDTO fileForSubjectDTO, Long id)
+	public void uploadFile(FileForSubjectDTO fileForSubjectDTO)
 	        throws IOException {
 		DBObject metadata = new BasicDBObject();
-		metadata.put("subjectId", Long.toString(id));
+		metadata.put("subjectId", Long.toString(fileForSubjectDTO.getId()));
 		fileStorageDao.store(fileForSubjectDTO.getFile().getInputStream(),
 		        fileForSubjectDTO.getFile().getOriginalFilename(), metadata);
 	}
 
+	/**
+	 * Method for showing subjects files on show page.
+	 * 
+	 * @param id
+	 * 
+	 * @return List of subject files.
+	 */
 	@Override
 	public List<String> showSubjectFiles(Long id) {
 		return fileStorageDao
@@ -198,12 +212,31 @@ public class SubjectServiceImpl implements SubjectService {
 		        .collect(Collectors.toList());
 	}
 
+	/**
+	 * Method for deleting file form subject.
+	 * 
+	 * @param id
+	 * 
+	 * @param fileName
+	 * 
+	 */
 	@Override
 	public void deleteSubjectFileById(Long id, String fileName) {
 		fileStorageDao.deleteByIdAndFileName(Long.toString(id), fileName,
 		        "metadata.subjectId");
 	}
 
+	/**
+	 * Method for downloading file.
+	 * 
+	 * @param id
+	 * 
+	 * @param fileName
+	 * 
+	 * @param response
+	 * 
+	 * @throws IOException
+	 */
 	@Override
 	public void retriveSubjectFileById(Long id, String fileName,
 	        HttpServletResponse response) throws IOException {
@@ -216,6 +249,15 @@ public class SubjectServiceImpl implements SubjectService {
 		IOUtils.copyLarge(file.getInputStream(), response.getOutputStream());
 	}
 
+	/**
+	 * Method for validation purpose.
+	 * 
+	 * @param id
+	 * 
+	 * @param fileName
+	 * 
+	 * @return GridFSDBFile object
+	 */
 	@Override
 	public GridFSDBFile retriveSubjectFileById(String id, String fileName) {
 		return fileStorageDao.retriveByIdAndFileName(id, fileName,
