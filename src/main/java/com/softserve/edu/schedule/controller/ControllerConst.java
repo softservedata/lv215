@@ -428,7 +428,7 @@ public interface ControllerConst {
         /**
          * File model attribute name.
          */
-        String SUBJECT_FILE_FORM = "fileForSubjectForm";
+        String SUBJECT_FILE_FORM = "fileForSubjectDTO";
 
         /**
          * Subjects model attribute name.
@@ -454,11 +454,11 @@ public interface ControllerConst {
          * Subjects list redirect URL.
          */
         String SUBJECTS_REDIRECT_URL = "redirect:/subjects";
-
+        
         /**
          * Subject file delete redirect URL.
          */
-        String SUBJECT_DELETE_FILE_URL = "redirect:/subjects/{id}";
+        String SUBJECT_SHOW_URL = "redirect:/subjects/show/{id}";
 
         /**
          * Create new Subject URL.
@@ -493,7 +493,7 @@ public interface ControllerConst {
         /**
          * Subjects mapping URL.
          */
-        String SUBJECTS_MAPPING_SHOW = "/subjects/";
+        String SUBJECTS_MAPPING_SHOW = "/subjects/show/";
 
         /**
          * Delete subject mapping URL name.
@@ -841,7 +841,7 @@ public interface ControllerConst {
         /**
          * Subjects model attribute name.
          */
-        String SUBJECTS_MODEL_ATTR = "subjects";
+        String SUBJECTS_MODEL_ATTR = "subjects/show";
 
         /**
          * Rooms model attribute name.
