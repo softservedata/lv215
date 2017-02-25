@@ -86,28 +86,37 @@ public class UserConnectionKey implements Serializable {
      */
     @Override
     public boolean equals(final Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (getClass() != obj.getClass())
+        }
+        if (getClass() != obj.getClass()) {
             return false;
+        }
         UserConnectionKey other = (UserConnectionKey) obj;
         if (providerId == null) {
-            if (other.providerId != null)
+            if (other.providerId != null) {
                 return false;
-        } else if (!providerId.equals(other.providerId))
+            }
+        } else if (!providerId.equals(other.providerId)) {
             return false;
+        }
         if (providerUserId == null) {
-            if (other.providerUserId != null)
+            if (other.providerUserId != null) {
                 return false;
-        } else if (!providerUserId.equals(other.providerUserId))
+            }
+        } else if (!providerUserId.equals(other.providerUserId)) {
             return false;
+        }
         if (userId == null) {
-            if (other.userId != null)
+            if (other.userId != null) {
                 return false;
-        } else if (!userId.equals(other.userId))
+            }
+        } else if (!userId.equals(other.userId)) {
             return false;
+        }
         return true;
     }
 

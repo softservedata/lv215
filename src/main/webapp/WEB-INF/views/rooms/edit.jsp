@@ -40,8 +40,9 @@
 					<spring:message code="lbl.room.roomName" var="nameForPlaceholder" />
 					<spring:message code="vm.invalidName" var="invalidName" />
 					<form:input type="text" class="form-control" path="name" id="name"
-						placeholder="${nameForPlaceholder}" required="true"
-						oninvalid="this.setCustomValidity('${invalidName}')" oninput="setCustomValidity('')" />
+						placeholder="${nameForPlaceholder}" pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№',\.\s\-]{2,254}"
+						required="true" oninvalid="this.setCustomValidity('${invalidName}')"
+						oninput="setCustomValidity('')" />
 					<form:errors path="name" class="text-danger" />
 				</div>
 				<div class="form-group">
@@ -130,8 +131,7 @@
 						<div class="input-group">
 							<label class="input-group-btn">
 								<span class="btn btn-primary"><spring:message code="lbl.filePicker.browse" />&hellip;
-									<input type="file" style="display: none;" name="file" accept="image/*">
-								</span>
+									<input type="file" style="display: none;" name="file" accept="image/*"> </span>
 							</label>
 							<input type="text" class="form-control" readonly>
 						</div>

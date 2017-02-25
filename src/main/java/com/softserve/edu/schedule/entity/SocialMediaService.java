@@ -10,7 +10,10 @@ package com.softserve.edu.schedule.entity;
  *
  * @since 1.8
  */
-
 public enum SocialMediaService {
+
+    /**
+     * Social media services values.
+     */
     FACEBOOK, GOOGLE;
 }

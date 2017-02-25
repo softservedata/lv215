@@ -45,7 +45,7 @@ public interface RoomService {
      *
      * @param id
      *            a room id to find in the database.
-     * @return an room object if room with this id exists in the database or
+     * @return an room DTO object if room with this id exists in the database or
      *         Null if room not found
      */
     RoomDTO getById(Long id);
