@@ -42,8 +42,7 @@ public class MeetingHistoryCreator {
 	@Scheduled(cron = "0 0 1 * * *")
 	@Transactional
 	public void createMeetingHistory() {
-		// TODO to delete
-		System.out.println("CreateMeetingHistory working ... ");
 		meetingDAO.getPastNotArchivedMeetings().forEach(e -> meetingHistoryService.backup(e));
 	}
+
 }

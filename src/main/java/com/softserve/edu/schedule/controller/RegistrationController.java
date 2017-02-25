@@ -1,6 +1,8 @@
 /* RegistrationController 1.0 01/20/2017 */
 package com.softserve.edu.schedule.controller;
 
+import java.io.IOException;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,15 +79,15 @@ public class RegistrationController
 
     /**
      * Process login of existed user.
-     * 
+     *
      * @param request
      *            WebRequest instance to get social connection
-     * 
+     *
      * @param connection
      *            connection with social service
      * @param userDetails
      *            user details to process login
-     * 
+     *
      * @return calendar URL if user active or login URL with error if login
      *         inactive
      */
@@ -130,18 +132,25 @@ public class RegistrationController
      *            WebRequest instance to get social connection
      *
      * @return start page URL
+     *
+     * @throws IOException
+     *             if something happens while upload user image
      */
     @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE,
             method = RequestMethod.POST)
     public String newUserFromStartPage(
             @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
-            final BindingResult br, final WebRequest request) {
+            final BindingResult br, final WebRequest request)
+            throws IOException {
         if (br.hasErrors()) {
             return USER_REGIST_URL;
         }
         userService.create(userDTO);
         userService.autoLoginUser(userDTO);
         providerSignInUtils.doPostSignUp(userDTO.getMail(), request);
+        UserDTO activeUser = (UserDTO) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        userService.saveDefoultImage(activeUser);
         return "redirect:/?new_account=true";
     }
 
@@ -154,16 +163,21 @@ public class RegistrationController
      *            binding result to check validation errors
      *
      * @return users page URL
+     * @throws IOException
+     *             if something happens while upload user image
      */
     @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN,
             method = RequestMethod.POST)
     public String newUserForAdmin(
             @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
-            final BindingResult br) {
+            final BindingResult br) throws IOException {
         if (br.hasErrors()) {
             return USER_REGIST_URL;
         }
         userService.create(userDTO);
+        UserDTO activeUser = (UserDTO) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        userService.saveDefoultImage(activeUser);
         return REDIRECT_USERS_PAGE;
     }
 }

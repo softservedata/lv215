@@ -44,6 +44,12 @@ public interface ControllerConst {
      */
 
     public interface RoomControllerConst {
+
+        /**
+         * Room edit permissions.
+         */
+        String ROOM_EDIT_PERMISSIONS = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
+
         /**
          * Room model attribute name.
          */
@@ -75,9 +81,14 @@ public interface ControllerConst {
         String FILTER_MODEL_ATTR = "roomFilter";
 
         /**
-         * Filter model attribute name.
+         * Paginator model attribute name.
          */
         String ROOM_PAGINATOR_MODEL_ATTR = "roomPaginator";
+
+        /**
+         * Room files model attribute name.
+         */
+        String ROOM_FILES_MODEL_ATTR = "roomFiles";
 
         /**
          * Date filter model attribute name.
@@ -138,6 +149,26 @@ public interface ControllerConst {
          * Delete room mapping URL name.
          */
         String ROOM_DELETE_MAPPING = "/delete/{id}";
+
+        /**
+         * Room upload file mapping URL name.
+         */
+        String ROOM_FILE_UPLOAD_MAPPING = "/edit/{id}/uploadfile";
+
+        /**
+         * Room delete file mapping URL name.
+         */
+        String ROOM_FILE_DELETE_MAPPING = "/deleteFile/{fileName}/{id}";
+
+        /**
+         * Room download file mapping URL name.
+         */
+        String ROOM_FILE_DOWNLOAD_MAPPING = "/downloadFile/{fileName}/{roomId}";
+
+        /**
+         * Room upload file redirect URL name.
+         */
+        String ROOM_FILE_REDIRECT_URL = "redirect:/rooms/edit/{id}";
     }
 
     public interface RegistrationControllerConst {
@@ -240,17 +271,30 @@ public interface ControllerConst {
         String USER_MEETINGS_URL = "/showMeetings";
 
         String SAVE_IMAGES = "/saveImage";
-        
+
         String RESTORE_PASSWORD_MAPPING = "restorePassword";
-        
+
         String MAIL_MODEL_ATTR = "mail";
-        
+
         String RESTORE_PASSWORD_URL = "/restorePassword";
-        
-        
+
         String NO_SUCH_USER_URL = "/noSuchUser";
-        
+
         String PASSWORD_WAS_SENT = "/passwordWasSent";
+
+        String FILE = "file";
+
+        String PATH_VAR_ID = "id";
+
+        String USER_FILES = "userFiles";
+
+        String HAS_ROLE_ADMIN = "hasAnyRole('ROLE_ADMIN')";
+
+        String HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
+
+        String HAS_ANY_AUTHORIZED_ROLE = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')";
+
+        String IS_AUTHENTICATED = "isAuthenticated()";
     }
 
     /**
@@ -372,9 +416,19 @@ public interface ControllerConst {
         String FILTER_MODEL_ATTR = "subjectFilter";
 
         /**
+         * File for subject attribute name.
+         */
+        String SUBJECT_FILES = "subjectFiles";
+
+        /**
          * Filter model attribute name.
          */
         String SUBJECT_PAGINATOR_MODEL_ATTR = "subjectPaginator";
+
+        /**
+         * File model attribute name.
+         */
+        String SUBJECT_FILE_FORM = "fileForSubjectForm";
 
         /**
          * Subjects model attribute name.
@@ -402,6 +456,11 @@ public interface ControllerConst {
         String SUBJECTS_REDIRECT_URL = "redirect:/subjects";
 
         /**
+         * Subject file delete redirect URL.
+         */
+        String SUBJECT_DELETE_FILE_URL = "redirect:/subjects/{id}";
+
+        /**
          * Create new Subject URL.
          */
         String SUBJECT_CREATE_URL = "subjects/create";
@@ -420,6 +479,16 @@ public interface ControllerConst {
          * Subjects mapping URL.
          */
         String SUBJECTS_MAPPING = "/subjects";
+
+        /**
+         * Subject delete mapping URL.
+         */
+        String SUBJECT_DELETE_FILE_MAPPING = "/subjects/deleteFile/";
+
+        /**
+         * Subject download mapping URL.
+         */
+        String SUBJECT_DOWNLOAD_FILE_MAPPING = "/subjects/downloadFile/";
 
         /**
          * Subjects mapping URL.
@@ -470,11 +539,23 @@ public interface ControllerConst {
          * Subject field users.
          */
         String SUBJECT_PATH_USER_ID = "userId";
-        
+
+        /**
+         * Security permission.
+         */
+        String HAS_ANY_ROLE = "hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')";
+
         /**
          * Security permission.
          */
         String HAS_ANY_ROLE_EXEPT_USER = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')";
+
+        /**
+         * Acces for files download.
+         */
+        String ACCES_FILES = "image/jpeg, image/gif, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, "
+                + "application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-powerpoint, "
+                + "application/vnd.openxmlformats-officedocument.presentationml.presentation, application/pdf";
     }
 
     /**
@@ -643,31 +724,71 @@ public interface ControllerConst {
      */
     public interface RoomEquipmentControllerConst {
 
+        /**
+         * Room equipment edit permissions.
+         */
+        String ROOM_EQUIPMENT_EDIT_PERMISSIONS = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
+
+        /**
+         * Room equipments section URL name.
+         */
         String ROOM_EQUIPMENTS_URL = "/roomequipments";
 
-        String ROOM_EQUIPMENTS_MAPPING = "/roomequipments";
+        /**
+         * Room equipments filter model attribute.
+         */
+        String FILTER_MODEL_ATTR = "roomEquipmentFilter";
 
-        String ROOM_EQUIPMENTS_CREATE = "/create";
+        /**
+         * Room equipments paginator model attribute.
+         */
+        String PAGINATOR_MODEL_ATTR = "roomEquipmentPaginator";
 
-        String ROOM_EQUIPMENTS_LIST = "roomequipments/list";
-
-        String ROOM_EQUIPMENTS_CREATE_URL = "roomequipments/create";
-
-        String ROOM_EQUIPMENTS_REDIRECT = "redirect:/roomequipments";
-
-        String ROOM_EQUIPMENTS_EDIT_URL = "roomequipments/edit";
-
-        String ROOM_EQUIPMENTS_EDIT = "/edit/";
-
+        /**
+         * Room equipments model attribute.
+         */
         String ROOM_EQUIPMENTS_MODEL_ATTR = "equipments";
 
-        String ROOM_EQUIPMENTS_DELETE = "/delete/";
+        /**
+         * Room equipment model attribute.
+         */
+        String ROOM_EQUIPMENT_MODEL_ATTR = "equipmentForm";
 
-        String ROOM_EQUIPMENT_FORM = "equipmentForm";
+        /**
+         * Room equipments list URL.
+         */
+        String ROOM_EQUIPMENTS_LIST = "roomequipments/list";
 
-        String ROOM_EQUIPMENTS_SORT_ASC = "/sortbynameasc";
+        /**
+         * Room equipments edit URL mapping.
+         */
+        String ROOM_EQUIPMENTS_EDIT_MAPPING = "/edit/{id}";
 
-        String ROOM_EQUIPMENTS_SORT_DESC = "/sortbynamedesc";
+        /**
+         * Room equipments edit URL.
+         */
+        String ROOM_EQUIPMENTS_EDIT_URL = "roomequipments/edit";
+
+        /**
+         * Room equipments redirect URL.
+         */
+        String ROOM_EQUIPMENTS_REDIRECT_URL = "redirect:/roomequipments";
+
+        /**
+         * Room equipments create URL mapping.
+         */
+        String ROOM_EQUIPMENTS_CREATE = "/create";
+
+        /**
+         * Room equipments create URL.
+         */
+        String ROOM_EQUIPMENTS_CREATE_URL = "roomequipments/create";
+
+        /**
+         * Room equipments delete URL mapping.
+         */
+        String ROOM_EQUIPMENTS_DELETE_MAPPING = "/delete/{id}";
+
     }
 
     /**
@@ -805,7 +926,7 @@ public interface ControllerConst {
          * meeting delete url name.
          */
         String DELETE_MAPPING = "meetings/delete";
-        
+
         /**
          * meetingHistory download url name.
          */

@@ -40,8 +40,9 @@
 					<spring:message code="lbl.room.roomName" var="nameForPlaceholder" />
 					<spring:message code="vm.invalidName" var="invalidName" />
 					<form:input type="text" class="form-control" path="name" id="name"
-						placeholder="${nameForPlaceholder}" required="true"
-						oninvalid="this.setCustomValidity('${invalidName}')" oninput="setCustomValidity('')" />
+						placeholder="${nameForPlaceholder}" pattern="[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№',\.\s\-]{2,254}"
+						required="true" oninvalid="this.setCustomValidity('${invalidName}')"
+						oninput="setCustomValidity('')" />
 					<form:errors path="name" class="text-danger" />
 				</div>
 				<div class="form-group">
@@ -89,6 +90,80 @@
 				</div>
 			</form:form>
 		</div>
+		<!-- room images -->
+		<div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
+			aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">
+							<spring:message code="lbl.form.deleteTitle" />
+						</h4>
+					</div>
+					<div class="modal-body">
+						<p>
+							<spring:message code="lbl.room.deleteRoomImageConfirm" />
+						</p>
+					</div>
+					<div class="modal-footer">
+						<a class="btn btn-primary btn-ok">
+							<spring:message code="lbl.form.delete" />
+						</a>
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							<spring:message code="lbl.form.cancel" />
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div
+				class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
+				<h4>
+					<spring:message code="lbl.room.uploadRoomPhoto" />
+					:
+				</h4>
+				<form class="form-inline"
+					action="${pageContext.request.contextPath}/rooms/edit/${room.id}/uploadfile?${_csrf.parameterName}=${_csrf.token}"
+					method="POST" enctype="multipart/form-data">
+					<div class="form-group">
+						<div class="input-group">
+							<label class="input-group-btn">
+								<span class="btn btn-primary"><spring:message code="lbl.filePicker.browse" />&hellip;
+									<input type="file" style="display: none;" name="file" accept="image/*"> </span>
+							</label>
+							<input type="text" class="form-control" readonly>
+						</div>
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-default" value="<spring:message code="lbl.form.save"/>" />
+					</div>
+				</form>
+				<h4>
+					<spring:message code="lbl.room.roomPhotos" />
+					:
+				</h4>
+				<ul class="image_list">
+					<c:forEach items="${roomFiles}" var="fileName">
+						<li>
+							<a class="room_image"
+								href="${pageContext.request.contextPath}/rooms/downloadFile/${fileName}/${room.id}"
+								title="<spring:message code="lbl.room.clickToDownload"/>">
+								<img src="${pageContext.request.contextPath}/rooms/downloadFile/${fileName}/${room.id}"
+									height="200" class="img-fluid" alt="${fileName}">
+							</a>
+							<a class="room_image_delete" data-toggle="modal" data-target="#confirm-delete"
+								data-href="${pageContext.request.contextPath}/rooms/deleteFile/${fileName}/${room.id}"
+								title="<spring:message code="lbl.room.deletePhoto"/>">
+								<i class="fa fa-lg fa-times" aria-hidden="true"></i>
+							</a>
+						</li>
+					</c:forEach>
+				</ul>
+			</div>
+		</div>
+		<!-- room images -->
 	</div>
 </div>
 

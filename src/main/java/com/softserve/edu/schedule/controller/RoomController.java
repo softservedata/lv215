@@ -2,8 +2,6 @@
 package com.softserve.edu.schedule.controller;
 
 import java.io.IOException;
-import java.time.LocalDate;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,6 @@ import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.RoomService;
-import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
 import com.softserve.edu.schedule.service.implementation.editor.LocationDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomEquipmentDTOEditor;
 
@@ -82,13 +79,6 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     private RoomEquipmentDTOEditor roomEquipmentDTOEditor;
 
     /**
-     * DateEditor example to provide conversions from form date fields to
-     * LocalDate objects.
-     */
-    @Autowired
-    private DateEditor dateEditor;
-
-    /**
      * Initialize binder for room model.
      *
      * @param binder
@@ -111,17 +101,6 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     protected void initBinderFilter(final WebDataBinder binder) {
         binder.registerCustomEditor(RoomEquipmentDTO.class,
                 roomEquipmentDTOEditor);
-    }
-
-    /**
-     * Initialize binder for filter model.
-     *
-     * @param binder
-     *            a WebDataBinder example to initialize.
-     */
-    @InitBinder(DATE_FILTER_MODEL_ATTR)
-    protected void initBinderDateFilter(final WebDataBinder binder) {
-        binder.registerCustomEditor(LocalDate.class, dateEditor);
     }
 
     /**
@@ -178,7 +157,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
         model.addAttribute(EQUIPMENTS_MODEL_ATTR,
                 roomEquipmentService.getAll());
         model.addAttribute(FILTER_MODEL_ATTR, filter);
-        model.addAttribute("roomPaginator", paginator);
+        model.addAttribute(ROOM_PAGINATOR_MODEL_ATTR, paginator);
         return ROOMS_LIST_URL;
     }
 
@@ -204,6 +183,8 @@ public class RoomController implements ControllerConst.RoomControllerConst {
             model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
             model.addAttribute(EQUIPMENTS_MODEL_ATTR,
                     roomEquipmentService.getAll());
+            model.addAttribute(ROOM_FILES_MODEL_ATTR,
+                    roomService.showRoomFiles(roomDTO.getId()));
             return ROOM_EDIT_URL;
         }
         roomService.update(roomDTO);
@@ -221,7 +202,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return room update information page URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+    @PreAuthorize(ROOM_EDIT_PERMISSIONS)
     @RequestMapping(value = ROOM_EDIT_MAPPING, method = RequestMethod.GET)
     public String updateForm(@PathVariable(PATH_VAR_ID) final Long id,
             final Model model) {
@@ -229,6 +210,8 @@ public class RoomController implements ControllerConst.RoomControllerConst {
         model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
         model.addAttribute(EQUIPMENTS_MODEL_ATTR,
                 roomEquipmentService.getAll());
+        model.addAttribute(ROOM_FILES_MODEL_ATTR,
+                roomService.showRoomFiles(id));
         return ROOM_EDIT_URL;
     }
 
@@ -268,7 +251,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return room create page URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+    @PreAuthorize(ROOM_EDIT_PERMISSIONS)
     @RequestMapping(value = ROOM_CREATE_MAPPING, method = RequestMethod.GET)
     public String createForm(final Model model) {
         model.addAttribute(ROOM_MODEL_ATTR, new RoomDTO());
@@ -286,7 +269,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return rooms list page redirect URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+    @PreAuthorize(ROOM_EDIT_PERMISSIONS)
     @RequestMapping(value = ROOM_DELETE_MAPPING)
     public String deleteRoom(@PathVariable final Long id) {
         roomService.deleteById(id);
@@ -308,31 +291,84 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     public String showRoom(@PathVariable(PATH_VAR_ID) final Long id,
             final Model model) {
         model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
-        model.addAttribute("roomFiles", roomService.showRoomFiles(id));
+        model.addAttribute(ROOM_FILES_MODEL_ATTR,
+                roomService.showRoomFiles(id));
         return ROOM_SHOW_URL;
     }
 
-    @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.POST)
-    public String showRoomUploadFile(@PathVariable final Long id,
-            @RequestParam final MultipartFile file, final Model model) {
+    /**
+     * Controls room files upload process.
+     *
+     * @param id
+     *            room id to upload files.
+     *
+     * @param file
+     *            file to upload
+     *
+     * @param model
+     *            room view model.
+     *
+     * @return room edit page URL
+     *
+     * @throws IOException
+     *             if something happened during file upload
+     */
+    @PreAuthorize(ROOM_EDIT_PERMISSIONS)
+    @RequestMapping(value = ROOM_FILE_UPLOAD_MAPPING,
+            method = RequestMethod.POST)
+    public String uploadFile(@PathVariable final Long id,
+            @RequestParam final MultipartFile file, final Model model)
+            throws IOException {
         model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
-        model.addAttribute("roomFiles", roomService.showRoomFiles(id));
+        model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
+        model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+                roomEquipmentService.getAll());
+        model.addAttribute(ROOM_FILES_MODEL_ATTR,
+                roomService.showRoomFiles(id));
         roomService.uploadFile(file, id);
-        return "redirect:/rooms/{id}";
+        return ROOM_FILE_REDIRECT_URL;
     }
 
-    @RequestMapping("/rooms/deleteFile/{id}")
-    public String deleteFile(@PathVariable final Long id) {
-        roomService.deleteRoomFileById(id);
-        return "redirect:/rooms/{id}";
+    /**
+     * Controls room files delete process.
+     *
+     * @param id
+     *            room id to delete files.
+     *
+     * @param fileName
+     *            file to delete
+     *
+     * @return room edit page URL
+     *
+     */
+    @PreAuthorize(ROOM_EDIT_PERMISSIONS)
+    @RequestMapping(ROOM_FILE_DELETE_MAPPING)
+    public String deleteFile(@PathVariable final Long id,
+            @PathVariable final String fileName) {
+        roomService.deleteFileByRoomId(id, fileName);
+        return ROOM_FILE_REDIRECT_URL;
     }
 
-    @RequestMapping("/rooms/downloadFile/{fileName}/{id}")
-    public void downloadFile(@PathVariable final Long id,
-            @PathVariable final String fileName, HttpServletResponse response,
-            Model model) throws IOException {
-        roomService.retriveRoomFileById(id, fileName, response);
-        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));        
-//        return "rooms/show";
+    /**
+     * Controls room files download process.
+     *
+     * @param roomId
+     *            room id to download files.
+     *
+     * @param fileName
+     *            file to download
+     *
+     * @param response
+     *            response to download file
+     *
+     * @throws IOException
+     *             if something happened during file download
+     *
+     */
+    @RequestMapping(ROOM_FILE_DOWNLOAD_MAPPING)
+    public void downloadFile(@PathVariable final Long roomId,
+            @PathVariable final String fileName,
+            final HttpServletResponse response) throws IOException {
+        roomService.retriveFileByRoomId(roomId, fileName, response);
     }
 }

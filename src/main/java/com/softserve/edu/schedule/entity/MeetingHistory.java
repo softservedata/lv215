@@ -85,99 +85,183 @@ public class MeetingHistory {
     @Lob
     private String description;
 
+    /**
+     * @return the id
+     */
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
+    /**
+     * @return the idMeeting
+     */
     public String getIdMeeting() {
         return idMeeting;
     }
 
-    public void setIdMeeting(String idMeeting) {
-        this.idMeeting = idMeeting;
-    }
-
+    /**
+     * @return the subject
+     */
     public String getSubject() {
         return subject;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
-    }
-
+    /**
+     * @return the room
+     */
     public String getRoom() {
         return room;
     }
 
-    public void setRoom(String room) {
-        this.room = room;
-    }
-
+    /**
+     * @return the location
+     */
     public String getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
+    /**
+     * @return the address
+     */
     public String getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
+    /**
+     * @return the date
+     */
     public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
+    /**
+     * @return the startTime
+     */
     public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
+    /**
+     * @return the endTime
+     */
     public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
-    }
-
+    /**
+     * @return the groups
+     */
     public String getGroups() {
         return groups;
     }
 
-    public void setGroups(String groups) {
-        this.groups = groups;
-    }
-
+    /**
+     * @return the owner
+     */
     public String getOwner() {
         return owner;
     }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
+    /**
+     * @return the description
+     */
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    /**
+     * @param id
+     *            the id to set
+     */
+    public void setId(final Long id) {
+        this.id = id;
+    }
+
+    /**
+     * @param idMeeting
+     *            the idMeeting to set
+     */
+    public void setIdMeeting(final String idMeeting) {
+        this.idMeeting = idMeeting;
+    }
+
+    /**
+     * @param subject
+     *            the subject to set
+     */
+    public void setSubject(final String subject) {
+        this.subject = subject;
+    }
+
+    /**
+     * @param room
+     *            the room to set
+     */
+    public void setRoom(final String room) {
+        this.room = room;
+    }
+
+    /**
+     * @param location
+     *            the location to set
+     */
+    public void setLocation(final String location) {
+        this.location = location;
+    }
+
+    /**
+     * @param address
+     *            the address to set
+     */
+    public void setAddress(final String address) {
+        this.address = address;
+    }
+
+    /**
+     * @param date
+     *            the date to set
+     */
+    public void setDate(final LocalDate date) {
+        this.date = date;
+    }
+
+    /**
+     * @param startTime
+     *            the startTime to set
+     */
+    public void setStartTime(final LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    /**
+     * @param endTime
+     *            the endTime to set
+     */
+    public void setEndTime(final LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    /**
+     * @param groups
+     *            the groups to set
+     */
+    public void setGroups(final String groups) {
+        this.groups = groups;
+    }
+
+    /**
+     * @param owner
+     *            the owner to set
+     */
+    public void setOwner(final String owner) {
+        this.owner = owner;
+    }
+
+    /**
+     * @param description
+     *            the description to set
+     */
+    public void setDescription(final String description) {
         this.description = description;
     }
 

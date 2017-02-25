@@ -5,8 +5,10 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page
 	import="com.softserve.edu.schedule.controller.SubjectController"%>
+<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -76,33 +78,57 @@
 					: ${subject.description}
 				</h4>
 			</div>
-			<div class="form-group">
-				<form:form modelAttribute="fileForSubjectForm"
+			<sec:authorize
+				access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+				<form:form class="form-inline"
+					modelAttribute="${SubjectController.SUBJECT_FILE_FORM}"
 					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING_SHOW}${subject.id}?${_csrf.parameterName}=${_csrf.token}"
 					method="POST" enctype="multipart/form-data">
-					<input type="file" name="file"
-						accept="image/jpeg, image/gif, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, 
-						application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-powerpoint, 
-						application/vnd.openxmlformats-officedocument.presentationml.presentation, application/pdf" />
-					<input type="submit" value="Submit" />
+					<div class="form-group">
+						<div class="input-group">
+							<label class="input-group-btn"> <span
+								class="btn btn-primary"><spring:message
+										code="lbl.filePicker.browse" />&hellip; <input
+									style="display: none;" type="file" name="file"
+									accept="${SubjectController.ACCES_FILES}"> </span>
+							</label>
+							<form:errors path="file" />
+							<input type="text" class="form-control" readonly>
+						</div>
+					</div>
+					<div class="form-group">
+						<input type="submit" class="btn btn-default"
+							value="<spring:message code="lbl.form.save"/>" />
+					</div>
 				</form:form>
-			</div>
-			<div class="form-group">
-				<h4>Subject files :</h4>
-				<ul>
-					<c:forEach items="${subjectFiles}" var="fileName">
-						<li style="list-style-type: none"><i class="fa fa-file-o"
-							aria-hidden="true"></i> ${fileName} <a
-							data-href="/schedule/subjects/deleteFile/${fileName}/${subject.id}"
-							title="<spring:message code="lbl.subject.delete"/>"
-							data-toggle="modal" data-target="#confirm-delete"> <i
-								class="fa fa-trash-o fa-lg"></i>
-						</a> <a
-							href="/schedule/subjects/downloadFile/${fileName}/${subject.id}"><i
-								class="fa fa-download" aria-hidden="true"></i> </a></li>
-					</c:forEach>
-				</ul>
-			</div>
+			</sec:authorize>
+			<sec:authorize
+				access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')">
+				<div class="form-group">
+					<h4>
+						<spring:message code="lbl.subject.files" />
+					</h4>
+					<ul>
+						<c:forEach items="${subjectFiles}" var="fileName">
+							<li style="list-style-type: none"><i class="fa fa-file-o"
+								aria-hidden="true"></i> ${fileName} <sec:authorize
+									access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+									<a
+										data-href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DELETE_FILE_MAPPING}${fileName}/${subject.id}"
+										title="<spring:message code="lbl.subject.delete"/>"
+										data-toggle="modal" data-target="#confirm-delete"> <i
+										class="fa fa-trash-o fa-lg"></i>
+									</a>
+								</sec:authorize> <sec:authorize
+									access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+									<a
+										href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DOWNLOAD_FILE_MAPPING}${fileName}/${subject.id}"><i
+										class="fa fa-download" aria-hidden="true"></i> </a>
+								</sec:authorize></li>
+						</c:forEach>
+					</ul>
+				</div>
+			</sec:authorize>
 			<div class="form-group">
 				<h4>
 					<spring:message code="lbl.subject.tutor" />

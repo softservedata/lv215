@@ -41,6 +41,9 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomDTOCon
 @PerfomanceLoggable
 public class RoomServiceImpl implements RoomService {
 
+    /**
+     * FileStorageDAO example to provide file operations.
+     */
     @Autowired
     private FileStorageDAO fileStorageDao;
 
@@ -167,34 +170,83 @@ public class RoomServiceImpl implements RoomService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Upload room image file.
+     *
+     * @param file
+     *            file to upload.
+     *
+     * @param id
+     *            roomId to upload file.
+     *
+     * @throws IOException
+     *             if something unexpected happens during file upload
+     */
     @Override
-    public void uploadFile(MultipartFile file, Long id) {
+    public void uploadFile(final MultipartFile file, final Long id)
+            throws IOException {
+        System.out.println(file.getOriginalFilename());
+        GridFSDBFile fileInDataBase = fileStorageDao.retriveByIdAndFileName(
+                Long.toString(id), file.getOriginalFilename(),
+                "metadata.roomId");
+        if (fileInDataBase != null) {
+            deleteFileByRoomId(id, file.getOriginalFilename());
+        }
         DBObject metadata = new BasicDBObject();
         metadata.put("roomId", Long.toString(id));
-        try {
-            fileStorageDao.store(file.getInputStream(),
-                    file.getOriginalFilename(), metadata);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        fileStorageDao.store(file.getInputStream(), file.getOriginalFilename(),
+                metadata);
     }
 
+    /**
+     * Retrieve all room image files names.
+     *
+     * @param id
+     *            roomId to show files.
+     *
+     * @return list of room files names
+     */
     @Override
-    public List<String> showRoomFiles(Long id) {
+    public List<String> showRoomFiles(final Long id) {
         return fileStorageDao
                 .findAllByIdAndType(Long.toString(id), "metadata.roomId")
                 .stream().map(f -> f.getFilename())
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Delete room image file.
+     *
+     * @param id
+     *            roomId to delete file.
+     *
+     * @param fileName
+     *            file name to delete file.
+     */
     @Override
-    public void deleteRoomFileById(Long id) {
-        fileStorageDao.deleteById("metadata.roomId", Long.toString(id));
+    public void deleteFileByRoomId(final Long id, final String fileName) {
+        fileStorageDao.deleteByIdAndFileName(Long.toString(id), fileName,
+                "metadata.roomId");
     }
 
+    /**
+     * Download room image file.
+     *
+     * @param id
+     *            roomId to download file.
+     *
+     * @param fileName
+     *            file name to download file.
+     *
+     * @param response
+     *            response to download file
+     *
+     * @throws IOException
+     *             if something unexpected happens during file download
+     */
     @Override
-    public void retriveRoomFileById(Long id, String fileName,
-            HttpServletResponse response) throws IOException {
+    public void retriveFileByRoomId(final Long id, final String fileName,
+            final HttpServletResponse response) throws IOException {
         GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(
                 Long.toString(id), fileName, "metadata.roomId");
         if (file != null) {

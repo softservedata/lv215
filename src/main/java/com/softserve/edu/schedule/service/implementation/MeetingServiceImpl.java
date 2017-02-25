@@ -275,34 +275,38 @@ public class MeetingServiceImpl implements MeetingService {
 		return MeetingStatus.APPROVED;
 	}
 
-	/**
-	 * Checks room availability before adding meeting to database.
-	 *
-	 * @author Petro Zelyonka
-	 *
-	 * @param meetingDTO
-	 *            given meeting DTO
-	 *
-	 * @return true if room is not available for given DTO time interval else
-	 *         return false
-	 *
-	 */
-	private boolean meetingHasConflictWithExistedMeeting(MeetingDTO meetingDTO) {
-		List<Meeting> existedMeetings = meetingDao.getMeetingsInIntervalByRoomId(meetingDTO.getRoom().getId(),
-				meetingDTO.getDate(), meetingDTO.getDate());
-		LocalTime start = meetingDTO.getStartTime();
-		LocalTime end = meetingDTO.getEndTime();
-		for (Meeting meeting : existedMeetings) {
-			if (meeting.getStatus().equals(MeetingStatus.APPROVED)) {
-				if ((meeting.getStartTime().isAfter(start) ? meeting.getStartTime() : start.plusNanos(1L))
-						.isBefore((meeting.getEndTime().isBefore(end) ? meeting.getEndTime() : end.minusNanos(1L))
-								.plusNanos(1L))) {
-					return true;
-				}
-			}
-		}
-		return false;
-	}
+	 /**
+     * Checks room availability before adding meeting to database.
+     *
+     * @author Petro Zelyonka
+     *
+     * @param meetingDTO
+     *            given meeting DTO
+     *
+     * @return true if room is not available for given DTO time interval else
+     *         return false
+     *
+     */
+    private boolean meetingHasConflictWithExistedMeeting(
+            final MeetingDTO meetingDTO) {
+        List<Meeting> existedMeetings = meetingDao
+                .getMeetingsInIntervalByRoomId(meetingDTO.getRoom().getId(),
+                        meetingDTO.getDate(), meetingDTO.getDate());
+        LocalTime start = meetingDTO.getStartTime();
+        LocalTime end = meetingDTO.getEndTime();
+        for (Meeting meeting : existedMeetings) {
+            if (meeting.getStatus().equals(MeetingStatus.APPROVED)) {
+                if ((meeting.getStartTime().isAfter(start)
+                        ? meeting.getStartTime() : start.plusNanos(1L))
+                                .isBefore((meeting.getEndTime().isBefore(end)
+                                        ? meeting.getEndTime()
+                                        : end.minusNanos(1L)).plusNanos(1L))) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 	/**
 	 * Method that's used to get all meetings in specified interval for
