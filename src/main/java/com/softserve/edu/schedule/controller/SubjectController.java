@@ -32,6 +32,15 @@ import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.editor.UserForSubjectDTOEditor;
 
+/**
+ * A controller class of subjects pages.
+ *
+ * @version 1.0 15 January 2017
+ *
+ * @author Ped'ko Volodymyr
+ *
+ * @since 1.8
+ */
 @Controller
 @SessionAttributes({ ControllerConst.SubjectControllerConst.FILTER_MODEL_ATTR,
         ControllerConst.SubjectControllerConst.SUBJECT_PAGINATOR_MODEL_ATTR })
@@ -133,13 +142,20 @@ public class SubjectController
 		return SUBJECT_CREATE_URL;
 	}
 
-	/**
-	 * Method creates new subject
-	 * 
-	 * @param subject
-	 *            subjects create page model
-	 * @return subjects list page URL (redirect)
-	 */
+    /**
+     * Controls processing of subject create form.
+     *
+     * @param subject
+     *            an SubjectDTO example which is built based on form data.
+     *
+     * @param br
+     *            binding result to check validation errors
+     *
+     * @param model
+     *            subject create page view model.
+     *
+     * @return subjects list page redirect URL
+     */
 	@RequestMapping(value = SUBJECT_CREATE_MAPPING, method = RequestMethod.POST)
 	public String create(
 	        @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
@@ -156,6 +172,9 @@ public class SubjectController
 	/**
 	 * Method prepares form for editing subject
 	 * 
+     * @param id
+     *            subject id to update information.
+	 * 
 	 * @param model
 	 *            subjects edit page model
 	 * @return subjects edit page URL
@@ -169,13 +188,20 @@ public class SubjectController
 		return SUBJECTS_EDIT_URL;
 	}
 
-	/**
-	 * Method edits current subject
-	 * 
-	 * @param subject
-	 *            subjects edit page model
-	 * @return subjects list page URL (redirect)
-	 */
+    /**
+     * Controls processing of subject edit information form.
+     *
+     * @param subject
+     *            an SubjectDTO example which is built based on form data.
+     *
+     * @param br
+     *            binding result to check validation errors
+     *
+     * @param model
+     *            subject update information page view model.
+     *
+     * @return subjects list page redirect URL
+     */
 	@RequestMapping(value = SUBJECT_EDIT_MAPPING
 	        + "{id}", method = RequestMethod.POST)
 	public String edit(
@@ -233,7 +259,13 @@ public class SubjectController
 	 * @param subjectFileDTO
 	 *            subjectFileDTO details for storing file.
 	 *
-	 * @exception IOException
+	 * @param model
+	 *            subject details show page view model.
+	 *            
+     * @param br
+     *            binding result to check validation errors
+	 *            
+	 * @throws IOException
 	 * 
 	 * @return subject show detail page URL
 	 */
@@ -244,10 +276,12 @@ public class SubjectController
 	        @ModelAttribute(SUBJECT_FILE_FORM) @Valid final FileForSubjectDTO subjectFileDTO,
 	        final BindingResult result, final Model model) throws IOException {
 		if (result.hasErrors()) {
-			System.out.println("I WAS HERE!!!");
-			return SUBJECT_DELETE_FILE_URL;
+			model.addAttribute(SUBJECT_FILE_FORM, new FileForSubjectDTO());
+			model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
+			model.addAttribute(SUBJECT_FILES, subjectService.showSubjectFiles(id));
+			return "subjects/show";
 		}
-		subjectService.uploadFile(subjectFileDTO, id);
+		subjectService.uploadFile(subjectFileDTO);
 		return SUBJECT_DELETE_FILE_URL;
 	}
 
@@ -279,7 +313,7 @@ public class SubjectController
 	 * @param fileName
 	 *            subject file name.
 	 * 
-	 * @exception IOException
+	 * @throws IOException
 	 * 
 	 * @param response
 	 *            HttpServletResponse response for file download.
