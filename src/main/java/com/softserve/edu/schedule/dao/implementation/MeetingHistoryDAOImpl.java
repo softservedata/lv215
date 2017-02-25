@@ -19,7 +19,7 @@ import com.softserve.edu.schedule.entity.MeetingHistory_;
  * This class is implementation of MeetingHistoryDAO interface.
  *
  * @version 1.0 22.02.2017
- * @author Bohdan Melnyk
+ * @author Bohdan Melnyk, Oleksandr Butyter
  */
 @Repository
 public class MeetingHistoryDAOImpl extends CrudDAOImpl<MeetingHistory>

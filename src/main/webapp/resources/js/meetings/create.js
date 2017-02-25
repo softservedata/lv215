@@ -1,21 +1,3 @@
-function checkform() {
-	var dateString = document.purchase.date.value;
-	var myDate = new Date(dateString);
-	var today = new Date();
-	if (document.purchase.txndt.value == "") {
-		//something is wrong
-		alert('REQUIRED FIELD ERROR: Please enter date in field!')
-		return false;
-	} else if (myDate < today) {
-		//something else is wrong
-		alert('You cannot enter a date in the past!');
-		return false;
-	}
-	// if script gets this far through all of your fields
-	// without problems, it's ok and you can submit the form
-	alert('Alles gut!');
-	return true;
-}
 
 	//Expect input as d/m/y
 	function isValidDate(s) {
@@ -52,7 +34,3 @@ function checkform() {
 			width : "100%"
 		});
 	})
-
-	//new
-
-	

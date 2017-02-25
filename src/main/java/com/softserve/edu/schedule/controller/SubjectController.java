@@ -273,16 +273,15 @@ public class SubjectController
 	@RequestMapping(value = SUBJECTS_MAPPING_SHOW
 	        + "{id}", method = RequestMethod.POST)
 	public String uploadFile(@PathVariable final Long id,
-	        @ModelAttribute(SUBJECT_FILE_FORM) @Valid final FileForSubjectDTO subjectFileDTO,
+	        @ModelAttribute(SUBJECT_FILE_FORM) @Valid final FileForSubjectDTO fileForSubjectDTO,
 	        final BindingResult result, final Model model) throws IOException {
 		if (result.hasErrors()) {
-			model.addAttribute(SUBJECT_FILE_FORM, new FileForSubjectDTO());
 			model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
 			model.addAttribute(SUBJECT_FILES, subjectService.showSubjectFiles(id));
-			return "subjects/show";
+			return SUBJECTS_SHOW_URL;
 		}
-		subjectService.uploadFile(subjectFileDTO);
-		return SUBJECT_DELETE_FILE_URL;
+		subjectService.uploadFile(fileForSubjectDTO);
+		return SUBJECT_SHOW_URL;
 	}
 
 	/**
@@ -301,7 +300,7 @@ public class SubjectController
 	public String deleteFile(@PathVariable final Long id,
 	        @PathVariable String fileName) {
 		subjectService.deleteSubjectFileById(id, fileName);
-		return SUBJECT_DELETE_FILE_URL;
+		return SUBJECT_SHOW_URL;
 	}
 
 	/**

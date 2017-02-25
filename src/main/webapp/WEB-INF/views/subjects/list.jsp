@@ -125,7 +125,12 @@
 				<td><a href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING_SHOW}${subject.id}">${subject.name}</a></td>
 				<c:set var="string" value="${subject.description}"/>
 				<c:set var="string2" value="${fn:substring(string, 0, 25)}..." />
+				<c:if test="${string.length() < 20 }">
+				<td>${string}</td>
+				</c:if>
+				<c:if test="${string.length() > 20 }">
 				<td>${string2}</td>
+				</c:if>
 				<td>
 					<c:forEach items="${subject.users}" var="user">
 						<p>${user.firstName} ${user.lastName}</p>

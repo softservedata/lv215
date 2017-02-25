@@ -97,8 +97,9 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *
      * @return List of Meeting
      */
-    public List<Meeting> dublicatesOfGivenFields(String subjectName, String ownerName,
-            String roomName, LocalDate localDate, LocalTime localTime);
+    public List<Meeting> dublicatesOfGivenFields(String subjectName,
+            String ownerName, String roomName, LocalDate localDate,
+            LocalTime localTime);
 
     /**
      * Find all meetings in the DB which date and time are in past and status
@@ -185,10 +186,10 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
     public List<Meeting> getMeetingsInIntervalByGroupId(Long groupId,
             LocalDate startDate, LocalDate endDate);
 
-    /** Returns all past not archived Meetings.
-     * @return
-     *         List of List<Meeting>
+    /**
+     * Returns all past not archived Meetings.
+     * 
+     * @return List of List<Meeting>
      */
     public List<Meeting> getPastNotArchivedMeetings();
-
 }
