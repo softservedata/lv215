@@ -931,6 +931,5 @@ public interface ControllerConst {
          * meetingHistory download url name.
          */
         String DOWNLOAD_MAPPING = "/downloadExcel";
-
     }
 }

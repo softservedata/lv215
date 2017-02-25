@@ -30,7 +30,9 @@ import com.softserve.edu.schedule.dto.MeetingHistoryDTO;
  */
 public class ExcelViewMeetingHistory extends AbstractXlsView {
 
-    /** Constructor.
+    /**
+     * Constructor.
+     * 
      * @param listMeetingHistoryDTO
      */
     public ExcelViewMeetingHistory(
@@ -39,7 +41,7 @@ public class ExcelViewMeetingHistory extends AbstractXlsView {
     }
 
     /**
-     * The list of MeetingHistoryDTO, that will be writen in the excel file.
+     * The list of MeetingHistoryDTO, that will be written in the excel file.
      */
     private List<MeetingHistoryDTO> listMeetingHistoryDTO = new ArrayList<MeetingHistoryDTO>();
 
@@ -52,9 +54,9 @@ public class ExcelViewMeetingHistory extends AbstractXlsView {
      * javax.servlet.http.HttpServletResponse)
      */
     @Override
-    public void buildExcelDocument(Map<String, Object> model, Workbook workbook,
-            HttpServletRequest request, HttpServletResponse response)
-            throws Exception {
+    public void buildExcelDocument(final Map<String, Object> model,
+            final Workbook workbook, final HttpServletRequest request,
+            final HttpServletResponse response) throws Exception {
 
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 
