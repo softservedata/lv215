@@ -318,7 +318,8 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     @RequestMapping(value = "/edit/{id}/uploadfile",
             method = RequestMethod.POST)
     public String uploadFile(@PathVariable final Long id,
-            @RequestParam final MultipartFile file, final Model model) {
+            @RequestParam final MultipartFile file, final Model model)
+            throws IOException {
         model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
         model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
         model.addAttribute(EQUIPMENTS_MODEL_ATTR,
@@ -330,15 +331,15 @@ public class RoomController implements ControllerConst.RoomControllerConst {
 
     @RequestMapping("/deleteFile/{fileName}/{roomId}")
     public String deleteFile(@PathVariable final Long roomId,
-            @PathVariable String fileName) {
+            @PathVariable final String fileName) {
         roomService.deleteFileByRoomId(roomId, fileName);
         return "redirect:/rooms/edit/{roomId}";
     }
 
     @RequestMapping("/downloadFile/{fileName}/{roomId}")
     public void downloadFile(@PathVariable final Long roomId,
-            @PathVariable final String fileName, HttpServletResponse response,
-            Model model) throws IOException {
+            @PathVariable final String fileName,
+            final HttpServletResponse response) throws IOException {
         roomService.retriveFileByRoomId(roomId, fileName, response);
     }
 }

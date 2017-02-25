@@ -8,24 +8,29 @@ import com.mongodb.gridfs.GridFSDBFile;
 
 public interface FileStorageDAO {
 
+    // needed
     public String store(InputStream inputStream, String fileName,
             DBObject metadata);
 
-    public GridFSDBFile retrive(String fileName);
+    /* public GridFSDBFile retrive(String fileName); */
 
-    public GridFSDBFile retriveByIdAndFileName(String id, String fileName, String type);
+    // needed
+    public GridFSDBFile retriveByIdAndFileName(String id, String fileName,
+            String type);
 
-    public GridFSDBFile getById(String id);
+    /* public GridFSDBFile getById(String id); */
 
-    public GridFSDBFile getByFilename(String filename);
+    /* public GridFSDBFile getByFilename(String filename); */
 
-    public List<GridFSDBFile> findAll();
+    /* public List<GridFSDBFile> findAll(); */
 
+    // needed
     public List<GridFSDBFile> findAllByIdAndType(String id, String type);
 
-    public void delete(String id);
+    /* public void delete(String id); */
 
-    public void deleteById(String pattern, String id);
-    
+    /* public void deleteById(String pattern, String id); */
+
+    // needed
     public void deleteByIdAndFileName(String id, String fileName, String type);
 }
