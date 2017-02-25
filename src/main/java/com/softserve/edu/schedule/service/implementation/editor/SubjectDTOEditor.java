@@ -14,7 +14,8 @@ import org.springframework.stereotype.Component;
 import com.softserve.edu.schedule.service.SubjectService;
 
 /**
- * A class to provide conversion operations from form field roomId to RoomDTO.
+ * A class to provide conversion operations from form field subjectId to
+ * SubjectDTO.
  *
  * @version 1.0 17 January 2017
  *
@@ -25,24 +26,24 @@ import com.softserve.edu.schedule.service.SubjectService;
 @Component
 public class SubjectDTOEditor extends PropertyEditorSupport {
 
-    /**
-     * RoomService example to provide search DTO operations.
-     */
-    @Autowired
-    private SubjectService subjectService;
+	/**
+	 * SubjectService example to provide search DTO operations.
+	 */
+	@Autowired
+	private SubjectService subjectService;
 
-    /**
-     * Provides a SubjectDTO example by given room id in String format.
-     * 
-     * @param text
-     *            a room id in String format
-     * 
-     * @throws IllegalArgumentException
-     *             if @param text is not String.
-     */
-    @Override
-    public void setAsText(final String text) throws IllegalArgumentException {
-        setValue(subjectService.getById(Long.valueOf(text)));
-    }
+	/**
+	 * Provides a SubjectDTO example by given room id in String format.
+	 * 
+	 * @param text
+	 *            a subject id in String format
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if @param text is not String.
+	 */
+	@Override
+	public void setAsText(final String text) throws IllegalArgumentException {
+		setValue(subjectService.getById(Long.valueOf(text)));
+	}
 
 }

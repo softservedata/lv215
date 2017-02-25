@@ -10,7 +10,8 @@ import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.service.MeetingHistoryService;
 
 /**
- * MeetingHistoryCreator task to correct past meetings statuses and them to MeetingHistory table.
+ * MeetingHistoryCreator task to correct past meetings statuses and them to
+ * MeetingHistory table.
  *
  * @version 1.0 22 02 2017.
  *
@@ -32,9 +33,10 @@ public class MeetingHistoryCreator {
      */
     @Autowired
     private MeetingHistoryService meetingHistoryService;
-    
+
     /**
-     * Scheduling task to correct past meetings statuses and them to MeetingHistory table.
+     * Scheduling task to correct past meetings statuses and them to
+     * MeetingHistory table.
      *
      */
     @Scheduled(cron = "0 0 1 * * *")

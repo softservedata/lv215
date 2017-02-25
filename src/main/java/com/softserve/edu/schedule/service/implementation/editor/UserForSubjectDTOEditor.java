@@ -16,7 +16,8 @@ import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.service.UserService;
 
 /**
- * A class to provide conversion operations from form field roomId to RoomDTO.
+ * A class to provide conversion operations from form field userId to
+ * UserForSubjectDTO.
  *
  * @version 1.0 17 January 2017
  *
@@ -27,30 +28,30 @@ import com.softserve.edu.schedule.service.UserService;
 @Component
 public class UserForSubjectDTOEditor extends PropertyEditorSupport {
 
-    /**
-     * UserService example to provide search DTO operations.
-     */
-    @Autowired
-    private UserService userService;
+	/**
+	 * UserService example to provide search DTO operations.
+	 */
+	@Autowired
+	private UserService userService;
 
-    /**
-     * Provides a UserForSubjectDTO example by given user id in String format.
-     * 
-     * @param text
-     *            a user id in String format
-     * 
-     * @throws IllegalArgumentException
-     *             if @param text is not String.
-     */
-    @Override
-    public void setAsText(final String userForSUbjectDTOId)
-            throws IllegalArgumentException {
-        UserDTO user = userService.getById(Long.valueOf(userForSUbjectDTOId));
-        UserForSubjectDTO userForSubjectDTO = new UserForSubjectDTO();
-        userForSubjectDTO.setId(user.getId());
-        userForSubjectDTO.setFirstName(user.getFirstName());
-        userForSubjectDTO.setLastName(user.getLastName());
-        setValue(userForSubjectDTO);
-    }
+	/**
+	 * Provides a UserForSubjectDTO example by given user id in String format.
+	 * 
+	 * @param text
+	 *            a user id in String format
+	 * 
+	 * @throws IllegalArgumentException
+	 *             if @param text is not String.
+	 */
+	@Override
+	public void setAsText(final String userForSUbjectDTOId)
+	        throws IllegalArgumentException {
+		UserDTO user = userService.getById(Long.valueOf(userForSUbjectDTOId));
+		UserForSubjectDTO userForSubjectDTO = new UserForSubjectDTO();
+		userForSubjectDTO.setId(user.getId());
+		userForSubjectDTO.setFirstName(user.getFirstName());
+		userForSubjectDTO.setLastName(user.getLastName());
+		setValue(userForSubjectDTO);
+	}
 
 }

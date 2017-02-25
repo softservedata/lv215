@@ -207,3 +207,21 @@ textarea {
 .levelclass {
 	width: 45px;
 }
+
+.image_list {
+	list-style-type: none;
+}
+
+.room_image {
+	margin-top: 10px;
+	display: inline-block;
+}
+
+.room_image_delete {
+	margin-top: 10px;
+	margin-left: -25px;
+	display: inline-block;
+	vertical-align: top;
+	font-weight: bold;
+	color: red;
+}

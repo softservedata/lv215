@@ -20,33 +20,33 @@ import javax.validation.Payload;
  * @since 1.8
  */
 
-@Target({ ElementType.TYPE })
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = { RoomValidator.class, SubjectValidator.class,
+@Constraint(validatedBy = {RoomValidator.class, SubjectValidator.class,
         MeetingValidator.class, UserValidator.class, UserGroupValidator.class,
         LocationValidator.class, UserPasswordValidator.class,
-        FileForSubjectValidator.class })
+        FileForSubjectValidator.class, RoomEquipmentValidator.class})
 public @interface Validate {
 
-	/**
-	 * Validation message.
-	 *
-	 * @return message text
-	 */
-	String message() default "";
+    /**
+     * Validation message.
+     *
+     * @return message text
+     */
+    String message() default "";
 
-	/**
-	 * Validation groups.
-	 *
-	 * @return validation groups
-	 */
-	Class<?>[] groups() default {};
+    /**
+     * Validation groups.
+     *
+     * @return validation groups
+     */
+    Class<?>[] groups() default {};
 
-	/**
-	 * Validation payload.
-	 *
-	 * @return validation payload
-	 */
-	Class<? extends Payload>[] payload() default {};
+    /**
+     * Validation payload.
+     *
+     * @return validation payload
+     */
+    Class<? extends Payload>[] payload() default {};
 
 }

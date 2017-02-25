@@ -38,6 +38,11 @@ public interface ValidationMessages {
     String DUPLICATE_ROOM = "vm.duplicateRoom";
 
     /**
+     * Duplicate room equipment message bundle mapping.
+     */
+    String DUPLICATE_ROOM_EQUIPMENT = "vm.duplicateRoomEquipment";
+
+    /**
      * Duplicate mail.
      */
     String DUPLICATE_MAIL = "vm.duplicateMail";
@@ -161,10 +166,19 @@ public interface ValidationMessages {
      * Invalid meeting status.
      */
     String INVALID_STATUS = "vm.ivdalidStatus";
-    
+
     /**
      * Invalid size.
      */
     String FILE_TO_LARGE = "vm.invalidSize";
+    
+    /**
+     * Invalid size.
+     */
+    String FILE_WRONG_CONTENT_TYPE = "vm.wrongContentType";
 
+    /**
+     * Invalid size.
+     */
+    String FILE_DUPLICATE = "vm.duplicateFile";
 }

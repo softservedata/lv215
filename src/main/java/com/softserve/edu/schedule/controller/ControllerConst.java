@@ -12,840 +12,925 @@ package com.softserve.edu.schedule.controller;
  */
 public interface ControllerConst {
 
-	/**
-	 * Application root URL.
-	 */
-	String ROOT_URL = "/";
-
-	/**
-	 * Index page URL.
-	 */
-	String INDEX_URL = "index";
-
-	/**
-	 * Error handling page URL.
-	 */
-	String ERROR_PAGE_URL = "error";
-
-	/**
-	 * Exception model attribute name.
-	 */
-	String EXCEPTION_MODEL_ATTR = "exception";
-
-	/**
-	 * An interface to storage room controller model attributes and mappings
-	 * URL.
-	 *
-	 * @version 1.0 20 January 2017
-	 *
-	 * @author Petro Zelyonka
-	 *
-	 * @since 1.8
-	 */
-
-	public interface RoomControllerConst {
-		/**
-		 * Room model attribute name.
-		 */
-		String ROOM_MODEL_ATTR = "room";
-
-		/**
-		 * Rooms model attribute name.
-		 */
-		String ROOMS_MODEL_ATTR = "rooms";
-
-		/**
-		 * Locations model attribute name.
-		 */
-		String LOCATIONS_MODEL_ATTR = "locations";
-
-		/**
-		 * Room equipments model attribute name.
-		 */
-		String EQUIPMENTS_MODEL_ATTR = "equipments";
-
-		/**
-		 * Room meetings model attribute name.
-		 */
-		String MEETINGS_MODEL_ATTR = "meetings";
-
-		/**
-		 * Filter model attribute name.
-		 */
-		String FILTER_MODEL_ATTR = "roomFilter";
-
-		/**
-		 * Filter model attribute name.
-		 */
-		String ROOM_PAGINATOR_MODEL_ATTR = "roomPaginator";
-
-		/**
-		 * Date filter model attribute name.
-		 */
-		String DATE_FILTER_MODEL_ATTR = "dateFilter";
-
-		/**
-		 * Path variable for room id name.
-		 */
-		String PATH_VAR_ID = "id";
-
-		/**
-		 * Rooms section URL name.
-		 */
-		String ROOMS_URL = "/rooms";
-
-		/**
-		 * Rooms list URL name.
-		 */
-		String ROOMS_LIST_URL = "rooms/list";
+    /**
+     * Application root URL.
+     */
+    String ROOT_URL = "/";
+
+    /**
+     * Index page URL.
+     */
+    String INDEX_URL = "index";
+
+    /**
+     * Error handling page URL.
+     */
+    String ERROR_PAGE_URL = "error";
+
+    /**
+     * Exception model attribute name.
+     */
+    String EXCEPTION_MODEL_ATTR = "exception";
+
+    /**
+     * An interface to storage room controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Petro Zelyonka
+     *
+     * @since 1.8
+     */
+
+    public interface RoomControllerConst {
+
+        /**
+         * Room edit permissions.
+         */
+        String ROOM_EDIT_PERMISSIONS = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
+
+        /**
+         * Room model attribute name.
+         */
+        String ROOM_MODEL_ATTR = "room";
+
+        /**
+         * Rooms model attribute name.
+         */
+        String ROOMS_MODEL_ATTR = "rooms";
+
+        /**
+         * Locations model attribute name.
+         */
+        String LOCATIONS_MODEL_ATTR = "locations";
+
+        /**
+         * Room equipments model attribute name.
+         */
+        String EQUIPMENTS_MODEL_ATTR = "equipments";
+
+        /**
+         * Room meetings model attribute name.
+         */
+        String MEETINGS_MODEL_ATTR = "meetings";
+
+        /**
+         * Filter model attribute name.
+         */
+        String FILTER_MODEL_ATTR = "roomFilter";
+
+        /**
+         * Paginator model attribute name.
+         */
+        String ROOM_PAGINATOR_MODEL_ATTR = "roomPaginator";
+
+        /**
+         * Room files model attribute name.
+         */
+        String ROOM_FILES_MODEL_ATTR = "roomFiles";
+
+        /**
+         * Date filter model attribute name.
+         */
+        String DATE_FILTER_MODEL_ATTR = "dateFilter";
+
+        /**
+         * Path variable for room id name.
+         */
+        String PATH_VAR_ID = "id";
+
+        /**
+         * Rooms section URL name.
+         */
+        String ROOMS_URL = "/rooms";
+
+        /**
+         * Rooms list URL name.
+         */
+        String ROOMS_LIST_URL = "rooms/list";
+
+        /**
+         * Rooms list redirect URL name.
+         */
+        String ROOMS_REDIRECT_URL = "redirect:/rooms";
 
-		/**
-		 * Rooms list redirect URL name.
-		 */
-		String ROOMS_REDIRECT_URL = "redirect:/rooms";
+        /**
+         * Show room details URL name.
+         */
+        String ROOM_SHOW_URL = "rooms/show";
 
-		/**
-		 * Show room details URL name.
-		 */
-		String ROOM_SHOW_URL = "rooms/show";
+        /**
+         * Show room details mapping URL name.
+         */
+        String ROOM_SHOW_MAPPING = "/{id}";
 
-		/**
-		 * Show room details mapping URL name.
-		 */
-		String ROOM_SHOW_MAPPING = "/{id}";
+        /**
+         * Edit room information URL name.
+         */
+        String ROOM_EDIT_URL = "rooms/edit";
 
-		/**
-		 * Edit room information URL name.
-		 */
-		String ROOM_EDIT_URL = "rooms/edit";
+        /**
+         * Edit room information mapping URL name.
+         */
+        String ROOM_EDIT_MAPPING = "/edit/{id}";
 
-		/**
-		 * Edit room information mapping URL name.
-		 */
-		String ROOM_EDIT_MAPPING = "/edit/{id}";
+        /**
+         * Create new room URL name.
+         */
+        String ROOM_CREATE_URL = "rooms/create";
 
-		/**
-		 * Create new room URL name.
-		 */
-		String ROOM_CREATE_URL = "rooms/create";
+        /**
+         * Create new room mapping URL name.
+         */
+        String ROOM_CREATE_MAPPING = "/create";
 
-		/**
-		 * Create new room mapping URL name.
-		 */
-		String ROOM_CREATE_MAPPING = "/create";
+        /**
+         * Delete room mapping URL name.
+         */
+        String ROOM_DELETE_MAPPING = "/delete/{id}";
 
-		/**
-		 * Delete room mapping URL name.
-		 */
-		String ROOM_DELETE_MAPPING = "/delete/{id}";
-	}
+        /**
+         * Room upload file mapping URL name.
+         */
+        String ROOM_FILE_UPLOAD_MAPPING = "/edit/{id}/uploadfile";
 
-	public interface RegistrationControllerConst {
+        /**
+         * Room delete file mapping URL name.
+         */
+        String ROOM_FILE_DELETE_MAPPING = "/deleteFile/{fileName}/{id}";
 
-		String USER_REGIST_MAPPING_FROM_STARTPAGE = "registration";
+        /**
+         * Room download file mapping URL name.
+         */
+        String ROOM_FILE_DOWNLOAD_MAPPING = "/downloadFile/{fileName}/{roomId}";
 
-		String USER_REGIST_MAPPING_FOR_ADMIN = "users/registration";
+        /**
+         * Room upload file redirect URL name.
+         */
+        String ROOM_FILE_REDIRECT_URL = "redirect:/rooms/edit/{id}";
+    }
 
-		String USER_REGIST_MODEL_ATTR = "userFormCreate";
+    public interface RegistrationControllerConst {
 
-		String USER_REGIST_URL = "users/registration";
+        String USER_REGIST_MAPPING_FROM_STARTPAGE = "registration";
 
-		String REDIRECT_STARTPAGE = "redirect:/";
+        String USER_REGIST_MAPPING_FOR_ADMIN = "users/registration";
 
-		String REDIRECT_USERS_PAGE = "redirect:/users";
-	}
+        String USER_REGIST_MODEL_ATTR = "userFormCreate";
 
-	/**
-	 * An interface to storage User controller model attributes and mappings
-	 * URL.
-	 *
-	 * @version 1.0 20 January 2017
-	 *
-	 * @author Serhiy Dudynsky
-	 *
-	 * @since 1.8
-	 */
-	public interface UserControllerConst {
+        String USER_REGIST_URL = "users/registration";
 
-		String USERS_MAPPING_FROM_HEADER = "/users";
+        String REDIRECT_STARTPAGE = "redirect:/";
 
-		String DELETE_USER_MAPPING = "/users/delete/";
+        String REDIRECT_USERS_PAGE = "redirect:/users";
+    }
 
-		String UPDATE_USER_MAPPING = "update/";
+    /**
+     * An interface to storage User controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Serhiy Dudynsky
+     *
+     * @since 1.8
+     */
+    public interface UserControllerConst {
 
-		String SAVE_UPDATED_USER_MAPPING = "update/saveUpdatedUser/";
+        String USERS_MAPPING_FROM_HEADER = "/users";
 
-		String BAN_USER_MAPPING = "/users/banUser/";
+        String DELETE_USER_MAPPING = "/users/delete/";
 
-		String UNBAN_USER_MAPPING = "/users/unBanUser/";
+        String UPDATE_USER_MAPPING = "update/";
 
-		String CHANGE_ROLE_MAPPING = "/changeRole/";
+        String SAVE_UPDATED_USER_MAPPING = "update/saveUpdatedUser/";
 
-		String SAVE_CHANGED_ROLE_MAPPING = "/users/changeRole/saveChangedRole/";
+        String BAN_USER_MAPPING = "/users/banUser/";
 
-		String SORT_BY_LASTNAME_ASC_MAPPING = "/users/sortbylastnameasc";
+        String UNBAN_USER_MAPPING = "/users/unBanUser/";
 
-		String SORT_BY_LASTNAME_DESC_MAPPING = "/users/sortbylastnamedesc";
+        String CHANGE_ROLE_MAPPING = "/changeRole/";
 
-		String SORT_BY_POSITION_ASC_MAPPING = "/users/sortbypositionasc";
+        String SAVE_CHANGED_ROLE_MAPPING = "/users/changeRole/saveChangedRole/";
 
-		String SORT_BY_POSITION_DESC_MAPPING = "/users/sortbypositiondesc";
+        String SORT_BY_LASTNAME_ASC_MAPPING = "/users/sortbylastnameasc";
 
-		String SEARCH_BY_LASTNANE_MAPPING = "/user/searchByLastName";
+        String SORT_BY_LASTNAME_DESC_MAPPING = "/users/sortbylastnamedesc";
 
-		String SEARCH_BY_POSITION_MAPPING = "/user/searchByPosition";
+        String SORT_BY_POSITION_ASC_MAPPING = "/users/sortbypositionasc";
 
-		String USERS_MODEL_ATTR = "users";
+        String SORT_BY_POSITION_DESC_MAPPING = "/users/sortbypositiondesc";
 
-		String USER_MODEL_ATTR = "user";
+        String SEARCH_BY_LASTNANE_MAPPING = "/user/searchByLastName";
 
-		String USER_UPDATE_ATTR = "userFormUpdate";
+        String SEARCH_BY_POSITION_MAPPING = "/user/searchByPosition";
 
-		String USER_UPDATE_POSITION_ATTR = "userFormUpdatePosition";
+        String USERS_MODEL_ATTR = "users";
 
-		String USER_ROLE_ATTR = "roles";
+        String USER_MODEL_ATTR = "user";
 
-		String SEARCH_MODEL_ATTR = "search";
+        String USER_UPDATE_ATTR = "userFormUpdate";
 
-		String USERS_PAGE_URL = "users/users";
+        String USER_UPDATE_POSITION_ATTR = "userFormUpdatePosition";
 
-		String UPDATE_PAGE_URL = "users/users/updateUser";
+        String USER_ROLE_ATTR = "roles";
 
-		String CHANGE_ROLE_PAGE_URL = "users/users/changeRole";
+        String SEARCH_MODEL_ATTR = "search";
 
-		String DELETE_USER_URL = "users/users/delete";
+        String USERS_PAGE_URL = "users/users";
 
-		String USER_PROFILE_MAPPING = "profile/";
+        String UPDATE_PAGE_URL = "users/users/updateUser";
 
-		String USER_PROFILE_URL = "users/users/profile";
+        String CHANGE_ROLE_PAGE_URL = "users/users/changeRole";
 
-		String CHANGE_PASSWORD_MAPPING = "changePassword/";
+        String DELETE_USER_URL = "users/users/delete";
 
-		String SAVE_CHANGED_PASSWORD_MAPPING = "changePassword/saveChangePassword/";
+        String USER_PROFILE_MAPPING = "profile/";
 
-		String CHANGE_PASSWORD_URL = "users/users/changePassword";
+        String USER_PROFILE_URL = "users/users/profile";
 
-		String FILTER_MODEL_ATTR = "userFilter";
+        String CHANGE_PASSWORD_MAPPING = "changePassword/";
 
-		String USER_PAGINATOR_MODEL_ATTR = "userPaginator";
+        String SAVE_CHANGED_PASSWORD_MAPPING = "changePassword/saveChangePassword/";
 
-		String USER_DETAILS_MAPPING = "/userDetails";
+        String CHANGE_PASSWORD_URL = "users/users/changePassword";
 
-		String USER_DETAILS_URL = "/userDetails";
+        String FILTER_MODEL_ATTR = "userFilter";
 
-		String REDIRECT_USER_DETAILS_URL = "redirect:/userDetails";
+        String USER_PAGINATOR_MODEL_ATTR = "userPaginator";
 
-		String USER_MEETINGS_MAPPING = "showMeetings/";
+        String USER_DETAILS_MAPPING = "/userDetails";
 
-		String USER_MEETINGS_URL = "/showMeetings";
+        String USER_DETAILS_URL = "/userDetails";
 
-		String SAVE_IMAGES = "/saveImage";
+        String REDIRECT_USER_DETAILS_URL = "redirect:/userDetails";
 
-		String RESTORE_PASSWORD_MAPPING = "restorePassword";
+        String USER_MEETINGS_MAPPING = "showMeetings/";
 
-		String MAIL_MODEL_ATTR = "mail";
+        String USER_MEETINGS_URL = "/showMeetings";
 
-		String RESTORE_PASSWORD_URL = "/restorePassword";
+        String SAVE_IMAGES = "/saveImage";
 
-		String NO_SUCH_USER_URL = "/noSuchUser";
+        String RESTORE_PASSWORD_MAPPING = "restorePassword";
 
-		String PASSWORD_WAS_SENT = "/passwordWasSent";
-	}
+        String MAIL_MODEL_ATTR = "mail";
 
-	/**
-	 * An interface to storage location controller model attributes and mappings
-	 * URL.
-	 *
-	 * @version 1.0 20 January 2017
-	 *
-	 * @author Oleksandr Butyter
-	 */
-	public interface LocationControllerConst {
+        String RESTORE_PASSWORD_URL = "/restorePassword";
 
-		/**
-		 * Filter model attribute name.
-		 */
-		String FILTER_MODEL_ATTR = "locationFilter";
+        String NO_SUCH_USER_URL = "/noSuchUser";
 
-		/**
-		 * Paginator model attribute name.
-		 */
-		String LOCATION_PAGINATOR_MODEL_ATTR = "locationPaginator";
+        String PASSWORD_WAS_SENT = "/passwordWasSent";
 
-		/**
-		 * Locations model attribute name.
-		 */
-		String LOCATIONS_MODEL_ATTR = "locations";
+        String FILE = "file";
 
-		/**
-		 * Location form model attribute name.
-		 */
-		String LOCATION_FORM_MODEL_ATTR = "locationForm";
+        String PATH_VAR_ID = "id";
 
-		/**
-		 * Location map model attribute name.
-		 */
-		String LOCATION_MAP_MODEL_ATTR = "map";
+        String USER_FILES = "userFiles";
 
-		/**
-		 * Locations list URL.
-		 */
-		String LOCATIONS_LIST_URL = "locations/list";
+        String HAS_ROLE_ADMIN = "hasAnyRole('ROLE_ADMIN')";
 
-		/**
-		 * Locations list redirect URL.
-		 */
-		String LOCATIONS_REDIRECT_URL = "redirect:/locations";
+        String HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
 
-		/**
-		 * Create new location URL.
-		 */
-		String LOCATION_CREATE_URL = "locations/create";
+        String HAS_ANY_AUTHORIZED_ROLE = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')";
 
-		/**
-		 * Edit location information URL.
-		 */
-		String LOCATION_EDIT_URL = "locations/edit";
+        String IS_AUTHENTICATED = "isAuthenticated()";
+    }
 
-		/**
-		 * Map location URL.
-		 */
-		String LOCATION_MAP_URL = "locations/map";
+    /**
+     * An interface to storage location controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Oleksandr Butyter
+     */
+    public interface LocationControllerConst {
 
-		/**
-		 * Locations mapping URL.
-		 */
-		String LOCATIONS_MAPPING = "/locations";
+        /**
+         * Filter model attribute name.
+         */
+        String FILTER_MODEL_ATTR = "locationFilter";
 
-		/**
-		 * Locations sort by count rooms (asc) mapping URL.
-		 */
-		String LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING = "/locations/sortbycountroomsasc";
+        /**
+         * Paginator model attribute name.
+         */
+        String LOCATION_PAGINATOR_MODEL_ATTR = "locationPaginator";
 
-		/**
-		 * Locations sort by count rooms (desc) mapping URL.
-		 */
-		String LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING = "/locations/sortbycountroomsdesc";
+        /**
+         * Locations model attribute name.
+         */
+        String LOCATIONS_MODEL_ATTR = "locations";
 
-		/**
-		 * Delete location mapping URL name.
-		 */
-		String LOCATION_DELETE_MAPPING = "/locations/delete/";
+        /**
+         * Location form model attribute name.
+         */
+        String LOCATION_FORM_MODEL_ATTR = "locationForm";
 
-		/**
-		 * Create new location mapping URL name.
-		 */
-		String LOCATION_CREATE_MAPPING = "/locations/create";
+        /**
+         * Location map model attribute name.
+         */
+        String LOCATION_MAP_MODEL_ATTR = "map";
 
-		/**
-		 * Edit location information mapping URL name.
-		 */
-		String LOCATION_EDIT_MAPPING = "/locations/edit/";
+        /**
+         * Locations list URL.
+         */
+        String LOCATIONS_LIST_URL = "locations/list";
 
-		/**
-		 * Map location mapping URL name.
-		 */
-		String LOCATION_MAP_MAPPING = "/locations/map/";
-	}
+        /**
+         * Locations list redirect URL.
+         */
+        String LOCATIONS_REDIRECT_URL = "redirect:/locations";
 
-	/**
-	 * An interface to storage subject controller model attributes and mappings
-	 * URL.
-	 *
-	 * @version 1.0 20 January 2017
-	 *
-	 * @author Volodymyr Ped'ko
-	 *
-	 * @since 1.8
-	 */
-	public interface SubjectControllerConst {
+        /**
+         * Create new location URL.
+         */
+        String LOCATION_CREATE_URL = "locations/create";
 
-		/**
-		 * Subject form model attribute name.
-		 */
-		String SUBJECT_FORM_MODEL_ATTR = "subjectForm";
+        /**
+         * Edit location information URL.
+         */
+        String LOCATION_EDIT_URL = "locations/edit";
 
-		/**
-		 * Filter model attribute name.
-		 */
-		String FILTER_MODEL_ATTR = "subjectFilter";
+        /**
+         * Map location URL.
+         */
+        String LOCATION_MAP_URL = "locations/map";
 
-		/**
-		 * File for subject attribute name.
-		 */
-		String SUBJECT_FILES = "subjectFiles";
+        /**
+         * Locations mapping URL.
+         */
+        String LOCATIONS_MAPPING = "/locations";
 
-		/**
-		 * Filter model attribute name.
-		 */
-		String SUBJECT_PAGINATOR_MODEL_ATTR = "subjectPaginator";
+        /**
+         * Locations sort by count rooms (asc) mapping URL.
+         */
+        String LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING = "/locations/sortbycountroomsasc";
 
-		/**
-		 * File model attribute name.
-		 */
-		String SUBJECT_FILE_FORM = "fileForSubjectForm";
+        /**
+         * Locations sort by count rooms (desc) mapping URL.
+         */
+        String LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING = "/locations/sortbycountroomsdesc";
 
-		/**
-		 * Subjects model attribute name.
-		 */
-		String SUBJECTS_MODEL_ATTR = "subjects";
+        /**
+         * Delete location mapping URL name.
+         */
+        String LOCATION_DELETE_MAPPING = "/locations/delete/";
 
-		/**
-		 * Subject model attribute name.
-		 */
-		String SUBJECT_MODEL_ATTR = "subject";
+        /**
+         * Create new location mapping URL name.
+         */
+        String LOCATION_CREATE_MAPPING = "/locations/create";
 
-		/**
-		 * Users model attribute name.
-		 */
-		String USERS_MODEL_ATTR = "users";
+        /**
+         * Edit location information mapping URL name.
+         */
+        String LOCATION_EDIT_MAPPING = "/locations/edit/";
 
-		/**
-		 * Subjects list URL.
-		 */
-		String SUBJECTS_LIST_URL = "subjects/list";
+        /**
+         * Map location mapping URL name.
+         */
+        String LOCATION_MAP_MAPPING = "/locations/map/";
+    }
 
-		/**
-		 * Subjects list redirect URL.
-		 */
-		String SUBJECTS_REDIRECT_URL = "redirect:/subjects";
+    /**
+     * An interface to storage subject controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Volodymyr Ped'ko
+     *
+     * @since 1.8
+     */
+    public interface SubjectControllerConst {
 
-		/**
-		 * Subject file delete redirect URL.
-		 */
-		String SUBJECT_DELETE_FILE_URL = "redirect:/subjects/{id}";
+        /**
+         * Subject form model attribute name.
+         */
+        String SUBJECT_FORM_MODEL_ATTR = "subjectForm";
 
-		/**
-		 * Create new Subject URL.
-		 */
-		String SUBJECT_CREATE_URL = "subjects/create";
+        /**
+         * Filter model attribute name.
+         */
+        String FILTER_MODEL_ATTR = "subjectFilter";
 
-		/**
-		 * Edit subject information URL.
-		 */
-		String SUBJECTS_EDIT_URL = "subjects/edit";
+        /**
+         * File for subject attribute name.
+         */
+        String SUBJECT_FILES = "subjectFiles";
 
-		/**
-		 * Show subject information URL.
-		 */
-		String SUBJECTS_SHOW_URL = "subjects/show";
+        /**
+         * Filter model attribute name.
+         */
+        String SUBJECT_PAGINATOR_MODEL_ATTR = "subjectPaginator";
 
-		/**
-		 * Subjects mapping URL.
-		 */
-		String SUBJECTS_MAPPING = "/subjects";
+        /**
+         * File model attribute name.
+         */
+        String SUBJECT_FILE_FORM = "fileForSubjectForm";
 
-		/**
-		 * Subject delete mapping URL.
-		 */
-		String SUBJECT_DELETE_FILE_MAPPING = "/subjects/deleteFile/";
+        /**
+         * Subjects model attribute name.
+         */
+        String SUBJECTS_MODEL_ATTR = "subjects";
 
-		/**
-		 * Subject download mapping URL.
-		 */
-		String SUBJECT_DOWNLOAD_FILE_MAPPING = "/subjects/downloadFile/";
+        /**
+         * Subject model attribute name.
+         */
+        String SUBJECT_MODEL_ATTR = "subject";
 
-		/**
-		 * Subjects mapping URL.
-		 */
-		String SUBJECTS_MAPPING_SHOW = "/subjects/";
+        /**
+         * Users model attribute name.
+         */
+        String USERS_MODEL_ATTR = "users";
 
-		/**
-		 * Delete subject mapping URL name.
-		 */
-		String SUBJECT_DELETE_MAPPING = "/subjects/delete/";
+        /**
+         * Subjects list URL.
+         */
+        String SUBJECTS_LIST_URL = "subjects/list";
 
-		/**
-		 * Create new subject mapping URL name.
-		 */
-		String SUBJECT_CREATE_MAPPING = "/subjects/create";
+        /**
+         * Subjects list redirect URL.
+         */
+        String SUBJECTS_REDIRECT_URL = "redirect:/subjects";
 
-		/**
-		 * Edit subject information mapping URL name.
-		 */
-		String SUBJECT_EDIT_MAPPING = "/subjects/edit/";
+        /**
+         * Subject file delete redirect URL.
+         */
+        String SUBJECT_DELETE_FILE_URL = "redirect:/subjects/{id}";
 
-		/**
-		 * Subject field id.
-		 */
-		String SUBJECT_PATH_ID = "id";
+        /**
+         * Create new Subject URL.
+         */
+        String SUBJECT_CREATE_URL = "subjects/create";
 
-		/**
-		 * Subject field name.
-		 */
-		String SUBJECT_PATH_NAME = "name";
+        /**
+         * Edit subject information URL.
+         */
+        String SUBJECTS_EDIT_URL = "subjects/edit";
 
-		/**
-		 * Subject field description.
-		 */
-		String SUBJECT_PATH_DESCRIPTION = "description";
+        /**
+         * Show subject information URL.
+         */
+        String SUBJECTS_SHOW_URL = "subjects/show";
 
-		/**
-		 * Subject field lastName.
-		 */
-		String SUBJECT_PATH_LASTNAME = "lastName";
+        /**
+         * Subjects mapping URL.
+         */
+        String SUBJECTS_MAPPING = "/subjects";
 
-		/**
-		 * Subject field users.
-		 */
-		String SUBJECT_PATH_USERS = "users";
-
-		/**
-		 * Subject field users.
-		 */
-		String SUBJECT_PATH_USER_ID = "userId";
-
-		/**
-		 * Security permission.
-		 */
-		String HAS_ANY_ROLE = "hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')";
-
-		/**
-		 * Security permission.
-		 */
-		String HAS_ANY_ROLE_EXEPT_USER = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')";
-
-		/**
-		 * Acces for files download.
-		 */
-		String ACCES_FILES = "image/jpeg, image/gif, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, "
-				+ "application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-powerpoint, "
-				+ "application/vnd.openxmlformats-officedocument.presentationml.presentation, application/pdf";
-	}
-
-	/**
-	 * An interface that stores all constants for USerGroup controller.
-	 *
-	 * @author Andrew Zhydenko
-	 *
-	 */
-	public interface UserGroupControllerConst {
-
-		/**
-		 * Filter attribute for groups.
-		 */
-		String FILTER_MODEL_ATTR = "usergroupFilter";
-
-		/**
-		 * Paginator attribute for groups.
-		 */
-		String USERGROUP_PAGINATOR_MODEL_ATTR = "usergroupPaginator";
-
-		/**
-		 * UserGroup model attribute name.
-		 */
-		String USERGROUP_MODEL_ATTR = "userGroupForm";
-
-		/**
-		 * UserGroups model attribute name.
-		 */
-		String USERGROUPS_MODEL_ATTR = "usergroups";
-
-		/**
-		 * UserGroup create mapping name.
-		 */
-		String USERGROUP_CREATE_MAPPING = "/create";
-
-		/**
-		 * UserGroup delete mapping name.
-		 */
-		String USERGROUP_DELETE_MAPPING = "/delete/{id}";
-
-		/**
-		 * UserGroups delete mapping name.
-		 */
-		String USERGROUPS_DELETE_MAPPING = "/usergroups/delete/";
-
-		/**
-		 * UserGroup create url name.
-		 */
-		String USERGROUP_CREATE_URL = "usergroups/create";
-
-		/**
-		 * UserGroup edit url name.
-		 */
-		String USERGROUP_EDIT_URL = "usergroups/edit";
-
-		/**
-		 * UserGroup edit mapping name.
-		 */
-		String USERGROUP_EDIT_MAPPING = "/edit/{id}";
-
-		/**
-		 * UserGroup redirect url name.
-		 */
-		String USERGROUP_REDIRECT_URL = "redirect:/usergroups";
-
-		/**
-		 * UserGroup list url name.
-		 */
-		String USERGROUP_LIST_URL = "usergroups/list";
-
-		/**
-		 * Mapping for searching.
-		 */
-		String SEARCH_MODEL_ATTR = "search";
-
-		/**
-		 * Curators attribute.
-		 */
-		String USERGROUP_CURATORS_ATTR = "curators";
-
-		/**
-		 * Curator attribute.
-		 */
-		String USERGROUP_CURATOR_ATTR = "curator";
-
-		/**
-		 * All users attribute.
-		 */
-		String USERGROUP_ALL_USERS_ATTR = "allUsers";
-
-		/**
-		 * Levels attribute.
-		 */
-		String USERGROUP_LEVEL_ATTR = "levels";
-
-		/**
-		 * Mapping on a usergroups page.
-		 */
-		String USERGROUP_MAPPING = "/usergroups";
-
-		/**
-		 * Path name.
-		 */
-		String USERGROUP_PATH_NAME = "name";
-
-		/**
-		 * Path curator's lastname.
-		 */
-		String USERGROUP_PATH_CURATOR_LASTNAME = "curator.lastName";
-
-		/**
-		 * UserGroup details mapping URL name.
-		 */
-		String USERGROUP_SHOW_MAPPING = "/{id}";
-
-		/**
-		 * Path variable for usergroup id.
-		 */
-		String PATH_VAR_ID = "id";
-
-		/**
-		 * Show group details URL name.
-		 */
-		String USERGROUP_SHOW_URL = "usergroups/show";
-
-		/**
-		 * Group members attribute.
-		 */
-		String USERGROUP_GROUP_MEMBERS = "groupMembers";
-
-		/**
-		 * Minimum description length.
-		 */
-		int MIN_GROUP_DESCRIPTION_LENGTH = 15;
-
-		/**
-		 * Maximum description length.
-		 */
-		int MAX_GROUP_DESCRIPTION_LENGTH = 100;
-
-		/**
-		 * Minimum group name length.
-		 */
-		int MIN_GROUP_NAME_LENGTH = 5;
-
-		/**
-		 * Maximum group name length.
-		 */
-		int MAX_GROUP_NAME_LENGTH = 20;
-
-		/**
-		 * Mapping to a profile from usergroups list.
-		 */
-		String USERGROUP_USER_PROFILE_MAPPING = "/profile/";
-	}
-
-	/**
-	 * An interface to storage room controller model attributes and mappings
-	 * URL.
-	 *
-	 * @version 1.0 20 January 2017
-	 *
-	 * @author Vitalii Shapovalov
-	 *
-	 * @since 1.8
-	 */
-	public interface RoomEquipmentControllerConst {
-
-		String ROOM_EQUIPMENTS_URL = "/roomequipments";
-
-		String ROOM_EQUIPMENTS_MAPPING = "/roomequipments";
-
-		String ROOM_EQUIPMENTS_CREATE = "/create";
-
-		String ROOM_EQUIPMENTS_LIST = "roomequipments/list";
-
-		String ROOM_EQUIPMENTS_CREATE_URL = "roomequipments/create";
-
-		String ROOM_EQUIPMENTS_REDIRECT = "redirect:/roomequipments";
-
-		String ROOM_EQUIPMENTS_EDIT_URL = "roomequipments/edit";
-
-		String ROOM_EQUIPMENTS_EDIT = "/edit/";
-
-		String ROOM_EQUIPMENTS_MODEL_ATTR = "equipments";
-
-		String ROOM_EQUIPMENTS_DELETE = "/delete/";
-
-		String ROOM_EQUIPMENT_FORM = "equipmentForm";
-
-		String ROOM_EQUIPMENTS_SORT_ASC = "/sortbynameasc";
-
-		String ROOM_EQUIPMENTS_SORT_DESC = "/sortbynamedesc";
-	}
-
-	/**
-	 * An interface to storage meeting controller model attributes and mappings
-	 * URL.
-	 *
-	 * @version 1.0 20 January 2017
-	 *
-	 * @author Bohdan Melnyk
-	 *
-	 * @since 1.8
-	 */
-	public interface MeetingControllerConst {
-
-		/**
-		 * Meetings section URL name.
-		 */
-		String MEETINGS_URL = "/meetings";
-
-		/**
-		 * Filter attribute for meetings.
-		 */
-		String FILTER_MODEL_ATTR = "meetingFilter";
-
-		/**
-		 * Meeting model attribute name.
-		 */
-		String MEETING_MODEL_ATTR = "meetingForm";
-
-		/**
-		 * Paginator model attribute name.
-		 */
-		String MEETING_PAGINATOR_MODEL_ATTR = "meetingPaginator";
-
-		/**
-		 * Meetings model attribute name.
-		 */
-		String MEETINGS_MODEL_ATTR = "meetings";
-
-		/**
-		 * Users model attribute name.
-		 */
-		String USERS_MODEL_ATTR = "users";
-
-		/**
-		 * Owners model attribute name.
-		 */
-		String OWNERS_MODEL_ATTR = "owners";
-
-		/**
-		 * Subjects model attribute name.
-		 */
-		String SUBJECTS_MODEL_ATTR = "subjects";
-
-		/**
-		 * Rooms model attribute name.
-		 */
-		String ROOMS_MODEL_ATTR = "rooms";
-
-		/**
-		 * Groups model attribute name.
-		 */
-		String GROUPS_MODEL_ATTR = "groups";
-
-		/**
-		 * UserGroups model attribute name.
-		 */
-		String USERGROUPS_MODEL_ATTR = "userGroups";
-
-		/**
-		 * MeetingStatuses model attribute name.
-		 */
-		String MEETINGSTATUSES_MODEL_ATTR = "meetingStatuses";
-
-		/**
-		 * Meetings create mapping name.
-		 */
-		String MEETING_CREATE_MAPPING = "/create";
-
-		/**
-		 * Meeting delete mapping name.
-		 */
-		String MEETING_DELETE_MAPPING = "/delete/{id}";
-
-		/**
-		 * Meeting create url name.
-		 */
-		String MEETING_CREATE_URL = "meetings/create";
-
-		/**
-		 * Meeting edit url name.
-		 */
-		String MEETING_EDIT_URL = "meetings/edit";
-
-		/**
-		 * Meeting edit mapping name.
-		 */
-		String MEETING_EDIT_MAPPING = "/edit/{id}";
-
-		/**
-		 * Meeting redirect url name.
-		 */
-		String MEETING_REDIRECT_URL = "redirect:/meetings";
-
-		/**
-		 * Meeting list url name.
-		 */
-		String MEETING_LIST_URL = "meetings/list";
-
-		/**
-		 * Id path.
-		 */
-		String ID_URL = "id";
-
-		/**
-		 * Meetings Id path.
-		 */
-		String MEETINGID_URL = "/{id}";
-
-		/**
-		 * Meeting showmeeting mapping name.
-		 */
-		String MEETING_SHOWMEETING_MAPPING = "meetings/showmeeting";
-		/**
-		 * User profile mapping name.
-		 */
-		String PROFILE_MAPPING = "profile";
-
-		/**
-		 * usergroups model attribute name.
-		 */
-		String USERGROUPS_MAPPING = "/usergroups";
-
-		/**
-		 * meeting delete url name.
-		 */
-		String DELETE_MAPPING = "meetings/delete";
-
-		/**
-		 * meetingHistory download url name.
-		 */
-		String DOWNLOAD_MAPPING = "/downloadExcel";
-
-	}
+        /**
+         * Subject delete mapping URL.
+         */
+        String SUBJECT_DELETE_FILE_MAPPING = "/subjects/deleteFile/";
+
+        /**
+         * Subject download mapping URL.
+         */
+        String SUBJECT_DOWNLOAD_FILE_MAPPING = "/subjects/downloadFile/";
+
+        /**
+         * Subjects mapping URL.
+         */
+        String SUBJECTS_MAPPING_SHOW = "/subjects/";
+
+        /**
+         * Delete subject mapping URL name.
+         */
+        String SUBJECT_DELETE_MAPPING = "/subjects/delete/";
+
+        /**
+         * Create new subject mapping URL name.
+         */
+        String SUBJECT_CREATE_MAPPING = "/subjects/create";
+
+        /**
+         * Edit subject information mapping URL name.
+         */
+        String SUBJECT_EDIT_MAPPING = "/subjects/edit/";
+
+        /**
+         * Subject field id.
+         */
+        String SUBJECT_PATH_ID = "id";
+
+        /**
+         * Subject field name.
+         */
+        String SUBJECT_PATH_NAME = "name";
+
+        /**
+         * Subject field description.
+         */
+        String SUBJECT_PATH_DESCRIPTION = "description";
+
+        /**
+         * Subject field lastName.
+         */
+        String SUBJECT_PATH_LASTNAME = "lastName";
+
+        /**
+         * Subject field users.
+         */
+        String SUBJECT_PATH_USERS = "users";
+
+        /**
+         * Subject field users.
+         */
+        String SUBJECT_PATH_USER_ID = "userId";
+
+        /**
+         * Security permission.
+         */
+        String HAS_ANY_ROLE = "hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')";
+
+        /**
+         * Security permission.
+         */
+        String HAS_ANY_ROLE_EXEPT_USER = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')";
+
+        /**
+         * Acces for files download.
+         */
+        String ACCES_FILES = "image/jpeg, image/gif, application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document, "
+                + "application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-powerpoint, "
+                + "application/vnd.openxmlformats-officedocument.presentationml.presentation, application/pdf";
+    }
+
+    /**
+     * An interface that stores all constants for USerGroup controller.
+     *
+     * @author Andrew Zhydenko
+     *
+     */
+    public interface UserGroupControllerConst {
+
+        /**
+         * Filter attribute for groups.
+         */
+        String FILTER_MODEL_ATTR = "usergroupFilter";
+
+        /**
+         * Paginator attribute for groups.
+         */
+        String USERGROUP_PAGINATOR_MODEL_ATTR = "usergroupPaginator";
+
+        /**
+         * UserGroup model attribute name.
+         */
+        String USERGROUP_MODEL_ATTR = "userGroupForm";
+
+        /**
+         * UserGroups model attribute name.
+         */
+        String USERGROUPS_MODEL_ATTR = "usergroups";
+
+        /**
+         * UserGroup create mapping name.
+         */
+        String USERGROUP_CREATE_MAPPING = "/create";
+
+        /**
+         * UserGroup delete mapping name.
+         */
+        String USERGROUP_DELETE_MAPPING = "/delete/{id}";
+
+        /**
+         * UserGroups delete mapping name.
+         */
+        String USERGROUPS_DELETE_MAPPING = "/usergroups/delete/";
+
+        /**
+         * UserGroup create url name.
+         */
+        String USERGROUP_CREATE_URL = "usergroups/create";
+
+        /**
+         * UserGroup edit url name.
+         */
+        String USERGROUP_EDIT_URL = "usergroups/edit";
+
+        /**
+         * UserGroup edit mapping name.
+         */
+        String USERGROUP_EDIT_MAPPING = "/edit/{id}";
+
+        /**
+         * UserGroup redirect url name.
+         */
+        String USERGROUP_REDIRECT_URL = "redirect:/usergroups";
+
+        /**
+         * UserGroup list url name.
+         */
+        String USERGROUP_LIST_URL = "usergroups/list";
+
+        /**
+         * Mapping for searching.
+         */
+        String SEARCH_MODEL_ATTR = "search";
+
+        /**
+         * Curators attribute.
+         */
+        String USERGROUP_CURATORS_ATTR = "curators";
+
+        /**
+         * Curator attribute.
+         */
+        String USERGROUP_CURATOR_ATTR = "curator";
+
+        /**
+         * All users attribute.
+         */
+        String USERGROUP_ALL_USERS_ATTR = "allUsers";
+
+        /**
+         * Levels attribute.
+         */
+        String USERGROUP_LEVEL_ATTR = "levels";
+
+        /**
+         * Mapping on a usergroups page.
+         */
+        String USERGROUP_MAPPING = "/usergroups";
+
+        /**
+         * Path name.
+         */
+        String USERGROUP_PATH_NAME = "name";
+
+        /**
+         * Path curator's lastname.
+         */
+        String USERGROUP_PATH_CURATOR_LASTNAME = "curator.lastName";
+
+        /**
+         * UserGroup details mapping URL name.
+         */
+        String USERGROUP_SHOW_MAPPING = "/{id}";
+
+        /**
+         * Path variable for usergroup id.
+         */
+        String PATH_VAR_ID = "id";
+
+        /**
+         * Show group details URL name.
+         */
+        String USERGROUP_SHOW_URL = "usergroups/show";
+
+        /**
+         * Group members attribute.
+         */
+        String USERGROUP_GROUP_MEMBERS = "groupMembers";
+
+        /**
+         * Minimum description length.
+         */
+        int MIN_GROUP_DESCRIPTION_LENGTH = 15;
+
+        /**
+         * Maximum description length.
+         */
+        int MAX_GROUP_DESCRIPTION_LENGTH = 100;
+
+        /**
+         * Minimum group name length.
+         */
+        int MIN_GROUP_NAME_LENGTH = 5;
+
+        /**
+         * Maximum group name length.
+         */
+        int MAX_GROUP_NAME_LENGTH = 20;
+
+        /**
+         * Mapping to a profile from usergroups list.
+         */
+        String USERGROUP_USER_PROFILE_MAPPING = "/profile/";
+    }
+
+    /**
+     * An interface to storage room controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Vitalii Shapovalov
+     *
+     * @since 1.8
+     */
+    public interface RoomEquipmentControllerConst {
+
+        /**
+         * Room equipment edit permissions.
+         */
+        String ROOM_EQUIPMENT_EDIT_PERMISSIONS = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
+
+        /**
+         * Room equipments section URL name.
+         */
+        String ROOM_EQUIPMENTS_URL = "/roomequipments";
+
+        /**
+         * Room equipments filter model attribute.
+         */
+        String FILTER_MODEL_ATTR = "roomEquipmentFilter";
+
+        /**
+         * Room equipments paginator model attribute.
+         */
+        String PAGINATOR_MODEL_ATTR = "roomEquipmentPaginator";
+
+        /**
+         * Room equipments model attribute.
+         */
+        String ROOM_EQUIPMENTS_MODEL_ATTR = "equipments";
+
+        /**
+         * Room equipment model attribute.
+         */
+        String ROOM_EQUIPMENT_MODEL_ATTR = "equipmentForm";
+
+        /**
+         * Room equipments list URL.
+         */
+        String ROOM_EQUIPMENTS_LIST = "roomequipments/list";
+
+        /**
+         * Room equipments edit URL mapping.
+         */
+        String ROOM_EQUIPMENTS_EDIT_MAPPING = "/edit/{id}";
+
+        /**
+         * Room equipments edit URL.
+         */
+        String ROOM_EQUIPMENTS_EDIT_URL = "roomequipments/edit";
+
+        /**
+         * Room equipments redirect URL.
+         */
+        String ROOM_EQUIPMENTS_REDIRECT_URL = "redirect:/roomequipments";
+
+        /**
+         * Room equipments create URL mapping.
+         */
+        String ROOM_EQUIPMENTS_CREATE = "/create";
+
+        /**
+         * Room equipments create URL.
+         */
+        String ROOM_EQUIPMENTS_CREATE_URL = "roomequipments/create";
+
+        /**
+         * Room equipments delete URL mapping.
+         */
+        String ROOM_EQUIPMENTS_DELETE_MAPPING = "/delete/{id}";
+
+    }
+
+    /**
+     * An interface to storage meeting controller model attributes and mappings
+     * URL.
+     *
+     * @version 1.0 20 January 2017
+     *
+     * @author Bohdan Melnyk
+     *
+     * @since 1.8
+     */
+    public interface MeetingControllerConst {
+
+        /**
+         * Meetings section URL name.
+         */
+        String MEETINGS_URL = "/meetings";
+
+        /**
+         * Filter attribute for meetings.
+         */
+        String FILTER_MODEL_ATTR = "meetingFilter";
+
+        /**
+         * Meeting model attribute name.
+         */
+        String MEETING_MODEL_ATTR = "meetingForm";
+
+        /**
+         * Paginator model attribute name.
+         */
+        String MEETING_PAGINATOR_MODEL_ATTR = "meetingPaginator";
+
+        /**
+         * Meetings model attribute name.
+         */
+        String MEETINGS_MODEL_ATTR = "meetings";
+
+        /**
+         * Users model attribute name.
+         */
+        String USERS_MODEL_ATTR = "users";
+
+        /**
+         * Owners model attribute name.
+         */
+        String OWNERS_MODEL_ATTR = "owners";
+
+        /**
+         * Subjects model attribute name.
+         */
+        String SUBJECTS_MODEL_ATTR = "subjects";
+
+        /**
+         * Rooms model attribute name.
+         */
+        String ROOMS_MODEL_ATTR = "rooms";
+
+        /**
+         * Groups model attribute name.
+         */
+        String GROUPS_MODEL_ATTR = "groups";
+
+        /**
+         * UserGroups model attribute name.
+         */
+        String USERGROUPS_MODEL_ATTR = "userGroups";
+
+        /**
+         * MeetingStatuses model attribute name.
+         */
+        String MEETINGSTATUSES_MODEL_ATTR = "meetingStatuses";
+
+        /**
+         * Meetings create mapping name.
+         */
+        String MEETING_CREATE_MAPPING = "/create";
+
+        /**
+         * Meeting delete mapping name.
+         */
+        String MEETING_DELETE_MAPPING = "/delete/{id}";
+
+        /**
+         * Meeting create url name.
+         */
+        String MEETING_CREATE_URL = "meetings/create";
+
+        /**
+         * Meeting edit url name.
+         */
+        String MEETING_EDIT_URL = "meetings/edit";
+
+        /**
+         * Meeting edit mapping name.
+         */
+        String MEETING_EDIT_MAPPING = "/edit/{id}";
+
+        /**
+         * Meeting redirect url name.
+         */
+        String MEETING_REDIRECT_URL = "redirect:/meetings";
+
+        /**
+         * Meeting list url name.
+         */
+        String MEETING_LIST_URL = "meetings/list";
+
+        /**
+         * Id path.
+         */
+        String ID_URL = "id";
+
+        /**
+         * Meetings Id path.
+         */
+        String MEETINGID_URL = "/{id}";
+
+        /**
+         * Meeting showmeeting mapping name.
+         */
+        String MEETING_SHOWMEETING_MAPPING = "meetings/showmeeting";
+        /**
+         * User profile mapping name.
+         */
+        String PROFILE_MAPPING = "profile";
+
+        /**
+         * usergroups model attribute name.
+         */
+        String USERGROUPS_MAPPING = "/usergroups";
+
+        /**
+         * meeting delete url name.
+         */
+        String DELETE_MAPPING = "meetings/delete";
+
+        /**
+         * meetingHistory download url name.
+         */
+        String DOWNLOAD_MAPPING = "/downloadExcel";
+
+    }
 }
