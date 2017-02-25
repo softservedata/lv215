@@ -172,4 +172,8 @@ public interface ValidationMessages {
      */
     String FILE_WRONG_CONTENT_TYPE = "vm.wrongContentType";
 
+    /**
+     * Invalid size.
+     */
+    String FILE_DUPLICATE = "vm.duplicateFile";
 }

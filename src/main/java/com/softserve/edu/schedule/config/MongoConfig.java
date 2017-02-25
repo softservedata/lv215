@@ -53,10 +53,10 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Override
     @Bean
     public Mongo mongo() throws Exception {
+
         MongoClientURI uri = new MongoClientURI(
                 env.getProperty("mongo.dbConnectionURI"));
         return new MongoClient(uri);
-
     }
 
     /**

@@ -5,8 +5,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page
 	import="com.softserve.edu.schedule.controller.SubjectController"%>
-	<%@ page
-	import="com.softserve.edu.schedule.controller.UserController"%>
+<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 
@@ -92,7 +91,9 @@
 										code="lbl.filePicker.browse" />&hellip; <input
 									style="display: none;" type="file" name="file"
 									accept="${SubjectController.ACCES_FILES}"> </span>
-							</label> <input type="text" class="form-control" readonly>
+							</label>
+							<form:errors path="file" />
+							<input type="text" class="form-control" readonly>
 						</div>
 					</div>
 					<div class="form-group">

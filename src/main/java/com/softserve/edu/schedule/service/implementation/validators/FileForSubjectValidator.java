@@ -1,7 +1,5 @@
 package com.softserve.edu.schedule.service.implementation.validators;
 
-import java.util.List;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
@@ -54,7 +52,7 @@ public class FileForSubjectValidator
 		boolean validSize = isValidSize(fileForSubjectDTO);
 		boolean validExpansion = isValidExpansion(fileForSubjectDTO);
 		printErrorMessages(noDuplicate, validSize, validExpansion, context);
-		return (validSize && validExpansion);
+		return (validSize && validExpansion && noDuplicate);
 	}
 
 	/**
@@ -74,6 +72,10 @@ public class FileForSubjectValidator
 		if (!validExpansion) {
 			errorMessage(ValidationFields.FILE,
 			        ValidationMessages.FILE_WRONG_CONTENT_TYPE, context);
+		}
+		if (!noDuplicate) {
+			errorMessage(ValidationFields.FILE,
+			        ValidationMessages.FILE_DUPLICATE, context);
 		}
 
 	}
@@ -106,7 +108,10 @@ public class FileForSubjectValidator
 	}
 
 	private boolean isNoDuplicate(FileForSubjectDTO fileForSubjectDTO) {
-		return false;
+		GridFSDBFile file = subjectService.retriveSubjectFileById(
+		        Long.toString(fileForSubjectDTO.getId()),
+		        fileForSubjectDTO.getFile().getOriginalFilename());
+		return (file == null);
 	}
 
 	private boolean isValidIMG(FileForSubjectDTO fileForSubjectDTO) {
