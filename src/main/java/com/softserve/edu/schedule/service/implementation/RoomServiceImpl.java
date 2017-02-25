@@ -188,12 +188,13 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public void deleteRoomFileById(Long id) {
-        fileStorageDao.deleteById("metadata.roomId", Long.toString(id));
+    public void deleteFileByRoomId(Long id, String fileName) {
+        fileStorageDao.deleteByIdAndFileName(Long.toString(id), fileName,
+                "metadata.roomId");
     }
 
     @Override
-    public void retriveRoomFileById(Long id, String fileName,
+    public void retriveFileByRoomId(Long id, String fileName,
             HttpServletResponse response) throws IOException {
         GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(
                 Long.toString(id), fileName, "metadata.roomId");
