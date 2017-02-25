@@ -44,7 +44,7 @@ public class MeetingValidator
      * 
      */
     @Autowired
-    MeetingService meetingService;
+    private MeetingService meetingService;
 
     /**
      * Initializes the validator in preparation for calls. The constraint
@@ -65,7 +65,7 @@ public class MeetingValidator
      * 
      * @return true if description is valid
      */
-    private boolean isValidDescription(MeetingDTO meetingDTO) {
+    private boolean isValidDescription(final MeetingDTO meetingDTO) {
         return ((meetingDTO.getDescription() != null)
                 && (meetingDTO.getDescription().matches(
                         ValidationCriteria.PATTERN_FOR_MEETING_DESCRIPTION)));
@@ -79,7 +79,7 @@ public class MeetingValidator
      * 
      * @return true if date field is valid
      */
-    private boolean isValidDate(MeetingDTO meetingDTO) {
+    private boolean isValidDate(final MeetingDTO meetingDTO) {
         return meetingDTO.getDate() != null
                 && meetingDTO.getDate().isAfter(LocalDate.now().minusDays(1));
     }
@@ -92,7 +92,7 @@ public class MeetingValidator
      * 
      * @return true if startTime is valid
      */
-    private boolean isValidStartTime(MeetingDTO meetingDTO) {
+    private boolean isValidStartTime(final MeetingDTO meetingDTO) {
         return meetingDTO.getStartTime() != null;
     }
 
@@ -104,7 +104,7 @@ public class MeetingValidator
      * 
      * @return true if endTime is valid
      */
-    private boolean isValidEndTime(MeetingDTO meetingDTO) {
+    private boolean isValidEndTime(final MeetingDTO meetingDTO) {
         return meetingDTO.getEndTime() != null;
     }
 
@@ -115,7 +115,8 @@ public class MeetingValidator
      * 
      * @return true if endTime is after startTime.
      */
-    private boolean isValidEndTimeToCompareStartTime(MeetingDTO meetingDTO) {
+    private boolean isValidEndTimeToCompareStartTime(
+            final MeetingDTO meetingDTO) {
         return isValidStartTime(meetingDTO) && isValidEndTime(meetingDTO)
                 && meetingDTO.getEndTime().isAfter(meetingDTO.getStartTime());
     }
@@ -127,7 +128,7 @@ public class MeetingValidator
      * 
      * @return True if userGroups are selected.
      */
-    private boolean isValidMultiselectGroups(MeetingDTO meetingDTO) {
+    private boolean isValidMultiselectGroups(final MeetingDTO meetingDTO) {
         return meetingDTO.getGroups().size() > ValidationCriteria.ZERO;
     }
 
@@ -139,7 +140,7 @@ public class MeetingValidator
      * 
      * @return true if level inputed correctly.
      */
-    private boolean isValidLevel(MeetingDTO meetingDTO) {
+    private boolean isValidLevel(final MeetingDTO meetingDTO) {
         if (meetingDTO.getLevel() == null) {
             return false;
         }
@@ -156,7 +157,7 @@ public class MeetingValidator
      * 
      * @return true if status inputed correctly.
      */
-    private boolean isValidMeetingStatus(MeetingDTO meetingDTO) {
+    private boolean isValidMeetingStatus(final MeetingDTO meetingDTO) {
         if (meetingDTO.getDate() != null) {
             if (meetingDTO.getDate().isAfter(LocalDate.now())) {
                 return ((meetingDTO.getStatus() != MeetingStatus.FINISHED)
@@ -189,7 +190,7 @@ public class MeetingValidator
      * @param meetingDTO
      * @return true, if it is original.
      */
-    private boolean isOriginMeeting(MeetingDTO meetingDTO) {
+    private boolean isOriginMeeting(final MeetingDTO meetingDTO) {
         List<MeetingDTO> listOfDuplicates = meetingService
                 .duplicatesOfGivenDTO(meetingDTO);
         return ((listOfDuplicates.isEmpty()) || listOfDuplicates.stream()
@@ -207,8 +208,8 @@ public class MeetingValidator
      * @param context
      *            context of sent message.
      */
-    private void errorMessage(String field, String message,
-            ConstraintValidatorContext context) {
+    private void errorMessage(final String field, final String message,
+            final ConstraintValidatorContext context) {
         context.disableDefaultConstraintViolation();
         context.buildConstraintViolationWithTemplate(messageSource.getMessage(
                 message, new String[0], LocaleContextHolder.getLocale()))
@@ -227,7 +228,7 @@ public class MeetingValidator
      */
     @Override
     public boolean isValid(final MeetingDTO meetingDTO,
-            ConstraintValidatorContext context) {
+            final ConstraintValidatorContext context) {
 
         boolean isValidDescription = isValidDescription(meetingDTO);
         boolean isValidDate = isValidDate(meetingDTO);
@@ -265,12 +266,13 @@ public class MeetingValidator
      * @param isOriginMeeting
      * @param context
      */
-    private void printErrorMessages(boolean isValidDescription,
-            boolean isValidDate, boolean isValidStartTime,
-            boolean isValidEndTime, boolean isValidEndTimeToCompareStartTime,
-            boolean isValidMultiselectGroups, boolean isValidLevel,
-            boolean isValidMeetingStatus, boolean isOriginMeeting,
-            ConstraintValidatorContext context) {
+    private void printErrorMessages(final boolean isValidDescription,
+            final boolean isValidDate, final boolean isValidStartTime,
+            final boolean isValidEndTime,
+            final boolean isValidEndTimeToCompareStartTime,
+            final boolean isValidMultiselectGroups, final boolean isValidLevel,
+            final boolean isValidMeetingStatus, final boolean isOriginMeeting,
+            final ConstraintValidatorContext context) {
         if (!isValidDescription) {
             errorMessage(ValidationFields.DESCRIPTION,
                     ValidationMessages.INVALID_CHARACTERS, context);
