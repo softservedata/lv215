@@ -19,7 +19,6 @@ import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.service.MeetingService;
-import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingCanceledMailService;
 import com.softserve.edu.schedule.service.implementation.mailsenders.SubjectDeleteMailSender;
 
 /**
@@ -32,13 +31,6 @@ import com.softserve.edu.schedule.service.implementation.mailsenders.SubjectDele
  * @since 1.8
  */
 public class SubjectEntityListner {
-
-    /**
-     * MeetingCanceledMailService example to provide send mail to user
-     * operations.
-     */
-    @Autowired
-    private MeetingCanceledMailService meetingCanceledMailService;
 
     /**
      * UserGroupDeletedMailService example to provide send mail to user
@@ -67,7 +59,6 @@ public class SubjectEntityListner {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         List<Meeting> meetingsToChange = new ArrayList<>();
         correctMeeting(subject, meetingsToChange);
-        mailsForMeetinOwners(meetingsToChange);
         mailsForSubjectTutors(subject);
     }
 
@@ -86,19 +77,6 @@ public class SubjectEntityListner {
     			}
     			meetingService.deleteById(m.getId());
     		});
-    }
-
-    /**
-     * Sends mail to meeting owners.
-     * 
-     * @param meetings
-     *            meetings to get owner
-     *
-     */
-    private void mailsForMeetinOwners(final List<Meeting> meetings) {
-        meetings.forEach(
-                m -> meetingCanceledMailService.sendInfoMessageSubjectDelete(m,
-                        LocaleContextHolder.getLocale()));
     }
 
     /**
