@@ -841,7 +841,7 @@ public interface ControllerConst {
         /**
          * Subjects model attribute name.
          */
-        String SUBJECTS_MODEL_ATTR = "subjects";
+        String SUBJECTS_MODEL_ATTR = "subjects/show";
 
         /**
          * Rooms model attribute name.

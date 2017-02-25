@@ -95,8 +95,6 @@ public class FileForSubjectValidator
 			        ValidationMessages.FILE_WRONG_CONTENT_TYPE, context);
 		}
 		if (!noDuplicate) {
-			System.out.println(ValidationFields.FILE);
-			System.out.println(ValidationMessages.FILE_DUPLICATE);
 			errorMessage(ValidationFields.FILE,
 			        ValidationMessages.FILE_DUPLICATE, context);
 		}
@@ -114,12 +112,10 @@ public class FileForSubjectValidator
 	 */
 	private void errorMessage(final String field, final String message,
 	        final ConstraintValidatorContext context) {
-		System.out.println("IN ERROR MESSAGE");
 		context.disableDefaultConstraintViolation();
 		context.buildConstraintViolationWithTemplate(messageSource.getMessage(
 		        message, new String[0], LocaleContextHolder.getLocale()))
 		        .addPropertyNode(field).addConstraintViolation();
-		System.out.println("OUT OF ERROR MESSAGE");
 	}
 
 	/**
@@ -156,7 +152,6 @@ public class FileForSubjectValidator
 	 * @return true if validation is succes
 	 */
 	private boolean isNoDuplicate(FileForSubjectDTO fileForSubjectDTO) {
-		System.out.println("IN DUPLICATE CHECK");
 		GridFSDBFile file = subjectService.retriveSubjectFileById(
 		        Long.toString(fileForSubjectDTO.getId()),
 		        fileForSubjectDTO.getFile().getOriginalFilename());
