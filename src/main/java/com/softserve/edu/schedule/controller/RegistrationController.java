@@ -79,15 +79,15 @@ public class RegistrationController
 
     /**
      * Process login of existed user.
-     * 
+     *
      * @param request
      *            WebRequest instance to get social connection
-     * 
+     *
      * @param connection
      *            connection with social service
      * @param userDetails
      *            user details to process login
-     * 
+     *
      * @return calendar URL if user active or login URL with error if login
      *         inactive
      */
@@ -132,12 +132,16 @@ public class RegistrationController
      *            WebRequest instance to get social connection
      *
      * @return start page URL
+     *
+     * @throws IOException
+     *             if something happens while upload user image
      */
     @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE,
             method = RequestMethod.POST)
     public String newUserFromStartPage(
             @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
-            final BindingResult br, final WebRequest request) throws IOException{
+            final BindingResult br, final WebRequest request)
+            throws IOException {
         if (br.hasErrors()) {
             return USER_REGIST_URL;
         }
@@ -159,7 +163,8 @@ public class RegistrationController
      *            binding result to check validation errors
      *
      * @return users page URL
-     * @throws IOException 
+     * @throws IOException
+     *             if something happens while upload user image
      */
     @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN,
             method = RequestMethod.POST)

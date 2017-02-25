@@ -301,7 +301,7 @@ public class MeetingServiceImpl implements MeetingService {
      *
      */
     private boolean meetingHasConflictWithExistedMeeting(
-            MeetingDTO meetingDTO) {
+            final MeetingDTO meetingDTO) {
         List<Meeting> existedMeetings = meetingDao
                 .getMeetingsInIntervalByRoomId(meetingDTO.getRoom().getId(),
                         meetingDTO.getDate(), meetingDTO.getDate());
