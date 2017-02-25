@@ -20,6 +20,11 @@ import javax.persistence.IdClass;
 public class UserConnection {
 
     /**
+     * Length of big string fields.
+     */
+    private static final int LENGTH_OF_BIG_FIELDS = 512;
+
+    /**
      * User id.
      */
     @Column(nullable = false)
@@ -53,31 +58,31 @@ public class UserConnection {
     /**
      * User profile URL.
      */
-    @Column(length = 512)
+    @Column(length = LENGTH_OF_BIG_FIELDS)
     private String profileUrl;
 
     /**
      * User image URL.
      */
-    @Column(length = 512)
+    @Column(length = LENGTH_OF_BIG_FIELDS)
     private String imageUrl;
 
     /**
      * Provider access token.
      */
-    @Column(nullable = false, length = 512)
+    @Column(nullable = false, length = LENGTH_OF_BIG_FIELDS)
     private String accessToken;
 
     /**
      * Provider secret.
      */
-    @Column(length = 512)
+    @Column(length = LENGTH_OF_BIG_FIELDS)
     private String secret;
 
     /**
      * Provider refresh token.
      */
-    @Column(length = 512)
+    @Column(length = LENGTH_OF_BIG_FIELDS)
     private String refreshToken;
 
     /**

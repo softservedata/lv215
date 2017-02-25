@@ -2,8 +2,6 @@
 package com.softserve.edu.schedule.controller;
 
 import java.io.IOException;
-import java.time.LocalDate;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +27,6 @@ import com.softserve.edu.schedule.dto.filter.RoomFilter;
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.RoomEquipmentService;
 import com.softserve.edu.schedule.service.RoomService;
-import com.softserve.edu.schedule.service.implementation.editor.DateEditor;
 import com.softserve.edu.schedule.service.implementation.editor.LocationDTOEditor;
 import com.softserve.edu.schedule.service.implementation.editor.RoomEquipmentDTOEditor;
 
@@ -82,13 +79,6 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     private RoomEquipmentDTOEditor roomEquipmentDTOEditor;
 
     /**
-     * DateEditor example to provide conversions from form date fields to
-     * LocalDate objects.
-     */
-    @Autowired
-    private DateEditor dateEditor;
-
-    /**
      * Initialize binder for room model.
      *
      * @param binder
@@ -111,17 +101,6 @@ public class RoomController implements ControllerConst.RoomControllerConst {
     protected void initBinderFilter(final WebDataBinder binder) {
         binder.registerCustomEditor(RoomEquipmentDTO.class,
                 roomEquipmentDTOEditor);
-    }
-
-    /**
-     * Initialize binder for filter model.
-     *
-     * @param binder
-     *            a WebDataBinder example to initialize.
-     */
-    @InitBinder(DATE_FILTER_MODEL_ATTR)
-    protected void initBinderDateFilter(final WebDataBinder binder) {
-        binder.registerCustomEditor(LocalDate.class, dateEditor);
     }
 
     /**

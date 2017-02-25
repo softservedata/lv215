@@ -57,11 +57,11 @@ public interface MailConstants {
     String REGISTRATION_MESSAGE_SUBJECT = "userRegistrated.messageSubject";
 
     String USER_REGISTRATED_TEMPLATE = "userRegistrated";
-    
+
     String RESTORE_TEMPLATE = "userRestorePassword";
-    
+
     String RESTORE_PASSWORD_MESSAGE_SUBJECT = "userRestorePassword.messageSubject";
-    
+
     String PASSWORD = "password";
 
     /**
@@ -93,7 +93,7 @@ public interface MailConstants {
      * UserGroup deleted message.
      */
     String USERGROUP_DELETED_MESSAGE = "groupDeleted.messageUserGroup";
-    
+
     /**
      * Subject deleted message.
      */
@@ -145,11 +145,11 @@ public interface MailConstants {
     /**
      * Model name for location delete message template.
      */
-    String SUBJECT_MODEL_NAME="subject";
+    String SUBJECT_MODEL_NAME = "subject";
     /**
      * Model name for location delete message template.
      */
-    String SUBJECT_TUTOR_MODEL_NAME="tutor";   
+    String SUBJECT_TUTOR_MODEL_NAME = "tutor";
     /**
      * Subject deleted message template for EN locale.
      */

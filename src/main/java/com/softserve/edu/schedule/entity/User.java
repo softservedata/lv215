@@ -31,8 +31,7 @@ import com.softserve.edu.schedule.entitylisteners.UserEntityListener;
  */
 @Entity
 @EntityListeners(UserEntityListener.class)
-@Table(indexes = {@Index(columnList = "lastName"), 
-        @Index(columnList = "mail"),
+@Table(indexes = {@Index(columnList = "lastName"), @Index(columnList = "mail"),
         @Index(columnList = "position")})
 public class User {
 
@@ -73,6 +72,9 @@ public class User {
      */
     private String position;
 
+    /**
+     * User image.
+     */
     private String pathImage = "/resources/images/unnamed.png";
 
     /**
@@ -91,18 +93,18 @@ public class User {
      * List of subjects available for this user.
      */
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Subject.class)
-    @JoinTable(name = "subject_user", joinColumns = {
-            @JoinColumn(name = "users_id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "subjects_id") })
+    @JoinTable(name = "subject_user",
+            joinColumns = {@JoinColumn(name = "users_id")},
+            inverseJoinColumns = {@JoinColumn(name = "subjects_id")})
     private List<Subject> subjects = new ArrayList<>();
 
     /**
      * List of groups this user participates.
      */
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = UserGroup.class)
-    @JoinTable(name = "usergroup_user", joinColumns = {
-            @JoinColumn(name = "users_id") }, inverseJoinColumns = {
-                    @JoinColumn(name = "groups_id") })
+    @JoinTable(name = "usergroup_user",
+            joinColumns = {@JoinColumn(name = "users_id")},
+            inverseJoinColumns = {@JoinColumn(name = "groups_id")})
     private List<UserGroup> groups = new ArrayList<>();
 
     /**
@@ -302,7 +304,7 @@ public class User {
      * @param socialMediaService
      *            the socialMediaService to set
      */
-    public void setSocialMediaService(SocialMediaService socialMediaService) {
+    public void setSocialMediaService(final SocialMediaService socialMediaService) {
         this.socialMediaService = socialMediaService;
     }
 

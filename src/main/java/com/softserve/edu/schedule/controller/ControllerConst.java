@@ -724,31 +724,71 @@ public interface ControllerConst {
      */
     public interface RoomEquipmentControllerConst {
 
+        /**
+         * Room equipment edit permissions.
+         */
+        String ROOM_EQUIPMENT_EDIT_PERMISSIONS = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
+
+        /**
+         * Room equipments section URL name.
+         */
         String ROOM_EQUIPMENTS_URL = "/roomequipments";
 
-        String ROOM_EQUIPMENTS_MAPPING = "/roomequipments";
+        /**
+         * Room equipments filter model attribute.
+         */
+        String FILTER_MODEL_ATTR = "roomEquipmentFilter";
 
-        String ROOM_EQUIPMENTS_CREATE = "/create";
+        /**
+         * Room equipments paginator model attribute.
+         */
+        String PAGINATOR_MODEL_ATTR = "roomEquipmentPaginator";
 
-        String ROOM_EQUIPMENTS_LIST = "roomequipments/list";
-
-        String ROOM_EQUIPMENTS_CREATE_URL = "roomequipments/create";
-
-        String ROOM_EQUIPMENTS_REDIRECT = "redirect:/roomequipments";
-
-        String ROOM_EQUIPMENTS_EDIT_URL = "roomequipments/edit";
-
-        String ROOM_EQUIPMENTS_EDIT = "/edit/";
-
+        /**
+         * Room equipments model attribute.
+         */
         String ROOM_EQUIPMENTS_MODEL_ATTR = "equipments";
 
-        String ROOM_EQUIPMENTS_DELETE = "/delete/";
+        /**
+         * Room equipment model attribute.
+         */
+        String ROOM_EQUIPMENT_MODEL_ATTR = "equipmentForm";
 
-        String ROOM_EQUIPMENT_FORM = "equipmentForm";
+        /**
+         * Room equipments list URL.
+         */
+        String ROOM_EQUIPMENTS_LIST = "roomequipments/list";
 
-        String ROOM_EQUIPMENTS_SORT_ASC = "/sortbynameasc";
+        /**
+         * Room equipments edit URL mapping.
+         */
+        String ROOM_EQUIPMENTS_EDIT_MAPPING = "/edit/{id}";
 
-        String ROOM_EQUIPMENTS_SORT_DESC = "/sortbynamedesc";
+        /**
+         * Room equipments edit URL.
+         */
+        String ROOM_EQUIPMENTS_EDIT_URL = "roomequipments/edit";
+
+        /**
+         * Room equipments redirect URL.
+         */
+        String ROOM_EQUIPMENTS_REDIRECT_URL = "redirect:/roomequipments";
+
+        /**
+         * Room equipments create URL mapping.
+         */
+        String ROOM_EQUIPMENTS_CREATE = "/create";
+
+        /**
+         * Room equipments create URL.
+         */
+        String ROOM_EQUIPMENTS_CREATE_URL = "roomequipments/create";
+
+        /**
+         * Room equipments delete URL mapping.
+         */
+        String ROOM_EQUIPMENTS_DELETE_MAPPING = "/delete/{id}";
+
     }
 
     /**
