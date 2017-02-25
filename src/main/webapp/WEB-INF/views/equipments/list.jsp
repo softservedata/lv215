@@ -163,14 +163,8 @@
 <span id="nextLabel" hidden="true"><spring:message code="lbl.pager.next" /></span>
 <spring:url value="/resources/js/equipments/list.js" var="equipmentsListJS" />
 <script>
-	var totalPages = $
-	{
-		roomEquipmentPaginator.pagesCount + 1
-	}
-	var startPage = $
-	{
-		roomEquipmentPaginator.pageNumber + 1
-	}
+	var totalPages = ${roomEquipmentPaginator.pagesCount + 1}
+	var startPage = ${roomEquipmentPaginator.pageNumber + 1}
 </script>
 <script type="text/javascript" src="${equipmentsListJS}">
 	
