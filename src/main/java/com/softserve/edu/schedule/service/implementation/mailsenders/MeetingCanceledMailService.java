@@ -18,7 +18,6 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
-import com.softserve.edu.schedule.entity.Meeting;
 
 /**
  * A class to provide mail notifications of the meetings owners about cancelled
@@ -90,38 +89,4 @@ public class MeetingCanceledMailService implements MailConstants {
             e.printStackTrace();
         }
     }
-
-    /**
-     * Send mail notifications to the meetings owners if meeting is cancelled
-     * because of subject delete.
-     *
-     * @param meeting
-     *            a Meeting object which contains mail message parameters.
-     *
-     * @param locale
-     *            current locale.
-     */
-    @Async
-    public void sendInfoMessageSubjectDelete(final Meeting meeting,
-            final Locale locale) {
-        Context ctx = new Context(locale);
-        ctx.setVariable(MEETING_MODEL_NAME, meeting);
-        
-        try {
-            MimeMessage mimeMessage = this.mailSender.createMimeMessage();
-            MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true,
-                    DEFAULT_MESSAGE_ENCODING);
-            message.setTo(new InternetAddress(meeting.getOwner().getMail()));
-            message.setFrom(new InternetAddress(fromAddress));
-            message.setSubject(messageSource.getMessage(
-                    MEETING_CANCELLED_MESSAGE_SUBJECT, new String[0], locale));
-            String htmlContent = this.templateEngine
-                    .process(MEETING_CANCELLED_BY_SUBJECT_TEMPLATE, ctx);
-            message.setText(htmlContent, true);
-            this.mailSender.send(mimeMessage);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
-    }
-
 }
