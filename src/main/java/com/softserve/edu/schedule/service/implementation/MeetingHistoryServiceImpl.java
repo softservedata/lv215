@@ -25,7 +25,7 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingToM
  * This class is implementation of MeetingHistoryService.
  *
  * @version 1.0 22.02.2017
- * @author Bohdan Melnyk
+ * @author Bohdan Melnyk, Oleksandr Butyter
  */
 @Transactional
 @Service

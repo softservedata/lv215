@@ -22,29 +22,27 @@ import com.softserve.edu.schedule.service.MeetingHistoryService;
 @Component
 public class MeetingHistoryCreator {
 
-    /**
-     * MeetingDAO example to provide database operations.
-     */
-    @Autowired
-    private MeetingDAO meetingDAO;
+	/**
+	 * MeetingDAO example to provide database operations.
+	 */
+	@Autowired
+	private MeetingDAO meetingDAO;
 
-    /**
-     * MeetingHistoryService example to provide database operations.
-     */
-    @Autowired
-    private MeetingHistoryService meetingHistoryService;
+	/**
+	 * MeetingHistoryService example to provide database operations.
+	 */
+	@Autowired
+	private MeetingHistoryService meetingHistoryService;
 
-    /**
-     * Scheduling task to correct past meetings statuses and them to
-     * MeetingHistory table.
-     *
-     */
-    @Scheduled(cron = "0 0 1 * * *")
-    @Transactional
-    public void createMeetingHistory() {
-        // TODO to delete
-        System.out.println("CreateMeetingHistory working ... ");
-        meetingDAO.getPastNotArchivedMeetings()
-                .forEach(e -> meetingHistoryService.backup(e));
-    }
+	/**
+	 * Scheduling task to correct past meetings statuses and them to
+	 * MeetingHistory table.
+	 *
+	 */
+	@Scheduled(cron = "0 0 1 * * *")
+	@Transactional
+	public void createMeetingHistory() {
+		meetingDAO.getPastNotArchivedMeetings().forEach(e -> meetingHistoryService.backup(e));
+	}
+
 }
