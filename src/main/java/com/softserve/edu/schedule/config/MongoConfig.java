@@ -29,8 +29,8 @@ public class MongoConfig extends AbstractMongoConfiguration {
      */
     @Override
     public String getDatabaseName() {
-        //return "schedule-lv215";
-         return "demo";
+        return "schedule-lv215";
+//         return "demo";
     }
 
     /**
@@ -45,11 +45,12 @@ public class MongoConfig extends AbstractMongoConfiguration {
     @Bean
     public Mongo mongo() throws Exception {
 
-/*        MongoClientURI uri = new MongoClientURI(
-                "mongodb://schedule:schedule@ds157839.mlab.com:57839/schedule-lv215");
-        return new MongoClient(uri);*/
+        MongoClientURI uri = new MongoClientURI(
+//                "mongodb://schedule:schedule@ds157839.mlab.com:57839/schedule-lv215"
+                "mongodb://schedule:schedule@ds157809.mlab.com:57809/schedule-lv215");
+        return new MongoClient(uri);
 
-         return new MongoClient("127.0.0.1");
+//         return new MongoClient("127.0.0.1");
     }
 
     /**

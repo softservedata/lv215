@@ -23,17 +23,14 @@
 				<h3 class="text-center">
 					<spring:message code="lbl.user.profile" />
 				</h3>
-				<div class="form-group">
-					<ul>
-						<c:forEach items="${userFiles}" var="fileName">
-							<li style="list-style-type: none"><a
-								style="display: inline-block;"
-								href="downloadFile/${fileName}/${user.id}"> <img
-									src="downloadFile/${fileName}/${user.id}" height="200"
-									class="img-fluid" alt="${fileName}">
-							</a></li>
-						</c:forEach>
-					</ul>
+				<br>
+				<div class="form-group" style="list-style-type: none" align = "center">
+					<a style="display: inline-block;"
+						href="${pageContext.request.contextPath}/downloadFile/${userFiles}/${user.id}">
+						<img
+						src="${pageContext.request.contextPath}/downloadFile/${userFiles}/${user.id}"
+						height="200" class="img-fluid" alt="${userFiles}">
+					</a>
 				</div>
 				<div class="form-group">
 					<form
@@ -46,18 +43,6 @@
 						</div>
 					</form>
 				</div>
-
-				<%-- 	<form:form commandName="${UserController.USER_MODEL_ATTR}"
-					action="${pageContext.request.contextPath}${UserController.SAVE_IMAGES}?${_csrf.parameterName}=${_csrf.token}"
-					method="post" enctype="multipart/form-data">
-					<br>
-					<input type="file" name="image">
-					<br>
-				</form:form> --%>
-				<%-- <div class="form-group">
-					<input type="submit" class="form-control"
-						value="<spring:message code="lbl.form.save"/>">
-				</div> --%>
 				<div class="form-group">
 					<label for="firstName"><spring:message
 							code="lbl.user.firstName" />:</label> <b>${user.firstName}</b>

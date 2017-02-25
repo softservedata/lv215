@@ -30,11 +30,11 @@ import com.softserve.edu.schedule.entity.UserStatus;
  */
 public interface UserService extends UserDetailsService {
     
-    String USER_PHOTO_BY_DEFOULT = "http://kutuphane.omu.edu.tr/sites/kutuphane.omu.edu.tr/files/profil_4.png";
+    String USER_PHOTO_BY_DEFOULT = "http://bonniesomerville.nz/wp-content/uploads/2015/08/profile-icon.png";
 
     String USER_ID = "userId";
 
-    String FILE_NAME = "profil_4.png";
+    String FILE_NAME = "profile-icon.png";
     
     String METADATA_USERID = "metadata.userId";
 
@@ -91,6 +91,15 @@ public interface UserService extends UserDetailsService {
      * @return UserDTO transfer object
      */
     public UserDTO getById(final Long id);
+
+    /**
+     * Return a UserDTO object if found.
+     *
+     * @param mail
+     *            of User transfer object
+     * @return UserDTO transfer object
+     */
+    public UserDTO getByMail(final String mail);
 
     /**
      * Delete existed object from the database by id.
@@ -253,5 +262,7 @@ public interface UserService extends UserDetailsService {
      *            user DTO of new user
      */
     void autoLoginUser(UserDTO userDTO);
+    
+    
 
 }

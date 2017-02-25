@@ -24,17 +24,13 @@
 					<spring:message code="lbl.user.profile" />
 				</h3>
 				<br>
-				<div class="form-group">
-					<ul>
-						<c:forEach items="${userFiles}" var="fileName">
-							<li style="list-style-type: none"><a
-								style="display: inline-block;"
-								href="${pageContext.request.contextPath}/downloadFile/${fileName}/${user.id}"> <img
-									src="${pageContext.request.contextPath}/downloadFile/${fileName}/${user.id}" height="200"
-									class="img-fluid" alt="${fileName}">
-							</a></li>
-						</c:forEach>
-					</ul>
+				<div class="form-group" style="list-style-type: none" align = "center">
+					<a style="display: inline-block;"
+						href="${pageContext.request.contextPath}/downloadFile/${userFiles}/${user.id}">
+						<img
+						src="${pageContext.request.contextPath}/downloadFile/${userFiles}/${user.id}"
+						height="200" class="img-fluid" alt="${userFiles}">
+					</a>
 				</div>
 				<div class="form-group">
 					<label for="firstName"><spring:message

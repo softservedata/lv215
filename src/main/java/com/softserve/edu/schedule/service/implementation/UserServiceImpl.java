@@ -1,15 +1,18 @@
 package com.softserve.edu.schedule.service.implementation;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
@@ -217,6 +220,17 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     public UserDTO getById(final Long id) {
         return userDTOConverter.getDTO(userDAO.getById(id));
     }
+    
+    /**
+     * Return a UserDTO object if found.
+     *
+     * @param mail
+     *            of User transfer object
+     * @return UserDTO transfer object
+     */
+    public UserDTO getByMail(final String mail){
+        return userDTOConverter.getDTO(userDAO.findByMail(mail));
+    }
 
     /**
      * Delete existed object from the database by id.
@@ -369,12 +383,13 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     @Override
     @Transactional
     public void saveDefoultImage(final UserDTO userDTO) throws IOException {
-
-        User user = userDTOConverter.getEntity(userDTO);
         DBObject metadata = new BasicDBObject();
-        metadata.put(USER_ID, user.getId());
-        File image = new File(USER_PHOTO_BY_DEFOULT);
-        InputStream inputStream = new FileInputStream(image);
+        metadata.put(USER_ID, Long.toString(userDTO.getId()));       
+        URL url = new URL(USER_PHOTO_BY_DEFOULT);
+        BufferedImage img = ImageIO.read(url);
+        File file = new File(FILE_NAME);
+        ImageIO.write(img, "png", file);
+        InputStream inputStream = new FileInputStream(file);
         fileStorageDao.store(inputStream, FILE_NAME, metadata);
     }
 

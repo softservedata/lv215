@@ -317,9 +317,6 @@ public class UserController implements ControllerConst.UserControllerConst,
     /**
      * Controls view for save image to profile.
      *
-     * @param user
-     *            userDTO example of authorized user.
-     *
      * @param principal
      *            authorized user.
      *
@@ -328,12 +325,13 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return path of images
      */
-
     @PreAuthorize(HAS_ANY_AUTHORIZED_ROLE)
     @RequestMapping(value = SAVE_IMAGES, method = RequestMethod.POST)
-    public String saveImage(@ModelAttribute(USER_MODEL_ATTR) UserDTO user,
-            Principal principal, @RequestParam MultipartFile image) throws IOException{
-        userService.deleteUserPhotoById(user.getId());
+    public String saveImage(Principal principal,
+            @RequestParam MultipartFile image) throws IOException {
+        UserDTO activeUser = (UserDTO) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        userService.deleteUserPhotoById(activeUser.getId());
         userService.saveImage(principal, image);
         return REDIRECT_USER_DETAILS_URL;
     }

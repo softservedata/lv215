@@ -142,9 +142,11 @@ public class RegistrationController
             return USER_REGIST_URL;
         }
         userService.create(userDTO);
-        userService.saveDefoultImage(userDTO);
         userService.autoLoginUser(userDTO);
         providerSignInUtils.doPostSignUp(userDTO.getMail(), request);
+        UserDTO activeUser = (UserDTO) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        userService.saveDefoultImage(activeUser);
         return "redirect:/?new_account=true";
     }
 
@@ -157,16 +159,20 @@ public class RegistrationController
      *            binding result to check validation errors
      *
      * @return users page URL
+     * @throws IOException 
      */
     @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN,
             method = RequestMethod.POST)
     public String newUserForAdmin(
             @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
-            final BindingResult br) {
+            final BindingResult br) throws IOException {
         if (br.hasErrors()) {
             return USER_REGIST_URL;
         }
         userService.create(userDTO);
+        UserDTO activeUser = (UserDTO) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        userService.saveDefoultImage(activeUser);
         return REDIRECT_USERS_PAGE;
     }
 }
