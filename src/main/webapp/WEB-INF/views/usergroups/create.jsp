@@ -68,7 +68,7 @@
 						</c:forEach>
 					</form:select>
 				</sec:authorize>
-				
+
 				<sec:authorize access="hasAnyRole('ROLE_MODERATOR')">
 					<sec:authentication property="principal.id" var="principalid" />
 					<form:select class="form-control" path="curator" id="curator"
