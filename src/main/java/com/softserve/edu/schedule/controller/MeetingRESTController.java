@@ -171,9 +171,6 @@ public class MeetingRESTController {
 	public ResponseEntity<Map<String, Long>> getMeetingsForChart(@RequestParam("start") final String start,
 			@RequestParam("end") final String end, @RequestParam("userId") final String userId) {
 		Map<String, Long> meetings = meetingService.getMeetingsForChartInIntervalByUserId(userId, start, end);
-		if (meetings.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
 		return new ResponseEntity<>(meetings, HttpStatus.OK);
 	}
 
