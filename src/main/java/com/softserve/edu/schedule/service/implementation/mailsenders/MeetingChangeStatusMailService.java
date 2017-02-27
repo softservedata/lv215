@@ -11,6 +11,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.mail.MailPreparationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -92,7 +93,7 @@ public class MeetingChangeStatusMailService implements MailConstants {
                 message.setText(htmlContent, true);
                 this.mailSender.send(mimeMessage);
             } catch (MessagingException e) {
-                e.printStackTrace();
+                throw new MailPreparationException(e);
             }
         }
     }
