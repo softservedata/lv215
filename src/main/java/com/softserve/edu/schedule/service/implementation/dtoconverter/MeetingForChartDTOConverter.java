@@ -20,7 +20,11 @@ import com.softserve.edu.schedule.entity.Meeting;
  */
 @Component
 public class MeetingForChartDTOConverter {
-
+	
+	/**
+     * Constant for map key.
+     */
+    public static final String FREE_TIME = "Free time";
 	/**
 	 * Method returns data for building charts by list of meetings.
 	 * 
@@ -38,6 +42,9 @@ public class MeetingForChartDTOConverter {
 						+ e.getStartTime().until(e.getEndTime(), ChronoUnit.MINUTES));
 			}
 		});
+		if (chartData.isEmpty()) {
+			chartData.put(FREE_TIME, 1L);
+		}
 		return chartData;
 	}
 

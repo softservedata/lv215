@@ -10,17 +10,16 @@
 	<div
 		class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-8 col-sm-offset-1"
 		id='calendar'></div>
-		
-		<div
-	class="col-lg-2 col-md-2 col-sm-2">
-	<div id="myPieChartWeek"></div>
-	<div id="myPieChartMonth"></div>
-	
+	<div class="col-lg-2 col-md-2 col-sm-2">
+		<div id="myPieChartWeek"></div>
+		<div id="myPieChartMonth"></div>
 	</div>
-	
 </div>
 
-
+<spring:message code="label.weekChartTitle" var="titleWeek" />
+<span id="weekChartTitle" hidden="true">${titleWeek}</span>
+<spring:message code="label.monthChartTitle" var="titleMonth" />
+<span id="monthChartTitle" hidden="true">${titleMonth}</span>
 <span id="userRestURL" hidden="true">${pageContext.request.contextPath}/meetings/restByUser</span>
 <span id="userRestChart" hidden="true">${pageContext.request.contextPath}/meetings/restForChart</span>
 <span id="userId" hidden="true"><sec:authentication

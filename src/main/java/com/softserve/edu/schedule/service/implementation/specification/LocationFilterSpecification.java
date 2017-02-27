@@ -30,6 +30,26 @@ import com.softserve.edu.schedule.entity.Location_;
  * @author Oleksandr Butyter
  */
 public class LocationFilterSpecification implements Specification<Location> {
+	
+    /**
+     * Field for sorting (name).
+     */
+    private static final int SORT_BY_NAME = 1;
+
+    /**
+     * Field for sorting (address).
+     */
+    private static final int SORT_BY_ADDRESS = 2;
+
+    /**
+     * Sort order ascending.
+     */
+    private static final int SORT_ASC = 1;
+
+    /**
+     * Sort order descending.
+     */
+    private static final int SORT_DESC = 2;
 
 	/**
 	 * LocationFilter example which provides parameters to build predicate.
@@ -90,18 +110,18 @@ public class LocationFilterSpecification implements Specification<Location> {
 	 */
 	private void setSortingParameters(final Root<Location> root, final CriteriaQuery<?> criteriaQuery,
 			final CriteriaBuilder criteriaBuilder) {
-		if (filter.getSortOrder() == 1) {
-			if (filter.getSortByField() == 1) {
+		if (filter.getSortOrder() == SORT_ASC) {
+			if (filter.getSortByField() == SORT_BY_NAME) {
 				criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Location_.name)));
 			}
-			if (filter.getSortByField() == 2) {
+			if (filter.getSortByField() == SORT_BY_ADDRESS) {
 				criteriaQuery.orderBy(criteriaBuilder.asc(root.get(Location_.address)));
 			}
-		} else if (filter.getSortOrder() == 2) {
-			if (filter.getSortByField() == 1) {
+		} else if (filter.getSortOrder() == SORT_DESC) {
+			if (filter.getSortByField() == SORT_BY_NAME) {
 				criteriaQuery.orderBy(criteriaBuilder.desc(root.get(Location_.name)));
 			}
-			if (filter.getSortByField() == 2) {
+			if (filter.getSortByField() == SORT_BY_ADDRESS) {
 				criteriaQuery.orderBy(criteriaBuilder.desc(root.get(Location_.address)));
 			}
 		} else {
