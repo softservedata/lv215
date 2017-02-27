@@ -1,6 +1,5 @@
+/* PastMeetingStatusCorrector 1.0 22/02/2017 */
 package com.softserve.edu.schedule.cronotasks;
-
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -8,49 +7,42 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.softserve.edu.schedule.dao.MeetingDAO;
-import com.softserve.edu.schedule.dao.MeetingHistoryDAO;
-import com.softserve.edu.schedule.entity.Meeting;
-import com.softserve.edu.schedule.entity.MeetingHistory;
+import com.softserve.edu.schedule.service.MeetingHistoryService;
 
+/**
+ * MeetingHistoryCreator task to correct past meetings statuses and them to
+ * MeetingHistory table.
+ *
+ * @version 1.0 22 02 2017.
+ *
+ * @author Lv-215.
+ *
+ * @since 1.8
+ */
 @Component
-public class MeetingHistoryCreator {    
+public class MeetingHistoryCreator {
 
+    /**
+     * MeetingDAO example to provide database operations.
+     */
     @Autowired
     private MeetingDAO meetingDAO;
 
+    /**
+     * MeetingHistoryService example to provide database operations.
+     */
     @Autowired
-    private MeetingHistoryDAO meetingHistoryDAO;
+    private MeetingHistoryService meetingHistoryService;
 
-    @Scheduled(cron = "0 0 0 * * *")
+    /**
+     * Scheduling task to correct past meetings statuses and them to
+     * MeetingHistory table.
+     *
+     */
+    @Scheduled(cron = "0 0 1 * * *")
     @Transactional
     public void createMeetingHistory() {
-        //TODO to delete
-        System.out.println("CreateMeetingHistory working ... ");
-        meetingDAO.getPastNotArchivedMeetings().forEach(e -> meetingHistoryDAO
-                        .create(convertMeetingToMeetingHistory(e)));
-    }
-
-    public MeetingHistory convertMeetingToMeetingHistory(Meeting meeting) {
-        if (meeting != null) {
-            MeetingHistory meetingHistory = new MeetingHistory();
-            meetingHistory.setIdMeeting(Long.toString(meeting.getId()));
-            meetingHistory.setSubject(meeting.getSubject().getName());
-            meetingHistory.setRoom(meeting.getRoom().getName());
-            meetingHistory
-                    .setLocation(meeting.getRoom().getLocation().getName());
-            meetingHistory
-                    .setAddress(meeting.getRoom().getLocation().getAddress());
-            meetingHistory.setDate(meeting.getDate());
-            meetingHistory.setStartTime(meeting.getStartTime());
-            meetingHistory.setEndTime(meeting.getEndTime());
-            meetingHistory.setGroups(String.join(", ",
-                    meeting.getGroups().stream().map(arg0 -> arg0.getName())
-                            .collect(Collectors.toList())));
-            meetingHistory.setOwner(meeting.getOwner().getFirstName() + " "
-                    + meeting.getOwner().getLastName());
-            meetingHistory.setDescription(meeting.getDescription());
-            return meetingHistory;
-        }
-        return null;
+        meetingDAO.getPastNotArchivedMeetings()
+                .forEach(e -> meetingHistoryService.backup(e));
     }
 }

@@ -1,3 +1,6 @@
+/*
+ * Implementation of the MeetingHistoryDAO interface. 
+ */
 package com.softserve.edu.schedule.dao.implementation;
 
 import java.util.List;
@@ -12,10 +15,19 @@ import com.softserve.edu.schedule.dao.MeetingHistoryDAO;
 import com.softserve.edu.schedule.entity.MeetingHistory;
 import com.softserve.edu.schedule.entity.MeetingHistory_;
 
+/**
+ * This class is implementation of MeetingHistoryDAO interface.
+ *
+ * @version 1.0 22.02.2017
+ * @author Bohdan Melnyk, Oleksandr Butyter
+ */
 @Repository
 public class MeetingHistoryDAOImpl extends CrudDAOImpl<MeetingHistory>
         implements MeetingHistoryDAO {
 
+    /**
+     * Constructor for this class.
+     */
     public MeetingHistoryDAOImpl() {
         super(MeetingHistory.class);
     }
@@ -26,7 +38,6 @@ public class MeetingHistoryDAOImpl extends CrudDAOImpl<MeetingHistory>
      * @see com.softserve.edu.schedule.dao.MeetingHistoryDAO#
      * getMeetingHistoryByIdMeeting(java.lang.String)
      */
-    @Override
     public List<MeetingHistory> getMeetingHistoryByIdMeeting(
             final String idMeeting) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
@@ -38,11 +49,16 @@ public class MeetingHistoryDAOImpl extends CrudDAOImpl<MeetingHistory>
         return getEm().createQuery(cq).getResultList();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * com.softserve.edu.schedule.dao.MeetingHistoryDAO#getAllMeetingHistory()
+     */
     public List<MeetingHistory> getAllMeetingHistory() {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
         CriteriaQuery<MeetingHistory> cq = builder
                 .createQuery(MeetingHistory.class);
         return getEm().createQuery(cq).getResultList();
     }
-
 }

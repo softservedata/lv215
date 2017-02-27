@@ -121,7 +121,12 @@ public interface ValidationFields {
      * Second new password.
      */
     String SECOND_NEW_PASSWORD = "secondNewPassword";
-
+    
+    /**
+     * Multipart file.
+     */
+    String FILE = "file";
+    
     /**
      * Old password.
      */

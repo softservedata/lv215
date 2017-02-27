@@ -25,36 +25,40 @@ public interface SubjectDAO extends CrudDAO<Subject> {
     /**
      * Return a searched Subjects.
      *
+     * @param subjectName
+     *
      * @return searched Subjects
      */
-    public List<Subject> getSubjectByName(String subjectName);
+    public List<Subject> getSubjectByName(final String subjectName);
 
     /**
      * Find all subjects entities in the database with applied filter
      * 
      * @param subjectFilter
      *            a filter to apply.
+     *            
+     * @param subjectPaginator           
      * 
      * @return List of the subject objects.
      */
-    public List<Subject> getSubjectsPageWithFilter(SubjectFilter subjectFilter,
-            Paginator subjectPaginator);
+    public List<Subject> getSubjectsPageWithFilter(final SubjectFilter subjectFilter,
+            final Paginator subjectPaginator);
 
     /**
      * Count subjects entities in the database with specified filter
      *
-     * @param predicate
-     *            a predicate to apply.
-     *
-     * @return Count of the subject entities in the database with specified
-     *         predicate.
+     * @param subjectFilter
+     *            
+     * @return Count of the subject entities in the database with filter.
      */
-    public Long getCountOfSubjectsWithFilter(SubjectFilter subjectFilter);
+    public Long getCountOfSubjectsWithFilter(final SubjectFilter subjectFilter);
 
     /**
      * Return a searched Subject.
      *
+     *@param id
+     *
      * @return searched Subject
      */
-    public Subject getSubjectsWithMeetingDetailsById(Long id);
+    public Subject getSubjectsWithMeetingDetailsById(final Long id);
 }

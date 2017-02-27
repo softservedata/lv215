@@ -1,6 +1,8 @@
 /* RoomEquipmentDTO 1.0 01/17/2017 */
 package com.softserve.edu.schedule.dto;
 
+import com.softserve.edu.schedule.service.implementation.validators.Validate;
+
 /**
  * A DTO class to transport room equipment data.
  *
@@ -10,6 +12,7 @@ package com.softserve.edu.schedule.dto;
  *
  * @since 1.8
  */
+@Validate
 public class RoomEquipmentDTO {
 
     /**

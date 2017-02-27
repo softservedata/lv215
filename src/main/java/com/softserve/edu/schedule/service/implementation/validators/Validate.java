@@ -24,7 +24,8 @@ import javax.validation.Payload;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = {RoomValidator.class, SubjectValidator.class,
         MeetingValidator.class, UserValidator.class, UserGroupValidator.class,
-        LocationValidator.class, UserPasswordValidator.class})
+        LocationValidator.class, UserPasswordValidator.class,
+        FileForSubjectValidator.class, RoomEquipmentValidator.class})
 public @interface Validate {
 
     /**

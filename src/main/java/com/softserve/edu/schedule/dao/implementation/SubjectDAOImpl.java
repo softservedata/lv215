@@ -36,8 +36,12 @@ import com.softserve.edu.schedule.service.implementation.specification.SubjectFi
 @Repository
 public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
 
+	
+	/**
+	 * Field for userDao.
+	 */
     @Autowired
-    UserDAO userDao;
+    private UserDAO userDao;
     
     /**
      * Overridden default constructor to provide entity class for DAO.
@@ -49,6 +53,8 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
 
     /**
      * Return a searched Subject.
+     *
+     * @param subjectName
      *
      * @return searched Subject
      */
@@ -64,6 +70,8 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
 
     /**
      * Return a searched Subject.
+     *
+     * @param id
      *
      * @return searched Subject
      */
@@ -83,6 +91,8 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
      * 
      * @param subjectFilter
      *            a filter to apply.
+     *            
+     * @param subjectPaginator           
      * 
      * @return List of the subject objects.
      */
@@ -110,11 +120,10 @@ public class SubjectDAOImpl extends CrudDAOImpl<Subject> implements SubjectDAO {
     /**
      * Count subjects entities in the database with specified filter
      *
-     * @param predicate
-     *            a predicate to apply.
+     * @param subjectFilter
      *
      * @return Count of the subject entities in the database with specified
-     *         predicate.
+     *         filter.
      */
     @Override
     public Long getCountOfSubjectsWithFilter(

@@ -3,6 +3,7 @@ package com.softserve.edu.schedule.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -30,9 +31,8 @@ import com.softserve.edu.schedule.entitylisteners.UserEntityListener;
  */
 @Entity
 @EntityListeners(UserEntityListener.class)
-@Table(indexes = {@Index(columnList = "firstName"),
-        @Index(columnList = "lastName"), @Index(columnList = "mail"),
-        @Index(columnList = "phone"), @Index(columnList = "position")})
+@Table(indexes = {@Index(columnList = "lastName"), @Index(columnList = "mail"),
+        @Index(columnList = "position")})
 public class User {
 
     /**
@@ -72,6 +72,9 @@ public class User {
      */
     private String position;
 
+    /**
+     * User image.
+     */
     private String pathImage = "/resources/images/unnamed.png";
 
     /**
@@ -301,8 +304,32 @@ public class User {
      * @param socialMediaService
      *            the socialMediaService to set
      */
-    public void setSocialMediaService(SocialMediaService socialMediaService) {
+    public void setSocialMediaService(final SocialMediaService socialMediaService) {
         this.socialMediaService = socialMediaService;
+    }
+
+    /**
+     * Check if users are equal by email(if it's the same person).
+     */
+    @Override
+    public boolean equals(final Object o) {
+
+        if (o == this) {
+            return true;
+        }
+        if (!(o instanceof User)) {
+            return false;
+        }
+        User user = (User) o;
+        return Objects.equals(mail, user.mail);
+    }
+
+    /**
+     * Calculate hashcode of given user.
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(mail);
     }
 
 }

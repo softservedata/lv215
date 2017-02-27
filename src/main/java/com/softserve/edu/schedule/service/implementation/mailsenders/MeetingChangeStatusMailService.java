@@ -1,8 +1,8 @@
 package com.softserve.edu.schedule.service.implementation.mailsenders;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
@@ -11,6 +11,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.mail.MailPreparationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -20,7 +21,6 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import com.softserve.edu.schedule.entity.Meeting;
 import com.softserve.edu.schedule.entity.User;
-import com.softserve.edu.schedule.entity.UserGroup;
 
 /**
  * Provides mail notifications about meeting changing status: from APPROVED - to
@@ -72,16 +72,10 @@ public class MeetingChangeStatusMailService implements MailConstants {
         Context ctx = new Context(locale);
         ctx.setVariable(MEETING_MODEL_NAME, meeting);
 
-        List<User> curators = new ArrayList<User>();
-        User owner = meeting.getOwner();
-        curators.add(owner);
-
-        for (UserGroup userGroup : meeting.getGroups()) {
-            User userTemp = userGroup.getCurator();
-            if (userTemp != owner) {
-                curators.add(userGroup.getCurator());
-            }
-        }
+        Set<User> curators = new HashSet<User>();
+        curators.add(meeting.getOwner());
+        meeting.getGroups()
+                .forEach(e -> e.getUsers().forEach(u -> curators.add(u)));
 
         for (User member : curators) {
             ctx.setVariable(MEETING_GROUP_CURATOR, member);
@@ -99,7 +93,7 @@ public class MeetingChangeStatusMailService implements MailConstants {
                 message.setText(htmlContent, true);
                 this.mailSender.send(mimeMessage);
             } catch (MessagingException e) {
-                e.printStackTrace();
+                throw new MailPreparationException(e);
             }
         }
     }

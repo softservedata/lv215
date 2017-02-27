@@ -1,14 +1,23 @@
 /* RoomServiceImpl 1.0 01/02/2017 */
 package com.softserve.edu.schedule.service.implementation;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
+import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dao.RoomDAO;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
@@ -31,6 +40,12 @@ import com.softserve.edu.schedule.service.implementation.dtoconverter.RoomDTOCon
 @Transactional
 @PerfomanceLoggable
 public class RoomServiceImpl implements RoomService {
+
+    /**
+     * FileStorageDAO example to provide file operations.
+     */
+    @Autowired
+    private FileStorageDAO fileStorageDao;
 
     /**
      * RoomDAO example to provide database operations.
@@ -153,5 +168,94 @@ public class RoomServiceImpl implements RoomService {
         return roomDAO.getRoomsPageWithFilter(roomFilter, roomPaginator)
                 .stream().map(e -> roomDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Upload room image file.
+     *
+     * @param file
+     *            file to upload.
+     *
+     * @param id
+     *            roomId to upload file.
+     *
+     * @throws IOException
+     *             if something unexpected happens during file upload
+     */
+    @Override
+    public void uploadFile(final MultipartFile file, final Long id)
+            throws IOException {
+        System.out.println(file.getOriginalFilename());
+        GridFSDBFile fileInDataBase = fileStorageDao.retriveByIdAndFileName(
+                Long.toString(id), file.getOriginalFilename(),
+                "metadata.roomId");
+        if (fileInDataBase != null) {
+            deleteFileByRoomId(id, file.getOriginalFilename());
+        }
+        DBObject metadata = new BasicDBObject();
+        metadata.put("roomId", Long.toString(id));
+        fileStorageDao.store(file.getInputStream(), file.getOriginalFilename(),
+                metadata);
+    }
+
+    /**
+     * Retrieve all room image files names.
+     *
+     * @param id
+     *            roomId to show files.
+     *
+     * @return list of room files names
+     */
+    @Override
+    public List<String> showRoomFiles(final Long id) {
+        return fileStorageDao
+                .findAllByIdAndType(Long.toString(id), "metadata.roomId")
+                .stream().map(f -> f.getFilename())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Delete room image file.
+     *
+     * @param id
+     *            roomId to delete file.
+     *
+     * @param fileName
+     *            file name to delete file.
+     */
+    @Override
+    public void deleteFileByRoomId(final Long id, final String fileName) {
+        fileStorageDao.deleteByIdAndFileName(Long.toString(id), fileName,
+                "metadata.roomId");
+    }
+
+    /**
+     * Download room image file.
+     *
+     * @param id
+     *            roomId to download file.
+     *
+     * @param fileName
+     *            file name to download file.
+     *
+     * @param response
+     *            response to download file
+     *
+     * @throws IOException
+     *             if something unexpected happens during file download
+     */
+    @Override
+    public void retriveFileByRoomId(final Long id, final String fileName,
+            final HttpServletResponse response) throws IOException {
+        GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(
+                Long.toString(id), fileName, "metadata.roomId");
+        if (file != null) {
+            response.setContentType(file.getContentType());
+            response.setContentLength((new Long(file.getLength()).intValue()));
+            response.setHeader("content-Disposition",
+                    "attachment; filename=" + file.getFilename());
+            IOUtils.copyLarge(file.getInputStream(),
+                    response.getOutputStream());
+        }
     }
 }

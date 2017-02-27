@@ -1,17 +1,16 @@
-/* MeetingHistoryDTOConverter 1.0 01/17/2017 */
+/* MeetingHistoryDTOConverter 1.0 22/02/2017 */
 package com.softserve.edu.schedule.service.implementation.dtoconverter;
 
 import org.springframework.stereotype.Service;
+
 import com.softserve.edu.schedule.dto.MeetingHistoryDTO;
 import com.softserve.edu.schedule.entity.MeetingHistory;
-
-
 
 /**
  * A class to provide conversion operations between MeetingHistoryDTO and
  * MeetingHistory. entity.
  *
- * @version 1.0 21 February 2017
+ * @version 1.0 22 02 2017
  *
  * @author Bohdan Melnyk
  *

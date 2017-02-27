@@ -6,12 +6,9 @@
  */
 package com.softserve.edu.schedule.controller;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +22,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.multipart.MultipartFile;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
-import com.softserve.edu.schedule.dao.FileStorageDAO;
+import com.softserve.edu.schedule.dto.FileForSubjectDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
@@ -39,6 +32,15 @@ import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.editor.UserForSubjectDTOEditor;
 
+/**
+ * A controller class of subjects pages.
+ *
+ * @version 1.0 15 January 2017
+ *
+ * @author Ped'ko Volodymyr
+ *
+ * @since 1.8
+ */
 @Controller
 @SessionAttributes({ ControllerConst.SubjectControllerConst.FILTER_MODEL_ATTR,
         ControllerConst.SubjectControllerConst.SUBJECT_PAGINATOR_MODEL_ATTR })
@@ -50,9 +52,6 @@ public class SubjectController
 	 */
 	@Autowired
 	private SubjectService subjectService;
-
-	@Autowired
-	private FileStorageDAO dao;
 
 	/**
 	 * UserForSubjectDTOEditor example to provide conversions from form select
@@ -143,13 +142,20 @@ public class SubjectController
 		return SUBJECT_CREATE_URL;
 	}
 
-	/**
-	 * Method creates new subject
-	 * 
-	 * @param subject
-	 *            subjects create page model
-	 * @return subjects list page URL (redirect)
-	 */
+    /**
+     * Controls processing of subject create form.
+     *
+     * @param subject
+     *            an SubjectDTO example which is built based on form data.
+     *
+     * @param br
+     *            binding result to check validation errors
+     *
+     * @param model
+     *            subject create page view model.
+     *
+     * @return subjects list page redirect URL
+     */
 	@RequestMapping(value = SUBJECT_CREATE_MAPPING, method = RequestMethod.POST)
 	public String create(
 	        @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
@@ -166,6 +172,9 @@ public class SubjectController
 	/**
 	 * Method prepares form for editing subject
 	 * 
+     * @param id
+     *            subject id to update information.
+	 * 
 	 * @param model
 	 *            subjects edit page model
 	 * @return subjects edit page URL
@@ -179,13 +188,20 @@ public class SubjectController
 		return SUBJECTS_EDIT_URL;
 	}
 
-	/**
-	 * Method edits current subject
-	 * 
-	 * @param subject
-	 *            subjects edit page model
-	 * @return subjects list page URL (redirect)
-	 */
+    /**
+     * Controls processing of subject edit information form.
+     *
+     * @param subject
+     *            an SubjectDTO example which is built based on form data.
+     *
+     * @param br
+     *            binding result to check validation errors
+     *
+     * @param model
+     *            subject update information page view model.
+     *
+     * @return subjects list page redirect URL
+     */
 	@RequestMapping(value = SUBJECT_EDIT_MAPPING
 	        + "{id}", method = RequestMethod.POST)
 	public String edit(
@@ -228,59 +244,87 @@ public class SubjectController
 	@RequestMapping(SUBJECTS_MAPPING_SHOW + "{id}")
 	public String showSubjectDetails(@PathVariable final Long id,
 	        final Model model) {
+		model.addAttribute(SUBJECT_FILE_FORM, new FileForSubjectDTO());
 		model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
+		model.addAttribute(SUBJECT_FILES, subjectService.showSubjectFiles(id));
 		return SUBJECTS_SHOW_URL;
 	}
 
-	@RequestMapping("/subjects/simple")
-	public String showSubjectSimple() {
-		return "subjects/simple";
-	}
-
-	@RequestMapping(value = "/subjects/simple", method = RequestMethod.POST)
-	public String showSubjectSimplePost(@RequestParam MultipartFile file) {
-
-		//
-		// User user = userDAO.findByMail(principal.getName());
-		//
-		// String path = PATH + user.getMail() + SLASH
-		// + multipartFile.getOriginalFilename();
-		//
-		// user.setPathImage(NAME_OF_FILE + user.getMail() + SLASH
-		// + multipartFile.getOriginalFilename());
-		//
-		// File file = new File(path);
-		//
-		// try {
-		// file.mkdirs();
-		// try {
-		// FileUtils.cleanDirectory(
-		// new File(PATH + user.getMail() + SLASH));
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		// multipartFile.transferTo(file);
-		// } catch (IOException e) {
-		// System.out.println("error with file");
-		// }
-		// userDAO.update(user);
-
-		DBObject metaData = new BasicDBObject();
-		metaData.put("rinox", "anything 1");
-
-		try {
-			dao.store(file.getInputStream(), "testing.png", "image/png",
-			        metaData);
-		} catch (IOException e) {
-			e.printStackTrace();
+	/**
+	 * Method for upload file for Subject.
+	 *
+	 * @param id
+	 *            subject id to show details.
+	 *
+	 * @param subjectFileDTO
+	 *            subjectFileDTO details for storing file.
+	 *
+	 * @param model
+	 *            subject details show page view model.
+	 *            
+     * @param br
+     *            binding result to check validation errors
+	 *            
+	 * @throws IOException
+	 * 
+	 * @return subject show detail page URL
+	 */
+	@PreAuthorize(HAS_ANY_ROLE_EXEPT_USER)
+	@RequestMapping(value = SUBJECTS_MAPPING_SHOW
+	        + "{id}", method = RequestMethod.POST)
+	public String uploadFile(@PathVariable final Long id,
+	        @ModelAttribute(SUBJECT_FILE_FORM) @Valid final FileForSubjectDTO fileForSubjectDTO,
+	        final BindingResult result, final Model model) throws IOException {
+		if (result.hasErrors()) {
+			model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
+			model.addAttribute(SUBJECT_FILES, subjectService.showSubjectFiles(id));
+			return SUBJECTS_SHOW_URL;
 		}
-
-		System.out.println("Done");
-
-		System.out.println(file.getContentType());
-		System.out.println(file.getName());
-		System.out.println(file.getOriginalFilename());
-
-		return "subjects/simple";
+		subjectService.uploadFile(fileForSubjectDTO);
+		return SUBJECT_SHOW_URL;
 	}
+
+	/**
+	 * Method for delete file from Subject.
+	 *
+	 * @param id
+	 *            subject id to show details.
+	 *
+	 * @param fileName
+	 *            subject file name.
+	 *
+	 * @return subject show detail page URL
+	 */
+	@PreAuthorize(HAS_ANY_ROLE_EXEPT_USER)
+	@RequestMapping(SUBJECT_DELETE_FILE_MAPPING + "{fileName}/{id}")
+	public String deleteFile(@PathVariable final Long id,
+	        @PathVariable final String fileName) {
+		subjectService.deleteSubjectFileById(id, fileName);
+		return SUBJECT_SHOW_URL;
+	}
+
+	/**
+	 * Method for delete file from Subject.
+	 *
+	 * @param id
+	 *            subject id to show details.
+	 *
+	 * @param fileName
+	 *            subject file name.
+	 * 
+	 * @throws IOException
+	 * 
+	 * @param response
+	 *            HttpServletResponse response for file download.
+	 *
+	 * @return subject show detail page URL
+	 */
+	@PreAuthorize(HAS_ANY_ROLE)
+	@RequestMapping(SUBJECT_DOWNLOAD_FILE_MAPPING + "{fileName}/{id}")
+	public void downloadFile(@PathVariable final Long id,
+	        @PathVariable final String fileName, final HttpServletResponse response)
+	        throws IOException {
+		subjectService.retriveSubjectFileById(id, fileName, response);
+	}
+
 }

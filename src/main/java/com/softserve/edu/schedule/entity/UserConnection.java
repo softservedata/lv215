@@ -5,7 +5,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
-import javax.persistence.Table;
 
 /**
  * An entity class for storage user social connections.
@@ -17,9 +16,13 @@ import javax.persistence.Table;
  * @since 1.8
  */
 @Entity
-@Table(name = "userconnection")
 @IdClass(UserConnectionKey.class)
 public class UserConnection {
+
+    /**
+     * Length of big string fields.
+     */
+    private static final int LENGTH_OF_BIG_FIELDS = 512;
 
     /**
      * User id.
@@ -55,31 +58,31 @@ public class UserConnection {
     /**
      * User profile URL.
      */
-    @Column(length = 512)
+    @Column(length = LENGTH_OF_BIG_FIELDS)
     private String profileUrl;
 
     /**
      * User image URL.
      */
-    @Column(length = 512)
+    @Column(length = LENGTH_OF_BIG_FIELDS)
     private String imageUrl;
 
     /**
      * Provider access token.
      */
-    @Column(nullable = false, length = 512)
+    @Column(nullable = false, length = LENGTH_OF_BIG_FIELDS)
     private String accessToken;
 
     /**
      * Provider secret.
      */
-    @Column(length = 512)
+    @Column(length = LENGTH_OF_BIG_FIELDS)
     private String secret;
 
     /**
      * Provider refresh token.
      */
-    @Column(length = 512)
+    @Column(length = LENGTH_OF_BIG_FIELDS)
     private String refreshToken;
 
     /**

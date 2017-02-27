@@ -49,6 +49,25 @@
 					<li>${equipment.name}</li>
 				</c:forEach>
 			</ul>
+			<!-- room images -->
+			<div class="form-group">
+				<h4>
+					<spring:message code="lbl.room.roomPhotos" />
+					:
+				</h4>
+				<ul class="image_list">
+					<c:forEach items="${roomFiles}" var="fileName">
+						<li class="room_image">
+							<a href="${pageContext.request.contextPath}/rooms/downloadFile/${fileName}/${room.id}"
+								title="<spring:message code="lbl.room.clickToDownload"/>">
+								<img src="${pageContext.request.contextPath}/rooms/downloadFile/${fileName}/${room.id}"
+									height="200" class="img-fluid" alt="${fileName}">
+							</a>
+						</li>
+					</c:forEach>
+				</ul>
+			</div>
+			<!-- room images -->
 		</div>
 		<div class="col-lg-6 col-md-7 col-sm-6 panel-map zero-margin-top">
 			<div id='calendar'></div>

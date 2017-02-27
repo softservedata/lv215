@@ -1,7 +1,9 @@
 package com.softserve.edu.schedule.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
@@ -75,7 +78,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @PreAuthorize(HAS_ROLE_ADMIN)
     @RequestMapping(DELETE_USER_MAPPING + "{id}")
     public String delete(@PathVariable Long id, Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
@@ -95,6 +98,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
+    @PreAuthorize(IS_AUTHENTICATED)
     @RequestMapping(UPDATE_USER_MAPPING + "{id}")
     public String update(@PathVariable Long id, Model model) {
         model.addAttribute(USER_UPDATE_ATTR, userService.getById(id));
@@ -109,6 +113,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
+    @PreAuthorize(IS_AUTHENTICATED)
     @RequestMapping(value = SAVE_UPDATED_USER_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String updateUser(
@@ -129,7 +134,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+    @PreAuthorize(HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
     @RequestMapping(BAN_USER_MAPPING + "{id}")
     public String bunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.BLOCKED;
@@ -145,7 +150,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+    @PreAuthorize(HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
     @RequestMapping(UNBAN_USER_MAPPING + "{id}")
     public String unBunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.ACTIVE;
@@ -161,7 +166,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+    @PreAuthorize(HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
     @RequestMapping(CHANGE_ROLE_MAPPING + "{id}")
     public String changeRole(@PathVariable Long id, Model model) {
         model.addAttribute(USER_ROLE_ATTR, UserRole.values());
@@ -177,7 +182,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
+    @PreAuthorize(HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
     @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String changeRole(@PathVariable Long id,
@@ -197,10 +202,11 @@ public class UserController implements ControllerConst.UserControllerConst,
      * 
      * @return users list page URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
+    @PreAuthorize(HAS_ANY_AUTHORIZED_ROLE)
     @RequestMapping(USER_PROFILE_MAPPING + "{id}")
-    public String getProfile(@PathVariable Long id, Model model) {
+    public String getProfile(@PathVariable(PATH_VAR_ID) Long id, Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
+        model.addAttribute(USER_FILES, userService.showUserFile(id));
         return USER_PROFILE_URL;
     }
 
@@ -215,13 +221,37 @@ public class UserController implements ControllerConst.UserControllerConst,
      * 
      * @return users list page URL
      */
+    @PreAuthorize(IS_AUTHENTICATED)
     @RequestMapping(USER_DETAILS_MAPPING)
     public String getUserDetails(Model model, Principal principal) {
         UserDTO activeUser = (UserDTO) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         model.addAttribute(USER_MODEL_ATTR,
                 userService.getById(activeUser.getId()));
+        model.addAttribute(USER_FILES,
+                userService.showUserFile(activeUser.getId()));
         return USER_DETAILS_URL;
+    }
+
+    /**
+     * Download file.
+     *
+     * @param id
+     *            from user id in database.
+     *
+     * @param fileName
+     *            name of file in database.
+     * 
+     * @param response
+     *            response.
+     */
+    @PreAuthorize(IS_AUTHENTICATED)
+    @RequestMapping("/downloadFile/{fileName}/{id}")
+    public void downloadFile(@PathVariable final Long id,
+            @PathVariable final String fileName, HttpServletResponse response,
+            Model model) throws IOException {
+        userService.retrivePhotoById(id, fileName, response);
+        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
     }
 
     /**
@@ -232,7 +262,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
+    @PreAuthorize(HAS_ANY_AUTHORIZED_ROLE)
     @RequestMapping(CHANGE_PASSWORD_MAPPING + "{id}")
     public String changePassword(@PathVariable Long id, Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getByIdForPassword(id));
@@ -247,7 +277,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize(IS_AUTHENTICATED)
     @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String saveChangedPassword(
@@ -274,7 +304,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
+    @PreAuthorize(HAS_ANY_AUTHORIZED_ROLE)
     @RequestMapping(USERS_MAPPING_FROM_HEADER)
     public String showUserPage(final Model model,
             @ModelAttribute(FILTER_MODEL_ATTR) final UserFilter filter,
@@ -284,28 +314,27 @@ public class UserController implements ControllerConst.UserControllerConst,
         return USERS_PAGE_URL;
     }
 
-    // /**
-    // * Controls view for save image to profile.
-    // *
-    // * @param user
-    // * userDTO example of authorized user.
-    // *
-    // * @param principal
-    // * authorized user.
-    // *
-    // * @param image
-    // * image from user.
-    // *
-    // * @return path of images
-    // */
-    // @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR',
-    // 'ROLE_MODERATOR', 'ROLE_USER')")
-    // @RequestMapping(value = SAVE_IMAGES, method = RequestMethod.POST)
-    // public String saveImage(@ModelAttribute(USER_MODEL_ATTR) UserDTO user,
-    // Principal principal, @RequestParam MultipartFile image) {
-    // userService.saveImage(principal, image);
-    // return REDIRECT_USER_DETAILS_URL;
-    // }
+    /**
+     * Controls view for save image to profile.
+     *
+     * @param principal
+     *            authorized user.
+     *
+     * @param image
+     *            image from user.
+     *
+     * @return path of images
+     */
+    @PreAuthorize(HAS_ANY_AUTHORIZED_ROLE)
+    @RequestMapping(value = SAVE_IMAGES, method = RequestMethod.POST)
+    public String saveImage(Principal principal,
+            @RequestParam MultipartFile image) throws IOException {
+        UserDTO activeUser = (UserDTO) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        userService.deleteUserPhotoById(activeUser.getId());
+        userService.saveImage(principal, image);
+        return REDIRECT_USER_DETAILS_URL;
+    }
 
     /**
      * Method shows meetings of user
@@ -318,7 +347,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      * 
      * @return meetings of users.
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')")
+    @PreAuthorize(HAS_ANY_AUTHORIZED_ROLE)
     @RequestMapping(USER_MEETINGS_MAPPING + "{id}")
     public String showMeetings(@PathVariable Long id, final Model model) {
         model.addAttribute(USER_MODEL_ATTR, userService.getById(id));

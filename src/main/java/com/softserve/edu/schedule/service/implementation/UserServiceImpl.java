@@ -1,18 +1,29 @@
 package com.softserve.edu.schedule.service.implementation;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.social.connect.Connection;
@@ -24,7 +35,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.gridfs.GridFSDBFile;
 import com.softserve.edu.schedule.aspects.PerfomanceLoggable;
+import com.softserve.edu.schedule.dao.FileStorageDAO;
 import com.softserve.edu.schedule.dao.MeetingDAO;
 import com.softserve.edu.schedule.dao.UserConnectionDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
@@ -58,13 +73,6 @@ import com.softserve.edu.schedule.service.implementation.mailsenders.RestorePass
 @Service("userService")
 @PerfomanceLoggable
 public class UserServiceImpl implements UserService, SocialUserDetailsService {
-
-    // private static final String PATH =
-    // "E:/Programing/lv215/src/main/webapp/resources/images/";
-    //
-    // private static final String SLASH = "/";
-    //
-    // private static final String NAME_OF_FILE = "/resources/images/";
 
     /**
      * UserDAO example to provide database operations.
@@ -121,11 +129,15 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     @Autowired
     private RestorePasswordMailServise restorePasswordMailService;
 
+    @Autowired
+    private FileStorageDAO fileStorageDao;
+
     /**
      * Save new user entity into the database.
      *
      * @param userDTO
      *            a userDTO for to storage new user in database.
+     * @throws FileNotFoundException
      */
     @Override
     @Transactional
@@ -207,6 +219,17 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     @Transactional(readOnly = true)
     public UserDTO getById(final Long id) {
         return userDTOConverter.getDTO(userDAO.getById(id));
+    }
+
+    /**
+     * Return a UserDTO object if found.
+     *
+     * @param mail
+     *            of User transfer object
+     * @return UserDTO transfer object
+     */
+    public UserDTO getByMail(final String mail) {
+        return userDTOConverter.getDTO(userDAO.findByMail(mail));
     }
 
     /**
@@ -312,7 +335,6 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
             throws UsernameNotFoundException {
         User user = userDAO.findByMail(userMail);
         if (user == null) {
-            // throw new UsernameNotFoundException("User not found");
             return null;
         }
         return userDTOConverter.getDTO(user);
@@ -336,42 +358,99 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
      *
      * @param principal
      *            a authorized userDTO.
+     * 
      * @param multipartFile
      *            the picture.
      */
     @Override
     @Transactional
-    public void saveImage(final Principal principal,
-            final MultipartFile multipartFile) {
-        //
-        // User user = userDAO.findByMail(principal.getName());
-        //
-        // String path = PATH + user.getMail() + SLASH
-        // + multipartFile.getOriginalFilename();
-        //
-        // user.setPathImage(NAME_OF_FILE + user.getMail() + SLASH
-        // + multipartFile.getOriginalFilename());
-        //
-        // File file = new File(path);
-        //
-        // try {
-        // file.mkdirs();
-        // try {
-        // FileUtils.cleanDirectory(
-        // new File(PATH + user.getMail() + SLASH));
-        // } catch (IOException e) {
-        // e.printStackTrace();
-        // }
-        // multipartFile.transferTo(file);
-        // } catch (IOException e) {
-        // System.out.println("error with file");
-        // }
-        // userDAO.update(user);
+    public void saveImage(final Principal principal, final MultipartFile file)
+            throws IOException {
+
+        DBObject metadata = new BasicDBObject();
+        metadata.put(USER_ID,
+                Long.toString(userDAO.findByMail(principal.getName()).getId()));
+        fileStorageDao.store(file.getInputStream(), file.getOriginalFilename(),
+                metadata);
+    }
+
+    /**
+     * Save default image in database after registration.
+     * 
+     * @param userDTO
+     *            a userDTO from new user.
+     */
+    @Override
+    @Transactional
+    public void saveDefoultImage(final UserDTO userDTO) throws IOException {
+        DBObject metadata = new BasicDBObject();
+        metadata.put(USER_ID, Long.toString(userDTO.getId()));
+        URL url = new URL(USER_PHOTO_BY_DEFOULT);
+        BufferedImage img = ImageIO.read(url);
+        File file = new File(FILE_NAME);
+        ImageIO.write(img, "png", file);
+        InputStream inputStream = new FileInputStream(file);
+        fileStorageDao.store(inputStream, FILE_NAME, metadata);
+    }
+
+    /**
+     * Show image in jsp.
+     * 
+     * @param id
+     *            a user id.
+     */
+    @Override
+    public String showUserFile(Long id) {
+        GridFSDBFile userPhoto = fileStorageDao
+                .findByIdAndType(Long.toString(id), METADATA_USERID);
+        if (userPhoto != null) {
+            return fileStorageDao
+                    .findByIdAndType(Long.toString(id), METADATA_USERID)
+                    .getFilename();
+        }
+        return "noFile";
+
+    }
+
+    /**
+     * Delete image from database by id.
+     * 
+     * @param id
+     *            a user id.
+     */
+    @Override
+    public void deleteUserPhotoById(Long id) {
+        fileStorageDao.deleteById(METADATA_USERID, Long.toString(id));
+    }
+
+    /**
+     * Retrive image from database.
+     * 
+     * @param id
+     *            a user id.
+     * 
+     * @param fileName
+     *            name of file in database.
+     * 
+     * @param response
+     *            response.
+     */
+    @Override
+    public void retrivePhotoById(Long id, String fileName,
+            HttpServletResponse response) throws IOException {
+        GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(
+                Long.toString(id), fileName, METADATA_USERID);
+        if (file != null) {
+            response.setContentType(file.getContentType());
+            response.setContentLength((new Long(file.getLength()).intValue()));
+            response.setHeader("content-Disposition",
+                    "attachment; filename=" + file.getFilename());
+            IOUtils.copyLarge(file.getInputStream(),
+                    response.getOutputStream());
+        }
     }
 
     /*
-     * (non-Javadoc)
-     *
      * @see com.softserve.edu.schedule.service.UserService#getAllActiveUsers()
      */
     @Override
@@ -383,8 +462,6 @@ public class UserServiceImpl implements UserService, SocialUserDetailsService {
     }
 
     /*
-     * (non-Javadoc)
-     *
      * @see
      * com.softserve.edu.schedule.service.UserService#getAllManagers(java.util.
      * List)

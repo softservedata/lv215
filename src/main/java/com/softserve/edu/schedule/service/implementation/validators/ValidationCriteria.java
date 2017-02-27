@@ -68,6 +68,11 @@ public interface ValidationCriteria {
      * Array size comparator.
      */
     Integer ZERO = 0;
+    
+    /**
+     * Max file size.
+     */
+    Integer MAX_FILE_SIZE = 5242880;
 
     /**
      * Allowed characters for name expression.
@@ -88,4 +93,49 @@ public interface ValidationCriteria {
      * Allowed meeting level.
      */
     String PATTERN_FOR_MEETING_LEVEL = "^[1-5]$";
+    
+    /**
+     * Content type.
+     */
+    String IMAGE_JPG = "image/jpeg";
+    
+    /**
+     * Content type.
+     */
+    String IMAGE_GIF ="image/gif";
+    
+    /**
+     * Content type.
+     */
+    String MSWORD = "application/msword";
+    
+    /**
+     * Content type.
+     */
+    String MSWORD_2007 = "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
+    
+    /**
+     * Content type.
+     */
+    String MSEXEL = "application/vnd.ms-excel";
+    
+    /**
+     * Content type.
+     */
+    String MSEXEL_2007 = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    
+    /**
+     * Content type.
+     */
+    String MSPOWER ="application/vnd.ms-powerpoint";
+    
+    /**
+     * Content type.
+     */
+    String MSPOWER_2007 = "application/vnd.openxmlformats-officedocument.presentationml.presentation";
+    
+    /**
+     * Content type.
+     */
+    String PDF = "application/pdf";
 }

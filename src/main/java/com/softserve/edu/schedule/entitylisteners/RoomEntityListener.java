@@ -1,7 +1,6 @@
 /* RoomEntityListener 1.0 02/03/2017 */
 package com.softserve.edu.schedule.entitylisteners;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,6 +13,7 @@ import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import com.softserve.edu.schedule.dto.MeetingCompactDTO;
 import com.softserve.edu.schedule.entity.MeetingStatus;
 import com.softserve.edu.schedule.entity.Room;
+import com.softserve.edu.schedule.service.MeetingService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingCompactDTOConverter;
 import com.softserve.edu.schedule.service.implementation.mailsenders.MeetingCanceledMailService;
 
@@ -43,9 +43,14 @@ public class RoomEntityListener {
     private MeetingCanceledMailService meetingCanceledMailService;
 
     /**
-     * Set to all meetings in room null value in field room, changed status of
-     * all future meetings to NOT_APPROVED and send mail messages to their
-     * owners.
+     * MeetingService example to provide meeting delete operations.
+     */
+    @Autowired
+    private MeetingService meetingService;
+
+    /**
+     * Delete all meetings in room, archiving non-archived finished meetings and
+     * send mail messages to owners of approved future meetings.
      *
      * @param room
      *            Room to proceed meetings
@@ -56,11 +61,10 @@ public class RoomEntityListener {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
         List<MeetingCompactDTO> meetingToAlert = new ArrayList<>();
         room.getMeetings().forEach(e -> {
-            if (e.getDate().isAfter(LocalDate.now().minusDays(1))) {
-                e.setStatus(MeetingStatus.NOT_APPROVED);
+            if (e.getStatus().equals(MeetingStatus.APPROVED)) {
                 meetingToAlert.add(meetingCompactDTOConverter.getDTO(e));
             }
-            e.setRoom(null);
+            meetingService.deleteById(e.getId());
         });
         meetingToAlert.forEach(
                 e -> meetingCanceledMailService.sendInfoMessageRoomDeletion(e,

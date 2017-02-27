@@ -1,5 +1,5 @@
 /*
- * SubjectDTO.java
+ * SubjectFilterSpecification.java
  * 1.0
  * 15 Jan 2017
  * Copyright (c) Ped'ko Volodymyr
@@ -26,7 +26,7 @@ import com.softserve.edu.schedule.entity.User;
 
 /**
  * A class to provide predicate based on given SubjectFilter example. This
- * predicate is used to search rooms in database by given filter parameters.
+ * predicate is used to search subjects in database by given filter parameters.
  *
  * @version 1.0 31 January 2017
  *

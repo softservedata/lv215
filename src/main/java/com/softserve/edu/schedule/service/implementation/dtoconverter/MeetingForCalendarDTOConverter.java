@@ -101,13 +101,13 @@ public class MeetingForCalendarDTOConverter {
         if (status.equals(MeetingStatus.APPROVED)) {
             return APPROVED_MEETING_COLOR;
         }
-        if (status.equals(MeetingStatus.FINISHED)) {
-            return FINISHED_MEETING_COLOR;
+        if (status.equals(MeetingStatus.DISAPPROVED)) {
+            return DISAPPROVED_MEETING_COLOR;
         }
         if (status.equals(MeetingStatus.NOT_APPROVED)) {
             return NOTAPPROVED_MEETING_COLOR;
         }
-        return DISAPPROVED_MEETING_COLOR;
+        return FINISHED_MEETING_COLOR;
     }
 
     /**

@@ -15,9 +15,7 @@ public enum MeetingStatus {
     /**
      * Meeting status values.
      */
-    APPROVED("ms.APPROVED"), DISAPPROVED("ms.DISAPPROVED"),
-    FINISHED("ms.FINISHED"), NOT_APPROVED("ms.NOTAPPROVED"),
-    ARCHIVED("ms.ARCHIVED");
+    APPROVED("ms.APPROVED"), DISAPPROVED("ms.DISAPPROVED"), FINISHED("ms.FINISHED"), NOT_APPROVED("ms.NOTAPPROVED"), ARCHIVED("ms.ARCHIVED");
 
     /**
      * Meeting status message code for localization purposes.
