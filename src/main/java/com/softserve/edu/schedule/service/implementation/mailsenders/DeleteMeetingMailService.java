@@ -12,6 +12,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.mail.MailPreparationException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -21,8 +22,6 @@ import org.thymeleaf.spring4.SpringTemplateEngine;
 
 import com.softserve.edu.schedule.dto.MeetingDTO;
 import com.softserve.edu.schedule.dto.UserDTO;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.MeetingDTOConverter;
-import com.softserve.edu.schedule.service.implementation.dtoconverter.UserDTOConverter;
 
 /**
  * Provides mail notifications of meeting deletion.
@@ -53,20 +52,6 @@ public class DeleteMeetingMailService implements MailConstants {
     private SpringTemplateEngine templateEngine;
 
     /**
-     * MeetingDTOConverter example to provide ability to convert from meeting to
-     * meetingDTO.
-     */
-    @Autowired
-    MeetingDTOConverter meetingDTOconverter;
-
-    /**
-     * UserDTOConverter example to provide ability to convert from meeting to
-     * meetingDTO.
-     */
-    @Autowired
-    UserDTOConverter userDTOConverter;
-
-    /**
      * Field for import from message attribute from mail.properties.
      */
     @Value(DEFAULT_MESSAGE_FROM_ADDRESS)
@@ -95,13 +80,12 @@ public class DeleteMeetingMailService implements MailConstants {
             message.setFrom(new InternetAddress(fromAddress));
             message.setSubject(messageSource.getMessage(MEETING_DELETED_MESSAGE,
                     new String[0], locale));
-
             String htmlContent = this.templateEngine
                     .process(MEETING_DELETED_TEMPLATE, ctx);
             message.setText(htmlContent, true);
             this.mailSender.send(mimeMessage);
         } catch (MessagingException e) {
-            e.printStackTrace();
+            throw new MailPreparationException(e);
         }
     }
 }

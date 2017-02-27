@@ -85,7 +85,6 @@ public class MeetingEntityListener {
             final Locale locale) {
         Set<User> curators = new HashSet<User>();
         curators.add(meeting.getOwner());
-
         meeting.getGroups()
                 .forEach(e -> e.getUsers().forEach(u -> curators.add(u)));
         curators.forEach(e -> deleteMeetingMailService.sendmail(

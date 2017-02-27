@@ -226,7 +226,6 @@ public class MeetingFilterSpecification implements Specification<Meeting> {
     private void setSortingParameters(final Root<Meeting> root,
             final CriteriaQuery<?> criteriaQuery,
             final CriteriaBuilder criteriaBuilder) {
-
         if (meetingFilter.getSortOrder() == SORT_ASC) {
             if (meetingFilter
                     .getFieldForSorting() == MeetingSortField.DESCRIPTION

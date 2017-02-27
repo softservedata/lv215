@@ -195,7 +195,6 @@ public class MeetingValidator
                 .duplicatesOfGivenDTO(meetingDTO);
         return ((listOfDuplicates.isEmpty()) || listOfDuplicates.stream()
                 .anyMatch(s -> s.getId().equals(meetingDTO.getId())));
-
     }
 
     /**
