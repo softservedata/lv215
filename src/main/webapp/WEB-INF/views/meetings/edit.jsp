@@ -75,12 +75,10 @@
 							<c:forEach items="${owners}" var="owner">
 								<c:choose>
 									<c:when test="${meetingForm.owner.id eq owner.id}">
-										<option value="${owner.id}" selected="selected">${owner.lastName}
-											${owner.firstName}</option>
+										<option value="${owner.id}" selected="selected">${owner.lastName} ${owner.firstName}</option>
 									</c:when>
 									<c:otherwise>
-										<option value="${owner.id}">${owner.lastName}
-											${owner.firstName}</option>
+										<option value="${owner.id}">${owner.lastName} ${owner.firstName}</option>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach>

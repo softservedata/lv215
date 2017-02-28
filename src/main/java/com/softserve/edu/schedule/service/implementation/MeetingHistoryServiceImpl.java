@@ -106,5 +106,4 @@ public class MeetingHistoryServiceImpl implements MeetingHistoryService {
         meetingService.changeMeetingStatus(meeting.getId(),
                 MeetingStatus.ARCHIVED);
     }
-
 }

@@ -219,15 +219,6 @@
 	</div>
 </div>
 
-<c:set var="first"><spring:message code="lbl.pager.first"/></c:set>
-<input id="firstLabel" type="hidden" value="${first}"/>
-<c:set var="last"><spring:message code="lbl.pager.last"/></c:set>
-<input id="lastLabel" type="hidden" value="${last}"/>
-<c:set var="previous"><spring:message code="lbl.pager.previous"/></c:set>
-<input id="previousLabel" type="hidden" value="${previous}"/>
-<c:set var="next"><spring:message code="lbl.pager.next"/></c:set>
-<input id="nextLabel" type="hidden" value="${next}"/>
-
 <spring:url value="/resources/js/usergroups/list.js" var="userGroupsListJS" />
 <script>
 	var totalPages = ${usergroupPaginator.pagesCount + 1}
