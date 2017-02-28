@@ -32,11 +32,20 @@ public interface MeetingHistoryDAO extends CrudDAO<MeetingHistory> {
 	public List<MeetingHistory> getMeetingHistoryByIdMeeting(final String idMeeting);
 
 	/**
-	 * Returns all meeting from MeetingHistory table.
+	 * Returns all meetings from MeetingHistory table.
 	 * 
 	 * @param idMeeting
 	 *            id of the meeting, that will be returned.
 	 * @return List<MeetingHistory>.
 	 */
 	public List<MeetingHistory> getAllMeetingHistory();
+
+	/**
+	 * Method returns count of meetings from MeetingHistory table by given location.
+	 * 
+	 * @param location
+	 *            location of the meeting
+	 * @return count of meetings from MeetingHistory table.
+	 */
+	public Long getCountMeetingHistoryByLocation(final String location);
 }

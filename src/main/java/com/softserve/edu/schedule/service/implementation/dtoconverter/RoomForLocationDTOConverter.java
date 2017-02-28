@@ -28,15 +28,11 @@ public class RoomForLocationDTOConverter {
 	 *            Room entity to convert
 	 * @return RoomDTO object.
 	 */
-	public RoomForLocationDTO getDTO(Room room) {
+	public RoomForLocationDTO getDTO(final Room room) {
 		if (room != null) {
 			RoomForLocationDTO roomDTO = new RoomForLocationDTO();
-			if (room.getId() != null) {
-				roomDTO.setId(room.getId());
-			}
-			if (room.getName() != null) {
-				roomDTO.setName(room.getName());
-			}
+			roomDTO.setId(room.getId());
+			roomDTO.setName(room.getName());
 			return roomDTO;
 		}
 		return null;

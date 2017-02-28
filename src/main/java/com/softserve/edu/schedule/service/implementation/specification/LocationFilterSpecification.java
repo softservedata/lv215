@@ -30,26 +30,26 @@ import com.softserve.edu.schedule.entity.Location_;
  * @author Oleksandr Butyter
  */
 public class LocationFilterSpecification implements Specification<Location> {
-	
-    /**
-     * Field for sorting (name).
-     */
-    private static final int SORT_BY_NAME = 1;
 
-    /**
-     * Field for sorting (address).
-     */
-    private static final int SORT_BY_ADDRESS = 2;
+	/**
+	 * Field for sorting (name).
+	 */
+	private static final int SORT_BY_NAME = 1;
 
-    /**
-     * Sort order ascending.
-     */
-    private static final int SORT_ASC = 1;
+	/**
+	 * Field for sorting (address).
+	 */
+	private static final int SORT_BY_ADDRESS = 2;
 
-    /**
-     * Sort order descending.
-     */
-    private static final int SORT_DESC = 2;
+	/**
+	 * Sort order ascending.
+	 */
+	private static final int SORT_ASC = 1;
+
+	/**
+	 * Sort order descending.
+	 */
+	private static final int SORT_DESC = 2;
 
 	/**
 	 * LocationFilter example which provides parameters to build predicate.
@@ -145,7 +145,8 @@ public class LocationFilterSpecification implements Specification<Location> {
 	 *         filter parameters.
 	 */
 	@Override
-	public Predicate toPredicate(Root<Location> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+	public Predicate toPredicate(final Root<Location> root, final CriteriaQuery<?> criteriaQuery,
+			final CriteriaBuilder criteriaBuilder) {
 		setSortingParameters(root, criteriaQuery, criteriaBuilder);
 		if (filter != null) {
 			findByName();
