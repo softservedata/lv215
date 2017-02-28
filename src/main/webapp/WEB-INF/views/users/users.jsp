@@ -240,10 +240,10 @@ $('#confirm-delete').on('show.bs.modal', function(e) {
         totalPages: ${userPaginator.pagesCount + 1},
         startPage: ${userPaginator.pageNumber + 1},
         visiblePages: 10,
-        first: '<spring:message code="lbl.pager.first"/>',
-        last: '<spring:message code="lbl.pager.last"/>',
-        prev: '<spring:message code="lbl.pager.previous"/>',
-        next: '<spring:message code="lbl.pager.next"/>',
+        first : '&lt;&lt;',
+    	last : '&gt;&gt;',
+    	prev : '&lt;',
+    	next : '&gt;',
         initiateStartPageClick: false,        
         onPageClick: function (event, page) {
         	window.location = "users?pageNumber=" + (page-1);        	

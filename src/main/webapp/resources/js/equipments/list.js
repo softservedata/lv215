@@ -6,10 +6,10 @@ $('#paginationList').twbsPagination({
 	totalPages : totalPages,
 	startPage : startPage,
 	visiblePages : 10,
-	first : $("#firstLabel").text(),
-	last : $("#lastLabel").text(),
-	prev : $("#previousLabel").text(),
-	next : $("#nextLabel").text(),
+	first : '&lt;&lt;',
+	last : '&gt;&gt;',
+	prev : '&lt;',
+	next : '&gt;',
 	initiateStartPageClick : false,
 	onPageClick : function(event, page) {
 		window.location = "roomequipments?pageNumber=" + (page - 1);
