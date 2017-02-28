@@ -88,3 +88,6 @@
 		</div>
 	</div>
 </body>
+<spring:url value="/resources/js/users/create.js" var="createFileJS" />
+<script type="text/javascript" src="${createFileJS}">	
+</script>

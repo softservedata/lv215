@@ -122,56 +122,61 @@ public class MeetingRESTController {
         return new ResponseEntity<>(meetings, HttpStatus.OK);
     }
 
-	/**
-	 * Provide ResponseEntity with list of MeetingForCalendarDTO instances by
-	 * given date interval and groupId.
-	 *
-	 * @author Andriy Zhydenko
-	 *
-	 * @param groupId
-	 *            group id for find meetings
-	 *
-	 * @param start
-	 *            start date for find meetings
-	 *
-	 * @param end
-	 *            end date for find meetings
-	 *
-	 * @return ResponseEntity with list of MeetingForCalendarDTO instances.
-	 */
-	@RequestMapping(value = "/meetings/restByGroup", method = RequestMethod.GET)
-	public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByGroupId(
-			@RequestParam("start") final String start, @RequestParam("end") final String end,
-			@RequestParam("groupId") final Long groupId) {
-		List<MeetingForCalendarDTO> meetings = meetingService.getMeetingsInIntervalByGroupId(groupId, start, end);
-		if (meetings.isEmpty()) {
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		}
-		return new ResponseEntity<>(meetings, HttpStatus.OK);
-	}
+    /**
+     * Provide ResponseEntity with list of MeetingForCalendarDTO instances by
+     * given date interval and groupId.
+     *
+     * @author Andriy Zhydenko
+     *
+     * @param groupId
+     *            group id for find meetings
+     *
+     * @param start
+     *            start date for find meetings
+     *
+     * @param end
+     *            end date for find meetings
+     *
+     * @return ResponseEntity with list of MeetingForCalendarDTO instances.
+     */
+    @RequestMapping(value = "/meetings/restByGroup", method = RequestMethod.GET)
+    public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByGroupId(
+            @RequestParam("start") final String start,
+            @RequestParam("end") final String end,
+            @RequestParam("groupId") final Long groupId) {
+        List<MeetingForCalendarDTO> meetings = meetingService
+                .getMeetingsInIntervalByGroupId(groupId, start, end);
+        if (meetings.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(meetings, HttpStatus.OK);
+    }
 
-	/**
-	 * Method returns data for building charts by given date interval and user
-	 * id.
-	 *
-	 * @author Oleksandr Butyter
-	 * @param userId
-	 *            user id for find meetings
-	 *
-	 * @param start
-	 *            start date for find meetings
-	 *
-	 * @param end
-	 *            end date for find meetings
-	 *
-	 * @return ResponseEntity with data for building charts.
-	 */
-	@PreAuthorize("isAuthenticated()")
-	@RequestMapping(value = "/meetings/restForChart", method = RequestMethod.GET)
-	public ResponseEntity<Map<String, Long>> getMeetingsForChart(@RequestParam("start") final String start,
-			@RequestParam("end") final String end, @RequestParam("userId") final String userId) {
-		Map<String, Long> meetings = meetingService.getMeetingsForChartInIntervalByUserId(userId, start, end);
-		return new ResponseEntity<>(meetings, HttpStatus.OK);
-	}
+    /**
+     * Method returns data for building charts by given date interval and user
+     * id.
+     *
+     * @author Oleksandr Butyter
+     * @param userId
+     *            user id for find meetings
+     *
+     * @param start
+     *            start date for find meetings
+     *
+     * @param end
+     *            end date for find meetings
+     *
+     * @return ResponseEntity with data for building charts.
+     */
+    @RequestMapping(value = "/meetings/restForChart",
+            method = RequestMethod.GET)
+    public ResponseEntity<Map<String, Long>> getMeetingsForChart(
+            @RequestParam("start") final String start,
+            @RequestParam("end") final String end,
+            @RequestParam("userId") final String userId) {
+        Map<String, Long> meetings = meetingService
+                .getMeetingsForChartInIntervalByUserId(userId, start, end);
+        return new ResponseEntity<>(meetings, HttpStatus.OK);
+    }
 
 }
