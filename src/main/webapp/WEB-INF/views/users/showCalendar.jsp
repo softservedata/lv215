@@ -38,27 +38,7 @@
 	</div>
 </div>
 
-<script>
-	$(document).ready(function() {
-		$('#calendar').fullCalendar({
-			defaultView : 'agendaWeek',
-			locale : '<spring:message code="label.localeCalendar"/>',
-			header : {
-				left : 'prev,next,today',
-				center : 'title',
-				right : 'month,agendaWeek,agendaDay,listWeek'
-			},
-			nowIndicator : true,
-			navLinks : true,
-			events : {
-				url : '${pageContext.request.contextPath}/meetings/restByUser',
-				type : 'GET',
-				data : {
-					userId : '${user.id}'
-				}
-			}
-
-		})
-
-	});
+<spring:url value="/resources/js/users/show.js" var="userShowJS" />
+<script type="text/javascript" src="${userShowJS}">
+	
 </script>
