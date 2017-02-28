@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import com.softserve.edu.schedule.dao.MeetingHistoryDAO;
 import com.softserve.edu.schedule.dao.UserDAO;
 import com.softserve.edu.schedule.entity.Location;
 import com.softserve.edu.schedule.service.implementation.mailsenders.DeleteLocationMailService;
@@ -38,6 +39,12 @@ public class LocationEntityListner {
 	private UserDAO userDAO;
 
 	/**
+	 * MeetingHistoryDAO example to provide count of past meetings.
+	 */
+	@Autowired
+	private MeetingHistoryDAO meetingHistoryDAO;
+
+	/**
 	 * Method sends mail to moderators in order to inform them about deleting
 	 * location.
 	 * 
@@ -47,8 +54,10 @@ public class LocationEntityListner {
 	@PreRemove
 	public void processingLocationBeforeDeletion(final Location location) {
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-		userDAO.getModerators().forEach(
-				u -> deleteLocationMailService.sendInfoMessageLocationDelete(u, location, LocaleContextHolder.getLocale()));
+		if (meetingHistoryDAO.getCountMeetingHistoryByLocation(location.getName()) != 0) {
+			userDAO.getModerators().forEach(u -> deleteLocationMailService.sendInfoMessageLocationDelete(u, location,
+					LocaleContextHolder.getLocale()));
+		}
 	}
 
 }

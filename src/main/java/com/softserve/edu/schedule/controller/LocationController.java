@@ -73,7 +73,7 @@ public class LocationController
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(LOCATION_DELETE_MAPPING + "{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable final Long id) {
         locationService.deleteById(id);
         return LOCATIONS_REDIRECT_URL;
     }
@@ -87,7 +87,7 @@ public class LocationController
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(LOCATION_CREATE_MAPPING)
-    public String createForm(Model model) {
+    public String createForm(final Model model) {
         model.addAttribute(LOCATION_FORM_MODEL_ATTR, new LocationDTO());
         return LOCATION_CREATE_URL;
     }
@@ -102,8 +102,8 @@ public class LocationController
     @RequestMapping(value = LOCATION_CREATE_MAPPING,
             method = RequestMethod.POST)
     public String create(
-            @ModelAttribute(LOCATION_FORM_MODEL_ATTR) @Valid LocationDTO location,
-            BindingResult result) {
+            @ModelAttribute(LOCATION_FORM_MODEL_ATTR) @Valid final LocationDTO location,
+            final BindingResult result) {
         if (result.hasErrors()) {
             return LOCATION_CREATE_URL;
         }
@@ -120,7 +120,7 @@ public class LocationController
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')")
     @RequestMapping(LOCATION_EDIT_MAPPING + "{id}")
-    public String updateForm(@PathVariable Long id, Model model) {
+    public String updateForm(@PathVariable final Long id, final Model model) {
         model.addAttribute(LOCATION_FORM_MODEL_ATTR,
                 locationService.getById(id));
         return LOCATION_EDIT_URL;
@@ -136,8 +136,8 @@ public class LocationController
     @RequestMapping(value = LOCATION_EDIT_MAPPING + "{id}",
             method = RequestMethod.POST)
     public String update(
-            @ModelAttribute(LOCATION_FORM_MODEL_ATTR) @Valid LocationDTO location,
-            BindingResult result) {
+            @ModelAttribute(LOCATION_FORM_MODEL_ATTR) @Valid final LocationDTO location,
+            final BindingResult result) {
         if (result.hasErrors()) {
             return LOCATION_EDIT_URL;
         }
@@ -153,7 +153,7 @@ public class LocationController
      * @return locations map page URL
      */
     @RequestMapping(LOCATION_MAP_MAPPING + "{id}")
-    public String showMap(@PathVariable Long id, Model model) {
+    public String showMap(@PathVariable final Long id, final Model model) {
         model.addAttribute(LOCATION_MAP_MODEL_ATTR,
                 locationService.getById(id));
         return LOCATION_MAP_URL;
@@ -168,7 +168,7 @@ public class LocationController
      * @return locations list page URL
      */
     @RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING)
-    public String sortByCountRoomsAsc(Model model) {
+    public String sortByCountRoomsAsc(final Model model) {
         model.addAttribute(LOCATIONS_MODEL_ATTR,
                 locationService.sortByCountRooms(Order.ASC));
         return LOCATIONS_LIST_URL;
@@ -183,7 +183,7 @@ public class LocationController
      * @return locations list page URL
      */
     @RequestMapping(LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING)
-    public String sortByCountRoomsDesc(Model model) {
+    public String sortByCountRoomsDesc(final Model model) {
         model.addAttribute(LOCATIONS_MODEL_ATTR,
                 locationService.sortByCountRooms(Order.DESC));
         return LOCATIONS_LIST_URL;

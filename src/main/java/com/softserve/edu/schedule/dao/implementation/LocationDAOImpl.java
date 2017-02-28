@@ -59,7 +59,7 @@ public class LocationDAOImpl extends CrudDAOImpl<Location> implements LocationDA
 	 * @see com.softserve.edu.schedule.dao.LocationDAO#getLocationsPageWithFilter(com.softserve.edu.schedule.dto.filter.LocationFilter, com.softserve.edu.schedule.dto.filter.Paginator)
 	 */
 	@Override
-	public List<Location> getLocationsPageWithFilter(LocationFilter locationFilter, Paginator locationPaginator) {
+	public List<Location> getLocationsPageWithFilter(final LocationFilter locationFilter, final Paginator locationPaginator) {
 		CriteriaBuilder builder = getEm().getCriteriaBuilder();
 		CriteriaQuery<Location> criteriaQuery = builder.createQuery(Location.class);
 		Root<Location> root = criteriaQuery.from(Location.class);
@@ -76,7 +76,7 @@ public class LocationDAOImpl extends CrudDAOImpl<Location> implements LocationDA
 	 * @see com.softserve.edu.schedule.dao.LocationDAO#getCountOfLocationsWithFilter(com.softserve.edu.schedule.dto.filter.LocationFilter)
 	 */
 	@Override
-	public Long getCountOfLocationsWithFilter(LocationFilter locationFilter) {
+	public Long getCountOfLocationsWithFilter(final LocationFilter locationFilter) {
 		 CriteriaBuilder cb = getEm().getCriteriaBuilder();
 	        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
 	        Root<Location> root = cq.from(Location.class);
