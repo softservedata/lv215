@@ -4,6 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ page
 	import="com.softserve.edu.schedule.controller.constants.RegistrationControllerConst"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.constants.UserControllerConst"%>
 <body>
 	<div class="container">
 		<div class="row">
@@ -102,7 +104,7 @@
 					<div class="form-group text-center">
 						<input type="submit" class="btn btn-default" value="<spring:message code="lbl.form.save"/>">
 						<a class="btn btn-default"
-							href="${pageContext.request.contextPath}${RegistrationControllerConst.USERS_MAPPING_FROM_HEADER}">
+							href="${pageContext.request.contextPath}${UserControllerConst.USERS_MAPPING_FROM_HEADER}">
 							<spring:message code="lbl.form.cancel" />
 						</a>
 					</div>
