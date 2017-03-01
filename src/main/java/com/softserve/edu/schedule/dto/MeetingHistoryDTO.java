@@ -79,7 +79,7 @@ public class MeetingHistoryDTO {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -87,7 +87,7 @@ public class MeetingHistoryDTO {
         return idMeeting;
     }
 
-    public void setIdMeeting(String idMeeting) {
+    public void setIdMeeting(final String idMeeting) {
         this.idMeeting = idMeeting;
     }
 
@@ -95,7 +95,7 @@ public class MeetingHistoryDTO {
         return subject;
     }
 
-    public void setSubject(String subject) {
+    public void setSubject(final String subject) {
         this.subject = subject;
     }
 
@@ -103,7 +103,7 @@ public class MeetingHistoryDTO {
         return room;
     }
 
-    public void setRoom(String room) {
+    public void setRoom(final String room) {
         this.room = room;
     }
 
@@ -111,7 +111,7 @@ public class MeetingHistoryDTO {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(final String location) {
         this.location = location;
     }
 
@@ -119,7 +119,7 @@ public class MeetingHistoryDTO {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(final String address) {
         this.address = address;
     }
 
@@ -127,7 +127,7 @@ public class MeetingHistoryDTO {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(final LocalDate date) {
         this.date = date;
     }
 
@@ -135,7 +135,7 @@ public class MeetingHistoryDTO {
         return startTime;
     }
 
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(final LocalTime startTime) {
         this.startTime = startTime;
     }
 
@@ -143,7 +143,7 @@ public class MeetingHistoryDTO {
         return endTime;
     }
 
-    public void setEndTime(LocalTime endTime) {
+    public void setEndTime(final LocalTime endTime) {
         this.endTime = endTime;
     }
 
@@ -151,7 +151,7 @@ public class MeetingHistoryDTO {
         return groups;
     }
 
-    public void setGroups(String groups) {
+    public void setGroups(final String groups) {
         this.groups = groups;
     }
 
@@ -159,7 +159,7 @@ public class MeetingHistoryDTO {
         return owner;
     }
 
-    public void setOwner(String owner) {
+    public void setOwner(final String owner) {
         this.owner = owner;
     }
 
@@ -167,7 +167,7 @@ public class MeetingHistoryDTO {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 

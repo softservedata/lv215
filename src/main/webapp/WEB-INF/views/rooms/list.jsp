@@ -242,10 +242,6 @@
 	</div>
 </div>
 
-<span id="firstLabel" hidden="true"><spring:message code="lbl.pager.first" /></span>
-<span id="lastLabel" hidden="true"><spring:message code="lbl.pager.last" /></span>
-<span id="previousLabel" hidden="true"><spring:message code="lbl.pager.previous" /></span>
-<span id="nextLabel" hidden="true"><spring:message code="lbl.pager.next" /></span>
 <spring:url value="/resources/js/rooms/list.js" var="roomsListJS" />
 <script>
 	var totalPages = ${roomPaginator.pagesCount + 1}

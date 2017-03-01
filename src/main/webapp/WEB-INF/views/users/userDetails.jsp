@@ -24,7 +24,7 @@
 					<spring:message code="lbl.user.profile" />
 				</h3>
 				<br>
-				<div class="form-group" style="list-style-type: none" align = "center">
+				<div class="form-group" style="list-style-type: none" align="center">
 					<a style="display: inline-block;"
 						href="${pageContext.request.contextPath}/downloadFile/${userFiles}/${user.id}">
 						<img
@@ -33,15 +33,26 @@
 					</a>
 				</div>
 				<div class="form-group">
-					<form
-						action="${pageContext.request.contextPath}${UserController.SAVE_IMAGES}?${_csrf.parameterName}=${_csrf.token}"
+					<form:form class="form-inline"
+						action="${pageContext.request.contextPath}${UserController.SAVE_IMAGES}${subject.id}?${_csrf.parameterName}=${_csrf.token}"
 						method="POST" enctype="multipart/form-data">
 						<div class="form-group">
-							<input type="file" name="image" /> <input type="submit"
-								class="form-control"
+							<div class="input-group">
+								<label class="input-group-btn"> <span
+									class="btn btn-primary"><spring:message
+											code="lbl.filePicker.browse" />&hellip; <input
+										style="display: none;" type="file" name="image"> </span>
+								</label> <input type="text" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="btn btn-default"
 								value="<spring:message code="lbl.form.save"/>" />
 						</div>
-					</form>
+						<div class="input-group">
+							<form:errors path="file" />
+						</div>
+					</form:form>
 				</div>
 				<div class="form-group">
 					<label for="firstName"><spring:message
@@ -88,3 +99,7 @@
 		</div>
 	</div>
 </body>
+<spring:url value="/resources/js/users/create.js" var="createFileJS" />
+<script type="text/javascript" src="${createFileJS}">
+	
+</script>

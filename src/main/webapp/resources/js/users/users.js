@@ -12,6 +12,6 @@ $('#paginationList').twbsPagination({
 	next : '&gt;',
 	initiateStartPageClick : false,
 	onPageClick : function(event, page) {
-		window.location = "roomequipments?pageNumber=" + (page - 1);
+		window.location = "users?pageNumber=" + (page - 1);
 	}
 });
