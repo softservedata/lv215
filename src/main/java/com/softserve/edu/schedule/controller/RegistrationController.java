@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.WebRequest;
 
+import com.softserve.edu.schedule.controller.constants.RegistrationControllerConst;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.service.UserService;
 
@@ -34,8 +35,7 @@ import com.softserve.edu.schedule.service.UserService;
  * @since 1.8
  */
 @Controller
-public class RegistrationController
-        implements ControllerConst.RegistrationControllerConst {
+public class RegistrationController {
 
     /**
      * UserService example to provide business logic for user entity.
@@ -60,8 +60,7 @@ public class RegistrationController
      *
      * @return start page URL
      */
-    @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE,
-            method = RequestMethod.GET)
+    @RequestMapping(value = RegistrationControllerConst.USER_REGIST_MAPPING_FROM_STARTPAGE, method = RequestMethod.GET)
     public String newUserPage(final WebRequest request, final Model model) {
         Connection<?> connection = providerSignInUtils
                 .getConnectionFromSession(request);
@@ -72,9 +71,9 @@ public class RegistrationController
                 return processExistedUser(request, connection, userDetails);
             }
         }
-        model.addAttribute(USER_REGIST_MODEL_ATTR,
+        model.addAttribute(RegistrationControllerConst.USER_REGIST_MODEL_ATTR,
                 userService.createRegistrationDTO(connection));
-        return USER_REGIST_URL;
+        return RegistrationControllerConst.USER_REGIST_URL;
     }
 
     /**
@@ -114,11 +113,12 @@ public class RegistrationController
      *
      * @return start page URL
      */
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN)
+    @PreAuthorize(RegistrationControllerConst.HAS_ROLE_ADMIN)
+    @RequestMapping(value = RegistrationControllerConst.USER_REGIST_MAPPING_FOR_ADMIN)
     public String newUserPageForAdmin(final Model model) {
-        model.addAttribute(USER_REGIST_MODEL_ATTR, new UserDTO());
-        return USER_REGIST_URL;
+        model.addAttribute(RegistrationControllerConst.USER_REGIST_MODEL_ATTR,
+                new UserDTO());
+        return RegistrationControllerConst.USER_REGIST_URL;
     }
 
     /**
@@ -136,14 +136,13 @@ public class RegistrationController
      * @throws IOException
      *             if something happens while upload user image
      */
-    @RequestMapping(value = USER_REGIST_MAPPING_FROM_STARTPAGE,
-            method = RequestMethod.POST)
+    @RequestMapping(value = RegistrationControllerConst.USER_REGIST_MAPPING_FROM_STARTPAGE, method = RequestMethod.POST)
     public String newUserFromStartPage(
-            @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
+            @ModelAttribute(RegistrationControllerConst.USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
             final BindingResult br, final WebRequest request)
             throws IOException {
         if (br.hasErrors()) {
-            return USER_REGIST_URL;
+            return RegistrationControllerConst.USER_REGIST_URL;
         }
         userService.create(userDTO);
         userService.autoLoginUser(userDTO);
@@ -166,18 +165,17 @@ public class RegistrationController
      * @throws IOException
      *             if something happens while upload user image
      */
-    @RequestMapping(value = USER_REGIST_MAPPING_FOR_ADMIN,
-            method = RequestMethod.POST)
+    @RequestMapping(value = RegistrationControllerConst.USER_REGIST_MAPPING_FOR_ADMIN, method = RequestMethod.POST)
     public String newUserForAdmin(
-            @ModelAttribute(USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
+            @ModelAttribute(RegistrationControllerConst.USER_REGIST_MODEL_ATTR) @Valid final UserDTO userDTO,
             final BindingResult br) throws IOException {
         if (br.hasErrors()) {
-            return USER_REGIST_URL;
+            return RegistrationControllerConst.USER_REGIST_URL;
         }
         userService.create(userDTO);
         UserDTO activeUser = (UserDTO) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         userService.saveDefoultImage(activeUser);
-        return REDIRECT_USERS_PAGE;
+        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
     }
 }

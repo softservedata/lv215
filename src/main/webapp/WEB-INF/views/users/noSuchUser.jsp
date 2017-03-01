@@ -1,9 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.constants.UserControllerConst"%>
 
 <body>
 	<div class="container">
@@ -18,7 +17,7 @@
 				</div>
 				<div class="form-group text-center">
 					<a class="btn btn-default"
-						href="${pageContext.request.contextPath}/${UserController.RESTORE_PASSWORD_MAPPING}"><spring:message
+						href="${pageContext.request.contextPath}/${UserControllerConst.RESTORE_PASSWORD_MAPPING}"><spring:message
 							code="lbl.user.tryAgain" /></a> <a class="btn btn-default"
 						href="${pageContext.request.contextPath}/"><spring:message
 							code="lbl.form.cancel" /></a>

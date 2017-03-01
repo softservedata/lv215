@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.constants.UserControllerConst"%>
 <body>
 	<div class="container">
 		<div class="row">
@@ -18,7 +19,7 @@
 				</div>
 				<br>
 				<form:form method="post"
-					modelAttribute="${UserController.USER_MODEL_ATTR}">
+					modelAttribute="${UserControllerConst.USER_MODEL_ATTR}">
 					<div class="form-group">
 						<label for="mail"><spring:message code="lbl.user.mail" />:</label>
 						<spring:message code="lbl.user.mail" var="nameForPlaceholder" />

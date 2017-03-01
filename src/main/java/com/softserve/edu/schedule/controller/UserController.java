@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.softserve.edu.schedule.controller.constants.UserControllerConst;
+import com.softserve.edu.schedule.controller.constants.RegistrationControllerConst;
 import com.softserve.edu.schedule.dto.UserDTO;
 import com.softserve.edu.schedule.dto.UserDTOForChangePassword;
 import com.softserve.edu.schedule.dto.UserDTOForRestorePassword;
@@ -39,10 +41,9 @@ import com.softserve.edu.schedule.service.UserService;
  * @since 1.8
  */
 @Controller
-@SessionAttributes({ ControllerConst.UserControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.UserControllerConst.USER_PAGINATOR_MODEL_ATTR })
-public class UserController implements ControllerConst.UserControllerConst,
-        ControllerConst.RegistrationControllerConst {
+@SessionAttributes({ UserControllerConst.FILTER_MODEL_ATTR,
+        UserControllerConst.USER_PAGINATOR_MODEL_ATTR })
+public class UserController {
 
     /**
      * UserService example to provide business logic for user entity.
@@ -55,7 +56,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return new UserFilter object.
      */
-    @ModelAttribute(FILTER_MODEL_ATTR)
+    @ModelAttribute(UserControllerConst.FILTER_MODEL_ATTR)
     public UserFilter getFilter() {
         return new UserFilter();
     }
@@ -65,7 +66,7 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return new Paginator object.
      */
-    @ModelAttribute(USER_PAGINATOR_MODEL_ATTR)
+    @ModelAttribute(UserControllerConst.USER_PAGINATOR_MODEL_ATTR)
     public Paginator getPaginator() {
         return new Paginator();
     }
@@ -78,15 +79,16 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize(HAS_ROLE_ADMIN)
-    @RequestMapping(DELETE_USER_MAPPING + "{id}")
+    @PreAuthorize(UserControllerConst.HAS_ROLE_ADMIN)
+    @RequestMapping(UserControllerConst.DELETE_USER_MAPPING + "{id}")
     public String delete(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
+        model.addAttribute(UserControllerConst.USER_MODEL_ATTR,
+                userService.getById(id));
 
         if (userService.deleteById(id)) {
-            return REDIRECT_USERS_PAGE;
+            return RegistrationControllerConst.REDIRECT_USERS_PAGE;
         } else {
-            return DELETE_USER_URL;
+            return UserControllerConst.DELETE_USER_URL;
         }
     }
 
@@ -98,11 +100,12 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize(IS_AUTHENTICATED)
-    @RequestMapping(UPDATE_USER_MAPPING + "{id}")
+    @PreAuthorize(UserControllerConst.IS_AUTHENTICATED)
+    @RequestMapping(UserControllerConst.UPDATE_USER_MAPPING + "{id}")
     public String update(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_UPDATE_ATTR, userService.getById(id));
-        return UPDATE_PAGE_URL;
+        model.addAttribute(UserControllerConst.USER_UPDATE_ATTR,
+                userService.getById(id));
+        return UserControllerConst.UPDATE_PAGE_URL;
     }
 
     /**
@@ -113,17 +116,17 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize(IS_AUTHENTICATED)
-    @RequestMapping(value = SAVE_UPDATED_USER_MAPPING
+    @PreAuthorize(UserControllerConst.IS_AUTHENTICATED)
+    @RequestMapping(value = UserControllerConst.SAVE_UPDATED_USER_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String updateUser(
-            @ModelAttribute(USER_UPDATE_ATTR) @Valid UserDTO user,
+            @ModelAttribute(UserControllerConst.USER_UPDATE_ATTR) @Valid UserDTO user,
             BindingResult br) {
         if (br.hasErrors()) {
-            return UPDATE_PAGE_URL;
+            return UserControllerConst.UPDATE_PAGE_URL;
         }
         userService.update(user);
-        return REDIRECT_USERS_PAGE;
+        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
     }
 
     /**
@@ -134,12 +137,12 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize(HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
-    @RequestMapping(BAN_USER_MAPPING + "{id}")
+    @PreAuthorize(UserControllerConst.HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
+    @RequestMapping(UserControllerConst.BAN_USER_MAPPING + "{id}")
     public String bunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.BLOCKED;
         userService.changeStatus(id, userStatus);
-        return REDIRECT_USERS_PAGE;
+        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
     }
 
     /**
@@ -150,12 +153,12 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize(HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
-    @RequestMapping(UNBAN_USER_MAPPING + "{id}")
+    @PreAuthorize(UserControllerConst.HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
+    @RequestMapping(UserControllerConst.UNBAN_USER_MAPPING + "{id}")
     public String unBunUser(@PathVariable Long id) {
         UserStatus userStatus = UserStatus.ACTIVE;
         userService.changeStatus(id, userStatus);
-        return REDIRECT_USERS_PAGE;
+        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
     }
 
     /**
@@ -166,12 +169,14 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize(HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
-    @RequestMapping(CHANGE_ROLE_MAPPING + "{id}")
+    @PreAuthorize(UserControllerConst.HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
+    @RequestMapping(UserControllerConst.CHANGE_ROLE_MAPPING + "{id}")
     public String changeRole(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_ROLE_ATTR, UserRole.values());
-        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
-        return CHANGE_ROLE_PAGE_URL;
+        model.addAttribute(UserControllerConst.USER_ROLE_ATTR,
+                UserRole.values());
+        model.addAttribute(UserControllerConst.USER_MODEL_ATTR,
+                userService.getById(id));
+        return UserControllerConst.CHANGE_ROLE_PAGE_URL;
     }
 
     /**
@@ -182,13 +187,13 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize(HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
-    @RequestMapping(value = SAVE_CHANGED_ROLE_MAPPING
+    @PreAuthorize(UserControllerConst.HAS_ROLE_ADMIN_OR_ROLE_SUPERVISOR)
+    @RequestMapping(value = UserControllerConst.SAVE_CHANGED_ROLE_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String changeRole(@PathVariable Long id,
             @RequestParam UserRole role) {
         userService.changeRole(id, role);
-        return REDIRECT_USERS_PAGE;
+        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
     }
 
     /**
@@ -202,12 +207,16 @@ public class UserController implements ControllerConst.UserControllerConst,
      * 
      * @return users list page URL
      */
-    @PreAuthorize(HAS_ANY_AUTHORIZED_ROLE)
-    @RequestMapping(USER_PROFILE_MAPPING + "{id}")
-    public String getProfile(@PathVariable(PATH_VAR_ID) Long id, Model model) {
-        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
-        model.addAttribute(USER_FILES, userService.showUserFile(id));
-        return USER_PROFILE_URL;
+    @PreAuthorize(UserControllerConst.HAS_ANY_AUTHORIZED_ROLE)
+    @RequestMapping(UserControllerConst.USER_PROFILE_MAPPING + "{id}")
+    public String getProfile(
+            @PathVariable(UserControllerConst.PATH_VAR_ID) Long id,
+            Model model) {
+        model.addAttribute(UserControllerConst.USER_MODEL_ATTR,
+                userService.getById(id));
+        model.addAttribute(UserControllerConst.USER_FILES,
+                userService.showUserFile(id));
+        return UserControllerConst.USER_PROFILE_URL;
     }
 
     /**
@@ -221,16 +230,16 @@ public class UserController implements ControllerConst.UserControllerConst,
      * 
      * @return users list page URL
      */
-    @PreAuthorize(IS_AUTHENTICATED)
-    @RequestMapping(USER_DETAILS_MAPPING)
+    @PreAuthorize(UserControllerConst.IS_AUTHENTICATED)
+    @RequestMapping(UserControllerConst.USER_DETAILS_MAPPING)
     public String getUserDetails(Model model, Principal principal) {
         UserDTO activeUser = (UserDTO) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        model.addAttribute(USER_MODEL_ATTR,
+        model.addAttribute(UserControllerConst.USER_MODEL_ATTR,
                 userService.getById(activeUser.getId()));
-        model.addAttribute(USER_FILES,
+        model.addAttribute(UserControllerConst.USER_FILES,
                 userService.showUserFile(activeUser.getId()));
-        return USER_DETAILS_URL;
+        return UserControllerConst.USER_DETAILS_URL;
     }
 
     /**
@@ -245,13 +254,14 @@ public class UserController implements ControllerConst.UserControllerConst,
      * @param response
      *            response.
      */
-    @PreAuthorize(IS_AUTHENTICATED)
+    @PreAuthorize(UserControllerConst.IS_AUTHENTICATED)
     @RequestMapping("/downloadFile/{fileName}/{id}")
     public void downloadFile(@PathVariable final Long id,
             @PathVariable final String fileName, HttpServletResponse response,
             Model model) throws IOException {
         userService.retrivePhotoById(id, fileName, response);
-        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
+        model.addAttribute(UserControllerConst.USER_MODEL_ATTR,
+                userService.getById(id));
     }
 
     /**
@@ -262,11 +272,12 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize(HAS_ANY_AUTHORIZED_ROLE)
-    @RequestMapping(CHANGE_PASSWORD_MAPPING + "{id}")
+    @PreAuthorize(UserControllerConst.HAS_ANY_AUTHORIZED_ROLE)
+    @RequestMapping(UserControllerConst.CHANGE_PASSWORD_MAPPING + "{id}")
     public String changePassword(@PathVariable Long id, Model model) {
-        model.addAttribute(USER_MODEL_ATTR, userService.getByIdForPassword(id));
-        return CHANGE_PASSWORD_URL;
+        model.addAttribute(UserControllerConst.USER_MODEL_ATTR,
+                userService.getByIdForPassword(id));
+        return UserControllerConst.CHANGE_PASSWORD_URL;
     }
 
     /**
@@ -277,17 +288,17 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page redirect URL
      */
-    @PreAuthorize(IS_AUTHENTICATED)
-    @RequestMapping(value = SAVE_CHANGED_PASSWORD_MAPPING
+    @PreAuthorize(UserControllerConst.IS_AUTHENTICATED)
+    @RequestMapping(value = UserControllerConst.SAVE_CHANGED_PASSWORD_MAPPING
             + "{id}", method = RequestMethod.POST)
     public String saveChangedPassword(
-            @ModelAttribute(USER_MODEL_ATTR) @Valid UserDTOForChangePassword user,
+            @ModelAttribute(UserControllerConst.USER_MODEL_ATTR) @Valid UserDTOForChangePassword user,
             BindingResult br) {
         if (br.hasErrors()) {
-            return CHANGE_PASSWORD_URL;
+            return UserControllerConst.CHANGE_PASSWORD_URL;
         }
         userService.changePassword(user);
-        return REDIRECT_USERS_PAGE;
+        return RegistrationControllerConst.REDIRECT_USERS_PAGE;
     }
 
     /**
@@ -304,14 +315,14 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return users list page URL
      */
-    @PreAuthorize(HAS_ANY_AUTHORIZED_ROLE)
-    @RequestMapping(USERS_MAPPING_FROM_HEADER)
+    @PreAuthorize(UserControllerConst.HAS_ANY_AUTHORIZED_ROLE)
+    @RequestMapping(UserControllerConst.USERS_MAPPING_FROM_HEADER)
     public String showUserPage(final Model model,
-            @ModelAttribute(FILTER_MODEL_ATTR) final UserFilter filter,
-            @ModelAttribute(USER_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
-        model.addAttribute(USERS_MODEL_ATTR,
+            @ModelAttribute(UserControllerConst.FILTER_MODEL_ATTR) final UserFilter filter,
+            @ModelAttribute(UserControllerConst.USER_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
+        model.addAttribute(UserControllerConst.USERS_MODEL_ATTR,
                 userService.getUsersPageWithFilter(filter, paginator));
-        return USERS_PAGE_URL;
+        return UserControllerConst.USERS_PAGE_URL;
     }
 
     /**
@@ -325,15 +336,15 @@ public class UserController implements ControllerConst.UserControllerConst,
      *
      * @return path of images
      */
-    @PreAuthorize(HAS_ANY_AUTHORIZED_ROLE)
-    @RequestMapping(value = SAVE_IMAGES, method = RequestMethod.POST)
+    @PreAuthorize(UserControllerConst.HAS_ANY_AUTHORIZED_ROLE)
+    @RequestMapping(value = UserControllerConst.SAVE_IMAGES, method = RequestMethod.POST)
     public String saveImage(Principal principal,
             @RequestParam MultipartFile image) throws IOException {
         UserDTO activeUser = (UserDTO) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         userService.deleteUserPhotoById(activeUser.getId());
         userService.saveImage(principal, image);
-        return REDIRECT_USER_DETAILS_URL;
+        return UserControllerConst.REDIRECT_USER_DETAILS_URL;
     }
 
     /**
@@ -347,11 +358,12 @@ public class UserController implements ControllerConst.UserControllerConst,
      * 
      * @return meetings of users.
      */
-    @PreAuthorize(HAS_ANY_AUTHORIZED_ROLE)
-    @RequestMapping(USER_MEETINGS_MAPPING + "{id}")
+    @PreAuthorize(UserControllerConst.HAS_ANY_AUTHORIZED_ROLE)
+    @RequestMapping(UserControllerConst.USER_MEETINGS_MAPPING + "{id}")
     public String showMeetings(@PathVariable Long id, final Model model) {
-        model.addAttribute(USER_MODEL_ATTR, userService.getById(id));
-        return USER_MEETINGS_URL;
+        model.addAttribute(UserControllerConst.USER_MODEL_ATTR,
+                userService.getById(id));
+        return UserControllerConst.USER_MEETINGS_URL;
     }
 
     /**
@@ -362,10 +374,11 @@ public class UserController implements ControllerConst.UserControllerConst,
      * 
      * @return meetings of users.
      */
-    @RequestMapping(RESTORE_PASSWORD_MAPPING)
+    @RequestMapping(UserControllerConst.RESTORE_PASSWORD_MAPPING)
     public String changeForgottenPassord(final Model model) {
-        model.addAttribute(USER_MODEL_ATTR, new UserDTOForRestorePassword());
-        return RESTORE_PASSWORD_URL;
+        model.addAttribute(UserControllerConst.USER_MODEL_ATTR,
+                new UserDTOForRestorePassword());
+        return UserControllerConst.RESTORE_PASSWORD_URL;
     }
 
     /**
@@ -376,16 +389,16 @@ public class UserController implements ControllerConst.UserControllerConst,
      * 
      * @return meetings of users.
      */
-    @RequestMapping(value = RESTORE_PASSWORD_MAPPING, method = RequestMethod.POST)
+    @RequestMapping(value = UserControllerConst.RESTORE_PASSWORD_MAPPING, method = RequestMethod.POST)
     public String submitChangeForgottenPassord(final Model model,
-            @ModelAttribute(USER_MODEL_ATTR) final UserDTOForRestorePassword userDTO) {
+            @ModelAttribute(UserControllerConst.USER_MODEL_ATTR) final UserDTOForRestorePassword userDTO) {
 
         if (userService.isUserWithMailExist(userDTO)) {
-            model.addAttribute(USER_MODEL_ATTR,
+            model.addAttribute(UserControllerConst.USER_MODEL_ATTR,
                     userService.submitRestorePassword(userDTO));
-            return PASSWORD_WAS_SENT;
+            return UserControllerConst.PASSWORD_WAS_SENT;
         } else {
-            return NO_SUCH_USER_URL;
+            return UserControllerConst.NO_SUCH_USER_URL;
         }
     }
 }
