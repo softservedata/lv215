@@ -5,7 +5,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page
-	import="com.softserve.edu.schedule.controller.LocationController"%>
+	import="com.softserve.edu.schedule.controller.constants.LocationControllerConst"%>
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -39,12 +39,12 @@
 			<th>
 				<spring:message code="lbl.location.name" />
 				<a
-					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}?sortByField=1&sortOrder=1&pageNumber=0"
+					href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_MAPPING}?sortByField=1&sortOrder=1&pageNumber=0"
 					title="<spring:message code="lbl.location.sortAsc" />">
 					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
 				</a>
 				<a
-					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}?sortByField=1&sortOrder=2&pageNumber=0"
+					href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_MAPPING}?sortByField=1&sortOrder=2&pageNumber=0"
 					title="<spring:message code="lbl.location.sortDesc" />">
 					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
 				</a>
@@ -52,12 +52,12 @@
 			<th>
 				<spring:message code="lbl.location.address" />
 				<a
-					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}?sortByField=2&sortOrder=1&pageNumber=0"
+					href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_MAPPING}?sortByField=2&sortOrder=1&pageNumber=0"
 					title="<spring:message code="lbl.location.sortAsc" />">
 					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
 				</a>
 				<a
-					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}?sortByField=2&sortOrder=2&pageNumber=0"
+					href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_MAPPING}?sortByField=2&sortOrder=2&pageNumber=0"
 					title="<spring:message code="lbl.location.sortDesc" />">
 					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
 				</a>
@@ -68,12 +68,12 @@
 			<th>
 				<spring:message code="lbl.location.rooms" />
 				<a
-					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING}"
+					href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING}"
 					title="<spring:message code="lbl.location.sortAsc" />">
 					<i class="fa fa-arrow-circle-o-up fa-lg"></i>
 				</a>
 				<a
-					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING}"
+					href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING}"
 					title="<spring:message code="lbl.location.sortDesc" />">
 					<i class="fa fa-arrow-circle-o-down fa-lg"></i>
 				</a>
@@ -81,7 +81,7 @@
 			<th></th>
 			<th>
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
-					<a href="${pageContext.request.contextPath}${LocationController.LOCATION_CREATE_MAPPING}"
+					<a href="${pageContext.request.contextPath}${LocationControllerConst.LOCATION_CREATE_MAPPING}"
 						title="<spring:message code="lbl.location.add" />">
 						<i class="fa fa-plus fa-lg"></i>
 					</a>
@@ -90,8 +90,8 @@
 		</tr>
 
 		<tr>
-			<form:form action="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}"
-				modelAttribute="${LocationController.FILTER_MODEL_ATTR}">
+			<form:form action="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_MAPPING}"
+				modelAttribute="${LocationControllerConst.FILTER_MODEL_ATTR}">
 				<td>
 					<spring:message code="lbl.location.search" var="search" />
 					<form:input class="form-control" path="name" placeholder=" ${search}" />
@@ -111,7 +111,7 @@
 			</form:form>
 			<td class="v-alighn">
 				<a
-					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}?name=&address="
+					href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_MAPPING}?name=&address="
 					title="<spring:message code="lbl.room.resetFilter"/>">
 					<i class="fa fa-times fa-lg"></i>
 				</a>
@@ -125,7 +125,7 @@
 				<td>${location.address}</td>
 				<td>
 					<a
-						href="${pageContext.request.contextPath}${LocationController.LOCATION_MAP_MAPPING}${location.id}">
+						href="${pageContext.request.contextPath}${LocationControllerConst.LOCATION_MAP_MAPPING}${location.id}">
 						<spring:message code="lbl.location.map" />
 						<i class="fa fa-map-o"></i>
 					</a>
@@ -144,7 +144,7 @@
 					<c:if test="${location.rooms.size() == 0}">
 						<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 							<a
-								data-href="${pageContext.request.contextPath}${LocationController.LOCATION_DELETE_MAPPING}${location.id}"
+								data-href="${pageContext.request.contextPath}${LocationControllerConst.LOCATION_DELETE_MAPPING}${location.id}"
 								data-toggle="modal" data-target="#confirm-delete"
 								title="<spring:message code="lbl.location.delete" />"><i
 								class="fa fa-trash-o fa-lg"></i></a>
@@ -154,7 +154,7 @@
 				<td>
 					<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 						<a
-							href="${pageContext.request.contextPath}${LocationController.LOCATION_EDIT_MAPPING}${location.id}"
+							href="${pageContext.request.contextPath}${LocationControllerConst.LOCATION_EDIT_MAPPING}${location.id}"
 							title="<spring:message code="lbl.location.edit" />">
 							<i class="fa fa-pencil-square-o fa-lg"></i>
 						</a>
@@ -175,7 +175,7 @@
 			</c:when>
 			<c:otherwise>
 				<a class="btn btn-default"
-					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}?pageSize=5&pageNumber=0">5</a>
+					href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_MAPPING}?pageSize=5&pageNumber=0">5</a>
 			</c:otherwise>
 		</c:choose>
 		<c:choose>
@@ -184,7 +184,7 @@
 			</c:when>
 			<c:otherwise>
 				<a class="btn btn-default"
-					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}?pageSize=10&pageNumber=0">10</a>
+					href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_MAPPING}?pageSize=10&pageNumber=0">10</a>
 			</c:otherwise>
 		</c:choose>
 		<c:choose>
@@ -193,7 +193,7 @@
 			</c:when>
 			<c:otherwise>
 				<a class="btn btn-default"
-					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}?pageSize=20&pageNumber=0">20</a>
+					href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_MAPPING}?pageSize=20&pageNumber=0">20</a>
 			</c:otherwise>
 		</c:choose>
 	</div>
