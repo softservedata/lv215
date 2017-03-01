@@ -1,4 +1,4 @@
-/* GlobalExceptionController 1.0 01/29/2017 */
+/* GlobalExceptionHandler 1.0 01/29/2017 */
 package com.softserve.edu.schedule.exceptionhandlers;
 
 import org.slf4j.Logger;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.softserve.edu.schedule.controller.ControllerConst;
+import com.softserve.edu.schedule.controller.constants.GeneralContrConst;
 
 /**
  * A controller class for global exception handling.
@@ -21,13 +21,12 @@ import com.softserve.edu.schedule.controller.ControllerConst;
  * @since 1.8
  */
 @ControllerAdvice
-public class GlobalExceptionController implements ControllerConst {
+public class GlobalExceptionHandler {
 
     /**
      * Logger example to provide logging of exceptions.
      */
-    private Logger log = LoggerFactory
-            .getLogger(GlobalExceptionController.class);
+    private Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     /**
      * Controls security exception handling.
@@ -40,7 +39,7 @@ public class GlobalExceptionController implements ControllerConst {
     @ExceptionHandler(value = AccessDeniedException.class)
     public String accessDenied(final Exception ex) {
         log.warn(ex.getMessage(), ex);
-        return "redirect:/login?accessDenied=true";
+        return GeneralContrConst.LOGIN_FAILED_REDIRECT_URL;
     }
 
     /**
@@ -55,11 +54,11 @@ public class GlobalExceptionController implements ControllerConst {
      * @return errors page URL
      */
     @ExceptionHandler(value = Exception.class)
-    @RequestMapping(ROOT_URL)
+    @RequestMapping(GeneralContrConst.ROOT_URL)
     public String showErrorPage(final Model model, final Exception ex) {
         log.error(ex.getMessage(), ex);
-        model.addAttribute(EXCEPTION_MODEL_ATTR, ex);
-        return ERROR_PAGE_URL;
+        model.addAttribute(GeneralContrConst.EXCEPTION_MODEL_ATTR, ex);
+        return GeneralContrConst.ERROR_PAGE_URL;
     }
 
 }
