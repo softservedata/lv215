@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.softserve.edu.schedule.controller.constants.GeneralContrConst;
 import com.softserve.edu.schedule.service.LocationService;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.UserGroupService;
@@ -21,7 +22,7 @@ import com.softserve.edu.schedule.service.UserGroupService;
  * @since 1.8
  */
 @Controller
-public class IndexController implements ControllerConst {
+public class IndexController {
 
     /**
      * LocationService example to provide locations list to the model.
@@ -49,12 +50,15 @@ public class IndexController implements ControllerConst {
      *
      * @return start page URL
      */
-    @RequestMapping(ROOT_URL)
+    @RequestMapping(GeneralContrConst.ROOT_URL)
     public String showIndex(final Model model) {
-        model.addAttribute("locationI", locationService.getAll());
-        model.addAttribute("subjectI", subjectService.getAll());
-        model.addAttribute("groupI", userGroupService.getAll());
-        return INDEX_URL;
+        model.addAttribute(GeneralContrConst.LOCATION_MODEL_ATTR,
+                locationService.getAll());
+        model.addAttribute(GeneralContrConst.SUBJECT_MODEL_ATTR,
+                subjectService.getAll());
+        model.addAttribute(GeneralContrConst.GROUP_MODEL_ATTR,
+                userGroupService.getAll());
+        return GeneralContrConst.INDEX_URL;
     }
 
     /**
@@ -62,9 +66,9 @@ public class IndexController implements ControllerConst {
      *
      * @return login page URL
      */
-    @RequestMapping("/login")
+    @RequestMapping(GeneralContrConst.LOGIN_PAGE_URL_MAPPING)
     public String login() {
-        return "login";
+        return GeneralContrConst.LOGIN_PAGE_URL;
     }
 
     /**
@@ -72,9 +76,10 @@ public class IndexController implements ControllerConst {
      *
      * @return registration URL
      */
-    @RequestMapping(value = "/signin", method = RequestMethod.GET)
+    @RequestMapping(value = GeneralContrConst.SIGNIN_PAGE_URL_MAPPING,
+            method = RequestMethod.GET)
     public String redirectRequestToLoginPage() {
-        return "redirect:/login?fail=true";
+        return GeneralContrConst.LOGIN_SOCIAL_FAILED_REDIRECT_URL;
     }
 
     /**
@@ -82,9 +87,10 @@ public class IndexController implements ControllerConst {
      *
      * @return registration URL
      */
-    @RequestMapping(value = "/signup", method = RequestMethod.GET)
+    @RequestMapping(value = GeneralContrConst.SIGNUP_PAGE_URL_MAPPING,
+            method = RequestMethod.GET)
     public String redirectRequestToRegistrationPage() {
-        return "redirect:/registration";
+        return GeneralContrConst.REGISTRATION_REDIRECT_URL;
     }
 
 }
