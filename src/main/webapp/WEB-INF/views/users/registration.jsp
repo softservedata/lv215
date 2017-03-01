@@ -2,7 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-<%@ page import="com.softserve.edu.schedule.controller.RegistrationController"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.constants.RegistrationControllerConst"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.constants.UserControllerConst"%>
 <body>
 	<div class="container">
 		<div class="row">
@@ -11,7 +14,7 @@
 				<h3 class="text-center">
 					<spring:message code="lbl.user.registration" />
 				</h3>
-				<form:form method="post" modelAttribute="${RegistrationController.USER_REGIST_MODEL_ATTR}">
+				<form:form method="post" modelAttribute="${RegistrationControllerConst.USER_REGIST_MODEL_ATTR}">
 					<form:hidden path="id" />
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					<c:if test="${user.signInProvider != null}">
@@ -101,7 +104,7 @@
 					<div class="form-group text-center">
 						<input type="submit" class="btn btn-default" value="<spring:message code="lbl.form.save"/>">
 						<a class="btn btn-default"
-							href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}">
+							href="${pageContext.request.contextPath}${UserControllerConst.USERS_MAPPING_FROM_HEADER}">
 							<spring:message code="lbl.form.cancel" />
 						</a>
 					</div>

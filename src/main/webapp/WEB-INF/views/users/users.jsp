@@ -5,9 +5,10 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
 <%@ page
-	import="com.softserve.edu.schedule.controller.RegistrationController"%>
+	import="com.softserve.edu.schedule.controller.constants.UserControllerConst"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.constants.RegistrationControllerConst"%>
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -85,7 +86,7 @@
 			<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 				<th><sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 						<a
-							href="${pageContext.request.contextPath}/${RegistrationController.USER_REGIST_MAPPING_FOR_ADMIN}"><i
+							href="${pageContext.request.contextPath}/${RegistrationControllerConst.USER_REGIST_MAPPING_FOR_ADMIN}"><i
 							class="fa fa-plus"></i></a>
 					</sec:authorize></th>
 			</sec:authorize>
@@ -93,7 +94,7 @@
 		<tr>
 			<td></td>
 			<form:form action="${pageContext.request.contextPath}/users"
-				modelAttribute="${UserController.FILTER_MODEL_ATTR}">
+				modelAttribute="${UserControllerConst.FILTER_MODEL_ATTR}">
 				<td><spring:message code="lbl.user.search" var="search" /> <form:input
 						class="form-control" path="lastName" placeholder=" ${search}" />
 				</td>
@@ -137,7 +138,7 @@
 			<tr>
 				<td></td>
 				<td><a
-					href="${pageContext.request.contextPath}/${UserController.USER_PROFILE_MAPPING}${user.id}">${user.lastName}
+					href="${pageContext.request.contextPath}/${UserControllerConst.USER_PROFILE_MAPPING}${user.id}">${user.lastName}
 						${user.firstName}</a></td>
 				<sec:authorize
 					access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
@@ -161,14 +162,14 @@
 					</c:forEach></td>
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN')">
 					<td class="text-center v-alighn"><a
-						data-href="${pageContext.request.contextPath}${UserController.DELETE_USER_MAPPING}${user.id}"
+						data-href="${pageContext.request.contextPath}${UserControllerConst.DELETE_USER_MAPPING}${user.id}"
 						data-toggle="modal" data-target="#confirm-delete"
 						title="<spring:message code="lbl.user.delete" />"><i
 							class="fa fa-trash-o"></i></a></td>
 				</sec:authorize>
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 					<td class="text-center v-alighn"><a
-						href="${pageContext.request.contextPath}${UserController.CHANGE_ROLE_MAPPING}${user.id}">
+						href="${pageContext.request.contextPath}${UserControllerConst.CHANGE_ROLE_MAPPING}${user.id}">
 							<i class="fa fa-pencil-square-o"></i>
 					</a></td>
 				</sec:authorize>
@@ -176,7 +177,7 @@
 					<td class="text-center v-alighn"><c:if
 							test="${user.status.ordinal() == 1}">
 							<a
-								href="${pageContext.request.contextPath}${UserController.BAN_USER_MAPPING}${user.id}">
+								href="${pageContext.request.contextPath}${UserControllerConst.BAN_USER_MAPPING}${user.id}">
 								<i class="fa fa-ban"></i>
 							</a>
 						</c:if></td>
@@ -185,7 +186,7 @@
 					<td class="text-center v-alighn"><c:if
 							test="${user.status.ordinal() == 2 or user.status.ordinal() == 0}">
 							<a
-								href="${pageContext.request.contextPath}${UserController.UNBAN_USER_MAPPING}${user.id}">
+								href="${pageContext.request.contextPath}${UserControllerConst.UNBAN_USER_MAPPING}${user.id}">
 								<i class="fa fa-check-circle-o"></i>
 							</a>
 						</c:if></td>

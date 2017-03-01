@@ -31,7 +31,7 @@ import com.softserve.edu.schedule.dto.MeetingCompactDTO;
  * @since 1.8
  */
 @Component
-public class MeetingCanceledMailService implements MailConstants {
+public class MeetingCanceledMailService {
 
     /**
      * JavaMailSender example to provide mail sending.
@@ -54,7 +54,7 @@ public class MeetingCanceledMailService implements MailConstants {
     /**
      * Field for import from message attribute from mail.properties.
      */
-    @Value(DEFAULT_MESSAGE_FROM_ADDRESS)
+    @Value(MailConstants.DEFAULT_MESSAGE_FROM_ADDRESS)
     private String fromAddress;
 
     /**
@@ -71,19 +71,20 @@ public class MeetingCanceledMailService implements MailConstants {
     public void sendInfoMessageRoomDeletion(
             final MeetingCompactDTO meetingCompactDTO, final Locale locale) {
         Context ctx = new Context(locale);
-        ctx.setVariable(MEETING_MODEL_NAME, meetingCompactDTO);
+        ctx.setVariable(MailConstants.MEETING_MODEL_NAME, meetingCompactDTO);
 
         try {
             MimeMessage mimeMessage = this.mailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true,
-                    DEFAULT_MESSAGE_ENCODING);
+                    MailConstants.DEFAULT_MESSAGE_ENCODING);
             message.setTo(
                     new InternetAddress(meetingCompactDTO.getOwnerMail()));
             message.setFrom(new InternetAddress(fromAddress));
             message.setSubject(messageSource.getMessage(
-                    MEETING_CANCELLED_MESSAGE_SUBJECT, new String[0], locale));
+                    MailConstants.MEETING_CANCELLED_MESSAGE_SUBJECT,
+                    new String[0], locale));
             String htmlContent = this.templateEngine
-                    .process(MEETING_CANCELLED_TEMPLATE, ctx);
+                    .process(MailConstants.MEETING_CANCELLED_TEMPLATE, ctx);
             message.setText(htmlContent, true);
             this.mailSender.send(mimeMessage);
         } catch (MessagingException e) {

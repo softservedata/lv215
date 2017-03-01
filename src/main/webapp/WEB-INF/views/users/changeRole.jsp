@@ -3,7 +3,8 @@
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.constants.UserControllerConst"%>
 
 <body>
 	<div class="container">
@@ -22,8 +23,8 @@
 				<h3 class="text-center">
 					<spring:message code="lbl.user.update" />
 				</h3>
-				<form:form modelAttribute="${UserController.USER_MODEL_ATTR}"
-					action="${pageContext.request.contextPath}${UserController.SAVE_CHANGED_ROLE_MAPPING}${user.id}"
+				<form:form modelAttribute="${UserControllerConst.USER_MODEL_ATTR}"
+					action="${pageContext.request.contextPath}${UserControllerConst.SAVE_CHANGED_ROLE_MAPPING}${user.id}"
 					method="post">
 					<div class="form-group">
 						<form:select class="form-control" path="role">
@@ -37,7 +38,7 @@
 						<input type="submit" class="btn btn-default"
 							value="<spring:message code="lbl.form.save"/>"> <a
 							class="btn btn-default"
-							href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}"><spring:message
+							href="${pageContext.request.contextPath}${UserControllerConst.USERS_MAPPING_FROM_HEADER}"><spring:message
 								code="lbl.form.cancel" /></a>
 					</div>
 				</form:form>
@@ -46,7 +47,7 @@
 				class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
 				<h3>
 					<a
-						href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}">
+						href="${pageContext.request.contextPath}${UserControllerConst.USERS_MAPPING_FROM_HEADER}">
 						<i class="fa fa-table fa-lg"></i>
 					</a>
 				</h3>

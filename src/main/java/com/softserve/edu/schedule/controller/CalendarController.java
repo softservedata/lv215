@@ -6,6 +6,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.softserve.edu.schedule.controller.constants.GeneralContrConst;
+
 /**
  * A controller class for calendar page.
  *
@@ -16,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @since 1.8
  */
 @Controller
-public class CalendarController implements ControllerConst {
+public class CalendarController {
 
     /**
      * Controls view of calendar page.
@@ -26,9 +28,9 @@ public class CalendarController implements ControllerConst {
      *
      * @return calendar page URL
      */
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping("/calendar")
+    @PreAuthorize(GeneralContrConst.CALENDAR_SHOW_PERMISSIONS)
+    @RequestMapping(GeneralContrConst.CALENDAR_URL_MAPPING)
     public String showIndex(final Model model) {
-        return "calendar";
+        return GeneralContrConst.CALENDAR_URL;
     }
 }

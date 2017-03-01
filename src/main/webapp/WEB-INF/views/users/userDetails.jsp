@@ -5,7 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.constants.UserControllerConst"%>
 <body>
 	<div class="container">
 		<div class="row ">
@@ -24,7 +25,7 @@
 					<spring:message code="lbl.user.profile" />
 				</h3>
 				<br>
-				<div class="form-group" style="list-style-type: none" align = "center">
+				<div class="form-group" style="list-style-type: none" align="center">
 					<a style="display: inline-block;"
 						href="${pageContext.request.contextPath}/downloadFile/${userFiles}/${user.id}">
 						<img
@@ -33,15 +34,26 @@
 					</a>
 				</div>
 				<div class="form-group">
-					<form
-						action="${pageContext.request.contextPath}${UserController.SAVE_IMAGES}?${_csrf.parameterName}=${_csrf.token}"
+					<form:form class="form-inline"
+						action="${pageContext.request.contextPath}${UserControllerConst.SAVE_IMAGES}${subject.id}?${_csrf.parameterName}=${_csrf.token}"
 						method="POST" enctype="multipart/form-data">
 						<div class="form-group">
-							<input type="file" name="image" /> <input type="submit"
-								class="form-control"
+							<div class="input-group">
+								<label class="input-group-btn"> <span
+									class="btn btn-primary"><spring:message
+											code="lbl.filePicker.browse" />&hellip; <input
+										style="display: none;" type="file" name="image"> </span>
+								</label> <input type="text" class="form-control" readonly>
+							</div>
+						</div>
+						<div class="form-group">
+							<input type="submit" class="btn btn-default"
 								value="<spring:message code="lbl.form.save"/>" />
 						</div>
-					</form>
+						<div class="input-group">
+							<form:errors path="file" />
+						</div>
+					</form:form>
 				</div>
 				<div class="form-group">
 					<label for="firstName"><spring:message
@@ -65,13 +77,13 @@
 				</div>
 				<div class="form-group">
 					<a class="form-control"
-						href="${pageContext.request.contextPath}/${UserController.UPDATE_USER_MAPPING}${user.id}">
+						href="${pageContext.request.contextPath}/${UserControllerConst.UPDATE_USER_MAPPING}${user.id}">
 						<spring:message code="lbl.user.update" />
 					</a>
 				</div>
 				<div class="form-group">
 					<a class="form-control"
-						href="${pageContext.request.contextPath}/${UserController.CHANGE_PASSWORD_MAPPING}${user.id}">
+						href="${pageContext.request.contextPath}/${UserControllerConst.CHANGE_PASSWORD_MAPPING}${user.id}">
 						<spring:message code="lbl.user.changePassword" />
 					</a>
 				</div>
@@ -80,7 +92,7 @@
 				class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
 				<h3>
 					<a
-						href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}">
+						href="${pageContext.request.contextPath}${UserControllerConst.USERS_MAPPING_FROM_HEADER}">
 						<i class="fa fa-table fa-lg"></i>
 					</a>
 				</h3>
@@ -89,5 +101,6 @@
 	</div>
 </body>
 <spring:url value="/resources/js/users/create.js" var="createFileJS" />
-<script type="text/javascript" src="${createFileJS}">	
+<script type="text/javascript" src="${createFileJS}">
+	
 </script>
