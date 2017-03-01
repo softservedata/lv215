@@ -36,7 +36,7 @@ import com.softserve.edu.schedule.entity.User;
  * @since 1.8
  */
 @Component
-public class DeleteLocationMailService implements MailConstants {
+public class DeleteLocationMailService {
 
     /**
      * JavaMailSender example to provide mail sending.
@@ -59,11 +59,14 @@ public class DeleteLocationMailService implements MailConstants {
     /**
      * Field for import from message attribute from mail.properties.
      */
-    @Value(DEFAULT_MESSAGE_FROM_ADDRESS)
+    @Value(MailConstants.DEFAULT_MESSAGE_FROM_ADDRESS)
     private String fromAddress;
 
     /**
-     * Send mail notification for moderators (deleting location)
+     * Send mail notification for moderators (deleting location).
+     *
+     * @param location
+     *            location to delete
      *
      * @param user
      *            meeting moderator
@@ -75,18 +78,19 @@ public class DeleteLocationMailService implements MailConstants {
     public void sendInfoMessageLocationDelete(final User user,
             final Location location, final Locale locale) {
         Context ctx = new Context(locale);
-        ctx.setVariable(MODERATOR_MODEL_NAME, user);
-        ctx.setVariable(LOCATION_MODEL_NAME, location);
+        ctx.setVariable(MailConstants.MODERATOR_MODEL_NAME, user);
+        ctx.setVariable(MailConstants.LOCATION_MODEL_NAME, location);
         try {
             MimeMessage mimeMessage = this.mailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true,
-                    DEFAULT_MESSAGE_ENCODING);
+                    MailConstants.DEFAULT_MESSAGE_ENCODING);
             message.setTo(new InternetAddress(user.getMail()));
             message.setFrom(new InternetAddress(fromAddress));
-            message.setSubject(messageSource.getMessage(LOCATION_DELETE_MESSAGE,
-                    new String[0], locale));
+            message.setSubject(messageSource.getMessage(
+                    MailConstants.LOCATION_DELETE_MESSAGE, new String[0],
+                    locale));
             String htmlContent = this.templateEngine
-                    .process(LOCATION_DELETE_TEMPLATE, ctx);
+                    .process(MailConstants.LOCATION_DELETE_TEMPLATE, ctx);
             message.setText(htmlContent, true);
             this.mailSender.send(mimeMessage);
         } catch (MessagingException e) {

@@ -1,8 +1,8 @@
-/* ControllerConst 1.0 01/29/2017 */
+/* MailConstants 1.0 01/29/2017 */
 package com.softserve.edu.schedule.service.implementation.mailsenders;
 
 /**
- * An interface to storage mail senders attributes.
+ * An class to storage mail senders attributes.
  *
  * @version 1.0 29 January 2017
  *
@@ -10,149 +10,173 @@ package com.softserve.edu.schedule.service.implementation.mailsenders;
  *
  * @since 1.8
  */
-public interface MailConstants {
+public final class MailConstants {
 
     /**
      * Meeting cancelled message subject.
      */
-    String MEETING_CANCELLED_MESSAGE_SUBJECT = "meetingCanceled.messageSubject";
+    public static final String MEETING_CANCELLED_MESSAGE_SUBJECT = "meetingCanceled.messageSubject";
 
     /**
      * Meeting cancelled message subject.
      */
-    String MEETING_CANCELLED_MESSAGE_GROUP = "meetingCanceled.messageGroup";
+    public static final String MEETING_CANCELLED_MESSAGE_GROUP = "meetingCanceled.messageGroup";
 
     /**
      * Default message from attribute.
      */
-    String DEFAULT_MESSAGE_FROM_ADDRESS = "${mail.from}";
+    public static final String DEFAULT_MESSAGE_FROM_ADDRESS = "${mail.from}";
 
     /**
      * Default velocity template encoding.
      */
-    String DEFAULT_MESSAGE_ENCODING = "UTF-8";
+    public static final String DEFAULT_MESSAGE_ENCODING = "UTF-8";
 
     /**
      * Meeting cancelled message template for EN locale location.
      */
-    String MEETING_CANCELLED_TEMPLATE = "meetingCancelledDueRoomUnavailability";
+    public static final String MEETING_CANCELLED_TEMPLATE = "meetingCancelledDueRoomUnavailability";
 
     /**
      * Meeting cancelled message template for EN locale location.
      */
-    String MEETING_CANCELLED_BY_SUBJECT_TEMPLATE = "meetingCanceledDueSubjectDelete";
+    public static final String MEETING_CANCELLED_BY_SUBJECT_TEMPLATE = "meetingCanceledDueSubjectDelete";
 
     /**
      * Meeting cancelled message template for EN locale location.
      */
-    String MEETING_CANCELLED_BY_GROUP_TEMPLATE = "meetingCanceledDueGroupDelete";
+    public static final String MEETING_CANCELLED_BY_GROUP_TEMPLATE = "meetingCanceledDueGroupDelete";
 
     /**
      * Model name for meeting cancelled template.
      */
-    String MEETING_MODEL_NAME = "meeting";
+    public static final String MEETING_MODEL_NAME = "meeting";
 
-    String USER_MODEL_NAME = "user";
+    /**
+     * Model name for user.
+     */
+    public static final String USER_MODEL_NAME = "user";
 
-    String REGISTRATION_MESSAGE_SUBJECT = "userRegistrated.messageSubject";
+    /**
+     * Registration message subject.
+     */
+    public static final String REGISTRATION_MESSAGE_SUBJECT = "userRegistrated.messageSubject";
 
-    String USER_REGISTRATED_TEMPLATE = "userRegistrated";
+    /**
+     * Registration message template.
+     */
+    public static final String USER_REGISTRATED_TEMPLATE = "userRegistrated";
 
-    String RESTORE_TEMPLATE = "userRestorePassword";
+    /**
+     * Password restore template.
+     */
+    public static final String RESTORE_TEMPLATE = "userRestorePassword";
 
-    String RESTORE_PASSWORD_MESSAGE_SUBJECT = "userRestorePassword.messageSubject";
+    /**
+     * Password restore message subject.
+     */
+    public static final String RESTORE_PASSWORD_MESSAGE_SUBJECT = "userRestorePassword.messageSubject";
 
-    String PASSWORD = "password";
+    /**
+     * Password model variable.
+     */
+    public static final String PASSWORD = "password";
 
     /**
      * Name of a usergroup model.
      */
-    String USERGROUP_MODEL_NAME = "usergroup";
+    public static final String USERGROUP_MODEL_NAME = "usergroup";
 
     /**
      * Name of a group user.
      */
-    String USERGROUP_USER = "groupUser";
+    public static final String USERGROUP_USER = "groupUser";
 
     /**
      * Name of a meeting curator.
      */
-    String MEETING_GROUP_CURATOR = "meetingCurator";
+    public static final String MEETING_GROUP_CURATOR = "meetingCurator";
 
     /**
      * Name of a meeting owner.
      */
-    String MEETING_OWNER = "owner";
+    public static final String MEETING_OWNER = "owner";
 
     /**
      * Name of a group curator.
      */
-    String USERGROUP_CURATOR = "groupCurator";
+    public static final String USERGROUP_CURATOR = "groupCurator";
 
     /**
      * UserGroup deleted message.
      */
-    String USERGROUP_DELETED_MESSAGE = "groupDeleted.messageUserGroup";
+    public static final String USERGROUP_DELETED_MESSAGE = "groupDeleted.messageUserGroup";
 
     /**
      * Subject deleted message.
      */
-    String SUBJECT_DELETED_MESSAGE = "subjectDeleted.messageTutor";
+    public static final String SUBJECT_DELETED_MESSAGE = "subjectDeleted.messageTutor";
 
     /**
      * Meeting deleted message.
      */
-    String MEETING_DELETED_MESSAGE = "meetingDeleted.messageMeetingOwnerAndCurators";
+    public static final String MEETING_DELETED_MESSAGE = "meetingDeleted.messageMeetingOwnerAndCurators";
 
     /**
      * Meeting changed status (from APPROVED to DISAPPROVED or NOT_APPROVED)
      * message.
      */
-    String MEETING_CHANGEDSTATUS_MESSAGE = "meetingChangedStatus.messageToMeetingOwnerAndCurators";
+    public static final String MEETING_CHANGEDSTATUS_MESSAGE = "meetingChangedStatus.messageToMeetingOwnerAndCurators";
 
     /**
      * UserGroup deleted message template for EN locale.
      */
-    String USERFROUP_DELETED_TEMPLATE = "userGroupDeleted";
+    public static final String USERFROUP_DELETED_TEMPLATE = "userGroupDeleted";
 
     /**
      * Meeting deleted message template for locale.
      */
-    String MEETING_DELETED_TEMPLATE = "MeetingDelete";
+    public static final String MEETING_DELETED_TEMPLATE = "MeetingDelete";
 
     /**
      * Meeting changed status message template for locale.
      */
-    String MEETING_CHANGESTATUS_TEMPLATE = "MeetingChangedStatusInfo";
+    public static final String MEETING_CHANGESTATUS_TEMPLATE = "MeetingChangedStatusInfo";
 
     /**
      * Location delete message subject.
      */
-    String LOCATION_DELETE_MESSAGE = "locationDelete.messageSubject";
+    public static final String LOCATION_DELETE_MESSAGE = "locationDelete.messageSubject";
 
     /**
      * Location delete message template for EN locale location.
      */
-    String LOCATION_DELETE_TEMPLATE = "infoLocationDelete";
+    public static final String LOCATION_DELETE_TEMPLATE = "infoLocationDelete";
     /**
      * Model name for moderator location delete message template.
      */
-    String MODERATOR_MODEL_NAME = "moderator";
+    public static final String MODERATOR_MODEL_NAME = "moderator";
     /**
      * Model name for location delete message template.
      */
-    String LOCATION_MODEL_NAME = "location";
+    public static final String LOCATION_MODEL_NAME = "location";
     /**
      * Model name for location delete message template.
      */
-    String SUBJECT_MODEL_NAME = "subject";
+    public static final String SUBJECT_MODEL_NAME = "subject";
     /**
      * Model name for location delete message template.
      */
-    String SUBJECT_TUTOR_MODEL_NAME = "tutor";
+    public static final String SUBJECT_TUTOR_MODEL_NAME = "tutor";
     /**
      * Subject deleted message template for EN locale.
      */
-    String SUBJECT_DELETED_TEMPLATE = "subjectDeleted";
+    public static final String SUBJECT_DELETED_TEMPLATE = "subjectDeleted";
+
+    /**
+     * Private constructor to prevent instance creation.
+     */
+    private MailConstants() {
+    }
 
 }
