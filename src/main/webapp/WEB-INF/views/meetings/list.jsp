@@ -290,7 +290,7 @@
 						<p>
 							<a
 								href="${pageContext.request.contextPath}/
-								${MeetingController.USERGROUPS_MAPPING}/${group.id}"
+								usergroups/${group.id}"
 								title="<spring:message code="lbl.meeting.groupdetails" />"
 								>${group.name}</a>
 						</p>

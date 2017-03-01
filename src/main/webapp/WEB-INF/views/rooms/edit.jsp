@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ page import="com.softserve.edu.schedule.controller.RoomController"%>
 
 <div class="container">
 	<div class="row">
@@ -11,7 +10,7 @@
 			<h3 class="text-center">
 				<spring:message code="lbl.room.editRoom" />
 			</h3>
-			<form:form role="form" method="post" modelAttribute="${RoomController.ROOM_MODEL_ATTR}">
+			<form:form role="form" method="post" modelAttribute="room">
 				<form:input path="id" type="hidden" />
 				<div class="form-group">
 					<label for="location">

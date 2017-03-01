@@ -2,7 +2,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
 
 <div class="container">
 	<c:if test="${param.accessDenied eq true}">
@@ -67,7 +66,7 @@
 				</a>
 			</div>
 			<div class="form-group">
-				<a href="${pageContext.request.contextPath}/${UserController.RESTORE_PASSWORD_MAPPING}">
+				<a href="${pageContext.request.contextPath}/restorePassword">
 					<spring:message code="lbl.user.restorePassword" />
 				</a>
 			</div>
