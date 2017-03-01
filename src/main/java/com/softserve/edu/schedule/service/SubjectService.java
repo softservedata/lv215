@@ -29,6 +29,26 @@ import com.softserve.edu.schedule.dto.filter.SubjectFilter;
 public interface SubjectService {
 
 	/**
+	 * Field for subject metadata.
+	 */
+	String SUBJECT_METADATA_ID = "metadata.subjectId";
+
+	/**
+	 * Field for subject id.
+	 */
+	String SUBJECT_ID = "subjectId";
+
+	/**
+	 * Field for content disposition.
+	 */
+	String CONTENT_DISPOSITION = "content-Disposition";
+
+	/**
+	 * Field for attachment and file name.
+	 */
+	String ATTACHMENT_FILENAME = "attachment; filename=";
+
+	/**
 	 * Saving Subject in database.
 	 *
 	 * @param subject
