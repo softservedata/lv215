@@ -29,7 +29,6 @@ import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
 import com.softserve.edu.schedule.dto.filter.Paginator;
 import com.softserve.edu.schedule.dto.filter.SubjectFilter;
-import com.softserve.edu.schedule.entity.Subject;
 import com.softserve.edu.schedule.service.SubjectService;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.SubjectDTOConverter;
 import com.softserve.edu.schedule.service.implementation.dtoconverter.UserForSubjectDTOConverter;
@@ -157,8 +156,8 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	@Transactional
 	public void deleteById(final Long id) {
-		Subject subject = subjectDao.getSubjectsWithMeetingDetailsById(id);
-		subjectDao.delete(subject);
+		fileStorageDao.deleteById(SUBJECT_METADATA_ID, Long.toString(id));
+		subjectDao.delete(subjectDao.getSubjectsWithMeetingDetailsById(id));
 	}
 
 	/**
@@ -192,7 +191,7 @@ public class SubjectServiceImpl implements SubjectService {
 	public void uploadFile(final FileForSubjectDTO fileForSubjectDTO)
 	        throws IOException {
 		DBObject metadata = new BasicDBObject();
-		metadata.put("subjectId", Long.toString(fileForSubjectDTO.getId()));
+		metadata.put(SUBJECT_ID, Long.toString(fileForSubjectDTO.getId()));
 		fileStorageDao.store(fileForSubjectDTO.getFile().getInputStream(),
 		        fileForSubjectDTO.getFile().getOriginalFilename(), metadata);
 	}
@@ -207,7 +206,7 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	public List<String> showSubjectFiles(final Long id) {
 		return fileStorageDao
-		        .findAllByIdAndType(Long.toString(id), "metadata.subjectId")
+		        .findAllByIdAndType(Long.toString(id), SUBJECT_METADATA_ID)
 		        .stream().map(f -> f.getFilename())
 		        .collect(Collectors.toList());
 	}
@@ -223,7 +222,7 @@ public class SubjectServiceImpl implements SubjectService {
 	@Override
 	public void deleteSubjectFileById(final Long id, final String fileName) {
 		fileStorageDao.deleteByIdAndFileName(Long.toString(id), fileName,
-		        "metadata.subjectId");
+		        SUBJECT_METADATA_ID);
 	}
 
 	/**
@@ -241,11 +240,11 @@ public class SubjectServiceImpl implements SubjectService {
 	public void retriveSubjectFileById(final Long id, final String fileName,
 	        HttpServletResponse response) throws IOException {
 		GridFSDBFile file = fileStorageDao.retriveByIdAndFileName(
-		        Long.toString(id), fileName, "metadata.subjectId");
+		        Long.toString(id), fileName, SUBJECT_METADATA_ID);
 		response.setContentType(file.getContentType());
 		response.setContentLength((new Long(file.getLength()).intValue()));
-		response.setHeader("content-Disposition",
-		        "attachment; filename=" + file.getFilename());
+		response.setHeader(CONTENT_DISPOSITION,
+		        ATTACHMENT_FILENAME + file.getFilename());
 		IOUtils.copyLarge(file.getInputStream(), response.getOutputStream());
 	}
 
@@ -262,6 +261,6 @@ public class SubjectServiceImpl implements SubjectService {
 	public GridFSDBFile retriveSubjectFileById(final String id,
 	        final String fileName) {
 		return fileStorageDao.retriveByIdAndFileName(id, fileName,
-		        "metadata.subjectId");
+		        SUBJECT_METADATA_ID);
 	}
 }
