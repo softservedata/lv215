@@ -6,7 +6,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page
-	import="com.softserve.edu.schedule.controller.UserGroupController"%>
+	import="com.softserve.edu.schedule.controller.constants.UserGroupControllerConst"%>
 
 <div class="container">
 	<div class="row">
@@ -107,7 +107,7 @@
 					<input type="submit" class="btn btn-default"
 						value="<spring:message code="lbl.form.save"/>"> <a
 						class="btn btn-default"
-						href="${pageContext.request.contextPath}${UserGroupController.USERGROUP_MAPPING}"><spring:message
+						href="${pageContext.request.contextPath}${UserGroupControllerConst.USERGROUP_MAPPING}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
 			</form:form>
@@ -130,10 +130,10 @@
 
 <spring:url value="/resources/js/usergroups/validator.js" var="userGroupsValidatorJS" />
 <script>
-	var minName = ${UserGroupController.MIN_GROUP_NAME_LENGTH};
-	var maxName = ${UserGroupController.MAX_GROUP_NAME_LENGTH}
-	var minDescription = ${UserGroupController.MIN_GROUP_DESCRIPTION_LENGTH};
-	var maxDescription = ${UserGroupController.MAX_GROUP_DESCRIPTION_LENGTH};	
+	var minName = ${UserGroupControllerConst.MIN_GROUP_NAME_LENGTH};
+	var maxName = ${UserGroupControllerConst.MAX_GROUP_NAME_LENGTH}
+	var minDescription = ${UserGroupControllerConst.MIN_GROUP_DESCRIPTION_LENGTH};
+	var maxDescription = ${UserGroupControllerConst.MAX_GROUP_DESCRIPTION_LENGTH};	
 </script>
 <script type="text/javascript" src="${userGroupsValidatorJS}">	
 </script>
