@@ -54,12 +54,11 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEdit
  * @author Bohdan Melnyk
  *
  */
-@RequestMapping(ControllerConst.MeetingControllerConst.MEETINGS_URL)
+@RequestMapping(MeetingControllerConst.MEETINGS_URL)
 @Controller
-@SessionAttributes({ ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR })
-public class MeetingController
-        {
+@SessionAttributes({MeetingControllerConst.FILTER_MODEL_ATTR,
+        MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR})
+public class MeetingController {
 
     /**
      * MeetingService example to provide meetings list to the model.
@@ -207,16 +206,23 @@ public class MeetingController
     public String showMeetingPage(final Model model,
             @ModelAttribute(MeetingControllerConst.FILTER_MODEL_ATTR) final MeetingFilter meetingFilter,
             @ModelAttribute(MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
-        model.addAttribute(MeetingControllerConst.MEETINGS_MODEL_ATTR, meetingService
-                .getMeetingPageWithFilter(meetingFilter, paginator));
+        model.addAttribute(MeetingControllerConst.MEETINGS_MODEL_ATTR,
+                meetingService.getMeetingPageWithFilter(meetingFilter,
+                        paginator));
         model.addAttribute(MeetingControllerConst.USERS_MODEL_ATTR,
                 userService.getAllManagers(userService.getAllActiveUsers()));
-        model.addAttribute(MeetingControllerConst.SUBJECTS_MODEL_ATTR, subjectService.getAll());
-        model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR, roomService.getAll());
-        model.addAttribute(MeetingControllerConst.USERGROUPS_MODEL_ATTR, userGroupService.getAll());
-        model.addAttribute(MeetingControllerConst.FILTER_MODEL_ATTR, meetingFilter);
-        model.addAttribute(MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR, paginator);
-        model.addAttribute(MeetingControllerConst.MEETINGSTATUSES_MODEL_ATTR, MeetingStatus.values());
+        model.addAttribute(MeetingControllerConst.SUBJECTS_MODEL_ATTR,
+                subjectService.getAll());
+        model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR,
+                roomService.getAll());
+        model.addAttribute(MeetingControllerConst.USERGROUPS_MODEL_ATTR,
+                userGroupService.getAll());
+        model.addAttribute(MeetingControllerConst.FILTER_MODEL_ATTR,
+                meetingFilter);
+        model.addAttribute(MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR,
+                paginator);
+        model.addAttribute(MeetingControllerConst.MEETINGSTATUSES_MODEL_ATTR,
+                MeetingStatus.values());
         return MeetingControllerConst.MEETING_LIST_URL;
     }
 
@@ -227,14 +233,19 @@ public class MeetingController
      * @return
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
-    @RequestMapping(value = MeetingControllerConst.MEETING_CREATE_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = MeetingControllerConst.MEETING_CREATE_MAPPING,
+            method = RequestMethod.GET)
     public String createForm(final Model model) {
-        model.addAttribute(MeetingControllerConst.MEETING_MODEL_ATTR, new MeetingDTO());
-        model.addAttribute(MeetingControllerConst.SUBJECTS_MODEL_ATTR, subjectService.getAll());
+        model.addAttribute(MeetingControllerConst.MEETING_MODEL_ATTR,
+                new MeetingDTO());
+        model.addAttribute(MeetingControllerConst.SUBJECTS_MODEL_ATTR,
+                subjectService.getAll());
         model.addAttribute(MeetingControllerConst.OWNERS_MODEL_ATTR,
                 userService.getAllManagers(userService.getAllActiveUsers()));
-        model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR, roomService.getAll());
-        model.addAttribute(MeetingControllerConst.GROUPS_MODEL_ATTR, userGroupService.getAll());
+        model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR,
+                roomService.getAll());
+        model.addAttribute(MeetingControllerConst.GROUPS_MODEL_ATTR,
+                userGroupService.getAll());
         return MeetingControllerConst.MEETING_CREATE_URL;
     }
 
@@ -244,16 +255,21 @@ public class MeetingController
      * @param meetingDTO
      * @return
      */
-    @RequestMapping(value = MeetingControllerConst.MEETING_CREATE_MAPPING, method = RequestMethod.POST)
+    @RequestMapping(value = MeetingControllerConst.MEETING_CREATE_MAPPING,
+            method = RequestMethod.POST)
     public String create(
             @Valid @ModelAttribute(MeetingControllerConst.MEETING_MODEL_ATTR) final MeetingDTO meetingDTO,
             final BindingResult br, final Model model) {
         if (br.hasErrors()) {
-            model.addAttribute(MeetingControllerConst.SUBJECTS_MODEL_ATTR, subjectService.getAll());
-            model.addAttribute(MeetingControllerConst.OWNERS_MODEL_ATTR, userService
-                    .getAllManagers(userService.getAllActiveUsers()));
-            model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR, roomService.getAll());
-            model.addAttribute(MeetingControllerConst.GROUPS_MODEL_ATTR, userGroupService.getAll());
+            model.addAttribute(MeetingControllerConst.SUBJECTS_MODEL_ATTR,
+                    subjectService.getAll());
+            model.addAttribute(MeetingControllerConst.OWNERS_MODEL_ATTR,
+                    userService
+                            .getAllManagers(userService.getAllActiveUsers()));
+            model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR,
+                    roomService.getAll());
+            model.addAttribute(MeetingControllerConst.GROUPS_MODEL_ATTR,
+                    userGroupService.getAll());
             return MeetingControllerConst.MEETING_CREATE_URL;
         }
         meetingService.create(meetingDTO);
@@ -267,7 +283,8 @@ public class MeetingController
      * @return
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
-    @RequestMapping(value = MeetingControllerConst.MEETING_DELETE_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = MeetingControllerConst.MEETING_DELETE_MAPPING,
+            method = RequestMethod.GET)
     public String delete(@PathVariable final Long id) {
         meetingService.deleteById(id);
         return MeetingControllerConst.MEETING_REDIRECT_URL;
@@ -281,16 +298,23 @@ public class MeetingController
      * @return
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
-    @RequestMapping(value = MeetingControllerConst.MEETING_EDIT_MAPPING, method = RequestMethod.GET)
-    public String editForm(@PathVariable(MeetingControllerConst.ID_URL) final Long id,
+    @RequestMapping(value = MeetingControllerConst.MEETING_EDIT_MAPPING,
+            method = RequestMethod.GET)
+    public String editForm(
+            @PathVariable(MeetingControllerConst.ID_URL) final Long id,
             final Model model) {
-        model.addAttribute(MeetingControllerConst.MEETING_MODEL_ATTR, meetingService.getById(id));
-        model.addAttribute(MeetingControllerConst.SUBJECTS_MODEL_ATTR, subjectService.getAll());
+        model.addAttribute(MeetingControllerConst.MEETING_MODEL_ATTR,
+                meetingService.getById(id));
+        model.addAttribute(MeetingControllerConst.SUBJECTS_MODEL_ATTR,
+                subjectService.getAll());
         model.addAttribute(MeetingControllerConst.OWNERS_MODEL_ATTR,
                 userService.getAllManagers(userService.getAllActiveUsers()));
-        model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR, roomService.getAll());
-        model.addAttribute(MeetingControllerConst.GROUPS_MODEL_ATTR, userGroupService.getAll());
-        model.addAttribute(MeetingControllerConst.MEETINGSTATUSES_MODEL_ATTR, MeetingStatus.values());
+        model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR,
+                roomService.getAll());
+        model.addAttribute(MeetingControllerConst.GROUPS_MODEL_ATTR,
+                userGroupService.getAll());
+        model.addAttribute(MeetingControllerConst.MEETINGSTATUSES_MODEL_ATTR,
+                MeetingStatus.values());
         return MeetingControllerConst.MEETING_EDIT_URL;
     }
 
@@ -300,17 +324,23 @@ public class MeetingController
      * @param meetingDTO
      * @return
      */
-    @RequestMapping(value = MeetingControllerConst.MEETING_EDIT_MAPPING, method = RequestMethod.POST)
+    @RequestMapping(value = MeetingControllerConst.MEETING_EDIT_MAPPING,
+            method = RequestMethod.POST)
     public String edit(
             @ModelAttribute(MeetingControllerConst.MEETING_MODEL_ATTR) @Valid final MeetingDTO meetingDTO,
             final BindingResult br, final Model model) {
         if (br.hasErrors()) {
-            model.addAttribute(MeetingControllerConst.SUBJECTS_MODEL_ATTR, subjectService.getAll());
-            model.addAttribute(MeetingControllerConst.OWNERS_MODEL_ATTR, userService
-                    .getAllManagers(userService.getAllActiveUsers()));
-            model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR, roomService.getAll());
-            model.addAttribute(MeetingControllerConst.GROUPS_MODEL_ATTR, userGroupService.getAll());
-            model.addAttribute(MeetingControllerConst.MEETINGSTATUSES_MODEL_ATTR,
+            model.addAttribute(MeetingControllerConst.SUBJECTS_MODEL_ATTR,
+                    subjectService.getAll());
+            model.addAttribute(MeetingControllerConst.OWNERS_MODEL_ATTR,
+                    userService
+                            .getAllManagers(userService.getAllActiveUsers()));
+            model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR,
+                    roomService.getAll());
+            model.addAttribute(MeetingControllerConst.GROUPS_MODEL_ATTR,
+                    userGroupService.getAll());
+            model.addAttribute(
+                    MeetingControllerConst.MEETINGSTATUSES_MODEL_ATTR,
                     MeetingStatus.values());
             return MeetingControllerConst.MEETING_EDIT_URL;
         }
@@ -325,11 +355,15 @@ public class MeetingController
      * @param model
      * @return
      */
-    @RequestMapping(value = MeetingControllerConst.MEETINGID_URL, method = RequestMethod.GET)
-    public String showMeeting(@PathVariable(MeetingControllerConst.ID_URL) final Long id,
+    @RequestMapping(value = MeetingControllerConst.MEETINGID_URL,
+            method = RequestMethod.GET)
+    public String showMeeting(
+            @PathVariable(MeetingControllerConst.ID_URL) final Long id,
             final Model model) {
-        model.addAttribute(MeetingControllerConst.MEETING_MODEL_ATTR, meetingService.getById(id));
-        model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR, roomService.getAll());
+        model.addAttribute(MeetingControllerConst.MEETING_MODEL_ATTR,
+                meetingService.getById(id));
+        model.addAttribute(MeetingControllerConst.ROOMS_MODEL_ATTR,
+                roomService.getAll());
         return MeetingControllerConst.MEETING_SHOWMEETING_MAPPING;
     }
 
@@ -337,7 +371,8 @@ public class MeetingController
      * Handle request to download an Excel document
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
-    @RequestMapping(value = MeetingControllerConst.DOWNLOAD_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = MeetingControllerConst.DOWNLOAD_MAPPING,
+            method = RequestMethod.GET)
     public ModelAndView downloadExcel(final ModelAndView model) {
         model.setView(
                 new ExcelViewMeetingHistory(meetingHistoryService.getAll()));
