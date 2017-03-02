@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.softserve.edu.schedule.controller.constants.SubjectControllerConst;
 import com.softserve.edu.schedule.dto.FileForSubjectDTO;
 import com.softserve.edu.schedule.dto.SubjectDTO;
 import com.softserve.edu.schedule.dto.UserForSubjectDTO;
@@ -42,10 +43,9 @@ import com.softserve.edu.schedule.service.implementation.editor.UserForSubjectDT
  * @since 1.8
  */
 @Controller
-@SessionAttributes({ ControllerConst.SubjectControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.SubjectControllerConst.SUBJECT_PAGINATOR_MODEL_ATTR })
-public class SubjectController
-        implements ControllerConst.SubjectControllerConst {
+@SessionAttributes({ SubjectControllerConst.FILTER_MODEL_ATTR,
+        SubjectControllerConst.SUBJECT_PAGINATOR_MODEL_ATTR })
+public class SubjectController {
 
 	/**
 	 * SubjectService example to provide subjects list to the model.
@@ -65,7 +65,7 @@ public class SubjectController
 	 * 
 	 * @return new SubjectFilter object
 	 */
-	@ModelAttribute(FILTER_MODEL_ATTR)
+	@ModelAttribute(SubjectControllerConst.FILTER_MODEL_ATTR)
 	public SubjectFilter getFilter() {
 		return new SubjectFilter();
 	}
@@ -75,7 +75,7 @@ public class SubjectController
 	 * 
 	 * @return new Paginator object.
 	 */
-	@ModelAttribute(SUBJECT_PAGINATOR_MODEL_ATTR)
+	@ModelAttribute(SubjectControllerConst.SUBJECT_PAGINATOR_MODEL_ATTR)
 	public Paginator getPaginator() {
 		return new Paginator();
 	}
@@ -86,7 +86,7 @@ public class SubjectController
 	 * @param binder
 	 *            a WebDataBinder example to initialize.
 	 */
-	@InitBinder(FILTER_MODEL_ATTR)
+	@InitBinder(SubjectControllerConst.FILTER_MODEL_ATTR)
 	protected void initBinderFilter(final WebDataBinder binder) {
 		binder.registerCustomEditor(UserForSubjectDTO.class,
 		        userForSubjectDTOEditor);
@@ -98,7 +98,7 @@ public class SubjectController
 	 * @param binder
 	 *            a WebDataBinder example to initialize.
 	 */
-	@InitBinder(SUBJECT_FORM_MODEL_ATTR)
+	@InitBinder(SubjectControllerConst.SUBJECT_FORM_MODEL_ATTR)
 	protected void initBinder(final WebDataBinder binder) {
 		binder.registerCustomEditor(UserForSubjectDTO.class,
 		        userForSubjectDTOEditor);
@@ -115,15 +115,15 @@ public class SubjectController
 	 *            the paginator to set
 	 * @return subjects list page URL
 	 */
-	@RequestMapping(SUBJECTS_MAPPING)
+	@RequestMapping(SubjectControllerConst.SUBJECTS_MAPPING)
 	public String showSubjectPage(final Model model,
-	        @ModelAttribute(FILTER_MODEL_ATTR) final SubjectFilter filter,
-	        @ModelAttribute(SUBJECT_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
-		model.addAttribute(SUBJECTS_MODEL_ATTR,
+	        @ModelAttribute(SubjectControllerConst.FILTER_MODEL_ATTR) final SubjectFilter filter,
+	        @ModelAttribute(SubjectControllerConst.SUBJECT_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
+		model.addAttribute(SubjectControllerConst.SUBJECTS_MODEL_ATTR,
 		        subjectService.getSubjectsPageWithFilter(filter, paginator));
-		model.addAttribute(USERS_MODEL_ATTR,
+		model.addAttribute(SubjectControllerConst.USERS_MODEL_ATTR,
 		        subjectService.getAllUserForSubjectDTO());
-		return SUBJECTS_LIST_URL;
+		return SubjectControllerConst.SUBJECTS_LIST_URL;
 	}
 
 	/**
@@ -133,87 +133,89 @@ public class SubjectController
 	 *            subjects create page model
 	 * @return subjects create page URL
 	 */
-	@PreAuthorize(HAS_ANY_ROLE_EXEPT_USER)
-	@RequestMapping(SUBJECT_CREATE_MAPPING)
+	@PreAuthorize(SubjectControllerConst.HAS_ANY_ROLE_EXEPT_USER)
+	@RequestMapping(SubjectControllerConst.SUBJECT_CREATE_MAPPING)
 	public String createForm(final Model model) {
-		model.addAttribute(SUBJECT_FORM_MODEL_ATTR, new SubjectDTO());
-		model.addAttribute(USERS_MODEL_ATTR,
+		model.addAttribute(SubjectControllerConst.SUBJECT_FORM_MODEL_ATTR,
+		        new SubjectDTO());
+		model.addAttribute(SubjectControllerConst.USERS_MODEL_ATTR,
 		        subjectService.getAllUserForSubjectDTO());
-		return SUBJECT_CREATE_URL;
+		return SubjectControllerConst.SUBJECT_CREATE_URL;
 	}
 
-    /**
-     * Controls processing of subject create form.
-     *
-     * @param subject
-     *            an SubjectDTO example which is built based on form data.
-     *
-     * @param br
-     *            binding result to check validation errors
-     *
-     * @param model
-     *            subject create page view model.
-     *
-     * @return subjects list page redirect URL
-     */
-	@RequestMapping(value = SUBJECT_CREATE_MAPPING, method = RequestMethod.POST)
+	/**
+	 * Controls processing of subject create form.
+	 *
+	 * @param subject
+	 *            an SubjectDTO example which is built based on form data.
+	 *
+	 * @param br
+	 *            binding result to check validation errors
+	 *
+	 * @param model
+	 *            subject create page view model.
+	 *
+	 * @return subjects list page redirect URL
+	 */
+	@RequestMapping(value = SubjectControllerConst.SUBJECT_CREATE_MAPPING, method = RequestMethod.POST)
 	public String create(
-	        @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
+	        @ModelAttribute(SubjectControllerConst.SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
 	        final BindingResult result, final Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute(USERS_MODEL_ATTR,
+			model.addAttribute(SubjectControllerConst.USERS_MODEL_ATTR,
 			        subjectService.getAllUserForSubjectDTO());
-			return SUBJECT_CREATE_URL;
+			return SubjectControllerConst.SUBJECT_CREATE_URL;
 		}
 		subjectService.create(subject);
-		return SUBJECTS_REDIRECT_URL;
+		return SubjectControllerConst.SUBJECTS_REDIRECT_URL;
 	}
 
 	/**
 	 * Method prepares form for editing subject
 	 * 
-     * @param id
-     *            subject id to update information.
+	 * @param id
+	 *            subject id to update information.
 	 * 
 	 * @param model
 	 *            subjects edit page model
 	 * @return subjects edit page URL
 	 */
-	@PreAuthorize(HAS_ANY_ROLE_EXEPT_USER)
-	@RequestMapping(SUBJECT_EDIT_MAPPING + "{id}")
+	@PreAuthorize(SubjectControllerConst.HAS_ANY_ROLE_EXEPT_USER)
+	@RequestMapping(SubjectControllerConst.SUBJECT_EDIT_MAPPING + "{id}")
 	public String editForm(@PathVariable final Long id, final Model model) {
-		model.addAttribute(SUBJECT_FORM_MODEL_ATTR, subjectService.getById(id));
-		model.addAttribute(USERS_MODEL_ATTR,
+		model.addAttribute(SubjectControllerConst.SUBJECT_FORM_MODEL_ATTR,
+		        subjectService.getById(id));
+		model.addAttribute(SubjectControllerConst.USERS_MODEL_ATTR,
 		        subjectService.getAllUserForSubjectDTO());
-		return SUBJECTS_EDIT_URL;
+		return SubjectControllerConst.SUBJECTS_EDIT_URL;
 	}
 
-    /**
-     * Controls processing of subject edit information form.
-     *
-     * @param subject
-     *            an SubjectDTO example which is built based on form data.
-     *
-     * @param br
-     *            binding result to check validation errors
-     *
-     * @param model
-     *            subject update information page view model.
-     *
-     * @return subjects list page redirect URL
-     */
-	@RequestMapping(value = SUBJECT_EDIT_MAPPING
+	/**
+	 * Controls processing of subject edit information form.
+	 *
+	 * @param subject
+	 *            an SubjectDTO example which is built based on form data.
+	 *
+	 * @param br
+	 *            binding result to check validation errors
+	 *
+	 * @param model
+	 *            subject update information page view model.
+	 *
+	 * @return subjects list page redirect URL
+	 */
+	@RequestMapping(value = SubjectControllerConst.SUBJECT_EDIT_MAPPING
 	        + "{id}", method = RequestMethod.POST)
 	public String edit(
-	        @ModelAttribute(SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
+	        @ModelAttribute(SubjectControllerConst.SUBJECT_FORM_MODEL_ATTR) @Valid final SubjectDTO subject,
 	        final BindingResult result, final Model model) {
 		if (result.hasErrors()) {
-			model.addAttribute(USERS_MODEL_ATTR,
+			model.addAttribute(SubjectControllerConst.USERS_MODEL_ATTR,
 			        subjectService.getAllUserForSubjectDTO());
-			return SUBJECTS_EDIT_URL;
+			return SubjectControllerConst.SUBJECTS_EDIT_URL;
 		}
 		subjectService.update(subject);
-		return SUBJECTS_REDIRECT_URL;
+		return SubjectControllerConst.SUBJECTS_REDIRECT_URL;
 	}
 
 	/**
@@ -223,11 +225,11 @@ public class SubjectController
 	 *            id subject to delete
 	 * @return subjects list page URL (redirect)
 	 */
-	@PreAuthorize(HAS_ANY_ROLE_EXEPT_USER)
-	@RequestMapping(SUBJECT_DELETE_MAPPING + "{id}")
+	@PreAuthorize(SubjectControllerConst.HAS_ANY_ROLE_EXEPT_USER)
+	@RequestMapping(SubjectControllerConst.SUBJECT_DELETE_MAPPING + "{id}")
 	public String delete(@PathVariable final Long id) {
 		subjectService.deleteById(id);
-		return SUBJECTS_REDIRECT_URL;
+		return SubjectControllerConst.SUBJECTS_REDIRECT_URL;
 	}
 
 	/**
@@ -241,13 +243,16 @@ public class SubjectController
 	 *
 	 * @return subject show detail page URL
 	 */
-	@RequestMapping(SUBJECTS_MAPPING_SHOW + "{id}")
+	@RequestMapping(SubjectControllerConst.SUBJECTS_MAPPING_SHOW + "{id}")
 	public String showSubjectDetails(@PathVariable final Long id,
 	        final Model model) {
-		model.addAttribute(SUBJECT_FILE_FORM, new FileForSubjectDTO());
-		model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
-		model.addAttribute(SUBJECT_FILES, subjectService.showSubjectFiles(id));
-		return SUBJECTS_SHOW_URL;
+		model.addAttribute(SubjectControllerConst.SUBJECT_FILE_FORM,
+		        new FileForSubjectDTO());
+		model.addAttribute(SubjectControllerConst.SUBJECT_MODEL_ATTR,
+		        subjectService.getById(id));
+		model.addAttribute(SubjectControllerConst.SUBJECT_FILES,
+		        subjectService.showSubjectFiles(id));
+		return SubjectControllerConst.SUBJECTS_SHOW_URL;
 	}
 
 	/**
@@ -261,27 +266,29 @@ public class SubjectController
 	 *
 	 * @param model
 	 *            subject details show page view model.
-	 *            
-     * @param br
-     *            binding result to check validation errors
-	 *            
+	 * 
+	 * @param br
+	 *            binding result to check validation errors
+	 * 
 	 * @throws IOException
 	 * 
 	 * @return subject show detail page URL
 	 */
-	@PreAuthorize(HAS_ANY_ROLE_EXEPT_USER)
-	@RequestMapping(value = SUBJECTS_MAPPING_SHOW
+	@PreAuthorize(SubjectControllerConst.HAS_ANY_ROLE_EXEPT_USER)
+	@RequestMapping(value = SubjectControllerConst.SUBJECTS_MAPPING_SHOW
 	        + "{id}", method = RequestMethod.POST)
 	public String uploadFile(@PathVariable final Long id,
-	        @ModelAttribute(SUBJECT_FILE_FORM) @Valid final FileForSubjectDTO fileForSubjectDTO,
+	        @ModelAttribute(SubjectControllerConst.SUBJECT_FILE_FORM) @Valid final FileForSubjectDTO fileForSubjectDTO,
 	        final BindingResult result, final Model model) throws IOException {
 		if (result.hasErrors()) {
-			model.addAttribute(SUBJECT_MODEL_ATTR, subjectService.getById(id));
-			model.addAttribute(SUBJECT_FILES, subjectService.showSubjectFiles(id));
-			return SUBJECTS_SHOW_URL;
+			model.addAttribute(SubjectControllerConst.SUBJECT_MODEL_ATTR,
+			        subjectService.getById(id));
+			model.addAttribute(SubjectControllerConst.SUBJECT_FILES,
+			        subjectService.showSubjectFiles(id));
+			return SubjectControllerConst.SUBJECTS_SHOW_URL;
 		}
 		subjectService.uploadFile(fileForSubjectDTO);
-		return SUBJECT_SHOW_URL;
+		return SubjectControllerConst.SUBJECT_SHOW_URL;
 	}
 
 	/**
@@ -295,12 +302,13 @@ public class SubjectController
 	 *
 	 * @return subject show detail page URL
 	 */
-	@PreAuthorize(HAS_ANY_ROLE_EXEPT_USER)
-	@RequestMapping(SUBJECT_DELETE_FILE_MAPPING + "{fileName}/{id}")
+	@PreAuthorize(SubjectControllerConst.HAS_ANY_ROLE_EXEPT_USER)
+	@RequestMapping(SubjectControllerConst.SUBJECT_DELETE_FILE_MAPPING
+	        + "{fileName}/{id}")
 	public String deleteFile(@PathVariable final Long id,
 	        @PathVariable final String fileName) {
 		subjectService.deleteSubjectFileById(id, fileName);
-		return SUBJECT_SHOW_URL;
+		return SubjectControllerConst.SUBJECT_SHOW_URL;
 	}
 
 	/**
@@ -319,11 +327,12 @@ public class SubjectController
 	 *
 	 * @return subject show detail page URL
 	 */
-	@PreAuthorize(HAS_ANY_ROLE)
-	@RequestMapping(SUBJECT_DOWNLOAD_FILE_MAPPING + "{fileName}/{id}")
+	@PreAuthorize(SubjectControllerConst.HAS_ANY_ROLE)
+	@RequestMapping(SubjectControllerConst.SUBJECT_DOWNLOAD_FILE_MAPPING
+	        + "{fileName}/{id}")
 	public void downloadFile(@PathVariable final Long id,
-	        @PathVariable final String fileName, final HttpServletResponse response)
-	        throws IOException {
+	        @PathVariable final String fileName,
+	        final HttpServletResponse response) throws IOException {
 		subjectService.retriveSubjectFileById(id, fileName, response);
 	}
 

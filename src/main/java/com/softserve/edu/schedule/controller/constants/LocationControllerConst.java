@@ -98,4 +98,10 @@ public final class LocationControllerConst {
      * Location edit permissions.
      */
 	public static final String LOCATION_EDIT_PERMISSIONS = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
+	
+    /**
+     * Private constructor to prevent instance creation.
+     */
+	private LocationControllerConst() {
+	}
 }
