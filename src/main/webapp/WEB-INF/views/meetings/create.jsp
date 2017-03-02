@@ -3,7 +3,8 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ page import="com.softserve.edu.schedule.controller.MeetingController"%>
+
+	<%@ page import="com.softserve.edu.schedule.controller.constants.MeetingControllerConst"%>
 
 <div class="container">
 	<div class="row">
@@ -11,7 +12,7 @@
 			<h3 class="text-center">
 				<spring:message code="lbl.meeting.create" />
 			</h3>
-			<form:form role="form" method="post" modelAttribute="${MeetingController.MEETING_MODEL_ATTR}"
+			<form:form role="form" method="post" modelAttribute="${MeetingControllerConst.MEETING_MODEL_ATTR}"
 				onsubmit="return isValidForm()">
 				<form:input path="id" type="hidden" />
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
@@ -161,12 +162,12 @@
 					<input type="submit" class="btn btn-default" value="<spring:message code="lbl.form.save"/>">
 					<a class="btn btn-default"
 						href="${pageContext.request.contextPath}/
-						${MeetingController.MEETING_CREATE_URL}">
+						${MeetingControllerConst.MEETING_CREATE_URL}">
 						<spring:message code="lbl.form.reset" />
 					</a>
 					<a class="btn btn-default"
 						href="${pageContext.request.contextPath}/
-						${MeetingController.MEETINGS_MODEL_ATTR}">
+						${MeetingControllerConst.MEETINGS_MODEL_ATTR}">
 						<spring:message code="lbl.form.cancel" />
 					</a>
 				</div>

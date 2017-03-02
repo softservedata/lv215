@@ -5,8 +5,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ page
-	import="com.softserve.edu.schedule.controller.MeetingController"%>
+	<%@ page import="com.softserve.edu.schedule.controller.constants.MeetingControllerConst"%>
 
 <div class="container">
 	<div class="row padding-calendar-details">
@@ -21,7 +20,7 @@
 		<div class="col-lg-1 col-lg-offset-9 col-md-1 col-sm-1 col-xs-1 panel-exit zero-margin-top">
 			<h3>
 				<a class="align-right"
-					href="${pageContext.request.contextPath}/${MeetingController.MEETINGS_MODEL_ATTR}"
+					href="${pageContext.request.contextPath}/${MeetingControllerConst.MEETINGS_MODEL_ATTR}"
 					title="<spring:message code="lbl.subject.title" />">
 					<i class="fa fa-table fa-lg"></i>
 				</a>
@@ -44,14 +43,14 @@
 				</div>
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.subject" /></b> : <a
-						href="${pageContext.request.contextPath}/${MeetingController.SUBJECTS_MODEL_ATTR}/
+						href="${pageContext.request.contextPath}/${MeetingControllerConst.SUBJECTS_MODEL_ATTR}/
 						${meetingForm.subject.id}">${meetingForm.subject.name}</a>
 				</div>
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.owner" /></b> :
 					<sec:authorize access="isAuthenticated()">
 						<a
-							href="${pageContext.request.contextPath}/${MeetingController.PROFILE_MAPPING}/
+							href="${pageContext.request.contextPath}/${MeetingControllerConst.PROFILE_MAPPING}/
 							${meetingForm.owner.id}">${meetingForm.owner.lastName}
 							${meetingForm.owner.firstName}</a>
 					</sec:authorize>
@@ -63,7 +62,7 @@
 				</div>
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.room" /></b> : <a
-						href="${pageContext.request.contextPath}/${MeetingController.ROOMS_MODEL_ATTR}/
+						href="${pageContext.request.contextPath}/${MeetingControllerConst.ROOMS_MODEL_ATTR}/
 						${meetingForm.room.id}">${meetingForm.room.name} (${meetingForm.room.location.name})</a>
 				</div>
 
@@ -84,7 +83,7 @@
 					<c:forEach items="${meetingForm.groups}" var="group">
 						<li><a
 							href="${pageContext.request.contextPath}/
-							${MeetingController.USERGROUPS_MAPPING}/${group.id}">
+							${MeetingControllerConst.USERGROUPS_MAPPING}/${group.id}">
 							${group.name}</a>
 						</li>
 					</c:forEach>
