@@ -136,7 +136,7 @@ public class LocationServiceImpl implements LocationService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<LocationDTO> getLocationsByName(String locationName) {
+	public List<LocationDTO> getLocationsByName(final String locationName) {
 		return locationDAO.getLocationsByField(Location_.name.getName(), locationName).stream()
 				.map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}
@@ -150,7 +150,7 @@ public class LocationServiceImpl implements LocationService {
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<LocationDTO> getLocationsPageWithFilter(LocationFilter locationFilter, Paginator locationPaginator) {
+	public List<LocationDTO> getLocationsPageWithFilter(final LocationFilter locationFilter, final Paginator locationPaginator) {
 		return locationDAO.getLocationsPageWithFilter(locationFilter, locationPaginator).stream()
 				.map(e -> locationDTOConverter.getDTO(e)).collect(Collectors.toList());
 	}

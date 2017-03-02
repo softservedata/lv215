@@ -56,7 +56,6 @@ var jsonData2 = $.ajax({
 	dataType : 'json',
 	async : false
 }).responseText;
-
 function drawChartWeek() {
 	var data = new google.visualization.DataTable();
 	data.addColumn('string', 'Subject');
@@ -69,7 +68,7 @@ function drawChartWeek() {
 		iterator++;
 	});
 	var options = {
-		'title' : "My meetings of current week\n(" + firstDay2 + " - "
+		'title' : $("#weekChartTitle").text()+"\n(" + firstDay2 + " - "
 				+ lastDay2 + ")",
 		'titleFontSize' : 12,
 		'width' : 300,
@@ -97,7 +96,7 @@ function drawChartMonth() {
 		iterator++;
 	});
 	var options = {
-		'title' : "My meetings of current month\n(" + firstDay + " - "
+		'title' : $("#monthChartTitle").text()+"\n(" + firstDay + " - "
 				+ lastDay + ")",
 		'titleFontSize' : 12,
 		'width' : 300,

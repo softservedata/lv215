@@ -29,7 +29,7 @@ import com.softserve.edu.schedule.entity.User;
  * @since 1.8
  */
 @Component
-public class RegistrationMailServise implements MailConstants {
+public class RegistrationMailServise {
     /**
      * JavaMailSender example to provide mail sending.
      */
@@ -49,35 +49,37 @@ public class RegistrationMailServise implements MailConstants {
     private SpringTemplateEngine templateEngine;
 
     /**
-     * Field for import from message attribute from mail.properties
+     * Field for import from message attribute from mail properties.
      */
-    @Value(DEFAULT_MESSAGE_FROM_ADDRESS)
+    @Value(MailConstants.DEFAULT_MESSAGE_FROM_ADDRESS)
     private String fromAddress;
 
     /**
      * Send mail notifications to the new user when user has been registered.
-     * 
+     *
      * @param user
      *            a new user parameters.
      * @param locale
      *            current locale.
      */
     @Async
-    public void sendInfoMessageRegistration(final User user, Locale locale) {
+    public void sendInfoMessageRegistration(final User user,
+            final Locale locale) {
 
         Context ctx = new Context(locale);
-        ctx.setVariable(USER_MODEL_NAME, user);
+        ctx.setVariable(MailConstants.USER_MODEL_NAME, user);
 
         try {
             MimeMessage mimeMessage = this.mailSender.createMimeMessage();
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true,
-                    DEFAULT_MESSAGE_ENCODING);
+                    MailConstants.DEFAULT_MESSAGE_ENCODING);
             message.setTo(new InternetAddress(user.getMail()));
             message.setFrom(new InternetAddress(fromAddress));
             message.setSubject(messageSource.getMessage(
-                    REGISTRATION_MESSAGE_SUBJECT, new String[0], locale));
+                    MailConstants.REGISTRATION_MESSAGE_SUBJECT, new String[0],
+                    locale));
             String htmlContent = this.templateEngine
-                    .process(USER_REGISTRATED_TEMPLATE, ctx);
+                    .process(MailConstants.USER_REGISTRATED_TEMPLATE, ctx);
             message.setText(htmlContent, true);
             this.mailSender.send(mimeMessage);
         } catch (MessagingException e) {

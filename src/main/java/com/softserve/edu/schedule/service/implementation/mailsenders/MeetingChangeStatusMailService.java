@@ -31,7 +31,7 @@ import com.softserve.edu.schedule.entity.User;
  * @author Bohdan Melnyk
  */
 @Component
-public class MeetingChangeStatusMailService implements MailConstants {
+public class MeetingChangeStatusMailService {
 
     /**
      * JavaMailSender example to provide mail sending.
@@ -54,14 +54,14 @@ public class MeetingChangeStatusMailService implements MailConstants {
     /**
      * Field for import from message attribute from mail.properties.
      */
-    @Value(DEFAULT_MESSAGE_FROM_ADDRESS)
+    @Value(MailConstants.DEFAULT_MESSAGE_FROM_ADDRESS)
     private String fromAddress;
 
     /**
-     * Send mail notifications to all group members when group has been deleted
+     * Send mail notifications to all group members when group has been deleted.
      *
-     * @param userGroup
-     *            a UserGroup object that contains mail message parameters.
+     * @param meeting
+     *            meeting to message.
      *
      * @param locale
      *            current locale.
@@ -70,7 +70,7 @@ public class MeetingChangeStatusMailService implements MailConstants {
     public void sendInfoMessageAboutMeetingStatusChanging(final Meeting meeting,
             final Locale locale) {
         Context ctx = new Context(locale);
-        ctx.setVariable(MEETING_MODEL_NAME, meeting);
+        ctx.setVariable(MailConstants.MEETING_MODEL_NAME, meeting);
 
         Set<User> curators = new HashSet<User>();
         curators.add(meeting.getOwner());
@@ -78,18 +78,19 @@ public class MeetingChangeStatusMailService implements MailConstants {
                 .forEach(e -> e.getUsers().forEach(u -> curators.add(u)));
 
         for (User member : curators) {
-            ctx.setVariable(MEETING_GROUP_CURATOR, member);
+            ctx.setVariable(MailConstants.MEETING_GROUP_CURATOR, member);
 
             try {
                 MimeMessage mimeMessage = this.mailSender.createMimeMessage();
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage,
-                        true, DEFAULT_MESSAGE_ENCODING);
+                        true, MailConstants.DEFAULT_MESSAGE_ENCODING);
                 message.setTo(member.getMail());
                 message.setFrom(new InternetAddress(fromAddress));
                 message.setSubject(messageSource.getMessage(
-                        MEETING_CHANGEDSTATUS_MESSAGE, new String[0], locale));
-                String htmlContent = this.templateEngine
-                        .process(MEETING_CHANGESTATUS_TEMPLATE, ctx);
+                        MailConstants.MEETING_CHANGEDSTATUS_MESSAGE,
+                        new String[0], locale));
+                String htmlContent = this.templateEngine.process(
+                        MailConstants.MEETING_CHANGESTATUS_TEMPLATE, ctx);
                 message.setText(htmlContent, true);
                 this.mailSender.send(mimeMessage);
             } catch (MessagingException e) {

@@ -290,7 +290,7 @@
 						<p>
 							<a
 								href="${pageContext.request.contextPath}/
-								${MeetingController.USERGROUPS_MAPPING}/${group.id}"
+								usergroups/${group.id}"
 								title="<spring:message code="lbl.meeting.groupdetails" />"
 								>${group.name}</a>
 						</p>
@@ -384,16 +384,6 @@
 		<ul id="paginationList" class="pagination"></ul>
 	</div>
 </div>
-
-
-<c:set var="first"><spring:message code="lbl.pager.first"/></c:set>
-<input id="firstLabel" type="hidden" value="${first}"/>
-<c:set var="last"><spring:message code="lbl.pager.last"/></c:set>
-<input id="lastLabel" type="hidden" value="${last}"/>
-<c:set var="previous"><spring:message code="lbl.pager.previous"/></c:set>
-<input id="previousLabel" type="hidden" value="${previous}"/>
-<c:set var="next"><spring:message code="lbl.pager.next"/></c:set>
-<input id="nextLabel" type="hidden" value="${next}"/>
 
 <spring:url value="/resources/js/meetings/list.js" var="meetingsListJS" />
 <script>

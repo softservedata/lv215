@@ -5,7 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.constants.UserControllerConst"%>
 <body>
 	<div class="container">
 		<div class="row">
@@ -60,7 +61,7 @@
 				</div>
 				<div class="form-group">
 					<a class="form-control"
-						href="${pageContext.request.contextPath}/${UserController.USER_MEETINGS_MAPPING}${user.id}">
+						href="${pageContext.request.contextPath}/${UserControllerConst.USER_MEETINGS_MAPPING}${user.id}">
 						<spring:message code="lbl.user.showMitings" />
 					</a>
 				</div>
@@ -69,7 +70,7 @@
 				class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
 				<h3>
 					<a
-						href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}">
+						href="${pageContext.request.contextPath}${UserControllerConst.USERS_MAPPING_FROM_HEADER}">
 						<i class="fa fa-table fa-lg"></i>
 					</a>
 				</h3>

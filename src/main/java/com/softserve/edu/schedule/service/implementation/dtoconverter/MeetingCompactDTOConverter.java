@@ -53,5 +53,4 @@ public class MeetingCompactDTOConverter {
         }
         return null;
     }
-
 }

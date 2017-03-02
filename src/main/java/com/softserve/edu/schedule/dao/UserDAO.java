@@ -14,7 +14,7 @@ public interface UserDAO extends CrudDAO<User> {
      * @param id
      *            a user id to delete from database.
      */
-    void deleteById(Long id);
+    public void deleteById(Long id);
 
     /**
      * Find user in the DB by given mail.
@@ -24,7 +24,7 @@ public interface UserDAO extends CrudDAO<User> {
      *
      * @return User object with given mail or null if not finded.
      */
-    User findByMail(String userMail);
+    public User findByMail(String userMail);
 
     /**
      * Find all user entities in the database with applied filter
@@ -34,7 +34,7 @@ public interface UserDAO extends CrudDAO<User> {
      * 
      * @return List of the user objects.
      */
-    List<User> getUsersPageWithFilter(UserFilter userFilter,
+    public List<User> getUsersPageWithFilter(UserFilter userFilter,
             Paginator userPaginator);
     
     /**
@@ -46,20 +46,20 @@ public interface UserDAO extends CrudDAO<User> {
      * @return Count of the user entities in the database with specified
      *         predicate.
      */
-    Long getCountOfUsersWithFilter(final UserFilter userFilter);
+    public Long getCountOfUsersWithFilter(final UserFilter userFilter);
     
     /**
      * Method returns lists of users which have role - moderator
      * 
      * @return lists of users which have role - moderator
      */
-    List<User> getModerators();
+    public List<User> getModerators();
     
     /**
      * Method returns lists of users which have status - active
      * 
      * @return lists of users which have status - active
      */
-    List<User> getAllActiveUsers();
+    public List<User> getAllActiveUsers();
 
 }

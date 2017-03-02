@@ -4,7 +4,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page
-	import="com.softserve.edu.schedule.controller.SubjectController"%>
+	import="com.softserve.edu.schedule.controller.constants.SubjectControllerConst"%>
 
 <div class="container">
 	<div class="row">
@@ -12,27 +12,27 @@
 			class="col-lg-4 col-lg-offset-4 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 panel panel-default">
 			<h3 class="text-center"><spring:message code="lbl.subject.add"/></h3>
 			<form:form method="post"
-				modelAttribute="${SubjectController.SUBJECT_FORM_MODEL_ATTR}">
+				modelAttribute="${SubjectControllerConst.SUBJECT_FORM_MODEL_ATTR}">
 				<div class="form-group">
-					<label for="${SubjectController.SUBJECT_PATH_NAME}"><spring:message code="lbl.subject.name" /></label>
+					<label for="${SubjectControllerConst.SUBJECT_PATH_NAME}"><spring:message code="lbl.subject.name" /></label>
 					<spring:message code="vm.invalidCharactersOrEmptyField" var="name" />
 					<spring:message code="lbl.subject.createName" var="namePH" />
-					<form:input class="form-control" path="${SubjectController.SUBJECT_PATH_NAME}"
+					<form:input class="form-control" path="${SubjectControllerConst.SUBJECT_PATH_NAME}"
 						placeholder="${namePH}" required="true" pattern = "[а-яА-ЯёЁіІєЄїЇa-zA-Z0-9№'@#$%^&+=,\.\s\-]{1,254}" title = "${name}"/>
-					<form:errors path="${SubjectController.SUBJECT_PATH_NAME}"/>	
+					<form:errors path="${SubjectControllerConst.SUBJECT_PATH_NAME}" style="color: red"/>	
 				</div>
 				<div class="form-group">
-					<label for="${SubjectController.SUBJECT_PATH_DESCRIPTION}"><spring:message code="lbl.subject.description" /></label>
+					<label for="${SubjectControllerConst.SUBJECT_PATH_DESCRIPTION}"><spring:message code="lbl.subject.description" /></label>
 					<spring:message code="vm.invalidCharactersOrEmptyFieldDescription" var="description" />
 					<spring:message code="lbl.subject.createDesc" var="descPH" />
-					<form:textarea class="form-control" path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"
+					<form:textarea class="form-control" path="${SubjectControllerConst.SUBJECT_PATH_DESCRIPTION}"
 						placeholder="${descPH}" required="true" minlength="1" maxlength="1000"  title = "${description}"/>
-						<form:errors path="${SubjectController.SUBJECT_PATH_DESCRIPTION}"/>
+						<form:errors path="${SubjectControllerConst.SUBJECT_PATH_DESCRIPTION}" style="color: red"/>
 				</div>
 				<div class="form-group">
-					<label for="${SubjectController.SUBJECT_PATH_USERS}"><spring:message code="lbl.subject.tutor" /></label>
+					<label for="${SubjectControllerConst.SUBJECT_PATH_USERS}"><spring:message code="lbl.subject.tutor" /></label>
 					<form:select class="form-control"
-						path="${SubjectController.SUBJECT_PATH_USERS}" multiple="multiple" required="true">
+						path="${SubjectControllerConst.SUBJECT_PATH_USERS}" multiple="multiple" required="true">
 						<c:forEach items="${users}" var="user">
 							<c:set var="found" value="false" />
 							<c:forEach items="${subjectForm.users}" var="userInSubject">
@@ -50,12 +50,12 @@
 							</c:if>
 						</c:forEach>
 					</form:select>
-					<form:errors path="${SubjectController.SUBJECT_PATH_USERS}"/>
+					<form:errors path="${SubjectControllerConst.SUBJECT_PATH_USERS}" style="color: red"/>
 				</div>
 				<div class="form-group text-center">
 					<input type="submit" class="btn btn-default" value="<spring:message code="lbl.form.save"/>" /> <a
 						class="btn btn-default"
-						href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}"><spring:message code="lbl.form.cancel"/></a>
+						href="${pageContext.request.contextPath}${SubjectControllerConst.SUBJECTS_MAPPING}"><spring:message code="lbl.form.cancel"/></a>
 				</div>
 			</form:form>
 		</div>

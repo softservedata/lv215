@@ -6,7 +6,7 @@
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ page
-	import="com.softserve.edu.schedule.controller.UserGroupController"%>
+	import="com.softserve.edu.schedule.controller.constants.UserGroupControllerConst"%>
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -79,7 +79,7 @@
 		<!-- FILTER -->
 		<tr>
 			<form:form action="${pageContext.request.contextPath}/usergroups"
-				modelAttribute="${UserGroupController.FILTER_MODEL_ATTR}">
+				modelAttribute="${UserGroupControllerConst.FILTER_MODEL_ATTR}">
 				<td><spring:message code="lbl.group.search" var="search" /> <form:input
 						class="form-control" path="name" placeholder=" ${search}" /></td>
 
@@ -139,7 +139,7 @@
 				<td><a
 					href="${pageContext.request.contextPath}/usergroups/${usergroup.id}">${usergroup.name}</a></td>
 				<td><a
-					href="${pageContext.request.contextPath}${UserGroupController.USERGROUP_USER_PROFILE_MAPPING}${usergroup.curator.id}">${usergroup.curator.lastName}
+					href="${pageContext.request.contextPath}${UserGroupControllerConst.USERGROUP_USER_PROFILE_MAPPING}${usergroup.curator.id}">${usergroup.curator.lastName}
 						${usergroup.curator.firstName}</a></td>
 				<td><spring:message code="lbl.group.${usergroup.level.code}" /></td>
 				<td>${usergroup.users.size()}</td>
@@ -147,7 +147,7 @@
 				<td><sec:authorize
 						access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
 						<a
-							data-href="${pageContext.request.contextPath}${UserGroupController.USERGROUPS_DELETE_MAPPING}${usergroup.id}"
+							data-href="${pageContext.request.contextPath}${UserGroupControllerConst.USERGROUPS_DELETE_MAPPING}${usergroup.id}"
 							data-toggle="modal" data-target="#confirm-delete"
 							title="<spring:message code="lbl.group.delete" />"><i
 							class="fa fa-trash-o fa-lg"></i></a>
@@ -155,7 +155,7 @@
 						<sec:authentication property="principal.id" var="principarid" />
 						<c:if test="${principalid eq  usergroup.curator.id}">
 							<a
-								data-href="${pageContext.request.contextPath}${UserGroupController.USERGROUPS_DELETE_MAPPING}${usergroup.id}"
+								data-href="${pageContext.request.contextPath}${UserGroupControllerConst.USERGROUPS_DELETE_MAPPING}${usergroup.id}"
 								data-toggle="modal" data-target="#confirm-delete"
 								title="<spring:message code="lbl.group.delete" />"> <i
 								class="fa fa-trash-o fa-lg"></i>
@@ -218,15 +218,6 @@
 		<ul id="paginationList" class="pagination"></ul>
 	</div>
 </div>
-
-<c:set var="first"><spring:message code="lbl.pager.first"/></c:set>
-<input id="firstLabel" type="hidden" value="${first}"/>
-<c:set var="last"><spring:message code="lbl.pager.last"/></c:set>
-<input id="lastLabel" type="hidden" value="${last}"/>
-<c:set var="previous"><spring:message code="lbl.pager.previous"/></c:set>
-<input id="previousLabel" type="hidden" value="${previous}"/>
-<c:set var="next"><spring:message code="lbl.pager.next"/></c:set>
-<input id="nextLabel" type="hidden" value="${next}"/>
 
 <spring:url value="/resources/js/usergroups/list.js" var="userGroupsListJS" />
 <script>

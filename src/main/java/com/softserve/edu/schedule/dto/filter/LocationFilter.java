@@ -48,7 +48,7 @@ public class LocationFilter {
 	 * @param name
 	 *            to set
 	 */
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -63,7 +63,7 @@ public class LocationFilter {
 	 * @param address
 	 *            to set
 	 */
-	public void setAddress(String address) {
+	public void setAddress(final String address) {
 		this.address = address;
 	}
 
@@ -78,7 +78,7 @@ public class LocationFilter {
 	 * @param sortByField
 	 *            to set
 	 */
-	public void setSortByField(int sortByField) {
+	public void setSortByField(final int sortByField) {
 		this.sortByField = sortByField;
 	}
 
@@ -93,7 +93,7 @@ public class LocationFilter {
 	 * @param sortOrder
 	 *            to set
 	 */
-	public void setSortOrder(int sortOrder) {
+	public void setSortOrder(final int sortOrder) {
 		this.sortOrder = sortOrder;
 	}
 

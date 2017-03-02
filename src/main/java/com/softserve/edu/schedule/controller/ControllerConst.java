@@ -12,165 +12,6 @@ package com.softserve.edu.schedule.controller;
  */
 public interface ControllerConst {
 
-    /**
-     * Application root URL.
-     */
-    String ROOT_URL = "/";
-
-    /**
-     * Index page URL.
-     */
-    String INDEX_URL = "index";
-
-    /**
-     * Error handling page URL.
-     */
-    String ERROR_PAGE_URL = "error";
-
-    /**
-     * Exception model attribute name.
-     */
-    String EXCEPTION_MODEL_ATTR = "exception";
-
-    /**
-     * An interface to storage room controller model attributes and mappings
-     * URL.
-     *
-     * @version 1.0 20 January 2017
-     *
-     * @author Petro Zelyonka
-     *
-     * @since 1.8
-     */
-
-    public interface RoomControllerConst {
-
-        /**
-         * Room edit permissions.
-         */
-        String ROOM_EDIT_PERMISSIONS = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
-
-        /**
-         * Room model attribute name.
-         */
-        String ROOM_MODEL_ATTR = "room";
-
-        /**
-         * Rooms model attribute name.
-         */
-        String ROOMS_MODEL_ATTR = "rooms";
-
-        /**
-         * Locations model attribute name.
-         */
-        String LOCATIONS_MODEL_ATTR = "locations";
-
-        /**
-         * Room equipments model attribute name.
-         */
-        String EQUIPMENTS_MODEL_ATTR = "equipments";
-
-        /**
-         * Room meetings model attribute name.
-         */
-        String MEETINGS_MODEL_ATTR = "meetings";
-
-        /**
-         * Filter model attribute name.
-         */
-        String FILTER_MODEL_ATTR = "roomFilter";
-
-        /**
-         * Paginator model attribute name.
-         */
-        String ROOM_PAGINATOR_MODEL_ATTR = "roomPaginator";
-
-        /**
-         * Room files model attribute name.
-         */
-        String ROOM_FILES_MODEL_ATTR = "roomFiles";
-
-        /**
-         * Date filter model attribute name.
-         */
-        String DATE_FILTER_MODEL_ATTR = "dateFilter";
-
-        /**
-         * Path variable for room id name.
-         */
-        String PATH_VAR_ID = "id";
-
-        /**
-         * Rooms section URL name.
-         */
-        String ROOMS_URL = "/rooms";
-
-        /**
-         * Rooms list URL name.
-         */
-        String ROOMS_LIST_URL = "rooms/list";
-
-        /**
-         * Rooms list redirect URL name.
-         */
-        String ROOMS_REDIRECT_URL = "redirect:/rooms";
-
-        /**
-         * Show room details URL name.
-         */
-        String ROOM_SHOW_URL = "rooms/show";
-
-        /**
-         * Show room details mapping URL name.
-         */
-        String ROOM_SHOW_MAPPING = "/{id}";
-
-        /**
-         * Edit room information URL name.
-         */
-        String ROOM_EDIT_URL = "rooms/edit";
-
-        /**
-         * Edit room information mapping URL name.
-         */
-        String ROOM_EDIT_MAPPING = "/edit/{id}";
-
-        /**
-         * Create new room URL name.
-         */
-        String ROOM_CREATE_URL = "rooms/create";
-
-        /**
-         * Create new room mapping URL name.
-         */
-        String ROOM_CREATE_MAPPING = "/create";
-
-        /**
-         * Delete room mapping URL name.
-         */
-        String ROOM_DELETE_MAPPING = "/delete/{id}";
-
-        /**
-         * Room upload file mapping URL name.
-         */
-        String ROOM_FILE_UPLOAD_MAPPING = "/edit/{id}/uploadfile";
-
-        /**
-         * Room delete file mapping URL name.
-         */
-        String ROOM_FILE_DELETE_MAPPING = "/deleteFile/{fileName}/{id}";
-
-        /**
-         * Room download file mapping URL name.
-         */
-        String ROOM_FILE_DOWNLOAD_MAPPING = "/downloadFile/{fileName}/{roomId}";
-
-        /**
-         * Room upload file redirect URL name.
-         */
-        String ROOM_FILE_REDIRECT_URL = "redirect:/rooms/edit/{id}";
-    }
-
     public interface RegistrationControllerConst {
 
         String USER_REGIST_MAPPING_FROM_STARTPAGE = "registration";
@@ -298,102 +139,6 @@ public interface ControllerConst {
     }
 
     /**
-     * An interface to storage location controller model attributes and mappings
-     * URL.
-     *
-     * @version 1.0 20 January 2017
-     *
-     * @author Oleksandr Butyter
-     */
-    public interface LocationControllerConst {
-
-        /**
-         * Filter model attribute name.
-         */
-        String FILTER_MODEL_ATTR = "locationFilter";
-
-        /**
-         * Paginator model attribute name.
-         */
-        String LOCATION_PAGINATOR_MODEL_ATTR = "locationPaginator";
-
-        /**
-         * Locations model attribute name.
-         */
-        String LOCATIONS_MODEL_ATTR = "locations";
-
-        /**
-         * Location form model attribute name.
-         */
-        String LOCATION_FORM_MODEL_ATTR = "locationForm";
-
-        /**
-         * Location map model attribute name.
-         */
-        String LOCATION_MAP_MODEL_ATTR = "map";
-
-        /**
-         * Locations list URL.
-         */
-        String LOCATIONS_LIST_URL = "locations/list";
-
-        /**
-         * Locations list redirect URL.
-         */
-        String LOCATIONS_REDIRECT_URL = "redirect:/locations";
-
-        /**
-         * Create new location URL.
-         */
-        String LOCATION_CREATE_URL = "locations/create";
-
-        /**
-         * Edit location information URL.
-         */
-        String LOCATION_EDIT_URL = "locations/edit";
-
-        /**
-         * Map location URL.
-         */
-        String LOCATION_MAP_URL = "locations/map";
-
-        /**
-         * Locations mapping URL.
-         */
-        String LOCATIONS_MAPPING = "/locations";
-
-        /**
-         * Locations sort by count rooms (asc) mapping URL.
-         */
-        String LOCATIONS_SORT_BY_COUNT_ROOM_ASC_MAPPING = "/locations/sortbycountroomsasc";
-
-        /**
-         * Locations sort by count rooms (desc) mapping URL.
-         */
-        String LOCATIONS_SORT_BY_COUNT_ROOM_DESC_MAPPING = "/locations/sortbycountroomsdesc";
-
-        /**
-         * Delete location mapping URL name.
-         */
-        String LOCATION_DELETE_MAPPING = "/locations/delete/";
-
-        /**
-         * Create new location mapping URL name.
-         */
-        String LOCATION_CREATE_MAPPING = "/locations/create";
-
-        /**
-         * Edit location information mapping URL name.
-         */
-        String LOCATION_EDIT_MAPPING = "/locations/edit/";
-
-        /**
-         * Map location mapping URL name.
-         */
-        String LOCATION_MAP_MAPPING = "/locations/map/";
-    }
-
-    /**
      * An interface to storage subject controller model attributes and mappings
      * URL.
      *
@@ -454,7 +199,7 @@ public interface ControllerConst {
          * Subjects list redirect URL.
          */
         String SUBJECTS_REDIRECT_URL = "redirect:/subjects";
-        
+
         /**
          * Subject file delete redirect URL.
          */
@@ -713,85 +458,6 @@ public interface ControllerConst {
     }
 
     /**
-     * An interface to storage room controller model attributes and mappings
-     * URL.
-     *
-     * @version 1.0 20 January 2017
-     *
-     * @author Vitalii Shapovalov
-     *
-     * @since 1.8
-     */
-    public interface RoomEquipmentControllerConst {
-
-        /**
-         * Room equipment edit permissions.
-         */
-        String ROOM_EQUIPMENT_EDIT_PERMISSIONS = "hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')";
-
-        /**
-         * Room equipments section URL name.
-         */
-        String ROOM_EQUIPMENTS_URL = "/roomequipments";
-
-        /**
-         * Room equipments filter model attribute.
-         */
-        String FILTER_MODEL_ATTR = "roomEquipmentFilter";
-
-        /**
-         * Room equipments paginator model attribute.
-         */
-        String PAGINATOR_MODEL_ATTR = "roomEquipmentPaginator";
-
-        /**
-         * Room equipments model attribute.
-         */
-        String ROOM_EQUIPMENTS_MODEL_ATTR = "equipments";
-
-        /**
-         * Room equipment model attribute.
-         */
-        String ROOM_EQUIPMENT_MODEL_ATTR = "equipmentForm";
-
-        /**
-         * Room equipments list URL.
-         */
-        String ROOM_EQUIPMENTS_LIST = "roomequipments/list";
-
-        /**
-         * Room equipments edit URL mapping.
-         */
-        String ROOM_EQUIPMENTS_EDIT_MAPPING = "/edit/{id}";
-
-        /**
-         * Room equipments edit URL.
-         */
-        String ROOM_EQUIPMENTS_EDIT_URL = "roomequipments/edit";
-
-        /**
-         * Room equipments redirect URL.
-         */
-        String ROOM_EQUIPMENTS_REDIRECT_URL = "redirect:/roomequipments";
-
-        /**
-         * Room equipments create URL mapping.
-         */
-        String ROOM_EQUIPMENTS_CREATE = "/create";
-
-        /**
-         * Room equipments create URL.
-         */
-        String ROOM_EQUIPMENTS_CREATE_URL = "roomequipments/create";
-
-        /**
-         * Room equipments delete URL mapping.
-         */
-        String ROOM_EQUIPMENTS_DELETE_MAPPING = "/delete/{id}";
-
-    }
-
-    /**
      * An interface to storage meeting controller model attributes and mappings
      * URL.
      *
@@ -841,7 +507,7 @@ public interface ControllerConst {
         /**
          * Subjects model attribute name.
          */
-        String SUBJECTS_MODEL_ATTR = "subjects";     
+        String SUBJECTS_MODEL_ATTR = "subjects";
 
         /**
          * Rooms model attribute name.
@@ -897,7 +563,7 @@ public interface ControllerConst {
          * Meeting list url name.
          */
         String MEETING_LIST_URL = "meetings/list";
-        
+
         /**
          * Meeting list url name.
          */

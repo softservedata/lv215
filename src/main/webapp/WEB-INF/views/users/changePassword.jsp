@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.constants.UserControllerConst"%>
 <body>
 	<div class="container">
 		<div class="row">
@@ -22,8 +23,8 @@
 					<spring:message code="lbl.user.changePassword" />
 				</h3>
 				<form:form
-					action="${pageContext.request.contextPath}/${UserController.SAVE_CHANGED_PASSWORD_MAPPING}${user.id}"
-					commandName="${UserController.USER_MODEL_ATTR}" method="post">
+					action="${pageContext.request.contextPath}/${UserControllerConst.SAVE_CHANGED_PASSWORD_MAPPING}${user.id}"
+					commandName="${UserControllerConst.USER_MODEL_ATTR}" method="post">
 					<form:hidden path="id" />
 					<form:hidden path="password" />
 					<div class="form-group">
@@ -59,7 +60,7 @@
 						<input type="submit" class="btn btn-default"
 							value="<spring:message code="lbl.form.save"/>"> <a
 							class="btn btn-default"
-							href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}"><spring:message
+							href="${pageContext.request.contextPath}${UserControllerConst.USERS_MAPPING_FROM_HEADER}"><spring:message
 								code="lbl.form.cancel" /></a>
 					</div>
 				</form:form>
@@ -68,8 +69,8 @@
 				class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
 				<h3>
 					<a
-						href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}"> <i
-						class="fa fa-table fa-lg"></i>
+						href="${pageContext.request.contextPath}${UserControllerConst.USERS_MAPPING_FROM_HEADER}">
+						<i class="fa fa-table fa-lg"></i>
 					</a>
 				</h3>
 			</div>

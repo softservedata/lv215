@@ -33,7 +33,7 @@ public interface MeetingService {
      * @param meetingDTO
      *            - Meeting object
      */
-    public void create(MeetingDTO meetingDTO);
+    public void create(final MeetingDTO meetingDTO);
 
     /**
      * Return a Meeting object if found.
@@ -42,7 +42,7 @@ public interface MeetingService {
      *            of Meeting transfer object
      * @return Meeting transfer object
      */
-    public MeetingDTO getById(Long id);
+    public MeetingDTO getById(final Long id);
 
     /**
      * Gives MeetingStatus by given String name.
@@ -51,7 +51,7 @@ public interface MeetingService {
      *            name of status
      * @return MeetingStatus object.
      */
-    public MeetingStatus getStatusbyString(String status);
+    public MeetingStatus getStatusbyString(final String status);
 
     /**
      * Read all meetings from DB.
@@ -67,7 +67,7 @@ public interface MeetingService {
      * @param meetingDTO
      *            our meeting.
      */
-    public void update(MeetingDTO meetingDTO);
+    public void update(final MeetingDTO meetingDTO);
 
     /**
      * Delete meeting from DB.
@@ -75,7 +75,7 @@ public interface MeetingService {
      * @param meetingDTO
      *            our meeting.
      */
-    public void delete(MeetingDTO meetingDTO);
+    public void delete(final MeetingDTO meetingDTO);
 
     /**
      * Delete meeting from DB by given id.
@@ -83,7 +83,7 @@ public interface MeetingService {
      * @param id
      *            our id of meeting.
      */
-    public void deleteById(Long id);
+    public void deleteById(final Long id);
 
     /**
      * Returns List of MeetingDTO by given filter and paginator for Room page.
@@ -95,7 +95,8 @@ public interface MeetingService {
      * @return List of MeetingDTO
      */
     public List<MeetingDTO> getMeetingPageWithFilter(
-            MeetingFilter meetingFilter, Paginator meetingPaginator);
+            final MeetingFilter meetingFilter,
+            final Paginator meetingPaginator);
 
     /**
      * Return a List of searched Meeting transfer objects.
@@ -106,7 +107,7 @@ public interface MeetingService {
      *            - input string
      * @return List of sorted Subject transfer objects
      */
-    public List<MeetingDTO> search(String field, String pattern);
+    public List<MeetingDTO> search(final String field, final String pattern);
 
     /**
      * Change existing status of the meeting to given new meeting status.
@@ -117,7 +118,8 @@ public interface MeetingService {
      * @param meetingStatus
      *            New meeting status.
      */
-    public void changeMeetingStatus(Long id, MeetingStatus meetingStatus);
+    public void changeMeetingStatus(final Long id,
+            final MeetingStatus meetingStatus);
 
     /**
      * Finds duplicates meeting (converted to meetingDTO) from DB by the given
@@ -128,7 +130,7 @@ public interface MeetingService {
      *
      * @return list of duplicates of given DTO
      */
-    public List<MeetingDTO> duplicatesOfGivenDTO(MeetingDTO meetingDTO);
+    public List<MeetingDTO> duplicatesOfGivenDTO(final MeetingDTO meetingDTO);
 
     /**
      * During creation checks which status can be given to the meeting depends
@@ -142,7 +144,8 @@ public interface MeetingService {
      * @return correct MeetingStatus
      *
      */
-    public MeetingStatus getMeetingStatusDuringCreation(MeetingDTO meetingDTO);
+    public MeetingStatus getMeetingStatusDuringCreation(
+            final MeetingDTO meetingDTO);
 
     /**
      * Find all meetings in the DB by given date interval and roomId.
@@ -161,7 +164,7 @@ public interface MeetingService {
      * @return List of the MeetingForCalendarDTO objects.
      */
     public List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(
-            Long roomId, String start, String end);
+            final Long roomId, final String start, final String end);
 
     /**
      * Find all meetings in the DB by given date interval and userId.
@@ -180,7 +183,7 @@ public interface MeetingService {
      * @return List of the MeetingForCalendarDTO objects.
      */
     public List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(
-            String userId, String start, String end);
+            final String userId, final String start, final String end);
 
     /**
      * Method that's used to get all meetings in specified interval for
@@ -198,7 +201,7 @@ public interface MeetingService {
      *         specified time limits
      */
     public List<MeetingForCalendarDTO> getMeetingsInIntervalByGroupId(
-            Long groupId, String start, String end);
+            final Long groupId, final String start, final String end);
 
     /**
      * Find all meetings in the DB by given date interval and subjectId.
@@ -217,7 +220,7 @@ public interface MeetingService {
      * @return List of the MeetingForCalendarDTO objects.
      */
     public List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(
-            Long subjectId, String start, String end);
+            final Long subjectId, final String start, final String end);
 
     /**
      * Sends mail to MeetingOwner and UserGroupsCurators if the meeting status
@@ -226,7 +229,7 @@ public interface MeetingService {
      * @param meetingDTO
      *            meeting DTO of changed meeting. We need it for confirmation.
      */
-    public void sendMailIfStatusChanged(MeetingDTO meetingDTO);
+    public void sendMailIfStatusChanged(final MeetingDTO meetingDTO);
 
     /**
      * Method returns data of meetings to build charts
@@ -241,5 +244,5 @@ public interface MeetingService {
      * @return data of meetings to build charts
      */
     public Map<String, Long> getMeetingsForChartInIntervalByUserId(
-            String userId, String start, String end);
+            final String userId, final String start, final String end);
 }

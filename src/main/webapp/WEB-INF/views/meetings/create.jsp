@@ -57,7 +57,7 @@
 						</label>
 						<form:select class="form-control" path="owner" id="ownerid">
 							<c:forEach items="${owners}" var="owner">
-								<option value="${owner.id}">${owner.lastName}${owner.firstName}</option>
+								<option value="${owner.id}">${owner.lastName} ${owner.firstName}</option>
 							</c:forEach>
 						</form:select>
 					</sec:authorize>
@@ -71,8 +71,7 @@
 							<c:forEach items="${owners}" var="owner">
 								<c:choose>
 									<c:when test="${owner.id eq principarid}">
-										<option value="${owner.id}" selected="selected">${owner.lastName}
-											${owner.firstName}</option>
+										<option value="${owner.id}" selected="selected">${owner.lastName} ${owner.firstName}</option>
 									</c:when>
 								</c:choose>
 							</c:forEach>

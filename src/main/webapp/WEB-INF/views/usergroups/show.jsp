@@ -4,7 +4,7 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page
-	import="com.softserve.edu.schedule.controller.UserGroupController"%>
+	import="com.softserve.edu.schedule.controller.constants.UserGroupControllerConst"%>
 
 <div class="container">
 	<div class="row padding-calendar-details">
@@ -19,7 +19,7 @@
 		<div class="col-lg-1 col-lg-offset-9 col-md-1 col-sm-1 col-xs-1 panel-exit zero-margin-top">
 			<h3>
 				<a class="align-right"
-					href="${pageContext.request.contextPath}${UserGroupController.USERGROUP_MAPPING}"
+					href="${pageContext.request.contextPath}${UserGroupControllerConst.USERGROUP_MAPPING}"
 					title="<spring:message code="lbl.group.title" />"> <i
 					class="fa fa-table fa-lg"></i>
 				</a>
@@ -47,7 +47,7 @@
 
 			<div class="form-group">
 				<b><spring:message code="lbl.group.curator" /></b> : <a
-					href="${pageContext.request.contextPath}${UserGroupController.USERGROUP_USER_PROFILE_MAPPING}${userGroupForm.curator.id}">
+					href="${pageContext.request.contextPath}${UserGroupControllerConst.USERGROUP_USER_PROFILE_MAPPING}${userGroupForm.curator.id}">
 					${userGroupForm.curator.lastName}
 					${userGroupForm.curator.firstName}</a>
 			</div>
@@ -72,7 +72,7 @@
 						<c:forEach items="${userGroupForm.users}" var="member">
 							<c:if test="${userGroupForm.curator.id ne member.id}">
 								<li><a
-									href="${pageContext.request.contextPath}${UserGroupController.USERGROUP_USER_PROFILE_MAPPING}${member.id}">${member.lastName}
+									href="${pageContext.request.contextPath}${UserGroupControllerConst.USERGROUP_USER_PROFILE_MAPPING}${member.id}">${member.lastName}
 										${member.firstName}</a></li>
 							</c:if>
 						</c:forEach>

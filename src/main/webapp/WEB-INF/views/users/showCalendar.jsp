@@ -3,7 +3,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
-<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
+<%@ page
+	import="com.softserve.edu.schedule.controller.constants.UserControllerConst"%>
 
 <div class="container">
 	<div class="row">
@@ -30,7 +31,7 @@
 			class="col-lg-1 col-lg-offset-0 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
 			<h3>
 				<a
-					href="${pageContext.request.contextPath}${UserController.USERS_MAPPING_FROM_HEADER}">
+					href="${pageContext.request.contextPath}${UserControllerConst.USERS_MAPPING_FROM_HEADER}">
 					<i class="fa fa-table fa-lg"></i>
 				</a>
 			</h3>
@@ -38,27 +39,7 @@
 	</div>
 </div>
 
-<script>
-	$(document).ready(function() {
-		$('#calendar').fullCalendar({
-			defaultView : 'agendaWeek',
-			locale : '<spring:message code="label.localeCalendar"/>',
-			header : {
-				left : 'prev,next,today',
-				center : 'title',
-				right : 'month,agendaWeek,agendaDay,listWeek'
-			},
-			nowIndicator : true,
-			navLinks : true,
-			events : {
-				url : '${pageContext.request.contextPath}/meetings/restByUser',
-				type : 'GET',
-				data : {
-					userId : '${user.id}'
-				}
-			}
-
-		})
-
-	});
+<spring:url value="/resources/js/users/show.js" var="userShowJS" />
+<script type="text/javascript" src="${userShowJS}">
+	
 </script>

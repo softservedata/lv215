@@ -22,7 +22,7 @@ public class AsyncExceptionHandler implements AsyncUncaughtExceptionHandler {
      * Logger example to provide logging of exceptions.
      */
     private Logger log = LoggerFactory
-            .getLogger(GlobalExceptionController.class);
+            .getLogger(GlobalExceptionHandler.class);
 
     /**
      * Handle the given uncaught exception thrown from an asynchronous method.

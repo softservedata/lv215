@@ -3,7 +3,6 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ page import="com.softserve.edu.schedule.controller.RoomController"%>
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -83,7 +82,7 @@
 			</th>
 			<th class="text-center v-alighn">
 				<sec:authorize access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR')">
-					<a href="${RoomController.ROOM_CREATE_URL}"
+					<a href="rooms/create"
 						title="<spring:message code="lbl.room.createRoom"/>">
 						<i class="fa fa-plus fa-lg"></i>
 					</a>
@@ -100,7 +99,7 @@
 				</c:otherwise>
 			</c:choose>
 			<form:form role="form" id="filterForm" action="rooms" method="get"
-				modelAttribute="${RoomController.FILTER_MODEL_ATTR}">
+				modelAttribute="roomFilter">
 				<form:input path="showFilter" type="hidden" value="true" />
 				<td>
 					<div class="form-group">
@@ -242,10 +241,6 @@
 	</div>
 </div>
 
-<span id="firstLabel" hidden="true"><spring:message code="lbl.pager.first" /></span>
-<span id="lastLabel" hidden="true"><spring:message code="lbl.pager.last" /></span>
-<span id="previousLabel" hidden="true"><spring:message code="lbl.pager.previous" /></span>
-<span id="nextLabel" hidden="true"><spring:message code="lbl.pager.next" /></span>
 <spring:url value="/resources/js/rooms/list.js" var="roomsListJS" />
 <script>
 	var totalPages = ${roomPaginator.pagesCount + 1}
