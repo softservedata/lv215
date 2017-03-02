@@ -5,8 +5,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ page
-	import="com.softserve.edu.schedule.controller.MeetingController"%>
+
+	<%@ page import="com.softserve.edu.schedule.controller.constants.MeetingControllerConst"%>
 
 <div class="container">
 	<div class="row">
@@ -230,11 +230,11 @@
 					<input type="submit" class="btn btn-default" id="timeerror"
 						value="<spring:message code="lbl.form.save"/>"> <a
 						class="btn btn-default"
-						href="${pageContext.request.contextPath}/${MeetingController.MEETING_EDIT_URL}/
+						href="${pageContext.request.contextPath}/${MeetingControllerConst.MEETING_EDIT_URL}/
 						${meetingForm.id}"><spring:message
 							code="lbl.form.reset" /></a> <a class="btn btn-default"
 						href="${pageContext.request.contextPath}/
-						${MeetingController.MEETINGS_MODEL_ATTR}"><spring:message
+						${MeetingControllerConst.MEETINGS_MODEL_ATTR}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
 			</form:form>
