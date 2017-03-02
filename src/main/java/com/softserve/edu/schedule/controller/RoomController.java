@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.softserve.edu.schedule.controller.constants.RoomContrConst;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
 import com.softserve.edu.schedule.dto.RoomEquipmentDTO;
@@ -39,11 +40,11 @@ import com.softserve.edu.schedule.service.implementation.editor.RoomEquipmentDTO
  *
  * @since 1.8
  */
-@RequestMapping(ControllerConst.RoomControllerConst.ROOMS_URL)
+@RequestMapping(RoomContrConst.ROOMS_URL)
 @Controller
-@SessionAttributes({ControllerConst.RoomControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.RoomControllerConst.ROOM_PAGINATOR_MODEL_ATTR})
-public class RoomController implements ControllerConst.RoomControllerConst {
+@SessionAttributes({RoomContrConst.FILTER_MODEL_ATTR,
+        RoomContrConst.ROOM_PAGINATOR_MODEL_ATTR})
+public class RoomController {
 
     /**
      * RoomService example to provide rooms list to the model.
@@ -84,7 +85,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      * @param binder
      *            a WebDataBinder example to initialize.
      */
-    @InitBinder(ROOM_MODEL_ATTR)
+    @InitBinder(RoomContrConst.ROOM_MODEL_ATTR)
     protected void initBinder(final WebDataBinder binder) {
         binder.registerCustomEditor(LocationDTO.class, locationDTOEditor);
         binder.registerCustomEditor(RoomEquipmentDTO.class,
@@ -97,7 +98,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      * @param binder
      *            a WebDataBinder example to initialize.
      */
-    @InitBinder(FILTER_MODEL_ATTR)
+    @InitBinder(RoomContrConst.FILTER_MODEL_ATTR)
     protected void initBinderFilter(final WebDataBinder binder) {
         binder.registerCustomEditor(RoomEquipmentDTO.class,
                 roomEquipmentDTOEditor);
@@ -108,7 +109,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return new RoomDTO object.
      */
-    @ModelAttribute(ROOM_MODEL_ATTR)
+    @ModelAttribute(RoomContrConst.ROOM_MODEL_ATTR)
     public RoomDTO getRoomDTO() {
         return new RoomDTO();
     }
@@ -118,7 +119,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return new RoomFilter object.
      */
-    @ModelAttribute(FILTER_MODEL_ATTR)
+    @ModelAttribute(RoomContrConst.FILTER_MODEL_ATTR)
     public RoomFilter getFilter() {
         return new RoomFilter();
     }
@@ -128,7 +129,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return new Paginator object.
      */
-    @ModelAttribute(ROOM_PAGINATOR_MODEL_ATTR)
+    @ModelAttribute(RoomContrConst.ROOM_PAGINATOR_MODEL_ATTR)
     public Paginator getPaginator() {
         return new Paginator();
     }
@@ -149,16 +150,17 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      */
     @RequestMapping(method = RequestMethod.GET)
     public String listRooms(final Model model,
-            @ModelAttribute(FILTER_MODEL_ATTR) final RoomFilter filter,
-            @ModelAttribute(ROOM_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
-        model.addAttribute(ROOMS_MODEL_ATTR,
+            @ModelAttribute(RoomContrConst.FILTER_MODEL_ATTR) final RoomFilter filter,
+            @ModelAttribute(RoomContrConst.ROOM_PAGINATOR_MODEL_ATTR) final Paginator paginator) {
+        model.addAttribute(RoomContrConst.ROOMS_MODEL_ATTR,
                 roomService.getRoomsPageWithFilter(filter, paginator));
-        model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
-        model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+        model.addAttribute(RoomContrConst.LOCATIONS_MODEL_ATTR,
+                locationService.getAll());
+        model.addAttribute(RoomContrConst.EQUIPMENTS_MODEL_ATTR,
                 roomEquipmentService.getAll());
-        model.addAttribute(FILTER_MODEL_ATTR, filter);
-        model.addAttribute(ROOM_PAGINATOR_MODEL_ATTR, paginator);
-        return ROOMS_LIST_URL;
+        model.addAttribute(RoomContrConst.FILTER_MODEL_ATTR, filter);
+        model.addAttribute(RoomContrConst.ROOM_PAGINATOR_MODEL_ATTR, paginator);
+        return RoomContrConst.ROOMS_LIST_URL;
     }
 
     /**
@@ -175,20 +177,22 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return rooms list page redirect URL
      */
-    @RequestMapping(value = ROOM_EDIT_MAPPING, method = RequestMethod.POST)
+    @RequestMapping(value = RoomContrConst.ROOM_EDIT_MAPPING,
+            method = RequestMethod.POST)
     public String update(
-            @ModelAttribute(ROOM_MODEL_ATTR) @Valid final RoomDTO roomDTO,
+            @ModelAttribute(RoomContrConst.ROOM_MODEL_ATTR) @Valid final RoomDTO roomDTO,
             final BindingResult br, final Model model) {
         if (br.hasErrors()) {
-            model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
-            model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+            model.addAttribute(RoomContrConst.LOCATIONS_MODEL_ATTR,
+                    locationService.getAll());
+            model.addAttribute(RoomContrConst.EQUIPMENTS_MODEL_ATTR,
                     roomEquipmentService.getAll());
-            model.addAttribute(ROOM_FILES_MODEL_ATTR,
+            model.addAttribute(RoomContrConst.ROOM_FILES_MODEL_ATTR,
                     roomService.showRoomFiles(roomDTO.getId()));
-            return ROOM_EDIT_URL;
+            return RoomContrConst.ROOM_EDIT_URL;
         }
         roomService.update(roomDTO);
-        return ROOMS_REDIRECT_URL;
+        return RoomContrConst.ROOMS_REDIRECT_URL;
     }
 
     /**
@@ -202,17 +206,21 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return room update information page URL
      */
-    @PreAuthorize(ROOM_EDIT_PERMISSIONS)
-    @RequestMapping(value = ROOM_EDIT_MAPPING, method = RequestMethod.GET)
-    public String updateForm(@PathVariable(PATH_VAR_ID) final Long id,
+    @PreAuthorize(RoomContrConst.ROOM_EDIT_PERMISSIONS)
+    @RequestMapping(value = RoomContrConst.ROOM_EDIT_MAPPING,
+            method = RequestMethod.GET)
+    public String updateForm(
+            @PathVariable(RoomContrConst.PATH_VAR_ID) final Long id,
             final Model model) {
-        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
-        model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
-        model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+        model.addAttribute(RoomContrConst.ROOM_MODEL_ATTR,
+                roomService.getById(id));
+        model.addAttribute(RoomContrConst.LOCATIONS_MODEL_ATTR,
+                locationService.getAll());
+        model.addAttribute(RoomContrConst.EQUIPMENTS_MODEL_ATTR,
                 roomEquipmentService.getAll());
-        model.addAttribute(ROOM_FILES_MODEL_ATTR,
+        model.addAttribute(RoomContrConst.ROOM_FILES_MODEL_ATTR,
                 roomService.showRoomFiles(id));
-        return ROOM_EDIT_URL;
+        return RoomContrConst.ROOM_EDIT_URL;
     }
 
     /**
@@ -229,18 +237,20 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return rooms list page redirect URL
      */
-    @RequestMapping(value = ROOM_CREATE_MAPPING, method = RequestMethod.POST)
+    @RequestMapping(value = RoomContrConst.ROOM_CREATE_MAPPING,
+            method = RequestMethod.POST)
     public String create(
-            @ModelAttribute(ROOM_MODEL_ATTR) @Valid final RoomDTO roomDTO,
+            @ModelAttribute(RoomContrConst.ROOM_MODEL_ATTR) @Valid final RoomDTO roomDTO,
             final BindingResult br, final Model model) {
         if (br.hasErrors()) {
-            model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
-            model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+            model.addAttribute(RoomContrConst.LOCATIONS_MODEL_ATTR,
+                    locationService.getAll());
+            model.addAttribute(RoomContrConst.EQUIPMENTS_MODEL_ATTR,
                     roomEquipmentService.getAll());
-            return ROOM_CREATE_URL;
+            return RoomContrConst.ROOM_CREATE_URL;
         }
         roomService.create(roomDTO);
-        return ROOMS_REDIRECT_URL;
+        return RoomContrConst.ROOMS_REDIRECT_URL;
     }
 
     /**
@@ -251,14 +261,16 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return room create page URL
      */
-    @PreAuthorize(ROOM_EDIT_PERMISSIONS)
-    @RequestMapping(value = ROOM_CREATE_MAPPING, method = RequestMethod.GET)
+    @PreAuthorize(RoomContrConst.ROOM_EDIT_PERMISSIONS)
+    @RequestMapping(value = RoomContrConst.ROOM_CREATE_MAPPING,
+            method = RequestMethod.GET)
     public String createForm(final Model model) {
-        model.addAttribute(ROOM_MODEL_ATTR, new RoomDTO());
-        model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
-        model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+        model.addAttribute(RoomContrConst.ROOM_MODEL_ATTR, new RoomDTO());
+        model.addAttribute(RoomContrConst.LOCATIONS_MODEL_ATTR,
+                locationService.getAll());
+        model.addAttribute(RoomContrConst.EQUIPMENTS_MODEL_ATTR,
                 roomEquipmentService.getAll());
-        return ROOM_CREATE_URL;
+        return RoomContrConst.ROOM_CREATE_URL;
     }
 
     /**
@@ -269,11 +281,11 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return rooms list page redirect URL
      */
-    @PreAuthorize(ROOM_EDIT_PERMISSIONS)
-    @RequestMapping(value = ROOM_DELETE_MAPPING)
+    @PreAuthorize(RoomContrConst.ROOM_EDIT_PERMISSIONS)
+    @RequestMapping(value = RoomContrConst.ROOM_DELETE_MAPPING)
     public String deleteRoom(@PathVariable final Long id) {
         roomService.deleteById(id);
-        return ROOMS_REDIRECT_URL;
+        return RoomContrConst.ROOMS_REDIRECT_URL;
     }
 
     /**
@@ -287,13 +299,16 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *
      * @return room show detail page URL
      */
-    @RequestMapping(value = ROOM_SHOW_MAPPING, method = RequestMethod.GET)
-    public String showRoom(@PathVariable(PATH_VAR_ID) final Long id,
+    @RequestMapping(value = RoomContrConst.ROOM_SHOW_MAPPING,
+            method = RequestMethod.GET)
+    public String showRoom(
+            @PathVariable(RoomContrConst.PATH_VAR_ID) final Long id,
             final Model model) {
-        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
-        model.addAttribute(ROOM_FILES_MODEL_ATTR,
+        model.addAttribute(RoomContrConst.ROOM_MODEL_ATTR,
+                roomService.getById(id));
+        model.addAttribute(RoomContrConst.ROOM_FILES_MODEL_ATTR,
                 roomService.showRoomFiles(id));
-        return ROOM_SHOW_URL;
+        return RoomContrConst.ROOM_SHOW_URL;
     }
 
     /**
@@ -313,20 +328,22 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      * @throws IOException
      *             if something happened during file upload
      */
-    @PreAuthorize(ROOM_EDIT_PERMISSIONS)
-    @RequestMapping(value = ROOM_FILE_UPLOAD_MAPPING,
+    @PreAuthorize(RoomContrConst.ROOM_EDIT_PERMISSIONS)
+    @RequestMapping(value = RoomContrConst.ROOM_FILE_UPLOAD_MAPPING,
             method = RequestMethod.POST)
     public String uploadFile(@PathVariable final Long id,
             @RequestParam final MultipartFile file, final Model model)
             throws IOException {
-        model.addAttribute(ROOM_MODEL_ATTR, roomService.getById(id));
-        model.addAttribute(LOCATIONS_MODEL_ATTR, locationService.getAll());
-        model.addAttribute(EQUIPMENTS_MODEL_ATTR,
+        model.addAttribute(RoomContrConst.ROOM_MODEL_ATTR,
+                roomService.getById(id));
+        model.addAttribute(RoomContrConst.LOCATIONS_MODEL_ATTR,
+                locationService.getAll());
+        model.addAttribute(RoomContrConst.EQUIPMENTS_MODEL_ATTR,
                 roomEquipmentService.getAll());
-        model.addAttribute(ROOM_FILES_MODEL_ATTR,
+        model.addAttribute(RoomContrConst.ROOM_FILES_MODEL_ATTR,
                 roomService.showRoomFiles(id));
         roomService.uploadFile(file, id);
-        return ROOM_FILE_REDIRECT_URL;
+        return RoomContrConst.ROOM_FILE_REDIRECT_URL;
     }
 
     /**
@@ -341,12 +358,12 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      * @return room edit page URL
      *
      */
-    @PreAuthorize(ROOM_EDIT_PERMISSIONS)
-    @RequestMapping(ROOM_FILE_DELETE_MAPPING)
+    @PreAuthorize(RoomContrConst.ROOM_EDIT_PERMISSIONS)
+    @RequestMapping(RoomContrConst.ROOM_FILE_DELETE_MAPPING)
     public String deleteFile(@PathVariable final Long id,
             @PathVariable final String fileName) {
         roomService.deleteFileByRoomId(id, fileName);
-        return ROOM_FILE_REDIRECT_URL;
+        return RoomContrConst.ROOM_FILE_REDIRECT_URL;
     }
 
     /**
@@ -365,7 +382,7 @@ public class RoomController implements ControllerConst.RoomControllerConst {
      *             if something happened during file download
      *
      */
-    @RequestMapping(ROOM_FILE_DOWNLOAD_MAPPING)
+    @RequestMapping(RoomContrConst.ROOM_FILE_DOWNLOAD_MAPPING)
     public void downloadFile(@PathVariable final Long roomId,
             @PathVariable final String fileName,
             final HttpServletResponse response) throws IOException {

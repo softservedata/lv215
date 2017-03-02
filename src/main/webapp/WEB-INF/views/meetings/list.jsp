@@ -5,8 +5,7 @@
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
-<%@ page
-	import="com.softserve.edu.schedule.controller.MeetingController"%>
+<%@ page import="com.softserve.edu.schedule.controller.constants.MeetingControllerConst"%>
 
 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog"
 	aria-labelledby="myModalLabel" aria-hidden="true">
@@ -132,7 +131,7 @@
 			</a></th>
 			<th class="text-center v-alighn"><sec:authorize
 					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
-					<a href="${MeetingController.MEETINGS_MODEL_ATTR}${MeetingController.DOWNLOAD_MAPPING}"
+					<a href="${MeetingControllerConst.MEETINGS_MODEL_ATTR}${MeetingControllerConst.DOWNLOAD_MAPPING}"
 					title="<spring:message code="lbl.meeting.download" />"
 					><i
 						class="fa fa-lg fa-download" aria-hidden="true"></i></a>
@@ -140,7 +139,7 @@
 			<th class="text-center v-alighn"><sec:authorize
 					access="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR', 'ROLE_SUPERVISOR')">
 					<a
-						href="${pageContext.request.contextPath}/${MeetingController.MEETING_CREATE_URL}"
+						href="${pageContext.request.contextPath}/${MeetingControllerConst.MEETING_CREATE_URL}"
 						title="<spring:message code="lbl.meeting.create" />"> <i
 						class="fa fa-plus fa-lg"></i>
 					</a>
@@ -257,17 +256,17 @@
 		<c:forEach var="meeting" items="${meetings}">
 			<tr>
 				<td><a
-					href="${MeetingController.MEETINGS_MODEL_ATTR}/${meeting.id}"
+					href="${MeetingControllerConst.MEETINGS_MODEL_ATTR}/${meeting.id}"
 					title="<spring:message code="lbl.meeting.details" />">${meeting.id}</a></td>
 				<td><a
-					href="${pageContext.request.contextPath}/${MeetingController.MEETING_SUBJECT_URL}/
+					href="${pageContext.request.contextPath}/${MeetingControllerConst.MEETING_SUBJECT_URL}/
 					${meeting.subject.id}"
 					title="<spring:message code="lbl.subject.subjectDetails" />"
 					>${meeting.subject.name}</a></td>
 				<td><sec:authorize access="isAuthenticated()">
 						<a
 							href="${pageContext.request.contextPath}/
-							${MeetingController.PROFILE_MAPPING}/${meeting.owner.id}"
+							${MeetingControllerConst.PROFILE_MAPPING}/${meeting.owner.id}"
 							title="<spring:message code="lbl.meeting.ownerdetails" />"
 							>${meeting.owner.lastName}
 							${meeting.owner.firstName}</a>
@@ -277,7 +276,7 @@
 						</sec:authorize></td>
 				<td><a
 					href="${pageContext.request.contextPath}/
-					${MeetingController.ROOMS_MODEL_ATTR}/${meeting.room.id}"
+					${MeetingControllerConst.ROOMS_MODEL_ATTR}/${meeting.room.id}"
 					title="<spring:message code="lbl.room.roomDetails" />"
 					>
 					${meeting.room.name} (${meeting.room.location.name})
@@ -290,7 +289,7 @@
 						<p>
 							<a
 								href="${pageContext.request.contextPath}/
-								${MeetingController.USERGROUPS_MAPPING}/${group.id}"
+								usergroups/${group.id}"
 								title="<spring:message code="lbl.meeting.groupdetails" />"
 								>${group.name}</a>
 						</p>
@@ -306,7 +305,7 @@
 						<c:if test="${ meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4}">
 						<a
 							data-href="${pageContext.request.contextPath}/
-							${MeetingController.DELETE_MAPPING}/${meeting.id}"
+							${MeetingControllerConst.DELETE_MAPPING}/${meeting.id}"
 							data-toggle="modal" data-target="#confirm-delete"
 							title="<spring:message code="lbl.meeting.delete" />"> <i
 							class="fa fa-trash-o fa-lg"></i>
@@ -317,7 +316,7 @@
 						<c:if test="${principarid eq  meeting.owner.id && meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4}">
 							<a
 								data-href="${pageContext.request.contextPath}/
-								${MeetingController.DELETE_MAPPING}/${meeting.id}"
+								${MeetingControllerConst.DELETE_MAPPING}/${meeting.id}"
 								data-toggle="modal" data-target="#confirm-delete"
 								title="<spring:message code="lbl.meeting.delete" />"> <i
 								class="fa fa-trash-o fa-lg"></i>
@@ -329,7 +328,7 @@
 						<c:if test="${ meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4}">
 						<a
 							href="${pageContext.request.contextPath}/
-							${MeetingController.MEETING_EDIT_URL}/${meeting.id}"
+							${MeetingControllerConst.MEETING_EDIT_URL}/${meeting.id}"
 							title="<spring:message code="lbl.meeting.edit" />"> <i
 							class="fa fa-pencil-square-o fa-lg"></i>
 						</a>
@@ -339,7 +338,7 @@
 						<c:if test="${principarid eq  meeting.owner.id && meeting.status.ordinal() != 2 && meeting.status.ordinal() != 4 }">
 							<a
 								href="${pageContext.request.contextPath}/
-								${MeetingController.MEETING_EDIT_URL}/${meeting.id}"
+								${MeetingControllerConst.MEETING_EDIT_URL}/${meeting.id}"
 								title="<spring:message code="lbl.meeting.edit" />"> <i
 								class="fa fa-pencil-square-o fa-lg"></i>
 							</a>

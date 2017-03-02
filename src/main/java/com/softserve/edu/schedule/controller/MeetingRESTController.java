@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.softserve.edu.schedule.controller.constants.GeneralContrConst;
+import com.softserve.edu.schedule.controller.constants.MeetingRESTContrConst;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.service.MeetingService;
 
@@ -49,11 +51,12 @@ public class MeetingRESTController {
      *
      * @return ResponseEntity with list of MeetingForCalendarDTO instances.
      */
-    @RequestMapping(value = "/meetings/restByRoom", method = RequestMethod.GET)
+    @RequestMapping(value = MeetingRESTContrConst.REST_BY_ROOM_URL_MAPPING,
+            method = RequestMethod.GET)
     public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByRoomId(
-            @RequestParam("start") final String start,
-            @RequestParam("end") final String end,
-            @RequestParam("roomId") final Long roomId) {
+            @RequestParam(MeetingRESTContrConst.START_REQUEST_PARAM) final String start,
+            @RequestParam(MeetingRESTContrConst.END_REQUEST_PARAM) final String end,
+            @RequestParam(MeetingRESTContrConst.ROOM_ID_REQUEST_PARAM) final Long roomId) {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByRoomId(roomId, start, end);
         if (meetings.isEmpty()) {
@@ -77,12 +80,13 @@ public class MeetingRESTController {
      *
      * @return ResponseEntity with list of MeetingForCalendarDTO instances.
      */
-    @PreAuthorize("isAuthenticated()")
-    @RequestMapping(value = "/meetings/restByUser", method = RequestMethod.GET)
+    @PreAuthorize(GeneralContrConst.CALENDAR_SHOW_PERMISSIONS)
+    @RequestMapping(value = MeetingRESTContrConst.REST_BY_USER_URL_MAPPING,
+            method = RequestMethod.GET)
     public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByUserId(
-            @RequestParam("start") final String start,
-            @RequestParam("end") final String end,
-            @RequestParam("userId") final String userId) {
+            @RequestParam(MeetingRESTContrConst.START_REQUEST_PARAM) final String start,
+            @RequestParam(MeetingRESTContrConst.END_REQUEST_PARAM) final String end,
+            @RequestParam(MeetingRESTContrConst.USER_ID_REQUEST_PARAM) final String userId) {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByUserId(userId, start, end);
         if (meetings.isEmpty()) {
@@ -108,12 +112,12 @@ public class MeetingRESTController {
      *
      * @return ResponseEntity with list of MeetingForCalendarDTO instances.
      */
-    @RequestMapping(value = "/meetings/restBySubject",
+    @RequestMapping(value = MeetingRESTContrConst.REST_BY_SUBJECT_URL_MAPPING,
             method = RequestMethod.GET)
     public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalBySubjectId(
-            @RequestParam("start") final String start,
-            @RequestParam("end") final String end,
-            @RequestParam("subjectId") final Long subjectId) {
+            @RequestParam(MeetingRESTContrConst.START_REQUEST_PARAM) final String start,
+            @RequestParam(MeetingRESTContrConst.END_REQUEST_PARAM) final String end,
+            @RequestParam(MeetingRESTContrConst.SUBJECT_ID_REQUEST_PARAM) final Long subjectId) {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalBySubjectId(subjectId, start, end);
         if (meetings.isEmpty()) {
@@ -139,11 +143,12 @@ public class MeetingRESTController {
      *
      * @return ResponseEntity with list of MeetingForCalendarDTO instances.
      */
-    @RequestMapping(value = "/meetings/restByGroup", method = RequestMethod.GET)
+    @RequestMapping(value = MeetingRESTContrConst.REST_BY_GROUP_URL_MAPPING,
+            method = RequestMethod.GET)
     public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByGroupId(
-            @RequestParam("start") final String start,
-            @RequestParam("end") final String end,
-            @RequestParam("groupId") final Long groupId) {
+            @RequestParam(MeetingRESTContrConst.START_REQUEST_PARAM) final String start,
+            @RequestParam(MeetingRESTContrConst.END_REQUEST_PARAM) final String end,
+            @RequestParam(MeetingRESTContrConst.GROUP_ID_REQUEST_PARAM) final Long groupId) {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByGroupId(groupId, start, end);
         if (meetings.isEmpty()) {
@@ -168,12 +173,12 @@ public class MeetingRESTController {
      *
      * @return ResponseEntity with data for building charts.
      */
-    @RequestMapping(value = "/meetings/restForChart",
+    @RequestMapping(value = MeetingRESTContrConst.REST_FOR_CHARTS_URL_MAPPING,
             method = RequestMethod.GET)
     public ResponseEntity<Map<String, Long>> getMeetingsForChart(
-            @RequestParam("start") final String start,
-            @RequestParam("end") final String end,
-            @RequestParam("userId") final String userId) {
+            @RequestParam(MeetingRESTContrConst.START_REQUEST_PARAM) final String start,
+            @RequestParam(MeetingRESTContrConst.END_REQUEST_PARAM) final String end,
+            @RequestParam(MeetingRESTContrConst.USER_ID_REQUEST_PARAM) final String userId) {
         Map<String, Long> meetings = meetingService
                 .getMeetingsForChartInIntervalByUserId(userId, start, end);
         return new ResponseEntity<>(meetings, HttpStatus.OK);

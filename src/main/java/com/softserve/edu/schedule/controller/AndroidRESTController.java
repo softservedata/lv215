@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.softserve.edu.schedule.controller.constants.AndroidRESTContrConst;
 import com.softserve.edu.schedule.dto.LocationDTO;
 import com.softserve.edu.schedule.dto.MeetingForCalendarDTO;
 import com.softserve.edu.schedule.dto.RoomDTO;
@@ -92,10 +93,11 @@ public class AndroidRESTController {
      *
      * @return ResponseEntity with UserForAndroidDTO instance.
      */
-    @RequestMapping(value = "/userVerify", method = RequestMethod.GET)
+    @RequestMapping(value = AndroidRESTContrConst.USER_VERIFY_URL_MAPPING,
+            method = RequestMethod.GET)
     public ResponseEntity<UserForAndroidDTO> verifyUser(
-            @RequestParam("userMail") final String mail,
-            @RequestParam("userPass") final String pass) {
+            @RequestParam(AndroidRESTContrConst.USER_MAIL_REQUEST_PARAM) final String mail,
+            @RequestParam(AndroidRESTContrConst.USER_PASS_REQUEST_PARAM) final String pass) {
         UserForAndroidDTO user = userService.getVerifiedUser(mail, pass);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -118,12 +120,13 @@ public class AndroidRESTController {
      *
      * @return ResponseEntity with list of MeetingForCalendarDTO instances.
      */
-    @RequestMapping(value = "/meetings/restByUserAndroid",
+    @RequestMapping(
+            value = AndroidRESTContrConst.REST_BY_USER_ANDROID_URL_MAPPING,
             method = RequestMethod.GET)
     public ResponseEntity<List<MeetingForCalendarDTO>> getMeetingsInIntervalByUserId(
-            @RequestParam("start") final String start,
-            @RequestParam("end") final String end,
-            @RequestParam("userId") final String userId) {
+            @RequestParam(AndroidRESTContrConst.START_REQUEST_PARAM) final String start,
+            @RequestParam(AndroidRESTContrConst.END_REQUEST_PARAM) final String end,
+            @RequestParam(AndroidRESTContrConst.USER_ID_REQUEST_PARAM) final String userId) {
         List<MeetingForCalendarDTO> meetings = meetingService
                 .getMeetingsInIntervalByUserId(userId, start, end);
         if (meetings.isEmpty()) {
@@ -137,7 +140,8 @@ public class AndroidRESTController {
      *
      * @return ResponseEntity with list of RoomDTO instances.
      */
-    @RequestMapping(value = "/rooms/restRoomsAndroid",
+    @RequestMapping(
+            value = AndroidRESTContrConst.REST_ROOMS_ANDROID_URL_MAPPING,
             method = RequestMethod.GET)
     public ResponseEntity<List<RoomDTO>> getRooms() {
         List<RoomDTO> rooms = roomService.getAllWithDetails();
@@ -152,7 +156,8 @@ public class AndroidRESTController {
      *
      * @return ResponseEntity with list of UserGroupDTO instances.
      */
-    @RequestMapping(value = "/groups/restGroupsAndroid",
+    @RequestMapping(
+            value = AndroidRESTContrConst.REST_GROUPS_ANDROID_URL_MAPPING,
             method = RequestMethod.GET)
     public ResponseEntity<List<UserGroupForAndroidDTO>> getGroups() {
         List<UserGroupForAndroidDTO> groups = userGroupService
@@ -168,7 +173,8 @@ public class AndroidRESTController {
      *
      * @return ResponseEntity with list of SubjectDTO instances.
      */
-    @RequestMapping(value = "/subjects/restSubjectsAndroid",
+    @RequestMapping(
+            value = AndroidRESTContrConst.REST_SUBJECTS_ANDROID_URL_MAPPING,
             method = RequestMethod.GET)
     public ResponseEntity<List<SubjectDTO>> getSubjects() {
         List<SubjectDTO> subjects = subjectService.getAll();
@@ -183,7 +189,8 @@ public class AndroidRESTController {
      *
      * @return ResponseEntity with list of LocationDTO instances.
      */
-    @RequestMapping(value = "/locations/restLocationsAndroid",
+    @RequestMapping(
+            value = AndroidRESTContrConst.REST_LOCATIONS_ANDROID_URL_MAPPING,
             method = RequestMethod.GET)
     public ResponseEntity<List<LocationDTO>> getLocations() {
         List<LocationDTO> locations = locationService.getAll();
@@ -198,7 +205,8 @@ public class AndroidRESTController {
      *
      * @return ResponseEntity with list of RoomEquipmentDTO instances.
      */
-    @RequestMapping(value = "/roomequipments/restEquipmentsAndroid",
+    @RequestMapping(
+            value = AndroidRESTContrConst.REST_EQUIPMENTS_ANDROID_URL_MAPPING,
             method = RequestMethod.GET)
     public ResponseEntity<List<RoomEquipmentDTO>> getEquipments() {
         List<RoomEquipmentDTO> equipments = roomEquipmentService.getAll();

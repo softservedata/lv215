@@ -4,7 +4,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page
-	import="com.softserve.edu.schedule.controller.LocationController"%>
+	import="com.softserve.edu.schedule.controller.constants.LocationControllerConst"%>
 <spring:url value="/resources/js/maps.js" var="mapsJS" />
 <div class="container">
 	<div class="row ">
@@ -30,7 +30,7 @@
 			class="col-lg-1 col-lg-offset-1 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
 			<h3>
 				<a
-					href="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}"
+					href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_MAPPING}"
 					title="<spring:message code="lbl.location.title" />"> <i
 					class="fa fa-table fa-lg"></i>
 				</a>

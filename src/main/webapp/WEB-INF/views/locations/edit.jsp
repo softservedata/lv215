@@ -4,7 +4,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ page
-	import="com.softserve.edu.schedule.controller.LocationController"%>
+	import="com.softserve.edu.schedule.controller.constants.LocationControllerConst"%>
 <spring:url value="/resources/js/addmap.js" var="addmapJS" />
 
 <div class="container">
@@ -22,7 +22,7 @@
 				<spring:message code="lbl.location.edit" />
 			</h3>
 			<form:form method="post"
-				modelAttribute="${LocationController.LOCATION_FORM_MODEL_ATTR}">
+				modelAttribute="${LocationControllerConst.LOCATION_FORM_MODEL_ATTR}">
 				<form:hidden path="id" />
 				<div class="form-group">
 					<label for="name"><spring:message code="lbl.location.name" /></label>
@@ -64,7 +64,7 @@
 					<input type="submit" class="btn btn-default"
 						value="<spring:message code="lbl.form.save"/>"> <a
 						class="btn btn-default"
-						href="${pageContext.request.contextPath}${LocationController.LOCATIONS_MAPPING}"><spring:message
+						href="${pageContext.request.contextPath}${LocationControllerConst.LOCATIONS_MAPPING}"><spring:message
 							code="lbl.form.cancel" /></a>
 				</div>
 			</form:form>

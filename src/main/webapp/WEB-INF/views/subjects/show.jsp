@@ -4,8 +4,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ page
-	import="com.softserve.edu.schedule.controller.SubjectController"%>
-<%@ page import="com.softserve.edu.schedule.controller.UserController"%>
+	import="com.softserve.edu.schedule.controller.constants.SubjectControllerConst"%>
+<%@ page import="com.softserve.edu.schedule.controller.constants.UserControllerConst"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 
@@ -52,7 +52,7 @@
 			class="col-lg-1 col-lg-offset-8 col-md-1 col-sm-1 col-xs-1 panel-exit text-center">
 			<h3>
 				<a
-					href="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING}"
+					href="${pageContext.request.contextPath}${SubjectControllerConst.SUBJECTS_MAPPING}"
 					title="<spring:message code="lbl.subject.title" />"> <i
 					class="fa fa-table fa-lg"></i>
 				</a>
@@ -79,10 +79,10 @@
 				</h4>
 			</div>
 			<sec:authorize
-				access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+				access="${SubjectControllerConst.HAS_ANY_ROLE_EXEPT_USER}">
 				<form:form class="form-inline"
-					modelAttribute="${SubjectController.SUBJECT_FILE_FORM}"
-					action="${pageContext.request.contextPath}${SubjectController.SUBJECTS_MAPPING_SHOW}${subject.id}?${_csrf.parameterName}=${_csrf.token}"
+					modelAttribute="${SubjectControllerConst.SUBJECT_FILE_FORM}"
+					action="${pageContext.request.contextPath}${SubjectControllerConst.SUBJECTS_MAPPING_SHOW}${subject.id}?${_csrf.parameterName}=${_csrf.token}"
 					method="POST" enctype="multipart/form-data">
 					<div class="form-group">
 						<div class="input-group">
@@ -90,7 +90,7 @@
 								class="btn btn-primary"><spring:message
 										code="lbl.filePicker.browse" />&hellip; <input
 									style="display: none;" type="file" name="file"
-									accept="${SubjectController.ACCES_FILES}"> </span>
+									accept="${SubjectControllerConst.ACCES_FILES}"> </span>
 							</label> <input type="text" class="form-control" readonly>
 						</div>
 					</div>
@@ -99,12 +99,12 @@
 							value="<spring:message code="lbl.form.save"/>" />
 					</div>
 					<div class="input-group">
-						<form:errors path="file" />
+						<form:errors path="file" style="color: red"/>
 					</div>
 				</form:form>
 			</sec:authorize>
 			<sec:authorize
-				access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')">
+				access="${SubjectControllerConst.HAS_ANY_ROLE}">
 				<div class="form-group">
 					<h4>
 						<spring:message code="lbl.subject.files" />
@@ -113,17 +113,17 @@
 						<c:forEach items="${subjectFiles}" var="fileName">
 							<li style="list-style-type: none"><i class="fa fa-file-o"
 								aria-hidden="true"></i> ${fileName} <sec:authorize
-									access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+									access="${SubjectControllerConst.HAS_ANY_ROLE_EXEPT_USER}">
 									<a
-										data-href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DELETE_FILE_MAPPING}${fileName}/${subject.id}"
+										data-href="${pageContext.request.contextPath}${SubjectControllerConst.SUBJECT_DELETE_FILE_MAPPING}${fileName}/${subject.id}"
 										title="<spring:message code="lbl.subject.delete"/>"
 										data-toggle="modal" data-target="#confirm-delete"> <i
 										class="fa fa-trash-o fa-lg"></i>
 									</a>
 								</sec:authorize> <sec:authorize
-									access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR')">
+									access="${SubjectControllerConst.HAS_ANY_ROLE}">
 									<a
-										href="${pageContext.request.contextPath}${SubjectController.SUBJECT_DOWNLOAD_FILE_MAPPING}${fileName}/${subject.id}"><i
+										href="${pageContext.request.contextPath}${SubjectControllerConst.SUBJECT_DOWNLOAD_FILE_MAPPING}${fileName}/${subject.id}"><i
 										class="fa fa-download" aria-hidden="true"></i> </a>
 								</sec:authorize></li>
 						</c:forEach>
@@ -138,13 +138,13 @@
 				<ul>
 					<c:forEach items="${subject.users}" var="user">
 						<sec:authorize
-							access="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')">
+							access="${SubjectControllerConst.HAS_ANY_ROLE}">
 							<li><a
-								href="${pageContext.request.contextPath}/${UserController.USER_MEETINGS_MAPPING}${user.id}">${user.firstName}
+								href="${pageContext.request.contextPath}/${UserControllerConst.USER_MEETINGS_MAPPING}${user.id}">${user.firstName}
 									${user.lastName}</a></li>
 						</sec:authorize>
 						<sec:authorize
-							access="!hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERVISOR', 'ROLE_MODERATOR', 'ROLE_USER')">
+							access="!${SubjectControllerConst.HAS_ANY_ROLE}">
 							<li>${user.firstName} ${user.lastName}</li>
 						</sec:authorize>
 					</c:forEach>
