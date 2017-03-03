@@ -33,7 +33,7 @@
 				<div class="form-group">
 					<label for="${SubjectControllerConst.SUBJECT_PATH_USERS}"><spring:message code="lbl.subject.tutor" /></label>
 					<form:select class="form-control"
-						path="${SubjectControllerConst.SUBJECT_PATH_USERS}" multiple="multiple" required="true">
+						path="${SubjectControllerConst.SUBJECT_PATH_USERS}" multiple="multiple">
 						<c:forEach items="${users}" var="user">
 							<c:set var="found" value="false" />
 							<c:forEach items="${subjectForm.users}" var="userInSubject">
