@@ -48,12 +48,12 @@ public class ApplicationConfig {
     /**
      * Data source connection pool maximum connections.
      */
-    private static final int DATA_SOURCE_CON_POOL_MAX_SIZE = 10;
+    private static final int DATA_SOURCE_CON_POOL_MAX_SIZE = 50;
 
     /**
      * Data source connection pool maximum idle connections.
      */
-    private static final int DATA_SOURCE_CON_POOL_MAX_IDLE = 10;
+    private static final int DATA_SOURCE_CON_POOL_MAX_IDLE = 50;
 
     /**
      * Environment instance to get properties.
