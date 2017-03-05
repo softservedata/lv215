@@ -123,6 +123,7 @@ public class RoomServiceImpl implements RoomService {
      */
     @Override
     public void deleteById(final Long id) {
+        showRoomFiles(id).forEach(e -> deleteFileByRoomId(id, e));
         Room room = roomDAO.getById(id);
         roomDAO.delete(room);
     }

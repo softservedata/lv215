@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	$('#calendar').fullCalendar({
 		defaultView : 'agendaWeek',
-		locale : '<spring:message code="label.localeCalendar"/>',
+		locale : $("#language").text(),
 		header : {
 			left : 'prev,next,today',
 			center : 'title',
@@ -10,10 +10,10 @@ $(document).ready(function() {
 		nowIndicator : true,
 		navLinks : true,
 		events : {
-			url : '${pageContext.request.contextPath}/meetings/restByUser',
+			url : $("#usersRestURL").text(),
 			type : 'GET',
 			data : {
-				userId : '${user.id}'
+				userId : $("#userId").text()
 			}
 		}
 

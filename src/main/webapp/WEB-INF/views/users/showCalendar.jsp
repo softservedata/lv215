@@ -39,6 +39,9 @@
 	</div>
 </div>
 
+<span id="usersRestURL" hidden="true">${pageContext.request.contextPath}/meetings/restByUser</span>
+<span id="userId" hidden="true">${user.id}</span>
+<span id="language" hidden="true"><spring:message code="label.localeCalendar" /></span>
 <spring:url value="/resources/js/users/show.js" var="userShowJS" />
 <script type="text/javascript" src="${userShowJS}">
 	

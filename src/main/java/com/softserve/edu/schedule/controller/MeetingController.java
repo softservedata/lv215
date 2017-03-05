@@ -54,10 +54,10 @@ import com.softserve.edu.schedule.service.implementation.editor.UserGroupDTOEdit
  * @author Bohdan Melnyk
  *
  */
-@RequestMapping(ControllerConst.MeetingControllerConst.MEETINGS_URL)
+@RequestMapping(MeetingControllerConst.MEETINGS_URL)
 @Controller
-@SessionAttributes({ ControllerConst.MeetingControllerConst.FILTER_MODEL_ATTR,
-        ControllerConst.MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR })
+@SessionAttributes({MeetingControllerConst.FILTER_MODEL_ATTR,
+        MeetingControllerConst.MEETING_PAGINATOR_MODEL_ATTR})
 public class MeetingController {
 
     /**
@@ -233,7 +233,8 @@ public class MeetingController {
      * @return
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
-    @RequestMapping(value = MeetingControllerConst.MEETING_CREATE_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = MeetingControllerConst.MEETING_CREATE_MAPPING,
+            method = RequestMethod.GET)
     public String createForm(final Model model) {
         model.addAttribute(MeetingControllerConst.MEETING_MODEL_ATTR,
                 new MeetingDTO());
@@ -254,7 +255,8 @@ public class MeetingController {
      * @param meetingDTO
      * @return
      */
-    @RequestMapping(value = MeetingControllerConst.MEETING_CREATE_MAPPING, method = RequestMethod.POST)
+    @RequestMapping(value = MeetingControllerConst.MEETING_CREATE_MAPPING,
+            method = RequestMethod.POST)
     public String create(
             @Valid @ModelAttribute(MeetingControllerConst.MEETING_MODEL_ATTR) final MeetingDTO meetingDTO,
             final BindingResult br, final Model model) {
@@ -281,7 +283,8 @@ public class MeetingController {
      * @return
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
-    @RequestMapping(value = MeetingControllerConst.MEETING_DELETE_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = MeetingControllerConst.MEETING_DELETE_MAPPING,
+            method = RequestMethod.GET)
     public String delete(@PathVariable final Long id) {
         meetingService.deleteById(id);
         return MeetingControllerConst.MEETING_REDIRECT_URL;
@@ -295,7 +298,8 @@ public class MeetingController {
      * @return
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
-    @RequestMapping(value = MeetingControllerConst.MEETING_EDIT_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = MeetingControllerConst.MEETING_EDIT_MAPPING,
+            method = RequestMethod.GET)
     public String editForm(
             @PathVariable(MeetingControllerConst.ID_URL) final Long id,
             final Model model) {
@@ -320,7 +324,8 @@ public class MeetingController {
      * @param meetingDTO
      * @return
      */
-    @RequestMapping(value = MeetingControllerConst.MEETING_EDIT_MAPPING, method = RequestMethod.POST)
+    @RequestMapping(value = MeetingControllerConst.MEETING_EDIT_MAPPING,
+            method = RequestMethod.POST)
     public String edit(
             @ModelAttribute(MeetingControllerConst.MEETING_MODEL_ATTR) @Valid final MeetingDTO meetingDTO,
             final BindingResult br, final Model model) {
@@ -350,7 +355,8 @@ public class MeetingController {
      * @param model
      * @return
      */
-    @RequestMapping(value = MeetingControllerConst.MEETINGID_URL, method = RequestMethod.GET)
+    @RequestMapping(value = MeetingControllerConst.MEETINGID_URL,
+            method = RequestMethod.GET)
     public String showMeeting(
             @PathVariable(MeetingControllerConst.ID_URL) final Long id,
             final Model model) {
@@ -365,7 +371,8 @@ public class MeetingController {
      * Handle request to download an Excel document
      */
     @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_SUPERVISOR', 'ROLE_MODERATOR')")
-    @RequestMapping(value = MeetingControllerConst.DOWNLOAD_MAPPING, method = RequestMethod.GET)
+    @RequestMapping(value = MeetingControllerConst.DOWNLOAD_MAPPING,
+            method = RequestMethod.GET)
     public ModelAndView downloadExcel(final ModelAndView model) {
         model.setView(
                 new ExcelViewMeetingHistory(meetingHistoryService.getAll()));

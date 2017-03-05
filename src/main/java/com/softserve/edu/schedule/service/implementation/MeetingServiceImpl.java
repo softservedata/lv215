@@ -342,6 +342,7 @@ public class MeetingServiceImpl implements MeetingService {
      *         specified time limits
      */
     @Override
+    @Transactional(readOnly = true)
     public List<MeetingForCalendarDTO> getMeetingsInIntervalByGroupId(
             final Long groupId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
@@ -369,6 +370,7 @@ public class MeetingServiceImpl implements MeetingService {
      * @return List of the MeetingForCalendarDTO objects.
      */
     @Override
+    @Transactional(readOnly = true)
     public List<MeetingForCalendarDTO> getMeetingsInIntervalByRoomId(
             final Long roomId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
@@ -396,6 +398,7 @@ public class MeetingServiceImpl implements MeetingService {
      * @return List of the MeetingForCalendarDTO objects.
      */
     @Override
+    @Transactional(readOnly = true)
     public List<MeetingForCalendarDTO> getMeetingsInIntervalBySubjectId(
             final Long subjectId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
@@ -423,6 +426,7 @@ public class MeetingServiceImpl implements MeetingService {
      * @return List of the MeetingForCalendarDTO objects.
      */
     @Override
+    @Transactional(readOnly = true)
     public List<MeetingForCalendarDTO> getMeetingsInIntervalByUserId(
             final String userId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
@@ -446,6 +450,7 @@ public class MeetingServiceImpl implements MeetingService {
      * @return data of meetings to build charts
      */
     @Override
+    @Transactional(readOnly = true)
     public Map<String, Long> getMeetingsForChartInIntervalByUserId(
             final String userId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
