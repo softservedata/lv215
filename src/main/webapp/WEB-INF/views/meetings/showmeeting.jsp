@@ -43,7 +43,7 @@
 				</div>
 				<div class="form-group">
 					<b><spring:message code="lbl.meeting.subject" /></b> : <a
-						href="${pageContext.request.contextPath}/${MeetingControllerConst.SUBJECTS_MODEL_ATTR}/
+						href="${pageContext.request.contextPath}/${MeetingControllerConst.MEETING_SUBJECT_URL}/
 						${meetingForm.subject.id}">${meetingForm.subject.name}</a>
 				</div>
 				<div class="form-group">

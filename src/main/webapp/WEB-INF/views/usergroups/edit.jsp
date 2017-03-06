@@ -20,7 +20,7 @@
 				onsubmit="return validateForm(this);">
 				<form:hidden path="id" />
 
-				<spring:message code="lbl.group.title" var="title" />
+				<spring:message code="lbl.group.name" var="title" />
 				<div class="form-group">
 					<label for="Title">${title}</label>
 					<form:input path="name" class="form-control" placeholder="${title}"
