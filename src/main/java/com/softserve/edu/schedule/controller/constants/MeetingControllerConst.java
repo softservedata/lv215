@@ -144,4 +144,10 @@ public final class MeetingControllerConst {
      */
     public static final String DOWNLOAD_MAPPING = "/downloadExcel";
 
+    /**
+     * Private constructor.
+     */
+    private MeetingControllerConst() {
+        
+    }
 }
