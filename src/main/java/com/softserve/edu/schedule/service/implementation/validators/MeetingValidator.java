@@ -305,7 +305,6 @@ public class MeetingValidator
             errorMessage(ValidationFields.STATUS,
                     ValidationMessages.INVALID_STATUS, context);
         }
-
         if (!isOriginMeeting) {
             errorMessage(ValidationFields.SUBJECT,
                     ValidationMessages.DUPLICATE_MEETING, context);
