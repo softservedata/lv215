@@ -77,7 +77,7 @@ public interface MeetingDAO extends CrudDAO<Meeting> {
      *            name of status
      * @return MeetingStatus object.
      */
-    public MeetingStatus getStatusbyString(final String status);
+    public MeetingStatus getStatusByString(final String status);
 
     /**
      * Returns the List of MeetingDTO, that duplicates given Meetings fields.

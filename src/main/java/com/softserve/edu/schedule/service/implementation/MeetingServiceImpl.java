@@ -50,7 +50,7 @@ public class MeetingServiceImpl implements MeetingService {
      * Field for MeetingDTOConverter.
      */
     @Autowired
-    private MeetingDAO meetingDao;
+    private MeetingDAO meetingDAO;
 
     /**
      * Field for MeetingDTOConverter.
@@ -92,7 +92,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void create(final MeetingDTO meetingDTO) {
         meetingDTO.setStatus(getMeetingStatusDuringCreation(meetingDTO));
-        meetingDao.create(meetingDTOConverter.getEntity(meetingDTO));
+        meetingDAO.create(meetingDTOConverter.getEntity(meetingDTO));
     }
 
     /**
@@ -104,7 +104,7 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public MeetingStatus getStatusbyString(final String status) {
-        return meetingDao.getStatusbyString(status);
+        return meetingDAO.getStatusByString(status);
     }
 
     /**
@@ -121,7 +121,7 @@ public class MeetingServiceImpl implements MeetingService {
             return;
         }
         sendMailIfStatusChanged(meetingDTO);
-        meetingDao.update(meetingDTOConverter.getEntity(meetingDTO));
+        meetingDAO.update(meetingDTOConverter.getEntity(meetingDTO));
     }
 
     /**
@@ -133,14 +133,14 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void sendMailIfStatusChanged(final MeetingDTO meetingDTO) {
-        if ((meetingDao.getById(meetingDTO.getId())
+        if ((meetingDAO.getById(meetingDTO.getId())
                 .getStatus() == MeetingStatus.APPROVED)
                 && ((meetingDTO.getStatus() == MeetingStatus.DISAPPROVED)
                         || (meetingDTO
                                 .getStatus() == MeetingStatus.NOT_APPROVED))) {
             meetingChangeStatusMailService
                     .sendInfoMessageAboutMeetingStatusChanging(
-                            meetingDao.getById(meetingDTO.getId()),
+                            meetingDAO.getById(meetingDTO.getId()),
                             LocaleContextHolder.getLocale());
         }
     }
@@ -155,7 +155,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     @Transactional(readOnly = true)
     public MeetingDTO getById(final Long id) {
-        return meetingDTOConverter.getDTO(meetingDao.getById(id));
+        return meetingDTOConverter.getDTO(meetingDAO.getById(id));
     }
 
     /**
@@ -166,7 +166,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     @Transactional(readOnly = true)
     public List<MeetingDTO> getAll() {
-        return meetingDao.getAll().stream()
+        return meetingDAO.getAll().stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -179,7 +179,7 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void delete(final MeetingDTO meetingDTO) {
-        meetingDao.delete(meetingDTOConverter.getEntity(meetingDTO));
+        meetingDAO.delete(meetingDTOConverter.getEntity(meetingDTO));
     }
 
     /**
@@ -190,11 +190,11 @@ public class MeetingServiceImpl implements MeetingService {
      */
     @Override
     public void deleteById(final Long id) {
-        Meeting meeting = meetingDao.getById(id);
+        Meeting meeting = meetingDAO.getById(id);
         if (meeting.getStatus() == MeetingStatus.FINISHED) {
             meetingHistoryService.backup(meeting);
         }
-        meetingDao.deleteById(id);
+        meetingDAO.deleteById(id);
     }
 
     /**
@@ -211,7 +211,7 @@ public class MeetingServiceImpl implements MeetingService {
     public List<MeetingDTO> getMeetingPageWithFilter(
             final MeetingFilter meetingFilter,
             final Paginator meetingPaginator) {
-        return meetingDao
+        return meetingDAO
                 .getMeetingPageWithFilter(meetingFilter, meetingPaginator)
                 .stream().map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
@@ -229,7 +229,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     @Transactional(readOnly = true)
     public List<MeetingDTO> search(final String field, final String pattern) {
-        return meetingDao.search(field, pattern).stream()
+        return meetingDAO.search(field, pattern).stream()
                 .map(e -> meetingDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -246,7 +246,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     public void changeMeetingStatus(final Long id,
             final MeetingStatus meetingStatus) {
-        meetingDao.changeMeetingStatus(id, meetingStatus);
+        meetingDAO.changeMeetingStatus(id, meetingStatus);
     }
 
     /**
@@ -261,7 +261,7 @@ public class MeetingServiceImpl implements MeetingService {
     @Override
     @Transactional(readOnly = true)
     public List<MeetingDTO> duplicatesOfGivenDTO(final MeetingDTO meetingDTO) {
-        return meetingDao
+        return meetingDAO
                 .dublicatesOfGivenFields(
                         meetingDTO.getSubject().getName().trim(),
                         meetingDTO.getOwner().getLastName().trim(),
@@ -307,7 +307,7 @@ public class MeetingServiceImpl implements MeetingService {
      */
     private boolean meetingHasConflictWithExistedMeeting(
             final MeetingDTO meetingDTO) {
-        List<Meeting> existedMeetings = meetingDao
+        List<Meeting> existedMeetings = meetingDAO
                 .getMeetingsInIntervalByRoomId(meetingDTO.getRoom().getId(),
                         meetingDTO.getDate(), meetingDTO.getDate());
         LocalTime start = meetingDTO.getStartTime();
@@ -347,7 +347,7 @@ public class MeetingServiceImpl implements MeetingService {
             final Long groupId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
-        return meetingDao
+        return meetingDAO
                 .getMeetingsInIntervalByGroupId(groupId, startDate, endDate)
                 .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
@@ -375,7 +375,7 @@ public class MeetingServiceImpl implements MeetingService {
             final Long roomId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
-        return meetingDao
+        return meetingDAO
                 .getMeetingsInIntervalByRoomId(roomId, startDate, endDate)
                 .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
@@ -403,7 +403,7 @@ public class MeetingServiceImpl implements MeetingService {
             final Long subjectId, final String start, final String end) {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
-        return meetingDao
+        return meetingDAO
                 .getMeetingsInIntervalBySubjectId(subjectId, startDate, endDate)
                 .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
@@ -432,7 +432,7 @@ public class MeetingServiceImpl implements MeetingService {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
         Long id = Long.parseLong(userId);
-        return meetingDao.getMeetingsInIntervalByUserId(id, startDate, endDate)
+        return meetingDAO.getMeetingsInIntervalByUserId(id, startDate, endDate)
                 .stream().map(e -> meetingForCalendarDTOConverter.getDTO(e))
                 .collect(Collectors.toList());
     }
@@ -456,7 +456,7 @@ public class MeetingServiceImpl implements MeetingService {
         LocalDate startDate = LocalDate.parse(start);
         LocalDate endDate = LocalDate.parse(end);
         Long id = Long.parseLong(userId);
-        return meetingForChartDTOConverter.getChartData(meetingDao
+        return meetingForChartDTOConverter.getChartData(meetingDAO
                 .getMeetingsInIntervalByUserId(id, startDate, endDate));
     }
 }

@@ -121,16 +121,16 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     public Long getCountOfMeetingsWithFilter(
             final MeetingFilter meetingFilter) {
         CriteriaBuilder qb = getEm().getCriteriaBuilder();
-        CriteriaQuery<Long> cq = qb.createQuery(Long.class);
-        Root<Meeting> root = cq.from(Meeting.class);
-        cq.select(qb.countDistinct(root));
+        CriteriaQuery<Long> criteriaQuery = qb.createQuery(Long.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
+        criteriaQuery.select(qb.countDistinct(root));
 
         Predicate predicate = new MeetingFilterSpecification(meetingFilter,
-                userGroupDAO).toPredicate(root, cq, qb);
+                userGroupDAO).toPredicate(root, criteriaQuery, qb);
         if (predicate != null) {
-            cq.where(predicate);
+            criteriaQuery.where(predicate);
         }
-        return getEm().createQuery(cq).getSingleResult();
+        return getEm().createQuery(criteriaQuery).getSingleResult();
     }
 
     /**
@@ -143,14 +143,15 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     @Override
     public Meeting getById(final Long id) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
+        CriteriaQuery<Meeting> criteriaQuery = builder
+                .createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
         root.fetch(Meeting_.subject, JoinType.LEFT);
         root.fetch(Meeting_.owner, JoinType.LEFT);
         root.fetch(Meeting_.room, JoinType.LEFT);
         root.fetch(Meeting_.groups, JoinType.LEFT);
-        cq.where(root.get(Meeting_.id).in(id));
-        return getEm().createQuery(cq).getSingleResult();
+        criteriaQuery.where(root.get(Meeting_.id).in(id));
+        return getEm().createQuery(criteriaQuery).getSingleResult();
     }
 
     /**
@@ -161,14 +162,15 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     @Override
     public List<Meeting> getAll() {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
+        CriteriaQuery<Meeting> criteriaQuery = builder
+                .createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
         root.fetch(Meeting_.subject, JoinType.LEFT);
         root.fetch(Meeting_.owner, JoinType.LEFT);
         root.fetch(Meeting_.room, JoinType.LEFT);
         root.fetch(Meeting_.groups, JoinType.LEFT);
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
+        criteriaQuery.distinct(true);
+        return getEm().createQuery(criteriaQuery).getResultList();
     }
 
     /**
@@ -218,7 +220,7 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
      * @return MeetingStatus object.
      */
     @Override
-    public MeetingStatus getStatusbyString(final String status) {
+    public MeetingStatus getStatusByString(final String status) {
         if (status.contains("fin") || status.contains("FIN")) {
             return MeetingStatus.FINISHED;
         }
@@ -258,8 +260,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
             final LocalDate localDate, final LocalTime localTime) {
 
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
+        CriteriaQuery<Meeting> criteriaQuery = builder
+                .createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
 
         Join<Meeting, Subject> joinSubject = root.join(Meeting_.subject);
         Join<Meeting, User> joinOwner = root.join(Meeting_.owner);
@@ -277,9 +280,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
                 .in(localTime);
         Predicate predicateAll = builder.and(predicateSubject, predicateOwner,
                 predicateRoom, predicateDate, predicateStartTime);
-        cq.where(predicateAll);
+        criteriaQuery.where(predicateAll);
 
-        return getEm().createQuery(cq).getResultList();
+        return getEm().createQuery(criteriaQuery).getResultList();
     }
 
     /**
@@ -293,8 +296,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     @Override
     public List<Meeting> getUnfinishedPastMeetings() {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
+        CriteriaQuery<Meeting> criteriaQuery = builder
+                .createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
 
         Predicate todayPredicate = builder.conjunction();
         todayPredicate = builder.and(todayPredicate,
@@ -313,8 +317,8 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
                         MeetingStatus.ARCHIVED)));
         searchPredicate = builder.and(searchPredicate, timePredicate);
 
-        cq.where(searchPredicate);
-        return getEm().createQuery(cq).getResultList();
+        criteriaQuery.where(searchPredicate);
+        return getEm().createQuery(criteriaQuery).getResultList();
     }
 
     /**
@@ -337,8 +341,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     public List<Meeting> getMeetingsInIntervalByRoomId(final Long roomId,
             final LocalDate startDate, final LocalDate endDate) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
+        CriteriaQuery<Meeting> criteriaQuery = builder
+                .createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
         root.join(Meeting_.subject);
         root.join(Meeting_.owner);
         Join<Meeting, Room> roomJoin = root.join(Meeting_.room);
@@ -347,9 +352,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         predicate = builder.and(predicate,
                 builder.between(root.get(Meeting_.date), startDate, endDate));
         predicate = builder.and(predicate, roomJoin.get(Room_.id).in(roomId));
-        cq.where(predicate);
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
+        criteriaQuery.where(predicate);
+        criteriaQuery.distinct(true);
+        return getEm().createQuery(criteriaQuery).getResultList();
     }
 
     /**
@@ -372,8 +377,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     public List<Meeting> getMeetingsInIntervalBySubjectId(final Long subjectId,
             final LocalDate startDate, final LocalDate endDate) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
+        CriteriaQuery<Meeting> criteriaQuery = builder
+                .createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
         Join<Meeting, Subject> subjectJoin = root.join(Meeting_.subject);
         root.join(Meeting_.owner);
         root.join(Meeting_.room);
@@ -384,9 +390,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
                 builder.between(root.get(Meeting_.date), startDate, endDate));
         predicate = builder.and(predicate,
                 subjectJoin.get(Subject_.id).in(subjectId));
-        cq.where(predicate);
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
+        criteriaQuery.where(predicate);
+        criteriaQuery.distinct(true);
+        return getEm().createQuery(criteriaQuery).getResultList();
     }
 
     /**
@@ -409,8 +415,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     public List<Meeting> getMeetingsInIntervalByUserId(final Long userId,
             final LocalDate startDate, final LocalDate endDate) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
+        CriteriaQuery<Meeting> criteriaQuery = builder
+                .createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
         root.join(Meeting_.subject);
         root.join(Meeting_.owner);
         root.join(Meeting_.room);
@@ -428,9 +435,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
         userPredicate = builder.or(userPredicate,
                 joinGroups.get(UserGroup_.curator).in(userId));
         basePredicate = builder.and(basePredicate, userPredicate);
-        cq.where(basePredicate);
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
+        criteriaQuery.where(basePredicate);
+        criteriaQuery.distinct(true);
+        return getEm().createQuery(criteriaQuery).getResultList();
     }
 
     /**
@@ -452,8 +459,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     public List<Meeting> getMeetingsInIntervalByGroupId(final Long groupId,
             final LocalDate startDate, final LocalDate endDate) {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
+        CriteriaQuery<Meeting> criteriaQuery = builder
+                .createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
         Join<Meeting, UserGroup> groupJoin = root.join(Meeting_.groups);
         root.join(Meeting_.owner);
         root.join(Meeting_.room);
@@ -464,9 +472,9 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
                 builder.between(root.get(Meeting_.date), startDate, endDate));
         predicate = builder.and(predicate,
                 groupJoin.get(UserGroup_.id).in(groupId));
-        cq.where(predicate);
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
+        criteriaQuery.where(predicate);
+        criteriaQuery.distinct(true);
+        return getEm().createQuery(criteriaQuery).getResultList();
     }
 
     /**
@@ -480,15 +488,16 @@ public class MeetingDAOImpl extends CrudDAOImpl<Meeting> implements MeetingDAO {
     @Override
     public List<Meeting> getPastNotArchivedMeetings() {
         CriteriaBuilder builder = getEm().getCriteriaBuilder();
-        CriteriaQuery<Meeting> cq = builder.createQuery(Meeting.class);
-        Root<Meeting> root = cq.from(Meeting.class);
+        CriteriaQuery<Meeting> criteriaQuery = builder
+                .createQuery(Meeting.class);
+        Root<Meeting> root = criteriaQuery.from(Meeting.class);
         Predicate predicate = builder.conjunction();
         predicate = builder.and(predicate,
                 builder.lessThan(root.get(Meeting_.date), LocalDate.now()));
         predicate = builder.and(predicate, builder
                 .not(root.get(Meeting_.status).in(MeetingStatus.ARCHIVED)));
-        cq.where(predicate);
-        cq.distinct(true);
-        return getEm().createQuery(cq).getResultList();
+        criteriaQuery.where(predicate);
+        criteriaQuery.distinct(true);
+        return getEm().createQuery(criteriaQuery).getResultList();
     }
 }

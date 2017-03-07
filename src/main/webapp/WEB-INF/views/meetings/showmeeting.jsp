@@ -82,7 +82,7 @@
 					<b><spring:message code="lbl.meeting.groups" /></b> :
 					<c:forEach items="${meetingForm.groups}" var="group">
 						<li><a
-							href="${pageContext.request.contextPath}/
+							href="${pageContext.request.contextPath}
 							${MeetingControllerConst.USERGROUPS_MAPPING}/${group.id}">
 							${group.name}</a>
 						</li>
